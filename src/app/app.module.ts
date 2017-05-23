@@ -12,16 +12,23 @@ import { RiskLevelProvider } from '../providers/risk-level/risk-level';
 import {InMemoryDataService} from '../mockdata/in-memory-data.service';
 import {InMemoryWebApiModule} from 'angular-in-memory-web-api';
 import {HttpModule} from '@angular/http';
+import { InterventionLayerDirective } from '../directives/intervention-layer/intervention-layer';
+import { InterventionProvider } from '../providers/intervention/intervention';
+import {CommonModule} from '@angular/common';
+import {IgoModule} from 'igo2';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     InspectionsPage,
+    InterventionLayerDirective,
   ],
   imports: [
     HttpModule,
-    BrowserModule,
+    //BrowserModule,
+    CommonModule,
+    IgoModule.forRoot(),
     InMemoryWebApiModule.forRoot(InMemoryDataService, {
       passThruUnknownUrl: true
     }),
@@ -38,7 +45,8 @@ import {HttpModule} from '@angular/http';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     InspectionProvider,
-    RiskLevelProvider
+    RiskLevelProvider,
+    InterventionProvider
   ]
 })
 export class AppModule {}
