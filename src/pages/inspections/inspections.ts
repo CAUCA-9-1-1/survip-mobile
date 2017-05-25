@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
+import {InspectionMapPage} from '../inspection-map/inspection-map';
 
 /**
  * Generated class for the InspectionsPage tabs.
@@ -15,7 +16,7 @@ import { IonicPage, NavController } from 'ionic-angular';
 export class InspectionsPage {
 
   inspectionListRoot = 'InspectionListPage'
-  inspectionMapRoot = 'InspectionMapPage'
+  inspectionMapRoot = InspectionMapPage
 
 
   constructor(public navCtrl: NavController) {}

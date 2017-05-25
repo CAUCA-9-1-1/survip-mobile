@@ -7,12 +7,19 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>inspection-map</ion-title>
+    <ion-title>Carte des inspections</ion-title>
   </ion-navbar>
 
 </ion-header>
 
+<ion-content>
 
-<ion-content padding>
+  <igo-map-browser
+    igoMapContext
+    igoLayerContext
+    appInterventionLayer
+    [map]="map">
+    <igo-zoom color="primary" [map]="map"></igo-zoom>
+  </igo-map-browser>
 
 </ion-content>
