@@ -36,7 +36,6 @@ export function translateLoader(http: Http) {
     InspectionsPage,
     InspectionMapPage,
     InterventionHomePage,
-    InterventionGeneralPage,
     // InterventionLayerDirective,
   ],
   imports: [
@@ -56,7 +55,6 @@ export function translateLoader(http: Http) {
     InspectionMapPage,
     InspectionsPage,
     InterventionHomePage,
-    InterventionGeneralPage,
   ],
   exports: [
     IgoModule
