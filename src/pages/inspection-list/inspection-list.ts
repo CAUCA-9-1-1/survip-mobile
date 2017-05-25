@@ -68,7 +68,7 @@ export class InspectionListPage {
   itemSelected(inspection: Inspection) {
     const riskCode: string = this.getRiskCode(inspection.idRiskLevel);
     if (riskCode == '3' || riskCode == '4') {
-      this.appCtrl.getRootNav().push(InterventionHomePage);
+      this.appCtrl.getRootNav().push(InterventionHomePage, { id: inspection.idInterventionPlan });
     } else {
       console.log('nope');
     }

@@ -24,6 +24,7 @@ import {InterventionGeneralPage} from '../pages/intervention-general/interventio
 import {InterventionProvider} from '../providers/intervention/intervention';
 import {InspectionMapPage} from '../pages/inspection-map/inspection-map';
 import {MaterialModule} from '@angular/material';
+import { InterventionControllerProvider } from '../providers/intervention-controller/intervention-controller';
 
 export function translateLoader(http: Http) {
   return new LanguageLoader(http, './assets/locale/', '.json');
@@ -68,6 +69,7 @@ export function translateLoader(http: Http) {
     InterventionProvider,
     InspectionProvider,
     RiskLevelProvider,
+    InterventionControllerProvider,
   ]
 })
 export class AppModule {}

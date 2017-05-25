@@ -8,12 +8,59 @@
   <ion-navbar>
     <ion-icon name="menu" menuToggle left></ion-icon>
     <ion-title>
-      Général
+      <p>{{plan?.mainBuildingAddress}}</p>
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+
+  <form novalidate (ngSubmit)="onSubmit(planForm)" [formGroup]="planForm" style="padding:0px; margin-top:-3px">
+
+    <ion-list>
+
+      <ion-list-header>
+        Informations générales
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label fixed># Plan</ion-label>
+        <ion-input type="text" disabled value="{{plan?.planNumber}}"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Risque</ion-label>
+        <ion-input type="text" disabled value="{{riskLevel?.description}}"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Affectation</ion-label>
+        <ion-input type="text" disabled value="{{plan?.mainBuildingAffectation}}"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Matricule</ion-label>
+        <ion-input type="text" disabled value="{{plan?.mainBuildingMatricule}}"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Alias</ion-label>
+        <ion-input type="text" disabled value="{{plan?.mainBuildingAlias}}"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Voie de circu.</ion-label>
+        <ion-input type="text" disabled value="{{plan?.mainBuildingIdLane}}"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Transversale</ion-label>
+        <ion-input type="search" formControlName="idLaneTransversal"></ion-input>
+      </ion-item>
+
+    </ion-list>
+
+  </form>
 
 </ion-content>
