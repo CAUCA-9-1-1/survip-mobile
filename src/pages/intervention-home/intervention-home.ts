@@ -21,18 +21,12 @@ export class InterventionHomePage {
 
   private rootPage = 'InterventionGeneralPage';
   private generalPage = 'InterventionGeneralPage';
-  private waterSuppliesPage = InterventionWaterSuppliesPage;
+  private waterSuppliesPage = 'InterventionWaterSuppliesPage';
   private buildingsPage = 'InterventionBuildingsPage';
   private fireProtectionPage = 'InterventionFireProtectionPage';
   private coursePage = 'InterventionCoursePage'
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    /*this.rootPage = InterventionGeneralPage;
-    this.generalPage = InterventionGeneralPage;
-    this.buildingsPage = InterventionBuildingsPage;
-    this.coursePage = InterventionCoursePage;
-    this.fireProtectionPage = InterventionFireProtectionPage;
-    this.waterSuppliesPage = InterventionWaterSuppliesPage;*/
   }
 
   ionViewDidLoad() {
