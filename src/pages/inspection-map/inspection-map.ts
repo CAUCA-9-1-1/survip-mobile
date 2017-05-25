@@ -8,7 +8,6 @@ import {ContextService, DetailedContext, IgoMap} from 'igo2';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-@IonicPage()
 @Component({
   selector: 'page-inspection-map',
   templateUrl: 'inspection-map.html',

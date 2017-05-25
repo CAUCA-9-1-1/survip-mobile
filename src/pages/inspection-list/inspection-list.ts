@@ -5,6 +5,7 @@ import {RiskLevel} from '../../models/risk-level';
 import {Inspection} from '../../interfaces/inspection.interface';
 import {InspectionProvider} from '../../providers/inspection/inspection';
 import {RiskLevelProvider} from '../../providers/risk-level/risk-level';
+import {InterventionHomePage} from '../intervention-home/intervention-home';
 
 /**
  * Generated class for the InspectionListPage page.
@@ -67,7 +68,7 @@ export class InspectionListPage {
   itemSelected(inspection: Inspection) {
     const riskCode: string = this.getRiskCode(inspection.idRiskLevel);
     if (riskCode == '3' || riskCode == '4') {
-      console.log('yup');
+      this.appCtrl.getRootNav().push(InterventionHomePage);
     } else {
       console.log('nope');
     }
