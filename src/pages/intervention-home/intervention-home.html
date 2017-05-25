@@ -1,0 +1,26 @@
+<ion-menu [content]="mycontent">
+  <ion-content>
+    <ion-list>
+      <button ion-item menuClose (click)="openPage(generalPage)">
+        Infos générales
+      </button>
+      <button ion-item menuClose (click)="openPage(buildingsPage)">
+        Bâtiments
+      </button>
+      <button ion-item menuClose (click)="openPage(coursePage)">
+        Parcours
+      </button>
+      <button ion-item menuClose (click)="openPage(waterSuppliesPage)">
+        Alimentation en eau
+      </button>
+      <button ion-item menuClose (click)="openPage(fireProtectionPage)">
+        Protection incendie
+      </button>
+      <button ion-item (click)="closeMenu()">
+        Close Menu
+      </button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-nav #mycontent [root]="rootPage"></ion-nav>
