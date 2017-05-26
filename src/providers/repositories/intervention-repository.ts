@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import Observable = ol.Observable;
 
 import { Feature, FeatureFormat, FeatureType } from 'igo2';
 
 import { InspectionService } from './inspection.service';
-import {InspectionProvider} from '../inspection/inspection';
+import {InspectionRepositoryProvider} from './inspection-repository';
 
 @Injectable()
-export class InterventionProvider {
+export class InterventionRepositoryProvider {
 
   public features$ = new BehaviorSubject<Feature[]>([]);
 
-  constructor(private inspectionService: InspectionProvider) {
+  constructor(private inspectionService: InspectionRepositoryProvider) {
     this.getFeatures();
   }
 

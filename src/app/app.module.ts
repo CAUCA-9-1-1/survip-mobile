@@ -8,8 +8,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { InspectionsPage } from '../pages/inspections/inspections';
-import { InspectionProvider } from '../providers/inspection/inspection';
-import { RiskLevelProvider } from '../providers/risk-level/risk-level';
+import { InspectionRepositoryProvider } from '../providers/repositories/inspection-repository';
+import { RiskLevelRepositoryProvider } from '../providers/repositories/risk-level-repository';
 import {InMemoryDataService} from '../mockdata/in-memory-data.service';
 import {InMemoryWebApiModule} from 'angular-in-memory-web-api';
 import {HttpModule} from '@angular/http';
@@ -21,10 +21,13 @@ import {
 import {NotificationsService} from 'angular2-notifications/dist';
 import {InterventionHomePage} from '../pages/intervention-home/intervention-home';
 import {InterventionGeneralPage} from '../pages/intervention-general/intervention-general';
-import {InterventionProvider} from '../providers/intervention/intervention';
+import {InterventionRepositoryProvider} from '../providers/repositories/intervention-repository';
 import {InspectionMapPage} from '../pages/inspection-map/inspection-map';
 import {MaterialModule} from '@angular/material';
 import { InterventionControllerProvider } from '../providers/intervention-controller/intervention-controller';
+import { LaneRepositoryProvider } from '../providers/repositories/lane-repository';
+import { SearchBoxComponent } from '../components/search-box/search-box';
+import { SearchListComponent } from '../components/search-list/search-list';
 
 export function translateLoader(http: Http) {
   return new LanguageLoader(http, './assets/locale/', '.json');
@@ -37,6 +40,8 @@ export function translateLoader(http: Http) {
     InspectionsPage,
     InspectionMapPage,
     InterventionHomePage,
+    //SearchBoxComponent,
+    //SearchListComponent,
     // InterventionLayerDirective,
   ],
   imports: [
@@ -56,6 +61,7 @@ export function translateLoader(http: Http) {
     InspectionMapPage,
     InspectionsPage,
     InterventionHomePage,
+    //SearchListComponent,
   ],
   exports: [
     IgoModule
@@ -66,10 +72,11 @@ export function translateLoader(http: Http) {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     provideLanguageLoader(translateLoader),
-    InterventionProvider,
-    InspectionProvider,
-    RiskLevelProvider,
+    InterventionRepositoryProvider,
+    InspectionRepositoryProvider,
+    RiskLevelRepositoryProvider,
     InterventionControllerProvider,
+    LaneRepositoryProvider,
   ]
 })
 export class AppModule {}

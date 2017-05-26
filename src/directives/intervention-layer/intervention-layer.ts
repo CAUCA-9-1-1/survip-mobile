@@ -6,13 +6,13 @@ import {
   IgoMap, VectorLayer
 } from 'igo2';
 
-import {InterventionService} from '../../shared/services/intervention.service';
+import {InterventionService} from '../../shared/services/repositories.service';
 import {RiskLevelService} from '../../shared/services/risk-level.service';
-import {RiskLevelProvider} from '../../providers/risk-level/risk-level';
-import {InterventionProvider} from '../../providers/intervention/intervention';
+import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-level-repository';
+import {InterventionRepositoryProvider} from '../../providers/repositories/intervention-repository';
 
 @Directive({
-  providers: [ InterventionProvider],
+  providers: [ InterventionRepositoryProvider],
   selector: '[appInterventionLayer]'
 })
 export class InterventionLayerDirective implements OnInit, OnDestroy {
@@ -36,8 +36,8 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
 
   constructor(
     @Self() component?: MapBrowserComponent,
-    private interventionService?: InterventionProvider,
-    private riskLevelService?: RiskLevelProvider
+    private interventionService?: InterventionRepositoryProvider,
+    private riskLevelService?: RiskLevelRepositoryProvider
   ) {
     if (component) {
       this.component = component;
@@ -127,8 +127,8 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
       const properties = feature.getProperties();
 
       if (this.riskCode[properties.idRiskLevel] === 3 || this.riskCode[properties.idRiskLevel] === 4) {
-        console.log('todo: intervention');
-        /*this.router.navigate(['/intervention/survey', properties.idInterventionPlan]);*/
+        console.log('todo: repositories');
+        /*this.router.navigate(['/repositories/survey', properties.idInterventionPlan]);*/
       } else {
         console.log('todo: survey');
         /*this.router.navigate(['/prevention/survey', properties.idInspection]);*/

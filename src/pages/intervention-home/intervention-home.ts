@@ -4,7 +4,7 @@ import {InterventionGeneralPage} from '../intervention-general/intervention-gene
 import {InterventionWaterSuppliesPage} from '../intervention-water-supplies/intervention-water-supplies';
 import {InterventionBuildingsPage} from '../intervention-buildings/intervention-buildings';
 import {InterventionCoursePage} from '../intervention-course/intervention-course';
-import {InterventionFireProtectionPage} from '../intervention-fire-protection/intervention-fire-protection';
+import {InterventionFireProtectionPage} from '../repositories-fire-protection/repositories-fire-protection';
 import {InterventionPlan} from '../../models/intervention-plan';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 

@@ -4,7 +4,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {InterventionPlan} from '../../models/intervention-plan';
 import {RiskLevel} from '../../models/risk-level';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
-import {RiskLevelProvider} from '../../providers/risk-level/risk-level';
+import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-level-repository';
 
 /**
  * Generated class for the InterventionGeneralPage page.
@@ -27,7 +27,7 @@ export class InterventionGeneralPage {
               public navParams: NavParams,
               private fb: FormBuilder,
               private controller: InterventionControllerProvider,
-              private riskLevelService: RiskLevelProvider) {
+              private riskLevelService: RiskLevelRepositoryProvider) {
     this.createForm();
     this.startWatchingForm();
   }
@@ -75,5 +75,9 @@ export class InterventionGeneralPage {
     Object.assign(this.plan, formModel);
     console.log('todo: plan saved');
     this.controller.savePlan();
+  }
+
+  clickTest(){
+    console.log('test click sur input');
   }
 }

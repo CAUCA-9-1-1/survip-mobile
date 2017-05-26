@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { InspectionListPage } from './inspection-list';
-import {InspectionProvider} from '../../providers/inspection/inspection';
-import {RiskLevelProvider} from '../../providers/risk-level/risk-level';
+import {InspectionRepositoryProvider} from '../../providers/repositories/inspection-repository';
+import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-level-repository';
 
 @NgModule({
   declarations: [
@@ -15,8 +15,8 @@ import {RiskLevelProvider} from '../../providers/risk-level/risk-level';
     InspectionListPage
   ],
   providers: [
-    RiskLevelProvider,
-    InspectionProvider
+    RiskLevelRepositoryProvider,
+    InspectionRepositoryProvider
   ]
 })
 export class InspectionListPageModule {}
