@@ -41,7 +41,7 @@ export function translateLoader(http: Http) {
     InspectionMapPage,
     InterventionHomePage,
     //SearchBoxComponent,
-    //SearchListComponent,
+    SearchListComponent,
     // InterventionLayerDirective,
   ],
   imports: [
@@ -61,7 +61,7 @@ export function translateLoader(http: Http) {
     InspectionMapPage,
     InspectionsPage,
     InterventionHomePage,
-    //SearchListComponent,
+    SearchListComponent,
   ],
   exports: [
     IgoModule

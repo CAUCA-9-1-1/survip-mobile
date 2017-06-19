@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {LaneRepositoryProvider} from '../../providers/repositories/lane-repository';
 
 /**
  * Generated class for the InterventionBuildingsPage page.
@@ -14,7 +15,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class InterventionBuildingsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public laneRepository: LaneRepositoryProvider) {
   }
 
   ionViewDidLoad() {

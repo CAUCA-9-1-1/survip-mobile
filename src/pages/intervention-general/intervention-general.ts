@@ -5,6 +5,7 @@ import {InterventionPlan} from '../../models/intervention-plan';
 import {RiskLevel} from '../../models/risk-level';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-level-repository';
+import {LaneRepositoryProvider} from '../../providers/repositories/lane-repository';
 
 /**
  * Generated class for the InterventionGeneralPage page.
@@ -27,7 +28,8 @@ export class InterventionGeneralPage {
               public navParams: NavParams,
               private fb: FormBuilder,
               private controller: InterventionControllerProvider,
-              private riskLevelService: RiskLevelRepositoryProvider) {
+              private riskLevelService: RiskLevelRepositoryProvider,
+              public laneService: LaneRepositoryProvider) {
     this.createForm();
     this.startWatchingForm();
   }

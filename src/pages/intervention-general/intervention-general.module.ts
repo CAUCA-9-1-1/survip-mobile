@@ -12,10 +12,10 @@ import {SearchListComponentModule} from '../../components/search-list/search-lis
   imports: [
     IonicPageModule.forChild(InterventionGeneralPage),
     SearchBoxComponentModule,
-    SearchListComponentModule
+    //SearchListComponentModule
   ],
   entryComponents: [
-    SearchListComponent
+    //SearchListComponent
   ],
   exports: [
     InterventionGeneralPage
