@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {InterventionPlan} from '../../models/intervention-plan';
 import {InterventionPlanBuildingForlist} from '../../models/intervention-plan-building-forlist';
+import {InterventionDetailRepositoryProvider} from '../repositories/intervention-detail-repository';
 
 /*
   Generated class for the InterventionControllerProvider provider.
@@ -15,11 +15,15 @@ export class InterventionControllerProvider {
 
   public interventionPlan: InterventionPlan;
 
-  constructor(public http: Http) {
+  constructor(private repository: InterventionDetailRepositoryProvider) {
     console.log('Hello InterventionControllerProvider Provider');
   }
 
   loadPlan(idInterventionPlan: string){
+    const result = this.repository.get('0ea6b45c-e437-4dcf-9db8-4d2d015d025c').subscribe(data => {
+      console.log(data);
+    });
+
     this.interventionPlan = new InterventionPlan();
     this.interventionPlan.mainBuildingAddress='750, Boulevard Lacroix';
     this.interventionPlan.mainBuildingAlias='Bâtiment principal';

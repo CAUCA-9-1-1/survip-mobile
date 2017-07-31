@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import {Http} from '@angular/http';
+import {Http, RequestOptions, XHRBackend} from '@angular/http';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -20,17 +20,30 @@ import {
 } from 'igo2';
 import {NotificationsService} from 'angular2-notifications/dist';
 import {InterventionHomePage} from '../pages/intervention-home/intervention-home';
-import {InterventionGeneralPage} from '../pages/intervention-general/intervention-general';
 import {InterventionRepositoryProvider} from '../providers/repositories/intervention-repository';
 import {InspectionMapPage} from '../pages/inspection-map/inspection-map';
 import {MaterialModule} from '@angular/material';
 import { InterventionControllerProvider } from '../providers/intervention-controller/intervention-controller';
 import { LaneRepositoryProvider } from '../providers/repositories/lane-repository';
-import { SearchBoxComponent } from '../components/search-box/search-box';
 import { SearchListComponent } from '../components/search-list/search-list';
+import {InterventionDetailRepositoryProvider} from '../providers/repositories/intervention-detail-repository';
+import {RequestLoaderService} from '../providers/Base/request-loader.service';
+import {HttpService} from '../providers/Base/http.service';
+import {ConfigService} from '../providers/Base/config.service';
+import {AuthorizeRequestOptions} from '../providers/Base/authorize-request-options';
+import {provideConfig, provideConfigLoader} from '../providers/Base/config.provider';
 
 export function translateLoader(http: Http) {
   return new LanguageLoader(http, './assets/locale/', '.json');
+}
+
+export function httpServiceFactory(
+  backend: XHRBackend,
+  options: AuthorizeRequestOptions,
+  loaderService: RequestLoaderService,
+  configService: ConfigService
+) {
+  return new HttpService(backend, options, configService, loaderService);
 }
 
 @NgModule({
@@ -64,7 +77,7 @@ export function translateLoader(http: Http) {
     SearchListComponent,
   ],
   exports: [
-    IgoModule
+    IgoModule,
   ],
   providers: [
     NotificationsService,
@@ -77,6 +90,28 @@ export function translateLoader(http: Http) {
     RiskLevelRepositoryProvider,
     InterventionControllerProvider,
     LaneRepositoryProvider,
+    InterventionDetailRepositoryProvider,
+    ConfigService,
+    HttpService,
+    RequestLoaderService,
+    provideConfig({
+      default: {
+        apiUrl: 'http://localhost:8080/',
+        languages: ['fr', 'en']
+      }}),
+    provideConfigLoader(),
+    {
+      provide: HttpService,
+      useFactory: httpServiceFactory,
+      deps: [XHRBackend, RequestOptions, RequestLoaderService, ConfigService]
+    }
+    /*provideConfig({
+      default: {
+        apiUrl: 'http://cadevsprevention1/api/',
+        languages: ['fr', 'en']
+      }
+      // path: './assets/config-cause.json'
+    }),*/
   ]
 })
 export class AppModule {}
