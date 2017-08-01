@@ -54,20 +54,12 @@
         <ion-input type="text" disabled value="{{plan?.mainBuildingLaneName}}"></ion-input>
       </ion-item>
 
-      <button ion-item>
-        <ion-label fixed>Gladu...</ion-label>
-        <ion-label item-end>FALATRA</ion-label>
-      </button>
-
-      <ion-item detail-push>
-        <ion-label fixed>Transversale</ion-label>
-        <search-box item-content
-                    formControlName="idLaneTransversal"
-                    [displayFieldName]="'fullName'"
-                    [keyFieldName]="'id'"
-                    [dataService]="laneService"></search-box>
-      </ion-item>
-
+      <search-box
+          [description]="'Transversale'"
+          formControlName="idLaneTransversal"
+          [displayFieldName]="'fullName'"
+          [keyFieldName]="'id'"
+          [dataService]="laneService"></search-box>
     </ion-list>
 
   </form>

@@ -30,6 +30,7 @@ export class SearchBoxComponent implements ControlValueAccessor, OnChanges, OnIn
   @Input() dataService: ServiceForListInterface;
   @Input() keyFieldName: string;
   @Input() displayFieldName: string;
+  @Input() description: string;
 
   @Output() selectedIdChange = new EventEmitter<string>();
   private _currentId: string;

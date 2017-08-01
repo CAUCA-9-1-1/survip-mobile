@@ -1,4 +1,9 @@
 <!--<ion-input type="text" value="{{selectedItemDescription}}" (click)="onPopSearch()" ></ion-input>-->
 
-<ion-note item-end (click)="onPopSearch()">{{selectedItemDescription}}</ion-note>
+<!--<ion-note item-end (click)="onPopSearch()">{{selectedItemDescription}}</ion-note>-->
+
+<button ion-item type="button" (click)="onPopSearch()">
+  <ion-label fixed>{{description}}</ion-label>
+  <ion-label item-end>{{selectedItemDescription}}</ion-label>
+</button>
 
