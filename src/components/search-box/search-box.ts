@@ -24,7 +24,6 @@ import {ServiceForListInterface} from '../../interfaces/service-for-list.interfa
 })
 export class SearchBoxComponent implements ControlValueAccessor, OnChanges, OnInit  {
   ngOnInit(): void {
-    console.log('inside the way to go');
   }
 
   selectedItemDescription: string;
@@ -33,12 +32,15 @@ export class SearchBoxComponent implements ControlValueAccessor, OnChanges, OnIn
   @Input() displayFieldName: string;
 
   @Output() selectedIdChange = new EventEmitter<string>();
-  @Input('currentId') _currentId: string;
+  private _currentId: string;
 
   get currentId() {
     return this._currentId;
   }
+  @Input()
   set currentId(val) {
+    console.log('rue changée');
+    console.log(val);
     this._currentId = val;
     this.showSelectionDescription();
     this.propagateChange(this.currentId);
@@ -87,10 +89,11 @@ export class SearchBoxComponent implements ControlValueAccessor, OnChanges, OnIn
   }
 
   private onPopSearch() {
+    console.log("on pop search");
     let profileModal = this.modalCtrl.create(SearchListComponent, {
       dataService: this.laneService,
-      keyFieldName: 'idLane',
-      displayFieldName: 'fullNameForFireCad'
+      keyFieldName: this.keyFieldName,
+      displayFieldName: this.displayFieldName
     });
     profileModal.onDidDismiss(data => {
       if (data != null){

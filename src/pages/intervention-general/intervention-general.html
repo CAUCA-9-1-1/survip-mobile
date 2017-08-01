@@ -51,21 +51,25 @@
 
       <ion-item>
         <ion-label fixed>Voie de circu.</ion-label>
-        <ion-input type="text" disabled value="{{plan?.mainBuildingIdLane}}"></ion-input>
+        <ion-input type="text" disabled value="{{plan?.mainBuildingLaneName}}"></ion-input>
       </ion-item>
+
+      <button ion-item>
+        <ion-label fixed>Gladu...</ion-label>
+        <ion-label item-end>FALATRA</ion-label>
+      </button>
 
       <ion-item detail-push>
         <ion-label fixed>Transversale</ion-label>
         <search-box item-content
                     formControlName="idLaneTransversal"
-                    [displayFieldName]="'fullNameForFireCad'"
-                    [keyFieldName]="'idLane'"
+                    [displayFieldName]="'fullName'"
+                    [keyFieldName]="'id'"
                     [dataService]="laneService"></search-box>
       </ion-item>
-
 
     </ion-list>
 
   </form>
-
+{{plan?.mainBuildingIdLane}}
 </ion-content>

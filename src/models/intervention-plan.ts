@@ -17,4 +17,5 @@ export class InterventionPlan {
   mainBuildingMatricule: string;
   mainBuildingAffectation: string;
   mainBuildingRiskLevelName: string;
+  mainBuildingLaneName: string;
 }
