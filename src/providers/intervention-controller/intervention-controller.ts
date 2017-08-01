@@ -56,6 +56,11 @@ export class InterventionControllerProvider {
   }
 
   savePlan(){
-
+    console.log("saving plan");
+    console.log(this.interventionPlan);
+    this.repository.saveTraversalLane(this.interventionPlan.id, this.interventionPlan.idLaneTransversal)
+      .subscribe(ok => {
+        console.log("Saved", ok);
+      });
   }
 }

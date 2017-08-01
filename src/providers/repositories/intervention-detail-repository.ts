@@ -14,4 +14,9 @@ export class InterventionDetailRepositoryProvider{
       return result.data;
     });
   }
+
+  public saveTraversalLane(idInterventionPlan: string, idTransversalLane: string): Observable<boolean>{
+    return this.http.put('interventionplangeneralinformations/' + idInterventionPlan + '/id_lane_transversal/' + idTransversalLane)
+      .map((response: Response) => response.ok);
+  }
 }

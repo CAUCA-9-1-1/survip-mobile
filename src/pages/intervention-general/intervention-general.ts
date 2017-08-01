@@ -21,7 +21,10 @@ import {LaneRepositoryProvider} from '../../providers/repositories/lane-reposito
 export class InterventionGeneralPage {
   planForm: FormGroup;
 
-  plan: InterventionPlan;
+  get plan(): InterventionPlan{
+    return this.controller.interventionPlan
+  }
+
   riskLevel: RiskLevel;
 
   constructor(public navCtrl: NavController,
@@ -37,7 +40,6 @@ export class InterventionGeneralPage {
     this.controller.getPlan(this.navParams.data['id'])
       .subscribe(data => {
         const plan: InterventionPlan = data as InterventionPlan;
-        this.plan = plan;
         this.setValues();
         this.loadRiskLevel();
         this.startWatchingForm();
@@ -78,8 +80,7 @@ export class InterventionGeneralPage {
   private saveForm() {
     console.log('saving plan...');
     const formModel  = this.planForm.value;
-    Object.assign(this.plan, formModel);
-    console.log('todo: plan saved');
+    Object.assign(this.controller.interventionPlan, formModel);
     this.controller.savePlan();
   }
 

@@ -29,8 +29,7 @@ export class HttpService extends AuthService {
   get(url: string, options?: RequestOptionsArgs): Observable<any> {
     this.showLoader();
 
-    console.log('get');
-    console.log(this.getFullUrl(url));
+    console.log('get', this.getFullUrl(url));
 
     return super.get(this.getFullUrl(url), this.requestOptions(options))
       .catch(this.onCatch)
