@@ -3,6 +3,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {ModalController, NavParams} from 'ionic-angular';
 import {SearchListComponent} from '../search-list/search-list';
 import {LaneRepositoryProvider} from '../../providers/repositories/lane-repository';
+import {ServiceForListInterface} from '../../interfaces/service-for-list.interface';
 
 /**
  * Generated class for the SearchBoxComponent component.
@@ -81,7 +82,7 @@ export class SearchBoxComponent implements ControlValueAccessor, OnChanges, OnIn
     } else {
       this.dataService
         .getDescriptionById(this._currentId)
-        .then(description => this.selectedItemDescription = description);
+        .subscribe(description => this.selectedItemDescription = description);
     }
   }
 

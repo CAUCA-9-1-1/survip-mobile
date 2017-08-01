@@ -1,55 +1,43 @@
-import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/toPromise';
+import {Injectable} from '@angular/core';
+import {Response} from '@angular/http';
+import {HttpService} from '../Base/http.service';
 import {Lane} from '../../models/lane';
+import {ServiceForListInterface} from '../../interfaces/service-for-list.interface'
+import {Observable} from 'rxjs/Observable';
 
-/*
-  Generated class for the LaneRepositoryProvider provider.
-
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
-*/
 @Injectable()
 export class LaneRepositoryProvider implements ServiceForListInterface {
-  private laneUrl = 'api/lanes';
-  private headers = new Headers({'Content-Type': 'application/json'});
+  public currentIdCity: string = "";
 
-  constructor(private http: Http) {
+  constructor(private http: HttpService) {}
 
+  getAll(): Observable<Lane>{
+    return this.http.get('citylanes/fr/' + this.currentIdCity).map((response : Response) => {
+      const result = response.json();
+      return result.data;
+    });
   }
 
-  getList(searchTerm: string, searchFieldName: string): Promise<Lane[]> {
-    return this.http.get(this.laneUrl + '?'+searchFieldName+'='+searchTerm)
-      .toPromise()
-      .then(response => {
-        let lanes = response.json().data as Lane[];
-        lanes.sort((lane1, lane2) => {
-          if (lane1.fullNameForFireCad > lane2.fullNameForFireCad) {
-            return 1;
-          } else if (lane1.fullNameForFireCad < lane2.fullNameForFireCad) {
-            return -1;
-          }
-          return 0;
-        })
-        return lanes;
-      })
-      .catch(this.handleError);
+  get(idLane: string): Observable<string>{
+    if (!idLane) {
+      console.log("vide");
+      return Observable.create(observer => {
+        return "";
+      });
+    } else {
+      return this.http.get('lanelight/fr/' + idLane).map((response: Response) => {
+        const result = response.json();
+        console.log(result.data);
+        return (result.data as Lane[])[0].fullName;
+      });
+    }
   }
 
-  getDescriptionById(idLane: string): Promise<string> {
-    return this.http.get(this.laneUrl + '?idLane=' + idLane)
-      .toPromise()
-      .then(response => this.getName(response.json().data as Lane[]))
-      .catch(this.handleError);
+  getList(searchTerm: string, searchFieldName: string): Observable<any[]> {
+    return this.getAll() as Observable<any>;
   }
 
-  private getName(lanes: Lane[]): string {
-    return lanes[0].fullNameForFireCad;
-  }
-
-  private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error); // for demo purposes only
-    return Promise.reject(error.message || error);
+  getDescriptionById(id: string): Observable<string> {
+    return this.get(id);
   }
 }

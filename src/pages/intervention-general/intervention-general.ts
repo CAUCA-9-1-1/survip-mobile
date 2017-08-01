@@ -31,13 +31,17 @@ export class InterventionGeneralPage {
               private riskLevelService: RiskLevelRepositoryProvider,
               public laneService: LaneRepositoryProvider) {
     this.createForm();
-    this.startWatchingForm();
   }
 
   ionViewDidLoad() {
-    this.plan = this.controller.interventionPlan;
-    this.setValues();
-    this.loadRiskLevel();
+    this.controller.getPlan(this.navParams.data['id'])
+      .subscribe(data => {
+        const plan: InterventionPlan = data as InterventionPlan;
+        this.plan = plan;
+        this.setValues();
+        this.loadRiskLevel();
+        this.startWatchingForm();
+      });
   }
 
   createForm() {

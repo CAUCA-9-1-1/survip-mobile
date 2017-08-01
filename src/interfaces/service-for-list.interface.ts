@@ -1,4 +1,6 @@
-interface ServiceForListInterface {
-  getList(searchTerm: string, searchFieldName: string): Promise<any[]>;
-  getDescriptionById(id: string): Promise<string>;
+import {Observable} from 'rxjs/Observable';
+
+export interface ServiceForListInterface {
+  getList(searchTerm: string, searchFieldName: string): Observable<any[]>;
+  getDescriptionById(id: string): Observable<string>;
 }

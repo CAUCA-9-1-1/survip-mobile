@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {NavParams, ViewController} from 'ionic-angular';
 import 'rxjs/add/operator/debounceTime'
+import {ServiceForListInterface} from '../../interfaces/service-for-list.interface';
 
 /**
  * Generated class for the SearchListComponent component.
@@ -46,7 +47,7 @@ export class SearchListComponent {
   }
 
   setFilteredItems() {
-    this.dataService.getList(this.searchTerm, this.displayFieldName).then(list => this.items = list);
+    this.dataService.getList(this.searchTerm, this.displayFieldName).subscribe(list => this.items = list);
   }
 
   onSelectItem(id: string){

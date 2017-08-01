@@ -28,7 +28,6 @@ export class InterventionHomePage {
   private coursePage = 'InterventionCoursePage';
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController, private controller: InterventionControllerProvider) {
-    controller.loadPlan(this.navParams.data['id']);
   }
 
   ionViewDidLoad() {

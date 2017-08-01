@@ -6,13 +6,15 @@ export class InterventionPlan {
   idPictureSitePlan: string;
   otherInformation: string;
   createdOn: Date;
-  revisedOn: Date;
-  approvedOn: Date;
+  /*revisedOn: Date;
+  approvedOn: Date;*/
   isActive: boolean;
+  idCity: string;
   mainBuildingAddress: string;
   mainBuildingIdLane: string;
   mainBuildingAlias: string;
   mainBuildingIdRiskLevel: string;
   mainBuildingMatricule: string;
   mainBuildingAffectation: string;
+  mainBuildingRiskLevelName: string;
 }
