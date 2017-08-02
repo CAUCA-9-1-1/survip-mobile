@@ -4,7 +4,7 @@ export class InterventionPlanData {
       id : '613723a0-f980-419d-9814-50f5d396eaa2',
       planNumber: 'BLSK-28893-ABC',
       planName: 'Nom du plan pour cette adresse',
-      idLaneTransversal: '',
+      idLaneTransversal: '29bb0912-e4ce-45f0-8c26-511806d25b50',
       idPictureSitePlan: 'a3852cc7-4354-47c8-8917-7c861fe87f68',
       otherInformation: '',
       createdOn: '',

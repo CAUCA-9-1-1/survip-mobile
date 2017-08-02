@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import {App, IonicPage, NavController, NavParams} from 'ionic-angular';
-import {HomePage} from '../home/home';
+import {App, IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 import {RiskLevel} from '../../models/risk-level';
 import {Inspection} from '../../interfaces/inspection.interface';
-import {InspectionProvider} from '../../providers/inspection/inspection';
-import {RiskLevelProvider} from '../../providers/risk-level/risk-level';
+import {InspectionRepositoryProvider} from '../../providers/repositories/inspection-repository';
+import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-level-repository';
 import {InterventionHomePage} from '../intervention-home/intervention-home';
+import {LaneRepositoryProvider} from '../../providers/repositories/lane-repository';
 
 /**
  * Generated class for the InspectionListPage page.
@@ -25,8 +25,8 @@ export class InspectionListPage {
   constructor(public appCtrl: App,
               public navCtrl: NavController,
               public navParams: NavParams,
-              private riskLevelService: RiskLevelProvider,
-              private inspectionService: InspectionProvider) {
+              private riskLevelService: RiskLevelRepositoryProvider,
+              private inspectionService: InspectionRepositoryProvider) {
     riskLevelService.getAll()
       .subscribe(risks => this.riskLevels = risks);
 
@@ -68,13 +68,9 @@ export class InspectionListPage {
   itemSelected(inspection: Inspection) {
     const riskCode: string = this.getRiskCode(inspection.idRiskLevel);
     if (riskCode == '3' || riskCode == '4') {
-      this.appCtrl.getRootNav().push(InterventionHomePage);
+      this.appCtrl.getRootNav().push(InterventionHomePage, { id: inspection.idInterventionPlan });
     } else {
       console.log('nope');
     }
-  }
-
-  clickclick() {
-    this.appCtrl.getRootNav().push(HomePage);
   }
 }
