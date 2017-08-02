@@ -30,7 +30,7 @@ export class AuthService extends Http {
 
     this.apiUrl = config.getConfig('apiUrl');
     this.storage = this.windowRef.nativeObject('localStorage');
-    this.storage.setItem('currentToken', '2a69b4ad49f07d45d3a9c2c99af63fc547438e4619bb7a437f53b98a');
+    this.storage.setItem('currentToken', 'd8e14701ca1845777f0073a887c0153fadc81ee5c97dfa0b6a912d8e');
     this.location = this.windowRef.nativeObject('location');
   }
 

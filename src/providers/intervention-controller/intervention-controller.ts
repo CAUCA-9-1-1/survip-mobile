@@ -5,22 +5,20 @@ import {InterventionPlanBuildingForlist} from '../../models/intervention-plan-bu
 import {InterventionDetailRepositoryProvider} from '../repositories/intervention-detail-repository';
 import {LaneRepositoryProvider} from '../repositories/lane-repository';
 import {Observable} from 'rxjs/Observable';
+import {Loading, LoadingController} from 'ionic-angular';
 
-/*
-  Generated class for the InterventionControllerProvider provider.
-
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
-*/
 @Injectable()
 export class InterventionControllerProvider {
-
   public interventionPlan: InterventionPlan;
+  private loading: Loading
 
   constructor(
     private repository: InterventionDetailRepositoryProvider,
+    private loadingCtrl: LoadingController,
     private laneRepo: LaneRepositoryProvider
   ) {
+    this.loading = this.loadingCtrl.create({content: 'Patientez...'});
+    this.loading.present();
     console.log('Hello InterventionControllerProvider Provider');
   }
 
@@ -30,6 +28,7 @@ export class InterventionControllerProvider {
       const plan: InterventionPlan = data as InterventionPlan;
       this.laneRepo.currentIdCity = plan.idCity;
       this.interventionPlan = plan;
+      this.loading.dismiss();
       });
 
     return result;

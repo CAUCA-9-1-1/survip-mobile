@@ -26,6 +26,7 @@ export class SearchBoxComponent implements ControlValueAccessor, OnChanges, OnIn
   ngOnInit(): void {
   }
 
+  isLoading: boolean;
   selectedItemDescription: string;
   @Input() dataService: ServiceForListInterface;
   @Input() keyFieldName: string;
@@ -40,8 +41,6 @@ export class SearchBoxComponent implements ControlValueAccessor, OnChanges, OnIn
   }
   @Input()
   set currentId(val) {
-    console.log('rue changée');
-    console.log(val);
     this._currentId = val;
     this.showSelectionDescription();
     this.propagateChange(this.currentId);
@@ -49,6 +48,7 @@ export class SearchBoxComponent implements ControlValueAccessor, OnChanges, OnIn
   }
 
   propagateChange: any = () => {};
+
   writeValue(value: any) {
     this.currentId = value;
   }
@@ -80,12 +80,17 @@ export class SearchBoxComponent implements ControlValueAccessor, OnChanges, OnIn
   };
 
   private showSelectionDescription() {
+    this.isLoading = true;
     if (this.currentId == null) {
       this.selectedItemDescription = '';
+      this.isLoading = false;
     } else {
       this.dataService
         .getDescriptionById(this._currentId)
-        .subscribe(description => this.selectedItemDescription = description);
+        .subscribe(description => {
+          this.selectedItemDescription = description;
+          this.isLoading = false;
+        });
     }
   }
 
