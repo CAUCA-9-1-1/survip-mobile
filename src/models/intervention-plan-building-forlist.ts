@@ -1,7 +1,6 @@
 export class InterventionPlanBuildingForlist{
-  id: string;
+  idBuilding: string;
   idInterventionPlan: string;
   alias: string;
-  idRiskLevel: string;
   picture: string;
 }

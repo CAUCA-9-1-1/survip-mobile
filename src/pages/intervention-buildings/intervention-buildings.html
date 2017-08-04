@@ -8,13 +8,23 @@
   <ion-navbar>
     <ion-icon name="menu" menuToggle left></ion-icon>
     <ion-title>
-      Bâtiments
+      <p>{{plan?.mainBuildingAddress}}</p>
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      Liste des bâtiments
+    </ion-list-header>
+    <button ion-item *ngFor="let building of buildings">
+      <ion-thumbnail item-start *ngIf="building.picture != null">
+        <img src="data:image/jpeg;base64,{{building.picture}}">
+      </ion-thumbnail>
+      <h2>{{building.alias}}</h2>
+    </button>
+  </ion-list>
 </ion-content>
 

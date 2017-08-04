@@ -20,14 +20,12 @@ export class LaneRepositoryProvider implements ServiceForListInterface {
 
   get(idLane: string): Observable<string>{
     if (!idLane) {
-      console.log("vide");
       return Observable.create(observer => {
         return "";
       });
     } else {
       return this.http.get('lanelight/fr/' + idLane).map((response: Response) => {
         const result = response.json();
-        console.log(result.data);
         return (result.data as Lane[])[0].fullName;
       });
     }

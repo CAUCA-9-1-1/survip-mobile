@@ -39,7 +39,6 @@ export class InterventionGeneralPage {
   ionViewDidLoad() {
     this.controller.getPlan(this.navParams.data['id'])
       .subscribe(data => {
-        const plan: InterventionPlan = data as InterventionPlan;
         this.setValues();
         this.loadRiskLevel();
         this.startWatchingForm();
@@ -52,7 +51,7 @@ export class InterventionGeneralPage {
     });
   }
 
-  loadRiskLevel() {
+  loadRiskLevel() { // why am i loading this exactly?
     if (this.plan != null) {
       this.riskLevelService.getById(this.plan.mainBuildingIdRiskLevel)
         .subscribe(result => this.riskLevel = result);

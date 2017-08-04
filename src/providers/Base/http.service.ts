@@ -5,7 +5,7 @@ import {
   RequestOptionsArgs,
   Response,
   Headers,
-  XHRBackend
+  XHRBackend, Http
 } from '@angular/http';
 
 import {AuthService} from './auth.service';
@@ -26,23 +26,46 @@ export class HttpService extends AuthService {
     super(backend, defaultOptions, configService);
   }
 
-  get(url: string, options?: RequestOptionsArgs): Observable<any> {
+  get(url: string, options?: RequestOptionsArgs, isJsonBodyResult: boolean = true): Observable<any> {
     this.showLoader();
 
     console.log('get', this.getFullUrl(url));
 
     return super.get(this.getFullUrl(url), this.requestOptions(options))
+      //.map(response => (<Response>response).blob())
       .catch(this.onCatch)
       .do((res: Response) => {
-        this.onSuccess(res);
+        // console.log(url, res);
+        this.onSuccess(res, isJsonBodyResult);
       }, (error: any) => {
         this.onError(error);
       })
       .finally(() => {
         this.onEnd();
       });
+  }/*
+
+  getImage(url: string, options?: RequestOptionsArgs, isJsonBodyResult: boolean = true): Observable<Blob> {
+    this.showLoader();
+
+    console.log('get', this.getFullUrl(url));
+
+    return this.http.get(this.getFullUrl(url), op)
+    return super.get(this.getFullUrl(url), this.requestOptions(options))
+      .map(response => (<Response>response).blob())
+    .catch(this.onCatch)
+     .do((res: Response) => {
+     console.log(url, res);
+     this.onSuccess(res, isJsonBodyResult);
+     }, (error: any) => {
+     this.onError(error);
+     })
+     .finally(() => {
+     this.onEnd();
+     });
   }
 
+*/
   put(url: string, body?: any, options?: RequestOptionsArgs): Observable<any> {
     this.showLoader();
 
@@ -112,12 +135,14 @@ export class HttpService extends AuthService {
     return Observable.throw(error);
   }
 
-  private onSuccess(result: Response): void {
+  private onSuccess(result: Response, isJsonResult: boolean = true): void {
+    console.log(result);
     if (result instanceof Response) {
-      const body = result.json() || {};
-
-      this.checkLogin(body);
-      this.checkError(body);
+      if (isJsonResult) { //(result.text().startsWith('{') && result.text().endsWith('}')) {
+        const body = result.json() || {};
+        this.checkLogin(body);
+        this.checkError(body);
+      }
     }
   }
 

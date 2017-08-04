@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {LaneRepositoryProvider} from '../../providers/repositories/lane-repository';
+import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
+import {InterventionPlanBuildingForlist} from '../../models/intervention-plan-building-forlist';
+import {InterventionPlan} from '../../models/intervention-plan';
 
 /**
  * Generated class for the InterventionBuildingsPage page.
@@ -14,12 +17,23 @@ import {LaneRepositoryProvider} from '../../providers/repositories/lane-reposito
   templateUrl: 'intervention-buildings.html',
 })
 export class InterventionBuildingsPage {
+  get plan(): InterventionPlan{
+    return this.controller.interventionPlan
+  }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public laneRepository: LaneRepositoryProvider) {
+  get buildings(): InterventionPlanBuildingForlist[] {
+    return this.controller.buildings;
+  }
+
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private controller: InterventionControllerProvider,) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad InterventionBuildingsPage');
+    this.controller.getBuildingList()
+      .subscribe(data => {
+        console.log('wtf: ', data);
+      });
   }
-
 }

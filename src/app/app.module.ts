@@ -32,6 +32,8 @@ import {HttpService} from '../providers/Base/http.service';
 import {ConfigService} from '../providers/Base/config.service';
 import {AuthorizeRequestOptions} from '../providers/Base/authorize-request-options';
 import {provideConfig, provideConfigLoader} from '../providers/Base/config.provider';
+import {PictureRepositoryProvider} from '../providers/repositories/picture-repository';
+import {InterventionBuildingsRepositoryProvider} from '../providers/repositories/intervention-buildings-repository';
 
 export function translateLoader(http: Http) {
   return new LanguageLoader(http, './assets/locale/', '.json');
@@ -85,12 +87,14 @@ export function httpServiceFactory(
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     provideLanguageLoader(translateLoader),
+    PictureRepositoryProvider,
     InterventionRepositoryProvider,
     InspectionRepositoryProvider,
     RiskLevelRepositoryProvider,
     InterventionControllerProvider,
     LaneRepositoryProvider,
     InterventionDetailRepositoryProvider,
+    InterventionBuildingsRepositoryProvider,
     ConfigService,
     HttpService,
     RequestLoaderService,
