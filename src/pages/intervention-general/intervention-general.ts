@@ -34,15 +34,20 @@ export class InterventionGeneralPage {
               private riskLevelService: RiskLevelRepositoryProvider,
               public laneService: LaneRepositoryProvider) {
     this.createForm();
+    controller.planLoaded.subscribe(() => this.setValuesAndStartListening());
   }
 
   ionViewDidLoad() {
-    this.controller.getPlan(this.navParams.data['id'])
-      .subscribe(data => {
-        this.setValues();
-        this.loadRiskLevel();
-        this.startWatchingForm();
-      });
+    this.controller.loadInterventionPlan(this.navParams.data['id']);
+      /*.subscribe(data => {
+
+      });*/
+  }
+
+  setValuesAndStartListening() {
+    this.setValues();
+    this.loadRiskLevel();
+    this.startWatchingForm();
   }
 
   createForm() {

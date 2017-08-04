@@ -28,12 +28,9 @@ export class InterventionBuildingsPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private controller: InterventionControllerProvider,) {
+    this.controller.loadBuildingList();
   }
 
   ionViewDidLoad() {
-    this.controller.getBuildingList()
-      .subscribe(data => {
-        console.log('wtf: ', data);
-      });
   }
 }

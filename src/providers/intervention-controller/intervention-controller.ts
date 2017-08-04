@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {InterventionPlan} from '../../models/intervention-plan';
 import {InterventionPlanBuildingForlist} from '../../models/intervention-plan-building-forlist';
@@ -12,6 +12,7 @@ import {InterventionBuildingsRepositoryProvider} from '../repositories/intervent
 export class InterventionControllerProvider {
   public interventionPlan: InterventionPlan;
   public buildings: InterventionPlanBuildingForlist[];
+  public planLoaded: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
     private repoDetail: InterventionDetailRepositoryProvider,
@@ -22,7 +23,7 @@ export class InterventionControllerProvider {
     console.log('Hello InterventionControllerProvider Provider');
   }
 
-  getPlan(idInterventionPlan: string): Observable<InterventionPlan>{
+  loadInterventionPlan(idInterventionPlan: string){
     const loading = this.loadingCtrl.create({content: 'Patientez...'});
     loading.present();
     const result = this.repoDetail.get('0ea6b45c-e437-4dcf-9db8-4d2d015d025c');
@@ -30,13 +31,12 @@ export class InterventionControllerProvider {
       const plan: InterventionPlan = data as InterventionPlan;
       this.laneRepo.currentIdCity = plan.idCity;
       this.interventionPlan = plan;
+      this.planLoaded.emit(null);
       loading.dismiss();
       });
-
-    return result;
   }
 
-  getBuildingList(): Observable<InterventionPlanBuildingForlist[]> {
+  loadBuildingList() {
     const loading = this.loadingCtrl.create({content: 'Patientez...'});
     loading.present();
     const result = this.repoBuildings.get('0ea6b45c-e437-4dcf-9db8-4d2d015d025c');
@@ -44,7 +44,6 @@ export class InterventionControllerProvider {
       this.buildings = data as InterventionPlanBuildingForlist[];
       loading.dismiss();
     });
-    return result;
   }
 
   savePlan(){
