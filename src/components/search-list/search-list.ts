@@ -4,12 +4,6 @@ import {NavParams, ViewController} from 'ionic-angular';
 import 'rxjs/add/operator/debounceTime'
 import {ServiceForListInterface} from '../../interfaces/service-for-list.interface';
 
-/**
- * Generated class for the SearchListComponent component.
- *
- * See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
- * for more info on Angular Components.
- */
 @Component({
   selector: 'search-list',
   templateUrl: 'search-list.html'
@@ -25,18 +19,15 @@ export class SearchListComponent {
   searching: any = false;
 
   constructor(public viewCtrl: ViewController, params: NavParams) {
-    console.log(params);
     this.dataService = params.get('dataService');
     this.keyFieldName = params.get('keyFieldName');
     this.displayFieldName = params.get('displayFieldName');
-
     this.searchControl = new FormControl();
   }
 
   ionViewDidLoad() {
     this.setFilteredItems();
-
-    this.searchControl.valueChanges.debounceTime(1000).subscribe(search => {
+    this.searchControl.valueChanges.debounceTime(1000).subscribe(() => {
       this.searching = false;
       this.setFilteredItems();
     });

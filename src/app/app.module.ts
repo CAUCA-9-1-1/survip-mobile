@@ -34,6 +34,10 @@ import {AuthorizeRequestOptions} from '../providers/Base/authorize-request-optio
 import {provideConfig, provideConfigLoader} from '../providers/Base/config.provider';
 import {PictureRepositoryProvider} from '../providers/repositories/picture-repository';
 import {InterventionBuildingsRepositoryProvider} from '../providers/repositories/intervention-buildings-repository';
+import {ComponentsModule} from '../components/components.module';
+import {FormsModule} from '@angular/forms';
+import {InterventionGeneralPage} from '../pages/intervention-general/intervention-general';
+import {InterventionWaterSuppliesPage} from '../pages/intervention-water-supplies/intervention-water-supplies';
 
 export function translateLoader(http: Http) {
   return new LanguageLoader(http, './assets/locale/', '.json');
@@ -56,18 +60,21 @@ export function httpServiceFactory(
     InspectionMapPage,
     InterventionHomePage,
     //SearchBoxComponent,
-    SearchListComponent,
+    //SearchListComponent,
     // InterventionLayerDirective,
   ],
   imports: [
+    FormsModule,
     IgoModule.forRoot(),
     MaterialModule,
     HttpModule,
     BrowserModule,
+
     InMemoryWebApiModule.forRoot(InMemoryDataService, {
       passThruUnknownUrl: true
     }),
     IonicModule.forRoot(MyApp),
+    ComponentsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -76,7 +83,7 @@ export function httpServiceFactory(
     InspectionMapPage,
     InspectionsPage,
     InterventionHomePage,
-    SearchListComponent,
+    //SearchListComponent,
   ],
   exports: [
     IgoModule,

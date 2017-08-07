@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {InterventionPlan} from '../../models/intervention-plan';
@@ -6,6 +6,7 @@ import {RiskLevel} from '../../models/risk-level';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-level-repository';
 import {LaneRepositoryProvider} from '../../providers/repositories/lane-repository';
+import {ISubscription} from 'rxjs/Subscription';
 
 /**
  * Generated class for the InterventionGeneralPage page.
@@ -18,8 +19,15 @@ import {LaneRepositoryProvider} from '../../providers/repositories/lane-reposito
   selector: 'page-intervention-general',
   templateUrl: 'intervention-general.html',
 })
-export class InterventionGeneralPage {
+export class InterventionGeneralPage implements OnDestroy {
+  ngOnDestroy(): void {
+    //this.planSubscription.unsubscribe();
+    //this.planSubscription.unsubscribe();
+  }
+
   planForm: FormGroup;
+  planSubscription: ISubscription;
+  idLaneTransversal: string;
 
   get plan(): InterventionPlan{
     return this.controller.interventionPlan
@@ -39,12 +47,10 @@ export class InterventionGeneralPage {
 
   ionViewDidLoad() {
     this.controller.loadInterventionPlan(this.navParams.data['id']);
-      /*.subscribe(data => {
-
-      });*/
   }
 
   setValuesAndStartListening() {
+    this.idLaneTransversal = this.plan.idLaneTransversal;
     this.setValues();
     this.loadRiskLevel();
     this.startWatchingForm();
@@ -64,7 +70,7 @@ export class InterventionGeneralPage {
   }
 
   private startWatchingForm() {
-    this.planForm.valueChanges
+    this.planSubscription = this.planForm.valueChanges
       .debounceTime(500)
       .subscribe(() => this.saveIfValid());
   }
@@ -82,13 +88,8 @@ export class InterventionGeneralPage {
   }
 
   private saveForm() {
-    console.log('saving plan...');
     const formModel  = this.planForm.value;
     Object.assign(this.controller.interventionPlan, formModel);
     this.controller.savePlan();
-  }
-
-  clickTest(){
-    console.log('test click sur input');
   }
 }

@@ -1,9 +1,8 @@
-import {Component, EventEmitter, forwardRef, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, OnDestroy, Input} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {ModalController, NavParams} from 'ionic-angular';
-import {SearchListComponent} from '../search-list/search-list';
-import {LaneRepositoryProvider} from '../../providers/repositories/lane-repository';
+import {ModalController} from 'ionic-angular';
 import {ServiceForListInterface} from '../../interfaces/service-for-list.interface';
+import {SearchListComponent} from '../search-list/search-list';
 
 /**
  * Generated class for the SearchBoxComponent component.
@@ -14,98 +13,87 @@ import {ServiceForListInterface} from '../../interfaces/service-for-list.interfa
 @Component({
   selector: 'search-box',
   templateUrl: 'search-box.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SearchBoxComponent),
-      multi: true
-    }
+  providers:[
+    {provide: NG_VALUE_ACCESSOR, useExisting: SearchBoxComponent, multi: true}
   ]
 })
-export class SearchBoxComponent implements ControlValueAccessor, OnChanges, OnInit  {
-  ngOnInit(): void {
-  }
+export class SearchBoxComponent implements ControlValueAccessor, OnDestroy{
+  private isLoading: boolean;
+  private isDisposed: boolean = false;
+  private innerValue: string;
+  private changed = new Array<(value: string) => void>();
+  private touched = new Array<() => void>();
+  private selectedItemDescription: string;
 
-  isLoading: boolean;
-  selectedItemDescription: string;
   @Input() dataService: ServiceForListInterface;
   @Input() keyFieldName: string;
   @Input() displayFieldName: string;
   @Input() description: string;
 
-  @Output() selectedIdChange = new EventEmitter<string>();
-  private _currentId: string;
-
-  get currentId() {
-    return this._currentId;
-  }
-  @Input()
-  set currentId(val) {
-    this._currentId = val;
-    this.showSelectionDescription();
-    this.propagateChange(this.currentId);
-    this.selectedIdChange.emit(this.currentId);
+  constructor(private modalCtrl: ModalController) {
   }
 
-  propagateChange: any = () => {};
-
-  writeValue(value: any) {
-    this.currentId = value;
-  }
-  registerOnChange(fn) {
-    this.propagateChange = fn;
-  }
-  registerOnTouched() {}
-
-  constructor(params: NavParams,
-              private modalCtrl: ModalController,
-              private laneService: LaneRepositoryProvider) {
-    this.dataService = params.get('dataService');
-    this.keyFieldName = params.get('keyFieldName');
-    this.displayFieldName = params.get('displayFieldName');
+  ngOnDestroy(): void {
+    this.isDisposed = true;
   }
 
-  ngOnChanges(inputs) {
-    this.propagateChange(this.currentId);
+  get value(): string {
+    return this.innerValue;
   }
 
-  onClick(){
-    console.log('clickety click');
-  }
-
-  private onSelectionChanged(selectedId: string) {
-    this.currentId = selectedId;
-    this.selectedIdChange.emit(selectedId);
-    this.showSelectionDescription();
-  };
-
-  private showSelectionDescription() {
-    this.isLoading = true;
-    if (this.currentId == null) {
-      this.selectedItemDescription = '';
-      this.isLoading = false;
-    } else {
-      this.dataService
-        .getDescriptionById(this._currentId)
-        .subscribe(description => {
-          this.selectedItemDescription = description;
-          this.isLoading = false;
-        });
+  set value(value: string) {
+    if (this.innerValue !== value) {
+      this.innerValue = value;
+      this.changed.forEach(f => f(value));
+      this.showSelectionDescription();
     }
   }
 
+  touch() {
+    this.touched.forEach(f => f());
+  }
+
+  writeValue(value: string) {
+    if (!this.isDisposed) { // this is a patch to fix an issue where some ghost instance of this component would exist in memory and would be linked to the same formGroup somehow.
+      this.innerValue = value;
+      this.showSelectionDescription();
+    }
+  }
+
+  registerOnChange(fn: (value: string) => void) {
+    this.changed.push(fn);
+  }
+
+  registerOnTouched(fn: () => void) {
+    this.touched.push(fn);
+  }
+
   private onPopSearch() {
-    console.log("on pop search");
     let profileModal = this.modalCtrl.create(SearchListComponent, {
-      dataService: this.laneService,
+      dataService: this.dataService,
       keyFieldName: this.keyFieldName,
       displayFieldName: this.displayFieldName
     });
     profileModal.onDidDismiss(data => {
       if (data != null){
-        this.onSelectionChanged(data);
+        this.value = data;
       }
     });
     profileModal.present();
+  }
+
+  private showSelectionDescription() {
+    this.isLoading = true;
+    if (this.innerValue == null) {
+      this.selectedItemDescription = '';
+      this.isLoading = false;
+    } else {
+      this.dataService
+        .getDescriptionById(this.innerValue)
+        .subscribe(description => {
+          this.selectedItemDescription = description;
+          this.isLoading = false;
+        });
+    }
   }
 }
