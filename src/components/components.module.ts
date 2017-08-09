@@ -3,10 +3,15 @@ import { SearchBoxComponent } from './search-box/search-box';
 import {FormsModule} from '@angular/forms';
 import { SearchListComponent } from './search-list/search-list';
 import {IonicPageModule} from 'ionic-angular';
+import { PictureViewerComponent } from './picture-viewer/picture-viewer';
+import {Camera} from '@ionic-native/camera'
+import {PhotoViewer} from '@ionic-native/photo-viewer';
+
 @NgModule({
 	declarations: [
 	  SearchBoxComponent,
-    SearchListComponent
+    SearchListComponent,
+    PictureViewerComponent
   ],
 	imports: [
 	  FormsModule,
@@ -15,7 +20,12 @@ import {IonicPageModule} from 'ionic-angular';
   ],
 	exports: [
 	  SearchBoxComponent,
-    SearchListComponent
+    SearchListComponent,
+    PictureViewerComponent
+  ],
+  providers: [
+    Camera,
+    PhotoViewer
   ]
 })
 export class ComponentsModule {}

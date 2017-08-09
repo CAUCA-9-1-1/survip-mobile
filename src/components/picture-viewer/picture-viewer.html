@@ -1,0 +1,20 @@
+<ion-content>
+  <img class="selected-picture" [src]="imageUrl" (click)="onClickPicture()">
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons>
+
+      <button ion-button (click)="selectPicture()">
+        Sélectionner TSÉ
+        <ion-icon name="camera"></ion-icon>
+      </button>
+
+      <button ion-button (click)="takeNewPicture()">
+        Capture
+        <ion-icon name="image"></ion-icon>
+      </button>
+
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
