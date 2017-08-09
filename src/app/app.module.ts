@@ -59,9 +59,6 @@ export function httpServiceFactory(
     InspectionsPage,
     InspectionMapPage,
     InterventionHomePage,
-    //SearchBoxComponent,
-    //SearchListComponent,
-    // InterventionLayerDirective,
   ],
   imports: [
     FormsModule,
@@ -83,7 +80,6 @@ export function httpServiceFactory(
     InspectionMapPage,
     InspectionsPage,
     InterventionHomePage,
-    //SearchListComponent,
   ],
   exports: [
     IgoModule,
@@ -107,7 +103,7 @@ export function httpServiceFactory(
     RequestLoaderService,
     provideConfig({
       default: {
-        apiUrl: 'http://localhost:8080/',
+        apiUrl: 'http://10.10.33.101:8080/',
         languages: ['fr', 'en']
       }}),
     provideConfigLoader(),
