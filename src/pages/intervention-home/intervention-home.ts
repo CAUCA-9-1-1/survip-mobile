@@ -32,6 +32,7 @@ export class InterventionHomePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad InterventionHomePage');
+
   }
 
   closeMenu(){

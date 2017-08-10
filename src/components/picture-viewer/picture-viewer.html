@@ -3,18 +3,18 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-buttons>
-
-      <button ion-button (click)="selectPicture()">
-        Sélectionner TSÉ
-        <ion-icon name="camera"></ion-icon>
+    <ion-buttons start>
+      <button ion-button  (click)="selectPicture()">
+        Choisir...
+        <ion-icon class="footer-button-camera" name="image"></ion-icon>
       </button>
-
-      <button ion-button (click)="takeNewPicture()">
-        Capture
-        <ion-icon name="image"></ion-icon>
-      </button>
-
     </ion-buttons>
+    <ion-buttons end>
+      <button ion-button (click)="takeNewPicture()">
+        Nouvelle...
+        <ion-icon class="footer-button-camera" name="camera"></ion-icon>
+      </button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-footer>
