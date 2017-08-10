@@ -10,7 +10,7 @@
       </button>
     </ion-buttons>
     <ion-buttons end>
-      <button ion-button (click)="takeNewPicture()">
+      <button ion-button (click)="takeNewPicture()" *ngIf="isUsingCordova">
         Nouvelle...
         <ion-icon class="footer-button-camera" name="camera"></ion-icon>
       </button>

@@ -3,6 +3,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import {PhotoViewer} from '@ionic-native/photo-viewer';
 import {DomSanitizer} from '@angular/platform-browser';
+import {Platform} from 'ionic-angular';
 /**
  * Generated class for the PictureComponent component.
  *
@@ -33,18 +34,21 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   private changed = new Array<(value: string) => void>();
   private touched = new Array<() => void>();
 
+  isUsingCordova: boolean;
+
   get imageUrl(){
     return this.imageData == null
-      ? ""
+      ? ''
       : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + this.imageData);
   }
 
   constructor(
     private camera: Camera,
     private photoViewer: PhotoViewer,
-    private sanitizer: DomSanitizer)
+    private sanitizer: DomSanitizer,
+    private platform: Platform)
   {
-    console.log('Hello PictureComponent Component');
+    this.isUsingCordova = this.platform.is('cordova');
   }
 
   ngOnDestroy(): void {
@@ -83,6 +87,13 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   }
 
   selectPicture(): void {
+    if (this.isUsingCordova)
+      this.selectPictureNative();
+    else
+      console.log("no can do without cordova");
+  }
+
+  private selectPictureNative() {
     let options = this.options;
     options.sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
     this.getPicture(options);
@@ -96,8 +107,8 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
 
   onClickPicture(): void {
     /*try {*/
-      console.log("click picture");
-      this.photoViewer.show('data:image/jpeg;base64,' + this.imageData, "Plan d'implantation"); // this is so not working.
+      console.log('click picture');
+      this.photoViewer.show('data:image/jpeg;base64,' + this.imageData, 'Plan d\'implantation'); // this is so not working.
     /*}
     catch(error)
     {
