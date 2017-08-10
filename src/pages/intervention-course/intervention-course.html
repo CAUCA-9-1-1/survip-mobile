@@ -14,7 +14,13 @@
 </ion-header>
 
 
-<ion-content>
-  <picture-viewer></picture-viewer>
+<ion-content [formGroup]="form">
+  <!--{{form.status | json}}
+  <div >-->
+    <picture-viewer formControlName="picture">
+
+    </picture-viewer>
+    <!--<input type="text" formControlName="test">
+  </div>-->
 </ion-content>
 

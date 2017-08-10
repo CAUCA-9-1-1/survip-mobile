@@ -6,6 +6,7 @@ import {IonicPageModule} from 'ionic-angular';
 import { PictureViewerComponent } from './picture-viewer/picture-viewer';
 import {Camera} from '@ionic-native/camera'
 import {PhotoViewer} from '@ionic-native/photo-viewer';
+import { IonicImageViewerModule } from 'ionic-img-viewer';
 
 @NgModule({
 	declarations: [
@@ -17,6 +18,7 @@ import {PhotoViewer} from '@ionic-native/photo-viewer';
 	  FormsModule,
     IonicPageModule.forChild(SearchBoxComponent),
     IonicPageModule.forChild(SearchListComponent),
+    IonicImageViewerModule
   ],
 	exports: [
 	  SearchBoxComponent,
