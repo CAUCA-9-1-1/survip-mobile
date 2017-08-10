@@ -1,5 +1,5 @@
 <!--
-  Generated template for the InterventionBuildingsPage page.
+  Generated template for the InterventionImplantationPlanPage page.
 
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
@@ -14,17 +14,12 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content [formGroup]="form">
   <ion-list>
     <ion-list-header>
-      Liste des bâtiments
+      Plan d'implantation {{ form.dirty | json }}
     </ion-list-header>
-    <button ion-item *ngFor="let building of buildings">
-      <ion-thumbnail item-start *ngIf="building.picture != null">
-        <img src="data:image/jpeg;base64,{{building.picture}}">
-      </ion-thumbnail>
-      <h2>{{building.alias}}</h2>
-    </button>
   </ion-list>
+  <picture-viewer formControlName="picture">
+  </picture-viewer>
 </ion-content>
-

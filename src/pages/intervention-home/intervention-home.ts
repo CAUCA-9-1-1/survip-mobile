@@ -26,13 +26,13 @@ export class InterventionHomePage {
   private buildingsPage = 'InterventionBuildingsPage';
   private fireProtectionPage = 'InterventionFireProtectionPage';
   private coursePage = 'InterventionCoursePage';
+  private implantationPlanPage = 'InterventionImplantationPlanPage'
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController, private controller: InterventionControllerProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad InterventionHomePage');
-
   }
 
   closeMenu(){

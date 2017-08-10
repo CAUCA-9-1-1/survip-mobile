@@ -1,11 +1,21 @@
 <ion-menu [content]="mycontent">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Plan d'intervention</ion-title>
+    </ion-toolbar>
+  </ion-header>
   <ion-content>
     <ion-list>
       <button ion-item menuClose (click)="openPage(generalPage)">
         Infos générales
       </button>
       <button ion-item menuClose (click)="openPage(buildingsPage)">
+        <ion-icon name="home"></ion-icon>
         Bâtiments
+      </button>
+      <button ion-item menuClose (click)="openPage(implantationPlanPage)">
+        <ion-icon name="map"></ion-icon>
+        Plan d'implantation
       </button>
       <button ion-item menuClose (click)="openPage(coursePage)">
         Parcours
@@ -14,7 +24,8 @@
         Alimentation en eau
       </button>
       <button ion-item (click)="closeMenu()">
-        Close Menu
+        <ion-icon name="close"></ion-icon>
+        Fermer
       </button>
     </ion-list>
   </ion-content>
