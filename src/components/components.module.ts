@@ -7,6 +7,7 @@ import { PictureViewerComponent } from './picture-viewer/picture-viewer';
 import {Camera} from '@ionic-native/camera'
 import {PhotoViewer} from '@ionic-native/photo-viewer';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
+import {WindowRefService} from '../providers/Base/window-ref.service';
 
 @NgModule({
 	declarations: [
@@ -26,6 +27,7 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
     PictureViewerComponent
   ],
   providers: [
+    WindowRefService,
     Camera,
     PhotoViewer
   ]

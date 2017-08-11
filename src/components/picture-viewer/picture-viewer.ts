@@ -1,9 +1,10 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import {PhotoViewer} from '@ionic-native/photo-viewer';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Platform} from 'ionic-angular';
+import {WindowRefService} from '../../providers/Base/window-ref.service';
 /**
  * Generated class for the PictureComponent component.
  *
@@ -18,6 +19,8 @@ import {Platform} from 'ionic-angular';
   ]
 })
 export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
+  @ViewChild('filePicker') inputRef: ElementRef;
+
   private isDisposed: boolean = false;
   private imageData: string;
   private options: CameraOptions = {
@@ -50,7 +53,8 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
     private camera: Camera,
     private photoViewer: PhotoViewer,
     private sanitizer: DomSanitizer,
-    private platform: Platform)
+    private platform: Platform,
+    private windowRef: WindowRefService)
   {
     this.isUsingCordova = this.platform.is('cordova');
   }
@@ -65,7 +69,6 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
 
   set value(value: string) {
     if (this.imageData !== value) {
-      console.log('value changed');
       this.imageData = value;
       this.changed.forEach(f => f(value));
     }
@@ -77,7 +80,6 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
 
   writeValue(value: string) {
     if (!this.isDisposed) { // this is a patch to fix an issue where some ghost instance of this component would exist in memory and would be linked to the same formGroup somehow.
-      console.log('write value');
       this.imageData = value;
     }
   }
@@ -94,7 +96,7 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
     if (this.isUsingCordova)
       this.selectPictureNative();
     else
-      console.log("no can do without cordova");
+      this.popFileSelector();
   }
 
   private selectPictureNative() {
@@ -111,7 +113,6 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
 
   onClickPicture(): void {
     /*try {*/
-      console.log('click picture');
       this.photoViewer.show('data:image/jpeg;base64,' + this.imageData, 'Plan d\'implantation'); // this is so not working.
     /*}
     catch(error)
@@ -120,9 +121,33 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
     }*/
   }
 
+  private popFileSelector(): void {
+    this.inputRef.nativeElement.click();
+  }
+
+  onFileSelected(e: any): void {
+    const files = e.target.files;
+    const reader = this.windowRef.nativeClass('FileReader');
+
+    /*this.dialogService.wait();*/
+
+    if (files.length) {
+      reader.addEventListener('load', this.onFileLoaded.bind(this));
+      reader.readAsDataURL(files[0]);
+    }
+
+    /*this.dialogService.close();*/
+  }
+
+  private onFileLoaded(response): void {
+    let imageUri: string = response.target.result;
+    if (imageUri.startsWith('data:image/jpeg;base64,'))
+        imageUri = imageUri.replace('data:image/jpeg;base64,', '')
+    this.value = imageUri;
+  }
+
   private getPicture(options: CameraOptions) {
     try {
-
       this.camera.getPicture(options).then((imageData) => {
         this.value = imageData;
       }, (err) => {

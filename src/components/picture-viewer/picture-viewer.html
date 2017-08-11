@@ -16,6 +16,11 @@
         <ion-icon class="footer-button-camera" name="camera"></ion-icon>
       </button>
     </ion-buttons>
+    <input type="file" id="fileElem" #filePicker accept="image/*" style="display:none" (change)="onFileSelected($event);" />
 
+    <!--<div style="display: block; width: 100px; height: 20px; overflow: hidden;">
+      <button style="width: 110px; height: 30px; position: relative; top: -5px; left: -5px;"><a href="javascript: void(0)">Upload File</a></button>
+      <input type="file" id="upload_input" name="upload" style="display:none" />
+    </div>-->
   </ion-toolbar>
 </ion-footer>
