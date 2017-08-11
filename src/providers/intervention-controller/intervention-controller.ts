@@ -4,7 +4,7 @@ import {InterventionPlan} from '../../models/intervention-plan';
 import {InterventionPlanBuildingForlist} from '../../models/intervention-plan-building-forlist';
 import {InterventionDetailRepositoryProvider} from '../repositories/intervention-detail-repository';
 import {LaneRepositoryProvider} from '../repositories/lane-repository';
-import {Loading, LoadingController} from 'ionic-angular';
+import {LoadingController} from 'ionic-angular';
 import {InterventionBuildingsRepositoryProvider} from '../repositories/intervention-buildings-repository';
 import {PictureData} from '../../models/picture-data';
 import {PictureRepositoryProvider} from '../repositories/picture-repository';
@@ -68,15 +68,17 @@ export class InterventionControllerProvider {
   }
 
   savePicture() {
-    if (this.interventionPlan.idPictureSitePlan == null) {
-      alert('sans image');
-    }
-
     this.pictureRepo.savePicture(this.picture)
-      .subscribe(response => console.log('réponse:',response));
+      .subscribe(response => {
+        if (this.interventionPlan.idPictureSitePlan == null) {
+          this.savePlanIdPicture(response.json()['idPicture']);
+        }
+        console.log('réponse:',response)
+      });
   }
 
-  private savePlanIdPicture() {
+  private savePlanIdPicture(idPicture: string) {
+    this.interventionPlan.idPictureSitePlan = idPicture;
     this.repoDetail.savePlanField(this.interventionPlan.id, 'idPictureSitePlan', this.interventionPlan.idPictureSitePlan)
       .subscribe(ok => {
         console.log("Saved", ok);

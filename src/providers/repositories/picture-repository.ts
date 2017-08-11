@@ -16,7 +16,7 @@ export class PictureRepositoryProvider{
     }
   }
 
-  savePicture(picture: PictureData): Observable<string> {
+  savePicture(picture: PictureData): Observable<Response> {
     return this.http.put("picture", JSON.stringify(picture), undefined)
       .map((response) => response);
   }
