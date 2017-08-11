@@ -1,6 +1,7 @@
 <ion-content>
-  <img class="selected-picture" [src]="imageUrl" (click)="onClickPicture()">
+  <img class="selected-picture" [src]="imageUrl" (click)="onClickPicture()" *ngIf="hasImageUrl">
 </ion-content>
+
 <ion-footer>
   <ion-toolbar>
     <ion-buttons start>

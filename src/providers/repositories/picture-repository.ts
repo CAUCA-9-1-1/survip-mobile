@@ -8,9 +8,8 @@ export class PictureRepositoryProvider{
   constructor(private http: HttpService){}
 
   getPicture(idPicture: string):Observable<PictureData>{
-    if (!idPicture){
-      return Observable.create(() => null);
-    }
+    if (!idPicture)
+      return Observable.of(new PictureData());
     else {
       return this.http.get("picture/" + idPicture, undefined)
         .map((response) => response.json());
