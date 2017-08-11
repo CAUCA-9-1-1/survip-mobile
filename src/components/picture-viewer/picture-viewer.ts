@@ -37,9 +37,13 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   isUsingCordova: boolean;
 
   get imageUrl(){
-    return this.imageData == null
+    return this.imageData === "" || this.imageData == null
       ? ''
       : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + this.imageData);
+  }
+
+  get hasImageUrl(): boolean{
+    return !(this.imageData === "" || this.imageData == null);
   }
 
   constructor(
