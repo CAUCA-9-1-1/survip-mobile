@@ -24,9 +24,7 @@ export class InterventionControllerProvider {
     private loadingCtrl: LoadingController,
     private laneRepo: LaneRepositoryProvider,
     private pictureRepo: PictureRepositoryProvider
-  ) {
-    console.log('Hello InterventionControllerProvider Provider');
-  }
+  ) {}
 
   loadInterventionPlan(idInterventionPlan: string){
     const loading = this.createLoadingControl();
@@ -70,10 +68,8 @@ export class InterventionControllerProvider {
   savePicture() {
     this.pictureRepo.savePicture(this.picture)
       .subscribe(response => {
-        if (this.interventionPlan.idPictureSitePlan == null) {
+        if (this.interventionPlan.idPictureSitePlan == null)
           this.savePlanIdPicture(response.json()['idPicture']);
-        }
-        console.log('réponse:',response)
       });
   }
 
@@ -81,14 +77,14 @@ export class InterventionControllerProvider {
     this.interventionPlan.idPictureSitePlan = idPicture;
     this.repoDetail.savePlanField(this.interventionPlan.id, 'idPictureSitePlan', this.interventionPlan.idPictureSitePlan)
       .subscribe(ok => {
-        console.log("Saved", ok);
+        console.log("Picture saved", ok);
       });
   }
 
   savePlan(){
     this.repoDetail.savePlanField(this.interventionPlan.id, 'idLaneTransversal', this.interventionPlan.idLaneTransversal)
       .subscribe(ok => {
-        console.log("Saved", ok);
+        console.log("Plan saved", ok);
       });
   }
 }
