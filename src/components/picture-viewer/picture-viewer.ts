@@ -5,12 +5,7 @@ import {PhotoViewer} from '@ionic-native/photo-viewer';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Platform} from 'ionic-angular';
 import {WindowRefService} from '../../providers/Base/window-ref.service';
-/**
- * Generated class for the PictureComponent component.
- *
- * See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
- * for more info on Angular Components.
- */
+
 @Component({
   selector: 'picture-viewer',
   templateUrl: 'picture-viewer.html',
@@ -141,8 +136,8 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
 
   private onFileLoaded(response): void {
     let imageUri: string = response.target.result;
-    if (imageUri.startsWith('data:image/jpeg;base64,'))
-        imageUri = imageUri.replace('data:image/jpeg;base64,', '')
+    if (imageUri.indexOf(';base64,') > 0)
+        imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);
     this.value = imageUri;
   }
 
