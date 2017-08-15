@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
+import {InterventionPlan} from '../../models/intervention-plan';
 
 /**
  * Generated class for the InterventionCoursePage page.
@@ -13,9 +15,23 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'intervention-course.html',
 })
 export class InterventionCoursePage {
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+
+  get plan(): InterventionPlan{
+    return this.controller.interventionPlan
+  }
+
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public controller: InterventionControllerProvider) {
+    controller.loadCourseList();
   }
 
   ionViewDidLoad() {
+  }
+
+  onItemClick(idInterventionPlanCourse: string) {
+    console.log(idInterventionPlanCourse);
   }
 }

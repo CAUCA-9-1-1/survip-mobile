@@ -8,13 +8,28 @@
   <ion-navbar>
     <ion-icon name="menu" menuToggle left></ion-icon>
     <ion-title>
-      Parcours
+      {{plan?.mainBuildingAddress}}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  no more arigato mister roboto
+  <ion-list>
+    <ion-list-header>
+      Parcours
+    </ion-list-header>
+    <button ion-item *ngFor="let item of controller.courses" (click)="onItemClick(item.idInterventionPlanCourse)">{{item.description}}</button>
+  </ion-list>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons>
+      <button ion-button type="button" (click)="onItemClick(null)">
+        <ion-icon name="add-circle"></ion-icon>
+        Ajouter...
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
 
 
