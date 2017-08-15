@@ -38,6 +38,8 @@ import {ComponentsModule} from '../components/components.module';
 import {FormsModule} from '@angular/forms';
 import {InterventionGeneralPage} from '../pages/intervention-general/intervention-general';
 import {InterventionWaterSuppliesPage} from '../pages/intervention-water-supplies/intervention-water-supplies';
+import {InterventionPlanCourseRepositoryProvider} from '../providers/repositories/intervention-plan-course-repository';
+import {InterventionPlanCourseLaneRepositoryProvider} from '../providers/repositories/intervention-plan-course-lane-repository';
 
 export function translateLoader(http: Http) {
   return new LanguageLoader(http, './assets/locale/', '.json');
@@ -98,6 +100,8 @@ export function httpServiceFactory(
     LaneRepositoryProvider,
     InterventionDetailRepositoryProvider,
     InterventionBuildingsRepositoryProvider,
+    InterventionPlanCourseRepositoryProvider,
+    InterventionPlanCourseLaneRepositoryProvider,
     ConfigService,
     HttpService,
     RequestLoaderService,
