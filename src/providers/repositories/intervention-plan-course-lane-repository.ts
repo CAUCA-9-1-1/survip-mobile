@@ -17,7 +17,7 @@ export class InterventionPlanCourseLaneRepositoryProvider {
   }
 
   public save(courseLane: InterventionPlanCourseLane): Observable<any> {
-    if (courseLane.idInterventionPlanCourse == null)
+    if (courseLane.idInterventionPlanCourseLane == null)
       return this.add(courseLane);
     else
       return this.update(courseLane);

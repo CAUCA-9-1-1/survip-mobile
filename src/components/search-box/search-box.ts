@@ -29,6 +29,7 @@ export class SearchBoxComponent implements ControlValueAccessor, OnDestroy{
   @Input() keyFieldName: string;
   @Input() displayFieldName: string;
   @Input() description: string;
+  @Input() showDescription: boolean = true;
 
   constructor(private modalCtrl: ModalController) {
   }

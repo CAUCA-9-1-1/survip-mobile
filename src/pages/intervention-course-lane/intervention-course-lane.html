@@ -1,0 +1,31 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Détails de la voie</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content [formGroup]="form">
+
+  <ion-list>
+    <ion-list-header>Voie de circulation</ion-list-header>
+    <search-box
+      [description]=""
+      formControlName="idLane"
+      [displayFieldName]="'fullName'"
+      [keyFieldName]="'id'"
+      [showDescription]="false"
+      [dataService]="laneRepo"></search-box>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>Direction</ion-list-header>
+    <ion-item>
+      <ion-select class="selected-direction" formControlName="direction">
+        <ion-option *ngFor="let dir of directions" [value]="dir.id">{{dir.description | uppercase}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
