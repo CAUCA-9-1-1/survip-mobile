@@ -16,6 +16,7 @@ import {InterventionPlanCourseLane} from '../../models/intervention-plan-course-
 import {FirestationForlist} from '../../models/firestation';
 import {FirestationRepositoryProvider} from '../repositories/firestation-repository';
 import {InterventionPlanCourseLaneForlist} from '../../models/intervention-plan-course-lane-forlist';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class InterventionControllerProvider {
@@ -186,10 +187,7 @@ export class InterventionControllerProvider {
   }
 
   deleteCourse(){
-    this.courseRepo.delete(this.course)
-      .subscribe(ok => {
-        console.log("Course deleted", ok);
-      });
+    return this.courseRepo.delete(this.course);
   }
 
   saveCourseLane(){
@@ -200,11 +198,8 @@ export class InterventionControllerProvider {
       });
   }
 
-  deleteCourseLane(){
-    this.courseLaneRepo.delete(this.courseLane)
-      .subscribe(ok => {
-        console.log("Course lane deleted", ok);
-      });
+  deleteCourseLane(): Observable<any>{
+    return this.courseLaneRepo.delete(this.courseLane);
   }
 
   setLanesSequenceAndSave() {
