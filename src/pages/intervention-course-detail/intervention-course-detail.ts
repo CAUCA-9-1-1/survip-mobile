@@ -2,14 +2,6 @@ import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams, reorderArray} from 'ionic-angular';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {InterventionPlanCourse} from '../../models/intervention-plan-course';
-
-/**
- * Generated class for the InterventionCourseDetailPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
