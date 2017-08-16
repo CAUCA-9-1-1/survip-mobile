@@ -71,13 +71,28 @@ export class InterventionControllerProvider {
   loadSpecificCourse(idInterventionPlanCourse: string) {
     const loading = this.createLoadingControl();
     loading.present();
-    const result = this.courseRepo.get(idInterventionPlanCourse);
-    result.subscribe(data => {
-      this.course = data.course as InterventionPlanCourse;
-      this.courseLanes = data.lanes;
+
+    if (idInterventionPlanCourse == null) {
+      this.createPlanCourse();
       this.courseLoaded.emit(null);
       loading.dismiss();
-    });
+    }
+    else {
+      const result = this.courseRepo.get(idInterventionPlanCourse);
+      result.subscribe(data => {
+        this.course = data.course as InterventionPlanCourse;
+        this.courseLanes = data.lanes;
+        this.courseLoaded.emit(null);
+        loading.dismiss();
+      });
+    }
+  }
+
+  createPlanCourse() {
+    var course = new InterventionPlanCourse();
+    course.idInterventionPlan = this.interventionPlan.id;
+    this.course = course;
+    this.courseLanes = [];
   }
 
   loadSpecificCourseLane(idInterventionPlanCourseLane: string) {
