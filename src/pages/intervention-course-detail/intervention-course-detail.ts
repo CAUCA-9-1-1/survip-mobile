@@ -29,6 +29,22 @@ export class InterventionCourseDetailPage {
   ionViewDidLoad() {
   }
 
+  ionViewCanLeave() {
+    if (this.form.dirty || !this.form.valid) {
+      return new Promise((resolve, rejeect) => {
+        let alert = this.alertCtrl.create({
+          title: 'Confirmation',
+          message: "Le parcours contient des erreurs et n'a pas été sauvegardé.  Voulez-vous retourner à la page précédente quand même?",
+          buttons: [
+            {text: 'Non', handler: () => { resolve(false); }},
+            {text: 'Oui', handler: () => { resolve(true); }}
+          ]});
+
+        return alert.present()
+      });
+    }
+  }
+
   ionViewDidEnter() {
     if (this.hasNavigated) {
       this.hasNavigated = false;
