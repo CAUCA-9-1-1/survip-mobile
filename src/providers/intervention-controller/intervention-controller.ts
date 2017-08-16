@@ -159,7 +159,7 @@ export class InterventionControllerProvider {
   deleteCourse(){
     this.courseRepo.delete(this.course)
       .subscribe(ok => {
-        console.log("Course deleted", ok)
+        console.log("Course deleted", ok);
       });
   }
 
@@ -173,7 +173,17 @@ export class InterventionControllerProvider {
   deleteCourseLane(){
     this.courseLaneRepo.delete(this.courseLane)
       .subscribe(ok => {
-        console.log("Course lane deleted", ok)
+        console.log("Course lane deleted", ok);
       });
+  }
+
+  setLanesSequenceAndSave() {
+    for(var i = 0; i < this.courseLanes.length; i++) {
+      var item = this.courseLanes[i];
+      if (item.sequence != i + 1) {
+        item.sequence = i + 1;
+        this.courseLaneRepo.saveCourseLane(item).subscribe(ok => {});
+      }
+    }
   }
 }
