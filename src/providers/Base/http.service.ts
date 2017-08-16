@@ -98,7 +98,7 @@ export class HttpService extends AuthService {
 
   delete(url: string, options?: RequestOptionsArgs): Observable<any> {
     this.showLoader();
-
+    console.log(url);
     return super.delete(this.getFullUrl(url), this.requestOptions(options))
       .catch(this.onCatch)
       .do((res: Response) => {

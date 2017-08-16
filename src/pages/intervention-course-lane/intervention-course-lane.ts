@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LaneRepositoryProvider} from '../../providers/repositories/lane-repository';
@@ -28,6 +28,7 @@ export class InterventionCourseLanePage {
     public controller: InterventionControllerProvider,
     private fb: FormBuilder,
     public laneRepo: LaneRepositoryProvider,
+    private alertCtrl: AlertController,
     private directionRepo: RouteDirectionRepositoryProvider) {
     this.createForm();
     controller.courseLaneLoaded.subscribe(() => this.setValuesAndStartListening());
@@ -73,5 +74,21 @@ export class InterventionCourseLanePage {
     const formModel  = this.form.value;
     Object.assign(this.controller.courseLane, formModel);
     this.controller.saveCourseLane();
+  }
+
+  private onDeleteLane() {
+    let alert = this.alertCtrl.create({
+      title: 'Confirmation',
+      message: 'Êtes-vous sûr de vouloir supprimer cette voie?',
+      buttons: [
+        {text: 'Non', role: 'cancel'},
+        {text: 'Oui', handler: () => { this.controller.deleteCourseLane().subscribe(() => this.goBack()); }}
+    ]});
+
+    alert.present();
+  }
+
+  private goBack(): void {
+    this.navCtrl.pop();
   }
 }

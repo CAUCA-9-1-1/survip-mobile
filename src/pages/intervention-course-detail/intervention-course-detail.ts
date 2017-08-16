@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, reorderArray} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams, reorderArray} from 'ionic-angular';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
@@ -18,6 +18,7 @@ export class InterventionCourseDetailPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public controller: InterventionControllerProvider,
+    private alertCtrl: AlertController,
     private fb: FormBuilder){
     this.createForm();
     controller.courseLoaded.subscribe(() => this.setValuesAndStartListening());
@@ -81,5 +82,21 @@ export class InterventionCourseDetailPage {
   public onClickLane(idInterventionPlanCourseLane: string): void {
     this.hasNavigated = true;
     this.navCtrl.push("InterventionCourseLanePage", {idInterventionPlanCourseLane: idInterventionPlanCourseLane});
+  }
+
+  private onDeleteCourse() {
+    let alert = this.alertCtrl.create({
+      title: 'Confirmation',
+      message: 'Êtes-vous sûr de vouloir supprimer ce parcours?',
+      buttons: [
+        {text: 'Non', role: 'cancel'},
+        {text: 'Oui', handler: () => { this.controller.deleteCourse().subscribe(() => this.goBack()); }}
+      ]});
+
+    alert.present();
+  }
+
+  private goBack(): void {
+    this.navCtrl.pop();
   }
 }
