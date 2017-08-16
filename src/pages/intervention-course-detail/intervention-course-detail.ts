@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, NavController, NavParams, reorderArray} from 'ionic-angular';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {InterventionPlanCourse} from '../../models/intervention-plan-course';
@@ -18,6 +18,7 @@ import {InterventionPlanCourse} from '../../models/intervention-plan-course';
 })
 export class InterventionCourseDetailPage {
   public form: FormGroup;
+  public changeOrder: Boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -64,6 +65,16 @@ export class InterventionCourseDetailPage {
     const formModel  = this.form.value;
     Object.assign(this.controller.course, formModel);
     this.controller.saveCourse();
+  }
+
+  public onChangeOrder(): void {
+      this.changeOrder = !this.changeOrder;
+  }
+
+  public onReorderLane(indexes){
+      this.controller.courseLanes = reorderArray(this.controller.courseLanes, indexes);
+      this.controller.setLanesSequenceAndSave();
+      console.log(JSON.stringify(this.controller.courseLanes));
   }
 
   public onClickLane(idInterventionPlanCourseLane: string): void {

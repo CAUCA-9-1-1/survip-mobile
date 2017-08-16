@@ -3,6 +3,7 @@ import {HttpService} from '../Base/http.service';
 import {Response} from '@angular/http';
 import {InterventionPlanCourseLane} from '../../models/intervention-plan-course-lane';
 import {Observable} from 'rxjs/Observable';
+import {InterventionPlanCourseLaneForlist} from '../../models/intervention-plan-course-lane-forlist';
 
 @Injectable()
 export class InterventionPlanCourseLaneRepositoryProvider {
@@ -37,6 +38,12 @@ export class InterventionPlanCourseLaneRepositoryProvider {
 
   public delete(courseLane: InterventionPlanCourseLane) : Observable<any> {
     return this.http.delete('interventionplancourselane/' + courseLane.idInterventionPlanCourseLane).map((response: Response) => {
+      const result = response.json();
+    });
+  }
+
+  public saveCourseLane(course: InterventionPlanCourseLaneForlist) : Observable<any> {
+    return this.http.put('interventionplancourselane', JSON.stringify(course)).map((response: Response) => {
       const result = response.json();
     });
   }

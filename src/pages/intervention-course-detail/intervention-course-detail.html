@@ -18,8 +18,13 @@
   </ion-list>
 
   <ion-list>
-    <ion-list-header>Parcours</ion-list-header>
-    <button ion-item *ngFor="let lane of controller.courseLanes" (click)="onClickLane(lane.idInterventionPlanCourseLane)">{{lane.description}}</button>
+    <ion-list-header>
+      Parcours
+      <button item-end ion-button (click)="onChangeOrder()">{{changeOrder ? "Terminer" : "Changer l'ordre"}}</button>
+    </ion-list-header>
+    <ion-item-group [reorder]="changeOrder" (ionItemReorder)="onReorderLane($event)" side="start">
+      <button ion-item *ngFor="let lane of controller.courseLanes" (click)="onClickLane(lane.idInterventionPlanCourseLane)">{{lane.description}}</button>
+    </ion-item-group>
   </ion-list>
 
 </ion-content>
