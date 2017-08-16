@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 import {InterventionPlan} from '../../models/intervention-plan';
+import {InterventionCourseDetailPage} from '../intervention-course-detail/intervention-course-detail';
 
 /**
  * Generated class for the InterventionCoursePage page.
@@ -20,11 +21,11 @@ export class InterventionCoursePage {
     return this.controller.interventionPlan
   }
 
-
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public controller: InterventionControllerProvider) {
+    public controller: InterventionControllerProvider,
+    private modalCtrl: ModalController) {
     controller.loadCourseList();
   }
 
@@ -32,6 +33,13 @@ export class InterventionCoursePage {
   }
 
   onItemClick(idInterventionPlanCourse: string) {
-    console.log(idInterventionPlanCourse);
+    this.navCtrl.push("InterventionCourseDetailPage", {idInterventionPlanCourse: idInterventionPlanCourse});
+    /*let profileModal = this.modalCtrl.create(InterventionCourseDetailPage, {
+      idInterventionPlanCourse: idInterventionPlanCourse
+    });
+    profileModal.onDidDismiss(data => {
+      this.controller.loadCourseList();
+    });
+    profileModal.present();*/
   }
 }

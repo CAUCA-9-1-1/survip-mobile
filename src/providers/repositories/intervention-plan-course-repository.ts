@@ -4,10 +4,12 @@ import {Response} from '@angular/http';
 import {InterventionPlanCourseForlist} from '../../models/intervention-plan-course-forlist';
 import {Observable} from 'rxjs/Observable';
 import {InterventionPlanCourse} from '../../models/intervention-plan-course';
+import {CourseLanes} from '../../models/course_lanes';
 
 @Injectable()
 export class InterventionPlanCourseRepositoryProvider {
-  constructor(private http: HttpService){}
+
+  constructor(private http: HttpService) {}
 
   public getList(idInterventionPlan : string): Observable<InterventionPlanCourseForlist[]>{
    return this.http.get('interventionplancourseforlist/' + idInterventionPlan).map((response: Response) => {
@@ -16,7 +18,7 @@ export class InterventionPlanCourseRepositoryProvider {
     });
   }
 
-  public get(idInterventionPlanCourse: string) : Observable<InterventionPlanCourse> {
+  public get(idInterventionPlanCourse: string) : Observable<CourseLanes> {
     return this.http.get('interventionplancourse/' + idInterventionPlanCourse).map((response: Response) => {
       const result = response.json();
       return result.data;

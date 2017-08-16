@@ -13,11 +13,16 @@ import {InterventionPlanCourseRepositoryProvider} from '../repositories/interven
 import {InterventionPlanCourseForlist} from '../../models/intervention-plan-course-forlist';
 import {InterventionPlanCourseLaneRepositoryProvider} from '../repositories/intervention-plan-course-lane-repository';
 import {InterventionPlanCourseLane} from '../../models/intervention-plan-course-lane';
+import {FirestationForlist} from '../../models/firestation';
+import {FirestationRepositoryProvider} from '../repositories/firestation-repository';
+import {InterventionPlanCourseLaneForlist} from '../../models/intervention-plan-course-lane-forlist';
 
 @Injectable()
 export class InterventionControllerProvider {
   public courses : InterventionPlanCourseForlist[];
+  public courseLanes : InterventionPlanCourseLaneForlist[]
   public buildings: InterventionPlanBuildingForlist[];
+  public firestations: FirestationForlist[];
 
   public interventionPlan: InterventionPlan;
   public picture: PictureData;
@@ -36,7 +41,8 @@ export class InterventionControllerProvider {
     private laneRepo: LaneRepositoryProvider,
     private pictureRepo: PictureRepositoryProvider,
     private courseRepo: InterventionPlanCourseRepositoryProvider,
-    private courseLaneRepo : InterventionPlanCourseLaneRepositoryProvider
+    private courseLaneRepo : InterventionPlanCourseLaneRepositoryProvider,
+    private firestationRepo: FirestationRepositoryProvider
   ) {}
 
   loadInterventionPlan(idInterventionPlan: string){
@@ -67,7 +73,8 @@ export class InterventionControllerProvider {
     loading.present();
     const result = this.courseRepo.get(idInterventionPlanCourse);
     result.subscribe(data => {
-      this.course = data as InterventionPlanCourse;
+      this.course = data.course as InterventionPlanCourse;
+      this.courseLanes = data.lanes;
       this.courseLoaded.emit(null);
       loading.dismiss();
     });
@@ -90,6 +97,16 @@ export class InterventionControllerProvider {
     const result = this.repoBuildings.get('0ea6b45c-e437-4dcf-9db8-4d2d015d025c');
     result.subscribe(data => {
       this.buildings = data as InterventionPlanBuildingForlist[];
+      loading.dismiss();
+    });
+  }
+
+  loadFirestations() {
+    const loading = this.createLoadingControl();
+    loading.present();
+    const result = this.firestationRepo.getList();
+    result.subscribe(data => {
+      this.firestations = data as FirestationForlist[];
       loading.dismiss();
     });
   }
