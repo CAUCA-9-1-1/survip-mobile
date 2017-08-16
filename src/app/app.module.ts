@@ -40,6 +40,7 @@ import {InterventionGeneralPage} from '../pages/intervention-general/interventio
 import {InterventionWaterSuppliesPage} from '../pages/intervention-water-supplies/intervention-water-supplies';
 import {InterventionPlanCourseRepositoryProvider} from '../providers/repositories/intervention-plan-course-repository';
 import {InterventionPlanCourseLaneRepositoryProvider} from '../providers/repositories/intervention-plan-course-lane-repository';
+import {FirestationRepositoryProvider} from '../providers/repositories/firestation-repository';
 
 export function translateLoader(http: Http) {
   return new LanguageLoader(http, './assets/locale/', '.json');
@@ -102,6 +103,7 @@ export function httpServiceFactory(
     InterventionBuildingsRepositoryProvider,
     InterventionPlanCourseRepositoryProvider,
     InterventionPlanCourseLaneRepositoryProvider,
+    FirestationRepositoryProvider,
     ConfigService,
     HttpService,
     RequestLoaderService,
