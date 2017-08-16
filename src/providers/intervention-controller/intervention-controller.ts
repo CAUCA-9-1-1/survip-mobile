@@ -98,12 +98,26 @@ export class InterventionControllerProvider {
   loadSpecificCourseLane(idInterventionPlanCourseLane: string) {
     const loading = this.createLoadingControl();
     loading.present();
-    const result = this.courseLaneRepo.get(idInterventionPlanCourseLane);
-    result.subscribe(data => {
-      this.courseLane = data as InterventionPlanCourseLane;
+    if (idInterventionPlanCourseLane == null){
+      this.createPlanCourseLane();
       this.courseLaneLoaded.emit(null);
       loading.dismiss();
-    });
+    } else {
+      const result = this.courseLaneRepo.get(idInterventionPlanCourseLane);
+      result.subscribe(data => {
+        this.courseLane = data as InterventionPlanCourseLane;
+        this.courseLaneLoaded.emit(null);
+        loading.dismiss();
+      });
+    }
+  }
+
+  createPlanCourseLane() {
+    var lane = new InterventionPlanCourseLane();
+    lane.idInterventionPlanCourse = this.course.idInterventionPlanCourse;
+    lane.direction = 0;
+    lane.sequence = this.courseLanes.length + 1;
+    this.courseLane = lane;
   }
 
   loadBuildingList() {
@@ -179,6 +193,7 @@ export class InterventionControllerProvider {
   }
 
   saveCourseLane(){
+    console.log('saving course lane');
     this.courseLaneRepo.save(this.courseLane)
       .subscribe(ok => {
         console.log("Course lane saved", ok);

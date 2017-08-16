@@ -9,6 +9,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
   templateUrl: 'intervention-course-detail.html',
 })
 export class InterventionCourseDetailPage {
+  private hasNavigated: boolean;
+
   public form: FormGroup;
   public changeOrder: Boolean = false;
 
@@ -24,6 +26,13 @@ export class InterventionCourseDetailPage {
   }
 
   ionViewDidLoad() {
+  }
+
+  ionViewDidEnter() {
+    if (this.hasNavigated) {
+      this.hasNavigated = false;
+      this.controller.loadSpecificCourse(this.navParams.get('idInterventionPlanCourse'));
+    }
   }
 
   private createForm() {
@@ -70,6 +79,7 @@ export class InterventionCourseDetailPage {
   }
 
   public onClickLane(idInterventionPlanCourseLane: string): void {
-    console.log('test');
+    this.hasNavigated = true;
+    this.navCtrl.push("InterventionCourseLanePage", {idInterventionPlanCourseLane: idInterventionPlanCourseLane});
   }
 }

@@ -41,6 +41,7 @@ import {InterventionWaterSuppliesPage} from '../pages/intervention-water-supplie
 import {InterventionPlanCourseRepositoryProvider} from '../providers/repositories/intervention-plan-course-repository';
 import {InterventionPlanCourseLaneRepositoryProvider} from '../providers/repositories/intervention-plan-course-lane-repository';
 import {FirestationRepositoryProvider} from '../providers/repositories/firestation-repository';
+import {RouteDirectionRepositoryProvider} from '../providers/repositories/route-direction-repository';
 
 export function translateLoader(http: Http) {
   return new LanguageLoader(http, './assets/locale/', '.json');
@@ -104,6 +105,7 @@ export function httpServiceFactory(
     InterventionPlanCourseRepositoryProvider,
     InterventionPlanCourseLaneRepositoryProvider,
     FirestationRepositoryProvider,
+    RouteDirectionRepositoryProvider,
     ConfigService,
     HttpService,
     RequestLoaderService,
