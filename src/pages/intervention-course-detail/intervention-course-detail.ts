@@ -83,6 +83,7 @@ export class InterventionCourseDetailPage {
     const formModel  = this.form.value;
     Object.assign(this.controller.course, formModel);
     this.controller.saveCourse();
+    this.form.markAsPristine();
   }
 
   public onChangeOrder(): void {
@@ -92,7 +93,6 @@ export class InterventionCourseDetailPage {
   public onReorderLane(indexes){
       this.controller.courseLanes = reorderArray(this.controller.courseLanes, indexes);
       this.controller.setLanesSequenceAndSave();
-      console.log(JSON.stringify(this.controller.courseLanes));
   }
 
   public onClickLane(idInterventionPlanCourseLane: string): void {
