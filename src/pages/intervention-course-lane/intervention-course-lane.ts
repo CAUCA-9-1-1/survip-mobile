@@ -90,6 +90,7 @@ export class InterventionCourseLanePage {
     const formModel  = this.form.value;
     Object.assign(this.controller.courseLane, formModel);
     this.controller.saveCourseLane();
+    this.form.markAsPristine();
   }
 
   private onDeleteLane() {
