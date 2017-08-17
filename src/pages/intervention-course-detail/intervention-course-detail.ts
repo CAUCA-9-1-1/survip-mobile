@@ -96,6 +96,18 @@ export class InterventionCourseDetailPage {
   }
 
   public onClickLane(idInterventionPlanCourseLane: string): void {
+    if (idInterventionPlanCourseLane == null && !this.form.valid) {
+      let alert = this.alertCtrl.create({
+        title: 'Avertissement',
+        message: "Vous devez sélectionner une caserne avant de pouvoir ajouter une rue.",
+        buttons: ['Ok']});
+
+      alert.present();
+    } else
+      this.navigateToLanePage(idInterventionPlanCourseLane);
+  }
+
+  private navigateToLanePage(idInterventionPlanCourseLane: string) {
     this.hasNavigated = true;
     this.navCtrl.push("InterventionCourseLanePage", {idInterventionPlanCourseLane: idInterventionPlanCourseLane});
   }
