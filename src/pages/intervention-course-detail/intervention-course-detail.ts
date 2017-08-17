@@ -34,7 +34,7 @@ export class InterventionCourseDetailPage {
       return new Promise((resolve, rejeect) => {
         let alert = this.alertCtrl.create({
           title: 'Confirmation',
-          message: "Le parcours contient des erreurs et n'a pas été sauvegardé.  Voulez-vous retourner à la page précédente quand même?",
+          message: "Le parcours contient des erreurs de validation et n'a pas été sauvegardé.  Voulez-vous quand même retourner à la page précédente?",
           buttons: [
             {text: 'Non', handler: () => { resolve(false); }},
             {text: 'Oui', handler: () => { resolve(true); }}
