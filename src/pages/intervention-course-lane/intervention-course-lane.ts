@@ -45,7 +45,7 @@ export class InterventionCourseLanePage {
       return new Promise((resolve, rejeect) => {
         let alert = this.alertCtrl.create({
           title: 'Confirmation',
-          message: "La voie contient des erreurs et n'a pas été sauvegardée.  Voulez-vous retourner à la page du parcours quand même?",
+          message: "La voie contient des erreurs de validation et n'a pas été sauvegardée.  Voulez-vous quand même retourner à la page du parcours?",
           buttons: [
             {text: 'Non', handler: () => { resolve(false); }},
             {text: 'Oui', handler: () => { resolve(true); }}
