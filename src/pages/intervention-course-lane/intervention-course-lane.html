@@ -11,12 +11,14 @@
   <ion-list>
     <ion-list-header>Voie de circulation</ion-list-header>
     <search-box
+      [hasValidationError]="form.get('idLane').hasError('required') ? 'validation-error-control' : null"
       [description]=""
       formControlName="idLane"
       [displayFieldName]="'fullName'"
       [keyFieldName]="'id'"
       [showDescription]="false"
       [dataService]="laneRepo"></search-box>
+    <div *ngIf="form.get('idLane').hasError('required')" class="validation-error-text">*La voie de circulation est requise.</div>
   </ion-list>
 
   <ion-list>

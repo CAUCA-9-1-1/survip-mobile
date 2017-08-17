@@ -47,8 +47,12 @@ export class InterventionPlanCourseRepositoryProvider {
   }
 
   public delete(course: InterventionPlanCourse) : Observable<any> {
-    return this.http.delete('interventionplancourse/' + course.idInterventionPlanCourse).map((response: Response) => {
-      const result = response.json();
-    });
+    if (course.idInterventionPlanCourse ==  null)
+      return Observable.of('');
+    else {
+      return this.http.delete('interventionplancourse/' + course.idInterventionPlanCourse).map((response: Response) => {
+        const result = response.json();
+      });
+    }
   }
 }
