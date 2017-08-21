@@ -21,9 +21,9 @@ export class InterventionRepositoryProvider {
       const features = [];
 
       for (const inspect of inspections) {
-        features.push(this.inspectionToMaps(inspect.id, inspect.name['fr'], {
+        features.push(this.inspectionToMaps(inspect.idInspection, '', {
           idRiskLevel: inspect.idRiskLevel,
-          idInspection: inspect.id,
+          idInspection: inspect.idInspection,
           idSurvey: inspect.idSurvey,
           idInterventionPlan: inspect.idInterventionPlan,
         }, inspect.geojson['coordinates']));

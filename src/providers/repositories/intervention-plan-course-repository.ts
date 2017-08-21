@@ -5,7 +5,6 @@ import {InterventionPlanCourseForlist} from '../../models/intervention-plan-cour
 import {Observable} from 'rxjs/Observable';
 import {InterventionPlanCourse} from '../../models/intervention-plan-course';
 import {CourseLanes} from '../../models/course_lanes';
-import {InterventionPlanCourseLaneForlist} from '../../models/intervention-plan-course-lane-forlist';
 
 @Injectable()
 export class InterventionPlanCourseRepositoryProvider {

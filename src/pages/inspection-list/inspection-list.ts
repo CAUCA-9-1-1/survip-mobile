@@ -1,18 +1,11 @@
 import { Component } from '@angular/core';
-import {App, IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
+import {App, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {RiskLevel} from '../../models/risk-level';
 import {Inspection} from '../../interfaces/inspection.interface';
 import {InspectionRepositoryProvider} from '../../providers/repositories/inspection-repository';
 import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-level-repository';
 import {InterventionHomePage} from '../intervention-home/intervention-home';
-import {LaneRepositoryProvider} from '../../providers/repositories/lane-repository';
 
-/**
- * Generated class for the InspectionListPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
   selector: 'page-inspection-list',
@@ -28,10 +21,11 @@ export class InspectionListPage {
               private riskLevelService: RiskLevelRepositoryProvider,
               private inspectionService: InspectionRepositoryProvider) {
     riskLevelService.getAll()
-      .subscribe(risks => this.riskLevels = risks);
-
-    inspectionService.getAll()
-      .subscribe(inspections => this.inspections = inspections);
+      .subscribe(risks => {
+        this.riskLevels = risks
+        inspectionService.getAll()
+          .subscribe(inspections => this.inspections = inspections);
+      });
   }
 
   ionViewDidLoad() {
@@ -41,7 +35,7 @@ export class InspectionListPage {
   getRiskDescription(idRiskLevel: string): string {
     const result = this.riskLevels.find(risk => risk.idRiskLevel === idRiskLevel);
     if (result != null) {
-      return result.description;
+      return result.fullName;
     } else {
       return '';
     }

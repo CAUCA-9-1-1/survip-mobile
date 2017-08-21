@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {Response} from '@angular/http';
 import {HttpService} from '../Base/http.service';
 import {Observable} from 'rxjs/Observable';
-import {InterventionPlan} from '../../models/intervention-plan';
 import {InterventionPlanBuildingForlist} from '../../models/intervention-plan-building-forlist';
 
 @Injectable()
