@@ -3,12 +3,14 @@ import { IonicPageModule } from 'ionic-angular';
 import { InspectionListPage } from './inspection-list';
 import {InspectionRepositoryProvider} from '../../providers/repositories/inspection-repository';
 import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-level-repository';
+import {MaterialModule} from '@angular/material';
 
 @NgModule({
   declarations: [
     InspectionListPage,
   ],
   imports: [
+    MaterialModule,
     IonicPageModule.forChild(InspectionListPage),
   ],
   exports: [

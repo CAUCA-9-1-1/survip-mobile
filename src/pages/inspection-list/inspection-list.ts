@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {App, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {App, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {RiskLevel} from '../../models/risk-level';
 import {Inspection} from '../../interfaces/inspection.interface';
 import {InspectionRepositoryProvider} from '../../providers/repositories/inspection-repository';
@@ -19,17 +19,26 @@ export class InspectionListPage {
               public navCtrl: NavController,
               public navParams: NavParams,
               private riskLevelService: RiskLevelRepositoryProvider,
+              private loadingCtrl: LoadingController,
               private inspectionService: InspectionRepositoryProvider) {
+    const loading = this.createLoadingControl();
     riskLevelService.getAll()
       .subscribe(risks => {
         this.riskLevels = risks
         inspectionService.getAll()
-          .subscribe(inspections => this.inspections = inspections);
+          .subscribe(inspections => {
+            this.inspections = inspections;
+            loading.dismiss();
+          });
       });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad InspectionListPage');
+  }
+
+  private createLoadingControl() {
+    return this.loadingCtrl.create({content: 'Chargement...'});
   }
 
   getRiskDescription(idRiskLevel: string): string {
