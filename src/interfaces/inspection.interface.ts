@@ -1,6 +1,5 @@
 export class Inspection {
-  id: string;
-  name: object;
+  idInspection: string;
   matricule: string;
   geojson: object;
   idRiskLevel: string;

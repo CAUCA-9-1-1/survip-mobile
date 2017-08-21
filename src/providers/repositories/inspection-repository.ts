@@ -1,37 +1,25 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import 'rxjs/add/operator/map';
-import {BaseService} from '../Base/BaseService';
 import {Observable} from 'rxjs/Rx';
 import {Inspection} from '../../interfaces/inspection.interface';
+import {HttpService} from '../Base/http.service';
 
-/*
-  Generated class for the InspectionProvider provider.
-
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
-*/
 @Injectable()
-export class InspectionRepositoryProvider extends BaseService{
+export class InspectionRepositoryProvider{
 
-  constructor(public http: Http) {
-    super();
-  }
+  constructor(public http: HttpService) {}
 
   getAll(): Observable<Inspection[]> {
-    return this.http.get('api/inspection', this.authorization()).map((response: Response) => {
+    return this.http.get('inspection').map((response: Response) => {
       const result = response.json();
-
-      // this.isLogin(result, '/repositories/maps');
       return result.data;
     });
   }
 
   get(id: string): Observable<Inspection> {
-    return this.http.get('api/inspection/' + id, this.authorization()).map((response: Response) => {
+    return this.http.get('api/inspection/' + id).map((response: Response) => {
       const result = response.json();
-
-      // this.isLogin(result, '/repositories/maps');
       return result.data as Inspection;
     });
   }

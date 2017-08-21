@@ -1,40 +1,32 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import 'rxjs/add/operator/map';
-import {BaseService} from '../Base/BaseService';
+import {HttpService} from '../Base/http.service';
+import {Observable} from 'rxjs/Observable';
 
-/*
-  Generated class for the RiskLevelProvider provider.
-
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
-*/
 @Injectable()
-export class RiskLevelRepositoryProvider extends BaseService {
+export class RiskLevelRepositoryProvider {
 
-  constructor(public http: Http){
-    super();
-  }
+  constructor(public http: HttpService){}
 
   getAll() {
-    return this.http.get('api/risklevel', this.authorization()).map((response: Response) => {
-      const result = response.json();
-
-      // this.isLogin(result, '/intervention/maps');
+    return this.http.get('risklevellist').map((response: Response) => {
+      const result = response.json();;
       return result.data;
     });
   }
 
   getById(idRiskLevel: string) {
-    return this.http.get('api/risklevel?idRiskLevel=' + idRiskLevel, this.authorization()).map((response: Response) => {
-      const result = response.json();
-
-      // this.isLogin(result, '/intervention/maps');
-      if (result.data.length > 0) {
-        return result.data[0];
-      } else {
-        return null;
-      }
-    });
+    if (idRiskLevel == null)
+      return Observable.of('')
+    else
+      return this.http.get('risklevellist/' + idRiskLevel).map((response: Response) => {
+        const result = response.json();
+        if (result.data.length > 0) {
+          return result.data[0];
+        } else {
+          return null;
+        }
+      });
   }
 }
