@@ -14,9 +14,7 @@
 
 
 <ion-content>
-  <md-icon>accessible</md-icon>
 
-  <i class="material-icons">face</i>
   <ion-list>
     <button ion-item *ngFor="let inspection of inspections" (click)="itemSelected(inspection)">
       <ion-avatar item-left style="font-size: 40px"><ion-icon name="home" [style.color]="getRiskColor(inspection.idRiskLevel)"></ion-icon></ion-avatar>

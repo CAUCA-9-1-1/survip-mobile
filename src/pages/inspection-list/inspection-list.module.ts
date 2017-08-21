@@ -10,7 +10,6 @@ import {MaterialModule} from '@angular/material';
     InspectionListPage,
   ],
   imports: [
-    MaterialModule,
     IonicPageModule.forChild(InspectionListPage),
   ],
   exports: [

@@ -25,7 +25,6 @@ export class InterventionCoursePage {
   }
 
   ionViewDidLoad() {
-    console.log('did load yo');
   }
 
   ionViewDidEnter() {

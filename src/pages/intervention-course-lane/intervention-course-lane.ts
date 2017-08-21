@@ -6,13 +6,6 @@ import {LaneRepositoryProvider} from '../../providers/repositories/lane-reposito
 import {RouteDirectionRepositoryProvider} from '../../providers/repositories/route-direction-repository';
 import {RouteDirection} from '../../models/route-direction';
 
-/**
- * Generated class for the InterventionCourseLanePage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-intervention-course-lane',
@@ -37,7 +30,6 @@ export class InterventionCourseLanePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad InterventionCourseLanePage');
   }
 
   ionViewCanLeave() {
