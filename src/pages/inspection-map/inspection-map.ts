@@ -29,7 +29,7 @@ export class InspectionMapPage implements OnInit {
       }
     };
 
-    const layer2 = {
+    /*const layer2 = {
       'source': {
         'title': 'Cauca Town',
         'type': 'wms',
@@ -39,7 +39,7 @@ export class InspectionMapPage implements OnInit {
           'version': '1.3.0'
         }
       }
-    };
+    };*/
 
     this.contextService.setContext({
       'uri': 'default',
@@ -60,5 +60,4 @@ export class InspectionMapPage implements OnInit {
   ionViewDidLoad() {
     console.log('ionViewDidLoad InspectionMapPage');
   }
-
 }

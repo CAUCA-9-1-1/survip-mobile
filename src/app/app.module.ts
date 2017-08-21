@@ -25,7 +25,6 @@ import {InspectionMapPage} from '../pages/inspection-map/inspection-map';
 import {MaterialModule} from '@angular/material';
 import { InterventionControllerProvider } from '../providers/intervention-controller/intervention-controller';
 import { LaneRepositoryProvider } from '../providers/repositories/lane-repository';
-import { SearchListComponent } from '../components/search-list/search-list';
 import {InterventionDetailRepositoryProvider} from '../providers/repositories/intervention-detail-repository';
 import {RequestLoaderService} from '../providers/Base/request-loader.service';
 import {HttpService} from '../providers/Base/http.service';
@@ -36,12 +35,11 @@ import {PictureRepositoryProvider} from '../providers/repositories/picture-repos
 import {InterventionBuildingsRepositoryProvider} from '../providers/repositories/intervention-buildings-repository';
 import {ComponentsModule} from '../components/components.module';
 import {FormsModule} from '@angular/forms';
-import {InterventionGeneralPage} from '../pages/intervention-general/intervention-general';
-import {InterventionWaterSuppliesPage} from '../pages/intervention-water-supplies/intervention-water-supplies';
 import {InterventionPlanCourseRepositoryProvider} from '../providers/repositories/intervention-plan-course-repository';
 import {InterventionPlanCourseLaneRepositoryProvider} from '../providers/repositories/intervention-plan-course-lane-repository';
 import {FirestationRepositoryProvider} from '../providers/repositories/firestation-repository';
 import {RouteDirectionRepositoryProvider} from '../providers/repositories/route-direction-repository';
+import {DirectivesModule} from '../directives/directives.module';
 
 export function translateLoader(http: Http) {
   return new LanguageLoader(http, './assets/locale/', '.json');
@@ -75,7 +73,8 @@ export function httpServiceFactory(
       passThruUnknownUrl: true
     }),
     IonicModule.forRoot(MyApp),
-    ComponentsModule
+    ComponentsModule,
+    DirectivesModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [

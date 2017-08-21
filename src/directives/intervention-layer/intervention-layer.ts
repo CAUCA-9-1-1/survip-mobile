@@ -1,19 +1,13 @@
-import {Directive, Self, OnInit, OnDestroy} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
-
-import {
-  Feature, FeatureDataSource, MapBrowserComponent,
-  IgoMap, VectorLayer
-} from 'igo2';
-
+import { Directive, Self, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { Feature, FeatureDataSource, MapBrowserComponent, IgoMap, VectorLayer} from 'igo2';
 import {InterventionService} from '../../shared/services/repositories.service';
 import {RiskLevelService} from '../../shared/services/risk-level.service';
 import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-level-repository';
 import {InterventionRepositoryProvider} from '../../providers/repositories/intervention-repository';
 
 @Directive({
-  providers: [ InterventionRepositoryProvider],
-  selector: '[appInterventionLayer]'
+  selector: '[intervention-layer]' // Attribute selector
 })
 export class InterventionLayerDirective implements OnInit, OnDestroy {
   private component: MapBrowserComponent;
@@ -34,11 +28,12 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
     return this.component.map;
   }
 
-  constructor(
-    @Self() component?: MapBrowserComponent,
-    private interventionService?: InterventionRepositoryProvider,
-    private riskLevelService?: RiskLevelRepositoryProvider
-  ) {
+  constructor(@Self() component?: MapBrowserComponent,
+              private interventionService?: InterventionRepositoryProvider,
+              private riskLevelService?: RiskLevelRepositoryProvider) {
+
+    console.log('Hello InterventionLayerDirective Directive');
+
     if (component) {
       this.component = component;
 
@@ -47,13 +42,15 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
           this.fillColors[level.idRiskLevel] = level.color;
           this.riskCode[level.idRiskLevel] = level.code;
         });
-
+        console.log(this.fillColors);
+        console.log(this.riskCode);
         this.addLayer();
       });
     }
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
   ngOnDestroy() {
     this.features$$.unsubscribe();
@@ -64,7 +61,7 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
       title: 'interventions'
     });
 
-    const interventionLayer = new VectorLayer( interventionDataSource, {
+    const interventionLayer = new VectorLayer(interventionDataSource, {
       zIndex: 20
     });
 
@@ -88,7 +85,9 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
       this.interventionSource.clear();
     }
 
-    if (!features) { return; }
+    if (!features) {
+      return;
+    }
 
     features.forEach((feature: Feature) => this.addFeature(feature));
   }
@@ -100,11 +99,9 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
       featureProjection: this.map.projection
     });
 
-    olFeature.setStyle(style);
+    console.log('feature ou whatever: ', feature);
 
-    if (this.interventionSource) {
-      this.interventionSource.addFeature(olFeature);
-    }
+    olFeature.setStyle(style);
   }
 
   private createFeatureStyle(feature: Feature): ol.style.Style {
@@ -127,11 +124,11 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
       const properties = feature.getProperties();
 
       if (this.riskCode[properties.idRiskLevel] === 3 || this.riskCode[properties.idRiskLevel] === 4) {
-        console.log('todo: repositories');
-        /*this.router.navigate(['/repositories/survey', properties.idInterventionPlan]);*/
+        console.log('intervention plan!');
+        //this.router.navigate(['/intervention/survey', properties.idInterventionPlan]);
       } else {
-        console.log('todo: survey');
-        /*this.router.navigate(['/prevention/survey', properties.idInspection]);*/
+        //this.router.navigate(['/prevention/survey', properties.idInspection]);
+        console.log('survey!');
       }
     }
   }

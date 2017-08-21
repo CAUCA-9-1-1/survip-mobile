@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import Observable = ol.Observable;
-
 import { Feature, FeatureFormat, FeatureType } from 'igo2';
-
 import { InspectionService } from './inspection.service';
 import {InspectionRepositoryProvider} from './inspection-repository';
 
@@ -26,7 +24,7 @@ export class InterventionRepositoryProvider {
           idInspection: inspect.idInspection,
           idSurvey: inspect.idSurvey,
           idInterventionPlan: inspect.idInterventionPlan,
-        }, inspect.geojson['coordinates']));
+        }, inspect.geojson[0].coordinates));
       }
 
       this.setFeatures(features);
