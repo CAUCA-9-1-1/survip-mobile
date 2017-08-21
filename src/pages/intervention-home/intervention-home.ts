@@ -5,15 +5,8 @@ import {InterventionWaterSuppliesPage} from '../intervention-water-supplies/inte
 import {InterventionBuildingsPage} from '../intervention-buildings/intervention-buildings';
 import {InterventionCoursePage} from '../intervention-course/intervention-course';
 import {InterventionFireProtectionPage} from '../repositories-fire-protection/repositories-fire-protection';
-import {InterventionPlan} from '../../models/intervention-plan';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 
-/**
- * Generated class for the InterventionHomePage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
   selector: 'page-intervention-home',
@@ -32,7 +25,6 @@ export class InterventionHomePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad InterventionHomePage');
   }
 
   closeMenu(){

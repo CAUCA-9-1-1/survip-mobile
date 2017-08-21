@@ -34,7 +34,6 @@ export class InspectionListPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad InspectionListPage');
   }
 
   private createLoadingControl() {

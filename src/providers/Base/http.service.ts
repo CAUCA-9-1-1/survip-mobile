@@ -32,10 +32,8 @@ export class HttpService extends AuthService {
     console.log('get', this.getFullUrl(url));
 
     return super.get(this.getFullUrl(url), this.requestOptions(options))
-      //.map(response => (<Response>response).blob())
       .catch(this.onCatch)
       .do((res: Response) => {
-        // console.log(url, res);
         this.onSuccess(res, isJsonBodyResult);
       }, (error: any) => {
         this.onError(error);
@@ -98,7 +96,6 @@ export class HttpService extends AuthService {
 
   delete(url: string, options?: RequestOptionsArgs): Observable<any> {
     this.showLoader();
-    console.log(url);
     return super.delete(this.getFullUrl(url), this.requestOptions(options))
       .catch(this.onCatch)
       .do((res: Response) => {
@@ -136,7 +133,6 @@ export class HttpService extends AuthService {
   }
 
   private onSuccess(result: Response, isJsonResult: boolean = true): void {
-    console.log(result);
     if (result instanceof Response) {
       if (isJsonResult) { //(result.text().startsWith('{') && result.text().endsWith('}')) {
         const body = result.json() || {};

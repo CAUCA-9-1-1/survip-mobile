@@ -32,8 +32,6 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
               private interventionService?: InterventionRepositoryProvider,
               private riskLevelService?: RiskLevelRepositoryProvider) {
 
-    console.log('Hello InterventionLayerDirective Directive');
-
     if (component) {
       this.component = component;
 
@@ -100,7 +98,6 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
     });
 
     console.log('feature ou whatever: ', feature);
-
     olFeature.setStyle(style);
   }
 
@@ -115,7 +112,7 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
         })
       }, this.textStyleOptions))
     });
-
+    console.log(style);
     return style;
   }
 
