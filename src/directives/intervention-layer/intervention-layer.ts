@@ -99,6 +99,10 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
 
     console.log('feature ou whatever: ', feature);
     olFeature.setStyle(style);
+
+    if (this.interventionSource) {
+      this.interventionSource.addFeature(olFeature);
+    }
   }
 
   private createFeatureStyle(feature: Feature): ol.style.Style {
