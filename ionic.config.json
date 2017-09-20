@@ -1,5 +1,8 @@
 {
   "name": "survip-mobile",
   "app_id": "f6b2f4b5",
-  "type": "ionic-angular"
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
 }
