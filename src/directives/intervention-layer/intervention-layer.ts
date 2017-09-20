@@ -71,7 +71,7 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
 
     this.map.ol.getViewport().addEventListener('click', (e) => {
       const eventPixel = this.map.ol.getEventPixel(e);
-
+      console.log('click viewport');
       this.map.ol.forEachFeatureAtPixel(eventPixel, (feature, layer) => {
         this.click(feature);
       });
@@ -97,7 +97,6 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
       featureProjection: this.map.projection
     });
 
-    console.log('feature ou whatever: ', feature);
     olFeature.setStyle(style);
 
     if (this.interventionSource) {
@@ -116,14 +115,14 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
         })
       }, this.textStyleOptions))
     });
-    console.log(style);
     return style;
   }
 
   private click(feature) {
+    console.log('click');
     if (feature) {
       const properties = feature.getProperties();
-
+      console.log(properties);
       if (this.riskCode[properties.idRiskLevel] === 3 || this.riskCode[properties.idRiskLevel] === 4) {
         console.log('intervention plan!');
         //this.router.navigate(['/intervention/survey', properties.idInterventionPlan]);

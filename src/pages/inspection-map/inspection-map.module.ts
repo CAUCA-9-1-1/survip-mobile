@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { InspectionMapPage } from './inspection-map';
 import { MaterialModule } from '@angular/material';
 import {IgoModule} from 'igo2';
+import {DirectivesModule} from '../../directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -10,6 +11,7 @@ import {IgoModule} from 'igo2';
   ],
   imports: [
     MaterialModule,
+    DirectivesModule,
     IgoModule,
     IonicPageModule.forChild(InspectionMapPage),
   ],
