@@ -17,7 +17,6 @@ import {
   provideLanguageLoader,
 } from 'igo2';
 import {NotificationsService} from 'angular2-notifications/dist';
-import {InterventionHomePage} from '../pages/intervention-home/intervention-home';
 import {InterventionRepositoryProvider} from '../providers/repositories/intervention-repository';
 import { InterventionControllerProvider } from '../providers/intervention-controller/intervention-controller';
 import { LaneRepositoryProvider } from '../providers/repositories/lane-repository';
@@ -58,7 +57,7 @@ export function httpServiceFactory(
   declarations: [
     MyApp,
     HomePage,
-    InterventionHomePage,
+    //InterventionHomePage,
   ],
   imports: [
     InspectionMapPageModule,
@@ -79,7 +78,7 @@ export function httpServiceFactory(
   entryComponents: [
     MyApp,
     HomePage,
-    InterventionHomePage,
+    //InterventionHomePage,
   ],
   exports: [
     IgoModule,
