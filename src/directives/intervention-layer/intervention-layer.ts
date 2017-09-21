@@ -5,6 +5,7 @@ import {InterventionService} from '../../shared/services/repositories.service';
 import {RiskLevelService} from '../../shared/services/risk-level.service';
 import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-level-repository';
 import {InterventionRepositoryProvider} from '../../providers/repositories/intervention-repository';
+import {App} from 'ionic-angular';
 
 @Directive({
   selector: '[intervention-layer]' // Attribute selector
@@ -28,7 +29,8 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
     return this.component.map;
   }
 
-  constructor(@Self() component?: MapBrowserComponent,
+  constructor(public appCtrl: App,
+              @Self() component?: MapBrowserComponent,
               private interventionService?: InterventionRepositoryProvider,
               private riskLevelService?: RiskLevelRepositoryProvider) {
 
@@ -40,8 +42,6 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
           this.fillColors[level.idRiskLevel] = level.color;
           this.riskCode[level.idRiskLevel] = level.code;
         });
-        console.log(this.fillColors);
-        console.log(this.riskCode);
         this.addLayer();
       });
     }
@@ -71,8 +71,10 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
 
     this.map.ol.getViewport().addEventListener('click', (e) => {
       const eventPixel = this.map.ol.getEventPixel(e);
-      console.log('click viewport');
+      console.log('click on viewport', eventPixel);
+      console.log(this.map.ol);
       this.map.ol.forEachFeatureAtPixel(eventPixel, (feature, layer) => {
+        console.log('click on feature', feature);
         this.click(feature);
       });
     });
@@ -98,10 +100,11 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
     });
 
     olFeature.setStyle(style);
-
     if (this.interventionSource) {
       this.interventionSource.addFeature(olFeature);
     }
+    console.log(this.interventionSource);
+    console.log(olFeature);
   }
 
   private createFeatureStyle(feature: Feature): ol.style.Style {
@@ -122,10 +125,9 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
     console.log('click');
     if (feature) {
       const properties = feature.getProperties();
-      console.log(properties);
       if (this.riskCode[properties.idRiskLevel] === 3 || this.riskCode[properties.idRiskLevel] === 4) {
-        console.log('intervention plan!');
-        //this.router.navigate(['/intervention/survey', properties.idInterventionPlan]);
+        console.log('intervention plan!', properties.id);
+        this.appCtrl.getRootNav().push('InterventionHomePage', { id: properties.id });
       } else {
         //this.router.navigate(['/prevention/survey', properties.idInspection]);
         console.log('survey!');
