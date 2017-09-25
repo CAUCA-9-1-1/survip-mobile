@@ -68,7 +68,6 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
 
     this.features$$ = this.interventionService.features$
       .subscribe(features => this.handleFeatures(features));
-
     this.map.ol.getViewport().addEventListener('click', (e) => {
       const eventPixel = this.map.ol.getEventPixel(e);
       console.log('click on viewport', eventPixel);
@@ -78,6 +77,8 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
         this.click(feature);
       });
     });
+
+    this.map.ol.updateSize();
   }
 
   private handleFeatures(features: Feature[]) {
