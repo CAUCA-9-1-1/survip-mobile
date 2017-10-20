@@ -107,7 +107,8 @@ export function httpServiceFactory(
     RequestLoaderService,
     provideConfig({
       default: {
-        apiUrl: 'http://10.10.33.101:8080/',
+        //apiUrl: 'http://10.10.33.101:8080/',
+        apiUrl: 'http://cadevsprevention1.ad.cauca.ca:8080/',
         languages: ['fr', 'en']
       }}),
     provideConfigLoader(),
