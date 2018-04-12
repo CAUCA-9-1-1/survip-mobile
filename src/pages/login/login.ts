@@ -29,9 +29,18 @@ export class LoginPage {
     console.log('ionViewDidLoad LoginPage');
   }
 
+  ionViewCanEnter(){
+    if (localStorage.getItem('currentToken'))
+      console.log('ouiiiii');
+    else
+      console.log('nooooon');
+
+  }
+
+
   public onLogin(){
     console.log(this.userName, this.password);
     this.authService.login(this.userName, this.password)
-      .map(response => console.log(response));
+      .subscribe(response => console.log(response));
   }
 }
