@@ -5,7 +5,7 @@ import {
   RequestOptionsArgs,
   Response,
   Headers,
-  XHRBackend, Http
+  XHRBackend
 } from '@angular/http';
 
 import {AuthService} from './auth.service';

@@ -22,7 +22,7 @@ export class InspectionListPage {
               private loadingCtrl: LoadingController,
               private inspectionService: InspectionRepositoryProvider) {
     const loading = this.createLoadingControl();
-    riskLevelService.getAll()
+    /*riskLevelService.getAll()
       .subscribe(risks => {
         this.riskLevels = risks
         inspectionService.getAll()
@@ -30,7 +30,7 @@ export class InspectionListPage {
             this.inspections = inspections;
             loading.dismiss();
           });
-      });
+      });*/
   }
 
   ionViewDidLoad() {

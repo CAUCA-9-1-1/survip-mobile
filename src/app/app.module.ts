@@ -39,6 +39,8 @@ import {CommonModule} from '@angular/common';
 import {InspectionsPageModule} from '../pages/inspections/inspections.module';
 import {InspectionMapPageModule} from '../pages/inspection-map/inspection-map.module';
 import {InspectionMapPage} from '../pages/inspection-map/inspection-map';
+import {AuthService} from '../providers/Base/auth.service';
+import {AuthenticationService} from '../providers/Base/authentification.service';
 
 export function translateLoader(http: Http) {
   return new LanguageLoader(http, './assets/locale/', '.json');
@@ -105,10 +107,12 @@ export function httpServiceFactory(
     ConfigService,
     HttpService,
     RequestLoaderService,
+    AuthenticationService,
+    AuthorizeRequestOptions,
     provideConfig({
       default: {
         //apiUrl: 'http://10.10.33.101:8080/',
-        apiUrl: 'http://cadevsprevention1.ad.cauca.ca:8080/',
+        apiUrl: 'http://localhost:5555/',
         languages: ['fr', 'en']
       }}),
     provideConfigLoader(),

@@ -11,7 +11,7 @@ export class AuthorizeRequestOptions extends BaseRequestOptions {
     this.storage = this.windowRef.nativeObject('localStorage');
     const token = this.storage.getItem('currentToken');
 
-    this.headers.append('Authorization', 'Token ' + token);
+    this.headers.append('Authorization', 'Bearer ' + token);
 
     if (options != null) {
       for (const option in options) {
