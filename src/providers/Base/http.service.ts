@@ -1,92 +1,77 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
-import {RequestLoaderService} from './request-loader.service';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {ConfigService} from './config.service';
 
 @Injectable()
 export class HttpService {
-  private static count = 0;
   private apiUrl = '';
 
   constructor(
     config: ConfigService,
     private client: HttpClient,
-    private loaderService: RequestLoaderService
   ) {
     this.apiUrl = config.getConfig('apiUrl');
     console.log(this.apiUrl);
     console.log('chu icitte');
   }
 
-  get(url: string): Observable<any> {
-    this.showLoader();
+  private getHeaders() : HttpHeaders {
+    return new HttpHeaders({
+      'Content-Type': 'application-json',
+      'Authorization': 'Bearer ' + localStorage.getItem('currentToken')
+    });
+  }
 
+  public get(url: string): Observable<any> {
     console.log('get', this.getFullUrl(url));
-    return this.client.get(this.getFullUrl(url), {
-        headers: {
-          "Authorization": "Bearer " + "asdf"
-        }
-      }
-    )
+    return this.client.get(this.getFullUrl(url), this.getHeaders() )
+      .retry(3)
+      .catch((err: HttpErrorResponse) => this.handleError(err));
   }
 
-  post(url: string, body?: any): Observable<any> {
-    this.showLoader();
+  public post(url: string, body?: any): Observable<any> {
     console.log('post', this.getFullUrl(url));
-    return this.client.post(this.getFullUrl(url), body, {
-        headers: {
-          "Authorization": "Bearer " + "asdf"
-        }
-      }
-    )
+    return this.client
+      .post(this.getFullUrl(url), body, this.getHeaders() )
+        .retry(3)
+        .catch((err: HttpErrorResponse) => this.handleError(err));
   }
 
-
-  put(url: string, body?: any): Observable<any> {
-    this.showLoader();
-
+  public put(url: string, body?: any): Observable<any> {
     console.log('post', this.getFullUrl(url));
-    return this.client.post(this.getFullUrl(url), body, {
-        headers: {
-          "Authorization": "Bearer " + "asdf"
-        }
-      }
-    )
+    return this.client.post(this.getFullUrl(url), body, this.getHeaders() )
+      .retry(3)
+      .catch((err: HttpErrorResponse) => this.handleError(err));
   }
 
-  delete(url: string): Observable<any> {
-    this.showLoader();
-    return this.client.delete(this.getFullUrl(url), {
-        headers: {
-          "Authorization": "Bearer " + "asdf"
-        }
-      }
-    )
+  public delete(url: string): Observable<any> {
+    return this.client.delete(this.getFullUrl(url), this.getHeaders() )
+      .retry(3)
+      .catch((err: HttpErrorResponse) => this.handleError(err));
   }
 
   private getFullUrl(url: string): string {
     if (!this.apiUrl) {
       throw new Error('You need to set "apiUrl" inside your "cause" configuration.');
     }
-
     return this.apiUrl + url;
   }
 
-  private showLoader(): void {
-    HttpService.count++;
-
-    if (HttpService.count) {
-      this.loaderService.show();
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      console.error('An error occurred:', error.error.message);
+    } else {
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
     }
-  }
-
-  private hideLoader(): void {
-    HttpService.count--;
-
-    if (!HttpService.count) {
-      this.loaderService.hide();
-    }
-  }
+    return Observable.of({
+      'status': error.status,
+      'body': error.error
+    });
+  };
 }
+
+

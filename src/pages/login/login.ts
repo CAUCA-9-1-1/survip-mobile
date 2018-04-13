@@ -1,13 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
-
-/**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -22,7 +15,8 @@ export class LoginPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public authService: AuthenticationService) {
+    private authService: AuthenticationService,
+    private toastCtrl: ToastController) {
   }
 
   ionViewDidLoad() {
@@ -31,16 +25,35 @@ export class LoginPage {
 
   ionViewCanEnter(){
     if (localStorage.getItem('currentToken'))
-      console.log('ouiiiii');
-    else
-      console.log('nooooon');
-
+      this.redirectToInspectionList();
   }
-
 
   public onLogin(){
     console.log(this.userName, this.password);
     this.authService.login(this.userName, this.password)
-      .subscribe(response => console.log(response));
+      .subscribe(response => this.handleResponse(response));
+  }
+
+  private handleResponse(response){
+    if (localStorage.getItem('currentToken'))
+      this.redirectToInspectionList();
+    else if (response.status && response.status == 401)
+      this.showToast("Nom d'usager ou mot de passe incorrect.");
+    else
+      this.showToast("Problème de communication avec le serveur.  Veuillez communiquer avec un adminstrateur.");
+  }
+
+  private showToast(message: string){
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: 'bottom'
+    });
+
+    toast.present();
+  }
+
+  private redirectToInspectionList(){
+    this.showToast("Pseudo redirection à la page!");
   }
 }
