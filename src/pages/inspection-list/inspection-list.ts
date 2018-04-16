@@ -22,7 +22,8 @@ export class InspectionListPage {
               private loadingCtrl: LoadingController,
               private inspectionService: InspectionRepositoryProvider) {
     const loading = this.createLoadingControl();
-    /*riskLevelService.getAll()
+    loading.present();
+    riskLevelService.getAll()
       .subscribe(risks => {
         this.riskLevels = risks
         inspectionService.getAll()
@@ -30,7 +31,7 @@ export class InspectionListPage {
             this.inspections = inspections;
             loading.dismiss();
           });
-      });*/
+      });
   }
 
   ionViewDidLoad() {
@@ -41,25 +42,34 @@ export class InspectionListPage {
   }
 
   getRiskDescription(idRiskLevel: string): string {
-    const result = this.riskLevels.find(risk => risk.idRiskLevel === idRiskLevel);
+    const result = this.riskLevels.find(risk => risk.id === idRiskLevel);
     if (result != null) {
-      return result.fullName;
+      return result.name;
     } else {
       return '';
     }
   }
 
   getRiskColor(idRiskLevel: string): string {
-    const result = this.riskLevels.find(risk => risk.idRiskLevel === idRiskLevel);
+    const result = this.riskLevels.find(risk => risk.id === idRiskLevel);
     if (result != null) {
-      return result.color;
+      return this.toColor(result.color);
     } else {
       return 'black';
     }
   }
 
+  toColor(num) {
+    num >>>= 0;
+    var b = num & 0xFF,
+      g = (num & 0xFF00) >>> 8,
+      r = (num & 0xFF0000) >>> 16,
+      a = ( (num & 0xFF000000) >>> 24 ) / 255;
+    return "rgba(" + [r, g, b, a].join(",") + ")";
+  }
+
   getRiskCode(idRiskLevel: string): string {
-    const result = this.riskLevels.find(risk => risk.idRiskLevel === idRiskLevel);
+    const result = this.riskLevels.find(risk => risk.id === idRiskLevel);
     if (result != null) {
       return result.code;
     } else {
@@ -70,7 +80,7 @@ export class InspectionListPage {
   itemSelected(inspection: Inspection) {
     const riskCode: string = this.getRiskCode(inspection.idRiskLevel);
     if (riskCode == '3' || riskCode == '4') {
-      this.appCtrl.getRootNav().push('InterventionHomePage', { id: inspection.idInterventionPlan });
+      this.appCtrl.getRootNav().push('InterventionHomePage', { id: inspection.idInterventionForm });
     } else {
       console.log('nope');
     }

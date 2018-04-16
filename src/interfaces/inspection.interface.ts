@@ -1,11 +1,11 @@
 export class Inspection {
-  idInspection: string;
+  id: string;
+  idBatch: string;
+  batchDescription: string;
   matricule: string;
   geojson: object;
   idRiskLevel: string;
-  idSurvey: string;
   idBuilding: string;
-  idInterventionPlan: string;
-
+  idInterventionForm: string;
   address: string;
 }

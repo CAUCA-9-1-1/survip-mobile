@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Rx';
 import {Inspection} from '../../interfaces/inspection.interface';
 import {HttpService} from '../Base/http.service';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class InspectionRepositoryProvider{
@@ -11,16 +12,29 @@ export class InspectionRepositoryProvider{
   constructor(public http: HttpService) {}
 
   getAll(): Observable<Inspection[]> {
-    return this.http.get('inspection').map((response: Response) => {
+    return this.http.get('inspection')
+      .pipe(
+        map(response => {
+          return response
+        })
+      );
+
+      /*.map((response: Response) => {
       const result = response.json();
       return result.data;
-    });
+    });*/
   }
 
   get(id: string): Observable<Inspection> {
-    return this.http.get('api/inspection/' + id).map((response: Response) => {
+    return this.http.get('api/inspection/' + id)
+      .pipe(
+        map(response => {
+          return response
+        })
+      );
+      /*.map((response: Response) => {
       const result = response.json();
       return result.data as Inspection;
-    });
+    });*/
   }
 }

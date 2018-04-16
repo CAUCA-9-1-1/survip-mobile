@@ -1,7 +1,6 @@
 export class RiskLevel {
-  idRiskLevel: string;
+  id: string;
   name: string;
   color: string;
   code: string;
-  fullName: string;
 }
