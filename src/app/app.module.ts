@@ -8,16 +8,16 @@ import { InspectionRepositoryProvider } from '../providers/repositories/inspecti
 import { RiskLevelRepositoryProvider } from '../providers/repositories/risk-level-repository';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import {InMemoryDataService} from '../mockdata/in-memory-data.service';
-import {InMemoryWebApiModule} from 'angular-in-memory-web-api';
+/*import {InMemoryDataService} from '../mockdata/in-memory-data.service';
+import {InMemoryWebApiModule} from 'angular-in-memory-web-api';*/
 import {InterventionRepositoryProvider} from '../providers/repositories/intervention-repository';
 import { InterventionControllerProvider } from '../providers/intervention-controller/intervention-controller';
 import { LaneRepositoryProvider } from '../providers/repositories/lane-repository';
 import {InterventionDetailRepositoryProvider} from '../providers/repositories/intervention-detail-repository';
 import {RequestLoaderService} from '../providers/Base/request-loader.service';
 import {HttpService} from '../providers/Base/http.service';
-import {ConfigService} from '../providers/Base/config.service';
-import {provideConfig, provideConfigLoader} from '../providers/Base/config.provider';
+/*import {ConfigService} from '../providers/Base/config.service';
+import {provideConfig, provideConfigLoader} from '../providers/Base/config.provider';*/
 import {PictureRepositoryProvider} from '../providers/repositories/picture-repository';
 import {InterventionBuildingsRepositoryProvider} from '../providers/repositories/intervention-buildings-repository';
 import {ComponentsModule} from '../components/components.module';
@@ -41,11 +41,9 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 export function httpServiceFactory(
-  loaderService: RequestLoaderService,
-  configService: ConfigService,
   client: HttpClient
 ) {
-  return new HttpService(configService, client, loaderService);
+  return new HttpService(client);
 }
 
 @NgModule({
@@ -67,9 +65,9 @@ export function httpServiceFactory(
       }
     }),
     CommonModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService, {
+    /*InMemoryWebApiModule.forRoot(InMemoryDataService, {
       passThruUnknownUrl: true
-    }),
+    }),*/
     IonicModule.forRoot(MyApp),
     BrowserModule,
     ComponentsModule,
@@ -100,22 +98,22 @@ export function httpServiceFactory(
     InterventionPlanCourseLaneRepositoryProvider,
     FirestationRepositoryProvider,
     RouteDirectionRepositoryProvider,
-    ConfigService,
+    //ConfigService,
     HttpService,
     RequestLoaderService,
     AuthenticationService,
-    provideConfig({
+    /*provideConfig({
       default: {
         //apiUrl: 'http://10.10.33.101:8080/',
         apiUrl: 'http://localhost:5555/api/',
         languages: ['fr', 'en']
-      }}),
-    provideConfigLoader(),
+      }})*/,
+/*    provideConfigLoader(),
     {
       provide: HttpService,
       useFactory: httpServiceFactory,
       deps: [RequestLoaderService, ConfigService, HttpClient]
-    }
+    }*/
   ]
 })
 export class AppModule {}

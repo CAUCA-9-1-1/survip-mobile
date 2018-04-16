@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+/*import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { TranslateService } from '@ngx-translate/core';
@@ -19,12 +19,12 @@ export class ConfigService {
 
 
       this.translate.setDefaultLang(language);
-    }*/
+    }*//*
   }
 
   /**
    * Use to get the data found in config file
-   */
+   *//*
   public getConfig(key: string): any {
     return this.config[key] || undefined;
   }
@@ -34,13 +34,13 @@ export class ConfigService {
 
       /*if (this.translate) {
         this.translate.use(this.config['locale']);
-      }*/
+      }*//*
     }
   }
 
   /**
    * This method loads "[path]" to get all config's variables
-   */
+   *//*
   public load(options: ConfigOptions) {
     if (options.default) {
       this.config = options.default;
@@ -63,3 +63,4 @@ export class ConfigService {
     });
   }
 }
+*/

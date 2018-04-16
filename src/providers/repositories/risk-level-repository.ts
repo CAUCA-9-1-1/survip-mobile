@@ -11,7 +11,7 @@ export class RiskLevelRepositoryProvider {
   constructor(public http: HttpService){}
 
   getAll() {
-    return this.http.get<RiskLevel>('risklevel', 3)
+    return this.http.get('risklevel', 3)
       .pipe(
         map(response => {
           console.log(response);
@@ -29,7 +29,7 @@ export class RiskLevelRepositoryProvider {
     if (idRiskLevel == null)
       return Observable.of('');
     else
-      return this.http.get<RiskLevel>('risklevel/' + idRiskLevel, 3)
+      return this.http.get('risklevel/' + idRiskLevel, 3)
         .pipe(
           map(response => {
             console.log(response);

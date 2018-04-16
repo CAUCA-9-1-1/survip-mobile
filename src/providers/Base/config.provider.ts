@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, InjectionToken } from '@angular/core';
+/*import { APP_INITIALIZER, InjectionToken } from '@angular/core';
 import {ConfigService} from './config.service';
 import {ConfigOptions} from './config.model';
 
@@ -24,3 +24,4 @@ export function provideConfigLoader() {
     deps: [ConfigService, CONFIG_OPTIONS]
   };
 }
+*/

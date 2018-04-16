@@ -19,7 +19,7 @@
 
     <ion-item>
       <ion-label>Password</ion-label>
-      <ion-input type="password" [(ngModel)]="password"></ion-input>
+      <ion-input type="password" [(ngModel)]="password" (keypress)="onKeyPress($event.keyCode)"></ion-input>
     </ion-item>
 
   </ion-list>

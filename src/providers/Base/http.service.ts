@@ -2,17 +2,17 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {ConfigService} from './config.service';
+//import {ConfigService} from './config.service';
 
 @Injectable()
 export class HttpService {
-  private apiUrl = '';
+  private apiUrl = 'http://localhost:5555/api/';
 
   constructor(
-    config: ConfigService,
+    //config: ConfigService,
     private client: HttpClient,
   ) {
-    this.apiUrl = config.getConfig('apiUrl');
+    //this.apiUrl = config.getConfig('apiUrl');
     console.log(this.apiUrl);
     console.log('chu icitte');
   }

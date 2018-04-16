@@ -5,6 +5,8 @@ import {Inspection} from '../../interfaces/inspection.interface';
 import {InspectionRepositoryProvider} from '../../providers/repositories/inspection-repository';
 import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-level-repository';
 import {InterventionHomePage} from '../intervention-home/intervention-home';
+import {AuthenticationService} from '../../providers/Base/authentification.service';
+import {LoginPage} from '../login/login';
 
 @IonicPage()
 @Component({
@@ -13,14 +15,17 @@ import {InterventionHomePage} from '../intervention-home/intervention-home';
 })
 export class InspectionListPage {
   inspections: Inspection[];
+  filteredInspections: Inspection[];
   riskLevels: RiskLevel[];
+  searchTerm: string = "";
 
   constructor(public appCtrl: App,
               public navCtrl: NavController,
               public navParams: NavParams,
               private riskLevelService: RiskLevelRepositoryProvider,
               private loadingCtrl: LoadingController,
-              private inspectionService: InspectionRepositoryProvider) {
+              private inspectionService: InspectionRepositoryProvider,
+              private authService: AuthenticationService) {
     const loading = this.createLoadingControl();
     loading.present();
     riskLevelService.getAll()
@@ -29,12 +34,25 @@ export class InspectionListPage {
         inspectionService.getAll()
           .subscribe(inspections => {
             this.inspections = inspections;
+            this.filterList();
             loading.dismiss();
           });
       });
   }
 
   ionViewDidLoad() {
+  }
+
+  ionViewCanEnter() {
+    this.authService.isStillLoggedIn()
+      .subscribe(isLoggedIn => {
+        if (!isLoggedIn)
+          this.redirectToLoginPage();
+      });
+  }
+
+  private redirectToLoginPage(){
+    this.navCtrl.setRoot(LoginPage);
   }
 
   private createLoadingControl() {
@@ -84,5 +102,20 @@ export class InspectionListPage {
     } else {
       console.log('nope');
     }
+  }
+
+  public filterList(){
+    if (this.searchTerm && this.searchTerm != '')
+      this.filteredInspections = this.inspections.filter(inspection => this.mustBeShown(inspection));
+    else
+      this.filteredInspections = this.inspections;
+  }
+
+  private mustBeShown(inspection: Inspection): boolean{
+    let riskLevelName = this.getRiskDescription(inspection.idRiskLevel);
+    let riskContainsSearchTerm = riskLevelName.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
+    let addressContainsSearchTerm = inspection.address.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
+    let batchDescriptionContainsSearchTerm = inspection.batchDescription.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
+    return riskContainsSearchTerm || addressContainsSearchTerm || batchDescriptionContainsSearchTerm;
   }
 }
