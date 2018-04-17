@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import Observable = ol.Observable;
-import { Feature, FeatureFormat, FeatureType } from 'igo2';
+//import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+//import Observable = ol.Observable;
+//import { Feature, FeatureFormat, FeatureType } from 'igo2';
 import { InspectionService } from './inspection.service';
 import {InspectionRepositoryProvider} from './inspection-repository';
 
 @Injectable()
 export class InterventionRepositoryProvider {
 
-  public features$ = new BehaviorSubject<Feature[]>([]);
+  //public features$ = new BehaviorSubject<Feature[]>([]);
 
   constructor(private inspectionService: InspectionRepositoryProvider) {
-    this.getFeatures();
+    //this.getFeatures();
   }
 
-  getFeatures() {
+/*  getFeatures() {
     this.inspectionService.getAll().subscribe(inspections => {
       const features = [];
 
@@ -53,5 +53,5 @@ export class InterventionRepositoryProvider {
 
   clear() {
     this.features$.next([]);
-  }
+  }*/
 }

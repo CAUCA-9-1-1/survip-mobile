@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {ContextService, DetailedContext, IgoMap} from 'igo2';
+//import {ContextService, DetailedContext, IgoMap} from 'igo2';
 
 @IonicPage()
 @Component({
@@ -8,14 +8,14 @@ import {ContextService, DetailedContext, IgoMap} from 'igo2';
   templateUrl: 'inspection-map.html',
 })
 export class InspectionMapPage implements OnInit{
-  public map = new IgoMap();
+  //public map = new IgoMap();
 
-  constructor(private contextService: ContextService,
+  constructor(/*private contextService: ContextService,*/
               public navCtrl: NavController,
               public navParams: NavParams) {
   }
 
-  ngOnInit() {
+  ngOnInit() {/*
     const layer1 = {
       'source': {
         'title': 'Fond de carte du Québec',
@@ -37,7 +37,7 @@ export class InspectionMapPage implements OnInit{
         }
       },
       'layers': [layer1]
-    } as DetailedContext);
+    } as DetailedContext);*/
   }
 
   ionViewDidLoad() {

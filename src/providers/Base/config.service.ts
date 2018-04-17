@@ -11,15 +11,15 @@ export class ConfigService {
 
   constructor(
     private http: Http,
-    private translate?: TranslateService
+    //private translate?: TranslateService
   ) {
-    if (this.translate) {
+    /*if (this.translate) {
       const browserLang = this.translate.getBrowserLang();
       const language = browserLang.match(/en|fr/) ? browserLang : 'en';
 
 
       this.translate.setDefaultLang(language);
-    }
+    }*/
   }
 
   /**
@@ -32,9 +32,9 @@ export class ConfigService {
   public setConfig() {
     if (this.config['locale']) {
 
-      if (this.translate) {
+      /*if (this.translate) {
         this.translate.use(this.config['locale']);
-      }
+      }*/
     }
   }
 

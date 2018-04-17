@@ -1,6 +1,6 @@
 import { Directive, Self, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { Feature, FeatureDataSource, MapBrowserComponent, IgoMap, VectorLayer} from 'igo2';
+//import { Feature, FeatureDataSource, MapBrowserComponent, IgoMap, VectorLayer} from 'igo2';
 import {InterventionService} from '../../shared/services/repositories.service';
 import {RiskLevelService} from '../../shared/services/risk-level.service';
 import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-level-repository';
@@ -11,10 +11,10 @@ import {App} from 'ionic-angular';
   selector: '[intervention-layer]' // Attribute selector
 })
 export class InterventionLayerDirective implements OnInit, OnDestroy {
-  private component: MapBrowserComponent;
-  private interventionSource: ol.source.Vector;
+//  private component: MapBrowserComponent;
+  //private interventionSource: ol.source.Vector;
   private features$$: Subscription;
-  private format = new ol.format.GeoJSON();
+  //private format = new ol.format.GeoJSON();
 
   private fillColors = {};
   private riskCode = {};
@@ -25,16 +25,16 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
     textBaseline: 'Center'
   };
 
-  get map(): IgoMap {
+  /*get map(): IgoMap {
     return this.component.map;
-  }
+  }*/
 
   constructor(public appCtrl: App,
-              @Self() component?: MapBrowserComponent,
+     //         @Self() component?: MapBrowserComponent,
               private interventionService?: InterventionRepositoryProvider,
               private riskLevelService?: RiskLevelRepositoryProvider) {
 
-    if (component) {
+   /* if (component) {
       this.component = component;
 
       this.riskLevelService.getAll().subscribe(levels => {
@@ -44,7 +44,7 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
         });
         this.addLayer();
       });
-    }
+    }*/
   }
 
   ngOnInit() {
@@ -53,7 +53,7 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.features$$.unsubscribe();
   }
-
+/*
   private addLayer() {
     const interventionDataSource = new FeatureDataSource({
       title: 'interventions'
@@ -134,5 +134,5 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
         console.log('survey!');
       }
     }
-  }
+  }*/
 }

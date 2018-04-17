@@ -3,19 +3,21 @@ import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 
 import {RequestLoader} from './request-loader.model';
+import {Loading, LoadingController} from 'ionic-angular';
 
 @Injectable()
 export class RequestLoaderService {
-  private loaderSubject = new Subject<RequestLoader>();
-  public loaderState: Observable<RequestLoader> = this.loaderSubject.asObservable();
+  private loader: Loading;
 
-  constructor() { }
+  constructor(private loadingCtrl: LoadingController) {
+    this.loader = this.loadingCtrl.create({ content: 'Please wait...'});
+  }
 
   show() {
-    this.loaderSubject.next(<RequestLoader>{show: true});
+    this.loader.present();
   }
 
   hide() {
-    this.loaderSubject.next(<RequestLoader>{show: false});
+    this.loader.dismiss();
   }
 }
