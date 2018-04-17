@@ -40,6 +40,11 @@ export class LoginPage {
       .subscribe(response => this.handleResponse(response));
   }
 
+  public onKeyPress(keyCode){
+    if (keyCode == 13)
+      this.onLogin();
+  }
+
   private handleResponse(response){
     if (localStorage.getItem('currentToken'))
       this.redirectToInspectionList();
@@ -60,6 +65,6 @@ export class LoginPage {
   }
 
   private redirectToInspectionList(){
-    this.navCtrl.push(InspectionsPage);
+    this.navCtrl.setRoot('InspectionsPage');
   }
 }
