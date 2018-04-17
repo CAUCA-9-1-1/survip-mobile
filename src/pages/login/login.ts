@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
+import {InspectionsPage} from '../inspections/inspections';
 
 @IonicPage()
 @Component({
@@ -24,8 +25,13 @@ export class LoginPage {
   }
 
   ionViewCanEnter(){
-    if (localStorage.getItem('currentToken'))
-      this.redirectToInspectionList();
+    if (localStorage.getItem('currentToken')) {
+      this.authService.isStillLoggedIn()
+        .subscribe(isLoggedIn => {
+          if (isLoggedIn)
+            this.redirectToInspectionList();
+        });
+    }
   }
 
   public onLogin(){
@@ -54,6 +60,6 @@ export class LoginPage {
   }
 
   private redirectToInspectionList(){
-    this.showToast("Pseudo redirection à la page!");
+    this.navCtrl.push(InspectionsPage);
   }
 }

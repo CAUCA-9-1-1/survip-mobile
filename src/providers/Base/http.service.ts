@@ -17,17 +17,21 @@ export class HttpService {
     console.log('chu icitte');
   }
 
-  private getHeaders() : HttpHeaders {
-    return new HttpHeaders({
-      'Content-Type': 'application-json',
-      'Authorization': 'Bearer ' + localStorage.getItem('currentToken')
-    });
+  private getHeaders(){
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('currentToken'),
+        'languageCode': 'fr'
+      })
+    };
+    return options;
   }
 
-  public get(url: string): Observable<any> {
+  public get(url: string, retryCount: number = 3): Observable<any> {
     console.log('get', this.getFullUrl(url));
-    return this.client.get(this.getFullUrl(url), this.getHeaders() )
-      .retry(3)
+    return this.client.get(this.getFullUrl(url),  this.getHeaders() )
+      .retry(retryCount)
       .catch((err: HttpErrorResponse) => this.handleError(err));
   }
 

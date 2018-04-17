@@ -20,6 +20,14 @@ export class AuthenticationService {
     );
   }
 
+  public isStillLoggedIn(){
+    return this.http.get('Authentification/SessionStatus').pipe(
+      map(response => {
+        return response && response.status == 200;
+      })
+    );
+  }
+
   private showLoading() {
     this.loading = this.loadingCtrl.create({content: 'Please wait...'});
     this.loading.present();
