@@ -7,6 +7,7 @@ import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-lev
 import {InterventionHomePage} from '../intervention-home/intervention-home';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {LoginPage} from '../login/login';
+import {Batch} from '../../models/batch';
 
 @IonicPage()
 @Component({
@@ -14,8 +15,8 @@ import {LoginPage} from '../login/login';
   templateUrl: 'inspection-list.html',
 })
 export class InspectionListPage {
-  inspections: Inspection[];
-  filteredInspections: Inspection[];
+  batches: Batch[];
+  filteredBatches: Batch[];
   riskLevels: RiskLevel[];
   searchTerm: string = "";
 
@@ -32,8 +33,8 @@ export class InspectionListPage {
       .subscribe(risks => {
         this.riskLevels = risks
         inspectionService.getAll()
-          .subscribe(inspections => {
-            this.inspections = inspections;
+          .subscribe(batches => {
+            this.batches = batches;
             this.filterList();
             loading.dismiss();
           });
@@ -52,7 +53,7 @@ export class InspectionListPage {
   }
 
   private redirectToLoginPage(){
-    this.navCtrl.setRoot(LoginPage);
+    this.navCtrl.setRoot('LoginPage');
   }
 
   private createLoadingControl() {
@@ -106,16 +107,29 @@ export class InspectionListPage {
 
   public filterList(){
     if (this.searchTerm && this.searchTerm != '')
-      this.filteredInspections = this.inspections.filter(inspection => this.mustBeShown(inspection));
+      this.applyFilter();
     else
-      this.filteredInspections = this.inspections;
+      this.filteredBatches = this.batches;
+  }
+
+  private applyFilter() {
+    this.filteredBatches = JSON.parse(JSON.stringify(this.batches));
+    this.filteredBatches.forEach((batch: Batch) => {
+      batch.inspections = batch.inspections.filter(inspection => this.mustBeShown(inspection));
+    });
+    this.filteredBatches = this.filteredBatches.filter(batch => batch.inspections.length > 0);
+  }
+
+  private groupBy(xs, f) {
+    return xs.reduce((r, v, i, a, k = f(v)) => ((r[k] || (r[k] = [])).push(v), r), {});
   }
 
   private mustBeShown(inspection: Inspection): boolean{
     let riskLevelName = this.getRiskDescription(inspection.idRiskLevel);
     let riskContainsSearchTerm = riskLevelName.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
     let addressContainsSearchTerm = inspection.address.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
-    let batchDescriptionContainsSearchTerm = inspection.batchDescription.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
+    let batchDescriptionContainsSearchTerm = inspection.batchDescription.toLowerCase()
+        .indexOf(this.searchTerm.toLowerCase()) > -1;
     return riskContainsSearchTerm || addressContainsSearchTerm || batchDescriptionContainsSearchTerm;
   }
 }

@@ -5,13 +5,14 @@ import {Observable} from 'rxjs/Rx';
 import {Inspection} from '../../interfaces/inspection.interface';
 import {HttpService} from '../Base/http.service';
 import {map} from 'rxjs/operators';
+import {Batch} from '../../models/batch';
 
 @Injectable()
 export class InspectionRepositoryProvider{
 
   constructor(public http: HttpService) {}
 
-  getAll(): Observable<Inspection[]> {
+  getAll(): Observable<Batch[]> {
     return this.http.get('inspection')
       .pipe(
         map(response => {
