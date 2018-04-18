@@ -2,5 +2,6 @@ export class RiskLevel {
   id: string;
   name: string;
   color: string;
-  code: string;
+  code: number;
+  sequence: number;
 }

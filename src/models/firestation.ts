@@ -1,4 +1,4 @@
 export class FirestationForlist {
-  idFirestation: string;
-  stationName: string;
+  id: string;
+  name: string;
 }

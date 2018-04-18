@@ -1,48 +1,48 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from '../Base/http.service';
 import {Response} from '@angular/http';
-import {InterventionPlanCourseLane} from '../../models/intervention-plan-course-lane';
+import {InterventionFormCourseLane} from '../../models/intervention-form-course-lane';
 import {Observable} from 'rxjs/Observable';
-import {InterventionPlanCourseLaneForlist} from '../../models/intervention-plan-course-lane-forlist';
+import {InterventionFormCourseLaneForList} from '../../models/intervention-form-course-lane-for-list';
 
 @Injectable()
-export class InterventionPlanCourseLaneRepositoryProvider {
+export class InterventionFormCourseLaneRepositoryProvider {
   constructor(private http: HttpService){}
 
-  public get(idInterventionPlanCourseLane: string) : Observable<InterventionPlanCourseLane> {
+  public get(idInterventionPlanCourseLane: string) : Observable<InterventionFormCourseLane> {
     return this.http.get('interventionplancourselane/' + idInterventionPlanCourseLane).map((response: Response) => {
       const result = response.json();
       return result.data;
     });
   }
 
-  public save(courseLane: InterventionPlanCourseLane): Observable<any> {
-    if (courseLane.idInterventionPlanCourseLane == null)
+  public save(courseLane: InterventionFormCourseLane): Observable<any> {
+    if (courseLane.id == null)
       return this.add(courseLane);
     else
       return this.update(courseLane);
   }
 
-  private add(courseLane: InterventionPlanCourseLane) : Observable<any> {
+  private add(courseLane: InterventionFormCourseLane) : Observable<any> {
     return this.http.post('interventionplancourselane', JSON.stringify(courseLane)).map((response: Response) => {
       const result = response.json();
-      courseLane.idInterventionPlanCourseLane = result.idInterventionPlanCourseLane;
+      courseLane.id = result.idInterventionPlanCourseLane;
     });
   }
 
-  private update(courseLane: InterventionPlanCourseLane) : Observable<any> {
+  private update(courseLane: InterventionFormCourseLane) : Observable<any> {
     return this.http.put('interventionplancourselane', JSON.stringify(courseLane)).map((response: Response) => {
       const result = response.json();
     });
   }
 
-  public delete(courseLane: InterventionPlanCourseLane) : Observable<any> {
-    return this.http.delete('interventionplancourselane/' + courseLane.idInterventionPlanCourseLane).map((response: Response) => {
+  public delete(courseLane: InterventionFormCourseLane) : Observable<any> {
+    return this.http.delete('interventionplancourselane/' + courseLane.id).map((response: Response) => {
       const result = response.json();
     });
   }
 
-  public saveCourseLane(course: InterventionPlanCourseLaneForlist) : Observable<any> {
+  public saveCourseLane(course: InterventionFormCourseLaneForList) : Observable<any> {
     return this.http.put('interventionplancourselane', JSON.stringify(course)).map((response: Response) => {
       const result = response.json();
     });

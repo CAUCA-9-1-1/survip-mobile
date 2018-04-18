@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import {HttpService} from '../Base/http.service';
 import {Observable} from 'rxjs/Observable';
-import {RiskLevel} from '../../models/risk-level';
 import {map} from 'rxjs/operators';
 
 @Injectable()
@@ -17,12 +16,6 @@ export class RiskLevelRepositoryProvider {
           console.log(response);
           return response;
         }));
-
-
-      /*.map((response: HttpResponse) => {
-      const result = response.body.json();
-      return result.data;
-    });*/
   }
 
   getById(idRiskLevel: string) {
@@ -35,12 +28,5 @@ export class RiskLevelRepositoryProvider {
             console.log(response);
             return response;
           }));
-        /*.map((response: HttpResponse) => {
-        if (response.body) {
-          return response.body.toJson();
-        } else {
-          return null;
-        }
-      });*/
   }
 }

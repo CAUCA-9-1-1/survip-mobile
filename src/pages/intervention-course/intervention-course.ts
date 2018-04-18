@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
-import {InterventionPlan} from '../../models/intervention-plan';
 import {InterventionCourseDetailPage} from '../intervention-course-detail/intervention-course-detail';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
+import {InterventionForm} from '../../models/intervention-form';
 
 @IonicPage()
 @Component({
@@ -14,7 +14,7 @@ export class InterventionCoursePage {
 
   private hasNavigated: boolean;
 
-  get plan(): InterventionPlan{
+  get plan(): InterventionForm{
     return this.controller.interventionPlan
   }
 

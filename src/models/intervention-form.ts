@@ -1,4 +1,4 @@
-export class InterventionPlan {
+export class InterventionForm {
   id: string;
   planNumber: string;
   planName: string;
@@ -15,7 +15,4 @@ export class InterventionPlan {
   mainBuildingAlias: string;
   mainBuildingIdRiskLevel: string;
   mainBuildingMatricule: string;
-  mainBuildingAffectation: string;
-  mainBuildingRiskLevelName: string;
-  mainBuildingLaneName: string;
 }

@@ -1,34 +1,34 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
-import {InterventionPlan} from '../../models/intervention-plan';
-import {InterventionPlanBuildingForlist} from '../../models/intervention-plan-building-forlist';
+import {InterventionFormBuildingForList} from '../../models/intervention-form-building-for-list';
 import {InterventionDetailRepositoryProvider} from '../repositories/intervention-detail-repository';
 import {LaneRepositoryProvider} from '../repositories/lane-repository';
 import {LoadingController} from 'ionic-angular';
 import {InterventionBuildingsRepositoryProvider} from '../repositories/intervention-buildings-repository';
 import {PictureData} from '../../models/picture-data';
 import {PictureRepositoryProvider} from '../repositories/picture-repository';
-import {InterventionPlanCourse} from '../../models/intervention-plan-course';
-import {InterventionPlanCourseRepositoryProvider} from '../repositories/intervention-plan-course-repository';
-import {InterventionPlanCourseForlist} from '../../models/intervention-plan-course-forlist';
-import {InterventionPlanCourseLaneRepositoryProvider} from '../repositories/intervention-plan-course-lane-repository';
-import {InterventionPlanCourseLane} from '../../models/intervention-plan-course-lane';
+import {InterventionFormCourse} from '../../models/intervention-form-course';
+import {InterventionFormCourseRepositoryProvider} from '../repositories/intervention-form-course-repository';
+import {InterventionFormCourseForList} from '../../models/intervention-form-course-for-list';
+import {InterventionFormCourseLane} from '../../models/intervention-form-course-lane';
 import {FirestationForlist} from '../../models/firestation';
 import {FirestationRepositoryProvider} from '../repositories/firestation-repository';
-import {InterventionPlanCourseLaneForlist} from '../../models/intervention-plan-course-lane-forlist';
+import {InterventionFormCourseLaneForList} from '../../models/intervention-form-course-lane-for-list';
 import {Observable} from 'rxjs/Observable';
+import {InterventionForm} from '../../models/intervention-form';
+import {InterventionFormCourseLaneRepositoryProvider} from '../repositories/intervention-form-course-lane-repository';
 
 @Injectable()
 export class InterventionControllerProvider {
-  public courses : InterventionPlanCourseForlist[];
-  public courseLanes : InterventionPlanCourseLaneForlist[]
-  public buildings: InterventionPlanBuildingForlist[];
+  public courses : InterventionFormCourseForList[];
+  public courseLanes : InterventionFormCourseLaneForList[]
+  public buildings: InterventionFormBuildingForList[];
   public firestations: FirestationForlist[];
 
-  public interventionPlan: InterventionPlan;
+  public interventionPlan: InterventionForm;
   public picture: PictureData;
-  public course: InterventionPlanCourse;
-  public courseLane: InterventionPlanCourseLane;
+  public course: InterventionFormCourse;
+  public courseLane: InterventionFormCourseLane;
 
   public planLoaded: EventEmitter<any> = new EventEmitter<any>();
   public pictureLoaded: EventEmitter<any> = new EventEmitter<any>();
@@ -41,8 +41,8 @@ export class InterventionControllerProvider {
     private loadingCtrl: LoadingController,
     private laneRepo: LaneRepositoryProvider,
     private pictureRepo: PictureRepositoryProvider,
-    private courseRepo: InterventionPlanCourseRepositoryProvider,
-    private courseLaneRepo : InterventionPlanCourseLaneRepositoryProvider,
+    private courseRepo: InterventionFormCourseRepositoryProvider,
+    private courseLaneRepo : InterventionFormCourseLaneRepositoryProvider,
     private firestationRepo: FirestationRepositoryProvider
   ) {}
 
@@ -51,7 +51,7 @@ export class InterventionControllerProvider {
     loading.present();
     const result = this.repoDetail.get('0ea6b45c-e437-4dcf-9db8-4d2d015d025c');
     result.subscribe(data => {
-      const plan: InterventionPlan = data as InterventionPlan;
+      const plan: InterventionForm = data as InterventionForm;
       this.laneRepo.currentIdCity = plan.idCity;
       this.interventionPlan = plan;
       this.planLoaded.emit(null);
@@ -64,7 +64,7 @@ export class InterventionControllerProvider {
     loading.present();
     const result = this.courseRepo.getList(this.interventionPlan.id);
     result.subscribe(data => {
-      this.courses = data as InterventionPlanCourseForlist[];
+      this.courses = data as InterventionFormCourseForList[];
       loading.dismiss();
     });
   }
@@ -81,7 +81,7 @@ export class InterventionControllerProvider {
     else {
       const result = this.courseRepo.get(idInterventionPlanCourse);
       result.subscribe(data => {
-        this.course = data.course as InterventionPlanCourse;
+        this.course = data.course as InterventionFormCourse;
         this.courseLanes = data.lanes;
         this.courseLoaded.emit(null);
         loading.dismiss();
@@ -90,8 +90,8 @@ export class InterventionControllerProvider {
   }
 
   createPlanCourse() {
-    var course = new InterventionPlanCourse();
-    course.idInterventionPlan = this.interventionPlan.id;
+    var course = new InterventionFormCourse();
+    course.idInterventionForm = this.interventionPlan.id;
     this.course = course;
     this.courseLanes = [];
   }
@@ -106,7 +106,7 @@ export class InterventionControllerProvider {
     } else {
       const result = this.courseLaneRepo.get(idInterventionPlanCourseLane);
       result.subscribe(data => {
-        this.courseLane = data as InterventionPlanCourseLane;
+        this.courseLane = data as InterventionFormCourseLane;
         this.courseLaneLoaded.emit(null);
         loading.dismiss();
       });
@@ -114,8 +114,8 @@ export class InterventionControllerProvider {
   }
 
   createPlanCourseLane() {
-    var lane = new InterventionPlanCourseLane();
-    lane.idInterventionPlanCourse = this.course.idInterventionPlanCourse;
+    var lane = new InterventionFormCourseLane();
+    lane.idInterventionFormCourse = this.course.id;
     lane.direction = 0;
     lane.sequence = this.courseLanes.length + 1;
     this.courseLane = lane;
@@ -126,7 +126,7 @@ export class InterventionControllerProvider {
     loading.present();
     const result = this.repoBuildings.get('0ea6b45c-e437-4dcf-9db8-4d2d015d025c');
     result.subscribe(data => {
-      this.buildings = data as InterventionPlanBuildingForlist[];
+      this.buildings = data as InterventionFormBuildingForList[];
       loading.dismiss();
     });
   }

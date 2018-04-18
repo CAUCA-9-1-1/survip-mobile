@@ -85,18 +85,18 @@ export class InspectionListPage {
     return "rgba(" + [r, g, b, a].join(",") + ")";
   }
 
-  getRiskCode(idRiskLevel: string): string {
+  getRiskCode(idRiskLevel: string): number {
     const result = this.riskLevels.find(risk => risk.id === idRiskLevel);
     if (result != null) {
       return result.code;
     } else {
-      return '-1';
+      return -1;
     }
   }
 
   itemSelected(inspection: Inspection) {
-    const riskCode: string = this.getRiskCode(inspection.idRiskLevel);
-    if (riskCode == '3' || riskCode == '4') {
+    const riskCode: number = this.getRiskCode(inspection.idRiskLevel);
+    if (riskCode == 3 || riskCode == 4) {
       this.appCtrl.getRootNav().push('InterventionHomePage', { id: inspection.idInterventionForm });
     } else {
       console.log('nope');

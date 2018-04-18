@@ -24,7 +24,7 @@ export class LaneRepositoryProvider implements ServiceForListInterface {
     } else {
       return this.http.get('lanelight/fr/' + idLane).map((response: Response) => {
         const result = response.json();
-        return (result.data as Lane[])[0].fullName;
+        return (result.data as Lane[])[0].name;
       });
     }
   }

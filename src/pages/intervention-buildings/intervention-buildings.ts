@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {LaneRepositoryProvider} from '../../providers/repositories/lane-repository';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
-import {InterventionPlanBuildingForlist} from '../../models/intervention-plan-building-forlist';
+import {InterventionFormBuildingForList} from '../../models/intervention-form-building-for-list';
 import {InterventionPlan} from '../../models/intervention-plan';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
+import {InterventionForm} from '../../models/intervention-form';
 
 /**
  * Generated class for the InterventionBuildingsPage page.
@@ -18,11 +18,11 @@ import {AuthenticationService} from '../../providers/Base/authentification.servi
   templateUrl: 'intervention-buildings.html',
 })
 export class InterventionBuildingsPage {
-  get plan(): InterventionPlan{
+  get plan(): InterventionForm{
     return this.controller.interventionPlan
   }
 
-  get buildings(): InterventionPlanBuildingForlist[] {
+  get buildings(): InterventionFormBuildingForList[] {
     return this.controller.buildings;
   }
 
