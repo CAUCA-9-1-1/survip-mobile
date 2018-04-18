@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams, reorderArray} from 'ionic-angular';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AuthenticationService} from '../../providers/Base/authentification.service';
 
 @IonicPage()
 @Component({
@@ -17,6 +18,7 @@ export class InterventionCourseDetailPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private authService: AuthenticationService,
     public controller: InterventionControllerProvider,
     private alertCtrl: AlertController,
     private fb: FormBuilder){
@@ -31,7 +33,7 @@ export class InterventionCourseDetailPage {
 
   ionViewCanLeave() {
     if (this.form.dirty || !this.form.valid) {
-      return new Promise((resolve, rejeect) => {
+      return new Promise((resolve, reject) => {
         let alert = this.alertCtrl.create({
           title: 'Confirmation',
           message: "Le parcours contient des erreurs de validation et n'a pas été sauvegardé.  Voulez-vous quand même retourner à la page précédente?",
@@ -43,6 +45,16 @@ export class InterventionCourseDetailPage {
         return alert.present()
       });
     }
+  }
+
+  async ionViewCanEnter() {
+    let isLoggedIn = await this.authService.isStillLoggedIn();
+    if (!isLoggedIn)
+      this.redirectToLoginPage();
+  }
+
+  private redirectToLoginPage(){
+    this.navCtrl.setRoot('LoginPage');
   }
 
   ionViewDidEnter() {

@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 import {PictureData} from '../../models/picture-data';
 import {InterventionPlan} from '../../models/intervention-plan';
+import {AuthenticationService} from '../../providers/Base/authentification.service';
 
 /**
  * Generated class for the InterventionImplantationPlanPage page.
@@ -31,6 +32,7 @@ export class InterventionImplantationPlanPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private authService: AuthenticationService,
     private fb: FormBuilder,
     private controller: InterventionControllerProvider,) {
     this.createForm();
@@ -39,6 +41,16 @@ export class InterventionImplantationPlanPage {
 
   ionViewDidLoad() {
     this.controller.loadInterventionPlanPicture();
+  }
+
+  async ionViewCanEnter() {
+    let isLoggedIn = await this.authService.isStillLoggedIn();
+    if (!isLoggedIn)
+      this.redirectToLoginPage();
+  }
+
+  private redirectToLoginPage(){
+    this.navCtrl.setRoot('LoginPage');
   }
 
   private createForm() {

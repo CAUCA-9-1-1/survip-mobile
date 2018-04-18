@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AuthenticationService} from '../../providers/Base/authentification.service';
 //import {ContextService, DetailedContext, IgoMap} from 'igo2';
 
 @IonicPage()
@@ -11,6 +12,7 @@ export class InspectionMapPage implements OnInit{
   //public map = new IgoMap();
 
   constructor(/*private contextService: ContextService,*/
+              private authService: AuthenticationService,
               public navCtrl: NavController,
               public navParams: NavParams) {
   }
@@ -38,6 +40,16 @@ export class InspectionMapPage implements OnInit{
       },
       'layers': [layer1]
     } as DetailedContext);*/
+  }
+
+  async ionViewCanEnter() {
+    let isLoggedIn = await this.authService.isStillLoggedIn();
+    if (!isLoggedIn)
+      this.redirectToLoginPage();
+  }
+
+  private redirectToLoginPage(){
+    this.navCtrl.setRoot('LoginPage');
   }
 
   ionViewDidLoad() {

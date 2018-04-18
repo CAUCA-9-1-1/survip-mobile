@@ -44,12 +44,10 @@ export class InspectionListPage {
   ionViewDidLoad() {
   }
 
-  ionViewCanEnter() {
-    this.authService.isStillLoggedIn()
-      .subscribe(isLoggedIn => {
-        if (!isLoggedIn)
-          this.redirectToLoginPage();
-      });
+  async ionViewCanEnter() {
+    let isLoggedIn = await this.authService.isStillLoggedIn();
+    if (!isLoggedIn)
+      this.redirectToLoginPage();
   }
 
   private redirectToLoginPage(){

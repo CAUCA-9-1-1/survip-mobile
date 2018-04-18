@@ -20,12 +20,12 @@ export class AuthenticationService {
     );
   }
 
-  public isStillLoggedIn(){
+  public async isStillLoggedIn() : Promise<boolean> {
     return this.http.get('Authentification/SessionStatus').pipe(
       map(response => {
         return response && response.status == 200;
       })
-    );
+    ).toPromise();
   }
 
   private showLoading() {

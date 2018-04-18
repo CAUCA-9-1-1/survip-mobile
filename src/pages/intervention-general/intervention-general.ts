@@ -7,6 +7,7 @@ import {InterventionControllerProvider} from '../../providers/intervention-contr
 import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-level-repository';
 import {LaneRepositoryProvider} from '../../providers/repositories/lane-repository';
 import {ISubscription} from 'rxjs/Subscription';
+import {AuthenticationService} from '../../providers/Base/authentification.service';
 
 /**
  * Generated class for the InterventionGeneralPage page.
@@ -38,6 +39,7 @@ export class InterventionGeneralPage implements OnDestroy {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private fb: FormBuilder,
+              private authService: AuthenticationService,
               private controller: InterventionControllerProvider,
               private riskLevelService: RiskLevelRepositoryProvider,
               public laneService: LaneRepositoryProvider) {
@@ -47,6 +49,16 @@ export class InterventionGeneralPage implements OnDestroy {
 
   ionViewDidLoad() {
     this.controller.loadInterventionPlan(this.navParams.data['id']);
+  }
+
+  async ionViewCanEnter() {
+    let isLoggedIn = await this.authService.isStillLoggedIn();
+    if (!isLoggedIn)
+      this.redirectToLoginPage();
+  }
+
+  private redirectToLoginPage(){
+    this.navCtrl.setRoot('LoginPage');
   }
 
   setValuesAndStartListening() {

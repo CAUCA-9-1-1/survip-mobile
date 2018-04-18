@@ -20,17 +20,16 @@ export class LoginPage {
     private toastCtrl: ToastController) {
   }
 
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
 
-  ionViewCanEnter(){
+  async ionViewCanEnter(){
     if (localStorage.getItem('currentToken')) {
-      this.authService.isStillLoggedIn()
-        .subscribe(isLoggedIn => {
-          if (isLoggedIn)
-            this.redirectToInspectionList();
-        });
+      let isLoggedIn = await this.authService.isStillLoggedIn();
+      if (isLoggedIn)
+        this.redirectToInspectionList();
     }
   }
 

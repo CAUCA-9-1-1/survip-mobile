@@ -3,6 +3,7 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 import {InterventionPlan} from '../../models/intervention-plan';
 import {InterventionCourseDetailPage} from '../intervention-course-detail/intervention-course-detail';
+import {AuthenticationService} from '../../providers/Base/authentification.service';
 
 @IonicPage()
 @Component({
@@ -20,7 +21,8 @@ export class InterventionCoursePage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public controller: InterventionControllerProvider) {
+    public controller: InterventionControllerProvider,
+    private authService: AuthenticationService) {
     controller.loadCourseList();
   }
 
@@ -32,6 +34,16 @@ export class InterventionCoursePage {
       this.hasNavigated = false;
       this.controller.loadCourseList();
     }
+  }
+
+  async ionViewCanEnter() {
+    let isLoggedIn = await this.authService.isStillLoggedIn();
+    if (!isLoggedIn)
+      this.redirectToLoginPage();
+  }
+
+  private redirectToLoginPage(){
+    this.navCtrl.setRoot('LoginPage');
   }
 
   onItemClick(idInterventionPlanCourse: string) {

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AuthenticationService} from '../../providers/Base/authentification.service';
 
 /**
  * Generated class for the InterventionWaterSuppliesPage page.
@@ -14,11 +15,22 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class InterventionWaterSuppliesPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+              private authService: AuthenticationService,
+              public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad InterventionWaterSuppliesPage');
   }
 
+  async ionViewCanEnter() {
+    let isLoggedIn = await this.authService.isStillLoggedIn();
+    if (!isLoggedIn)
+      this.redirectToLoginPage();
+  }
+
+  private redirectToLoginPage() {
+    this.navCtrl.setRoot('LoginPage');
+  }
 }
