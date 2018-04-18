@@ -22,8 +22,8 @@ import {PictureRepositoryProvider} from '../providers/repositories/picture-repos
 import {InterventionBuildingsRepositoryProvider} from '../providers/repositories/intervention-buildings-repository';
 import {ComponentsModule} from '../components/components.module';
 import {FormsModule} from '@angular/forms';
-import {InterventionPlanCourseRepositoryProvider} from '../providers/repositories/intervention-plan-course-repository';
-import {InterventionPlanCourseLaneRepositoryProvider} from '../providers/repositories/intervention-plan-course-lane-repository';
+import {InterventionFormCourseRepositoryProvider} from '../providers/repositories/intervention-form-course-repository';
+import {InterventionFormCourseLaneRepositoryProvider} from '../providers/repositories/intervention-form-course-lane-repository';
 import {FirestationRepositoryProvider} from '../providers/repositories/firestation-repository';
 import {RouteDirectionRepositoryProvider} from '../providers/repositories/route-direction-repository';
 import {DirectivesModule} from '../directives/directives.module';
@@ -94,8 +94,8 @@ export function httpServiceFactory(
     LaneRepositoryProvider,
     InterventionDetailRepositoryProvider,
     InterventionBuildingsRepositoryProvider,
-    InterventionPlanCourseRepositoryProvider,
-    InterventionPlanCourseLaneRepositoryProvider,
+    InterventionFormCourseRepositoryProvider,
+    InterventionFormCourseLaneRepositoryProvider,
     FirestationRepositoryProvider,
     RouteDirectionRepositoryProvider,
     //ConfigService,

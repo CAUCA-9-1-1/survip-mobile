@@ -10,7 +10,7 @@ export class InterventionRepositoryProvider {
 
   //public features$ = new BehaviorSubject<Feature[]>([]);
 
-  constructor(private inspectionService: InspectionRepositoryProvider) {
+  constructor(/*private inspectionService: InspectionRepositoryProvider*/) {
     //this.getFeatures();
   }
 

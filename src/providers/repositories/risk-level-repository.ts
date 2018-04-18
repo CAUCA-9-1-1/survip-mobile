@@ -11,11 +11,7 @@ export class RiskLevelRepositoryProvider {
 
   getAll() {
     return this.http.get('risklevel', 3)
-      .pipe(
-        map(response => {
-          console.log(response);
-          return response;
-        }));
+      .pipe(map(response => response));
   }
 
   getById(idRiskLevel: string) {
@@ -23,10 +19,6 @@ export class RiskLevelRepositoryProvider {
       return Observable.of('');
     else
       return this.http.get('risklevel/' + idRiskLevel, 3)
-        .pipe(
-          map(response => {
-            console.log(response);
-            return response;
-          }));
+        .pipe(map(response => response));
   }
 }

@@ -1,22 +1,21 @@
 import {Injectable} from '@angular/core';
-import {Response} from '@angular/http';
 import {HttpService} from '../Base/http.service';
 import {Observable} from 'rxjs/Observable';
 import {InterventionPlan} from '../../models/intervention-plan';
+import {InterventionForm} from '../../models/intervention-form';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class InterventionDetailRepositoryProvider{
   constructor(private http: HttpService) {}
 
-  public get(idIntervention : string): Observable<InterventionPlan>{
-    return this.http.get('interventionplangeneralinformations/fr/' + idIntervention).map((response : Response) => {
-      const result = response.json();
-      return result.data;
-    });
+  public get(idIntervention : string): Observable<InterventionForm>{
+    return this.http.get('interventionplangeneralinformations/fr/' + idIntervention)
+      .pipe(map(response => response));
   }
 
   public savePlanField(idInterventionPlan: string, fieldName: string, value: string): Observable<boolean>{
     return this.http.put('interventionplangeneralinformations/' + idInterventionPlan + '/' + fieldName + '/' + value)
-      .map((response: Response) => response.ok);
+      .pipe(map(response => response));
   }
 }

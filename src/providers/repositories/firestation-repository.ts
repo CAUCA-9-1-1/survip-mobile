@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from '../Base/http.service';
-import {Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {FirestationForlist} from '../../models/firestation';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class FirestationRepositoryProvider {
@@ -10,9 +10,7 @@ export class FirestationRepositoryProvider {
 
   public getList() : Observable<FirestationForlist[]>
   {
-    return this.http.get('firestationforlist').map((response: Response) => {
-      const result = response.json();
-      return result.data;
-    });
+    return this.http.get('firestationforlist')
+      .pipe(map(response => response));
   }
 }
