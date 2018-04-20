@@ -11,13 +11,13 @@ export class InterventionFormCourseRepositoryProvider {
 
   constructor(private http: HttpService) {}
 
-  public getList(idInterventionPlan : string): Observable<InterventionFormCourseForList[]>{
-   return this.http.get('interventionplancourseforlist/' + idInterventionPlan)
+  public getList(idInterventionForm : string): Observable<InterventionFormCourseForList[]>{
+   return this.http.get('interventionplancourseforlist/' + idInterventionForm)
      .pipe(map(response => response));
   }
 
-  public get(idInterventionPlanCourse: string) : Observable<CourseLanes> {
-    return this.http.get('interventionplancourse/' + idInterventionPlanCourse)
+  public get(idInterventionFormCourse: string) : Observable<CourseLanes> {
+    return this.http.get('interventionplancourse/' + idInterventionFormCourse)
       .pipe(map(response => response));
   }
 

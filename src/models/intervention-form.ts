@@ -6,13 +6,12 @@ export class InterventionForm {
   idPictureSitePlan: string;
   otherInformation: string;
   createdOn: Date;
-  /*revisedOn: Date;
-  approvedOn: Date;*/
   isActive: boolean;
   idCity: string;
   mainBuildingAddress: string;
   mainBuildingIdLane: string;
-  mainBuildingAlias: string;
+  mainBuildingName: string;
   mainBuildingIdRiskLevel: string;
   mainBuildingMatricule: string;
+  mainBuildingIdUtilisationCode: string;
 }

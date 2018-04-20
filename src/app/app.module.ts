@@ -1,5 +1,5 @@
 import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import {IonicApp, IonicErrorHandler, IonicModule, NavController} from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
@@ -35,6 +35,7 @@ import {AuthenticationService} from '../providers/Base/authentification.service'
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import { HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
+import {UtilisationCodeRepositoryProvider} from '../providers/repositories/utilisation-code-repository';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -97,6 +98,7 @@ export function httpServiceFactory(
     InterventionFormCourseRepositoryProvider,
     InterventionFormCourseLaneRepositoryProvider,
     FirestationRepositoryProvider,
+    UtilisationCodeRepositoryProvider,
     RouteDirectionRepositoryProvider,
     //ConfigService,
     HttpService,

@@ -3,8 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 import {PictureData} from '../../models/picture-data';
-import {InterventionPlan} from '../../models/intervention-plan';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
+import {InterventionForm} from '../../models/intervention-form';
 
 /**
  * Generated class for the InterventionImplantationPlanPage page.
@@ -25,8 +25,8 @@ export class InterventionImplantationPlanPage {
     return this.controller.picture;
   }
 
-  get plan(): InterventionPlan{
-    return this.controller.interventionPlan
+  get plan(): InterventionForm{
+    return this.controller.interventionForm
   }
 
   constructor(
@@ -40,7 +40,7 @@ export class InterventionImplantationPlanPage {
   }
 
   ionViewDidLoad() {
-    this.controller.loadInterventionPlanPicture();
+    this.controller.loadInterventionFormPicture();
   }
 
   async ionViewCanEnter() {

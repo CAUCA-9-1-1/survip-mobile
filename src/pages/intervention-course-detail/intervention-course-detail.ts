@@ -25,7 +25,7 @@ export class InterventionCourseDetailPage {
     this.createForm();
     controller.courseLoaded.subscribe(() => this.setValuesAndStartListening());
     controller.loadFirestations();
-    controller.loadSpecificCourse(navParams.get('idInterventionPlanCourse'));
+    controller.loadSpecificCourse(navParams.get('idInterventionFormCourse'));
   }
 
   ionViewDidLoad() {
@@ -60,7 +60,7 @@ export class InterventionCourseDetailPage {
   ionViewDidEnter() {
     if (this.hasNavigated) {
       this.hasNavigated = false;
-      this.controller.loadSpecificCourse(this.navParams.get('idInterventionPlanCourse'));
+      this.controller.loadSpecificCourse(this.navParams.get('idInterventionFormCourse'));
     }
   }
 
@@ -107,8 +107,8 @@ export class InterventionCourseDetailPage {
       this.controller.setLanesSequenceAndSave();
   }
 
-  public onClickLane(idInterventionPlanCourseLane: string): void {
-    if (idInterventionPlanCourseLane == null && !this.form.valid) {
+  public onClickLane(idInterventionFormCourseLane: string): void {
+    if (idInterventionFormCourseLane == null && !this.form.valid) {
       let alert = this.alertCtrl.create({
         title: 'Avertissement',
         message: "Vous devez sélectionner une caserne avant de pouvoir ajouter une rue.",
@@ -116,12 +116,12 @@ export class InterventionCourseDetailPage {
 
       alert.present();
     } else
-      this.navigateToLanePage(idInterventionPlanCourseLane);
+      this.navigateToLanePage(idInterventionFormCourseLane);
   }
 
-  private navigateToLanePage(idInterventionPlanCourseLane: string) {
+  private navigateToLanePage(idInterventionFormCourseLane: string) {
     this.hasNavigated = true;
-    this.navCtrl.push("InterventionCourseLanePage", {idInterventionPlanCourseLane: idInterventionPlanCourseLane});
+    this.navCtrl.push("InterventionCourseLanePage", {idInterventionFormCourseLane: idInterventionFormCourseLane});
   }
 
   private onDeleteCourse() {

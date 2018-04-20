@@ -15,7 +15,7 @@ export class InterventionCoursePage {
   private hasNavigated: boolean;
 
   get plan(): InterventionForm{
-    return this.controller.interventionPlan
+    return this.controller.interventionForm
   }
 
   constructor(
@@ -46,8 +46,8 @@ export class InterventionCoursePage {
     this.navCtrl.setRoot('LoginPage');
   }
 
-  onItemClick(idInterventionPlanCourse: string) {
+  onItemClick(idInterventionFormCourse: string) {
     this.hasNavigated = true;
-    this.navCtrl.push("InterventionCourseDetailPage", {idInterventionPlanCourse: idInterventionPlanCourse});
+    this.navCtrl.push("InterventionCourseDetailPage", {idInterventionFormCourse: idInterventionFormCourse});
   }
 }

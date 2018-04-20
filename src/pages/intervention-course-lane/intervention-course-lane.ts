@@ -27,7 +27,7 @@ export class InterventionCourseLanePage {
     private directionRepo: RouteDirectionRepositoryProvider) {
     this.createForm();
     controller.courseLaneLoaded.subscribe(() => this.setValuesAndStartListening());
-    controller.loadSpecificCourseLane(navParams.get('idInterventionPlanCourseLane'));
+    controller.loadSpecificCourseLane(navParams.get('idInterventionFormCourseLane'));
     directionRepo.getList().subscribe(data => this.directions = data);
   }
 

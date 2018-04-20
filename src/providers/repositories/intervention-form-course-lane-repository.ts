@@ -9,8 +9,8 @@ import {map} from 'rxjs/operators';
 export class InterventionFormCourseLaneRepositoryProvider {
   constructor(private http: HttpService){}
 
-  public get(idInterventionPlanCourseLane: string) : Observable<InterventionFormCourseLane> {
-    return this.http.get('interventionplancourselane/' + idInterventionPlanCourseLane)
+  public get(idInterventionFormCourseLane: string) : Observable<InterventionFormCourseLane> {
+    return this.http.get('interventionplancourselane/' + idInterventionFormCourseLane)
       .pipe(map(response => response));
   }
 

@@ -9,13 +9,18 @@ import {map} from 'rxjs/operators';
 export class InterventionDetailRepositoryProvider{
   constructor(private http: HttpService) {}
 
-  public get(idIntervention : string): Observable<InterventionForm>{
-    return this.http.get('interventionplangeneralinformations/fr/' + idIntervention)
+  public get(idInterventionForm : string): Observable<InterventionForm>{
+    return this.http.get('interventionform/forweb/' + idInterventionForm)
       .pipe(map(response => response));
   }
 
-  public savePlanField(idInterventionPlan: string, fieldName: string, value: string): Observable<boolean>{
-    return this.http.put('interventionplangeneralinformations/' + idInterventionPlan + '/' + fieldName + '/' + value)
+  public savePlanLane(idInterventionForm: string, idTransversal: string): Observable<boolean>{
+    return this.http.put('interventionform/forweb/' + idInterventionForm + '/idLaneIntersection/' + idTransversal)
+      .pipe(map(response => response));
+  }
+
+  public savePicture(idInterventionForm: string, idPicture: string): Observable<boolean>{
+    return this.http.put('interventionform/forweb/' + idInterventionForm + '/idPicture/' + idPicture)
       .pipe(map(response => response));
   }
 }

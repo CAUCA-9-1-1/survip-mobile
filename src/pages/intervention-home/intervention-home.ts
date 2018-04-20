@@ -22,6 +22,8 @@ export class InterventionHomePage {
   private implantationPlanPage = 'InterventionImplantationPlanPage'
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController, private controller: InterventionControllerProvider) {
+    console.log(this.navParams.data);
+    controller.setIdInterventionForm(this.navParams.data['id']);
   }
 
   ionViewDidLoad() {

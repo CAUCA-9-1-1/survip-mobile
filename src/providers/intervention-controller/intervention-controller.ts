@@ -20,12 +20,14 @@ import {InterventionFormCourseLaneRepositoryProvider} from '../repositories/inte
 
 @Injectable()
 export class InterventionControllerProvider {
+  public idInterventionForm: string;
+
   public courses : InterventionFormCourseForList[];
   public courseLanes : InterventionFormCourseLaneForList[]
   public buildings: InterventionFormBuildingForList[];
   public firestations: FirestationForlist[];
 
-  public interventionPlan: InterventionForm;
+  public interventionForm: InterventionForm;
   public picture: PictureData;
   public course: InterventionFormCourse;
   public courseLane: InterventionFormCourseLane;
@@ -46,14 +48,20 @@ export class InterventionControllerProvider {
     private firestationRepo: FirestationRepositoryProvider
   ) {}
 
-  loadInterventionPlan(idInterventionPlan: string){
+  public setIdInterventionForm(idInterventionForm: string){
+    console.log('set', idInterventionForm);
+    this.idInterventionForm = idInterventionForm;
+  }
+
+  loadInterventionForm(){
+    console.log("load");
     const loading = this.createLoadingControl();
     loading.present();
-    const result = this.repoDetail.get('0ea6b45c-e437-4dcf-9db8-4d2d015d025c');
+    const result = this.repoDetail.get(this.idInterventionForm);
     result.subscribe(data => {
       const plan: InterventionForm = data as InterventionForm;
       this.laneRepo.currentIdCity = plan.idCity;
-      this.interventionPlan = plan;
+      this.interventionForm = plan;
       this.planLoaded.emit(null);
       loading.dismiss();
       });
@@ -62,24 +70,24 @@ export class InterventionControllerProvider {
   loadCourseList() {
     const loading = this.createLoadingControl();
     loading.present();
-    const result = this.courseRepo.getList(this.interventionPlan.id);
+    const result = this.courseRepo.getList(this.interventionForm.id);
     result.subscribe(data => {
       this.courses = data as InterventionFormCourseForList[];
       loading.dismiss();
     });
   }
 
-  loadSpecificCourse(idInterventionPlanCourse: string) {
+  loadSpecificCourse(idInterventionFormCourse: string) {
     const loading = this.createLoadingControl();
     loading.present();
 
-    if (idInterventionPlanCourse == null) {
+    if (idInterventionFormCourse == null) {
       this.createPlanCourse();
       this.courseLoaded.emit(null);
       loading.dismiss();
     }
     else {
-      const result = this.courseRepo.get(idInterventionPlanCourse);
+      const result = this.courseRepo.get(idInterventionFormCourse);
       result.subscribe(data => {
         this.course = data.course as InterventionFormCourse;
         this.courseLanes = data.lanes;
@@ -91,20 +99,20 @@ export class InterventionControllerProvider {
 
   createPlanCourse() {
     var course = new InterventionFormCourse();
-    course.idInterventionForm = this.interventionPlan.id;
+    course.idInterventionForm = this.interventionForm.id;
     this.course = course;
     this.courseLanes = [];
   }
 
-  loadSpecificCourseLane(idInterventionPlanCourseLane: string) {
+  loadSpecificCourseLane(idInterventionFormCourseLane: string) {
     const loading = this.createLoadingControl();
     loading.present();
-    if (idInterventionPlanCourseLane == null){
+    if (idInterventionFormCourseLane == null){
       this.createPlanCourseLane();
       this.courseLaneLoaded.emit(null);
       loading.dismiss();
     } else {
-      const result = this.courseLaneRepo.get(idInterventionPlanCourseLane);
+      const result = this.courseLaneRepo.get(idInterventionFormCourseLane);
       result.subscribe(data => {
         this.courseLane = data as InterventionFormCourseLane;
         this.courseLaneLoaded.emit(null);
@@ -145,10 +153,10 @@ export class InterventionControllerProvider {
     return this.loadingCtrl.create({content: 'Chargement...'});
   }
 
-  loadInterventionPlanPicture() {
+  loadInterventionFormPicture() {
     const loading = this.createLoadingControl();
     loading.present();
-    const result = this.pictureRepo.getPicture(this.interventionPlan.idPictureSitePlan);
+    const result = this.pictureRepo.getPicture(this.interventionForm.idPictureSitePlan);
     result.subscribe(data => {
       this.picture = data as PictureData;
       this.pictureLoaded.emit(null);
@@ -159,21 +167,21 @@ export class InterventionControllerProvider {
   savePicture() {
     this.pictureRepo.savePicture(this.picture)
       .subscribe(response => {
-        if (this.interventionPlan.idPictureSitePlan == null)
+        if (this.interventionForm.idPictureSitePlan == null)
           this.savePlanIdPicture(response.json()['idPicture']);
       });
   }
 
   private savePlanIdPicture(idPicture: string) {
-    this.interventionPlan.idPictureSitePlan = idPicture;
-    this.repoDetail.savePlanField(this.interventionPlan.id, 'idPictureSitePlan', this.interventionPlan.idPictureSitePlan)
+    this.interventionForm.idPictureSitePlan = idPicture;
+    this.repoDetail.savePicture(this.interventionForm.id, this.interventionForm.idPictureSitePlan)
       .subscribe(ok => {
         console.log("Picture saved", ok);
       });
   }
 
-  savePlan(){
-    this.repoDetail.savePlanField(this.interventionPlan.id, 'idLaneTransversal', this.interventionPlan.idLaneTransversal)
+  savePlanTransversal(){
+    this.repoDetail.savePlanLane(this.interventionForm.id, this.interventionForm.idLaneTransversal)
       .subscribe(ok => {
         console.log("Plan saved", ok);
       });

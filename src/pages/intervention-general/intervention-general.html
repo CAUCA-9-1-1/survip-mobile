@@ -31,12 +31,12 @@
 
       <ion-item>
         <ion-label fixed>Risque</ion-label>
-        <ion-input type="text" disabled value="{{riskLevel?.description}}"></ion-input>
+        <ion-input type="text" disabled value="{{riskLevel?.name}}"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label fixed>Affectation</ion-label>
-        <ion-input type="text" disabled value="{{plan?.mainBuildingAffectation}}"></ion-input>
+        <ion-input type="text" disabled value="{{utilisationCodeName}}"></ion-input>
       </ion-item>
 
       <ion-item>
@@ -46,18 +46,18 @@
 
       <ion-item>
         <ion-label fixed>Alias</ion-label>
-        <ion-input type="text" disabled value="{{plan?.mainBuildingAlias}}"></ion-input>
+        <ion-input type="text" disabled value="{{plan?.mainBuildingName}}"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label fixed>Voie de circu.</ion-label>
-        <ion-input type="text" disabled value="{{plan?.mainBuildingLaneName}}"></ion-input>
+        <ion-input type="text" disabled value="{{laneName}}"></ion-input>
       </ion-item>
 
       <search-box
           [description]="'Transversale'"
           formControlName="idLaneTransversal"
-          [displayFieldName]="'fullName'"
+          [displayFieldName]="'name'"
           [keyFieldName]="'id'"
           [dataService]="laneService"></search-box>
     </ion-list>

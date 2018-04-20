@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 import {InterventionFormBuildingForList} from '../../models/intervention-form-building-for-list';
-import {InterventionPlan} from '../../models/intervention-plan';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InterventionForm} from '../../models/intervention-form';
 
@@ -19,7 +18,7 @@ import {InterventionForm} from '../../models/intervention-form';
 })
 export class InterventionBuildingsPage {
   get plan(): InterventionForm{
-    return this.controller.interventionPlan
+    return this.controller.interventionForm
   }
 
   get buildings(): InterventionFormBuildingForList[] {

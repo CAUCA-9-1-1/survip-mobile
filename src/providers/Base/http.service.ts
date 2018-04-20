@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-//import {ConfigService} from './config.service';
 
 @Injectable()
 export class HttpService {
@@ -10,7 +9,7 @@ export class HttpService {
 
   constructor(
     //config: ConfigService,
-    private client: HttpClient,
+    private client: HttpClient
   ) {
     //this.apiUrl = config.getConfig('apiUrl');
     console.log(this.apiUrl);
@@ -70,12 +69,14 @@ export class HttpService {
       console.error(
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`);
+      if (error.status == 0 || error.status == 401)
+        console.log("shall redirect");
     }
     return Observable.of({
       'status': error.status,
       'body': error.error
     });
-  };
+  }
 }
 
 
