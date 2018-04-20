@@ -1,18 +1,18 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from '../Base/http.service';
 import {Lane} from '../../models/lane';
-import {ServiceForListInterface} from '../../interfaces/service-for-list.interface'
 import {Observable} from 'rxjs/Observable';
 import {map} from 'rxjs/operators';
+import {ServiceForListInterface} from '../../interfaces/service-for-list.interface';
 
 @Injectable()
-export class LaneRepositoryProvider implements ServiceForListInterface {
-  public currentIdCity: string = "";
+export class LaneRepositoryProvider implements ServiceForListInterface  {
+  public currentIdCity : string;
 
   constructor(private http: HttpService) {}
 
   getAll(): Observable<Lane>{
-    return this.http.get('citylanes/fr/' + this.currentIdCity)
+    return this.http.get('lane/city/' + this.currentIdCity)
       .pipe(map(response => response));
   }
 
@@ -20,8 +20,11 @@ export class LaneRepositoryProvider implements ServiceForListInterface {
     if (!idLane) {
       return Observable.of("");
     } else {
-      return this.http.get('lanelight/fr/' + idLane)
-        .pipe(map(response => response));
+      return this.http.get('lane/localized/' + idLane)
+        .pipe(map(response => {
+          console.log(response);
+          return response;
+        }));
     }
   }
 

@@ -44,6 +44,8 @@ export class SearchBoxComponent implements ControlValueAccessor, OnDestroy{
   }
 
   set value(value: string) {
+    console.log('yooo!');
+
     if (this.innerValue !== value) {
       this.innerValue = value;
       this.changed.forEach(f => f(value));
