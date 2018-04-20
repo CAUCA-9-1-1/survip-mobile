@@ -12,12 +12,12 @@ export class InterventionFormCourseRepositoryProvider {
   constructor(private http: HttpService) {}
 
   public getList(idInterventionForm : string): Observable<InterventionFormCourseForList[]>{
-   return this.http.get('interventionplancourseforlist/' + idInterventionForm)
+   return this.http.get('interventionformcourse/' + idInterventionForm)
      .pipe(map(response => response));
   }
 
   public get(idInterventionFormCourse: string) : Observable<CourseLanes> {
-    return this.http.get('interventionplancourse/' + idInterventionFormCourse)
+    return this.http.get('interventionformcourse/' + idInterventionFormCourse)
       .pipe(map(response => response));
   }
 
@@ -29,12 +29,12 @@ export class InterventionFormCourseRepositoryProvider {
   }
 
   private add(course: InterventionFormCourse) : Observable<any> {
-    return this.http.post('interventionplancourse', JSON.stringify(course))
+    return this.http.post('interventionformcourse', JSON.stringify(course))
       .pipe(map(response => response));
   }
 
   private update(course: InterventionFormCourse) : Observable<any> {
-    return this.http.put('interventionplancourse', JSON.stringify(course))
+    return this.http.put('interventionformcourse', JSON.stringify(course))
       .pipe(map(response => response));
   }
 
@@ -42,7 +42,7 @@ export class InterventionFormCourseRepositoryProvider {
     if (course.id ==  null)
       return Observable.of('');
     else {
-      return this.http.delete('interventionplancourse/' + course.id)
+      return this.http.delete('interventionformcourse/' + course.id)
         .pipe(map(response => response));
     }
   }
