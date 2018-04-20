@@ -12,7 +12,7 @@ import {Batch} from '../../models/batch';
 @IonicPage()
 @Component({
   selector: 'page-inspection-list',
-  templateUrl: 'inspection-list.html',
+  templateUrl: 'inspection-list.html'
 })
 export class InspectionListPage {
   batches: Batch[];
@@ -86,7 +86,7 @@ export class InspectionListPage {
   }
 
   itemSelected(inspection: Inspection) {
-    this.appCtrl.getRootNav().push('InterventionHomePage', { id: inspection.idInterventionForm });
+    this.navCtrl.push('InterventionHomePage', { id: inspection.idInterventionForm });
   }
 
   public filterList(){
