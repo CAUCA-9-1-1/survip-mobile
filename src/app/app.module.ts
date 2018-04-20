@@ -36,6 +36,7 @@ import {HttpClientModule, HttpClient} from '@angular/common/http';
 import { HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {UtilisationCodeRepositoryProvider} from '../providers/repositories/utilisation-code-repository';
+import {InterventionFormFireHydrantRepositoryProvider} from '../providers/repositories/intervention-form-fire-hydrant-repository';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -97,6 +98,7 @@ export function httpServiceFactory(
     InterventionBuildingsRepositoryProvider,
     InterventionFormCourseRepositoryProvider,
     InterventionFormCourseLaneRepositoryProvider,
+    InterventionFormFireHydrantRepositoryProvider,
     FirestationRepositoryProvider,
     UtilisationCodeRepositoryProvider,
     RouteDirectionRepositoryProvider,

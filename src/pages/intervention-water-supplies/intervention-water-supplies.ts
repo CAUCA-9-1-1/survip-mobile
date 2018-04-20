@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
+import {InterventionFormFireHydrantRepositoryProvider} from '../../providers/repositories/intervention-form-fire-hydrant-repository';
+import {InterventionFormFireHydrantForList} from '../../models/intervention-form-fire-hydrant-for-list';
+import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
+import {InterventionForm} from '../../models/intervention-form';
 
 /**
  * Generated class for the InterventionWaterSuppliesPage page.
@@ -15,9 +19,20 @@ import {AuthenticationService} from '../../providers/Base/authentification.servi
 })
 export class InterventionWaterSuppliesPage {
 
+  get plan(): InterventionForm{
+    return this.controller.interventionForm
+  }
+
+  public fireHydrants: InterventionFormFireHydrantForList[];
+
   constructor(public navCtrl: NavController,
               private authService: AuthenticationService,
-              public navParams: NavParams) {
+              public navParams: NavParams,
+              private controller : InterventionControllerProvider,
+              private fireHydrantService: InterventionFormFireHydrantRepositoryProvider
+              ) {
+    fireHydrantService.get(controller.idInterventionForm)
+      .subscribe(result => this.fireHydrants = result);
   }
 
   ionViewDidLoad() {
@@ -32,5 +47,9 @@ export class InterventionWaterSuppliesPage {
 
   private redirectToLoginPage() {
     this.navCtrl.setRoot('LoginPage');
+  }
+
+  public onClickHydrant(idInterventionFormFireHydrant: string) {
+    console.log("Ouvrir la page ici...");
   }
 }
