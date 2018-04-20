@@ -132,7 +132,7 @@ export class InterventionControllerProvider {
   loadBuildingList() {
     const loading = this.createLoadingControl();
     loading.present();
-    const result = this.repoBuildings.get('0ea6b45c-e437-4dcf-9db8-4d2d015d025c');
+    const result = this.repoBuildings.get(this.idInterventionForm);
     result.subscribe(data => {
       this.buildings = data as InterventionFormBuildingForList[];
       loading.dismiss();

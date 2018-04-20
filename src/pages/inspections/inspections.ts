@@ -12,7 +12,6 @@ export class InspectionsPage {
   inspectionMapRoot = InspectionMapPage;
   idInterventionForm: string;
 
-  constructor(public navCtrl: NavController, public navParam: NavParams) {
-    this.idInterventionForm = navParam.data['id'];
+  constructor(public navCtrl: NavController) {
   }
 }

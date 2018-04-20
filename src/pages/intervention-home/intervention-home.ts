@@ -7,7 +7,9 @@ import {InterventionCoursePage} from '../intervention-course/intervention-course
 import {InterventionFireProtectionPage} from '../repositories-fire-protection/repositories-fire-protection';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 
-@IonicPage()
+@IonicPage({
+  segment: 'inspection/:id'
+})
 @Component({
   selector: 'page-intervention-home',
   templateUrl: 'intervention-home.html',
