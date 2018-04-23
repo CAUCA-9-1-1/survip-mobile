@@ -23,7 +23,7 @@ export class InterventionWaterSuppliesPage {
     return this.controller.interventionForm
   }
 
-  public fireHydrants: InterventionFormFireHydrantForList[];
+  public fireHydrants: InterventionFormFireHydrantForList[] = [];
 
   constructor(public navCtrl: NavController,
               private authService: AuthenticationService,

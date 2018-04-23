@@ -9,11 +9,12 @@
 
 
 <ion-content>
+
   <ion-list>
     <ion-list-header>
       Liste des bornes
     </ion-list-header>
-    <button ion-item *ng-for="let hydrant of fireHydrants" (click)="onClickHydrant(hydrant.id)">
+    <button ion-item *ngFor="let hydrant of fireHydrants" click="onClickHydrant(hydrant.id)">
       <h2>{{hydrant.number}}</h2>
       <p>{{hydrant.address}}</p>
     </button>
