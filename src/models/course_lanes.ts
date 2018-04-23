@@ -1,7 +1,7 @@
-import {InterventionPlanCourse} from './intervention-plan-course';
-import {InterventionPlanCourseLaneForlist} from './intervention-plan-course-lane-forlist';
+import {InterventionFormCourse} from './intervention-form-course';
+import {InterventionFormCourseLaneForList} from './intervention-form-course-lane-for-list';
 
 export class CourseLanes {
-  course: InterventionPlanCourse;
-  lanes: InterventionPlanCourseLaneForlist[]
+  course: InterventionFormCourse;
+  lanes: InterventionFormCourseLaneForList[]
 }

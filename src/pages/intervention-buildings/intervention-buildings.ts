@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {LaneRepositoryProvider} from '../../providers/repositories/lane-repository';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
-import {InterventionPlanBuildingForlist} from '../../models/intervention-plan-building-forlist';
-import {InterventionPlan} from '../../models/intervention-plan';
+import {InterventionFormBuildingForList} from '../../models/intervention-form-building-for-list';
+import {AuthenticationService} from '../../providers/Base/authentification.service';
+import {InterventionForm} from '../../models/intervention-form';
 
 /**
  * Generated class for the InterventionBuildingsPage page.
@@ -17,20 +17,31 @@ import {InterventionPlan} from '../../models/intervention-plan';
   templateUrl: 'intervention-buildings.html',
 })
 export class InterventionBuildingsPage {
-  get plan(): InterventionPlan{
-    return this.controller.interventionPlan
+  get plan(): InterventionForm{
+    return this.controller.interventionForm
   }
 
-  get buildings(): InterventionPlanBuildingForlist[] {
+  get buildings(): InterventionFormBuildingForList[] {
     return this.controller.buildings;
   }
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private controller: InterventionControllerProvider,) {
+              private controller: InterventionControllerProvider,
+              private authService: AuthenticationService) {
     this.controller.loadBuildingList();
   }
 
   ionViewDidLoad() {
+  }
+
+  async ionViewCanEnter() {
+    let isLoggedIn = await this.authService.isStillLoggedIn();
+    if (!isLoggedIn)
+      this.redirectToLoginPage();
+  }
+
+  private redirectToLoginPage(){
+    this.navCtrl.setRoot('LoginPage');
   }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {InspectionMapPage} from '../inspection-map/inspection-map';
 
 @Component({
@@ -10,6 +10,8 @@ import {InspectionMapPage} from '../inspection-map/inspection-map';
 export class InspectionsPage {
   inspectionListRoot = 'InspectionListPage';
   inspectionMapRoot = InspectionMapPage;
+  idInterventionForm: string;
 
-  constructor(public navCtrl: NavController) {}
+  constructor(public navCtrl: NavController) {
+  }
 }

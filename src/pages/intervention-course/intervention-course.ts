@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
-import {InterventionPlan} from '../../models/intervention-plan';
 import {InterventionCourseDetailPage} from '../intervention-course-detail/intervention-course-detail';
+import {AuthenticationService} from '../../providers/Base/authentification.service';
+import {InterventionForm} from '../../models/intervention-form';
 
 @IonicPage()
 @Component({
@@ -13,14 +14,15 @@ export class InterventionCoursePage {
 
   private hasNavigated: boolean;
 
-  get plan(): InterventionPlan{
-    return this.controller.interventionPlan
+  get plan(): InterventionForm{
+    return this.controller.interventionForm
   }
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public controller: InterventionControllerProvider) {
+    public controller: InterventionControllerProvider,
+    private authService: AuthenticationService) {
     controller.loadCourseList();
   }
 
@@ -34,8 +36,18 @@ export class InterventionCoursePage {
     }
   }
 
-  onItemClick(idInterventionPlanCourse: string) {
+  async ionViewCanEnter() {
+    let isLoggedIn = await this.authService.isStillLoggedIn();
+    if (!isLoggedIn)
+      this.redirectToLoginPage();
+  }
+
+  private redirectToLoginPage(){
+    this.navCtrl.setRoot('LoginPage');
+  }
+
+  onItemClick(idInterventionFormCourse: string) {
     this.hasNavigated = true;
-    this.navCtrl.push("InterventionCourseDetailPage", {idInterventionPlanCourse: idInterventionPlanCourse});
+    this.navCtrl.push("InterventionCourseDetailPage", {idInterventionFormCourse: idInterventionFormCourse});
   }
 }

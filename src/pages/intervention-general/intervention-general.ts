@@ -1,12 +1,14 @@
 import {Component, OnDestroy} from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {InterventionPlan} from '../../models/intervention-plan';
 import {RiskLevel} from '../../models/risk-level';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-level-repository';
 import {LaneRepositoryProvider} from '../../providers/repositories/lane-repository';
 import {ISubscription} from 'rxjs/Subscription';
+import {AuthenticationService} from '../../providers/Base/authentification.service';
+import {InterventionForm} from '../../models/intervention-form';
+import {UtilisationCodeRepositoryProvider} from '../../providers/repositories/utilisation-code-repository';
 
 /**
  * Generated class for the InterventionGeneralPage page.
@@ -28,9 +30,11 @@ export class InterventionGeneralPage implements OnDestroy {
   planForm: FormGroup;
   planSubscription: ISubscription;
   idLaneTransversal: string;
+  laneName: string;
+  utilisationCodeName;
 
-  get plan(): InterventionPlan{
-    return this.controller.interventionPlan
+  get plan(): InterventionForm{
+    return this.controller.interventionForm
   }
 
   riskLevel: RiskLevel;
@@ -38,21 +42,37 @@ export class InterventionGeneralPage implements OnDestroy {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private fb: FormBuilder,
+              private authService: AuthenticationService,
               private controller: InterventionControllerProvider,
               private riskLevelService: RiskLevelRepositoryProvider,
-              public laneService: LaneRepositoryProvider) {
+              public laneService: LaneRepositoryProvider,
+              private utilisationCodeService: UtilisationCodeRepositoryProvider) {
+    console.log("general page", controller.idInterventionForm);
     this.createForm();
     controller.planLoaded.subscribe(() => this.setValuesAndStartListening());
   }
 
   ionViewDidLoad() {
-    this.controller.loadInterventionPlan(this.navParams.data['id']);
+    console.log('coudonc ionviewload general', this.navParams.data);
+    this.controller.loadInterventionForm();
+  }
+
+  async ionViewCanEnter() {
+    let isLoggedIn = await this.authService.isStillLoggedIn();
+    if (!isLoggedIn)
+      this.redirectToLoginPage();
+  }
+
+  private redirectToLoginPage(){
+    this.navCtrl.setRoot('LoginPage');
   }
 
   setValuesAndStartListening() {
     this.idLaneTransversal = this.plan.idLaneTransversal;
     this.setValues();
     this.loadRiskLevel();
+    this.loadLaneName();
+    this.loadUtilisationCode();
     this.startWatchingForm();
   }
 
@@ -66,6 +86,20 @@ export class InterventionGeneralPage implements OnDestroy {
     if (this.plan != null) {
       this.riskLevelService.getById(this.plan.mainBuildingIdRiskLevel)
         .subscribe(result => this.riskLevel = result);
+    }
+  }
+
+  loadLaneName() {
+    if (this.plan != null){
+      this.laneService.getDescriptionById(this.plan.mainBuildingIdLane)
+        .subscribe(result => this.laneName = result);
+    }
+  }
+
+  loadUtilisationCode() {
+    if (this.plan != null){
+      this.utilisationCodeService.get(this.plan.mainBuildingIdUtilisationCode)
+        .subscribe(result => this.utilisationCodeName = result.name);
     }
   }
 
@@ -89,7 +123,7 @@ export class InterventionGeneralPage implements OnDestroy {
 
   private saveForm() {
     const formModel  = this.planForm.value;
-    Object.assign(this.controller.interventionPlan, formModel);
-    this.controller.savePlan();
+    Object.assign(this.controller.interventionForm, formModel);
+    this.controller.savePlanTransversal();
   }
 }

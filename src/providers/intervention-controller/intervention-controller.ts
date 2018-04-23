@@ -1,34 +1,36 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
-import {InterventionPlan} from '../../models/intervention-plan';
-import {InterventionPlanBuildingForlist} from '../../models/intervention-plan-building-forlist';
+import {InterventionFormBuildingForList} from '../../models/intervention-form-building-for-list';
 import {InterventionDetailRepositoryProvider} from '../repositories/intervention-detail-repository';
 import {LaneRepositoryProvider} from '../repositories/lane-repository';
 import {LoadingController} from 'ionic-angular';
 import {InterventionBuildingsRepositoryProvider} from '../repositories/intervention-buildings-repository';
 import {PictureData} from '../../models/picture-data';
 import {PictureRepositoryProvider} from '../repositories/picture-repository';
-import {InterventionPlanCourse} from '../../models/intervention-plan-course';
-import {InterventionPlanCourseRepositoryProvider} from '../repositories/intervention-plan-course-repository';
-import {InterventionPlanCourseForlist} from '../../models/intervention-plan-course-forlist';
-import {InterventionPlanCourseLaneRepositoryProvider} from '../repositories/intervention-plan-course-lane-repository';
-import {InterventionPlanCourseLane} from '../../models/intervention-plan-course-lane';
+import {InterventionFormCourse} from '../../models/intervention-form-course';
+import {InterventionFormCourseRepositoryProvider} from '../repositories/intervention-form-course-repository';
+import {InterventionFormCourseForList} from '../../models/intervention-form-course-for-list';
+import {InterventionFormCourseLane} from '../../models/intervention-form-course-lane';
 import {FirestationForlist} from '../../models/firestation';
 import {FirestationRepositoryProvider} from '../repositories/firestation-repository';
-import {InterventionPlanCourseLaneForlist} from '../../models/intervention-plan-course-lane-forlist';
+import {InterventionFormCourseLaneForList} from '../../models/intervention-form-course-lane-for-list';
 import {Observable} from 'rxjs/Observable';
+import {InterventionForm} from '../../models/intervention-form';
+import {InterventionFormCourseLaneRepositoryProvider} from '../repositories/intervention-form-course-lane-repository';
 
 @Injectable()
 export class InterventionControllerProvider {
-  public courses : InterventionPlanCourseForlist[];
-  public courseLanes : InterventionPlanCourseLaneForlist[]
-  public buildings: InterventionPlanBuildingForlist[];
+  public idInterventionForm: string;
+
+  public courses : InterventionFormCourseForList[];
+  public courseLanes : InterventionFormCourseLaneForList[]
+  public buildings: InterventionFormBuildingForList[];
   public firestations: FirestationForlist[];
 
-  public interventionPlan: InterventionPlan;
+  public interventionForm: InterventionForm;
   public picture: PictureData;
-  public course: InterventionPlanCourse;
-  public courseLane: InterventionPlanCourseLane;
+  public course: InterventionFormCourse;
+  public courseLane: InterventionFormCourseLane;
 
   public planLoaded: EventEmitter<any> = new EventEmitter<any>();
   public pictureLoaded: EventEmitter<any> = new EventEmitter<any>();
@@ -41,19 +43,25 @@ export class InterventionControllerProvider {
     private loadingCtrl: LoadingController,
     private laneRepo: LaneRepositoryProvider,
     private pictureRepo: PictureRepositoryProvider,
-    private courseRepo: InterventionPlanCourseRepositoryProvider,
-    private courseLaneRepo : InterventionPlanCourseLaneRepositoryProvider,
+    private courseRepo: InterventionFormCourseRepositoryProvider,
+    private courseLaneRepo : InterventionFormCourseLaneRepositoryProvider,
     private firestationRepo: FirestationRepositoryProvider
   ) {}
 
-  loadInterventionPlan(idInterventionPlan: string){
+  public setIdInterventionForm(idInterventionForm: string){
+    console.log('set', idInterventionForm);
+    this.idInterventionForm = idInterventionForm;
+  }
+
+  loadInterventionForm(){
+    console.log("load");
     const loading = this.createLoadingControl();
     loading.present();
-    const result = this.repoDetail.get('0ea6b45c-e437-4dcf-9db8-4d2d015d025c');
+    const result = this.repoDetail.get(this.idInterventionForm);
     result.subscribe(data => {
-      const plan: InterventionPlan = data as InterventionPlan;
+      const plan: InterventionForm = data as InterventionForm;
       this.laneRepo.currentIdCity = plan.idCity;
-      this.interventionPlan = plan;
+      this.interventionForm = plan;
       this.planLoaded.emit(null);
       loading.dismiss();
       });
@@ -62,26 +70,26 @@ export class InterventionControllerProvider {
   loadCourseList() {
     const loading = this.createLoadingControl();
     loading.present();
-    const result = this.courseRepo.getList(this.interventionPlan.id);
+    const result = this.courseRepo.getList(this.interventionForm.id);
     result.subscribe(data => {
-      this.courses = data as InterventionPlanCourseForlist[];
+      this.courses = data as InterventionFormCourseForList[];
       loading.dismiss();
     });
   }
 
-  loadSpecificCourse(idInterventionPlanCourse: string) {
+  loadSpecificCourse(idInterventionFormCourse: string) {
     const loading = this.createLoadingControl();
     loading.present();
 
-    if (idInterventionPlanCourse == null) {
+    if (idInterventionFormCourse == null) {
       this.createPlanCourse();
       this.courseLoaded.emit(null);
       loading.dismiss();
     }
     else {
-      const result = this.courseRepo.get(idInterventionPlanCourse);
+      const result = this.courseRepo.get(idInterventionFormCourse);
       result.subscribe(data => {
-        this.course = data.course as InterventionPlanCourse;
+        this.course = data.course as InterventionFormCourse;
         this.courseLanes = data.lanes;
         this.courseLoaded.emit(null);
         loading.dismiss();
@@ -90,23 +98,23 @@ export class InterventionControllerProvider {
   }
 
   createPlanCourse() {
-    var course = new InterventionPlanCourse();
-    course.idInterventionPlan = this.interventionPlan.id;
+    var course = new InterventionFormCourse();
+    course.idInterventionForm = this.interventionForm.id;
     this.course = course;
     this.courseLanes = [];
   }
 
-  loadSpecificCourseLane(idInterventionPlanCourseLane: string) {
+  loadSpecificCourseLane(idInterventionFormCourseLane: string) {
     const loading = this.createLoadingControl();
     loading.present();
-    if (idInterventionPlanCourseLane == null){
+    if (idInterventionFormCourseLane == null){
       this.createPlanCourseLane();
       this.courseLaneLoaded.emit(null);
       loading.dismiss();
     } else {
-      const result = this.courseLaneRepo.get(idInterventionPlanCourseLane);
+      const result = this.courseLaneRepo.get(idInterventionFormCourseLane);
       result.subscribe(data => {
-        this.courseLane = data as InterventionPlanCourseLane;
+        this.courseLane = data as InterventionFormCourseLane;
         this.courseLaneLoaded.emit(null);
         loading.dismiss();
       });
@@ -114,8 +122,8 @@ export class InterventionControllerProvider {
   }
 
   createPlanCourseLane() {
-    var lane = new InterventionPlanCourseLane();
-    lane.idInterventionPlanCourse = this.course.idInterventionPlanCourse;
+    var lane = new InterventionFormCourseLane();
+    lane.idInterventionFormCourse = this.course.id;
     lane.direction = 0;
     lane.sequence = this.courseLanes.length + 1;
     this.courseLane = lane;
@@ -124,9 +132,9 @@ export class InterventionControllerProvider {
   loadBuildingList() {
     const loading = this.createLoadingControl();
     loading.present();
-    const result = this.repoBuildings.get('0ea6b45c-e437-4dcf-9db8-4d2d015d025c');
+    const result = this.repoBuildings.get(this.idInterventionForm);
     result.subscribe(data => {
-      this.buildings = data as InterventionPlanBuildingForlist[];
+      this.buildings = data as InterventionFormBuildingForList[];
       loading.dismiss();
     });
   }
@@ -145,10 +153,10 @@ export class InterventionControllerProvider {
     return this.loadingCtrl.create({content: 'Chargement...'});
   }
 
-  loadInterventionPlanPicture() {
+  loadInterventionFormPicture() {
     const loading = this.createLoadingControl();
     loading.present();
-    const result = this.pictureRepo.getPicture(this.interventionPlan.idPictureSitePlan);
+    const result = this.pictureRepo.getPicture(this.interventionForm.idPictureSitePlan);
     result.subscribe(data => {
       this.picture = data as PictureData;
       this.pictureLoaded.emit(null);
@@ -156,24 +164,23 @@ export class InterventionControllerProvider {
     });
   }
 
-  savePicture() {
-    this.pictureRepo.savePicture(this.picture)
-      .subscribe(response => {
-        if (this.interventionPlan.idPictureSitePlan == null)
-          this.savePlanIdPicture(response.json()['idPicture']);
-      });
+  async savePicture() {
+    let idPicture = await this.pictureRepo.savePicture(this.picture);
+    console.log('saved', idPicture);
+    if (this.interventionForm.idPictureSitePlan != idPicture)
+      this.savePlanIdPicture(idPicture as string);
   }
 
   private savePlanIdPicture(idPicture: string) {
-    this.interventionPlan.idPictureSitePlan = idPicture;
-    this.repoDetail.savePlanField(this.interventionPlan.id, 'idPictureSitePlan', this.interventionPlan.idPictureSitePlan)
+    this.interventionForm.idPictureSitePlan = idPicture;
+    this.repoDetail.savePicture(this.interventionForm.id, this.interventionForm.idPictureSitePlan)
       .subscribe(ok => {
         console.log("Picture saved", ok);
       });
   }
 
-  savePlan(){
-    this.repoDetail.savePlanField(this.interventionPlan.id, 'idLaneTransversal', this.interventionPlan.idLaneTransversal)
+  savePlanTransversal(){
+    this.repoDetail.savePlanLane(this.interventionForm.id, this.interventionForm.idLaneTransversal)
       .subscribe(ok => {
         console.log("Plan saved", ok);
       });

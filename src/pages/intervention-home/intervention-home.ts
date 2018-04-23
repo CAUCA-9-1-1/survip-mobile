@@ -7,7 +7,9 @@ import {InterventionCoursePage} from '../intervention-course/intervention-course
 import {InterventionFireProtectionPage} from '../repositories-fire-protection/repositories-fire-protection';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 
-@IonicPage()
+@IonicPage({
+  segment: 'inspection/:id'
+})
 @Component({
   selector: 'page-intervention-home',
   templateUrl: 'intervention-home.html',
@@ -22,6 +24,8 @@ export class InterventionHomePage {
   private implantationPlanPage = 'InterventionImplantationPlanPage'
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController, private controller: InterventionControllerProvider) {
+    console.log(this.navParams.data);
+    controller.setIdInterventionForm(this.navParams.data['id']);
   }
 
   ionViewDidLoad() {

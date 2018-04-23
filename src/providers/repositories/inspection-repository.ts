@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Rx';
 import {Inspection} from '../../interfaces/inspection.interface';
@@ -14,28 +13,11 @@ export class InspectionRepositoryProvider{
 
   getAll(): Observable<Batch[]> {
     return this.http.get('inspection')
-      .pipe(
-        map(response => {
-          return response
-        })
-      );
-
-      /*.map((response: Response) => {
-      const result = response.json();
-      return result.data;
-    });*/
+      .pipe(map(response => response));
   }
 
   get(id: string): Observable<Inspection> {
     return this.http.get('api/inspection/' + id)
-      .pipe(
-        map(response => {
-          return response
-        })
-      );
-      /*.map((response: Response) => {
-      const result = response.json();
-      return result.data as Inspection;
-    });*/
+      .pipe(map(response => response));
   }
 }

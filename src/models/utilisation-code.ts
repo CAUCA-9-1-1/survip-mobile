@@ -1,4 +1,4 @@
-export class Lane {
+export class UtilisationCode {
   id: string;
   name: string;
 }

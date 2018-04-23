@@ -1,5 +1,5 @@
 import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import {IonicApp, IonicErrorHandler, IonicModule, NavController} from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
@@ -22,8 +22,8 @@ import {PictureRepositoryProvider} from '../providers/repositories/picture-repos
 import {InterventionBuildingsRepositoryProvider} from '../providers/repositories/intervention-buildings-repository';
 import {ComponentsModule} from '../components/components.module';
 import {FormsModule} from '@angular/forms';
-import {InterventionPlanCourseRepositoryProvider} from '../providers/repositories/intervention-plan-course-repository';
-import {InterventionPlanCourseLaneRepositoryProvider} from '../providers/repositories/intervention-plan-course-lane-repository';
+import {InterventionFormCourseRepositoryProvider} from '../providers/repositories/intervention-form-course-repository';
+import {InterventionFormCourseLaneRepositoryProvider} from '../providers/repositories/intervention-form-course-lane-repository';
 import {FirestationRepositoryProvider} from '../providers/repositories/firestation-repository';
 import {RouteDirectionRepositoryProvider} from '../providers/repositories/route-direction-repository';
 import {DirectivesModule} from '../directives/directives.module';
@@ -35,6 +35,8 @@ import {AuthenticationService} from '../providers/Base/authentification.service'
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import { HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
+import {UtilisationCodeRepositoryProvider} from '../providers/repositories/utilisation-code-repository';
+import {InterventionFormFireHydrantRepositoryProvider} from '../providers/repositories/intervention-form-fire-hydrant-repository';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -94,9 +96,11 @@ export function httpServiceFactory(
     LaneRepositoryProvider,
     InterventionDetailRepositoryProvider,
     InterventionBuildingsRepositoryProvider,
-    InterventionPlanCourseRepositoryProvider,
-    InterventionPlanCourseLaneRepositoryProvider,
+    InterventionFormCourseRepositoryProvider,
+    InterventionFormCourseLaneRepositoryProvider,
+    InterventionFormFireHydrantRepositoryProvider,
     FirestationRepositoryProvider,
+    UtilisationCodeRepositoryProvider,
     RouteDirectionRepositoryProvider,
     //ConfigService,
     HttpService,

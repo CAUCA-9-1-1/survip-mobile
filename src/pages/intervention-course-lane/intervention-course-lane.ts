@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LaneRepositoryProvider} from '../../providers/repositories/lane-repository';
 import {RouteDirectionRepositoryProvider} from '../../providers/repositories/route-direction-repository';
 import {RouteDirection} from '../../models/route-direction';
+import {AuthenticationService} from '../../providers/Base/authentification.service';
 
 @IonicPage()
 @Component({
@@ -18,6 +19,7 @@ export class InterventionCourseLanePage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private authService: AuthenticationService,
     public controller: InterventionControllerProvider,
     private fb: FormBuilder,
     public laneRepo: LaneRepositoryProvider,
@@ -25,11 +27,21 @@ export class InterventionCourseLanePage {
     private directionRepo: RouteDirectionRepositoryProvider) {
     this.createForm();
     controller.courseLaneLoaded.subscribe(() => this.setValuesAndStartListening());
-    controller.loadSpecificCourseLane(navParams.get('idInterventionPlanCourseLane'));
+    controller.loadSpecificCourseLane(navParams.get('idInterventionFormCourseLane'));
     directionRepo.getList().subscribe(data => this.directions = data);
   }
 
   ionViewDidLoad() {
+  }
+
+  async ionViewCanEnter() {
+    let isLoggedIn = await this.authService.isStillLoggedIn();
+    if (!isLoggedIn)
+      this.redirectToLoginPage();
+  }
+
+  private redirectToLoginPage(){
+    this.navCtrl.setRoot('LoginPage');
   }
 
   ionViewCanLeave() {

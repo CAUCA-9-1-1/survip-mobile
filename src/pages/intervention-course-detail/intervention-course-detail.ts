@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams, reorderArray} from 'ionic-angular';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AuthenticationService} from '../../providers/Base/authentification.service';
 
 @IonicPage()
 @Component({
@@ -17,13 +18,14 @@ export class InterventionCourseDetailPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private authService: AuthenticationService,
     public controller: InterventionControllerProvider,
     private alertCtrl: AlertController,
     private fb: FormBuilder){
     this.createForm();
     controller.courseLoaded.subscribe(() => this.setValuesAndStartListening());
     controller.loadFirestations();
-    controller.loadSpecificCourse(navParams.get('idInterventionPlanCourse'));
+    controller.loadSpecificCourse(navParams.get('idInterventionFormCourse'));
   }
 
   ionViewDidLoad() {
@@ -31,7 +33,7 @@ export class InterventionCourseDetailPage {
 
   ionViewCanLeave() {
     if (this.form.dirty || !this.form.valid) {
-      return new Promise((resolve, rejeect) => {
+      return new Promise((resolve, reject) => {
         let alert = this.alertCtrl.create({
           title: 'Confirmation',
           message: "Le parcours contient des erreurs de validation et n'a pas été sauvegardé.  Voulez-vous quand même retourner à la page précédente?",
@@ -45,10 +47,20 @@ export class InterventionCourseDetailPage {
     }
   }
 
+  async ionViewCanEnter() {
+    let isLoggedIn = await this.authService.isStillLoggedIn();
+    if (!isLoggedIn)
+      this.redirectToLoginPage();
+  }
+
+  private redirectToLoginPage(){
+    this.navCtrl.setRoot('LoginPage');
+  }
+
   ionViewDidEnter() {
     if (this.hasNavigated) {
       this.hasNavigated = false;
-      this.controller.loadSpecificCourse(this.navParams.get('idInterventionPlanCourse'));
+      this.controller.loadSpecificCourse(this.navParams.get('idInterventionFormCourse'));
     }
   }
 
@@ -95,8 +107,8 @@ export class InterventionCourseDetailPage {
       this.controller.setLanesSequenceAndSave();
   }
 
-  public onClickLane(idInterventionPlanCourseLane: string): void {
-    if (idInterventionPlanCourseLane == null && !this.form.valid) {
+  public onClickLane(idInterventionFormCourseLane: string): void {
+    if (idInterventionFormCourseLane == null && !this.form.valid) {
       let alert = this.alertCtrl.create({
         title: 'Avertissement',
         message: "Vous devez sélectionner une caserne avant de pouvoir ajouter une rue.",
@@ -104,12 +116,12 @@ export class InterventionCourseDetailPage {
 
       alert.present();
     } else
-      this.navigateToLanePage(idInterventionPlanCourseLane);
+      this.navigateToLanePage(idInterventionFormCourseLane);
   }
 
-  private navigateToLanePage(idInterventionPlanCourseLane: string) {
+  private navigateToLanePage(idInterventionFormCourseLane: string) {
     this.hasNavigated = true;
-    this.navCtrl.push("InterventionCourseLanePage", {idInterventionPlanCourseLane: idInterventionPlanCourseLane});
+    this.navCtrl.push("InterventionCourseLanePage", {idInterventionFormCourseLane: idInterventionFormCourseLane});
   }
 
   private onDeleteCourse() {

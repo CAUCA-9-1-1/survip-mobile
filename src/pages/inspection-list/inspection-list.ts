@@ -12,7 +12,7 @@ import {Batch} from '../../models/batch';
 @IonicPage()
 @Component({
   selector: 'page-inspection-list',
-  templateUrl: 'inspection-list.html',
+  templateUrl: 'inspection-list.html'
 })
 export class InspectionListPage {
   batches: Batch[];
@@ -44,12 +44,10 @@ export class InspectionListPage {
   ionViewDidLoad() {
   }
 
-  ionViewCanEnter() {
-    this.authService.isStillLoggedIn()
-      .subscribe(isLoggedIn => {
-        if (!isLoggedIn)
-          this.redirectToLoginPage();
-      });
+  async ionViewCanEnter() {
+    let isLoggedIn = await this.authService.isStillLoggedIn();
+    if (!isLoggedIn)
+      this.redirectToLoginPage();
   }
 
   private redirectToLoginPage(){
@@ -87,22 +85,8 @@ export class InspectionListPage {
     return "rgba(" + [r, g, b, a].join(",") + ")";
   }
 
-  getRiskCode(idRiskLevel: string): string {
-    const result = this.riskLevels.find(risk => risk.id === idRiskLevel);
-    if (result != null) {
-      return result.code;
-    } else {
-      return '-1';
-    }
-  }
-
   itemSelected(inspection: Inspection) {
-    const riskCode: string = this.getRiskCode(inspection.idRiskLevel);
-    if (riskCode == '3' || riskCode == '4') {
-      this.appCtrl.getRootNav().push('InterventionHomePage', { id: inspection.idInterventionForm });
-    } else {
-      console.log('nope');
-    }
+    this.navCtrl.push('InterventionHomePage', { id: inspection.idInterventionForm });
   }
 
   public filterList(){

@@ -1,4 +1,4 @@
 export class PictureData {
-  idPicture: string;
+  id: string;
   picture: string;
 }
