@@ -2,9 +2,13 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InterventionFormFireHydrantRepositoryProvider} from '../../providers/repositories/intervention-form-fire-hydrant-repository';
-import {InterventionFormFireHydrantForList} from '../../models/intervention-form-fire-hydrant-for-list';
+import {InspectionBuildingFireHydrantForLIst} from '../../models/intervention-form-fire-hydrant-for-list';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 import {InterventionForm} from '../../models/intervention-form';
+import {InspectionDetail} from '../../models/inspection-detail';
+import {InspectionBuildingFireHydrantForList} from '../../models/inspection-building-fire-hydrant-for-list';
+import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
+import {InspectionBuildingFireHydrantRepositoryProvider} from '../../providers/repositories/inspection-building-fire-hydrant-repository-provider';
 
 /**
  * Generated class for the InterventionWaterSuppliesPage page.
@@ -19,19 +23,19 @@ import {InterventionForm} from '../../models/intervention-form';
 })
 export class InterventionWaterSuppliesPage {
 
-  get plan(): InterventionForm{
-    return this.controller.interventionForm
+  get plan(): InspectionDetail{
+    return this.controller.inspectionDetail
   }
 
-  public fireHydrants: InterventionFormFireHydrantForList[] = [];
+  public fireHydrants: InspectionBuildingFireHydrantForList[] = [];
 
   constructor(public navCtrl: NavController,
               private authService: AuthenticationService,
               public navParams: NavParams,
-              private controller : InterventionControllerProvider,
-              private fireHydrantService: InterventionFormFireHydrantRepositoryProvider
+              private controller : InspectionControllerProvider,
+              private fireHydrantService: InspectionBuildingFireHydrantRepositoryProvider,
               ) {
-    fireHydrantService.get(controller.idInterventionForm)
+    fireHydrantService.get(controller.idInspection)
       .subscribe(result => this.fireHydrants = result);
   }
 
@@ -49,7 +53,7 @@ export class InterventionWaterSuppliesPage {
     this.navCtrl.setRoot('LoginPage');
   }
 
-  public onClickHydrant(idInterventionFormFireHydrant: string) {
+  public onClickHydrant(idInspectionBuildingFireHydrant: string) {
     console.log("Ouvrir la page ici...");
   }
 }

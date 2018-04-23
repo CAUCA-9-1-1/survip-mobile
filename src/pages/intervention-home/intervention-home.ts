@@ -5,7 +5,7 @@ import {InterventionWaterSuppliesPage} from '../intervention-water-supplies/inte
 import {InterventionBuildingsPage} from '../intervention-buildings/intervention-buildings';
 import {InterventionCoursePage} from '../intervention-course/intervention-course';
 import {InterventionFireProtectionPage} from '../repositories-fire-protection/repositories-fire-protection';
-import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
+import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 
 @IonicPage({
   segment: 'inspection/:id'
@@ -23,7 +23,7 @@ export class InterventionHomePage {
   private coursePage = 'InterventionCoursePage';
   private implantationPlanPage = 'InterventionImplantationPlanPage'
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController, private controller: InterventionControllerProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController, private controller: InspectionControllerProvider) {
     console.log(this.navParams.data);
     controller.setIdInterventionForm(this.navParams.data['id']);
   }

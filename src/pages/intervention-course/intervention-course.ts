@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
-import {InterventionCourseDetailPage} from '../intervention-course-detail/intervention-course-detail';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InterventionForm} from '../../models/intervention-form';
+import {InspectionDetail} from '../../models/inspection-detail';
+import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 
 @IonicPage()
 @Component({
@@ -14,14 +14,14 @@ export class InterventionCoursePage {
 
   private hasNavigated: boolean;
 
-  get plan(): InterventionForm{
-    return this.controller.interventionForm
+  get plan(): InspectionDetail{
+    return this.controller.inspectionDetail
   }
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public controller: InterventionControllerProvider,
+    public controller: InspectionControllerProvider,
     private authService: AuthenticationService) {
     controller.loadCourseList();
   }

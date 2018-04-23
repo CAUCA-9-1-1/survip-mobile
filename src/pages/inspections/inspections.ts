@@ -10,7 +10,6 @@ import {InspectionMapPage} from '../inspection-map/inspection-map';
 export class InspectionsPage {
   inspectionListRoot = 'InspectionListPage';
   inspectionMapRoot = InspectionMapPage;
-  idInterventionForm: string;
 
   constructor(public navCtrl: NavController) {
   }
