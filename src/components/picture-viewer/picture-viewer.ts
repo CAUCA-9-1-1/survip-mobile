@@ -135,6 +135,7 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   }
 
   private onFileLoaded(response): void {
+    console.log(response);
     let imageUri: string = response.target.result;
     if (imageUri.indexOf(';base64,') > 0)
         imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);

@@ -164,12 +164,11 @@ export class InterventionControllerProvider {
     });
   }
 
-  savePicture() {
-    this.pictureRepo.savePicture(this.picture)
-      .subscribe(response => {
-        if (this.interventionForm.idPictureSitePlan == null)
-          this.savePlanIdPicture(response.json()['idPicture']);
-      });
+  async savePicture() {
+    let idPicture = await this.pictureRepo.savePicture(this.picture);
+    console.log('saved', idPicture);
+    if (this.interventionForm.idPictureSitePlan != idPicture)
+      this.savePlanIdPicture(idPicture as string);
   }
 
   private savePlanIdPicture(idPicture: string) {
