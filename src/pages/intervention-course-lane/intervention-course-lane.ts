@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
-import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LaneRepositoryProvider} from '../../providers/repositories/lane-repository';
 import {RouteDirectionRepositoryProvider} from '../../providers/repositories/route-direction-repository';
 import {RouteDirection} from '../../models/route-direction';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
+import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 
 @IonicPage()
 @Component({
@@ -20,7 +20,7 @@ export class InterventionCourseLanePage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private authService: AuthenticationService,
-    public controller: InterventionControllerProvider,
+    public controller: InspectionControllerProvider,
     private fb: FormBuilder,
     public laneRepo: LaneRepositoryProvider,
     private alertCtrl: AlertController,

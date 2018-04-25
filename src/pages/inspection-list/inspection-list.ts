@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import {App, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {RiskLevel} from '../../models/risk-level';
 import {Inspection} from '../../interfaces/inspection.interface';
-import {InspectionRepositoryProvider} from '../../providers/repositories/inspection-repository';
 import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-level-repository';
 import {InterventionHomePage} from '../intervention-home/intervention-home';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {LoginPage} from '../login/login';
 import {Batch} from '../../models/batch';
+import {InspectionRepositoryProvider} from '../../providers/repositories/inspection-repository-provider.service';
 
 @IonicPage()
 @Component({

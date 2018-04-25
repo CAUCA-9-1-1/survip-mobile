@@ -1,6 +1,6 @@
-export class InterventionFormFireHydrant {
+export class InspectionBuildingFireHydrant {
   id: string;
-  id_intervention_form: string;
+  id_building: string;
   id_fire_hydrant: string;
   created_on: Date;
   is_active: boolean;

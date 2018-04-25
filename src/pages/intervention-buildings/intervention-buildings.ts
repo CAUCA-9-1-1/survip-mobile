@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
-import {InterventionFormBuildingForList} from '../../models/intervention-form-building-for-list';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
-import {InterventionForm} from '../../models/intervention-form';
+import {InspectionBuildingForList} from '../../models/inspection-building-for-list';
+import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
+import {InspectionDetail} from '../../models/inspection-detail';
 
 /**
  * Generated class for the InterventionBuildingsPage page.
@@ -17,17 +18,17 @@ import {InterventionForm} from '../../models/intervention-form';
   templateUrl: 'intervention-buildings.html',
 })
 export class InterventionBuildingsPage {
-  get plan(): InterventionForm{
-    return this.controller.interventionForm
+  get plan(): InspectionDetail{
+    return this.controller.inspectionDetail
   }
 
-  get buildings(): InterventionFormBuildingForList[] {
+  get buildings(): InspectionBuildingForList[] {
     return this.controller.buildings;
   }
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private controller: InterventionControllerProvider,
+              private controller: InspectionControllerProvider,
               private authService: AuthenticationService) {
     this.controller.loadBuildingList();
   }

@@ -1,7 +1,5 @@
-export class InterventionForm {
+export class InspectionDetail {
   id: string;
-  planNumber: string;
-  planName: string;
   idLaneTransversal: string;
   idPictureSitePlan: string;
   otherInformation: string;

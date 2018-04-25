@@ -1,44 +1,44 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from '../Base/http.service';
-import {InterventionFormCourseForList} from '../../models/intervention-form-course-for-list';
 import {Observable} from 'rxjs/Observable';
-import {InterventionFormCourse} from '../../models/intervention-form-course';
 import {CourseLanes} from '../../models/course_lanes';
 import {map} from 'rxjs/operators';
+import {InspectionBuildingCourseForList} from '../../models/inspection-building-course-for-list';
+import {InspectionBuildingCourse} from '../../models/inspection-building-course';
 
 @Injectable()
-export class InterventionFormCourseRepositoryProvider {
+export class InspectionBuildingCourseRepositoryProvider {
 
   constructor(private http: HttpService) {}
 
-  public getList(idInterventionForm : string): Observable<InterventionFormCourseForList[]>{
-   return this.http.get('interventionformcourse/' + idInterventionForm)
+  public getList(idInspection : string): Observable<InspectionBuildingCourseForList[]>{
+   return this.http.get('inspection/' + idInspection + '/course')
      .pipe(map(response => response));
   }
 
-  public get(idInterventionFormCourse: string) : Observable<CourseLanes> {
-    return this.http.get('interventionformcourse/' + idInterventionFormCourse)
+  public get(idInspectionBuildingCourse: string) : Observable<CourseLanes> {
+    return this.http.get('inspectionbuildingcourse/' + idInspectionBuildingCourse)
       .pipe(map(response => response));
   }
 
-  public save(course: InterventionFormCourse): Observable<any> {
+  public save(course: InspectionBuildingCourse): Observable<any> {
     if (course.id == null)
       return this.add(course);
     else
       return this.update(course);
   }
 
-  private add(course: InterventionFormCourse) : Observable<any> {
+  private add(course: InspectionBuildingCourse) : Observable<any> {
     return this.http.post('interventionformcourse', JSON.stringify(course))
       .pipe(map(response => response));
   }
 
-  private update(course: InterventionFormCourse) : Observable<any> {
+  private update(course: InspectionBuildingCourse) : Observable<any> {
     return this.http.put('interventionformcourse', JSON.stringify(course))
       .pipe(map(response => response));
   }
 
-  public delete(course: InterventionFormCourse) : Observable<any> {
+  public delete(course: InspectionBuildingCourse) : Observable<any> {
     if (course.id ==  null)
       return Observable.of('');
     else {

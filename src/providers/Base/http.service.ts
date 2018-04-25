@@ -5,7 +5,7 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 
 @Injectable()
 export class HttpService {
-  private apiUrl = 'http://localhost:5555/api/';
+  private apiUrl = 'http://10.10.33.101:5555/api/';
 
   constructor(
     //config: ConfigService,

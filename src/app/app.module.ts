@@ -4,27 +4,19 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { InspectionRepositoryProvider } from '../providers/repositories/inspection-repository';
 import { RiskLevelRepositoryProvider } from '../providers/repositories/risk-level-repository';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 /*import {InMemoryDataService} from '../mockdata/in-memory-data.service';
 import {InMemoryWebApiModule} from 'angular-in-memory-web-api';*/
-import {InterventionRepositoryProvider} from '../providers/repositories/intervention-repository';
-import { InterventionControllerProvider } from '../providers/intervention-controller/intervention-controller';
 import { LaneRepositoryProvider } from '../providers/repositories/lane-repository';
-import {InterventionDetailRepositoryProvider} from '../providers/repositories/intervention-detail-repository';
 import {RequestLoaderService} from '../providers/Base/request-loader.service';
 import {HttpService} from '../providers/Base/http.service';
 /*import {ConfigService} from '../providers/Base/config.service';
 import {provideConfig, provideConfigLoader} from '../providers/Base/config.provider';*/
 import {PictureRepositoryProvider} from '../providers/repositories/picture-repository';
-import {InterventionBuildingsRepositoryProvider} from '../providers/repositories/intervention-buildings-repository';
 import {ComponentsModule} from '../components/components.module';
 import {FormsModule} from '@angular/forms';
-import {InterventionFormCourseRepositoryProvider} from '../providers/repositories/intervention-form-course-repository';
-import {InterventionFormCourseLaneRepositoryProvider} from '../providers/repositories/intervention-form-course-lane-repository';
-import {FirestationRepositoryProvider} from '../providers/repositories/firestation-repository';
 import {RouteDirectionRepositoryProvider} from '../providers/repositories/route-direction-repository';
 import {DirectivesModule} from '../directives/directives.module';
 import {CommonModule} from '@angular/common';
@@ -36,7 +28,14 @@ import {HttpClientModule, HttpClient} from '@angular/common/http';
 import { HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {UtilisationCodeRepositoryProvider} from '../providers/repositories/utilisation-code-repository';
-import {InterventionFormFireHydrantRepositoryProvider} from '../providers/repositories/intervention-form-fire-hydrant-repository';
+import {InspectionBuildingCourseLaneRepositoryProvider} from '../providers/repositories/inspection-building-course-lane-repository-provider.service';
+import {InspectionBuildingFireHydrantRepositoryProvider} from '../providers/repositories/inspection-building-fire-hydrant-repository-provider';
+import {InspectionBuildingCourseRepositoryProvider} from '../providers/repositories/inspection-building-course-repository';
+import {InspectionBuildingsRepositoryProvider} from '../providers/repositories/inspection-buildings-repository-provider.service';
+import {InspectionDetailRepositoryProvider} from '../providers/repositories/inspection-detail-repository-provider.service';
+import {InspectionControllerProvider} from '../providers/inspection-controller/inspection-controller';
+import {InspectionRepositoryProvider} from '../providers/repositories/inspection-repository-provider.service';
+import {FirestationRepositoryProvider} from '../providers/repositories/firestation-repository-provider.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -89,16 +88,15 @@ export function httpServiceFactory(
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     PictureRepositoryProvider,
-    InterventionRepositoryProvider,
-    InspectionRepositoryProvider,
     RiskLevelRepositoryProvider,
-    InterventionControllerProvider,
+    InspectionControllerProvider,
     LaneRepositoryProvider,
-    InterventionDetailRepositoryProvider,
-    InterventionBuildingsRepositoryProvider,
-    InterventionFormCourseRepositoryProvider,
-    InterventionFormCourseLaneRepositoryProvider,
-    InterventionFormFireHydrantRepositoryProvider,
+    InspectionRepositoryProvider,
+    InspectionDetailRepositoryProvider,
+    InspectionBuildingsRepositoryProvider,
+    InspectionBuildingCourseRepositoryProvider,
+    InspectionBuildingCourseLaneRepositoryProvider,
+    InspectionBuildingFireHydrantRepositoryProvider,
     FirestationRepositoryProvider,
     UtilisationCodeRepositoryProvider,
     RouteDirectionRepositoryProvider,

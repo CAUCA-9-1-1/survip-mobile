@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams, reorderArray} from 'ionic-angular';
-import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
+import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 
 @IonicPage()
 @Component({
@@ -19,7 +19,7 @@ export class InterventionCourseDetailPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private authService: AuthenticationService,
-    public controller: InterventionControllerProvider,
+    public controller: InspectionControllerProvider,
     private alertCtrl: AlertController,
     private fb: FormBuilder){
     this.createForm();

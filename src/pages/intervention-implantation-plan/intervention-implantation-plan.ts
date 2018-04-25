@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 import {PictureData} from '../../models/picture-data';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InterventionForm} from '../../models/intervention-form';
+import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
+import {InspectionDetail} from '../../models/inspection-detail';
 
 /**
  * Generated class for the InterventionImplantationPlanPage page.
@@ -25,8 +26,8 @@ export class InterventionImplantationPlanPage {
     return this.controller.picture;
   }
 
-  get plan(): InterventionForm{
-    return this.controller.interventionForm
+  get plan(): InspectionDetail{
+    return this.controller.inspectionDetail;
   }
 
   constructor(
@@ -34,7 +35,7 @@ export class InterventionImplantationPlanPage {
     public navParams: NavParams,
     private authService: AuthenticationService,
     private fb: FormBuilder,
-    private controller: InterventionControllerProvider,) {
+    private controller: InspectionControllerProvider,) {
     this.createForm();
     controller.pictureLoaded.subscribe(() => this.setValuesAndStartListening());
   }
@@ -46,11 +47,11 @@ export class InterventionImplantationPlanPage {
   async ionViewCanEnter() {
     let isLoggedIn = await this.authService.isStillLoggedIn();
     if (!isLoggedIn)
-      this.redirectToLoginPage();
+      await this.redirectToLoginPage();
   }
 
-  private redirectToLoginPage(){
-    this.navCtrl.setRoot('LoginPage');
+  private async redirectToLoginPage(){
+    await this.navCtrl.setRoot('LoginPage');
   }
 
   private createForm() {
@@ -74,15 +75,15 @@ export class InterventionImplantationPlanPage {
     }
   }
 
-  private saveIfValid() {
+  private async saveIfValid() {
     if (this.form.valid && this.form.dirty) {
-      this.saveForm();
+      await this.saveForm();
     }
   }
 
-  private saveForm() {
+  private async saveForm() {
     const formModel  = this.form.value;
     Object.assign(this.controller.picture, formModel);
-    this.controller.savePicture();
+    await this.controller.savePicture();
   }
 }

@@ -9,6 +9,8 @@ import {ISubscription} from 'rxjs/Subscription';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InterventionForm} from '../../models/intervention-form';
 import {UtilisationCodeRepositoryProvider} from '../../providers/repositories/utilisation-code-repository';
+import {InspectionDetail} from '../../models/inspection-detail';
+import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 
 /**
  * Generated class for the InterventionGeneralPage page.
@@ -33,8 +35,8 @@ export class InterventionGeneralPage implements OnDestroy {
   laneName: string;
   utilisationCodeName;
 
-  get plan(): InterventionForm{
-    return this.controller.interventionForm
+  get plan(): InspectionDetail{
+    return this.controller.inspectionDetail
   }
 
   riskLevel: RiskLevel;
@@ -43,11 +45,11 @@ export class InterventionGeneralPage implements OnDestroy {
               public navParams: NavParams,
               private fb: FormBuilder,
               private authService: AuthenticationService,
-              private controller: InterventionControllerProvider,
+              private controller: InspectionControllerProvider,
               private riskLevelService: RiskLevelRepositoryProvider,
               public laneService: LaneRepositoryProvider,
               private utilisationCodeService: UtilisationCodeRepositoryProvider) {
-    console.log("general page", controller.idInterventionForm);
+    console.log("general page", controller.idInspection);
     this.createForm();
     controller.planLoaded.subscribe(() => this.setValuesAndStartListening());
   }
@@ -123,7 +125,7 @@ export class InterventionGeneralPage implements OnDestroy {
 
   private saveForm() {
     const formModel  = this.planForm.value;
-    Object.assign(this.controller.interventionForm, formModel);
+    Object.assign(this.controller.inspectionDetail, formModel);
     this.controller.savePlanTransversal();
   }
 }
