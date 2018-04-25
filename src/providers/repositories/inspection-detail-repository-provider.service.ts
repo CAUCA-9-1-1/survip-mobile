@@ -14,12 +14,12 @@ export class InspectionDetailRepositoryProvider{
   }
 
   public savePlanLane(idBuilding: string, idTransversal: string): Observable<boolean>{
-    return this.http.put('building/' + idBuilding + '/idLaneIntersection/' + idTransversal)
+    return this.http.put('inspection/building/' + idBuilding + '/idLaneIntersection/' + idTransversal)
       .pipe(map(response => response));
   }
 
   public savePicture(idBuildingDetail: string, idPicture: string): Observable<boolean>{
-    return this.http.put('buildingdetail' + idBuildingDetail + '/idPicture/' + idPicture)
+    return this.http.put('inspection/buildingdetail' + idBuildingDetail + '/idPicture/' + idPicture)
       .pipe(map(response => response));
   }
 }
