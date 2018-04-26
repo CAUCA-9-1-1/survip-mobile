@@ -86,8 +86,6 @@ export class InspectionListPage {
   }
 
   itemSelected(inspection: Inspection) {
-    console.log("about to navigate", inspection);
-    //this.appCtrl.getRootNav().setRoot('InterventionHomePage', { id: inspection.id });
     this.navCtrl.push('InterventionHomePage', { id: inspection.id });
   }
 

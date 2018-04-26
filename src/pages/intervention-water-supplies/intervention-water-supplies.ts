@@ -9,6 +9,7 @@ import {InspectionDetail} from '../../models/inspection-detail';
 import {InspectionBuildingFireHydrantForList} from '../../models/inspection-building-fire-hydrant-for-list';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {InspectionBuildingFireHydrantRepositoryProvider} from '../../providers/repositories/inspection-building-fire-hydrant-repository-provider';
+import {CityFireHydrantPage} from "../city-fire-hydrant/city-fire-hydrant";
 
 /**
  * Generated class for the InterventionWaterSuppliesPage page.
@@ -54,6 +55,10 @@ export class InterventionWaterSuppliesPage {
   }
 
   public onClickHydrant(idInspectionBuildingFireHydrant: string) {
-    console.log("Ouvrir la page ici...");
+    this.navCtrl.push('FireHydrantPage');
+  }
+
+  public onItemClick(idInspectionBuildingFireHydrant: string) {
+      this.navCtrl.push('CityFireHydrantPage');
   }
 }
