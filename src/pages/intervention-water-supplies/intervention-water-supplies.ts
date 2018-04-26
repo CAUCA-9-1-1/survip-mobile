@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InterventionFormFireHydrantRepositoryProvider} from '../../providers/repositories/intervention-form-fire-hydrant-repository';
 import {InspectionBuildingFireHydrantForLIst} from '../../models/intervention-form-fire-hydrant-for-list';
@@ -10,55 +10,66 @@ import {InspectionBuildingFireHydrantForList} from '../../models/inspection-buil
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {InspectionBuildingFireHydrantRepositoryProvider} from '../../providers/repositories/inspection-building-fire-hydrant-repository-provider';
 import {CityFireHydrantPage} from "../city-fire-hydrant/city-fire-hydrant";
+import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 
-/**
- * Generated class for the InterventionWaterSuppliesPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
-  selector: 'page-intervention-water-supplies',
-  templateUrl: 'intervention-water-supplies.html',
+    selector: 'page-intervention-water-supplies',
+    templateUrl: 'intervention-water-supplies.html',
 })
 export class InterventionWaterSuppliesPage {
 
-  get plan(): InspectionDetail{
-    return this.controller.inspectionDetail
-  }
+    get plan(): InspectionDetail {
+        return this.controller.inspectionDetail
+    }
 
-  public fireHydrants: InspectionBuildingFireHydrantForList[] = [];
+    public fireHydrants: InspectionBuildingFireHydrantForList[] = [];
 
-  constructor(public navCtrl: NavController,
-              private authService: AuthenticationService,
-              public navParams: NavParams,
-              private controller : InspectionControllerProvider,
-              private fireHydrantService: InspectionBuildingFireHydrantRepositoryProvider,
-              ) {
-    fireHydrantService.get(controller.idInspection)
-      .subscribe(result => this.fireHydrants = result);
-  }
+    constructor(public navCtrl: NavController,
+                private authService: AuthenticationService,
+                public navParams: NavParams,
+                private controller: InspectionControllerProvider,
+                private fireHydrantService: InspectionBuildingFireHydrantRepositoryProvider,
+                private messageTools: MessageToolsProvider
+    ) {
+        this.LoadBuildingFireHydrant();
+    }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad InterventionWaterSuppliesPage');
-  }
+    ionViewDidLoad() {
+        console.log('ionViewDidLoad InterventionWaterSuppliesPage');
+    }
 
-  async ionViewCanEnter() {
-    let isLoggedIn = await this.authService.isStillLoggedIn();
-    if (!isLoggedIn)
-      this.redirectToLoginPage();
-  }
+    async ionViewCanEnter() {
+        let isLoggedIn = await this.authService.isStillLoggedIn();
+        if (!isLoggedIn)
+            this.redirectToLoginPage();
+    }
 
-  private redirectToLoginPage() {
-    this.navCtrl.setRoot('LoginPage');
-  }
+    private LoadBuildingFireHydrant() {
+        this.fireHydrantService.get(this.controller.idInspection)
+            .subscribe(result => this.fireHydrants = result);
+    }
 
-  public onClickHydrant(idInspectionBuildingFireHydrant: string) {
-    this.navCtrl.push('FireHydrantPage');
-  }
+    private redirectToLoginPage() {
+        this.navCtrl.setRoot('LoginPage');
+    }
 
-  public onItemClick(idInspectionBuildingFireHydrant: string) {
-      this.navCtrl.push('CityFireHydrantPage');
-  }
+
+    async onClickHydrant(idInspectionBuildingFireHydrant: string) {
+        let candelete = await this.messageTools.ShowMessageBox('Suppression de bornes','Voulez vous supprimer cette borne ?');
+        if(candelete) {
+            this.controller.deleteBuildingFireHydrant(idInspectionBuildingFireHydrant)
+                .subscribe(result => {
+                    if (result.status == 200) {
+                        this.LoadBuildingFireHydrant();
+                    } else {
+                        this.messageTools.showToast("Erreur lors de la suppression de borne" + result);
+                    }
+                });
+        }
+    }
+
+    public onItemClick(idCity: string) {
+        this.navCtrl.push('idCity', idCity);
+    }
 }

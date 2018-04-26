@@ -10,6 +10,8 @@ import {InspectionBuildingForList} from '../../models/inspection-building-for-li
 import {InspectionDetail} from '../../models/inspection-detail';
 import {InspectionDetailRepositoryProvider} from '../repositories/inspection-detail-repository-provider.service';
 import {InspectionBuildingsRepositoryProvider} from '../repositories/inspection-buildings-repository-provider.service';
+import {InspectionBuildingFireHydrantRepositoryProvider} from "../repositories/inspection-building-fire-hydrant-repository-provider";
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class InspectionControllerProvider {
@@ -32,6 +34,8 @@ export class InspectionControllerProvider {
     private loadingCtrl: LoadingController,
     private laneRepo: LaneRepositoryProvider,
     private pictureRepo: PictureRepositoryProvider
+
+    private buildingfirehydrantRepo: InspectionBuildingFireHydrantRepositoryProvider,
   ) {}
 
   public setIdInterventionForm(idInterventionForm: string){
@@ -99,5 +103,10 @@ export class InspectionControllerProvider {
       .subscribe(ok => {
         console.log("Plan saved", ok);
       });
+  }
+
+  deleteBuildingFireHydrant(idBuildingFireHydrant : string){
+    return this.buildingfirehydrantRepo.deleteBuildingFireHydrant(idBuildingFireHydrant)
+        .pipe(map(response => response));
   }
 }

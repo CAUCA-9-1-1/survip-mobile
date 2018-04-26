@@ -1,33 +1,41 @@
 <ion-header>
-  <ion-navbar>
-    <ion-icon name="menu" menuToggle left></ion-icon>
-    <ion-title>
-      {{plan?.mainBuildingAddress}}
-    </ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-icon name="menu" menuToggle left></ion-icon>
+        <ion-title>
+            {{plan?.mainBuildingAddress}}
+        </ion-title>
+    </ion-navbar>
 </ion-header>
 
 
 <ion-content>
 
-  <ion-list>
-    <ion-list-header>
-      Liste des bornes
-    </ion-list-header>
-    <button ion-item *ngFor="let hydrant of fireHydrants" click="onClickHydrant(hydrant.id)">
-      <h2>{{hydrant.number}}</h2>
-      <p>{{hydrant.address}}</p>
-    </button>
-  </ion-list>
+    <ion-list>
+        <ion-list-header>
+            Liste des bornes
+        </ion-list-header>
+        <ion-item *ngFor="let hydrant of fireHydrants">
+            <div>
+                <button class="action-list-button" (click)="onClickHydrant(hydrant.id)">
+                    <ion-icon class="ion-md-trash"></ion-icon>
+                </button>
+                <div>
+                    <h2>{{hydrant.number}}</h2>
+                    <p>{{hydrant.address}}</p>
+                </div>
+            </div>
+        </ion-item>
+
+    </ion-list>
 </ion-content>
 
 <ion-footer>
-  <ion-toolbar>
-    <ion-buttons>
-      <button ion-button type="button" (click)="onItemClick(null)">
-        <ion-icon name="add-circle"></ion-icon>
-        Ajouter...
-      </button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-buttons>
+            <button ion-button type="button" (click)="onItemClick(plan?.idCity)">
+                <ion-icon name="add-circle"></ion-icon>
+                Ajouter...
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-footer>
