@@ -14,5 +14,12 @@ export class BuildingFireHydrantRepositoryProvider {
             .pipe(map(response => response));
     }
 
-
+    public deleteBuildingFireHydrant(idBuildingFireHydrant : string) : Observable<any> {
+        if (idBuildingFireHydrant ==  null)
+            return Observable.of('');
+        else {
+            return this.http.delete('buildingFireHydrant/' + idBuildingFireHydrant)
+                .pipe(map(response => response));
+        }
+    }
 }

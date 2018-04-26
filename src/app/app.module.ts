@@ -36,6 +36,7 @@ import {InspectionDetailRepositoryProvider} from '../providers/repositories/insp
 import {InspectionControllerProvider} from '../providers/inspection-controller/inspection-controller';
 import {InspectionRepositoryProvider} from '../providers/repositories/inspection-repository-provider.service';
 import {FirestationRepositoryProvider} from '../providers/repositories/firestation-repository-provider.service';
+import { MessageToolsProvider } from '../providers/message-tools/message-tools';
 import {OrderByPipe} from '../pipes/order-by/order-by';
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -104,6 +105,7 @@ export function httpServiceFactory(
     HttpService,
     RequestLoaderService,
     AuthenticationService,
+      MessageToolsProvider
     /*provideConfig({
       default: {
         //apiUrl: 'http://10.10.33.101:8080/',
