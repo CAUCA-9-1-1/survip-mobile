@@ -25,8 +25,7 @@ import {InspectionControllerProvider} from '../../providers/inspection-controlle
 })
 export class InterventionGeneralPage implements OnDestroy {
   ngOnDestroy(): void {
-    //this.planSubscription.unsubscribe();
-    //this.planSubscription.unsubscribe();
+
   }
 
   planForm: FormGroup;
