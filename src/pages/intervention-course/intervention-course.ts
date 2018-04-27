@@ -37,17 +37,6 @@ export class InterventionCoursePage {
     }
   }
 
-  public orderBy(list: any[], field: string): any[] {
-    let sorted = list.sort((t1, t2) => {
-      if (t1[field] > t2[field])
-        return 1;
-      if (t1[field]< t2[field])
-        return -1;
-      return 0;
-    });
-    return sorted;
-  }
-
   loadCourseList() {
     let loader = this.load.create({content: 'Patientez...'});
     const result = this.courseRepo.getList(this.controller.idInspection);

@@ -21,8 +21,8 @@ export class InterventionCourseDetailPage {
   private idInspectionFormCourse: string;
 
   public course: InspectionBuildingCourse;
-  public courseLanes: InspectionBuildingCourseLaneForList[];
-  public firestations: FirestationForlist[];
+  public courseLanes: InspectionBuildingCourseLaneForList[] = [];
+  public firestations: FirestationForlist[] = [];
   public form: FormGroup;
   public changeOrder: Boolean = false;
 
