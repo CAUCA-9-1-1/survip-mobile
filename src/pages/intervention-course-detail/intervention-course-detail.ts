@@ -18,7 +18,7 @@ import {UUID} from 'angular2-uuid';
 })
 export class InterventionCourseDetailPage {
   private hasNavigated: boolean = true;
-  private readonly idInspectionFormCourse: string;
+  private idInspectionFormCourse: string;
 
   public course: InspectionBuildingCourse;
   public courseLanes: InspectionBuildingCourseLaneForList[];
@@ -86,6 +86,7 @@ export class InterventionCourseDetailPage {
   createPlanCourse() {
     let course = new InspectionBuildingCourse();
     course.id = UUID.UUID();
+    this.idInspectionFormCourse = course.id;
     course.idBuilding = this.controller.inspectionDetail.idBuilding;
     this.course = course;
     this.courseLanes = [];
