@@ -15,7 +15,7 @@ import {InspectionBuildingCourseRepositoryProvider} from '../../providers/reposi
 export class InterventionCoursePage {
 
   private hasNavigated: boolean = true;
-  public courses: InspectionBuildingCourseForList[];
+  public courses: InspectionBuildingCourseForList[] = [];
 
   get plan(): InspectionDetail{
     return this.controller.inspectionDetail
@@ -35,6 +35,17 @@ export class InterventionCoursePage {
       this.hasNavigated = false;
       this.loadCourseList();
     }
+  }
+
+  public orderBy(list: any[], field: string): any[] {
+    let sorted = list.sort((t1, t2) => {
+      if (t1[field] > t2[field])
+        return 1;
+      if (t1[field]< t2[field])
+        return -1;
+      return 0;
+    });
+    return sorted;
   }
 
   loadCourseList() {

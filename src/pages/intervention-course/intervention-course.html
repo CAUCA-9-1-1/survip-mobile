@@ -18,7 +18,7 @@
     <ion-list-header>
       Parcours
     </ion-list-header>
-    <button ion-item *ngFor="let item of courses" (click)="onItemClick(item.id)">{{item.description}}</button>
+    <button ion-item *ngFor="let item of orderBy(courses, 'description')" (click)="onItemClick(item.id)">{{item.description}}</button>
   </ion-list>
 </ion-content>
 
