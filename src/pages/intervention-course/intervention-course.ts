@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InterventionForm} from '../../models/intervention-form';
 import {InspectionDetail} from '../../models/inspection-detail';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
+import {InspectionBuildingCourseForList} from '../../models/inspection-building-course-for-list';
+import {InspectionBuildingCourseRepositoryProvider} from '../../providers/repositories/inspection-building-course-repository';
 
 @IonicPage()
 @Component({
@@ -12,7 +14,8 @@ import {InspectionControllerProvider} from '../../providers/inspection-controlle
 })
 export class InterventionCoursePage {
 
-  private hasNavigated: boolean;
+  private hasNavigated: boolean = true;
+  public courses: InspectionBuildingCourseForList[];
 
   get plan(): InspectionDetail{
     return this.controller.inspectionDetail
@@ -22,18 +25,25 @@ export class InterventionCoursePage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public controller: InspectionControllerProvider,
+    private load: LoadingController,
+    private courseRepo: InspectionBuildingCourseRepositoryProvider,
     private authService: AuthenticationService) {
-    controller.loadCourseList();
-  }
-
-  ionViewDidLoad() {
   }
 
   ionViewDidEnter() {
     if (this.hasNavigated) {
       this.hasNavigated = false;
-      this.controller.loadCourseList();
+      this.loadCourseList();
     }
+  }
+
+  loadCourseList() {
+    let loader = this.load.create({content: 'Patientez...'});
+    const result = this.courseRepo.getList(this.controller.idInspection);
+    result.subscribe(data => {
+      this.courses = data as InspectionBuildingCourseForList[];
+      loader.dismiss();
+    });
   }
 
   async ionViewCanEnter() {
@@ -46,8 +56,8 @@ export class InterventionCoursePage {
     this.navCtrl.setRoot('LoginPage');
   }
 
-  onItemClick(idInterventionFormCourse: string) {
+  onItemClick(idInspectionBuildingCourse: string) {
     this.hasNavigated = true;
-    this.navCtrl.push("InterventionCourseDetailPage", {idInterventionFormCourse: idInterventionFormCourse});
+    this.navCtrl.push("InterventionCourseDetailPage", {idInspectionBuildingCourse: idInspectionBuildingCourse});
   }
 }

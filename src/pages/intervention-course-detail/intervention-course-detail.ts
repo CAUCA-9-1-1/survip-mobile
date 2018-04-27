@@ -1,8 +1,15 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams, reorderArray} from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, NavController, NavParams, reorderArray} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
+import {FirestationForlist} from '../../models/firestation';
+import {FirestationRepositoryProvider} from '../../providers/repositories/firestation-repository-provider.service';
+import {InspectionBuildingCourse} from '../../models/inspection-building-course';
+import {InspectionBuildingCourseLaneForList} from '../../models/inspection-building-course-lane-for-list';
+import {InspectionBuildingCourseRepositoryProvider} from '../../providers/repositories/inspection-building-course-repository';
+import {InspectionBuildingCourseLaneRepositoryProvider} from '../../providers/repositories/inspection-building-course-lane-repository-provider.service';
+import {UUID} from 'angular2-uuid';
 
 @IonicPage()
 @Component({
@@ -10,8 +17,12 @@ import {InspectionControllerProvider} from '../../providers/inspection-controlle
   templateUrl: 'intervention-course-detail.html',
 })
 export class InterventionCourseDetailPage {
-  private hasNavigated: boolean;
+  private hasNavigated: boolean = true;
+  private readonly idInspectionFormCourse: string;
 
+  public course: InspectionBuildingCourse;
+  public courseLanes: InspectionBuildingCourseLaneForList[];
+  public firestations: FirestationForlist[];
   public form: FormGroup;
   public changeOrder: Boolean = false;
 
@@ -19,16 +30,26 @@ export class InterventionCourseDetailPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private authService: AuthenticationService,
+    private firestationRepo: FirestationRepositoryProvider,
+    private courseRepo: InspectionBuildingCourseRepositoryProvider,
+    private courseLaneRepo: InspectionBuildingCourseLaneRepositoryProvider,
     public controller: InspectionControllerProvider,
     private alertCtrl: AlertController,
+    private load: LoadingController,
     private fb: FormBuilder){
+
     this.createForm();
-    controller.courseLoaded.subscribe(() => this.setValuesAndStartListening());
-    controller.loadFirestations();
-    controller.loadSpecificCourse(navParams.get('idInterventionFormCourse'));
+    this.idInspectionFormCourse = navParams.get('idInspectionBuildingCourse');
   }
 
-  ionViewDidLoad() {
+  async ionViewDidEnter() {
+    if (this.hasNavigated) {
+      let loader = this.load.create({content: 'Patientez...'});
+      loader.present();
+      await this.loadFirestations();
+      await this.loadSpecificCourse(this.idInspectionFormCourse);
+      await loader.dismiss();
+    }
   }
 
   ionViewCanLeave() {
@@ -47,6 +68,34 @@ export class InterventionCourseDetailPage {
     }
   }
 
+  private loadSpecificCourse(idInterventionFormCourse: string) {
+      if (idInterventionFormCourse == null) {
+        this.createPlanCourse();
+        this.setValuesAndStartListening();
+      }
+      else {
+        const result = this.courseRepo.get(idInterventionFormCourse);
+        result.subscribe(data => {
+          this.course = data.course as InspectionBuildingCourse;
+          this.courseLanes = data.lanes;
+          this.setValuesAndStartListening();
+        });
+      }
+  }
+
+  createPlanCourse() {
+    let course = new InspectionBuildingCourse();
+    course.id = UUID.UUID();
+    course.idBuilding = this.controller.inspectionDetail.idBuilding;
+    this.course = course;
+    this.courseLanes = [];
+  }
+
+  private async loadFirestations() {
+    const result = await this.firestationRepo.getList(this.controller.inspectionDetail.idCity);
+    this.firestations = result;
+  }
+
   async ionViewCanEnter() {
     let isLoggedIn = await this.authService.isStillLoggedIn();
     if (!isLoggedIn)
@@ -55,13 +104,6 @@ export class InterventionCourseDetailPage {
 
   private redirectToLoginPage(){
     this.navCtrl.setRoot('LoginPage');
-  }
-
-  ionViewDidEnter() {
-    if (this.hasNavigated) {
-      this.hasNavigated = false;
-      this.controller.loadSpecificCourse(this.navParams.get('idInterventionFormCourse'));
-    }
   }
 
   private createForm() {
@@ -80,8 +122,8 @@ export class InterventionCourseDetailPage {
   }
 
   private setValues() {
-    if (this.controller.course != null) {
-      this.form.patchValue(this.controller.course);
+    if (this.course != null) {
+      this.form.patchValue(this.course);
     }
   }
 
@@ -93,8 +135,8 @@ export class InterventionCourseDetailPage {
 
   private saveForm() {
     const formModel  = this.form.value;
-    Object.assign(this.controller.course, formModel);
-    this.controller.saveCourse();
+    Object.assign(this.course, formModel);
+    this.saveCourse();
     this.form.markAsPristine();
   }
 
@@ -102,13 +144,23 @@ export class InterventionCourseDetailPage {
       this.changeOrder = !this.changeOrder;
   }
 
-  public onReorderLane(indexes){
-      this.controller.courseLanes = reorderArray(this.controller.courseLanes, indexes);
-      this.controller.setLanesSequenceAndSave();
+  public async onReorderLane(indexes){
+      this.courseLanes = reorderArray(this.courseLanes, indexes);
+      await this.setLanesSequenceAndSave();
   }
 
-  public onClickLane(idInterventionFormCourseLane: string): void {
-    if (idInterventionFormCourseLane == null && !this.form.valid) {
+  async setLanesSequenceAndSave() {
+    for(let i = 0; i < this.courseLanes.length; i++) {
+      let item = this.courseLanes[i];
+      if (item.sequence != i + 1) {
+        item.sequence = i + 1;
+        await this.courseLaneRepo.saveCourseLaneSequence(item.id, item.sequence);
+      }
+    }
+  }
+
+  public onClickLane(idInspectionBuildingCourseLane: string): void {
+    if (idInspectionBuildingCourseLane == null && !this.form.valid) {
       let alert = this.alertCtrl.create({
         title: 'Avertissement',
         message: "Vous devez sélectionner une caserne avant de pouvoir ajouter une rue.",
@@ -116,12 +168,16 @@ export class InterventionCourseDetailPage {
 
       alert.present();
     } else
-      this.navigateToLanePage(idInterventionFormCourseLane);
+      this.navigateToLanePage(idInspectionBuildingCourseLane);
   }
 
-  private navigateToLanePage(idInterventionFormCourseLane: string) {
+  private navigateToLanePage(idInspectionBuildingCourseLane: string) {
     this.hasNavigated = true;
-    this.navCtrl.push("InterventionCourseLanePage", {idInterventionFormCourseLane: idInterventionFormCourseLane});
+    this.navCtrl.push("InterventionCourseLanePage", {
+      idInspectionBuildingCourseLane: idInspectionBuildingCourseLane,
+      idInspectionBuildingCourse: this.idInspectionFormCourse,
+      nextSequence: this.courseLanes.length + 1
+    });
   }
 
   private onDeleteCourse() {
@@ -130,10 +186,27 @@ export class InterventionCourseDetailPage {
       message: 'Êtes-vous sûr de vouloir supprimer ce parcours?',
       buttons: [
         {text: 'Non', role: 'cancel'},
-        {text: 'Oui', handler: () => { this.controller.deleteCourse().subscribe(() => this.goBack()); }}
+        {text: 'Oui', handler: () => { this.deleteCourse().subscribe(() => this.goBack()); }}
       ]});
-
     alert.present();
+  }
+
+  private saveCourse(){
+    let loader = this.load.create({content: 'Patientez...'});
+    loader.present();
+    this.courseRepo.save(this.course)
+      .subscribe(ok => {
+        loader.dismiss();
+      })
+  }
+
+  private deleteCourse(){
+    console.log("euhhhhhhhhh");
+    let loader = this.load.create({content: 'Patientez...'});
+    loader.present();
+    let result = this.courseRepo.delete(this.course);
+    loader.dismiss();
+    return result;
   }
 
   private goBack(): void {

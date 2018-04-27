@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {Component, EventEmitter} from '@angular/core';
+import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LaneRepositoryProvider} from '../../providers/repositories/lane-repository';
 import {RouteDirectionRepositoryProvider} from '../../providers/repositories/route-direction-repository';
 import {RouteDirection} from '../../models/route-direction';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
+import {InspectionBuildingCourseLane} from '../../models/inspection-building-course-lane';
+import {InspectionBuildingCourseLaneRepositoryProvider} from '../../providers/repositories/inspection-building-course-lane-repository-provider.service';
+import {UUID} from 'angular2-uuid';
 
 @IonicPage()
 @Component({
@@ -13,25 +16,56 @@ import {InspectionControllerProvider} from '../../providers/inspection-controlle
   templateUrl: 'intervention-course-lane.html',
 })
 export class InterventionCourseLanePage {
+  private idInspectionBuildingCourseLane: string;
+  private readonly idInspectionBuildingCourse: string;
+  private readonly nextSequence: number;
   public form: FormGroup;
   public directions: RouteDirection[];
+  public courseLane : InspectionBuildingCourseLane;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private load: LoadingController,
+    private courseLaneRepo : InspectionBuildingCourseLaneRepositoryProvider,
     private authService: AuthenticationService,
     public controller: InspectionControllerProvider,
     private fb: FormBuilder,
     public laneRepo: LaneRepositoryProvider,
     private alertCtrl: AlertController,
     private directionRepo: RouteDirectionRepositoryProvider) {
+    this.idInspectionBuildingCourseLane = navParams.get('idInspectionBuildingCourseLane');
+    this.idInspectionBuildingCourse = navParams.get('idInspectionBuildingCourse');
+    this.nextSequence = navParams.get('nextSequence');
     this.createForm();
-    controller.courseLaneLoaded.subscribe(() => this.setValuesAndStartListening());
-    controller.loadSpecificCourseLane(navParams.get('idInterventionFormCourseLane'));
-    directionRepo.getList().subscribe(data => this.directions = data);
   }
 
-  ionViewDidLoad() {
+  async loadSpecificCourseLane(idInspectionBuildingCourseLane: string) {
+    if (idInspectionBuildingCourseLane == null){
+      this.createPlanCourseLane();
+    } else {
+      const result = await this.courseLaneRepo.getLane(idInspectionBuildingCourseLane);
+      this.courseLane = result;
+    }
+    this.setValuesAndStartListening();
+  }
+
+  createPlanCourseLane() {
+    let lane = new InspectionBuildingCourseLane();
+    lane.id = UUID.UUID();
+    this.idInspectionBuildingCourseLane = lane.id;
+    lane.idBuildingCourse = this.idInspectionBuildingCourse;
+    lane.direction = 2;
+    lane.sequence = this.nextSequence;
+    this.courseLane = lane;
+  }
+
+  async ionViewDidLoad() {
+    let loader = this.load.create({content: 'Patientez...'});
+    loader.present();
+    this.directions = await this.directionRepo.getList();
+    await this.loadSpecificCourseLane(this.idInspectionBuildingCourseLane);
+    loader.dismiss();
   }
 
   async ionViewCanEnter() {
@@ -79,35 +113,58 @@ export class InterventionCourseLanePage {
   }
 
   private setValues() {
-    if (this.controller.course != null) {
-      this.form.patchValue(this.controller.courseLane);
+    if (this.courseLane != null) {
+      this.form.patchValue(this.courseLane);
     }
   }
 
-  private saveIfValid() {
+  private async saveIfValid() {
     if (this.form.valid && this.form.dirty) {
-      this.saveForm();
+      await this.saveForm();
     }
   }
 
-  private saveForm() {
+  private async saveForm() {
     const formModel  = this.form.value;
-    Object.assign(this.controller.courseLane, formModel);
-    this.controller.saveCourseLane();
+    Object.assign(this.courseLane, formModel);
+    await this.saveCourseLane();
     this.form.markAsPristine();
   }
 
-  private onDeleteLane() {
+  private async onDeleteLane() {
     let alert = this.alertCtrl.create({
       title: 'Confirmation',
       message: 'Êtes-vous sûr de vouloir supprimer cette voie?',
       buttons: [
         {text: 'Non', role: 'cancel'},
-        {text: 'Oui', handler: () => { this.controller.deleteCourseLane().subscribe(() => this.goBack()); }}
+        {text: 'Oui', handler: () =>{
+            this.deleteThenGoBack();
+        }}
     ]});
 
-    alert.present();
+    await alert.present();
   }
+
+  async deleteThenGoBack(){
+    await this.deleteCourseLane();
+    this.goBack();
+  }
+
+  async saveCourseLane(){
+    let loader = this.load.create({content: 'Patientez...'});
+    loader.present();
+    let result = await this.courseLaneRepo.save(this.courseLane);
+    loader.dismiss();
+  }
+
+  async deleteCourseLane(): Promise<any>{
+    let loader = this.load.create({content: 'Patientez...'});
+    loader.present();
+    let result = await this.courseLaneRepo.delete(this.courseLane);
+    loader.dismiss();
+    return result;
+  }
+
 
   private goBack(): void {
     this.navCtrl.pop();

@@ -12,7 +12,7 @@
     <ion-list-header>Caserne</ion-list-header>
     <ion-item [class.validation-error-control]="form.get('idFirestation').hasError('required')">
       <ion-select class="select-firestation" placeholder="Choisissez une caserne" formControlName="idFirestation">
-        <ion-option *ngFor="let fire of controller.firestations" [value]="fire.idFirestation">{{fire.stationName}}</ion-option>
+        <ion-option *ngFor="let fire of firestations" [value]="fire.id">{{fire.name}}</ion-option>
       </ion-select>
     </ion-item>
     <div *ngIf="form.get('idFirestation').hasError('required')" class="validation-error-text">*La caserne est requise.</div>
@@ -24,7 +24,7 @@
       <button item-end ion-button (click)="onChangeOrder()">{{changeOrder ? "Terminer" : "Changer l'ordre"}}</button>
     </ion-list-header>
     <ion-item-group [reorder]="changeOrder" (ionItemReorder)="onReorderLane($event)" side="start">
-      <button ion-item *ngFor="let lane of controller.courseLanes" (click)="onClickLane(lane.idInterventionFormCourseLane)">{{lane.description}}</button>
+      <button ion-item *ngFor="let lane of courseLanes" (click)="onClickLane(lane.id)">{{lane.description}}</button>
     </ion-item-group>
   </ion-list>
 

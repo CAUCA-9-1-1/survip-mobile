@@ -6,6 +6,7 @@ export class InspectionDetail {
   createdOn: Date;
   isActive: boolean;
   idCity: string;
+  idBuilding: string;
   mainBuildingAddress: string;
   mainBuildingIdLane: string;
   mainBuildingName: string;

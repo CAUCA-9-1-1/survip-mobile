@@ -8,8 +8,9 @@ import {map} from 'rxjs/operators';
 export class RouteDirectionRepositoryProvider {
   constructor(private http: HttpService) {}
 
-  public getList(): Observable<RouteDirection[]> {
+  public getList(): Promise<RouteDirection[]> {
     return this.http.get('routedirection')
-      .pipe(map(response => response));
+      .pipe(map(response => response))
+      .toPromise();
   }
 }

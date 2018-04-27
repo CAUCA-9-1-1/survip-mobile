@@ -17,18 +17,16 @@ export class InspectionBuildingCourseRepositoryProvider {
   }
 
   public get(idInspectionBuildingCourse: string) : Observable<CourseLanes> {
-    return this.http.get('inspectionbuildingcourse/' + idInspectionBuildingCourse)
+    return this.http.get('inspection/course/' + idInspectionBuildingCourse)
       .pipe(map(response => response));
   }
 
   public save(course: InspectionBuildingCourse): Observable<any> {
-    if (course.id == null)
-      return this.add(course);
-    else
-      return this.update(course);
+    return this.http.post('inspection/course', JSON.stringify(course))
+      .pipe(map(response => response));
   }
 
-  private add(course: InspectionBuildingCourse) : Observable<any> {
+  /*private add(course: InspectionBuildingCourse) : Observable<any> {
     return this.http.post('interventionformcourse', JSON.stringify(course))
       .pipe(map(response => response));
   }
@@ -36,13 +34,13 @@ export class InspectionBuildingCourseRepositoryProvider {
   private update(course: InspectionBuildingCourse) : Observable<any> {
     return this.http.put('interventionformcourse', JSON.stringify(course))
       .pipe(map(response => response));
-  }
+  }*/
 
   public delete(course: InspectionBuildingCourse) : Observable<any> {
     if (course.id ==  null)
       return Observable.of('');
     else {
-      return this.http.delete('interventionformcourse/' + course.id)
+      return this.http.delete('inspection/course/' + course.id)
         .pipe(map(response => response));
     }
   }
