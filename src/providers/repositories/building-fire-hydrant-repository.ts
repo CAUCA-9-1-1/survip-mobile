@@ -22,4 +22,14 @@ export class BuildingFireHydrantRepositoryProvider {
                 .pipe(map(response => response));
         }
     }
+
+    public addBuildingFireHydrant(idBuilding : string, idFireHydrant : string): Observable<any>
+    {
+        if((!idBuilding)||(!idFireHydrant))
+            return Observable.of('');
+        else {
+            return this.http.post('building/' + idBuilding+'/fireHydrant/'+ idFireHydrant)
+                .pipe(map(response => response));
+        }
+    }
 }
