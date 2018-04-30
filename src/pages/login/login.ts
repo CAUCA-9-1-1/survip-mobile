@@ -22,7 +22,6 @@ export class LoginPage {
 
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
   }
 
   async ionViewCanEnter(){
@@ -34,7 +33,6 @@ export class LoginPage {
   }
 
   public onLogin(){
-    console.log(this.userName, this.password);
     this.authService.login(this.userName, this.password)
       .subscribe(response => this.handleResponse(response));
   }
