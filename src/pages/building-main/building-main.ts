@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
 
 /**
  * Generated class for the BuildingMainPage page.
@@ -14,12 +14,27 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'building-main.html',
 })
 export class BuildingMainPage {
+  public rootPage = 'BuildingDetailsPage';
+  public detailsPage = 'BuildingDetailsPage';
+  public contactsPage = 'BuildingContactsPage';
+  public pnapsPage = 'BuildingPnapsPage';
+  public hazardousMaterialPage = 'BuildingHazardousMaterialsPage';
+  public alarmPanelsPage = 'BuildingAlarmPanelsPage';
+  public waterSprinklersPage = 'BuildingWaterSprinklersPage';
+  public particularRisksPage = 'BuildingParticularRisksPage';
+  public anomaliesPage = 'BuildingAnomaliesPage';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private menuCtrl: MenuController) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad BuildingMainPage');
   }
 
+  public closeMenu() : void {
+    this.menuCtrl.close();
+  }
+
+  public openPage(page) : void {
+   this.rootPage = page;
+  }
 }

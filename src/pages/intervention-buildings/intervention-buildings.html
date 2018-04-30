@@ -19,7 +19,7 @@
     <ion-list-header>
       Liste des bâtiments
     </ion-list-header>
-    <button ion-item *ngFor="let building of buildings">
+    <button ion-item *ngFor="let building of buildings" (click)="onClickBuilding(building.idBuilding)">
       <ion-thumbnail item-start *ngIf="building.picture != null">
         <img src="data:image/jpeg;base64,{{building.picture}}">
       </ion-thumbnail>

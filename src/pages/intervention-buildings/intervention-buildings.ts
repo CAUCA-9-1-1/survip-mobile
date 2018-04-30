@@ -45,4 +45,8 @@ export class InterventionBuildingsPage {
   private redirectToLoginPage(){
     this.navCtrl.setRoot('LoginPage');
   }
+
+  public onClickBuilding(): void {
+    this.navCtrl.setRoot('BuildingMainPage');
+  }
 }
