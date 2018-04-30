@@ -59,8 +59,8 @@ export class InterventionWaterSuppliesPage {
 
 
     async onClickHydrant(idInspectionBuildingFireHydrant: string) {
-        let candelete = await this.messageTools.ShowMessageBox('Suppression de bornes','Voulez vous supprimer cette borne ?');
-        if(candelete) {
+        let canDelete = await this.messageTools.ShowMessageBox('Suppression de bornes','Voulez vous supprimer cette borne ?');
+        if(canDelete) {
             this.controller.deleteBuildingFireHydrant(idInspectionBuildingFireHydrant)
                 .subscribe(result => {
                     if (result.status == 200) {
