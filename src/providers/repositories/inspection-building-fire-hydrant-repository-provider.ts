@@ -12,12 +12,4 @@ export class InspectionBuildingFireHydrantRepositoryProvider{
     return this.http.get('inspection/' + idInspection + '/firehydrant')
       .pipe(map(response => response));
   }
-
-    public deleteBuildingFireHydrant(idBuildingFireHydrant : string) : Observable<any> {
-        if (idBuildingFireHydrant ==  null)
-            return Observable.of('');
-        else {
-            return this.http.delete('inspection/buildingFireHydrant/' + idBuildingFireHydrant);
-        }
-    }
 }
