@@ -14,7 +14,7 @@
       [hasValidationError]="form.get('idLane').hasError('required') ? 'validation-error-control' : null"
       [description]=""
       formControlName="idLane"
-      [displayFieldName]="'fullName'"
+      [displayFieldName]="'name'"
       [keyFieldName]="'id'"
       [showDescription]="false"
       [dataService]="laneRepo"></search-box>
@@ -35,7 +35,7 @@
 <ion-footer>
   <ion-toolbar>
     <ion-buttons>
-      <button ion-button type="button" (click)="onDeleteLane()">
+      <button ion-button icon-start type="button" (click)="onDeleteLane()">
         <ion-icon name="trash"></ion-icon>
         Supprimer la voie
       </button>

@@ -6,6 +6,5 @@ export class Inspection {
   geojson: object;
   idRiskLevel: string;
   idBuilding: string;
-  idInterventionForm: string;
   address: string;
 }

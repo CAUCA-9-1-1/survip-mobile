@@ -36,6 +36,7 @@ import {InspectionDetailRepositoryProvider} from '../providers/repositories/insp
 import {InspectionControllerProvider} from '../providers/inspection-controller/inspection-controller';
 import {InspectionRepositoryProvider} from '../providers/repositories/inspection-repository-provider.service';
 import {FirestationRepositoryProvider} from '../providers/repositories/firestation-repository-provider.service';
+import {OrderByPipe} from '../pipes/order-by/order-by';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -51,7 +52,6 @@ export function httpServiceFactory(
   declarations: [
     MyApp,
     HomePage,
-    //InterventionHomePage,
   ],
   imports: [
     InspectionMapPageModule,

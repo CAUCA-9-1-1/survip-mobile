@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from '../Base/http.service';
-import {Observable} from 'rxjs/Observable';
 import {FirestationForlist} from '../../models/firestation';
 import {map} from 'rxjs/operators';
 
@@ -8,9 +7,10 @@ import {map} from 'rxjs/operators';
 export class FirestationRepositoryProvider {
   constructor(private http: HttpService){}
 
-  public getList() : Observable<FirestationForlist[]>
+  public getList(idCity:string) : Promise<FirestationForlist[]>
   {
-    return this.http.get('firestationforlist')
-      .pipe(map(response => response));
+    return this.http.get('city/' + idCity + '/firestations' )
+      .pipe(map(response => response))
+      .toPromise();
   }
 }

@@ -86,7 +86,9 @@ export class InspectionListPage {
   }
 
   itemSelected(inspection: Inspection) {
-    this.navCtrl.push('InterventionHomePage', { id: inspection.idInterventionForm });
+    console.log("about to navigate", inspection);
+    //this.appCtrl.getRootNav().setRoot('InterventionHomePage', { id: inspection.id });
+    this.navCtrl.push('InterventionHomePage', { id: inspection.id });
   }
 
   public filterList(){

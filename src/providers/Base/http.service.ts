@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {Loading, LoadingController} from 'ionic-angular';
 
 @Injectable()
 export class HttpService {
@@ -9,7 +10,7 @@ export class HttpService {
 
   constructor(
     //config: ConfigService,
-    private client: HttpClient
+    private client: HttpClient,
   ) {
     //this.apiUrl = config.getConfig('apiUrl');
     console.log(this.apiUrl);
@@ -28,7 +29,6 @@ export class HttpService {
   }
 
   public get(url: string, retryCount: number = 3): Observable<any> {
-    console.log('get', this.getFullUrl(url));
     return this.client.get(this.getFullUrl(url),  this.getHeaders() )
       .retry(retryCount)
       .catch((err: HttpErrorResponse) => this.handleError(err));
