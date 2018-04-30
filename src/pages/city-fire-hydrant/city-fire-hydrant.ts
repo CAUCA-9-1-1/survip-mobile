@@ -39,18 +39,12 @@ export class CityFireHydrantPage {
           .subscribe(result => this.cityfireHydrants = result);
   }
 
-  private onAddHydrant(idFireHydrant : string)
-  {
-      this.AddBuildingFireHydrant(this.idBuilding, idFireHydrant);
-  }
-  private AddBuildingFireHydrant(idBuilding : string, idFireHydrant : string)  {
-    this.controller.addBuildingFireHydrant(idBuilding, idFireHydrant)
+  private AddBuildingFireHydrant(idFireHydrant : string)  {
+    this.controller.addBuildingFireHydrant(this.idBuilding, idFireHydrant)
         .subscribe(result => {
-            if (result) {
                 this.navCtrl.pop();
-            } else {
-                this.messageTools.showToast("Erreur lors de l'ajout de borne" + result);
-            }
+        },error1 =>{
+            this.messageTools.showToast("Erreur lors de l'ajout de borne " + error1);
         })
   }
   private onCancelClick(){
