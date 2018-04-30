@@ -13,6 +13,7 @@ import {InspectionBuildingsRepositoryProvider} from '../repositories/inspection-
 import {InspectionBuildingFireHydrantRepositoryProvider} from "../repositories/inspection-building-fire-hydrant-repository-provider";
 import {Observable} from 'rxjs/Observable';
 import {BuildingFireHydrantRepositoryProvider} from "../repositories/building-fire-hydrant-repository";
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class InspectionControllerProvider {
@@ -34,7 +35,7 @@ export class InspectionControllerProvider {
     private repoBuildings: InspectionBuildingsRepositoryProvider,
     private loadingCtrl: LoadingController,
     private laneRepo: LaneRepositoryProvider,
-    private pictureRepo: PictureRepositoryProvider
+    private pictureRepo: PictureRepositoryProvider,
 
     private buildingfirehydrantRepo: BuildingFireHydrantRepositoryProvider,
   ) {}

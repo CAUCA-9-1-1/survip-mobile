@@ -33,7 +33,6 @@ import {InspectionControllerProvider} from '../providers/inspection-controller/i
 import {InspectionRepositoryProvider} from '../providers/repositories/inspection-repository-provider.service';
 import {FirestationRepositoryProvider} from '../providers/repositories/firestation-repository-provider.service';
 import { MessageToolsProvider } from '../providers/message-tools/message-tools';
-import {OrderByPipe} from '../pipes/order-by/order-by';
 import {BuildingFireHydrantRepositoryProvider} from "../providers/repositories/building-fire-hydrant-repository";
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -52,7 +51,7 @@ export function httpServiceFactory(
     HomePage,
   ],
   imports: [
-    InspectionMapPageModule,
+    //InspectionMapPageModule,
     FormsModule,
     HttpModule,
     HttpClientModule,
@@ -64,14 +63,11 @@ export function httpServiceFactory(
       }
     }),
     CommonModule,
-    /*InMemoryWebApiModule.forRoot(InMemoryDataService, {
-      passThruUnknownUrl: true
-    }),*/
     IonicModule.forRoot(MyApp),
     BrowserModule,
     ComponentsModule,
     DirectivesModule,
-    InspectionsPageModule,
+    //InspectionsPageModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [

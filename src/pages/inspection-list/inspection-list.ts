@@ -86,7 +86,8 @@ export class InspectionListPage {
   }
 
   itemSelected(inspection: Inspection) {
-    this.navCtrl.push('InterventionHomePage', { id: inspection.id });
+    this.navCtrl.push('InterventionHomePage', {id: inspection.id});
+    //this.appCtrl.getRootNav().setRoot('InterventionHomePage', { id: inspection.id });
   }
 
   public filterList(){
@@ -102,10 +103,6 @@ export class InspectionListPage {
       batch.inspections = batch.inspections.filter(inspection => this.mustBeShown(inspection));
     });
     this.filteredBatches = this.filteredBatches.filter(batch => batch.inspections.length > 0);
-  }
-
-  private groupBy(xs, f) {
-    return xs.reduce((r, v, i, a, k = f(v)) => ((r[k] || (r[k] = [])).push(v), r), {});
   }
 
   private mustBeShown(inspection: Inspection): boolean{

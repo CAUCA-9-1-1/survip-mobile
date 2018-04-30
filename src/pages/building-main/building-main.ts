@@ -30,6 +30,11 @@ export class BuildingMainPage {
   ionViewDidLoad() {
   }
 
+  ionViewDidEnter() {
+    this.menuCtrl.enable(false, 'inspectionMenu');
+    this.menuCtrl.enable(true, 'buildingMenu');
+  }
+
   public closeMenu() : void {
     this.menuCtrl.close();
   }

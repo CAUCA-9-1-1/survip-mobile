@@ -29,6 +29,13 @@ export class InterventionHomePage {
   }
 
   ionViewDidLoad() {
+    console.log("Did load!!!");
+  }
+
+  ionViewDidEnter() {
+    console.log("Did enter!!!!");
+    this.menuCtrl.enable(true, 'inspectionMenu');
+    this.menuCtrl.enable(false, 'buildingMenu');
   }
 
   closeMenu(){
