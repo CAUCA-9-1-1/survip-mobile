@@ -1,9 +1,23 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Liste des bornes fontaine pour NomVille</ion-title>
+    <ion-title>Liste des bornes fontaine</ion-title>
   </ion-navbar>
 </ion-header>
-
-<ion-content padding>
-
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      Bornes
+    </ion-list-header>
+    <ion-item *ngFor="let hydrant of cityfireHydrants">
+      <div>
+        <button class="action-list-button" (click)="onAddHydrant(hydrant.id)">
+          <ion-icon class="ion-md-arrow-dropright-circle"></ion-icon>
+        </button>
+        <div>
+          <h2>{{hydrant.number}}</h2>
+          <p>{{hydrant.address}}</p>
+        </div>
+      </div>
+    </ion-item>
+  </ion-list>
 </ion-content>

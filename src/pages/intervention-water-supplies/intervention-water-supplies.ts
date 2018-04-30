@@ -41,8 +41,11 @@ export class InterventionWaterSuppliesPage {
 
     async ionViewCanEnter() {
         let isLoggedIn = await this.authService.isStillLoggedIn();
-        if (!isLoggedIn)
+        if (!isLoggedIn){
             this.redirectToLoginPage();
+        }else {
+            this.LoadBuildingFireHydrant();
+        }
     }
 
     private LoadBuildingFireHydrant() {
@@ -70,6 +73,6 @@ export class InterventionWaterSuppliesPage {
     }
 
     public onItemClick(idCity: string) {
-        this.navCtrl.push('idCity', idCity);
+        this.navCtrl.push('CityFireHydrantPage', {idCity : idCity, idBuilding : this.controller.inspectionDetail.id});
     }
 }

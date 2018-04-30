@@ -37,7 +37,7 @@ export class HttpService {
   public post(url: string, body?: any): Observable<any> {
     console.log('post', this.getFullUrl(url));
     return this.client
-      .post(this.getFullUrl(url), body, this.getHeaders() )
+      .post(this.getFullUrl(url), body, this.getHeaders())
         .retry(3)
         .catch((err: HttpErrorResponse) => this.handleError(err));
   }

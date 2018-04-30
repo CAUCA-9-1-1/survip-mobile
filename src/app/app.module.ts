@@ -7,13 +7,9 @@ import { HomePage } from '../pages/home/home';
 import { RiskLevelRepositoryProvider } from '../providers/repositories/risk-level-repository';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-/*import {InMemoryDataService} from '../mockdata/in-memory-data.service';
-import {InMemoryWebApiModule} from 'angular-in-memory-web-api';*/
 import { LaneRepositoryProvider } from '../providers/repositories/lane-repository';
 import {RequestLoaderService} from '../providers/Base/request-loader.service';
 import {HttpService} from '../providers/Base/http.service';
-/*import {ConfigService} from '../providers/Base/config.service';
-import {provideConfig, provideConfigLoader} from '../providers/Base/config.provider';*/
 import {PictureRepositoryProvider} from '../providers/repositories/picture-repository';
 import {ComponentsModule} from '../components/components.module';
 import {FormsModule} from '@angular/forms';
@@ -38,6 +34,7 @@ import {InspectionRepositoryProvider} from '../providers/repositories/inspection
 import {FirestationRepositoryProvider} from '../providers/repositories/firestation-repository-provider.service';
 import { MessageToolsProvider } from '../providers/message-tools/message-tools';
 import {OrderByPipe} from '../pipes/order-by/order-by';
+import {BuildingFireHydrantRepositoryProvider} from "../providers/repositories/building-fire-hydrant-repository";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -101,11 +98,13 @@ export function httpServiceFactory(
     FirestationRepositoryProvider,
     UtilisationCodeRepositoryProvider,
     RouteDirectionRepositoryProvider,
+      BuildingFireHydrantRepositoryProvider,
     //ConfigService,
     HttpService,
     RequestLoaderService,
     AuthenticationService,
       MessageToolsProvider
+
     /*provideConfig({
       default: {
         //apiUrl: 'http://10.10.33.101:8080/',

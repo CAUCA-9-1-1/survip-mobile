@@ -1,4 +1,5 @@
 export class CityFireHydrantForList {
     id: string;
-    description: string;
+    number
+    address: string;
 }
