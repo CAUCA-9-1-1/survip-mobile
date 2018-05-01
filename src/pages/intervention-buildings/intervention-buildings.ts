@@ -30,8 +30,7 @@ export class InterventionBuildingsPage {
               private appCtrl: App,
               public navParams: NavParams,
               private controller: InspectionControllerProvider,
-              private authService: AuthenticationService,
-  ) {
+              private authService: AuthenticationService) {
     this.controller.loadBuildingList();
   }
 
@@ -48,12 +47,7 @@ export class InterventionBuildingsPage {
     this.navCtrl.setRoot('LoginPage');
   }
 
-  public async onClickBuilding(){
-/*    await this.navCtrl.popToRoot();
-    console.log(this.appCtrl.getRootNav());
-    this.appCtrl.getRootNav().setRoot("BuildingMainPage");
-    this.navCtrl.popToRoot();*/
-    this.navCtrl.setRoot("BuildingMainPage");
-    /*console.log(this.navCtrl);*/
+  public async onClickBuilding(idBuilding: string, name: string){
+    this.navCtrl.push("BuildingMainPage", { idBuilding: idBuilding, name: name});
   }
 }
