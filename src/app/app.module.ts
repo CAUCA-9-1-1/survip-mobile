@@ -34,6 +34,7 @@ import {InspectionRepositoryProvider} from '../providers/repositories/inspection
 import {FirestationRepositoryProvider} from '../providers/repositories/firestation-repository-provider.service';
 import { MessageToolsProvider } from '../providers/message-tools/message-tools';
 import {BuildingFireHydrantRepositoryProvider} from "../providers/repositories/building-fire-hydrant-repository";
+import { BuildingContactRepositoryProvider } from '../providers/repositories/building-contact-repository';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -99,7 +100,8 @@ export function httpServiceFactory(
     HttpService,
     RequestLoaderService,
     AuthenticationService,
-      MessageToolsProvider
+      MessageToolsProvider,
+    BuildingContactRepositoryProvider
 
     /*provideConfig({
       default: {

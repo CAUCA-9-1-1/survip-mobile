@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
+import {normalizeAsyncValidator} from '@angular/forms/src/directives/normalize_validator';
 
 /**
  * Generated class for the BuildingMainPage page.
@@ -14,6 +15,12 @@ import {IonicPage, MenuController, NavController, NavParams} from 'ionic-angular
   templateUrl: 'building-main.html',
 })
 export class BuildingMainPage {
+
+  private readonly idBuilding: string;
+  private readonly name: string;
+
+  @ViewChild('buildingContent') childNavCtrl: NavController;
+
   public rootPage = 'BuildingDetailsPage';
   public detailsPage = 'BuildingDetailsPage';
   public contactsPage = 'BuildingContactsPage';
@@ -25,6 +32,9 @@ export class BuildingMainPage {
   public anomaliesPage = 'BuildingAnomaliesPage';
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private menuCtrl: MenuController) {
+    this.idBuilding = navParams.get("idBuilding");
+    this.name = navParams.get('name');
+    console.log(this.idBuilding, this.name, navParams);
   }
 
   ionViewDidLoad() {
@@ -40,6 +50,6 @@ export class BuildingMainPage {
   }
 
   public openPage(page) : void {
-   this.rootPage = page;
+   this.childNavCtrl.setRoot(page, {idBuilding: this.idBuilding, name: this.name});
   }
 }
