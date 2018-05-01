@@ -4,6 +4,7 @@ import {CityFireHydrantForList} from "../../models/city-fire-hydrant-for-list";
 import {BuildingFireHydrantRepositoryProvider} from "../../providers/repositories/building-fire-hydrant-repository";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 
+
 /**
  * Generated class for the CityFireHydrantPage page.
  *
@@ -18,7 +19,8 @@ import {MessageToolsProvider} from "../../providers/message-tools/message-tools"
 })
 export class CityFireHydrantPage {
 
-    public cityfireHydrants: CityFireHydrantForList[] = [];
+    public cityFireHydrants: CityFireHydrantForList[] = [];
+    public filteredCityFireHydrantList: CityFireHydrantForList[] = [];
     private idBuilding : string;
 
   constructor(public navCtrl: NavController,
@@ -28,15 +30,28 @@ export class CityFireHydrantPage {
   {
       this.idBuilding = this.navParams.get('idBuilding');
       this.LoadCityFireHydrant(navParams.get('idCity'));
+
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CityFireHydrantPage');
   }
+   private getItems(ev: any) {
+       this.filteredCityFireHydrantList = [];
+       let val = ev.target.value;
 
-  private LoadCityFireHydrant(idcity : string) {
-      this.controller.getCityFireHydrantListForBuilding(idcity, this.idBuilding)
-          .subscribe(result => this.cityfireHydrants = result);
+        if (val && val.trim() != '') {
+            this.filteredCityFireHydrantList = this.cityFireHydrants.filter((item) => {
+                return ((item.address.toLowerCase().indexOf(val.toLowerCase()) > -1)||(item.number.toLowerCase().indexOf(val.toLowerCase()) > -1));
+            });
+        }else {
+            this.filteredCityFireHydrantList = this.cityFireHydrants;
+        }
+    }
+  private LoadCityFireHydrant(idCity : string) {
+      this.controller.getCityFireHydrantListForBuilding(idCity, this.idBuilding)
+          .subscribe(result => {this.cityFireHydrants = this.filteredCityFireHydrantList = result});
+
   }
 
   private AddBuildingFireHydrant(idFireHydrant : string)  {
@@ -46,8 +61,5 @@ export class CityFireHydrantPage {
         },error1 =>{
             this.messageTools.showToast("Erreur lors de l'ajout de borne " + error1);
         })
-  }
-  private onCancelClick(){
-      this.navCtrl.pop();
   }
 }

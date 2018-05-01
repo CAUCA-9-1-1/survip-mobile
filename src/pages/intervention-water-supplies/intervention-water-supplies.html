@@ -14,7 +14,7 @@
         <ion-list-header>
             Liste des bornes
         </ion-list-header>
-        <ion-item *ngFor="let hydrant of fireHydrants">
+        <ion-item *ngFor="let hydrant of fireHydrants | orderBy:'number'">
             <div>
                 <button class="action-list-button" (click)="onClickHydrant(hydrant.id)">
                     <ion-icon class="ion-md-trash"></ion-icon>
@@ -25,7 +25,6 @@
                 </div>
             </div>
         </ion-item>
-
     </ion-list>
 </ion-content>
 
