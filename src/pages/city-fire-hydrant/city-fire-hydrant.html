@@ -4,11 +4,12 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
   <ion-list>
     <ion-list-header>
       Bornes
     </ion-list-header>
-    <ion-item *ngFor="let hydrant of cityfireHydrants">
+    <ion-item *ngFor="let hydrant of filteredCityFireHydrantList | orderBy:'number'">
       <div>
         <button class="action-list-button" (click)="AddBuildingFireHydrant(hydrant.id)">
           <ion-icon name="arrow-dropright-circle"></ion-icon>
