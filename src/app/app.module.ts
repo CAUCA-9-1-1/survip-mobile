@@ -67,8 +67,6 @@ export function httpServiceFactory(
     IonicModule.forRoot(MyApp),
     BrowserModule,
     ComponentsModule,
-    DirectivesModule,
-    //InspectionsPageModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [

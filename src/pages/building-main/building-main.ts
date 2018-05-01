@@ -2,13 +2,6 @@ import {Component, ViewChild} from '@angular/core';
 import {IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
 import {normalizeAsyncValidator} from '@angular/forms/src/directives/normalize_validator';
 
-/**
- * Generated class for the BuildingMainPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-building-main',
@@ -50,6 +43,7 @@ export class BuildingMainPage {
   }
 
   public openPage(page) : void {
+    console.log(this.idBuilding, this.name);
    this.childNavCtrl.setRoot(page, {idBuilding: this.idBuilding, name: this.name});
   }
 }

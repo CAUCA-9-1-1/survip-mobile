@@ -52,7 +52,7 @@ export class BuildingContactsPage {
   }
 
   public onItemClick(idBuildingContact: string): void {
-    let modal = this.modalCtrl.create('BuildingContactDetailPage', { idBuildingContact: idBuildingContact });
+    let modal = this.modalCtrl.create('BuildingContactDetailPage', { idBuildingContact: idBuildingContact, idBuilding: this.idBuilding });
     modal.present();
   }
 }
