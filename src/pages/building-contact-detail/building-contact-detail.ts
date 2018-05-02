@@ -5,6 +5,7 @@ import {InspectionBuildingContact} from '../../models/inspection-building-contac
 import {UUID} from 'angular2-uuid';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ISubscription} from 'rxjs/Subscription';
+import {MessageToolsProvider} from '../../providers/message-tools/message-tools';
 
 /**
  * Generated class for the BuildingContactDetailPage page.
@@ -30,6 +31,7 @@ export class BuildingContactDetailPage {
     private fb: FormBuilder,
     private loadCtrl: LoadingController,
     private repo: BuildingContactRepositoryProvider,
+    private msg: MessageToolsProvider,
     public navCtrl: NavController,
     public viewCtrl: ViewController,
     public navParams: NavParams) {
@@ -39,10 +41,47 @@ export class BuildingContactDetailPage {
     this.createForm();
   }
 
+  private setNumber(fieldName: string, newNumber: string): void{
+    this.form.controls[fieldName].patchValue(newNumber, {emitEvent: false});
+  }
+
+  private formatPhoneNumber(phone: string) : string {
+    let area = "";
+    let firstThree = "";
+    let lastFour = "";
+    var result = "(";
+
+    if (phone.length == 0)
+      return "";
+    else if (phone.length < 3)
+      return result + phone;
+    else
+      area += phone.substr(0, 3);
+
+    if (phone.length > 3 && phone.length < 6)
+      firstThree = phone.substr(3, phone.length -3);
+    else if (phone.length > 3)
+      firstThree = phone.substr(3, 3);
+
+    if (phone.length > 6 && phone.length < 10)
+      lastFour = phone.substr(6, phone.length - 6);
+    else if (phone.length > 6)
+      lastFour = phone.substr(6, 4);
+
+    result += area;
+    if (area.length == 3)
+      result += ") ";
+
+    if (firstThree.length < 3)
+      return result + firstThree;
+    else
+      return result + firstThree + '-' + lastFour;
+  }
+
   async ionViewDidEnter(){
     let load = this.loadCtrl.create({'content': 'Patientez...'});
     await load.present();
-    if (this.idBuilding == null){
+   if (this.idBuildingContact == null){
       this.createContact();
     }
     else {
@@ -60,14 +99,14 @@ export class BuildingContactDetailPage {
     this.form = this.fb.group({
       firstName: ['', [Validators.required, Validators.maxLength(30)]],
       lastName: ['', [Validators.required, Validators.maxLength(30)]],
-      callPriority: [0, [Validators.required, Validators.pattern('[0-9]+')]],
-      phoneNumber: ['', [Validators.maxLength(10), Validators.pattern('[0-9]+')]],
+      callPriority: [0, [Validators.pattern('[0-9]+')]],
+      phoneNumberMasked: ['', [Validators.maxLength(14)]],
       phoneNumberExtension: ['',[Validators.maxLength(10), Validators.pattern('[0-9]+')]],
-      pagerNumber: ['', [Validators.maxLength(10), Validators.pattern('[0-9]+')]],
+      pagerNumberMasked: ['', [Validators.maxLength(14)]],
       pagerCode: ['', [Validators.maxLength(10), Validators.pattern('[0-9]+')]],
-      cellphoneNumber: ['', [Validators.maxLength(10), Validators.pattern('[0-9]+')]],
-      otherNumber: ['', [Validators.maxLength(10), Validators.pattern('[0-9]+')]],
-      otherNumberExtension: ['', [Validators.maxLength(10), Validators.pattern('[0-9]+')]],
+      cellphoneNumberMasked: ['', [Validators.maxLength(14)]],
+      otherNumberMasked: ['', [Validators.maxLength(10), Validators.pattern('[0-9]+')]],
+      otherNumberExtension: ['', [Validators.maxLength(14)]],
       isOwner: [false, Validators.required],
     });
   }
@@ -78,8 +117,13 @@ export class BuildingContactDetailPage {
   }
 
   private setValues() {
-    if (this.contact != null)
+    if (this.contact != null) {
       this.form.patchValue(this.contact);
+      this.setNumber('phoneNumberMasked', this.formatPhoneNumber(this.contact.phoneNumber));
+      this.setNumber('pagerNumberMasked', this.formatPhoneNumber(this.contact.pagerNumber));
+      this.setNumber('otherNumberMasked', this.formatPhoneNumber(this.contact.otherNumber));
+      this.setNumber('cellphoneNumberMasked', this.formatPhoneNumber(this.contact.cellphoneNumber));
+    }
   }
 
   private startWatchingForm() {
@@ -96,7 +140,12 @@ export class BuildingContactDetailPage {
   private async saveForm() {
     const formModel = this.form.value;
     Object.assign(this.contact, formModel);
+    this.contact.phoneNumber = this.form.value.phoneNumberMasked.replace(/\D+/g, "")
+    this.contact.cellphoneNumber = this.form.value.cellphoneNumberMasked.replace(/\D+/g, "")
+    this.contact.otherNumber = this.form.value.otherNumberMasked.replace(/\D+/g, "")
+    this.contact.pagerNumber = this.form.value.pagerNumberMasked.replace(/\D+/g, "")
     await this.repo.save(this.contact);
+    this.form.markAsPristine();
   }
 
   private createContact() {
@@ -105,5 +154,21 @@ export class BuildingContactDetailPage {
     data.idBuilding = this.idBuilding;
     this.idBuildingContact = data.id;
     this.contact = data;
+  }
+
+  public async onDeleteContact() {
+    if (await this.msg.ShowMessageBox("Confirmation de suppression", "Êtes-vous certain de vouloir supprimer ce contact?")) {
+      await this.repo.delete(this.idBuildingContact);
+      this.viewCtrl.dismiss();
+    }
+  }
+
+  public async onCancelEdition() {
+    if (this.form.dirty) {
+      if (await this.msg.ShowMessageBox("Confirmation", "La voie contient des erreurs de validation et n'a pas été sauvegardée.  Voulez-vous quand même retourner à la page du parcours?"))
+        this.viewCtrl.dismiss();
+    }
+    else
+      this.viewCtrl.dismiss();
   }
 }

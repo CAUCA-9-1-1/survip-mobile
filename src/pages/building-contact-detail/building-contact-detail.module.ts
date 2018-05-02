@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { BuildingContactDetailPage } from './building-contact-detail';
 import {DirectivesModule} from '../../directives/directives.module';
+import {BrMaskerModule} from 'brmasker-ionic-3';
 
 @NgModule({
   declarations: [
@@ -9,7 +10,8 @@ import {DirectivesModule} from '../../directives/directives.module';
   ],
   imports: [
     IonicPageModule.forChild(BuildingContactDetailPage),
-    DirectivesModule
+    DirectivesModule,
+    BrMaskerModule
   ],
 })
 export class BuildingContactDetailPageModule {}
