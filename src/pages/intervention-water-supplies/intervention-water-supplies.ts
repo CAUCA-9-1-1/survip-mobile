@@ -41,9 +41,9 @@ export class InterventionWaterSuppliesPage {
 
     async ionViewCanEnter() {
         let isLoggedIn = await this.authService.isStillLoggedIn();
-        if (!isLoggedIn){
+        if (!isLoggedIn) {
             this.redirectToLoginPage();
-        }else {
+        } else {
             this.LoadBuildingFireHydrant();
         }
     }
@@ -59,20 +59,18 @@ export class InterventionWaterSuppliesPage {
 
 
     async onClickHydrant(idInspectionBuildingFireHydrant: string) {
-        let candelete = await this.messageTools.ShowMessageBox('Suppression de bornes','Voulez vous supprimer cette borne ?');
-        if(candelete) {
+        let canDelete = await this.messageTools.ShowMessageBox('Suppression de bornes', 'Voulez vous supprimer cette borne ?');
+        if (canDelete) {
             this.controller.deleteBuildingFireHydrant(idInspectionBuildingFireHydrant)
                 .subscribe(result => {
-                    if (result.status == 200) {
-                        this.LoadBuildingFireHydrant();
-                    } else {
-                        this.messageTools.showToast("Erreur lors de la suppression de borne" + result);
-                    }
+                    this.LoadBuildingFireHydrant();
+                }, error => {
+                    this.messageTools.showToast("Erreur lors de la suppression de borne");
                 });
         }
     }
 
     public onItemClick(idCity: string) {
-        this.navCtrl.push('CityFireHydrantPage', {idCity : idCity, idBuilding : this.controller.inspectionDetail.id});
+        this.navCtrl.push('CityFireHydrantPage', {idCity: idCity, idBuilding: this.controller.inspectionDetail.id});
     }
 }

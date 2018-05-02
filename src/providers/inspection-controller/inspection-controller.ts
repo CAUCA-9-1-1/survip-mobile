@@ -13,7 +13,7 @@ import {InspectionBuildingsRepositoryProvider} from '../repositories/inspection-
 import {InspectionBuildingFireHydrantRepositoryProvider} from "../repositories/inspection-building-fire-hydrant-repository-provider";
 import {Observable} from 'rxjs/Observable';
 import {BuildingFireHydrantRepositoryProvider} from "../repositories/building-fire-hydrant-repository";
-import {map} from 'rxjs/operators';
+import {map} from "rxjs/operators";
 
 @Injectable()
 export class InspectionControllerProvider {
@@ -111,14 +111,4 @@ export class InspectionControllerProvider {
     return this.buildingfirehydrantRepo.deleteBuildingFireHydrant(idBuildingFireHydrant)
         .pipe(map(response => response));
   }
-
-  addBuildingFireHydrant(idBuilding : string, idFireHydrant : string){
-      return this.buildingfirehydrantRepo.addBuildingFireHydrant(idBuilding, idFireHydrant)
-          .pipe(map(response => response));
-  }
-
-    getListCityFireHydrant(idCity : string){
-        return this.buildingfirehydrantRepo.getList(idCity)
-            .pipe(map(response => response));
-    }
 }
