@@ -3,7 +3,7 @@ import {IonicPage, LoadingController, NavController, NavParams, ViewController} 
 import {BuildingContactRepositoryProvider} from '../../providers/repositories/building-contact-repository';
 import {InspectionBuildingContact} from '../../models/inspection-building-contact';
 import {UUID} from 'angular2-uuid';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ISubscription} from 'rxjs/Subscription';
 import {MessageToolsProvider} from '../../providers/message-tools/message-tools';
 
@@ -97,8 +97,8 @@ export class BuildingContactDetailPage {
 
   private createForm() {
     this.form = this.fb.group({
-      firstName: ['', [Validators.required, Validators.maxLength(30)]],
-      lastName: ['', [Validators.required, Validators.maxLength(30)]],
+      firstName: ['', [Validators.required, Validators.maxLength(30), this.noWhitespaceValidator]],
+      lastName: ['', [Validators.required, Validators.maxLength(30), this.noWhitespaceValidator]],
       callPriority: [0, [Validators.pattern('[0-9]+')]],
       phoneNumberMasked: ['', [Validators.maxLength(14)]],
       phoneNumberExtension: ['',[Validators.maxLength(10), Validators.pattern('[0-9]+')]],
@@ -109,6 +109,12 @@ export class BuildingContactDetailPage {
       otherNumberExtension: ['', [Validators.maxLength(14)]],
       isOwner: [false, Validators.required],
     });
+  }
+
+  public noWhitespaceValidator(control: FormControl) {
+    let isWhitespace = (control.value || '').trim().length === 0;
+    let isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true }
   }
 
   private setValuesAndStartListening(): void{

@@ -32,12 +32,12 @@
           <ion-label fixed>Prénom</ion-label>
           <ion-input type="text" formControlName="firstName"></ion-input>
       </ion-item>
-      <div *ngIf="form.get('firstName').hasError('required')" class="validation-error-text">*Le prénom est requis.</div>
+      <div *ngIf="!form.controls.firstName.valid" class="validation-error-text">*Le prénom est requis.</div>
       <ion-item [class.invalid]="!form.controls.lastName.valid">
         <ion-label fixed>Nom</ion-label>
         <ion-input type="text" formControlName="lastName"></ion-input>
       </ion-item>
-      <div *ngIf="form.get('lastName').hasError('required')" class="validation-error-text">*Le nom est requis.</div>
+      <div *ngIf="!form.controls.lastName.valid" class="validation-error-text">*Le nom est requis.</div>
       <ion-item>
         <ion-label fixed>Est propriétaire</ion-label>
         <ion-toggle formControlName="isOwner"></ion-toggle>
