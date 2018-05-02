@@ -104,10 +104,6 @@ export class InspectionListPage {
     this.filteredBatches = this.filteredBatches.filter(batch => batch.inspections.length > 0);
   }
 
-  private groupBy(xs, f) {
-    return xs.reduce((r, v, i, a, k = f(v)) => ((r[k] || (r[k] = [])).push(v), r), {});
-  }
-
   private mustBeShown(inspection: Inspection): boolean{
     let riskLevelName = this.getRiskDescription(inspection.idRiskLevel);
     let riskContainsSearchTerm = riskLevelName.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;

@@ -1,4 +1,4 @@
-import {Component, EventEmitter} from '@angular/core';
+import {Component} from '@angular/core';
 import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LaneRepositoryProvider} from '../../providers/repositories/lane-repository';
@@ -131,7 +131,7 @@ export class InterventionCourseLanePage {
     this.form.markAsPristine();
   }
 
-  private async onDeleteLane() {
+  public async onDeleteLane() {
     let alert = this.alertCtrl.create({
       title: 'Confirmation',
       message: 'Êtes-vous sûr de vouloir supprimer cette voie?',
@@ -153,7 +153,7 @@ export class InterventionCourseLanePage {
   async saveCourseLane(){
     let loader = this.load.create({content: 'Patientez...'});
     loader.present();
-    let result = await this.courseLaneRepo.save(this.courseLane);
+    await this.courseLaneRepo.save(this.courseLane);
     loader.dismiss();
   }
 

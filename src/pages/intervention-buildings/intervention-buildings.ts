@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
+import {App, IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InspectionBuildingForList} from '../../models/inspection-building-for-list';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
@@ -27,6 +26,8 @@ export class InterventionBuildingsPage {
   }
 
   constructor(public navCtrl: NavController,
+              private viewCtrl: ViewController,
+              private appCtrl: App,
               public navParams: NavParams,
               private controller: InspectionControllerProvider,
               private authService: AuthenticationService) {
@@ -44,5 +45,9 @@ export class InterventionBuildingsPage {
 
   private redirectToLoginPage(){
     this.navCtrl.setRoot('LoginPage');
+  }
+
+  public async onClickBuilding(idBuilding: string, name: string){
+    this.navCtrl.push("BuildingMainPage", { idBuilding: idBuilding, name: name});
   }
 }

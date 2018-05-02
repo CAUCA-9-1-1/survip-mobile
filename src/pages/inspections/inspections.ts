@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {InspectionMapPage} from '../inspection-map/inspection-map';
+import {IonicPage, NavController} from 'ionic-angular';
 
 @Component({
   selector: 'page-inspections',
@@ -9,7 +8,7 @@ import {InspectionMapPage} from '../inspection-map/inspection-map';
 @IonicPage()
 export class InspectionsPage {
   inspectionListRoot = 'InspectionListPage';
-  inspectionMapRoot = InspectionMapPage;
+  inspectionMapRoot = 'InspectionMapPage';
 
   constructor(public navCtrl: NavController) {
   }

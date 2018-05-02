@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
-import {InspectionsPage} from '../inspections/inspections';
 
 @IonicPage()
 @Component({
@@ -62,6 +61,6 @@ export class LoginPage {
   }
 
   private redirectToInspectionList(){
-    this.navCtrl.setRoot('InspectionsPage');
+    this.navCtrl.setRoot('InspectionListPage');
   }
 }

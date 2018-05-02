@@ -1,0 +1,53 @@
+<ion-menu [content]="buildingContent" [persistent]="true" id="buildingMenu">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Bâtiment</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <button ion-item icon-left menuClose (click)="openPage(detailsPage)">
+        <ion-icon name="information-circle"></ion-icon>
+        Détails du bâtiment
+      </button>
+      <button ion-item icon-left menuClose (click)="openPage(contactsPage)">
+        <ion-icon name="contacts"></ion-icon>
+        Contacts
+      </button>
+      <button ion-item icon-left menuClose (click)="openPage(pnapsPage)">
+        <ion-icon name="people"></ion-icon>
+        PNAPS
+      </button>
+      <button ion-item icon-left menuClose (click)="openPage(hazardousMaterialPage)">
+        <ion-icon name="nuclear"></ion-icon>
+        Matières dangereuses
+      </button>
+      <button ion-item icon-left menuClose (click)="openPage(alarmPanelsPage)">
+        <ion-icon name="notifications"></ion-icon>
+        Panneaux d'alarme
+      </button>
+      <button ion-item icon-left menuClose (click)="openPage(waterSprinklersPage)">
+        <ion-icon name="water"></ion-icon>
+        Gicleurs
+      </button>
+      <button ion-item icon-left menuClose (click)="openPage(particularRisksPage)">
+        <ion-icon name="flash"></ion-icon>
+        Risques particuliers
+      </button>
+      <button ion-item icon-left menuClose (click)="openPage(anomaliesPage)">
+        <ion-icon name="warning"></ion-icon>
+        Anomalies
+      </button>
+      <button ion-item icon-left (click)="closeMenu()">
+        <ion-icon name="undo"></ion-icon>
+        Retourner à l'inspection
+      </button>
+      <button ion-item icon-left (click)="closeMenu()">
+        <ion-icon name="close-circle"></ion-icon>
+        Fermer le menu
+      </button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-nav #buildingContent [root]="rootPage"></ion-nav>
