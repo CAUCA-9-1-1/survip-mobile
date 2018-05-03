@@ -12,12 +12,6 @@
         <ion-icon name="arrow-back"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-buttons end>
-      <button ion-button icon-start (click)="onDeleteContact()">
-        Supprimer
-        <ion-icon name="trash"></ion-icon>
-      </button>
-    </ion-buttons>
     <ion-title>Édition du contact</ion-title>
   </ion-navbar>
 
@@ -95,3 +89,17 @@
 
   </ion-list>
 </ion-content>
+
+<ion-footer>
+
+  <ion-navbar>
+    <ion-buttons left>
+      <button ion-button  icon-left (click)="onDeleteContact()">
+        <ion-icon name="trash"></ion-icon>
+        Supprimer ce contact
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-footer>
+
