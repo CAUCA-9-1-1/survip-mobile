@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { InterventionLayerDirective } from './intervention-layer/intervention-layer';
+
 @NgModule({
-	declarations: [InterventionLayerDirective],
+	declarations: [],
 	imports: [],
-	exports: [InterventionLayerDirective]
+	exports: []
 })
 export class DirectivesModule {}

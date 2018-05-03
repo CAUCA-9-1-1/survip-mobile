@@ -15,11 +15,15 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class BuildingDetailsPage {
 
+  public readonly idBuilding: string;
+  public readonly name: string;
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.idBuilding = navParams.get('idBuilding');
+    this.name = navParams.get('name');
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad BuildingDetailsPage');
   }
-
 }

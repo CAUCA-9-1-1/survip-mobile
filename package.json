@@ -31,6 +31,7 @@
         "@ngx-translate/http-loader": "^3.0.1",
         "angular-in-memory-web-api": "^0.5.4",
         "angular2-uuid": "^1.1.1",
+        "brmasker-ionic-3": "^1.0.9",
         "com-sarriaroman-photoviewer": "^1.1.10",
         "cordova-android": "^6.2.3",
         "cordova-browser": "^4.1.0",

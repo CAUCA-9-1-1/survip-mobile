@@ -8,12 +8,32 @@
   <ion-navbar>
     <ion-icon name="menu" menuToggle left></ion-icon>
     <ion-title>
-      Contacts du bâtiment
+      {{name}}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      Contacts du bâtiment
+    </ion-list-header>
+    <button ion-item icon-left *ngFor="let contact of contacts | orderBy:'name'" (click)="onItemClick(contact.id)">
+      <ion-icon [name]="contact.isOwner ? 'key' : 'contact'"></ion-icon>
+      {{contact.name}}
+    </button>
+  </ion-list>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons>
+      <button ion-button icon-start full type="button" (click)="onItemClick(null)">
+        <ion-icon name="add-circle"></ion-icon>
+        Ajouter un contact...
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+
