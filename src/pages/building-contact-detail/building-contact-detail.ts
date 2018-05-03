@@ -20,6 +20,7 @@ import {MessageToolsProvider} from '../../providers/message-tools/message-tools'
   templateUrl: 'building-contact-detail.html',
 })
 export class BuildingContactDetailPage {
+  private isNew: boolean = false;
   private idBuildingContact: string;
   private readonly idBuilding: string;
   private subscription: ISubscription;
@@ -101,7 +102,7 @@ export class BuildingContactDetailPage {
       lastName: ['', [Validators.required, Validators.maxLength(30), this.noWhitespaceValidator]],
       callPriority: [0, [Validators.required, Validators.pattern('[0-9]+')]],
       phoneNumberMasked: ['', [Validators.maxLength(14)]],
-      phoneNumberExtension: ['',[Validators.maxLength(10), Validators.pattern('[0-9]+')]],
+      phoneNumberExtension: ['',[Validators.maxLength(10), Validators.pattern('[0-9]+'), Validators.min(0)]],
       pagerNumberMasked: ['', [Validators.maxLength(14)]],
       pagerCode: ['', [Validators.maxLength(10), Validators.pattern('[0-9]+')]],
       cellphoneNumberMasked: ['', [Validators.maxLength(14)]],
@@ -152,9 +153,11 @@ export class BuildingContactDetailPage {
     this.contact.pagerNumber = this.form.value.pagerNumberMasked.replace(/\D+/g, "")
     await this.repo.save(this.contact);
     this.form.markAsPristine();
+    this.isNew = false;
   }
 
   private createContact() {
+    this.isNew = true;
     let data =  new InspectionBuildingContact();
     data.id = UUID.UUID();
     data.idBuilding = this.idBuilding;
@@ -163,15 +166,18 @@ export class BuildingContactDetailPage {
   }
 
   public async onDeleteContact() {
-    if (await this.msg.ShowMessageBox("Confirmation de suppression", "Êtes-vous certain de vouloir supprimer ce contact?")) {
+    if (!this.isNew && this.msg.ShowMessageBox("Confirmation de suppression", "Êtes-vous certain de vouloir supprimer ce contact?")) {
       await this.repo.delete(this.idBuildingContact);
+      this.viewCtrl.dismiss();
+    }
+    else if (this.isNew) {
       this.viewCtrl.dismiss();
     }
   }
 
   public async onCancelEdition() {
-    if (this.form.dirty) {
-      if (await this.msg.ShowMessageBox("Confirmation", "La voie contient des erreurs de validation et n'a pas été sauvegardée.  Voulez-vous quand même retourner à la page du parcours?"))
+    if (this.form.dirty || this.isNew) {
+      if (await this.msg.ShowMessageBox("Confirmation", "La voie contient des erreurs de validation et n'a pas été sauvegardée.  Voulez-vous quand même retourner à la page des contacts du bâtiment?"))
         this.viewCtrl.dismiss();
     }
     else

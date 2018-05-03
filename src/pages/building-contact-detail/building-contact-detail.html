@@ -86,7 +86,7 @@
 
 <ion-footer>
 
-  <ion-navbar>
+  <ion-navbar *ngIf="!isNew">
     <ion-buttons left>
       <button ion-button  icon-start (click)="onDeleteContact()">
         <ion-icon name="trash"></ion-icon>
