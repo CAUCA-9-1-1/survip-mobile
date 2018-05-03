@@ -99,7 +99,7 @@ export class BuildingContactDetailPage {
     this.form = this.fb.group({
       firstName: ['', [Validators.required, Validators.maxLength(30), this.noWhitespaceValidator]],
       lastName: ['', [Validators.required, Validators.maxLength(30), this.noWhitespaceValidator]],
-      callPriority: [0, [Validators.pattern('[0-9]+')]],
+      callPriority: [0, [Validators.required, Validators.pattern('[0-9]+')]],
       phoneNumberMasked: ['', [Validators.maxLength(14)]],
       phoneNumberExtension: ['',[Validators.maxLength(10), Validators.pattern('[0-9]+')]],
       pagerNumberMasked: ['', [Validators.maxLength(14)]],

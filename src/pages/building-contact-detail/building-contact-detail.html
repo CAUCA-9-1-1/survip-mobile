@@ -39,13 +39,14 @@
       </ion-item>
       <div *ngIf="!form.controls.lastName.valid" class="validation-error-text">*Le nom est requis.</div>
       <ion-item>
-        <ion-label fixed>Est propriétaire</ion-label>
+        <ion-label fixed>Popriétaire</ion-label>
         <ion-toggle formControlName="isOwner"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label fixed>Priorité</ion-label>
-        <ion-input type="number" formControlName="callPriority"></ion-input>
+        <ion-input formControlName="callPriority" type="number" maxlength="10"></ion-input>
       </ion-item>
+      <div *ngIf="!form.controls.callPriority.valid" class="validation-error-text">*Vous devez entrer un nombre valide.</div>
     </ion-item-group>
 
     <ion-item-group>
