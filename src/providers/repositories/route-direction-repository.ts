@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from '../Base/http.service';
-import {Observable} from 'rxjs/Observable';
 import {RouteDirection} from '../../models/route-direction';
 import {map} from 'rxjs/operators';
 
