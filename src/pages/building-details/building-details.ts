@@ -60,11 +60,23 @@ export class BuildingDetailsPage {
   }
 
   private createForm() {
+    let unitOfMeasureHeightValidator = (control: FormControl) => {
+        if (this.detail != null && this.detail.height > 0 && (control.value == null || control.value == ""))
+          return {'missingUnitOfMeasureHeight': true};
+        return null;
+    };
+
+    let unitOfMeasureFlowValidator = (control: FormControl) => {
+      if (this.detail != null && this.detail.estimatedWaterFlow > 0 && (control.value == null || control.value == ""))
+        return {'missingUnitOfMeasureFlow': true};
+      return null;
+    };
+
     this.form = this.formBuilding.group({
       height: [0, [Validators.min(0), Validators.max(999999)]],
-      idUnitOfMeasureHeight: [0, [this.unitOfMeasureMandatoryWhenHeightIsSetValidator]],
+      idUnitOfMeasureHeight: [0, [unitOfMeasureHeightValidator]],
       estimatedWaterFlow: [0, [Validators.min(0), Validators.max(999999)]],
-      idUnitOfMeasureEstimatedWaterFlow: [0, [this.unitOfMeasureMandatoryWhenHeightIsSetValidator]],
+      idUnitOfMeasureEstimatedWaterFlow: [0, [unitOfMeasureFlowValidator]],
       garageType: [0, [Validators.required]],
       idConstructionType: [0],
       idConstructionFireResistanceType: [0],
@@ -73,12 +85,6 @@ export class BuildingDetailsPage {
       idBuildingType: [0],
       idBuildingSidingType: [0],
     });
-  }
-
-  private unitOfMeasureMandatoryWhenHeightIsSetValidator(control: FormControl){
-    if (this.detail.height > 0 && (control.value == null || control.value == ""))
-      return {'missingUnitOfMeasure': true};
-    return null;
   }
 
   private setValuesAndStartListening(): void{
