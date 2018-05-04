@@ -27,7 +27,6 @@ export class BuildingMainPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private menuCtrl: MenuController) {
     this.idBuilding = navParams.get("idBuilding");
     this.name = navParams.get('name');
-    console.log(this.idBuilding, this.name, navParams);
   }
 
   ionViewDidLoad() {
@@ -43,7 +42,10 @@ export class BuildingMainPage {
   }
 
   public openPage(page) : void {
-    console.log(this.idBuilding, this.name);
-   this.childNavCtrl.setRoot(page, {idBuilding: this.idBuilding, name: this.name});
+    this.childNavCtrl.setRoot(page, this.getParams());
+  }
+
+  public getParams(){
+    return{idBuilding: this.idBuilding, name: this.name};
   }
 }
