@@ -8,6 +8,7 @@ import {BuildingDetailRepositoryProvider} from '../../providers/repositories/bui
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MessageToolsProvider} from '../../providers/message-tools/message-tools';
 import {ISubscription} from 'rxjs/Subscription';
+import {AuthenticationService} from '../../providers/Base/authentification.service';
 
 @IonicPage()
 @Component({
@@ -16,6 +17,8 @@ import {ISubscription} from 'rxjs/Subscription';
 })
 export class BuildingDetailsPage {
 
+  private readonly integerPattern: string = "^(0|([1-9]([0-9]*)))$";
+  private readonly decimalPattern: string = "^[0-9]+(.[0-9]{1,2})?$";
   private subscription: ISubscription;
 
   public readonly idBuilding: string;
@@ -29,6 +32,7 @@ export class BuildingDetailsPage {
   constructor(
     private formBuilding: FormBuilder,
     private msg: MessageToolsProvider,
+    private authService: AuthenticationService,
     private constructionRepo: ConstructionTypesRepositoryProvider,
     private unitOfMeasureRepo: UnitOfMeasureRepositoryProvider,
     private detailRepo: BuildingDetailRepositoryProvider,
@@ -59,7 +63,34 @@ export class BuildingDetailsPage {
     await load.dismiss();
   }
 
+  async ionViewCanEnter() {
+    let isLoggedIn = await this.authService.isStillLoggedIn();
+    if (!isLoggedIn)
+      this.redirectToLoginPage();
+  }
+
+  async ionViewCanLeave() {
+    if (this.form.dirty || !this.form.valid)
+      return await this.msg.ShowMessageBox('Confirmation', "Le détail du bâtiment contient des erreurs de validation et n'a pas été sauvegardé.  Voulez-vous quand même sortir de cette page?");
+  }
+
+  private redirectToLoginPage(): void{
+    this.navCtrl.setRoot('LoginPage');
+  }
+
   private createForm() {
+    let regexChecker = (mask: string) =>
+    {
+      return (control: FormControl) => {
+        var value = control.value + "";
+        const reg = new RegExp(mask);
+        if (reg.test(value))
+          return null;
+        else
+          return {'incorrectValue': true};
+      };
+    };
+
     let unitOfMeasureHeightValidator = (control: FormControl) => {
         if (this.detail != null && this.detail.height > 0 && (control.value == null || control.value == ""))
           return {'missingUnitOfMeasureHeight': true};
@@ -73,9 +104,9 @@ export class BuildingDetailsPage {
     };
 
     this.form = this.formBuilding.group({
-      height: [0, [Validators.min(0), Validators.max(999999)]],
+      height: [0, [Validators.min(0), Validators.max(999999), regexChecker(this.decimalPattern)]],
       idUnitOfMeasureHeight: [0, [unitOfMeasureHeightValidator]],
-      estimatedWaterFlow: [0, [Validators.min(0), Validators.max(999999)]],
+      estimatedWaterFlow: [0, [Validators.min(0), Validators.pattern(this.integerPattern)]],
       idUnitOfMeasureEstimatedWaterFlow: [0, [unitOfMeasureFlowValidator]],
       garageType: [0, [Validators.required]],
       idConstructionType: [0],
@@ -93,8 +124,9 @@ export class BuildingDetailsPage {
   }
 
   private setValues(){
-    if (this.detail != null)
+    if (this.detail != null) {
       this.form.patchValue(this.detail);
+    }
   }
 
   private startWatchingForm() {

@@ -21,13 +21,13 @@
     <ion-item-group>
       <ion-item-divider>Bâtiment</ion-item-divider>
       <ion-item *ngIf="allTypes && allTypes.buildingTypes" >
-        <ion-label fixed>Type</ion-label>
+        <ion-label>Type</ion-label>
         <ion-select formControlName="idBuildingType">
           <ion-option *ngFor="let t of allTypes.buildingTypes | orderBy:'name'" [value]="t.id">{{t.name}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label fixed>Garage</ion-label>
+        <ion-label>Garage</ion-label>
         <ion-select formControlName="garageType">
           <ion-option value="0">Non</ion-option>
           <ion-option value="1">Oui</ion-option>
@@ -35,25 +35,69 @@
         </ion-select>
       </ion-item>
     </ion-item-group>
-<!--
+
+    <ion-item-group [class.invalid]="!form.controls.idUnitOfMeasureHeight.valid">
+      <ion-item-divider>Hauteur</ion-item-divider>
+        <ion-grid>
+          <ion-row>
+            <ion-col width-50>
+              <ion-item>
+                <ion-input placeholder="Hauteur" type="number" [pattern]="decimalPattern" item-start formControlName="height"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col width-50>
+              <ion-item>
+                <ion-select item-end formControlName="idUnitOfMeasureHeight" *ngIf="dimensionUnitOfMeasure" placeholder="[Unité]">
+                  <ion-option *ngFor="let t of dimensionUnitOfMeasure | orderBy:'name'" [value]="t.id">{{t.name}}</ion-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <div *ngIf="!form.controls.idUnitOfMeasureHeight.valid" class="validation-error-text">*L'unité de mesure est requise.</div>
+      <div *ngIf="!form.controls.height.valid" class="validation-error-text">*La hauteur doit être une valeur décimale de format valide (ex.: 9999.99).</div>
+    </ion-item-group>
+
+    <ion-item-group [class.invalid]="!form.controls.idUnitOfMeasureEstimatedWaterFlow.valid">
+      <ion-item-divider>D.I.E.</ion-item-divider>
+      <ion-grid>
+        <ion-row>
+          <ion-col width-50>
+            <ion-item>
+              <ion-input type="tel" placeholder="DIE" [pattern]="intergerPattern" item-start formControlName="estimatedWaterFlow"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col width-50>
+            <ion-item>
+              <ion-select item-end placeholder="[Unité]" formControlName="idUnitOfMeasureEstimatedWaterFlow" *ngIf="ratesUnitOfMeasure">
+                <ion-option *ngFor="let t of ratesUnitOfMeasure | orderBy:'name'" [value]="t.id">{{t.name}}</ion-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <div *ngIf="!form.controls.idUnitOfMeasureEstimatedWaterFlow.valid" class="validation-error-text">*L'unité de mesure est requise.</div>
+      <div *ngIf="!form.controls.estimatedWaterFlow.valid" class="validation-error-text">*Le DIE doit être une valeur entière et valide supérieure ou égale à 0.</div>
+    </ion-item-group>
+
     <ion-item-group>
       <ion-item-divider>Construction</ion-item-divider>
       <ion-item>
-        <ion-label fixed>Type</ion-label>
-        <ion-select formControlName="idConstructionType">
-          <ion-option *ngIf="allTypes && allTypes.constructionTypes" *ngFor="let t of allTypes.constructionTypes | orderBy:'name'" [value]="t.id">{{t.name}}</ion-option>
+        <ion-label>Type</ion-label>
+        <ion-select formControlName="idConstructionType" *ngIf="allTypes && allTypes.constructionTypes" color="secondary">
+          <ion-option *ngFor="let t of allTypes.constructionTypes | orderBy:'name'" [value]="t.id">{{t.name}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label fixed>Résistance feu</ion-label>
-        <ion-select formControlName="idConstructionFireResistanceType">
-          <ion-option *ngIf="allTypes && allTypes.constructionFireResistanceTypes" *ngFor="let t of allTypes.constructionFireResistanceTypes | orderBy:'name'" [value]="t.id">{{t.name}}</ion-option>
+        <ion-label>Résistance feu</ion-label>
+        <ion-select formControlName="idConstructionFireResistanceType" *ngIf="allTypes && allTypes.constructionFireResistanceTypes">
+          <ion-option *ngFor="let t of allTypes.constructionFireResistanceTypes | orderBy:'name'" [value]="t.id">{{t.name}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label fixed>Revêtement</ion-label>
-        <ion-select formControlName="idBuildingSidingType">
-          <ion-option *ngIf="allTypes && allTypes.buildingSidingTypes" *ngFor="let t of allTypes.buildingSidingTypes | orderBy:'name'" [value]="t.id">{{t.name}}</ion-option>
+        <ion-label>Revêtement</ion-label>
+        <ion-select formControlName="idBuildingSidingType" *ngIf="allTypes && allTypes.buildingSidingTypes">
+          <ion-option *ngFor="let t of allTypes.buildingSidingTypes | orderBy:'name'" [value]="t.id">{{t.name}}</ion-option>
         </ion-select>
       </ion-item>
     </ion-item-group>
@@ -61,19 +105,18 @@
     <ion-item-group>
       <ion-item-divider>Toit</ion-item-divider>
       <ion-item>
-        <ion-label fixed>Type</ion-label>
-        <ion-select formControlName="idRoofType">
-          <ion-option *ngIf="allTypes && allTypes.roofTypes" *ngFor="let t of allTypes.roofTypes | orderBy:'name'" [value]="t.id">{{t.name}}</ion-option>
+        <ion-label>Type</ion-label>
+        <ion-select formControlName="idRoofType" *ngIf="allTypes && allTypes.roofTypes">
+          <ion-option *ngFor="let t of allTypes.roofTypes | orderBy:'name'" [value]="t.id">{{t.name}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label fixed>Matériel</ion-label>
-        <ion-select formControlName="idRoofMaterialType">
-          <ion-option *ngIf="allTypes && allTypes.roofMaterialTypes" *ngFor="let t of allTypes.roofMaterialTypes | orderBy:'name'" [value]="t.id">{{t.name}}</ion-option>
+        <ion-label>Matériel</ion-label>
+        <ion-select formControlName="idRoofMaterialType" *ngIf="allTypes && allTypes.roofMaterialTypes">
+          <ion-option *ngFor="let t of allTypes.roofMaterialTypes | orderBy:'name'" [value]="t.id">{{t.name}}</ion-option>
         </ion-select>
       </ion-item>
     </ion-item-group>
 
--->
   </ion-list>
 </ion-content>
