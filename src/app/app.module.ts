@@ -35,6 +35,9 @@ import {FirestationRepositoryProvider} from '../providers/repositories/firestati
 import { MessageToolsProvider } from '../providers/message-tools/message-tools';
 import {BuildingFireHydrantRepositoryProvider} from "../providers/repositories/building-fire-hydrant-repository";
 import { BuildingContactRepositoryProvider } from '../providers/repositories/building-contact-repository';
+import { ConstructionTypesRepositoryProvider } from '../providers/repositories/construction-types-repository';
+import { UnitOfMeasureRepositoryProvider } from '../providers/repositories/unit-of-measure-repository';
+import { BuildingDetailRepositoryProvider } from '../providers/repositories/building-detail-repository';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -99,7 +102,10 @@ export function httpServiceFactory(
     RequestLoaderService,
     AuthenticationService,
       MessageToolsProvider,
-    BuildingContactRepositoryProvider
+    BuildingContactRepositoryProvider,
+    ConstructionTypesRepositoryProvider,
+    UnitOfMeasureRepositoryProvider,
+    BuildingDetailRepositoryProvider
 
     /*provideConfig({
       default: {
