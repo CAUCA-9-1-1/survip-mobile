@@ -13,3 +13,4 @@ export class InspectionBuildingContact {
   otherNumberExtension: string = "";
   isOwner: boolean = false;
 }
+
