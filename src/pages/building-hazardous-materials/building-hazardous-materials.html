@@ -1,18 +1,34 @@
-<!--
-  Generated template for the BuildingHazardousMaterialsPage page.
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>building-hazardous-materials</ion-title>
+    <ion-icon name="menu" menuToggle left></ion-icon>
+    <ion-title>
+      {{name}}
+    </ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      Matières dangereuses du bâtiment
+    </ion-list-header>
+    <button ion-item icon-start *ngFor="let mat of hazardousMaterials | orderBy:'hazardousMaterialName'" (click)="onItemClick(mat.id)">
+      <h2>{{mat.hazardousMaterialName}}</h2>
+      <p>{{mat.quantityDescription}}</p>
+    </button>
+  </ion-list>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons>
+      <button ion-button icon-start full type="button" (click)="onItemClick(null)">
+        <ion-icon name="add-circle"></ion-icon>
+        Ajouter une matière dangereuse...
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+

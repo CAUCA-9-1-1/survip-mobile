@@ -1,0 +1,23 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons left>
+      <button ion-button  icon-only (click)="onCancel()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Sélection d'une matière dangereuse</ion-title>
+  </ion-navbar>
+  <ion-searchbar placeholder="Recherche..." debounce="500" (ionInput)="onSearch()" [(ngModel)]="searchTerm" ></ion-searchbar>
+  <div *ngIf="searchTerm.length < 4" class="validation-error-text">* Entrez au moins 4 caractères pour que la recherche se fasse.</div>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <button ion-item *ngFor="let mat of hazardousMaterials" (click)="onSelectMaterial(mat.id)">
+      <h2>{{mat.name}}</h2>
+      <p>{{mat.number}}</p>
+    </button>
+  </ion-list>
+</ion-content>
