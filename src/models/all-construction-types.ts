@@ -1,4 +1,4 @@
-import {GenericType} from './type-for-construction';
+import {GenericType} from './generic-type';
 
 export class AllConstructionTypes {
   buildingTypes: GenericType[] = [];

@@ -1,0 +1,106 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons left>
+      <button ion-button  icon-only (click)="onCancelEdition()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Édition du PNAP</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list [formGroup]="form">
+
+    <ion-item-group>
+      <ion-list-header color="light">Informations générales</ion-list-header>
+      <ion-item [class.invalid]="!form.controls.idPersonRequiringAssistanceType.valid">
+        <ion-label>Type</ion-label>
+        <ion-select formControlName="idPersonRequiringAssistanceType">
+          <ion-option *ngFor="let t of pnapTypes | orderBy:'name'" [value]="t.id">{{t.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <div *ngIf="!form.controls.idPersonRequiringAssistanceType.valid" class="validation-error-text">*Le type est requis.</div>
+      <ion-item>
+        <ion-label>Nom</ion-label>
+        <ion-input item-end formControlName="personName" maxlength="60" type="text" placeholder="Nom de la personne"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Étage</ion-label>
+        <ion-input formControlName="floor" max="3" placeholder="Étage" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Local</ion-label>
+        <ion-input formControlName="local" max="10" placeholder="Local" type="text"></ion-input>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group>
+      <ion-list-header color="light">Contact</ion-list-header>
+      <ion-item>
+        <ion-label>Nom</ion-label>
+        <ion-input formControlName="contactName" maxlength="60" type="text" placeholder="Nom du contact"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Téléphone</ion-label>
+        <ion-input placeholder="(xxx) xxx-xxxxx" [brmasker]="{mask:'(000) 000-0000', len:14, type:'num'}" type="text" formControlName="contactPhoneNumberMasked"></ion-input>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group>
+      <ion-list-header color="light">Résidents de jour</ion-list-header>
+      <ion-item [class.invalid]="!form.controls.dayResidentCount.valid">
+        <ion-label>Nombre</ion-label>
+        <ion-input type="tel" [pattern]="integerPattern" formControlName="dayResidentCount" placeholder="Nombre"></ion-input>
+      </ion-item>
+      <div *ngIf="!form.controls.dayResidentCount.valid" class="validation-error-text">*La quantité doit être une valeur entière valide.</div>
+      <ion-item>
+        <ion-label>Approximatif</ion-label>
+        <ion-toggle formControlName="dayIsApproximate"></ion-toggle>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group>
+      <ion-list-header color="light">Résidents de soir</ion-list-header>
+      <ion-item [class.invalid]="!form.controls.eveningResidentCount.valid">
+        <ion-label>Nombre</ion-label>
+        <ion-input type="tel" [pattern]="integerPattern" formControlName="eveningResidentCount" placeholder="Nombre"></ion-input>
+      </ion-item>
+      <div *ngIf="!form.controls.eveningResidentCount.valid" class="validation-error-text">*La quantité doit être une valeur entière valide.</div>
+      <ion-item>
+        <ion-label>Approximatif</ion-label>
+        <ion-toggle formControlName="eveningIsApproximate"></ion-toggle>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group>
+      <ion-list-header color="light">Résidents de soir</ion-list-header>
+      <ion-item [class.invalid]="!form.controls.nightResidentCount.valid">
+        <ion-label>Nombre</ion-label>
+        <ion-input type="tel" [pattern]="integerPattern" formControlName="nightResidentCount" placeholder="Nombre"></ion-input>
+      </ion-item>
+      <div *ngIf="!form.controls.nightResidentCount.valid" class="validation-error-text">*La quantité doit être une valeur entière valide.</div>
+      <ion-item>
+        <ion-label>Approximatif</ion-label>
+        <ion-toggle formControlName="nightIsApproximate"></ion-toggle>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group>
+      <ion-list-header color="light">Description</ion-list-header>
+      <ion-textarea maxlength="500" formControlName="description"></ion-textarea>
+    </ion-item-group>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-navbar *ngIf="!isNew">
+    <ion-buttons left>
+      <button ion-button  icon-start (click)="onDeletePnap()">
+        <ion-icon name="trash"></ion-icon>
+        Supprimer ce PNAP
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-footer>
