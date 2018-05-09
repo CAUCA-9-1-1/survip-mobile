@@ -5,3 +5,4 @@ export class InspectionBuildingFireHydrant {
   created_on: Date;
   is_active: boolean;
 }
+

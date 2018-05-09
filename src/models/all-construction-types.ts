@@ -1,12 +1,12 @@
-import {TypeForConstruction} from './type-for-construction';
+import {GenericType} from './type-for-construction';
 
 export class AllConstructionTypes {
-  buildingTypes: TypeForConstruction[] = [];
-  constructionFireResistanceTypes: TypeForConstruction[] = [];
-  constructionTypes: TypeForConstruction[] = [];
-  roofMaterialTypes: TypeForConstruction[] = [];
-  roofTypes: TypeForConstruction[] [];
-  buildingSidingTypes: TypeForConstruction[] [];
+  buildingTypes: GenericType[] = [];
+  constructionFireResistanceTypes: GenericType[] = [];
+  constructionTypes: GenericType[] = [];
+  roofMaterialTypes: GenericType[] = [];
+  roofTypes: GenericType[] [];
+  buildingSidingTypes: GenericType[] [];
 }
 
 export class UnitOfMeasure {
