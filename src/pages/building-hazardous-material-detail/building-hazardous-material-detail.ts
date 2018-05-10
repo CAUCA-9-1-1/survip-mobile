@@ -203,7 +203,7 @@ export class BuildingHazardousMaterialDetailPage {
 
   public async onCancelEdition() {
     if (this.form.dirty || this.isNew) {
-      if (await this.msg.ShowMessageBox("Confirmation", "La matière dangereuse contient des erreurs de validation et n'a pas été sauvegardée.  Voulez-vous quand même retourner à la page des contacts du bâtiment?"))
+      if (await this.msg.ShowMessageBox("Confirmation", "La matière contient des erreurs de validation et n'a pas été sauvegardée.  Voulez-vous quand même retourner à la page des matières dangereuses du bâtiment?"))
         await this.viewCtrl.dismiss();
     }
     else
