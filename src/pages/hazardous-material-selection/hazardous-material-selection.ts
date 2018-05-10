@@ -21,8 +21,8 @@ export class HazardousMaterialSelectionPage {
   }
 
   public onSearch(){
-    if (this.searchTerm.length >= 4)
-      this.matRepo.getFiltered(this.searchTerm)
+    if (this.searchTerm.trim().length >= 4)
+      this.matRepo.getFiltered(this.searchTerm.trim())
         .subscribe(data => this.hazardousMaterials = data);
   }
 

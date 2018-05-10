@@ -36,7 +36,6 @@ export class InterventionWaterSuppliesPage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad InterventionWaterSuppliesPage');
     }
 
     async ionViewCanEnter() {

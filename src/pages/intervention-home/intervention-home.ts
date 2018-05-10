@@ -24,16 +24,13 @@ export class InterventionHomePage {
   private implantationPlanPage = 'InterventionImplantationPlanPage'
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController, private controller: InspectionControllerProvider) {
-    console.log(this.navParams.data);
     controller.setIdInterventionForm(this.navParams.data['id']);
   }
 
   ionViewDidLoad() {
-    console.log("Did load!!!");
   }
 
   ionViewDidEnter() {
-    console.log("Did enter!!!!");
     this.menuCtrl.enable(true, 'inspectionMenu');
     this.menuCtrl.enable(false, 'buildingMenu');
   }

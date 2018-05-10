@@ -9,6 +9,7 @@ import {UUID} from 'angular2-uuid';
 import {HazardousMaterialRepositoryProvider} from '../../providers/repositories/hazardous-material-repository';
 import {UnitOfMeasure} from '../../models/all-construction-types';
 import {UnitOfMeasureRepositoryProvider} from '../../providers/repositories/unit-of-measure-repository';
+import {StaticListRepositoryProvider} from '../../providers/static-list-repository/static-list-repository';
 
 
 @IonicPage()
@@ -29,10 +30,13 @@ export class BuildingHazardousMaterialDetailPage {
   public material: InspectionBuildingHazardousMaterial;
   public form: FormGroup;
   public unitOfMeasures: UnitOfMeasure[] = [];
+  public walls: string[] = [];
+  public sectors: string[]= [];
 
   constructor(
     private fb: FormBuilder,
     private loadCtrl: LoadingController,
+    private staticRepo: StaticListRepositoryProvider,
     private repo: InspectionBuildingHazardousMaterialRepositoryProvider,
     private matRepo: HazardousMaterialRepositoryProvider,
     private unitRepo: UnitOfMeasureRepositoryProvider,
@@ -44,6 +48,8 @@ export class BuildingHazardousMaterialDetailPage {
 
     this.idBuilding = navParams.get("idBuilding");
     this.idBuildingHazardousMaterial = navParams.get('idBuildingHazardousMaterial');
+    this.walls = this.staticRepo.getWallList();
+    this.sectors = this.staticRepo.getSectorList();
     this.unitRepo.getAllForCapacity()
       .subscribe(data => this.unitOfMeasures = data);
     this.createForm();
@@ -64,8 +70,6 @@ export class BuildingHazardousMaterialDetailPage {
 
   private createForm() {
     let unitOfMeasureValidator = (control: FormControl) => {
-      console.log('validator', this.material);
-      console.log('validator', control.value);
       if (this.material != null && this.material.capacityContainer > 0 && (control.value == null || control.value == ""))
         return {'missingUnitOfMeasure': true};
       return null;
@@ -199,7 +203,7 @@ export class BuildingHazardousMaterialDetailPage {
 
   public async onCancelEdition() {
     if (this.form.dirty || this.isNew) {
-      if (await this.msg.ShowMessageBox("Confirmation", "La matière dangereuse contient des erreurs de validation et n'a pas été sauvegardée.  Voulez-vous quand même retourner à la page des contacts du bâtiment?"))
+      if (await this.msg.ShowMessageBox("Confirmation", "La matière contient des erreurs de validation et n'a pas été sauvegardée.  Voulez-vous quand même retourner à la page des matières dangereuses du bâtiment?"))
         await this.viewCtrl.dismiss();
     }
     else
