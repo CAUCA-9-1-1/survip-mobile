@@ -166,7 +166,7 @@ export class BuildingContactDetailPage {
   }
 
   public async onDeleteContact() {
-    if (!this.isNew && this.msg.ShowMessageBox("Confirmation de suppression", "Êtes-vous certain de vouloir supprimer ce contact?")) {
+    if (!this.isNew && await this.msg.ShowMessageBox("Confirmation de suppression", "Êtes-vous certain de vouloir supprimer ce contact?")) {
       await this.repo.delete(this.idBuildingContact);
       this.viewCtrl.dismiss();
     }

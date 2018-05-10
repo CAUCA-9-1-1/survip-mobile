@@ -1,19 +1,17 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from '../Base/http.service';
 import {Observable} from 'rxjs/Observable';
-import {map} from 'rxjs/operators';
 import {GenericType} from '../../models/generic-type';
+import {map} from 'rxjs/operators';
 
 @Injectable()
-export class PersonRequiringAssistanceTypeRepositoryProvider {
+export class SprinklerTypeRepository {
 
   constructor(public http: HttpService) {
   }
 
   public getAll(): Observable<GenericType[]> {
-    return this.http.get('personrequiringassistancetype')
+    return this.http.get('sprinklertype')
       .pipe(map(response => response));
   }
 }
-
-

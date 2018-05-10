@@ -29,7 +29,6 @@ export class BuildingPnapsPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad BuildingPnapsPage');
   }
 
   async ionViewDidEnter() {
