@@ -6,7 +6,20 @@
 
 </ion-header>
 <ion-content padding>
-  <ion-list>
+  <ion-slides>
+    <ion-slide>
+      <h2>{{CurrentQuestion.title}}</h2>
+      <p>{{CurrentQuestion.description}}</p>
+      <ion-list>
+        <ion-item *ngFor="let choice of CurrentQuestion.choiceList">
+          <div>
+            <p>{{choice.description}}</p>
+          </div>
+        </ion-item>
+      </ion-list>
+    </ion-slide>
+  </ion-slides>
+  <!--<ion-list>
     <ion-list-header>
       Listes
     </ion-list-header>
@@ -25,5 +38,5 @@
         </ion-list>
       </div>
     </ion-item>
-  </ion-list>
+  </ion-list>-->
 </ion-content>

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {IonicPage, NavController, NavParams, Slides} from 'ionic-angular';
 import {InspectionQuestion} from "../../models/inspection-question";
 import {InspectionQuestionRepositoryProvider} from "../../providers/repositories/inspection-question-repository-provider";
 
@@ -9,10 +9,13 @@ import {InspectionQuestionRepositoryProvider} from "../../providers/repositories
   templateUrl: 'inspection-question.html',
 })
 export class InspectionQuestionPage {
+    @ViewChild(Slides) slides: Slides;
 
     public inspectionQuestion: InspectionQuestion[] = [];
     public idSurvey: string = '';
     public idInspection: string  = '';
+    public SelectedIndex = 0;
+    public CurrentQuestion: InspectionQuestion;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -32,6 +35,7 @@ export class InspectionQuestionPage {
           .subscribe(result => {
               this.inspectionQuestion = result;
           });
+      this.CurrentQuestion = this.inspectionQuestion[this.SelectedIndex];
   }
 
 }
