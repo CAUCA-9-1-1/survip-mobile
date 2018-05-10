@@ -35,6 +35,7 @@ import { BuildingContactRepositoryProvider } from '../providers/repositories/bui
 import { ConstructionTypesRepositoryProvider } from '../providers/repositories/construction-types-repository';
 import { UnitOfMeasureRepositoryProvider } from '../providers/repositories/unit-of-measure-repository';
 import { BuildingDetailRepositoryProvider } from '../providers/repositories/building-detail-repository';
+import {InspectionQuestionRepositoryProvider} from "../providers/repositories/inspection-question-repository-provider";
 import { InspectionBuildingHazardousMaterialRepositoryProvider } from '../providers/repositories/inspection-building-hazardous-material-repository';
 import { HazardousMaterialRepositoryProvider } from '../providers/repositories/hazardous-material-repository';
 import { PersonRequiringAssistanceTypeRepositoryProvider } from '../providers/repositories/person-requiring-assistance-type-repository';
@@ -120,7 +121,8 @@ export function httpServiceFactory(
     HazardousMaterialRepositoryProvider,
     PersonRequiringAssistanceTypeRepositoryProvider,
     InspectionBuildingPersonRequiringAssistanceTypeRepositoryProvider,
-    StaticListRepositoryProvider
+    StaticListRepositoryProvider,
+    InspectionQuestionRepositoryProvider,
 
     /*provideConfig({
       default: {

@@ -6,6 +6,7 @@ import {InterventionBuildingsPage} from '../intervention-buildings/intervention-
 import {InterventionCoursePage} from '../intervention-course/intervention-course';
 import {InterventionFireProtectionPage} from '../repositories-fire-protection/repositories-fire-protection';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
+import {InspectionQuestionPage} from "../inspection-question/inspection-question";
 
 @IonicPage({
   segment: 'inspection/:id'
@@ -42,4 +43,7 @@ export class InterventionHomePage {
   openPage(page){
     this.rootPage = page;
   }
+    goToInspectionQuestions(){
+        this.navCtrl.push('InspectionQuestionPage', {idSurvey: 'd49b2874-d844-4e33-bfd3-b2483e86ac28'});
+    }
 }
