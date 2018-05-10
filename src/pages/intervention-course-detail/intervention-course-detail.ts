@@ -202,7 +202,6 @@ export class InterventionCourseDetailPage {
   }
 
   private deleteCourse(){
-    console.log("euhhhhhhhhh");
     let loader = this.load.create({content: 'Patientez...'});
     loader.present();
     let result = this.courseRepo.delete(this.course);

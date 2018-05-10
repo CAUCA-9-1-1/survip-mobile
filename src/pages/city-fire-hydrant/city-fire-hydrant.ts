@@ -34,7 +34,6 @@ export class CityFireHydrantPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CityFireHydrantPage');
   }
    private getItems(ev: any) {
        this.filteredCityFireHydrantList = [];

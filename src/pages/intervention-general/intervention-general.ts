@@ -48,13 +48,11 @@ export class InterventionGeneralPage implements OnDestroy {
               private riskLevelService: RiskLevelRepositoryProvider,
               public laneService: LaneRepositoryProvider,
               private utilisationCodeService: UtilisationCodeRepositoryProvider) {
-    console.log("general page", controller.idInspection);
     this.createForm();
     controller.planLoaded.subscribe(() => this.setValuesAndStartListening());
   }
 
   ionViewDidLoad() {
-    console.log('coudonc ionviewload general', this.navParams.data);
     this.controller.loadInterventionForm();
   }
 

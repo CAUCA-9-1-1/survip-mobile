@@ -70,8 +70,6 @@ export class BuildingHazardousMaterialDetailPage {
 
   private createForm() {
     let unitOfMeasureValidator = (control: FormControl) => {
-      console.log('validator', this.material);
-      console.log('validator', control.value);
       if (this.material != null && this.material.capacityContainer > 0 && (control.value == null || control.value == ""))
         return {'missingUnitOfMeasure': true};
       return null;
