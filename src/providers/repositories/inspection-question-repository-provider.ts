@@ -14,7 +14,7 @@ export class InspectionQuestionRepositoryProvider {
         if((!idSurveyQuestion)||(!answer))
             return Observable.of('');
         else {
-            return this.http.post('InspectionQuestion/SurveyQuestion/' + idSurveyQuestion+'/Answer/'+ answer)
+            return this.http.post('InspectionQuestion/Inspection/'+idInspection+'/SurveyQuestion/' + idSurveyQuestion+'/Answer/'+ answer)
                 .pipe(map(response => response));
         }
     }
