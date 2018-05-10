@@ -177,7 +177,7 @@ export class BuildingContactDetailPage {
 
   public async onCancelEdition() {
     if (this.form.dirty || this.isNew) {
-      if (await this.msg.ShowMessageBox("Confirmation", "La voie contient des erreurs de validation et n'a pas été sauvegardée.  Voulez-vous quand même retourner à la page des contacts du bâtiment?"))
+      if (await this.msg.ShowMessageBox("Confirmation", "Le contact contient des erreurs de validation et n'a pas été sauvegardé.  Voulez-vous quand même retourner à la page des contacts du bâtiment?"))
         this.viewCtrl.dismiss();
     }
     else

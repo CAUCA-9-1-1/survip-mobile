@@ -38,6 +38,8 @@ import { BuildingContactRepositoryProvider } from '../providers/repositories/bui
 import { ConstructionTypesRepositoryProvider } from '../providers/repositories/construction-types-repository';
 import { UnitOfMeasureRepositoryProvider } from '../providers/repositories/unit-of-measure-repository';
 import { BuildingDetailRepositoryProvider } from '../providers/repositories/building-detail-repository';
+import { InspectionBuildingHazardousMaterialRepositoryProvider } from '../providers/repositories/inspection-building-hazardous-material-repository';
+import { HazardousMaterialRepositoryProvider } from '../providers/repositories/hazardous-material-repository';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -105,7 +107,9 @@ export function httpServiceFactory(
     BuildingContactRepositoryProvider,
     ConstructionTypesRepositoryProvider,
     UnitOfMeasureRepositoryProvider,
-    BuildingDetailRepositoryProvider
+    BuildingDetailRepositoryProvider,
+    InspectionBuildingHazardousMaterialRepositoryProvider,
+    HazardousMaterialRepositoryProvider
 
     /*provideConfig({
       default: {
