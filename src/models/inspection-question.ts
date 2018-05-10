@@ -5,10 +5,11 @@ export class InspectionQuestion {
     idInspection: string;
     idSurveyQuestion: string;
     idSurveyQuestionChoice: string;
+    questionType: number;
     answer: string;
     title: string;
     description: string;
     sequence: number
 
-    choiceList: InspectionQuestionChoice[];
+    choicesList: InspectionQuestionChoice[];
 }
