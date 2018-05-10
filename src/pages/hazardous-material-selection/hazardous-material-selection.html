@@ -10,7 +10,7 @@
     <ion-title>Sélection d'une matière dangereuse</ion-title>
   </ion-navbar>
   <ion-searchbar placeholder="Recherche..." debounce="500" (ionInput)="onSearch()" [(ngModel)]="searchTerm" ></ion-searchbar>
-  <div *ngIf="searchTerm.length < 4" class="validation-error-text">* Entrez au moins 4 caractères pour que la recherche se fasse.</div>
+  <div *ngIf="searchTerm.trim().length < 4" class="validation-error-text">* Entrez au moins 4 caractères pour que la recherche se fasse.</div>
 </ion-header>
 
 <ion-content>
