@@ -9,6 +9,7 @@ import {UUID} from 'angular2-uuid';
 import {HazardousMaterialRepositoryProvider} from '../../providers/repositories/hazardous-material-repository';
 import {UnitOfMeasure} from '../../models/all-construction-types';
 import {UnitOfMeasureRepositoryProvider} from '../../providers/repositories/unit-of-measure-repository';
+import {StaticListRepositoryProvider} from '../../providers/static-list-repository/static-list-repository';
 
 
 @IonicPage()
@@ -29,10 +30,13 @@ export class BuildingHazardousMaterialDetailPage {
   public material: InspectionBuildingHazardousMaterial;
   public form: FormGroup;
   public unitOfMeasures: UnitOfMeasure[] = [];
+  public walls: string[] = [];
+  public sectors: string[]= [];
 
   constructor(
     private fb: FormBuilder,
     private loadCtrl: LoadingController,
+    private staticRepo: StaticListRepositoryProvider,
     private repo: InspectionBuildingHazardousMaterialRepositoryProvider,
     private matRepo: HazardousMaterialRepositoryProvider,
     private unitRepo: UnitOfMeasureRepositoryProvider,
@@ -44,6 +48,8 @@ export class BuildingHazardousMaterialDetailPage {
 
     this.idBuilding = navParams.get("idBuilding");
     this.idBuildingHazardousMaterial = navParams.get('idBuildingHazardousMaterial');
+    this.walls = this.staticRepo.getWallList();
+    this.sectors = this.staticRepo.getSectorList();
     this.unitRepo.getAllForCapacity()
       .subscribe(data => this.unitOfMeasures = data);
     this.createForm();

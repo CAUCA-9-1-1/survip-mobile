@@ -84,24 +84,13 @@
       <ion-item>
         <ion-label>Mur</ion-label>
         <ion-select formControlName="wall">
-          <ion-option>M1</ion-option>
-          <ion-option>M2</ion-option>
-          <ion-option>M3</ion-option>
-          <ion-option>M4</ion-option>
-          <ion-option>S1</ion-option>
-          <ion-option>S2</ion-option>
-          <ion-option>S3</ion-option>
-          <ion-option>S4</ion-option>
-          <ion-option>S5</ion-option>
+          <ion-option *ngFor="let wall of walls">{{wall}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
         <ion-label>Section</ion-label>
         <ion-select formControlName="sector">
-          <ion-option>A</ion-option>
-          <ion-option>B</ion-option>
-          <ion-option>C</ion-option>
-          <ion-option>D</ion-option>
+          <ion-option *ngFor="let sector of sectors">{{sector}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>

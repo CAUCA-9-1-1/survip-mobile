@@ -42,6 +42,7 @@ import { InspectionBuildingHazardousMaterialRepositoryProvider } from '../provid
 import { HazardousMaterialRepositoryProvider } from '../providers/repositories/hazardous-material-repository';
 import { PersonRequiringAssistanceTypeRepositoryProvider } from '../providers/repositories/person-requiring-assistance-type-repository';
 import { InspectionBuildingPersonRequiringAssistanceTypeRepositoryProvider } from '../providers/repositories/inspection-building-person-requiring-assistance-type-repository';
+import { StaticListRepositoryProvider } from '../providers/static-list-repository/static-list-repository';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -113,7 +114,8 @@ export function httpServiceFactory(
     InspectionBuildingHazardousMaterialRepositoryProvider,
     HazardousMaterialRepositoryProvider,
     PersonRequiringAssistanceTypeRepositoryProvider,
-    InspectionBuildingPersonRequiringAssistanceTypeRepositoryProvider
+    InspectionBuildingPersonRequiringAssistanceTypeRepositoryProvider,
+    StaticListRepositoryProvider
 
     /*provideConfig({
       default: {
