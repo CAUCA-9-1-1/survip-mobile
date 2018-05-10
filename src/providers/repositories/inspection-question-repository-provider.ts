@@ -9,7 +9,7 @@ export class InspectionQuestionRepositoryProvider {
 
     constructor(private http: HttpService) {}
 
-    public answerQuestion(idSurveyQuestion : string, answer : string): Observable<any>
+    public answerQuestion(idInspection: string, idSurveyQuestion : string, answer : string): Observable<any>
     {
         if((!idSurveyQuestion)||(!answer))
             return Observable.of('');
