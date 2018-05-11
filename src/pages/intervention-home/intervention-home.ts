@@ -44,6 +44,6 @@ export class InterventionHomePage {
     this.rootPage = page;
   }
     goToInspectionQuestions(){
-        this.navCtrl.push('InspectionQuestionPage', {idSurvey: 'd49b2874-d844-4e33-bfd3-b2483e86ac28', idInspection: this.controller.idInspection});
+        this.navCtrl.push('InspectionQuestionPage', {idInspection: this.controller.idInspection});
     }
 }

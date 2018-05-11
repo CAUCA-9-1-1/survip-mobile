@@ -12,13 +12,12 @@ export class InspectionQuestionPage {
     @ViewChild(Slides) slides: Slides;
 
     public inspectionQuestion: InspectionQuestion[] = [];
-    public idSurvey: string = '';
     public idInspection: string  = '';
     public selectedIndex = 0;
     public CurrentQuestion: InspectionQuestion = new InspectionQuestion();
     public nextQuestionAvailable = true;
     public previousQuestionAvailable = true;
-    public choiceAnswer: string = '';
+    public QuestionTypeEnum = {'MultipleChoice': 1, 'TextAnswer':2, 'DateAnswer':3};
 
 
   constructor(public navCtrl: NavController,
@@ -26,21 +25,21 @@ export class InspectionQuestionPage {
               public controller: InspectionQuestionRepositoryProvider,
               )
   {
-      this.idSurvey = this.navParams.get('idSurvey');
+      this.idInspection = this.navParams.get('idInspection');
       this.loadInspectionQuestion();
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad InspectionQuestionPage');
       this.slides.lockSwipes(true);
   }
 
   loadInspectionQuestion()
   {
-      this.controller.getList(this.idSurvey)
+      this.controller.getList(this.idInspection)
           .subscribe(result => {
               this.inspectionQuestion = result;
               this.CurrentQuestion = this.inspectionQuestion[this.selectedIndex];
+              if(this.CurrentQuestion.id)
           });
 
   }
@@ -52,7 +51,6 @@ export class InspectionQuestionPage {
 
     findQuestion(idSurveyQuestion: string){
     const questionCount =  this.inspectionQuestion.length;
-
         for(let index = 0; index < questionCount; index++){
             if(this.inspectionQuestion[index].idSurveyQuestion == idSurveyQuestion){
                 return index;
@@ -60,28 +58,41 @@ export class InspectionQuestionPage {
         }
     }
 
+
     NextQuestion() {
-        this.choiceAnswer = '';
+      this.saveAnswer();
         this.slides.lockSwipes(false);
         this.slides.slideNext();
         this.SwitchQuestion();
         this.slides.lockSwipes(true);
     }
     PreviousQuestion(){
-        this.choiceAnswer = '';
+        this.saveAnswer();
         this.slides.lockSwipes(false);
         this.slides.slidePrev();
         this.SwitchQuestion();
         this.slides.lockSwipes(true);
+        this.slides
     }
 
+
+
     saveAnswer(){
-        if(this.CurrentQuestion.idSurveyQuestionChoice != null){
-            this.controller.answerQuestion(this.idInspection, this.CurrentQuestion.idSurveyQuestion, this.choiceAnswer)
+        this.validQuestionTypeAnswer();
+        if (this.CurrentQuestion.answer != null) {
+            this.controller.answerQuestion(this.CurrentQuestion)
+                .debounceTime(500)
                 .subscribe(result => {
-                    this.inspectionQuestion = result;
                     this.CurrentQuestion = this.inspectionQuestion[this.selectedIndex];
-                });
+                },
+                    error => {console.log('Erreur lors de la sauvegarde de la réponse');});
+        }
+    }
+
+    validQuestionTypeAnswer()
+    {
+        if(this.CurrentQuestion.questionType == this.QuestionTypeEnum.MultipleChoice){
+            this.CurrentQuestion.answer = this.CurrentQuestion.idSurveyQuestionChoice;
         }
     }
 
