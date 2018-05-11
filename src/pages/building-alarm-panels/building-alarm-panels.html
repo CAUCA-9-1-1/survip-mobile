@@ -1,19 +1,56 @@
-<!--
-  Generated template for the BuildingAlarmPanelsPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
   <ion-navbar>
-    <ion-icon name="menu" menuToggle left></ion-icon>
-    <ion-title>
-      Panneaux d'alarme du bâtiment
-    </ion-title>
+    <ion-buttons left>
+      <button ion-button  icon-only (click)="onCancelEdition()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Édition du panneau d'alarme</ion-title>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+  <ion-list [formGroup]="form">
 
+    <ion-item [class.invalid]="!form.controls.idAlarmPanelType.valid">
+      <ion-label>Type</ion-label>
+      <ion-select formControlName="idAlarmPanelType">
+        <ion-option *ngFor="let t of types" [value]="t.id">{{t.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <div *ngIf="!form.controls.idAlarmPanelType.valid" class="validation-error-text">*Le type est requis.</div>
+
+    <ion-item-group>
+      <ion-list-header color="light">Localisation</ion-list-header>
+      <ion-item>
+        <ion-label>Étage</ion-label>
+        <ion-input type="text" maxlength="3" placeholder="Étage" formControlName="floor"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Mur</ion-label>
+        <ion-select formControlName="wall" placeholder="Mur">
+          <ion-option *ngFor="let wall of walls">{{wall}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Section</ion-label>
+        <ion-select formControlName="sector" placeholder="Section">
+          <ion-option *ngFor="let sector of sectors">{{sector}}</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-item-group>
+
+  </ion-list>
 </ion-content>
+
+<ion-footer>
+  <ion-navbar *ngIf="!isNew">
+    <ion-buttons left>
+      <button ion-button  icon-start (click)="onDeleteAlarmPanel()">
+        <ion-icon name="trash"></ion-icon>
+        Supprimer ce panneau
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-footer>

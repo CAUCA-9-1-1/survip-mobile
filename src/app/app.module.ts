@@ -14,10 +14,7 @@ import {PictureRepositoryProvider} from '../providers/repositories/picture-repos
 import {ComponentsModule} from '../components/components.module';
 import {FormsModule} from '@angular/forms';
 import {RouteDirectionRepositoryProvider} from '../providers/repositories/route-direction-repository';
-import {DirectivesModule} from '../directives/directives.module';
 import {CommonModule} from '@angular/common';
-import {InspectionsPageModule} from '../pages/inspections/inspections.module';
-import {InspectionMapPageModule} from '../pages/inspection-map/inspection-map.module';
 import {InspectionMapPage} from '../pages/inspection-map/inspection-map';
 import {AuthenticationService} from '../providers/Base/authentification.service';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
@@ -43,6 +40,10 @@ import { HazardousMaterialRepositoryProvider } from '../providers/repositories/h
 import { PersonRequiringAssistanceTypeRepositoryProvider } from '../providers/repositories/person-requiring-assistance-type-repository';
 import { InspectionBuildingPersonRequiringAssistanceTypeRepositoryProvider } from '../providers/repositories/inspection-building-person-requiring-assistance-type-repository';
 import { StaticListRepositoryProvider } from '../providers/static-list-repository/static-list-repository';
+import {InspectionBuildingSprinklerRepositoryProvider} from '../providers/repositories/inspection-building-sprinkler-repository-provider.service';
+import {InspectionBuildingAlarmPanelRepositoryProvider} from '../providers/repositories/inspection-building-alarm-panel-repository-provider.service';
+import {AlarmPanelTypeRepository} from '../providers/repositories/alarm-panel-type-repository.service';
+import {SprinklerTypeRepository} from '../providers/repositories/sprinkler-type-repository.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -98,6 +99,10 @@ export function httpServiceFactory(
     InspectionBuildingCourseRepositoryProvider,
     InspectionBuildingCourseLaneRepositoryProvider,
     InspectionBuildingFireHydrantRepositoryProvider,
+    InspectionBuildingSprinklerRepositoryProvider,
+    InspectionBuildingAlarmPanelRepositoryProvider,
+    AlarmPanelTypeRepository,
+    SprinklerTypeRepository,
     FirestationRepositoryProvider,
     UtilisationCodeRepositoryProvider,
     RouteDirectionRepositoryProvider,

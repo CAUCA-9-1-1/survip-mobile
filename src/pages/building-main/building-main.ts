@@ -19,8 +19,7 @@ export class BuildingMainPage {
   public contactsPage = 'BuildingContactsPage';
   public pnapsPage = 'BuildingPnapsPage';
   public hazardousMaterialPage = 'BuildingHazardousMaterialsPage';
-  public alarmPanelsPage = 'BuildingAlarmPanelsPage';
-  public waterSprinklersPage = 'BuildingWaterSprinklersPage';
+  public fireProtectionPage = 'BuildingFireProtectionPage';
   public particularRisksPage = 'BuildingParticularRisksPage';
   public anomaliesPage = 'BuildingAnomaliesPage';
 

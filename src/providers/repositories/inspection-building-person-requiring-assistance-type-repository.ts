@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpService} from '../Base/http.service';
 import {map} from 'rxjs/operators';
 import {InspectionBuildingPersonRequiringAssistanceForList} from '../../models/inspection-building-person-requiring-assistance-for-list';
@@ -34,3 +34,4 @@ export class InspectionBuildingPersonRequiringAssistanceTypeRepositoryProvider {
       .toPromise();
   }
 }
+

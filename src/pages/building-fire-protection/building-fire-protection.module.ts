@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { BuildingAlarmPanelsPage } from './building-alarm-panels';
+import { BuildingFireProtectionPage } from './building-fire-protection';
 import {PipesModule} from '../../pipes/pipes.module';
 
 @NgModule({
   declarations: [
-    BuildingAlarmPanelsPage,
+    BuildingFireProtectionPage,
   ],
   imports: [
-    IonicPageModule.forChild(BuildingAlarmPanelsPage),
+    IonicPageModule.forChild(BuildingFireProtectionPage),
     PipesModule
   ],
 })
-export class BuildingAlarmPanelsPageModule {}
+export class BuildingFireProtectionPageModule {}
