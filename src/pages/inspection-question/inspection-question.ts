@@ -18,6 +18,7 @@ export class InspectionQuestionPage {
     public nextQuestionAvailable = true;
     public previousQuestionAvailable = true;
     public QuestionTypeEnum = {'MultipleChoice': 1, 'TextAnswer':2, 'DateAnswer':3};
+    public questionAnswer: string = '';
 
 
   constructor(public navCtrl: NavController,
@@ -39,7 +40,6 @@ export class InspectionQuestionPage {
           .subscribe(result => {
               this.inspectionQuestion = result;
               this.CurrentQuestion = this.inspectionQuestion[this.selectedIndex];
-              if(this.CurrentQuestion.id)
           });
 
   }
@@ -58,6 +58,9 @@ export class InspectionQuestionPage {
         }
     }
 
+    ChoiceChanged(){
+    }
+
 
     NextQuestion() {
       this.saveAnswer();
@@ -74,8 +77,6 @@ export class InspectionQuestionPage {
         this.slides.lockSwipes(true);
         this.slides
     }
-
-
 
     saveAnswer(){
         this.validQuestionTypeAnswer();
