@@ -15,7 +15,7 @@
       <ion-list radio-group [(ngModel)]=questionAnswer *ngIf="CurrentQuestion.questionType == 1">
         <ion-item *ngFor="let choice of CurrentQuestion.choicesList">
           <ion-label>{{choice.description}}</ion-label>
-          <ion-radio [value]=choice.id [onchange]=ChoiceChanged()></ion-radio>
+          <ion-radio [value]=choice.id></ion-radio>
         </ion-item>
       </ion-list>
       <ion-textarea [(ngModel)]=questionAnswer class="question-answer-text" *ngIf="CurrentQuestion.questionType == 2"></ion-textarea>
