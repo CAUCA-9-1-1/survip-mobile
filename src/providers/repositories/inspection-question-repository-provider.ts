@@ -9,18 +9,18 @@ export class InspectionQuestionRepositoryProvider {
 
     constructor(private http: HttpService) {}
 
-    public answerQuestion(idInspection: string, idSurveyQuestion : string, answer : string): Observable<any>
+    public answerQuestion(inspectionQuestion: InspectionQuestion): Observable<any>
     {
-        if((!idSurveyQuestion)||(!answer))
+        if(!inspectionQuestion)
             return Observable.of('');
         else {
-            return this.http.post('InspectionQuestion/Inspection/'+idInspection+'/SurveyQuestion/' + idSurveyQuestion+'/Answer/'+ answer)
+            return this.http.post('InspectionQuestion/Answer',JSON.stringify(inspectionQuestion))
                 .pipe(map(response => response));
         }
     }
 
-    public getList(idSurvey : string): Observable<InspectionQuestion[]>{
-        return this.http.get('InspectionQuestion/Survey/' + idSurvey)
+    public getList(idInspection : string): Observable<InspectionQuestion[]>{
+        return this.http.get('InspectionQuestion/Inspection/' + idInspection)
             .pipe(map(response => response));
     }
 }

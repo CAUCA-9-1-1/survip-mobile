@@ -12,7 +12,7 @@
         <h2>{{CurrentQuestion.title}}</h2>
         <p>{{CurrentQuestion.description}}</p>
       </div>
-      <ion-list radio-group [(ngModel)]=CurrentQuestion.idSurveyQuestionChoice (ionChange)="saveAnswer($event)" *ngIf="CurrentQuestion.questionType == 1">
+      <ion-list radio-group [(ngModel)]=CurrentQuestion.idSurveyQuestionChoice *ngIf="CurrentQuestion.questionType == 1">
         <ion-item *ngFor="let choice of CurrentQuestion.choicesList">
           <ion-label>{{choice.description}}</ion-label>
           <ion-radio [value]=choice.id></ion-radio>
