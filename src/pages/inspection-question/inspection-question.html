@@ -12,14 +12,14 @@
         <h2>{{CurrentQuestion.title}}</h2>
         <p>{{CurrentQuestion.description}}</p>
       </div>
-      <ion-list radio-group [(ngModel)]=CurrentQuestion.idSurveyQuestionChoice *ngIf="CurrentQuestion.questionType == 1">
+      <ion-list radio-group [(ngModel)]=questionAnswer *ngIf="CurrentQuestion.questionType == 1">
         <ion-item *ngFor="let choice of CurrentQuestion.choicesList">
           <ion-label>{{choice.description}}</ion-label>
-          <ion-radio [value]=choice.id></ion-radio>
+          <ion-radio [value]=choice.id [onchange]=ChoiceChanged()></ion-radio>
         </ion-item>
       </ion-list>
-      <ion-textarea [(ngModel)]=CurrentQuestion.answer class="question-answer-text" *ngIf="CurrentQuestion.questionType == 2"></ion-textarea>
-      <ion-datetime displayFormat="YYY/MM/DD" [(ngModel)]=CurrentQuestion.answer  *ngIf="CurrentQuestion.questionType == 3"></ion-datetime>
+      <ion-textarea [(ngModel)]=questionAnswer class="question-answer-text" *ngIf="CurrentQuestion.questionType == 2"></ion-textarea>
+      <ion-datetime displayFormat="YYY/MM/DD" [(ngModel)]=questionAnswer  *ngIf="CurrentQuestion.questionType == 3"></ion-datetime>
     </ion-slide>
   </ion-slides>
 </ion-content>
