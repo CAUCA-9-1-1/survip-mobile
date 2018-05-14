@@ -3,3 +3,4 @@ export class InspectionBuildingAnomalyForList {
   theme: string;
   notes: string;
 }
+

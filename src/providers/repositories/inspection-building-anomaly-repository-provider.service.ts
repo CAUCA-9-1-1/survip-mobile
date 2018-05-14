@@ -3,7 +3,7 @@ import {HttpService} from '../Base/http.service';
 import {
   InspectionBuildingAnomaly} from '../../models/inspection-building-anomaly';
 import {map} from 'rxjs/operators';
-import {InspectionBuildingAnomalyForList} from '../../models/inspection-building-anomaly-for-list';
+import {InspectionBuildingAnomalyThemeForList} from '../../models/inspection-building-anomaly-theme-for-list';
 
 @Injectable()
 export class InspectionBuildingAnomalyRepositoryProvider {
@@ -11,7 +11,7 @@ export class InspectionBuildingAnomalyRepositoryProvider {
   constructor(public http: HttpService) {
   }
 
-  public getList(idBuilding: string): Promise<InspectionBuildingAnomalyForList[]> {
+  public getList(idBuilding: string): Promise<InspectionBuildingAnomalyThemeForList[]> {
     return this.http.get('inspection/building/' + idBuilding + '/anomaly')
       .pipe(map(response => response))
       .toPromise();
