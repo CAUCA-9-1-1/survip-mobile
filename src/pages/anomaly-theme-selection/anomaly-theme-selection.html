@@ -1,0 +1,30 @@
+
+<ion-header>
+{{currentSearch}}
+  <ion-navbar>
+    <ion-buttons left>
+      <button ion-button icon-only (click)="onCancel()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>Sélection d'un thème</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+{{selectedTheme}}
+  <ion-list>
+
+    <ion-item-group>
+      <ion-searchbar [(ngModel)]="currentSearch" (ionInput)="onSearch($event)"></ion-searchbar>
+      <button ion-item (click)="onCreateTheme()" color="secondary">Créer un nouveau thème...</button>
+      <button ion-item *ngFor="let theme of filteredThemes" (click)="onSelectExistingTheme(theme)">
+        {{theme}}
+      </button>
+    </ion-item-group>
+  </ion-list>
+
+</ion-content>

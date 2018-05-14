@@ -42,17 +42,14 @@ export class InspectionControllerProvider {
   ) {}
 
   public setIdInterventionForm(idInterventionForm: string){
-    console.log('set', idInterventionForm);
     this.idInspection = idInterventionForm;
   }
 
   loadInterventionForm(){
-    console.log("load");
     const loading = this.createLoadingControl();
     loading.present();
     const result = this.repoDetail.get(this.idInspection);
     result.subscribe(data => {
-      console.log("loaded!!!", data);
       const plan: InspectionDetail = data as InspectionDetail;
       this.laneRepo.currentIdCity = plan.idCity;
       this.inspectionDetail = plan;

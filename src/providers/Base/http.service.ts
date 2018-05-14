@@ -8,13 +8,7 @@ import {Loading, LoadingController} from 'ionic-angular';
 export class HttpService {
   private apiUrl = 'http://localhost:5555/api/';
 
-  constructor(
-    //config: ConfigService,
-    private client: HttpClient,
-  ) {
-    //this.apiUrl = config.getConfig('apiUrl');
-    console.log(this.apiUrl);
-    console.log('chu icitte');
+  constructor(private client: HttpClient,) {
   }
 
   private getHeaders(){
