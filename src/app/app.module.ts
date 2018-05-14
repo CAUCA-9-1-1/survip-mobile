@@ -45,6 +45,8 @@ import {InspectionBuildingSprinklerRepositoryProvider} from '../providers/reposi
 import {InspectionBuildingAlarmPanelRepositoryProvider} from '../providers/repositories/inspection-building-alarm-panel-repository-provider.service';
 import {AlarmPanelTypeRepository} from '../providers/repositories/alarm-panel-type-repository.service';
 import {SprinklerTypeRepository} from '../providers/repositories/sprinkler-type-repository.service';
+import {InspectionBuildingAnomalyRepositoryProvider} from '../providers/repositories/inspection-building-anomaly-repository-provider.service';
+import {InspectionBuildingAnomalyPictureRepositoryProvider} from '../providers/repositories/inspection-building-anomaly-picture-repository-provider.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -102,6 +104,8 @@ export function httpServiceFactory(
     InspectionBuildingFireHydrantRepositoryProvider,
     InspectionBuildingSprinklerRepositoryProvider,
     InspectionBuildingAlarmPanelRepositoryProvider,
+    InspectionBuildingAnomalyRepositoryProvider,
+    InspectionBuildingAnomalyPictureRepositoryProvider,
     AlarmPanelTypeRepository,
     SprinklerTypeRepository,
     FirestationRepositoryProvider,
