@@ -9,6 +9,7 @@ export class InspectionQuestion {
     answer: string;
     title: string;
     description: string;
+    idSurveyQuestionNext: string;
     sequence: number
 
     choicesList: InspectionQuestionChoice[];

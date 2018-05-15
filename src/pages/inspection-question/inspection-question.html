@@ -7,32 +7,32 @@
 </ion-header>
 <ion-content padding>
   <ion-slides>
-    <ion-slide *ngFor="let choice of inspectionQuestion">
+    <ion-slide *ngFor="let choice of inspectionQuestionAnswer">
       <div class="question-title">
-        <h2>{{CurrentQuestion.title}}</h2>
-        <p>{{CurrentQuestion.description}}</p>
+        <h2>{{currentQuestion.title}}</h2>
+        <p>{{currentQuestion.description}}</p>
       </div>
-      <ion-list radio-group [(ngModel)]=questionAnswer *ngIf="CurrentQuestion.questionType == 1">
-        <ion-item *ngFor="let choice of CurrentQuestion.choicesList">
+      <ion-list radio-group [(ngModel)]=currentQuestion.answer [disabled]="reviewOnly" *ngIf="currentQuestion.questionType == 1">
+        <ion-item *ngFor="let choice of currentQuestion.choicesList">
           <ion-label>{{choice.description}}</ion-label>
-          <ion-radio [value]=choice.id></ion-radio>
+          <ion-radio [value]=choice.id (ionSelect)="answerChanged()"></ion-radio>
         </ion-item>
       </ion-list>
-      <ion-textarea [(ngModel)]=questionAnswer class="question-answer-text" *ngIf="CurrentQuestion.questionType == 2"></ion-textarea>
-      <ion-datetime displayFormat="YYY/MM/DD" [(ngModel)]=questionAnswer  *ngIf="CurrentQuestion.questionType == 3"></ion-datetime>
+      <ion-textarea [(ngModel)]=currentQuestion.answer class="question-answer-text" [disabled]="reviewOnly" (ionChange)="answerChanged()" *ngIf="currentQuestion.questionType == 2"></ion-textarea>
+      <ion-datetime displayFormat="YYYY/MM/DD" [(ngModel)]=currentQuestion.answer [disabled]="reviewOnly" (ionChange)="answerChanged()"  *ngIf="currentQuestion.questionType == 3"></ion-datetime>
     </ion-slide>
   </ion-slides>
 </ion-content>
 <ion-footer>
   <ion-toolbar>
     <ion-buttons>
-    <button ion-button icon-start type="button" style="float: left;" (click)="PreviousQuestion()" *ngIf="previousQuestionAvailable">
+    <button ion-button icon-start type="button" style="float: left;" (click)="previousQuestion()" *ngIf="previousQuestionAvailable">
       <ion-icon name="skip-backward"></ion-icon>
       Précédente
     </button>
-    <button ion-button icon-end type="button" style="float: right;" (click)="NextQuestion()" *ngIf="nextQuestionAvailable">
-      Suivante
+    <button ion-button icon-start type="button" style="float: right;" (click)="saveAnswer('Next')" [disabled]="nexQuestionDisabled">
       <ion-icon name="skip-forward"></ion-icon>
+      {{nextButtonTitle}}
     </button>
     </ion-buttons>
   </ion-toolbar>
