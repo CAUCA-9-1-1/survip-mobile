@@ -13,18 +13,18 @@ page-inspection-question {
     font-size: 18px;
     width: 100%;
   }
-  .question-answer-text{
-    width:95%;
-    height:30%;
-    type:text;
-    font-size:15px;
-    border: 1px solid black;
-  }
   .swiper-slide
   {
     text-align: left;
     webkit-align-items: initial;
     align-items: initial;
+  }
+  textarea.text-input{
+    height:25vh;
+    border: 1px solid black;
+    font-size:15px;
+    width:95%;
+    padding:5px;
   }
 
 }

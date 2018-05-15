@@ -15,11 +15,11 @@
       <ion-list radio-group [(ngModel)]=currentQuestion.answer [disabled]="reviewOnly" *ngIf="currentQuestion.questionType == 1">
         <ion-item *ngFor="let choice of currentQuestion.choicesList">
           <ion-label>{{choice.description}}</ion-label>
-          <ion-radio [value]=choice.id (ionSelect)="answerChanged()"></ion-radio>
+          <ion-radio [value]=choice.id (ionSelect)="getNextQuestionFromAnswer()"></ion-radio>
         </ion-item>
       </ion-list>
-      <ion-textarea [(ngModel)]=currentQuestion.answer class="question-answer-text" [disabled]="reviewOnly" (ionChange)="answerChanged()" *ngIf="currentQuestion.questionType == 2"></ion-textarea>
-      <ion-datetime displayFormat="YYYY/MM/DD" [(ngModel)]=currentQuestion.answer [disabled]="reviewOnly" (ionChange)="answerChanged()"  *ngIf="currentQuestion.questionType == 3"></ion-datetime>
+      <ion-textarea [(ngModel)]=currentQuestion.answer [disabled]="reviewOnly"  (ionChange)="getNextQuestionFromAnswer()" *ngIf="currentQuestion.questionType == 2"></ion-textarea>
+      <ion-datetime displayFormat="YYYY/MM/DD" [(ngModel)]=currentQuestion.answer [disabled]="reviewOnly" (ionChange)="getNextQuestionFromAnswer()"  *ngIf="currentQuestion.questionType == 3"></ion-datetime>
     </ion-slide>
   </ion-slides>
 </ion-content>
