@@ -3,6 +3,7 @@ import {IonicPage, NavController, NavParams, Slides} from 'ionic-angular';
 import {InspectionQuestion} from "../../models/inspection-question";
 import {InspectionQuestionRepositoryProvider} from "../../providers/repositories/inspection-question-repository-provider";
 import {AuthenticationService} from "../../providers/Base/authentification.service";
+import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 
 @IonicPage()
 @Component({
@@ -29,6 +30,7 @@ export class InspectionQuestionPage {
                 public navParams: NavParams,
                 public controller: InspectionQuestionRepositoryProvider,
                 private authService: AuthenticationService,
+                private messageTools: MessageToolsProvider,
     ) {
         this.idInspection = this.navParams.get('idInspection');
         this.loadInspectionQuestion();
@@ -40,22 +42,33 @@ export class InspectionQuestionPage {
             this.redirectToLoginPage();
     }
 
-    private redirectToLoginPage(){
+    private redirectToLoginPage() {
         this.navCtrl.setRoot('LoginPage');
     }
-    
+
     ionViewDidLoad() {
         this.slides.lockSwipes(true);
     }
 
     loadInspectionQuestion() {
-        this.controller.getList(this.idInspection)
+        this.controller.getQuestionList(this.idInspection)
             .subscribe(result => {
-                this.inspectionQuestion = result;
-                this.inspectionQuestionAnswer.push(Object.assign([], result[this.selectedIndex]));
+                    this.inspectionQuestion = result;
+                    this.loadInspectionAnswer();
+                },
+                error => {
+                    this.messageTools.showToast('Une erreur est survenue lors du chargement du questionnaire veuillez réessayer ultérieurement.', 5);
+                    this.navCtrl.pop();
+                });
+    }
+
+    loadInspectionAnswer() {
+        this.controller.getAnswerList(this.idInspection)
+            .subscribe(answerResult => {
+                this.inspectionQuestionAnswer = answerResult;
                 this.currentQuestion = this.inspectionQuestionAnswer[this.selectedIndex];
                 this.canSwitchQuestion();
-                this.getNextQuestionFromAnswer(0);
+                this.getNextQuestionFromAnswer();
             });
     }
 
@@ -81,12 +94,9 @@ export class InspectionQuestionPage {
     }
 
     findQuestion(idSurveyQuestion: string) {
-        if (this.reviewOnly)
-            return this.selectedIndex + 1;
-
         const questionCount = this.inspectionQuestion.length;
         for (let index = 0; index < questionCount; index++) {
-            if (this.inspectionQuestion[index].idSurveyQuestion == idSurveyQuestion) {
+            if (this.inspectionQuestion[index].idSurveyQuestion == idSurveyQuestion && (!this.inspectionQuestion[index].answer)) {
                 return index;
             }
         }
@@ -126,7 +136,6 @@ export class InspectionQuestionPage {
         }
     }
 
-
     previousQuestion() {
         this.slides.lockSwipes(false);
         this.slides.slidePrev();
@@ -134,27 +143,32 @@ export class InspectionQuestionPage {
         this.slides.lockSwipes(true);
     }
 
-    getNextQuestionFromAnswer(delay: number = 1500) {
+    getNextQuestionFromAnswer() {
+        if (this.currentQuestion.answer) {
+            if (this.currentQuestion.questionType == this.questionTypeEnum.MultipleChoice) {
+                this.currentQuestion.idSurveyQuestionChoice = this.currentQuestion.answer;
+                this.nextQuestionId = this.getChoiceNextQuestionId(this.currentQuestion.answer);
+                if (!this.nextQuestionId) {
+                    this.nextQuestionId = this.currentQuestion.idSurveyQuestionNext;
+                }
+            } else {
+                this.nextQuestionId = this.currentQuestion.idSurveyQuestionNext;
+            }
+            this.nextQuestionDisabled = false;
+        } else {
+            this.nextQuestionDisabled = true;
+            this.nextQuestionId = null;
+        }
+        this.questionNavigationDisplay();
+    }
+
+    answerTextChanged() {
         if (this.changingValueTimer) {
             clearTimeout(this.changingValueTimer);
         }
         this.changingValueTimer = setTimeout(() => {
-            console.log('changement de valeur de la réponse');
-            if (this.currentQuestion.answer) {
-                if (this.currentQuestion.questionType == this.questionTypeEnum.MultipleChoice) {
-                    this.nextQuestionId = this.getChoiceNextQuestionId(this.currentQuestion.answer);
-                    if (!this.nextQuestionId) {
-                        this.nextQuestionId = this.currentQuestion.idSurveyQuestionNext;
-                    }
-                } else {
-                    this.nextQuestionId = this.currentQuestion.idSurveyQuestionNext;
-                }
-                this.nextQuestionDisabled = true;
-            } else{
-                this.nextQuestionDisabled = false;
-            }
-            this.questionNavigationDisplay();
-        }, delay);
+            this.getNextQuestionFromAnswer()
+        }, 1500);
     }
 
     getChoiceNextQuestionId(idChoiceSelected) {
@@ -185,8 +199,23 @@ export class InspectionQuestionPage {
         }
     }
 
-    saveAnswer(navigation) {
+    createAnswer() {
+        const newAnswer = new InspectionQuestion();
+        newAnswer.id = this.currentQuestion.id;
+        newAnswer.idInspection = this.currentQuestion.idInspection;
+        newAnswer.idSurveyQuestion = this.currentQuestion.idSurveyQuestion;
+        newAnswer.answer = this.currentQuestion.answer;
+        newAnswer.idSurveyQuestionChoice = this.currentQuestion.idSurveyQuestionChoice;
+        return newAnswer;
+    }
 
+    addNewAnswer(questionIndex: number) {
+        let newAnswer = Object.assign({}, this.inspectionQuestion[questionIndex]);
+        this.inspectionQuestionAnswer.push(newAnswer);
+        this.slides.update();
+    }
+
+    saveAnswer() {
         if (this.currentQuestion.answer) {
             const answer = this.createAnswer();
             this.controller.answerQuestion(answer)
@@ -195,36 +224,9 @@ export class InspectionQuestionPage {
                         this.nextQuestion();
                     },
                     error => {
-                        console.log('Erreur lors de la sauvegarde de la réponse');
+                        this.messageTools.showToast('Une erreur est survenue lors de la sauvegarde de votre réponse veuillez recommencer ultérieurement.', 5);
                     });
         }
-    }
-
-    getAnswerFromQuestionType() {
-        let answer = this.currentQuestion.answer;
-        if (this.currentQuestion.questionType == this.questionTypeEnum.MultipleChoice) {
-            answer = this.currentQuestion.idSurveyQuestionChoice;
-        }
-        return answer;
-    }
-
-    createAnswer() {
-        const newAnswer = new InspectionQuestion();
-        newAnswer.id = this.currentQuestion.id;
-        newAnswer.idInspection = this.currentQuestion.idInspection;
-        newAnswer.idSurveyQuestion = this.currentQuestion.idSurveyQuestion;
-        newAnswer.answer = this.currentQuestion.answer;
-        if (this.currentQuestion.questionType == this.questionTypeEnum.MultipleChoice) {
-            this.currentQuestion.idSurveyQuestionChoice = this.currentQuestion.answer;
-            newAnswer.idSurveyQuestionChoice = this.currentQuestion.idSurveyQuestionChoice;
-        }
-        return newAnswer;
-    }
-
-    addNewAnswer(questionIndex: number) {
-        let newAnswer = Object.assign({}, this.inspectionQuestion[questionIndex]);
-        this.inspectionQuestionAnswer.push(newAnswer);
-        this.slides.update();
     }
 
 }

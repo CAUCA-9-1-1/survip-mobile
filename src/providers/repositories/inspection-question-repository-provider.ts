@@ -19,7 +19,12 @@ export class InspectionQuestionRepositoryProvider {
         }
     }
 
-    public getList(idInspection : string): Observable<InspectionQuestion[]>{
+    public getQuestionList(idInspection : string): Observable<InspectionQuestion[]>{
+        return this.http.get('InspectionQuestion/Question/' + idInspection)
+            .pipe(map(response => response));
+    }
+
+    public getAnswerList(idInspection : string): Observable<InspectionQuestion[]>{
         return this.http.get('InspectionQuestion/Answer/' + idInspection)
             .pipe(map(response => response));
     }
