@@ -13,8 +13,8 @@
 
 
 
-<ion-content>
-  <ion-list [formGroup]="form">
+<ion-content [formGroup]="form">
+  <ion-list>
 
     <button ion-item (click)="onSelectAnomaly()">
       <ion-label item-start fixed>Thème</ion-label>
@@ -29,6 +29,11 @@
     </ion-item-group>
 
   </ion-list>
+
+  <building-anomaly-detail-pictures formControlName="id">
+    Loading...
+  </building-anomaly-detail-pictures>
+
 </ion-content>
 
 

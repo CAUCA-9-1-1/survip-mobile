@@ -1,0 +1,19 @@
+building-anomaly-detail-pictures {
+  .block {
+    position: relative;
+    .deleteIcon {
+      padding-left: 4px;
+      padding-right: 4px;
+      position: absolute !important;
+      border: 1px solid gray;
+      background: white;
+      right: 10px;
+      top: 10px;
+      /*color: #ffffff !important;
+      margin-left: 80% !important;*/
+    }
+    .deleteIcon:before {
+      font-size: 30px !important;
+    }
+  }
+}

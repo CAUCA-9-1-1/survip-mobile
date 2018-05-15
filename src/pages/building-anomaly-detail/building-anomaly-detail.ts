@@ -58,6 +58,7 @@ export class BuildingAnomalyDetailPage {
 
   private createForm() {
     this.form = this.fb.group({
+      id: [''],
       theme: ['', [Validators.required, Validators.maxLength(50)]],
       notes: ['', [Validators.maxLength(500)]],
     });

@@ -1,0 +1,27 @@
+<ion-spinner [style.display]="isLoading ? 'block' : 'none'" item-start></ion-spinner>
+
+<ion-list>
+  <ion-item-divider>
+    Photo(s)
+    <button item-end ion-button icon-start (click)="selectPicture()">
+      <ion-icon class="footer-button-camera" name="image"></ion-icon>
+      Choisir...
+    </button>
+    <button item-end ion-button icon-start (click)="takeNewPicture()" *ngIf="isUsingCordova">
+      <ion-icon class="footer-button-camera" name="camera"></ion-icon>
+      Nouvelle...
+    </button>
+  </ion-item-divider>
+  <ion-item>
+    <ion-slides *ngIf="pictures.length > 0" pager [loop]="true">
+      <ion-slide *ngFor="let picture of pictures; let id = index;">
+        <ion-card class="block">
+          <ion-icon name="trash" class="deleteIcon" (click)="onDeletePhotos(id)"></ion-icon>
+          <img class="selected-picture" [src]="getImageUrl(picture.pictureData)" (click)="onClickPicture(picture.pictureData)" *ngIf="hasImageUrl(picture.pictureData)">
+        </ion-card>
+      </ion-slide>
+    </ion-slides>
+  </ion-item>
+</ion-list>
+<input type="file" id="fileElem" #filePicker accept="image/*" style="display:none" (change)="onFileSelected($event);" />
+
