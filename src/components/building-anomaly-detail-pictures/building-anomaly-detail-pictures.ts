@@ -46,7 +46,6 @@ export class BuildingAnomalyDetailPicturesComponent implements ControlValueAcces
 
   set value(value: string) {
     if (value != this.idBuildingAnomaly && value != '') {
-      console.log("accessor valeur", value);
       this.idBuildingAnomaly = value;
       this.loadPictures();
     }
@@ -82,7 +81,6 @@ export class BuildingAnomalyDetailPicturesComponent implements ControlValueAcces
 
   writeValue(value: string) {
     if (value != this.idBuildingAnomaly && value != '') {
-      console.log("accessor valeur", value);
       this.idBuildingAnomaly = value;
       this.loadPictures();
     }
@@ -155,7 +153,6 @@ export class BuildingAnomalyDetailPicturesComponent implements ControlValueAcces
   }
 
   private onFileLoaded(response): void {
-    console.log(response);
     let imageUri: string = response.target.result;
     if (imageUri.indexOf(';base64,') > 0)
       imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);

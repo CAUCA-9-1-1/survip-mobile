@@ -85,7 +85,6 @@ export class InspectionControllerProvider {
 
   async savePicture() {
     let idPicture = await this.pictureRepo.savePicture(this.picture);
-    console.log('saved', idPicture);
     if (this.inspectionDetail.idPictureSitePlan != idPicture)
       this.savePlanIdPicture(idPicture as string);
   }
