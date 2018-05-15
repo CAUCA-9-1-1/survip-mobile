@@ -3,17 +3,16 @@ building-anomaly-detail-pictures {
     position: relative;
     .deleteIcon {
       padding-left: 4px;
-      padding-right: 4px;
+      padding-right: 0px;
       position: absolute !important;
-      border: 1px solid gray;
-      background: white;
-      right: 10px;
-      top: 10px;
-      /*color: #ffffff !important;
-      margin-left: 80% !important;*/
+      right: 5px;
     }
     .deleteIcon:before {
       font-size: 30px !important;
+      background-color: white;
+    }
+    .button[icon-only]{
+      min-width: 2em;
     }
   }
 }
