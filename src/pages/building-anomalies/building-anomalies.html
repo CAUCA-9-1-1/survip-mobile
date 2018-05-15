@@ -10,14 +10,14 @@
 
 <ion-content>
   <ion-list>
-    <ion-item-group *ngFor="let theme of themes">
+    <ion-item-group *ngFor="let theme of themes | orderBy:'theme'">
 
       <ion-list-header color="light">
         {{theme.theme}}
         <button ion-button item-end (click)="onAddAnomalyForTheme(theme.theme)">Ajouter</button>
       </ion-list-header>
 
-      <button ion-item *ngFor="let anomaly of theme.anomalies" (click)="onItemClick(anomaly.id)">
+      <button ion-item *ngFor="let anomaly of theme.anomalies | orderBy:'notes'" (click)="onItemClick(anomaly.id)">
         {{anomaly.notes}}
       </button>
 

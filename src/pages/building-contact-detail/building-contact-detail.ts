@@ -7,13 +7,6 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ISubscription} from 'rxjs/Subscription';
 import {MessageToolsProvider} from '../../providers/message-tools/message-tools';
 
-/**
- * Generated class for the BuildingContactDetailPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-building-contact-detail',

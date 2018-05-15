@@ -68,7 +68,7 @@ export class BuildingAnomaliesPage {
     let matModal = this.modalCtrl.create('AnomalyThemeSelectionPage');
     matModal.onDidDismiss(data => {
       if (data.hasSelected)
-        this.openAnomalyPage(null, data.themeSelected);
+        this.openAnomalyPage(null, data.selectedTheme);
     });
     matModal.present();
   }

@@ -1,5 +1,13 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams, ToastController, ViewController} from 'ionic-angular';
+import {
+  AlertController,
+  IonicPage,
+  LoadingController,
+  NavController,
+  NavParams,
+  ToastController,
+  ViewController
+} from 'ionic-angular';
 import {InspectionBuildingAnomalyRepositoryProvider} from '../../providers/repositories/inspection-building-anomaly-repository-provider.service';
 
 @IonicPage()
@@ -14,6 +22,7 @@ export class AnomalyThemeSelectionPage {
   public filteredThemes: string[] = [];
 
   constructor(
+    private loadCtrl: LoadingController,
     private repo: InspectionBuildingAnomalyRepositoryProvider,
     private toastCtrl: ToastController,
     private viewCtrl: ViewController,
@@ -23,8 +32,11 @@ export class AnomalyThemeSelectionPage {
   }
 
   async ionViewDidLoad() {
+    let load = this.loadCtrl.create({'content': 'Patientez...'});
+    await load.present();
     this.themes = await this.repo.getThemes();
     Object.assign(this.filteredThemes, this.themes);
+    load.dismiss();
   }
 
   public onCreateTheme() {
