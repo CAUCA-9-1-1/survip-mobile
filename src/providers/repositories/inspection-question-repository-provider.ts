@@ -20,7 +20,7 @@ export class InspectionQuestionRepositoryProvider {
     }
 
     public getList(idInspection : string): Observable<InspectionQuestion[]>{
-        return this.http.get('InspectionQuestion/Inspection/' + idInspection)
+        return this.http.get('InspectionQuestion/Answer/' + idInspection)
             .pipe(map(response => response));
     }
 }
