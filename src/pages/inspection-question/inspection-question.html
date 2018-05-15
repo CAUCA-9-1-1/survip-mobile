@@ -18,7 +18,7 @@
           <ion-radio [value]=choice.id (ionSelect)="getNextQuestionFromAnswer()"></ion-radio>
         </ion-item>
       </ion-list>
-      <ion-textarea [(ngModel)]=currentQuestion.answer [disabled]="reviewOnly"  (ionChange)="getNextQuestionFromAnswer()" *ngIf="currentQuestion.questionType == 2"></ion-textarea>
+      <ion-textarea [(ngModel)]=currentQuestion.answer [disabled]="reviewOnly"  (ionChange)="answerTextChanged()" *ngIf="currentQuestion.questionType == 2"></ion-textarea>
       <ion-datetime displayFormat="YYYY/MM/DD" [(ngModel)]=currentQuestion.answer [disabled]="reviewOnly" (ionChange)="getNextQuestionFromAnswer()"  *ngIf="currentQuestion.questionType == 3"></ion-datetime>
     </ion-slide>
   </ion-slides>
@@ -30,7 +30,7 @@
       <ion-icon name="skip-backward"></ion-icon>
       Précédente
     </button>
-    <button ion-button icon-start type="button" style="float: right;" (click)="saveAnswer('Next')" [disabled]="nexQuestionDisabled">
+    <button ion-button icon-start type="button" style="float: right;" (click)="saveAnswer()" [disabled]="nextQuestionDisabled">
       <ion-icon name="skip-forward"></ion-icon>
       {{nextButtonTitle}}
     </button>
