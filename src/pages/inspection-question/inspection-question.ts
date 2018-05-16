@@ -16,6 +16,7 @@ export class InspectionQuestionPage {
     public inspectionQuestionAnswer: InspectionQuestion[] = [];
     public inspectionQuestion: InspectionQuestion[] = [];
     public idInspection: string = '';
+    public inspectionSurveyCompleted: boolean = false;
     public selectedIndex = 0;
     public currentQuestion: InspectionQuestion = new InspectionQuestion();
     public previousQuestionAvailable = false;
@@ -33,6 +34,7 @@ export class InspectionQuestionPage {
                 private messageTools: MessageToolsProvider,
     ) {
         this.idInspection = this.navParams.get('idInspection');
+        this.inspectionSurveyCompleted = this.navParams.get('inspectionSurveyCompleted')
         this.loadInspectionQuestion();
     }
 
@@ -66,11 +68,17 @@ export class InspectionQuestionPage {
         this.controller.getAnswerList(this.idInspection)
             .subscribe(answerResult => {
                 this.inspectionQuestionAnswer = answerResult;
+
+                if(!this.inspectionSurveyCompleted){
+                    this.selectedIndex = this.inspectionQuestionAnswer.length - 1;
+                }
+
                 this.currentQuestion = this.inspectionQuestionAnswer[this.selectedIndex];
                 this.canSwitchQuestion();
                 this.getNextQuestionFromAnswer();
             });
     }
+
 
     switchQuestion() {
         this.selectedIndex = this.slides.getActiveIndex();
@@ -132,10 +140,20 @@ export class InspectionQuestionPage {
             this.slides.lockSwipes(true);
 
         } else {
-            this.navCtrl.pop();
+            this.completeInspectionQuestion();
         }
     }
 
+    completeInspectionQuestion(){
+        this.controller.CompleteSurvey(this.idInspection)
+            .subscribe(result => {
+                    this.navCtrl.pop();
+                },
+                error => {
+                    this.messageTools.showToast('Une erreur est survenue lors de la finalisation du questionnaire, veuillez réessayer ultérieurement.', 3);
+                })
+            ;
+    }
     previousQuestion() {
         this.slides.lockSwipes(false);
         this.slides.slidePrev();
