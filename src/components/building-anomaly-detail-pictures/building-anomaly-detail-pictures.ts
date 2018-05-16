@@ -5,7 +5,7 @@ import {InspectionBuildingAnomalyPicture} from '../../models/inspection-building
 import {UUID} from 'angular2-uuid';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {WindowRefService} from '../../providers/Base/window-ref.service';
-import {Platform} from 'ionic-angular';
+import {Platform, Slides} from 'ionic-angular';
 import {PhotoViewer} from '@ionic-native/photo-viewer';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MessageToolsProvider} from '../../providers/message-tools/message-tools';
@@ -20,6 +20,7 @@ import {MessageToolsProvider} from '../../providers/message-tools/message-tools'
 })
 export class BuildingAnomalyDetailPicturesComponent implements ControlValueAccessor {
   @ViewChild('filePicker') inputRef: ElementRef;
+  @ViewChild(Slides) slides: Slides;
 
   private changed = new Array<(value: string) => void>();
   private touched = new Array<() => void>();
@@ -37,6 +38,7 @@ export class BuildingAnomalyDetailPicturesComponent implements ControlValueAcces
 
   public isLoading: boolean = true;
   public idBuildingAnomaly: string;
+  public isUpdatingSlides: boolean = false;
   public pictures: InspectionBuildingAnomalyPicture[] = [];
   public isUsingCordova: boolean = false;
 
@@ -98,13 +100,19 @@ export class BuildingAnomalyDetailPicturesComponent implements ControlValueAcces
   }
 
   public addPicture(pic: string){
+    this.isUpdatingSlides = true;
+    let pictCache = [];
+    Object.assign(pictCache, this.pictures);
+    this.pictures = [];
     let picture = new InspectionBuildingAnomalyPicture();
     picture.id = UUID.UUID();
     picture.idBuildingAnomaly = this.idBuildingAnomaly;
     picture.pictureData = pic;
-    this.pictures.push(picture);
-    this.pictures.reverse();
+    pictCache.push(picture);
+    this.pictures = pictCache;
+    this.slides.slideTo(this.slides.length());
     this.repo.save(picture);
+    this.isUpdatingSlides = false;
   }
 
   private selectPictureNative() {
@@ -115,9 +123,11 @@ export class BuildingAnomalyDetailPicturesComponent implements ControlValueAcces
 
   public async onDeletePhotos(index){
     if (await this.msg.ShowMessageBox("Demande de confirmation", "Êtes-vous sur de vouloir supprimer cette photo?")){
+      this.isUpdatingSlides = true;
       let picture =this.pictures[index];
       await this.repo.delete(picture.id);
       this.pictures.splice(index);
+      this.isUpdatingSlides = false;
     }
   }
 
