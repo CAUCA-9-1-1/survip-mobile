@@ -3,6 +3,7 @@ import {Observable} from "rxjs/Observable";
 import {map} from "rxjs/operators";
 import {Injectable} from "@angular/core";
 import {InspectionQuestion} from "../../models/inspection-question";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Injectable()
 export class InspectionQuestionRepositoryProvider {
@@ -27,5 +28,14 @@ export class InspectionQuestionRepositoryProvider {
     public getAnswerList(idInspection : string): Observable<InspectionQuestion[]>{
         return this.http.get('InspectionQuestion/Answer/' + idInspection)
             .pipe(map(response => response));
+    }
+
+    public CompleteSurvey(idInspection: string): Observable<any>
+    {
+        if(!idInspection)
+            return Observable.of('');
+        else {
+            return this.http.post('InspectionQuestion/CompleteSurvey', idInspection);
+        }
     }
 }

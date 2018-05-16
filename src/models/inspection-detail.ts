@@ -13,4 +13,5 @@ export class InspectionDetail {
   mainBuildingIdRiskLevel: string;
   mainBuildingMatricule: string;
   mainBuildingIdUtilisationCode: string;
+  isSurveyCompleted: boolean;
 }
