@@ -18,6 +18,7 @@ import {map} from "rxjs/operators";
 @Injectable()
 export class InspectionControllerProvider {
   public idInspection: string;
+  public mainBuildingName: string;
 
   public courses : InspectionBuildingCourseForList[];
 

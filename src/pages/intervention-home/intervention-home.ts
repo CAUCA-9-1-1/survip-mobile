@@ -7,6 +7,7 @@ import {InterventionCoursePage} from '../intervention-course/intervention-course
 import {InterventionFireProtectionPage} from '../repositories-fire-protection/repositories-fire-protection';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {InspectionQuestionPage} from "../inspection-question/inspection-question";
+import {InspectionsPage} from '../inspections/inspections';
 
 @IonicPage({
   segment: 'inspection/:id'
@@ -25,6 +26,7 @@ export class InterventionHomePage {
   private implantationPlanPage = 'InterventionImplantationPlanPage'
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController, private controller: InspectionControllerProvider) {
+    console.log("back to main", this.navParams.data['id']);
     controller.setIdInterventionForm(this.navParams.data['id']);
   }
 
@@ -32,18 +34,28 @@ export class InterventionHomePage {
   }
 
   ionViewDidEnter() {
+    console.log("enabling menus!");
     this.menuCtrl.enable(true, 'inspectionMenu');
     this.menuCtrl.enable(false, 'buildingMenu');
   }
 
-  closeMenu(){
+  closeMenu() {
     this.menuCtrl.close();
   }
 
-  openPage(page){
+  openPage(page) {
     this.rootPage = page;
   }
-    goToInspectionQuestions(){
-        this.navCtrl.push('InspectionQuestionPage', {idInspection: this.controller.idInspection, inspectionSurveyCompleted: this.controller.inspectionDetail.isSurveyCompleted});
-    }
+
+  goToInspectionQuestions() {
+    this.navCtrl.push('InspectionQuestionPage', {
+      idInspection: this.controller.idInspection,
+      inspectionSurveyCompleted: this.controller.inspectionDetail.isSurveyCompleted
+    });
+  }
+
+  async goBackToInspectionList(){
+    await this.navCtrl.setRoot('InspectionListPage');
+    await this.navCtrl.popToRoot();
+  }
 }

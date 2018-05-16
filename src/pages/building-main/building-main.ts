@@ -1,6 +1,8 @@
 import {Component, ViewChild} from '@angular/core';
 import {IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
 import {normalizeAsyncValidator} from '@angular/forms/src/directives/normalize_validator';
+import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
+import {InterventionGeneralPage} from '../intervention-general/intervention-general';
 
 @IonicPage()
 @Component({
@@ -23,7 +25,12 @@ export class BuildingMainPage {
   public particularRisksPage = 'BuildingParticularRisksPage';
   public anomaliesPage = 'BuildingAnomaliesPage';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private menuCtrl: MenuController) {
+  constructor(
+    private controller: InspectionControllerProvider,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private menuCtrl: MenuController) {
+
     this.idBuilding = navParams.get("idBuilding");
     this.name = navParams.get('name');
   }
@@ -38,6 +45,11 @@ export class BuildingMainPage {
 
   public closeMenu() : void {
     this.menuCtrl.close();
+  }
+
+  public async goBackToInspection() {
+    await this.navCtrl.popToRoot();
+    await this.navCtrl.setRoot('InterventionHomePage', {id: this.controller.idInspection});
   }
 
   public openPage(page) : void {
