@@ -69,10 +69,13 @@ export class InspectionQuestionPage {
             .subscribe(answerResult => {
                 this.inspectionQuestionAnswer = answerResult;
 
-                if(!this.inspectionSurveyCompleted){
-                    this.selectedIndex = this.inspectionQuestionAnswer.length - 1;
+                if(this.inspectionQuestionAnswer.length > 0) {
+                    if(!this.inspectionSurveyCompleted){
+                        this.selectedIndex = this.inspectionQuestionAnswer.length - 1;
+                    }
+                }else{
+                    this.addNewAnswer(this.selectedIndex);
                 }
-
                 this.currentQuestion = this.inspectionQuestionAnswer[this.selectedIndex];
                 this.canSwitchQuestion();
                 this.getNextQuestionFromAnswer();
