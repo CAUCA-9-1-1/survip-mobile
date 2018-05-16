@@ -36,6 +36,7 @@ export class AnomalyThemeSelectionPage {
     await load.present();
     this.themes = await this.repo.getThemes();
     Object.assign(this.filteredThemes, this.themes);
+    this.sortFilteredThemes();
     load.dismiss();
   }
 
@@ -45,11 +46,18 @@ export class AnomalyThemeSelectionPage {
 
   public onSearch(ev: any) {
     let value = ev.target.value;
-    Object.assign(this.filteredThemes, this.themes);
-    this.filteredThemes = this.filteredThemes.filter((item) =>{
-      return (item.toLowerCase().indexOf(value.toLowerCase().trim()) > -1);
-    });
+    if (value != null && value.trim().toLowerCase().length > 0) {
+      Object.assign(this.filteredThemes, this.themes);
+      this.filteredThemes = this.filteredThemes.filter((item) => {
+        return (item.toLowerCase().indexOf(value.toLowerCase().trim()) > -1);
+      });
+    }
+    else
+      Object.assign(this.filteredThemes, this.themes);
+    this.sortFilteredThemes();
+  }
 
+  private sortFilteredThemes() {
     this.filteredThemes = this.filteredThemes.sort((theme1, theme2) => {
       if (theme1 > theme2)
         return 1;
