@@ -26,7 +26,6 @@ export class InterventionHomePage {
   private implantationPlanPage = 'InterventionImplantationPlanPage'
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController, private controller: InspectionControllerProvider) {
-    console.log("back to main", this.navParams.data['id']);
     controller.setIdInterventionForm(this.navParams.data['id']);
   }
 
@@ -34,7 +33,6 @@ export class InterventionHomePage {
   }
 
   ionViewDidEnter() {
-    console.log("enabling menus!");
     this.menuCtrl.enable(true, 'inspectionMenu');
     this.menuCtrl.enable(false, 'buildingMenu');
   }
@@ -55,7 +53,7 @@ export class InterventionHomePage {
   }
 
   async goBackToInspectionList(){
-    await this.navCtrl.setRoot('InspectionListPage');
     await this.navCtrl.popToRoot();
+    await this.navCtrl.setRoot('InspectionListPage');
   }
 }

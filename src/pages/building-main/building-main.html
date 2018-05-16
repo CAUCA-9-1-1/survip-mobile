@@ -6,37 +6,41 @@
   </ion-header>
   <ion-content>
     <ion-list>
-      <button ion-item icon-left menuClose (click)="openPage(detailsPage)">
+      <button ion-item icon-start menuClose (click)="openPage(detailsPage)">
         <ion-icon name="information-circle" small></ion-icon>
         Détails du bâtiment
       </button>
-      <button ion-item icon-left menuClose (click)="openPage(contactsPage)">
+      <button ion-item icon-start menuClose (click)="openPage(contactsPage)">
         <ion-icon name="contacts" small></ion-icon>
         Contacts
       </button>
-      <button ion-item icon-left menuClose (click)="openPage(pnapsPage)">
+      <button ion-item icon-start menuClose (click)="openPage(pnapsPage)">
         <ion-icon name="people" small></ion-icon>
         PNAPS
       </button>
-      <button ion-item icon-left menuClose (click)="openPage(hazardousMaterialPage)">
+      <button ion-item icon-start menuClose (click)="openPage(hazardousMaterialPage)">
         <ion-icon name="nuclear" small></ion-icon>
         Matières dangereuses
       </button>
-      <button ion-item icon-left menuClose (click)="openPage(fireProtectionPage)">
+      <button ion-item icon-start menuClose (click)="openPage(fireProtectionPage)">
         <ion-icon name="flame" small></ion-icon>
         Protection incendie
       </button>
-      <button ion-item icon-left menuClose (click)="openPage(particularRisksPage)">
+      <button ion-item icon-start menuClose (click)="openPage(particularRisksPage)">
         <ion-icon name="flash" small></ion-icon>
         Risques particuliers
       </button>
-      <button ion-item icon-left menuClose (click)="openPage(anomaliesPage)">
+      <button ion-item icon-start menuClose (click)="openPage(anomaliesPage)">
         <ion-icon name="warning" small></ion-icon>
         Anomalies
       </button>
-      <button ion-item icon-left (click)="goBackToInspection()">
-        <ion-icon name="close-circle" small></ion-icon>
+      <button ion-item icon-start (click)="goBackToInspection()">
+        <ion-icon name="undo" small></ion-icon>
         Retourner à l'inspection
+      </button>
+      <button ion-item icon-start (click)="goBackToInspectionList()">
+        <ion-icon name="close-circle" small></ion-icon>
+        Sortir de l'inspection
       </button>
     </ion-list>
   </ion-content>

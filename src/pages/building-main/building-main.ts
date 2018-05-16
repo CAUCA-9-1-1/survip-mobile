@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
+import {App, IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
 import {normalizeAsyncValidator} from '@angular/forms/src/directives/normalize_validator';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {InterventionGeneralPage} from '../intervention-general/intervention-general';
@@ -26,6 +26,7 @@ export class BuildingMainPage {
   public anomaliesPage = 'BuildingAnomaliesPage';
 
   constructor(
+    private app: App,
     private controller: InspectionControllerProvider,
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -48,8 +49,13 @@ export class BuildingMainPage {
   }
 
   public async goBackToInspection() {
-    await this.navCtrl.popToRoot();
-    await this.navCtrl.setRoot('InterventionHomePage', {id: this.controller.idInspection});
+    await this.app.getRootNav().popToRoot();
+    //await this.app.getRootNav().setRoot('InterventionHomePage',  {id: this.controller.idInspection});
+    await this.app.getRootNav().push('InterventionHomePage', {id: this.controller.idInspection/*, page: 'InterventionBuildingsPage'*/});
+  }
+
+  public async goBackToInspectionList() {
+    await this.app.getRootNav().popToRoot();
   }
 
   public openPage(page) : void {
