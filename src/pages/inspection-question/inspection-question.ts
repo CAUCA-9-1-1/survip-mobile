@@ -147,7 +147,12 @@ export class InspectionQuestionPage {
     completeInspectionQuestion(){
         this.controller.CompleteSurvey(this.idInspection)
             .subscribe(result => {
-                    this.navCtrl.pop();
+
+                    this.messageTools.showToast('Le questionnaire est terminé, redirection vers le détail de l"inspection.', 3);
+                    setTimeout(() => {
+                        this.navCtrl.pop();
+                    }, 3000);
+
                 },
                 error => {
                     this.messageTools.showToast('Une erreur est survenue lors de la finalisation du questionnaire, veuillez réessayer ultérieurement.', 3);
@@ -185,7 +190,7 @@ export class InspectionQuestionPage {
             clearTimeout(this.changingValueTimer);
         }
         this.changingValueTimer = setTimeout(() => {
-            this.getNextQuestionFromAnswer()
+            this.getNextQuestionFromAnswer();
         }, 1500);
     }
 

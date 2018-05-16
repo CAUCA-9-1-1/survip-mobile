@@ -35,7 +35,7 @@ export class InspectionQuestionRepositoryProvider {
         if(!idInspection)
             return Observable.of('');
         else {
-            return this.http.post('InspectionQuestion/CompleteSurvey', idInspection);
+            return this.http.post('InspectionQuestion/CompleteSurvey', JSON.stringify(idInspection));
         }
     }
 }
