@@ -156,7 +156,7 @@ export class InspectionQuestionPage {
     }
     previousQuestion() {
         this.slides.lockSwipes(false);
-        this.slides.slidePrev();
+        this.slides.slideTo(this.selectedIndex - 1);
         this.switchQuestion();
         this.slides.lockSwipes(true);
     }
