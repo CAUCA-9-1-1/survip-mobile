@@ -173,7 +173,7 @@ export class InspectionQuestionPage {
         if (this.currentQuestion.answer) {
             if (this.currentQuestion.questionType == this.questionTypeEnum.MultipleChoice) {
                 this.currentQuestion.idSurveyQuestionChoice = this.currentQuestion.answer;
-                this.nextQuestionId = this.getChoiceNextQuestionId(this.currentQuestion.answer);
+                this.nextQuestionId = this.getChoiceNextQuestionId(this.currentQuestion.idSurveyQuestionChoice);
                 if (!this.nextQuestionId) {
                     this.nextQuestionId = this.currentQuestion.idSurveyQuestionNext;
                 }

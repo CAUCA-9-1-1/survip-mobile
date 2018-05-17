@@ -21,13 +21,15 @@ export class InspectionQuestionRepositoryProvider {
     }
 
     public getQuestionList(idInspection : string): Observable<InspectionQuestion[]>{
-        return this.http.get('InspectionQuestion/Question/' + idInspection)
-            .pipe(map(response => response));
+        return this.http.get('InspectionQuestion/Inspection/' + idInspection+'/Question');
     }
 
     public getAnswerList(idInspection : string): Observable<InspectionQuestion[]>{
-        return this.http.get('InspectionQuestion/Answer/' + idInspection)
-            .pipe(map(response => response));
+        return this.http.get('InspectionQuestion/Inspection/' + idInspection+'/Answer');
+    }
+
+    public getAnswerSummaryList(idInspection : string): Observable<InspectionQuestionSummary[]>{
+        return this.http.get('InspectionQuestion/Inspection/' + idInspection+'/Summary');
     }
 
     public CompleteSurvey(idInspection: string): Observable<any>
