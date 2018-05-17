@@ -6,8 +6,6 @@ import {InterventionBuildingsPage} from '../intervention-buildings/intervention-
 import {InterventionCoursePage} from '../intervention-course/intervention-course';
 import {InterventionFireProtectionPage} from '../repositories-fire-protection/repositories-fire-protection';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
-import {InspectionQuestionPage} from "../inspection-question/inspection-question";
-import {InspectionsPage} from '../inspections/inspections';
 
 @IonicPage({
     segment: 'inspection/:id'
@@ -23,7 +21,7 @@ export class InterventionHomePage {
     private buildingsPage = 'InterventionBuildingsPage';
     private fireProtectionPage = 'InterventionFireProtectionPage';
     private coursePage = 'InterventionCoursePage';
-    private implantationPlanPage = 'InterventionImplantationPlanPage'
+    private implantationPlanPage = 'InterventionImplantationPlanPage';
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,

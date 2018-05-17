@@ -151,9 +151,9 @@ export class InspectionQuestionPage {
         this.controller.CompleteSurvey(this.idInspection)
             .subscribe(result => {
 
-                    this.messageTools.showToast('Le questionnaire est terminé, redirection vers le détail de l"inspection.', 3);
+                    this.messageTools.showToast('Le questionnaire est terminé, redirection vers le résumé du questionnaire.', 3);
                     setTimeout(() => {
-                        this.navCtrl.pop();
+                        this.navCtrl.push('InspectionQuestionSummaryPage', {idInspection: this.idInspection});
                     }, 3000);
 
                 },

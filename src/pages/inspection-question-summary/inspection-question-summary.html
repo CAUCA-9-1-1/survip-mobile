@@ -1,0 +1,15 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Synthèse du questionnaire</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding>
+  <ion-list *ngFor="let answer of inspectionQuestionSummary">
+      <ion-item>
+        <h2>{{answer.questionDescription}}</h2>
+      </ion-item>
+    <p>{{answer.answer}}</p>
+  </ion-list>
+</ion-content>
