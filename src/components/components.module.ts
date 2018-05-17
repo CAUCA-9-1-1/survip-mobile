@@ -8,14 +8,14 @@ import {Camera} from '@ionic-native/camera'
 import {PhotoViewer} from '@ionic-native/photo-viewer';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 import {WindowRefService} from '../providers/Base/window-ref.service';
-import { BuildingAnomalyDetailPicturesComponent } from './building-anomaly-detail-pictures/building-anomaly-detail-pictures';
+import {BuildingChildPicturesComponent} from './building-child-pictures/building-child-pictures';
 
 @NgModule({
 	declarations: [
 	  SearchBoxComponent,
     SearchListComponent,
     PictureViewerComponent,
-    BuildingAnomalyDetailPicturesComponent
+    BuildingChildPicturesComponent
   ],
 	imports: [
 	  FormsModule,
@@ -27,7 +27,7 @@ import { BuildingAnomalyDetailPicturesComponent } from './building-anomaly-detai
 	  SearchBoxComponent,
     SearchListComponent,
     PictureViewerComponent,
-    BuildingAnomalyDetailPicturesComponent
+    BuildingChildPicturesComponent
   ],
   providers: [
     WindowRefService,

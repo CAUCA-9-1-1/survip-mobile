@@ -1,7 +1,5 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {InspectionBuildingAnomalyPictureRepositoryProvider} from '../../providers/repositories/inspection-building-anomaly-picture-repository-provider.service';
-import {InspectionBuildingAnomalyPicture} from '../../models/inspection-building-anomaly-picture';
 import {UUID} from 'angular2-uuid';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {WindowRefService} from '../../providers/Base/window-ref.service';
@@ -9,18 +7,21 @@ import {Platform, Slides} from 'ionic-angular';
 import {PhotoViewer} from '@ionic-native/photo-viewer';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MessageToolsProvider} from '../../providers/message-tools/message-tools';
+import {InspectionBuildingChildPictureForWeb} from '../../models/inspection-building-child-picture-for-web';
+import {BuildingChildPictureRepositoryProvider} from '../../interfaces/building-child-picture-repository-provider';
 
 
 @Component({
-  selector: 'building-anomaly-detail-pictures',
-  templateUrl: 'building-anomaly-detail-pictures.html',
+  selector: 'building-child-pictures',
+  templateUrl: 'building-child-pictures.html',
   providers:[
-    {provide: NG_VALUE_ACCESSOR, useExisting: BuildingAnomalyDetailPicturesComponent, multi: true}
+    {provide: NG_VALUE_ACCESSOR, useExisting: BuildingChildPicturesComponent, multi: true}
   ]
 })
-export class BuildingAnomalyDetailPicturesComponent implements ControlValueAccessor {
+export class BuildingChildPicturesComponent implements ControlValueAccessor {
   @ViewChild('filePicker') inputRef: ElementRef;
   @ViewChild(Slides) slides: Slides;
+  @Input() repo: BuildingChildPictureRepositoryProvider;
 
   private changed = new Array<(value: string) => void>();
   private touched = new Array<() => void>();
@@ -37,18 +38,18 @@ export class BuildingAnomalyDetailPicturesComponent implements ControlValueAcces
   };
 
   public isLoading: boolean = true;
-  public idBuildingAnomaly: string;
+  public idParent: string;
   public isUpdatingSlides: boolean = false;
-  public pictures: InspectionBuildingAnomalyPicture[] = [];
+  public pictures: InspectionBuildingChildPictureForWeb[] = [];
   public isUsingCordova: boolean = false;
 
   get value(): string {
-    return this.idBuildingAnomaly;
+    return this.idParent;
   }
 
   set value(value: string) {
-    if (value != this.idBuildingAnomaly && value != '') {
-      this.idBuildingAnomaly = value;
+    if (value != this.idParent && value != '') {
+      this.idParent = value;
       this.loadPictures();
     }
     else if (value == '') {
@@ -62,8 +63,7 @@ export class BuildingAnomalyDetailPicturesComponent implements ControlValueAcces
     private photoViewer: PhotoViewer,
     private sanitizer: DomSanitizer,
     private platform: Platform,
-    private windowRef: WindowRefService,
-    private repo: InspectionBuildingAnomalyPictureRepositoryProvider) {
+    private windowRef: WindowRefService) {
 
     this.isUsingCordova = this.platform.is('cordova');
   }
@@ -73,7 +73,7 @@ export class BuildingAnomalyDetailPicturesComponent implements ControlValueAcces
 
   async loadPictures(){
     this.isLoading = true;
-    this.pictures = await this.repo.getList(this.idBuildingAnomaly);
+    this.pictures = await this.repo.getList(this.idParent);
     this.isLoading = false;
   }
 
@@ -82,8 +82,8 @@ export class BuildingAnomalyDetailPicturesComponent implements ControlValueAcces
   }
 
   writeValue(value: string) {
-    if (value != this.idBuildingAnomaly && value != '') {
-      this.idBuildingAnomaly = value;
+    if (value != this.idParent && value != '') {
+      this.idParent = value;
       this.loadPictures();
     }
     else if (value == '') {
@@ -104,9 +104,9 @@ export class BuildingAnomalyDetailPicturesComponent implements ControlValueAcces
     let pictCache = [];
     Object.assign(pictCache, this.pictures);
     this.pictures = [];
-    let picture = new InspectionBuildingAnomalyPicture();
+    let picture = new InspectionBuildingChildPictureForWeb();
     picture.id = UUID.UUID();
-    picture.idBuildingAnomaly = this.idBuildingAnomaly;
+    picture.idParent = this.idParent;
     picture.pictureData = pic;
     pictCache.push(picture);
     this.pictures = pictCache;
