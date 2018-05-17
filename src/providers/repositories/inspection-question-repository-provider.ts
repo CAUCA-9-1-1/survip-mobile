@@ -3,7 +3,7 @@ import {Observable} from "rxjs/Observable";
 import {map} from "rxjs/operators";
 import {Injectable} from "@angular/core";
 import {InspectionQuestion} from "../../models/inspection-question";
-import {HttpErrorResponse} from "@angular/common/http";
+import {InspectionQuestionSummary} from "../../models/inspection-question-summary";
 
 @Injectable()
 export class InspectionQuestionRepositoryProvider {
