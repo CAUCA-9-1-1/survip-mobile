@@ -110,7 +110,8 @@ export class BuildingAnomalyDetailPicturesComponent implements ControlValueAcces
     picture.pictureData = pic;
     pictCache.push(picture);
     this.pictures = pictCache;
-    this.slides.slideTo(this.slides.length());
+    if (pictCache.length > 1)
+      this.slides.slideTo(this.slides.length());
     this.repo.save(picture);
     this.isUpdatingSlides = false;
   }

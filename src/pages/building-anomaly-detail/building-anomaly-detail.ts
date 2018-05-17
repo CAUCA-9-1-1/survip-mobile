@@ -97,11 +97,13 @@ export class BuildingAnomalyDetailPage {
   private createAnomaly() {
     this.isNew = true;
     let data =  new InspectionBuildingAnomaly();
+    data.notes = "";
     data.id = UUID.UUID();
     data.theme = this.selectedTheme;
     data.idBuilding = this.idBuilding;
     this.idBuildingAnomaly = data.id;
     this.anomaly = data;
+    this.repo.save(this.anomaly);
   }
 
   public async onDeleteAnomaly() {
