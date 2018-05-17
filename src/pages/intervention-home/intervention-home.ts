@@ -87,4 +87,9 @@ export class InterventionHomePage {
         });
         return alert;
     }
+
+    async goBackToInspectionList(){
+        await this.navCtrl.popToRoot();
+        await this.navCtrl.setRoot('InspectionListPage');
+    }
 }
