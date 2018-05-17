@@ -29,3 +29,4 @@ export class InspectionBuildingAnomalyPictureRepositoryProvider implements Build
       .toPromise();
   }
 }
+

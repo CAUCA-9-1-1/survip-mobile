@@ -9,10 +9,10 @@ import {AuthenticationService} from '../../providers/Base/authentification.servi
 })
 export class BuildingParticularRisksPage {
 
-  private readonly idBuilding: string;
   private readonly name: string;
 
-  public currentSegment: string;
+  public readonly idBuilding: string;
+  public currentSegment: string = "foundation";
 
   constructor(
     private authService: AuthenticationService,

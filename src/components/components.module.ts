@@ -9,13 +9,15 @@ import {PhotoViewer} from '@ionic-native/photo-viewer';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 import {WindowRefService} from '../providers/Base/window-ref.service';
 import {BuildingChildPicturesComponent} from './building-child-pictures/building-child-pictures';
+import { InspectionBuildingParticularRiskDetailComponent } from './inspection-building-particular-risk-detail/inspection-building-particular-risk-detail';
 
 @NgModule({
 	declarations: [
 	  SearchBoxComponent,
     SearchListComponent,
     PictureViewerComponent,
-    BuildingChildPicturesComponent
+    BuildingChildPicturesComponent,
+    InspectionBuildingParticularRiskDetailComponent
   ],
 	imports: [
 	  FormsModule,
@@ -27,7 +29,8 @@ import {BuildingChildPicturesComponent} from './building-child-pictures/building
 	  SearchBoxComponent,
     SearchListComponent,
     PictureViewerComponent,
-    BuildingChildPicturesComponent
+    BuildingChildPicturesComponent,
+    InspectionBuildingParticularRiskDetailComponent
   ],
   providers: [
     WindowRefService,

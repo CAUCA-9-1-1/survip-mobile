@@ -2,21 +2,33 @@
   <ion-navbar>
     <ion-icon name="menu" menuToggle left></ion-icon>
     <ion-title>
-      Risques particuliers du bâtiment
+      {{name}}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-
 <ion-content>
-  {{currentSegment}}
-</ion-content>
 
-<ion-footer>
+  <ion-list-header>Risques particuliers</ion-list-header>
+
   <ion-segment [(ngModel)]="currentSegment">
     <ion-segment-button value="foundation">Fondation</ion-segment-button>
     <ion-segment-button value="floor">Plancher</ion-segment-button>
     <ion-segment-button value="wall">Murs</ion-segment-button>
     <ion-segment-button value="roof">Toit</ion-segment-button>
   </ion-segment>
-</ion-footer>
+
+  <inspection-building-particular-risk-detail *ngIf="currentSegment=='foundation'" [idBuilding]="idBuilding" riskType="foundation">
+  </inspection-building-particular-risk-detail>
+
+  <inspection-building-particular-risk-detail *ngIf="currentSegment=='floor'" [idBuilding]="idBuilding" riskType="floor">
+  </inspection-building-particular-risk-detail>
+
+  <inspection-building-particular-risk-detail *ngIf="currentSegment=='wall'" [idBuilding]="idBuilding" riskType="wall">
+  </inspection-building-particular-risk-detail>
+
+  <inspection-building-particular-risk-detail *ngIf="currentSegment=='roof'" [idBuilding]="idBuilding" riskType="roof">
+  </inspection-building-particular-risk-detail>
+
+</ion-content>
+
