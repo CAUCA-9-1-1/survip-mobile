@@ -32,7 +32,7 @@ export class InterventionGeneralPage implements OnDestroy {
   planSubscription: ISubscription;
   idLaneTransversal: string;
   laneName: string;
-  utilisationCodeName;
+  utilisationCodeName: string;
 
   get plan(): InspectionDetail{
     return this.controller.inspectionDetail

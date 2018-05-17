@@ -7,6 +7,7 @@ import {InterventionCoursePage} from '../intervention-course/intervention-course
 import {InterventionFireProtectionPage} from '../repositories-fire-protection/repositories-fire-protection';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {InspectionQuestionPage} from "../inspection-question/inspection-question";
+import {InspectionsPage} from '../inspections/inspections';
 
 @IonicPage({
   segment: 'inspection/:id'
@@ -36,14 +37,23 @@ export class InterventionHomePage {
     this.menuCtrl.enable(false, 'buildingMenu');
   }
 
-  closeMenu(){
+  closeMenu() {
     this.menuCtrl.close();
   }
 
-  openPage(page){
+  openPage(page) {
     this.rootPage = page;
   }
-    goToInspectionQuestions(){
-        this.navCtrl.push('InspectionQuestionPage', {idInspection: this.controller.idInspection, inspectionSurveyCompleted: this.controller.inspectionDetail.isSurveyCompleted});
-    }
+
+  goToInspectionQuestions() {
+    this.navCtrl.push('InspectionQuestionPage', {
+      idInspection: this.controller.idInspection,
+      inspectionSurveyCompleted: this.controller.inspectionDetail.isSurveyCompleted
+    });
+  }
+
+  async goBackToInspectionList(){
+    await this.navCtrl.popToRoot();
+    await this.navCtrl.setRoot('InspectionListPage');
+  }
 }
