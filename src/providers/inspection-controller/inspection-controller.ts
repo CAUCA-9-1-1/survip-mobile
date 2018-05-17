@@ -42,17 +42,14 @@ export class InspectionControllerProvider {
   ) {}
 
   public setIdInterventionForm(idInterventionForm: string){
-    console.log('set', idInterventionForm);
     this.idInspection = idInterventionForm;
   }
 
   loadInterventionForm(){
-    console.log("load");
     const loading = this.createLoadingControl();
     loading.present();
     const result = this.repoDetail.get(this.idInspection);
     result.subscribe(data => {
-      console.log("loaded!!!", data);
       const plan: InspectionDetail = data as InspectionDetail;
       this.laneRepo.currentIdCity = plan.idCity;
       this.inspectionDetail = plan;
@@ -88,7 +85,6 @@ export class InspectionControllerProvider {
 
   async savePicture() {
     let idPicture = await this.pictureRepo.savePicture(this.picture);
-    console.log('saved', idPicture);
     if (this.inspectionDetail.idPictureSitePlan != idPicture)
       this.savePlanIdPicture(idPicture as string);
   }

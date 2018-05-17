@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { BuildingAnomaliesPage } from './building-anomalies';
+import { AnomalyThemeSelectionPage } from './anomaly-theme-selection';
 import {PipesModule} from '../../pipes/pipes.module';
 
 @NgModule({
   declarations: [
-    BuildingAnomaliesPage,
+    AnomalyThemeSelectionPage,
   ],
   imports: [
-    IonicPageModule.forChild(BuildingAnomaliesPage),
+    IonicPageModule.forChild(AnomalyThemeSelectionPage),
     PipesModule
   ],
 })
-export class BuildingAnomaliesPageModule {}
+export class AnomalyThemeSelectionPageModule {}
