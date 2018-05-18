@@ -1,5 +1,5 @@
 export class InspectionDetail {
-  id: string;
+  id: string; // this is actually a idBuilding
   idLaneTransversal: string;
   idPictureSitePlan: string;
   otherInformation: string;
@@ -7,6 +7,7 @@ export class InspectionDetail {
   isActive: boolean;
   idCity: string;
   idBuilding: string;
+  idDetail: string;
   mainBuildingAddress: string;
   mainBuildingIdLane: string;
   mainBuildingName: string;

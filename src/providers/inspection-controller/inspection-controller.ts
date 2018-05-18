@@ -91,7 +91,7 @@ export class InspectionControllerProvider {
 
   private savePlanIdPicture(idPicture: string) {
     this.inspectionDetail.idPictureSitePlan = idPicture;
-    this.repoDetail.savePicture(this.inspectionDetail.id, this.inspectionDetail.idPictureSitePlan)
+    this.repoDetail.savePicture(this.inspectionDetail.idDetail, this.inspectionDetail.idPictureSitePlan)
       .subscribe(ok => {
         console.log("Picture saved", ok);
       });
