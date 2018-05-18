@@ -1,6 +1,5 @@
 import {HttpService} from "../Base/http.service";
 import {Observable} from "rxjs/Observable";
-import {map} from "rxjs/operators";
 import {Injectable} from "@angular/core";
 import {InspectionQuestion} from "../../models/inspection-question";
 import {InspectionQuestionSummary} from "../../models/inspection-question-summary";
@@ -15,8 +14,7 @@ export class InspectionQuestionRepositoryProvider {
         if(!inspectionQuestion)
             return Observable.of('');
         else {
-            return this.http.post('InspectionQuestion/Answer',JSON.stringify(inspectionQuestion))
-                .pipe(map(response => response));
+            return this.http.post('InspectionQuestion/Answer',JSON.stringify(inspectionQuestion));
         }
     }
 
