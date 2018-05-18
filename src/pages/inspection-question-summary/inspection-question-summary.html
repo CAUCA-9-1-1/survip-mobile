@@ -1,26 +1,38 @@
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Synthèse du questionnaire</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>Synthèse du questionnaire</ion-title>
+    </ion-navbar>
 
 </ion-header>
 <ion-content padding>
-  <ion-list *ngFor="let answer of inspectionQuestionSummary">
-      <ion-item>
-        <h2>{{answer.Title}}</h2>
-      </ion-item>
-    <p>{{answer.answer}}</p>
-  </ion-list>
-    <div id="SurveySummary">
+    <ion-list *ngFor="let category of inspectionQuestionSummaryCategory">
+        <ion-list-header>
+            {{category.title}}
+        </ion-list-header>
+        <ion-list *ngFor="let recursive of category.answerSummary; let index = index">
+            <ion-item>
+                <h2>{{recursive.questionTitle}} {{index + 1}}</h2>
+            </ion-item>
+            <ion-list *ngFor="let answer of recursive.recursiveAnswer">
+                <ion-item>
+                    <h2>{{answer.questionDescription}}</h2>
+                </ion-item>
+                <p>{{answer.answer}}</p>
+            </ion-list>
+        </ion-list>
+    </ion-list>
+    <!--<div id="SurveySummary">
         <ion-card>
             <ion-card-title>Title</ion-card-title>
             <ion-card-content>
                 <div class="report-line">
-                    <ion-toggle class="report-line-control" [checked]="true">Oui</ion-toggle><ion-label class="report-line-text">Fonctionnel :</ion-label>
+                    <ion-toggle class="report-line-control" [checked]="true">Oui</ion-toggle>
+                    <ion-label class="report-line-text">Fonctionnel :</ion-label>
                 </div>
                 <div class="report-line">
-                    <ion-label class="report-line-text">Emplacement approprié :</ion-label><ion-label class="report-line-control">Oui</ion-label>
+                    <ion-label class="report-line-text">Emplacement approprié :</ion-label>
+                    <ion-label class="report-line-control">Oui</ion-label>
                 </div>
             </ion-card-content>
         </ion-card>
@@ -29,5 +41,5 @@
             <ion-item>Angola</ion-item>
             <ion-item>Argentina</ion-item>
         </ion-item-group>
-    </div>
+    </div>-->
 </ion-content>

@@ -2,7 +2,7 @@ import {HttpService} from "../Base/http.service";
 import {Observable} from "rxjs/Observable";
 import {Injectable} from "@angular/core";
 import {InspectionQuestion} from "../../models/inspection-question";
-import {InspectionQuestionSummary} from "../../models/inspection-question-summary";
+import {InspectionQuestionSummaryCategory} from "../../models/inspection-question-summary-category";
 
 @Injectable()
 export class InspectionQuestionRepositoryProvider {
@@ -26,7 +26,7 @@ export class InspectionQuestionRepositoryProvider {
         return this.http.get('InspectionQuestion/Inspection/' + idInspection+'/Answer');
     }
 
-    public getAnswerSummaryList(idInspection : string): Observable<InspectionQuestionSummary[]>{
+    public getAnswerSummaryList(idInspection : string): Observable<InspectionQuestionSummaryCategory[]>{
         return this.http.get('InspectionQuestion/Inspection/' + idInspection+'/Summary');
     }
 
