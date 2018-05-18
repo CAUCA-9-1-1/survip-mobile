@@ -5,5 +5,7 @@ export class InspectionQuestionSummary {
     answer: string;
     questionType: number;
     sequence: number;
-    recursive: boolean;
+    isRecursive: boolean;
+
+    recursiveAnswer: InspectionQuestionSummary[];
 }

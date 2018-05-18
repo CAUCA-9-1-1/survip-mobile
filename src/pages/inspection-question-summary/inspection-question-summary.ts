@@ -4,6 +4,7 @@ import {InspectionQuestionRepositoryProvider} from "../../providers/repositories
 import {InspectionQuestionSummary} from "../../models/inspection-question-summary";
 import {AuthenticationService} from "../../providers/Base/authentification.service";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
+import {InspectionQuestionSummaryCategory} from "../../models/inspection-question-summary-category";
 
 @IonicPage()
 @Component({
@@ -12,7 +13,7 @@ import {MessageToolsProvider} from "../../providers/message-tools/message-tools"
 })
 export class InspectionQuestionSummaryPage {
 
-    public
+    public inspectionQuestionSummaryCategory: InspectionQuestionSummaryCategory[] = [];
     public inspectionQuestionSummary: InspectionQuestionSummary[] = [];
     public idInspection: string = '';
 
@@ -23,6 +24,7 @@ export class InspectionQuestionSummaryPage {
                 private messageTools: MessageToolsProvider,) {
 
         this.idInspection = this.navParams.get('idInspection');
+        this.idInspection = '8e6d8188-9733-4f1c-9ade-dc57adcdd533';
         this.loadInspectionQuestionSummary();
     }
 
@@ -39,7 +41,7 @@ export class InspectionQuestionSummaryPage {
     loadInspectionQuestionSummary() {
         this.controller.getAnswerSummaryList(this.idInspection)
             .subscribe(result => {
-                    this.inspectionQuestionSummary = result;
+                    this.inspectionQuestionSummaryCategory = result;
                 },
                 error => {
                     this.messageTools.showToast('Une erreur est survenue lors du chargement du résumé du questionnaire, veuillez réessayer ultérieurement.', 5);
