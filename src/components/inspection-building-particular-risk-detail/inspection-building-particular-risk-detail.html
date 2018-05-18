@@ -1,0 +1,42 @@
+<ion-list [formGroup]="form">
+
+  <ion-item-group>
+    <ion-item>
+      <ion-label>Affaiblie</ion-label>
+      <ion-toggle formControlName="isWeakened"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>Ouverture</ion-label>
+      <ion-toggle formControlName="hasOpening"></ion-toggle>
+    </ion-item>
+    <ion-item *ngIf="currentRiskType=='foundation'">
+      <ion-label>Dimension</ion-label>
+      <ion-input type="text" maxlength="100" placeholder="Dimension" formControlName="dimension"></ion-input>
+    </ion-item>
+  </ion-item-group>
+
+  <ion-item-group>
+    <ion-item-divider color="light">Localisation</ion-item-divider>
+    <ion-item>
+      <ion-label>Mur</ion-label>
+      <ion-select formControlName="wall" placeholder="Mur">
+        <ion-option *ngFor="let wall of walls">{{wall}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Section</ion-label>
+      <ion-select formControlName="sector" placeholder="Section">
+        <ion-option *ngFor="let sector of sectors">{{sector}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-item-group>
+
+  <ion-item-group>
+    <ion-item-divider>Commentaires</ion-item-divider>
+    <ion-textarea maxlength="500" formControlName="comments" placeholder="Entrez un commentaire ici"></ion-textarea>
+  </ion-item-group>
+
+  <ion-item-group>
+    <building-child-pictures [repo]="picRepo" formControlName="id"></building-child-pictures>
+  </ion-item-group>
+</ion-list>

@@ -29,7 +29,7 @@ export class BuildingAnomalyDetailPage {
     private modalCtrl: ModalController,
     private loadCtrl: LoadingController,
     private repo: InspectionBuildingAnomalyRepositoryProvider,
-    private picRepo: InspectionBuildingAnomalyPictureRepositoryProvider,
+    public picRepo: InspectionBuildingAnomalyPictureRepositoryProvider,
     private msg: MessageToolsProvider,
     public navCtrl: NavController,
     public viewCtrl: ViewController,

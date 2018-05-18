@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from '../Base/http.service';
-import {
-  InspectionBuildingAnomaly} from '../../models/inspection-building-anomaly';
+import {InspectionBuildingAnomaly} from '../../models/inspection-building-anomaly';
 import {map} from 'rxjs/operators';
 import {InspectionBuildingAnomalyThemeForList} from '../../models/inspection-building-anomaly-theme-for-list';
 
@@ -41,3 +40,4 @@ export class InspectionBuildingAnomalyRepositoryProvider {
       .toPromise();
   }
 }
+

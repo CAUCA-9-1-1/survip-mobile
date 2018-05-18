@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the BuildingParticularRisksPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {AuthenticationService} from '../../providers/Base/authentification.service';
 
 @IonicPage()
 @Component({
@@ -15,11 +9,30 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class BuildingParticularRisksPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  private readonly name: string;
+
+  public readonly idBuilding: string;
+  public currentSegment: string = "foundation";
+
+  constructor(
+    private authService: AuthenticationService,
+    public navCtrl: NavController,
+    public navParams: NavParams) {
+
+    this.idBuilding = navParams.get('idBuilding');
+    this.name = navParams.get('name');
+  }
+
+  async ionViewCanEnter() {
+    let isLoggedIn = await this.authService.isStillLoggedIn();
+    if (!isLoggedIn)
+      this.redirectToLoginPage();
+  }
+
+  private redirectToLoginPage(): void{
+    this.navCtrl.setRoot('LoginPage');
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad BuildingParticularRisksPage');
   }
-
 }
