@@ -9,9 +9,9 @@
       <ion-label>Ouverture</ion-label>
       <ion-toggle formControlName="hasOpening"></ion-toggle>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="currentRiskType=='foundation'">
       <ion-label>Dimension</ion-label>
-      <ion-input type="text" maxlength="100" placeholder="Dimension" formControlName="dimension" *ngIf="currentRiskType=='foundation'"></ion-input>
+      <ion-input type="text" maxlength="100" placeholder="Dimension" formControlName="dimension"></ion-input>
     </ion-item>
   </ion-item-group>
 
@@ -25,7 +25,7 @@
     </ion-item>
     <ion-item>
       <ion-label>Section</ion-label>
-      <ion-select formControlName="sector" place="Section">
+      <ion-select formControlName="sector" placeholder="Section">
         <ion-option *ngFor="let sector of sectors">{{sector}}</ion-option>
       </ion-select>
     </ion-item>
