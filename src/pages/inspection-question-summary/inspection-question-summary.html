@@ -6,7 +6,7 @@
 
 </ion-header>
 <ion-content class="outer-content">
-    <ion-list>
+    <ion-list style="padding-bottom: 5px;">
         <ion-item *ngFor="let category of inspectionQuestionSummaryCategory">
             <ion-list-header *ngIf="category.title != ''">
                 {{category.title | uppercase}}
