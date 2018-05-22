@@ -2,18 +2,18 @@
   <ion-navbar>
     <ion-icon name="menu" menuToggle left></ion-icon>
     <ion-title>
-      {{plan?.mainBuildingAddress}}
+      Liste des bâtiments
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content>
-  <ion-list>
+  <ion-list class="list-items">
     <ion-list-header>
-      Liste des bâtiments
+      {{plan?.mainBuildingAddress}}
     </ion-list-header>
-    <button ion-item *ngFor="let building of buildings" (click)="onClickBuilding(building.id, building.name)">
+    <button ion-item *ngFor="let building of buildings" (click)="onClickBuilding(building.id, building.name)" detail-push>
       <ion-thumbnail item-start *ngIf="building.picture != null">
         <img src="data:image/jpeg;base64,{{building.picture}}">
       </ion-thumbnail>

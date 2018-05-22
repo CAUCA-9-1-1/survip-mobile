@@ -8,8 +8,8 @@
 
 <ion-content [formGroup]="form">
 
-  <ion-list>
-    <ion-list-header>Voie de circulation</ion-list-header>
+  <ion-list class="list-items">
+    <ion-item-divider>Voie de circulation</ion-item-divider>
     <search-box
       [hasValidationError]="form.get('idLane').hasError('required') ? 'validation-error-control' : null"
       [description]=""
@@ -21,8 +21,8 @@
     <div *ngIf="form.get('idLane').hasError('required')" class="validation-error-text">*La voie de circulation est requise.</div>
   </ion-list>
 
-  <ion-list>
-    <ion-list-header>Direction</ion-list-header>
+  <ion-list class="list-items">
+    <ion-item-divider>Direction</ion-item-divider>
     <ion-item>
       <ion-select class="selected-direction" formControlName="direction">
         <ion-option *ngFor="let dir of directions" [value]="dir.id">{{dir.description | uppercase}}</ion-option>
@@ -32,7 +32,7 @@
 
 </ion-content>
 
-<ion-footer>
+<ion-footer class="page-footer">
   <ion-toolbar>
     <ion-buttons>
       <button ion-button icon-start type="button" (click)="onDeleteLane()">

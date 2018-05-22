@@ -21,7 +21,7 @@ export class InterventionHomePage {
     /*if (this.navParams.data['page'] != null)
       this.rootPage = this.navParams.data['page'];*/
     this.menuItems = [
-      { title: 'Infos générales', page:'InterventionGeneratePage', icon:'information-circle' },
+      { title: 'Infos générales', page:'InterventionGeneralPage', icon:'information-circle' },
       { title: 'Bâtiments', page:'InterventionBuildingsPage', icon:'home' },
       { title: 'Alimentation en eau', page:'InterventionWaterSuppliesPage', icon:'water' },
       { title: "Plan d'implantation", page:'InterventionImplantationPlanPage', icon:'image' },

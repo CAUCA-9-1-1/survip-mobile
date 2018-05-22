@@ -10,11 +10,11 @@
 
 
 <ion-content>
-  <ion-list>
+  <ion-list class="list-items">
     <ion-list-header>
       PNAPS du bâtiment
     </ion-list-header>
-    <button ion-item icon-start *ngFor="let pnap of pnaps | orderBy:'typeDescription'" (click)="onItemClick(pnap.id)">
+    <button ion-item icon-start *ngFor="let pnap of pnaps | orderBy:'typeDescription'" (click)="onItemClick(pnap.id)" detail-push>
       <ion-icon name="contact" item-start></ion-icon>
       <h2>{{pnap.typeDescription}}</h2>
       <p>{{pnap.name}}</p>
@@ -23,7 +23,7 @@
 </ion-content>
 
 
-<ion-footer>
+<ion-footer class="page-footer">
   <ion-toolbar>
     <ion-buttons>
       <button ion-button icon-start full type="button" (click)="onItemClick(null)">

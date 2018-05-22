@@ -9,16 +9,15 @@
 
     <ion-title>Sélection d'un thème</ion-title>
   </ion-navbar>
-
+  <ion-searchbar [(ngModel)]="currentSearch" (ionInput)="onSearch($event)"></ion-searchbar>
 </ion-header>
 
 
 <ion-content>
-  <ion-list>
+  <ion-list class="list-items">
 
     <ion-item-group>
-      <ion-searchbar [(ngModel)]="currentSearch" (ionInput)="onSearch($event)"></ion-searchbar>
-      <button ion-item (click)="onCreateTheme()" color="secondary">Créer un nouveau thème...</button>
+      <button ion-item (click)="onCreateTheme()" color="caucaGold">Créer un nouveau thème...</button>
       <button ion-item *ngFor="let theme of filteredThemes" (click)="onSelectExistingTheme(theme)">
         {{theme}}
       </button>

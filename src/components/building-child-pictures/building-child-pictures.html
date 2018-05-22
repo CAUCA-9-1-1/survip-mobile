@@ -1,13 +1,13 @@
 <ion-spinner [style.display]="isLoading ? 'block' : 'none'" item-start></ion-spinner>
 
-<ion-list>
+<ion-list class="list-items">
   <ion-item-divider>
     Photo(s)
-    <button item-end ion-button icon-start (click)="selectPicture()">
+    <button item-end ion-button icon-start (click)="selectPicture()" color="caucaRed">
       <ion-icon class="footer-button-camera" name="albums"></ion-icon>
       Choisir...
     </button>
-    <button item-end ion-button icon-start (click)="takeNewPicture()" *ngIf="isUsingCordova">
+    <button item-end ion-button icon-start (click)="takeNewPicture()" *ngIf="isUsingCordova" color="caucaRed">
       <ion-icon class="footer-button-camera" name="camera"></ion-icon>
       Nouvelle...
     </button>
@@ -16,7 +16,7 @@
     <ion-slides *ngIf="pictures.length > 0 && !isUpdatingSlides" pager [loop]="true">
       <ion-slide *ngFor="let picture of pictures; let id = index;">
         <ion-card class="block">
-          <button ion-button icon-only small outline class="deleteIcon" (click)="onDeletePhotos(id)">
+          <button ion-button icon-only small outline class="deleteIcon" (click)="onDeletePhotos(id)" color="caucaRed">
             <ion-icon name="trash" class="deleteIcon" (click)="onDeletePhotos(id)"></ion-icon>
           </button>
           <img class="selected-picture" [src]="getImageUrl(picture.pictureData)" (click)="onClickPicture(picture.pictureData)" *ngIf="hasImageUrl(picture.pictureData)">

@@ -11,7 +11,7 @@
 
 <ion-content>
 
-  <ion-list [formGroup]="form">
+  <ion-list [formGroup]="form" class="list-items">
 
     <ion-item-group>
       <ion-list-header color="light">Informations générales</ion-list-header>
@@ -94,7 +94,7 @@
   </ion-list>
 </ion-content>
 
-<ion-footer>
+<ion-footer class="page-footer">
   <ion-navbar *ngIf="!isNew">
     <ion-buttons left>
       <button ion-button  icon-start (click)="onDeletePnap()">

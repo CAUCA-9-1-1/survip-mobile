@@ -100,19 +100,56 @@
   .toolbar-title {
     color: whitesmoke;
   }
+  .back-button {
+    color: whitesmoke;
+  }
+  .bar-button {
+    color: whitesmoke;
+  }
+}
+
+.page-footer {
+  .toolbar-background {
+    background-color: color($colors, caucaRed);
+  }
+  .bar-button {
+    color: whitesmoke;
+  }
 }
 
 .list-items {
-  .item:first-child {
+  /*.item:first-child {
     border: none;
-  }
+  }*/
   .item:last-child {
     border: none;
   }
   .item-divider {
     background-color: #cbb677;
+/*    background-color: #737373;
+    color: whitesmoke;*/
+  }
+  .item-inner {
+    border-color: rgba(86, 61, 124, .1);
+  }
+  .list-header {
+    /*background-color: #cbb677;
+    color: black;*/
+    background-color: #737373;
+    color: whitesmoke;
+    border-color: rgba(86, 61, 124, .1);
+  }
+}
 
+.segment-themed {
 
+  .segment-button {
+    border-color: #cbb677;
+    color: whitesmoke;
   }
 
+  .segment-button.segment-activated{
+    background-color: color($colors, caucaGold);
+    color: black;
+  }
 }

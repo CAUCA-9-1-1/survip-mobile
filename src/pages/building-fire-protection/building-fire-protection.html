@@ -9,7 +9,7 @@
   </ion-navbar>
 
   <ion-toolbar>
-    <ion-segment [(ngModel)]="currentSegment">
+    <ion-segment [(ngModel)]="currentSegment" class="segment-themed">
       <ion-segment-button value="panel" class="segment-fire">
         Panneaux d'alarme
       </ion-segment-button>
@@ -23,7 +23,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <ion-list class="list-items">
     <ion-item-group *ngIf="currentSegment=='panel'">
       <button ion-item icon-start *ngFor="let panel of panels" (click)="onPanelClick(panel.id)">
         <ion-icon name="notifications" item-start></ion-icon>
@@ -41,7 +41,7 @@
   </ion-list>
 </ion-content>
 
-<ion-footer>
+<ion-footer class="page-footer">
   <ion-toolbar>
     <ion-buttons>
       <button ion-button icon-start full type="button" (click)="onCreateNewRecord()">

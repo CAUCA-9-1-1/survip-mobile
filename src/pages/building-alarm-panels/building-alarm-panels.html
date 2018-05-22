@@ -11,7 +11,7 @@
 
 
 <ion-content>
-  <ion-list [formGroup]="form">
+  <ion-list [formGroup]="form" class="list-items">
 
     <ion-item [class.invalid]="!form.controls.idAlarmPanelType.valid">
       <ion-label>Type</ion-label>
@@ -44,7 +44,7 @@
   </ion-list>
 </ion-content>
 
-<ion-footer>
+<ion-footer class="page-footer">
   <ion-navbar *ngIf="!isNew">
     <ion-buttons left>
       <button ion-button  icon-start (click)="onDeleteAlarmPanel()">

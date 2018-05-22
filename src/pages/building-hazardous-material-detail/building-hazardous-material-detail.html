@@ -11,7 +11,7 @@
 
 <ion-content>
 
-  <ion-list [formGroup]="form">
+  <ion-list [formGroup]="form" class="list-items">
     <ion-item-group>
       <ion-item-divider>Produit</ion-item-divider>
       <button ion-item icon-end (click)="onChangeMaterial()" [class.invalid]="!form.controls.idHazardousMaterial.valid">
@@ -74,7 +74,7 @@
     <ion-item-group>
       <ion-item-divider>Localisation</ion-item-divider>
       <ion-item>
-        <ion-label>Endroit</ion-label>
+        <ion-label >Endroit</ion-label>
         <ion-input type="text" maxlength="100" formControlName="place"></ion-input>
       </ion-item>
       <ion-item>
@@ -116,7 +116,7 @@
 
 </ion-content>
 
-<ion-footer>
+<ion-footer class="page-footer">
   <ion-navbar *ngIf="!isNew">
     <ion-buttons left>
       <button ion-button icon-start (click)="onDeleteHazardousMaterial()">
