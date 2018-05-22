@@ -20,12 +20,10 @@ import {MenuItem} from '../../interfaces/menu-item.interface';
 export class InterventionHomePage {
   private rootPage = 'InterventionGeneralPage';
 
-  public fullName: string = '';
   public menuItems: MenuItem[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController, private controller: InspectionControllerProvider) {
     controller.setIdInterventionForm(this.navParams.data['id']);
-    this.fullName = localStorage.getItem('firstName') + ' ' + localStorage.getItem('lastName');
     this.menuItems = [
       { title: 'Infos générales', page:'InterventionGeneratePage', icon:'information-circle' },
       { title: 'Bâtiments', page:'InterventionBuildingsPage', icon:'home' },

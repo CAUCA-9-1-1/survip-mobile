@@ -10,6 +10,7 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
 import {WindowRefService} from '../providers/Base/window-ref.service';
 import {BuildingChildPicturesComponent} from './building-child-pictures/building-child-pictures';
 import { InspectionBuildingParticularRiskDetailComponent } from './inspection-building-particular-risk-detail/inspection-building-particular-risk-detail';
+import { MenuProfileComponent } from './menu-profile/menu-profile';
 
 @NgModule({
 	declarations: [
@@ -17,7 +18,8 @@ import { InspectionBuildingParticularRiskDetailComponent } from './inspection-bu
     SearchListComponent,
     PictureViewerComponent,
     BuildingChildPicturesComponent,
-    InspectionBuildingParticularRiskDetailComponent
+    InspectionBuildingParticularRiskDetailComponent,
+    MenuProfileComponent
   ],
 	imports: [
 	  FormsModule,
@@ -30,7 +32,8 @@ import { InspectionBuildingParticularRiskDetailComponent } from './inspection-bu
     SearchListComponent,
     PictureViewerComponent,
     BuildingChildPicturesComponent,
-    InspectionBuildingParticularRiskDetailComponent
+    InspectionBuildingParticularRiskDetailComponent,
+    MenuProfileComponent
   ],
   providers: [
     WindowRefService,
