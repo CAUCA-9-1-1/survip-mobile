@@ -1,16 +1,22 @@
 page-inspection-question-summary {
 
-  .report-line {
-    padding: 5px;
-    border-bottom: solid lightgray 1px;
+  ion-label {
+    white-space: normal;
+  }
+  ion-list-header {
+    margin-bottom: 0px !important;
   }
 
-  .report-line-text {
+  .label{
+    margin:0px;
   }
-
-  .report-line-control {
-    float: right;
-    vertical-align: middle;
+  ion-item-divider{
+    margin-bottom: 5px;
   }
-
+  .list{
+    margin: -1px 0 10px;
+  }
+  .item-inner{
+    border-bottom: 0 !important;
+  }
 }
