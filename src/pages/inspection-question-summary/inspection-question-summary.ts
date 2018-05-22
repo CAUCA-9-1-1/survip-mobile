@@ -24,7 +24,6 @@ export class InspectionQuestionSummaryPage {
                 private messageTools: MessageToolsProvider,) {
 
         this.idInspection = this.navParams.get('idInspection');
-        this.idInspection = '8e6d8188-9733-4f1c-9ade-dc57adcdd533';
         this.loadInspectionQuestionSummary();
     }
 

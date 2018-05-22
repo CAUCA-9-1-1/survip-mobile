@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
 import {InterventionGeneralPage} from '../intervention-general/intervention-general';
 import {InterventionWaterSuppliesPage} from '../intervention-water-supplies/intervention-water-supplies';
 import {InterventionBuildingsPage} from '../intervention-buildings/intervention-buildings';
@@ -26,8 +26,7 @@ export class InterventionHomePage {
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 public menuCtrl: MenuController,
-                private controller: InspectionControllerProvider,
-                private alertCtrl: AlertController,) {
+                private controller: InspectionControllerProvider,) {
         controller.setIdInterventionForm(this.navParams.data['id']);
     }
 
@@ -48,44 +47,17 @@ export class InterventionHomePage {
     }
 
     goToInspectionQuestions() {
-        if (this.controller.inspectionDetail.isSurveyCompleted) {
-            this.SurveyNavigationPopup().present();
-        } else {
-            this.navCtrl.push('InspectionQuestionPage', {
+        if (this.controller.inspectionDetail.isSurveyCompleted)
+        {
+            this.navCtrl.push('InspectionQuestionSummaryPage', {idInspection: this.controller.idInspection});
+        }
+        else
+        {
+                this.navCtrl.push('InspectionQuestionPage', {
                 idInspection: this.controller.idInspection,
                 inspectionSurveyCompleted: this.controller.inspectionDetail.isSurveyCompleted
             });
         }
-    }
-
-    SurveyNavigationPopup() {
-        let alert = this.alertCtrl.create();
-        alert.setTitle('Questionnaire d\'inspection');
-        alert.setMessage('Le questionnaire est déjà complété, que voulez-vous faire : ');
-        alert.addButton({
-            text: 'Recommencer le questionnaire', handler: () => {
-                alert.dismiss(true);
-                this.navCtrl.push('InspectionQuestionPage', {
-                    idInspection: this.controller.idInspection,
-                    inspectionSurveyCompleted: this.controller.inspectionDetail.isSurveyCompleted
-                });
-                return false;
-            }
-        });
-        alert.addButton({
-            text: 'Voir le résumé du questionnaire', handler: () => {
-                alert.dismiss(true);
-                this.navCtrl.push('InspectionQuestionSummaryPage', {idInspection: this.controller.idInspection});
-                return false;
-            }
-        });
-        alert.addButton({
-            text: 'Retourner au détail de l\'inspection', handler: () => {
-                alert.dismiss(true);
-                return false;
-            }
-        });
-        return alert;
     }
 
     async goBackToInspectionList(){
