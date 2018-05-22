@@ -1,8 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {App, IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
-import {normalizeAsyncValidator} from '@angular/forms/src/directives/normalize_validator';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
-import {InterventionGeneralPage} from '../intervention-general/intervention-general';
 import {MenuItem} from '../../interfaces/menu-item.interface';
 
 @IonicPage()
@@ -50,19 +48,15 @@ export class BuildingMainPage {
     this.menuCtrl.enable(true, 'buildingMenu');
   }
 
-  public closeMenu() : void {
-    this.menuCtrl.close();
-  }
-
   public async goBackToInspection() {
     await this.app.getRootNav().popToRoot();
     //await this.app.getRootNav().setRoot('InterventionHomePage',  {id: this.controller.idInspection});
-    await this.app.getRootNav().push('InterventionHomePage', {id: this.controller.idInspection/*, page: 'InterventionBuildingsPage'*/});
+    await this.app.getRootNav().push('InterventionHomePage', {id: this.controller.idInspection, page: 'InterventionBuildingsPage'});
   }
 
-  public async goBackToInspectionList() {
+  /*public async goBackToInspectionList() {
     await this.app.getRootNav().popToRoot();
-  }
+  }*/
 
   public openPage(page) : void {
     this.childNavCtrl.setRoot(page, this.getParams());

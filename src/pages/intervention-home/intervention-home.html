@@ -15,13 +15,25 @@
         <span ion-text>Questionnaire</span>
       </button>
 
-      <button ion-item menuClose class="text-menu" (click)="goBackToInspectionList()">
-        <ion-icon item-left name="close-circle"></ion-icon>
-        <span ion-text>Sortir de l'inspection</span>
-      </button>
-
     </ion-list>
   </ion-content>
+
+  <ion-footer>
+    <ion-toolbar class="user-profile">
+      <ion-grid>
+        <ion-row no-padding class="other-data">
+          <ion-col no-padding class="column">
+            <button ion-button icon-left small full color="light" menuClose (click)="goBackToInspection()">
+              <ion-icon name="close-circle"></ion-icon>
+              Sortir de l'inspection
+            </button>
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
+    </ion-toolbar>
+
+  </ion-footer>
 </ion-menu>
 
 <ion-nav #mycontent [root]="rootPage"></ion-nav>
