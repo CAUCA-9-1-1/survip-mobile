@@ -5,41 +5,33 @@
     </ion-navbar>
 
 </ion-header>
-<ion-content padding>
-    <ion-list *ngFor="let category of inspectionQuestionSummaryCategory">
-        <ion-list-header>
-            {{category.title}}
-        </ion-list-header>
-        <ion-list *ngFor="let recursive of category.answerSummary; let index = index">
-            <ion-item>
-                <h2>{{recursive.questionTitle}} {{index + 1}}</h2>
-            </ion-item>
-            <ion-list *ngFor="let answer of recursive.recursiveAnswer">
-                <ion-item>
-                    <h2>{{answer.questionDescription}}</h2>
-                </ion-item>
-                <p>{{answer.answer}}</p>
+<ion-content class="outer-content">
+    <ion-list>
+        <ion-item *ngFor="let category of inspectionQuestionSummaryCategory">
+            <ion-list-header *ngIf="category.title != ''">
+                {{category.title | uppercase}}
+            </ion-list-header>
+            <ion-list>
+                <div *ngFor="let recursive of category.answerSummary; let index = index">
+
+                    <ion-item *ngIf="recursive.isRecursive === true && recursive.recursiveAnswer.length > 0 ">
+                        <ion-list>
+                            <ion-item-divider>{{recursive.questionTitle}} {{index + 1}}</ion-item-divider>
+                            <ion-item *ngFor="let answer of recursive.recursiveAnswer">
+                                <span>{{answer.questionDescription}}</span>
+                                <p>{{answer.answer}}</p>
+                            </ion-item>
+                        </ion-list>
+                    </ion-item>
+
+                    <ion-item *ngIf="recursive.isRecursive === false">
+                        <div style="padding-left: 16px;">
+                            <span>{{recursive.questionDescription}}</span>
+                            <p>{{recursive.answer}}</p>
+                        </div>
+                    </ion-item>
+                </div>
             </ion-list>
-        </ion-list>
+        </ion-item>
     </ion-list>
-    <!--<div id="SurveySummary">
-        <ion-card>
-            <ion-card-title>Title</ion-card-title>
-            <ion-card-content>
-                <div class="report-line">
-                    <ion-toggle class="report-line-control" [checked]="true">Oui</ion-toggle>
-                    <ion-label class="report-line-text">Fonctionnel :</ion-label>
-                </div>
-                <div class="report-line">
-                    <ion-label class="report-line-text">Emplacement approprié :</ion-label>
-                    <ion-label class="report-line-control">Oui</ion-label>
-                </div>
-            </ion-card-content>
-        </ion-card>
-        <ion-item-group>
-            <ion-item-divider color="light">A</ion-item-divider>
-            <ion-item>Angola</ion-item>
-            <ion-item>Argentina</ion-item>
-        </ion-item-group>
-    </div>-->
 </ion-content>
