@@ -1,47 +1,26 @@
 <ion-menu [content]="buildingContent" [persistent]="true" id="buildingMenu">
+
   <ion-header>
-    <ion-toolbar>
-      <ion-title>Bâtiment</ion-title>
-    </ion-toolbar>
+    <menu-profile></menu-profile>
   </ion-header>
-  <ion-content>
-    <ion-list>
-      <button ion-item icon-start menuClose (click)="openPage(detailsPage)">
-        <ion-icon name="information-circle" small></ion-icon>
-        Détails du bâtiment
+
+  <ion-content color="caucaRed">
+    <ion-list class="menu-items">
+
+      <button ion-item menuClose class="text-menu" *ngFor="let menuItem of menuItems" (click)="openPage(menuItem.page)">
+        <ion-icon item-left [name]="menuItem.icon"></ion-icon>
+        <span ion-text>{{menuItem.title}}</span>
       </button>
-      <button ion-item icon-start menuClose (click)="openPage(contactsPage)">
-        <ion-icon name="contacts" small></ion-icon>
-        Contacts
-      </button>
-      <button ion-item icon-start menuClose (click)="openPage(pnapsPage)">
-        <ion-icon name="people" small></ion-icon>
-        PNAPS
-      </button>
-      <button ion-item icon-start menuClose (click)="openPage(hazardousMaterialPage)">
-        <ion-icon name="nuclear" small></ion-icon>
-        Matières dangereuses
-      </button>
-      <button ion-item icon-start menuClose (click)="openPage(fireProtectionPage)">
-        <ion-icon name="flame" small></ion-icon>
-        Protection incendie
-      </button>
-      <button ion-item icon-start menuClose (click)="openPage(particularRisksPage)">
-        <ion-icon name="flash" small></ion-icon>
-        Risques particuliers
-      </button>
-      <button ion-item icon-start menuClose (click)="openPage(anomaliesPage)">
-        <ion-icon name="warning" small></ion-icon>
-        Anomalies
-      </button>
-      <button ion-item icon-start (click)="goBackToInspection()">
+
+      <button ion-item icon-start class="text-menu" (click)="goBackToInspection()">
         <ion-icon name="undo" small></ion-icon>
-        Retourner à l'inspection
+        <span ion-text>Retourner à l'inspection</span>
       </button>
-      <button ion-item icon-start (click)="goBackToInspectionList()">
+      <button ion-item icon-start class="text-menu" (click)="goBackToInspectionList()">
         <ion-icon name="close-circle" small></ion-icon>
-        Sortir de l'inspection
+        <span ion-text>Sortir de l'inspection</span>
       </button>
+
     </ion-list>
   </ion-content>
 </ion-menu>

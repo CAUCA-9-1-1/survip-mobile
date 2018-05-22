@@ -3,6 +3,7 @@ import {App, IonicPage, MenuController, NavController, NavParams} from 'ionic-an
 import {normalizeAsyncValidator} from '@angular/forms/src/directives/normalize_validator';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {InterventionGeneralPage} from '../intervention-general/intervention-general';
+import {MenuItem} from '../../interfaces/menu-item.interface';
 
 @IonicPage()
 @Component({
@@ -17,13 +18,7 @@ export class BuildingMainPage {
   @ViewChild('buildingContent') childNavCtrl: NavController;
 
   public rootPage = 'BuildingDetailsPage';
-  public detailsPage = 'BuildingDetailsPage';
-  public contactsPage = 'BuildingContactsPage';
-  public pnapsPage = 'BuildingPnapsPage';
-  public hazardousMaterialPage = 'BuildingHazardousMaterialsPage';
-  public fireProtectionPage = 'BuildingFireProtectionPage';
-  public particularRisksPage = 'BuildingParticularRisksPage';
-  public anomaliesPage = 'BuildingAnomaliesPage';
+  public menuItems: MenuItem[];
 
   constructor(
     private app: App,
@@ -34,6 +29,17 @@ export class BuildingMainPage {
 
     this.idBuilding = navParams.get("idBuilding");
     this.name = navParams.get('name');
+    this.menuItems = [
+      { title: 'Détails du bâtiment', page:'BuildingDetailsPage', icon:'information-circle' },
+      { title: 'Contacts', page:'BuildingContactsPage', icon:'contacts' },
+      { title: 'PNAPS', page:'BuildingPnapsPage', icon:'people' },
+      { title: 'Matières dangereuses', page:'BuildingHazardousMaterialsPage', icon:'nuclear' },
+      { title: 'Protection incendie', page:'BuildingFireProtectionPage', icon:'flame' },
+      { title: 'Risques particuliers', page:'BuildingParticularRisksPage', icon:'flash' },
+      { title: 'Anomalies', page:'BuildingAnomaliesPage', icon:'warning' },
+    ];
+
+    console.log(this.menuItems);
   }
 
   ionViewDidLoad() {

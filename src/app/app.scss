@@ -47,7 +47,7 @@
 
 .text-menu {
   font-size: 1em;
-  color: color($colors, caucaRed);
+  color: color($colors, dark);
 }
 
 .user-profile {
@@ -82,6 +82,9 @@
     }
     .item-inner {
       border-color: rgba(86, 61, 124, .1);
+    }
+    .item-icon {
+      //color: color($colors, caucaRed);
     }
   }
 }
