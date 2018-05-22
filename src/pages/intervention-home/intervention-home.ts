@@ -1,14 +1,7 @@
 import {Component} from '@angular/core';
 import {IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
-import {InterventionGeneralPage} from '../intervention-general/intervention-general';
-import {InterventionWaterSuppliesPage} from '../intervention-water-supplies/intervention-water-supplies';
-import {InterventionBuildingsPage} from '../intervention-buildings/intervention-buildings';
-import {InterventionCoursePage} from '../intervention-course/intervention-course';
-import {InterventionFireProtectionPage} from '../repositories-fire-protection/repositories-fire-protection';
-import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
-import {InspectionQuestionPage} from "../inspection-question/inspection-question";
-import {InspectionsPage} from '../inspections/inspections';
 import {MenuItem} from '../../interfaces/menu-item.interface';
+import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 
 @IonicPage({
   segment: 'inspection/:id'

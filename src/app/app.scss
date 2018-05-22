@@ -88,3 +88,31 @@
     }
   }
 }
+
+.page-header {
+  .toolbar-background {
+    background-color: color($colors, caucaRed);
+    //background-image: linear-gradient(135deg, color($colors, dark), color($colors, caucaRed));
+  }
+  .searchbar {
+    background-color: gray;
+  }
+  .toolbar-title {
+    color: whitesmoke;
+  }
+}
+
+.list-items {
+  .item:first-child {
+    border: none;
+  }
+  .item:last-child {
+    border: none;
+  }
+  .item-divider {
+    background-color: #cbb677;
+
+
+  }
+
+}
