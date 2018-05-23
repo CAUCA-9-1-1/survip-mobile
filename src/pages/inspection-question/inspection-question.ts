@@ -81,7 +81,6 @@ export class InspectionQuestionPage {
             });
     }
 
-
     switchQuestion() {
         this.selectedIndex = this.slides.getActiveIndex();
         this.currentQuestion = this.inspectionQuestionAnswer[this.selectedIndex];
@@ -148,8 +147,8 @@ export class InspectionQuestionPage {
 
     completeInspectionQuestion(){
         this.controller.CompleteSurvey(this.inspectionController.idInspection)
-            .subscribe(result => {
-
+            .subscribe(success => {
+                    this.inspectionController.inspectionDetail.isSurveyCompleted = true;
                     this.messageTools.showToast('Le questionnaire est terminé, redirection vers le résumé du questionnaire.', 3);
                     setTimeout(() => {
                         this.navCtrl.push('InspectionQuestionSummaryPage');
@@ -161,6 +160,7 @@ export class InspectionQuestionPage {
                 })
             ;
     }
+
     previousQuestion() {
         this.slides.lockSwipes(false);
         this.slides.slideTo(this.selectedIndex - 1);
