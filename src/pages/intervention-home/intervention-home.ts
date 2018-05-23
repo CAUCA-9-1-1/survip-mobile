@@ -37,29 +37,23 @@ export class InterventionHomePage {
     this.menuCtrl.enable(false, 'buildingMenu');
   }
 
-  closeMenu() {
-    this.menuCtrl.close();
-  }
-
   openPage(page) {
     this.rootPage = page;
   }
 
-    goToInspectionQuestions() {
-	if (this.controller.inspectionDetail.isSurveyCompleted)
-	{
-	    this.navCtrl.push('InspectionQuestionSummaryPage', {idInspection: this.controller.idInspection});
-	}
-	else
-	{
-		this.navCtrl.push('InspectionQuestionPage', {
-	        idInspection: this.controller.idInspection,
-	        inspectionSurveyCompleted: this.controller.inspectionDetail.isSurveyCompleted
-	    });
-	}
-}
+  goToInspectionQuestions() {
+    if (this.controller.inspectionDetail.isSurveyCompleted) {
+      this.navCtrl.push('InspectionQuestionSummaryPage', {idInspection: this.controller.idInspection});
+    }
+    else {
+      this.navCtrl.push('InspectionQuestionPage', {
+        idInspection: this.controller.idInspection,
+        inspectionSurveyCompleted: this.controller.inspectionDetail.isSurveyCompleted
+      });
+    }
+  }
 
-  async goBackToInspectionList(){
+  public async goBackToInspectionList(){
     await this.navCtrl.popToRoot();
     await this.navCtrl.setRoot('InspectionListPage');
   }
