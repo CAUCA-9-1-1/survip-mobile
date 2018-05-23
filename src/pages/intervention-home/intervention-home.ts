@@ -43,13 +43,10 @@ export class InterventionHomePage {
 
   goToInspectionQuestions() {
     if (this.controller.inspectionDetail.isSurveyCompleted) {
-      this.navCtrl.push('InspectionQuestionSummaryPage', {idInspection: this.controller.idInspection});
+      this.rootPage = 'InspectionQuestionSummaryPage';
     }
     else {
-      this.navCtrl.push('InspectionQuestionPage', {
-        idInspection: this.controller.idInspection,
-        inspectionSurveyCompleted: this.controller.inspectionDetail.isSurveyCompleted
-      });
+        this.rootPage = 'InspectionQuestionPage';
     }
   }
 
