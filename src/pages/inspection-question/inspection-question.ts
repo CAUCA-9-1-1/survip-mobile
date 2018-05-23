@@ -1,9 +1,10 @@
 import {Component, ViewChild} from '@angular/core';
-import {IonicPage, NavController, NavParams, Slides} from 'ionic-angular';
+import {App, IonicPage, NavController, NavParams, Slides} from 'ionic-angular';
 import {InspectionQuestion} from "../../models/inspection-question";
 import {InspectionQuestionRepositoryProvider} from "../../providers/repositories/inspection-question-repository-provider";
 import {AuthenticationService} from "../../providers/Base/authentification.service";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
+import {InspectionControllerProvider} from "../../providers/inspection-controller/inspection-controller";
 
 @IonicPage()
 @Component({
@@ -15,8 +16,6 @@ export class InspectionQuestionPage {
 
     public inspectionQuestionAnswer: InspectionQuestion[] = [];
     public inspectionQuestion: InspectionQuestion[] = [];
-    public idInspection: string = '';
-    public inspectionSurveyCompleted: boolean = false;
     public selectedIndex = 0;
     public currentQuestion: InspectionQuestion = new InspectionQuestion();
     public previousQuestionAvailable = false;
@@ -26,15 +25,15 @@ export class InspectionQuestionPage {
     public nextQuestionId: string = '';
     public reviewOnly = false;
     public changingValueTimer = null;
+    private app: App;
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 public controller: InspectionQuestionRepositoryProvider,
+                public inspectionController: InspectionControllerProvider,
                 private authService: AuthenticationService,
                 private messageTools: MessageToolsProvider,
     ) {
-        this.idInspection = this.navParams.get('idInspection');
-        this.inspectionSurveyCompleted = this.navParams.get('inspectionSurveyCompleted')
         this.loadInspectionQuestion();
     }
 
@@ -53,24 +52,24 @@ export class InspectionQuestionPage {
     }
 
     loadInspectionQuestion() {
-        this.controller.getQuestionList(this.idInspection)
+        this.controller.getQuestionList(this.inspectionController.idInspection)
             .subscribe(result => {
                     this.inspectionQuestion = result;
                     this.loadInspectionAnswer();
                 },
                 error => {
                     this.messageTools.showToast('Une erreur est survenue lors du chargement du questionnaire veuillez réessayer ultérieurement.', 5);
-                    this.navCtrl.pop();
+                    this.app.getRootNav().push('InterventionHomePage', {id: this.inspectionController.idInspection, page: 'InterventionBuildingsPage'});
                 });
     }
 
     loadInspectionAnswer() {
-        this.controller.getAnswerList(this.idInspection)
+        this.controller.getAnswerList(this.inspectionController.idInspection)
             .subscribe(answerResult => {
                 this.inspectionQuestionAnswer = answerResult;
 
                 if(this.inspectionQuestionAnswer.length > 0) {
-                    if(!this.inspectionSurveyCompleted){
+                    if(!this.inspectionController.inspectionDetail.isSurveyCompleted){
                         this.selectedIndex = this.inspectionQuestionAnswer.length - 1;
                     }
                 }else{
@@ -148,12 +147,12 @@ export class InspectionQuestionPage {
     }
 
     completeInspectionQuestion(){
-        this.controller.CompleteSurvey(this.idInspection)
+        this.controller.CompleteSurvey(this.inspectionController.idInspection)
             .subscribe(result => {
 
                     this.messageTools.showToast('Le questionnaire est terminé, redirection vers le résumé du questionnaire.', 3);
                     setTimeout(() => {
-                        this.navCtrl.push('InspectionQuestionSummaryPage', {idInspection: this.idInspection});
+                        this.navCtrl.push('InspectionQuestionSummaryPage');
                     }, 3000);
 
                 },
