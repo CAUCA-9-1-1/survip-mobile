@@ -24,7 +24,7 @@
   <ion-list class="list-items">
     <ion-item-divider>Direction</ion-item-divider>
     <ion-item>
-      <ion-select class="selected-direction" formControlName="direction">
+      <ion-select class="selected-direction" formControlName="direction" placeholder="Direction">
         <ion-option *ngFor="let dir of directions" [value]="dir.id">{{dir.description | uppercase}}</ion-option>
       </ion-select>
     </ion-item>
