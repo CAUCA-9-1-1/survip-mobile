@@ -152,5 +152,6 @@
   .segment-button.segment-activated{
     background-color: color($colors, caucaGold);
     color: black;
+    border-color: color($colors, caucaGold);
   }
 }
