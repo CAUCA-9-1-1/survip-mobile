@@ -1,3 +1,120 @@
 page-login {
+  .text-primary {
+    color: color($colors, caucaRed);
+  }
 
+  // style for auth pages
+  .auth-page {
+    background-color: #fff;
+    &::after {
+      content: "";
+      background: url("../assets/img/bg.jpg") no-repeat;
+      background-size: cover;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      position: absolute;
+      z-index: 0;
+    }
+
+    .scroll-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      //background: rgba(50, 10, 92, .4);
+
+      .login-content {
+        width: 86%;
+
+        .logo {
+          width: 150px;
+          height: 150px;
+          margin: 20px auto 0;
+          border-radius: 10%;
+          background: url("../assets/img/logocauca-vertical.png") no-repeat;
+          background-size: 100%;
+        }
+
+        .list-form {
+
+          padding: 0;
+          margin-bottom: 0;
+
+          ion-item {
+            background: none;
+            padding: 0;
+
+            &:first-child {
+              border-top: none;
+            }
+
+            &:after {
+              display: none;
+            }
+
+            ion-label {
+              font-size: 1em;
+              color: color($colors, caucaRed);
+            }
+
+            input {
+              color: color($colors, dark);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Animate CSS
+  .animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+  }
+
+  .animated.infinite {
+    animation-iteration-count: infinite;
+  }
+
+  .animated.hinge {
+    animation-duration: 2s;
+  }
+
+  .animated.flipOutX,
+  .animated.flipOutY,
+  .animated.bounceIn,
+  .animated.bounceOut {
+    animation-duration: .75s;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  .fadeIn {
+    animation-name: fadeIn;
+  }
+
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translate3d(0, -100%, 0);
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .fadeInDown {
+    animation-name: fadeInDown;
+  }
 }

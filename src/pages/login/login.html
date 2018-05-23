@@ -1,34 +1,39 @@
-<!--
-  Generated template for the LoginPage page.
+<ion-content padding class="animated fadeIn login auth-page">
+  <div class="login-content">
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<ion-header>
+    <div padding-horizontal text-center class="animated fadeInDown">
+      <div class="logo"></div>
+      <h2 ion-text class="text-primary">
+        <strong>SURVI</strong> Prévention
+      </h2>
+    </div>
 
-  <ion-navbar>
-    <ion-title>SURVI-Prévention</ion-title>
-  </ion-navbar>
+    <form class="list-form">
+      <ion-item>
+        <ion-label floating>
+          <ion-icon name="contact" item-start></ion-icon>
+          Nom d'usager
+        </ion-label>
+        <ion-input type="email" [(ngModel)]="userName" [ngModelOptions]="{standalone: true}" ></ion-input>
+      </ion-item>
 
-  <ion-list>
-    <ion-list-header>Entrez vos informations de connexion</ion-list-header>
-    <ion-item>
-      <ion-label>Username</ion-label>
-      <ion-input type="text" [(ngModel)]="userName"></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label floating>
+          <ion-icon name="lock" item-start></ion-icon>
+          Mot de passe
+        </ion-label>
+        <ion-input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" (keypress)="onKeyPress($event.keyCode)"></ion-input>
+      </ion-item>
+    </form>
 
-    <ion-item>
-      <ion-label>Password</ion-label>
-      <ion-input type="password" [(ngModel)]="password" (keypress)="onKeyPress($event.keyCode)"></ion-input>
-    </ion-item>
+    <div>
+      <button ion-button icon-start block color="caucaRed" tappable (click)="onLogin()">
+        <ion-icon name="log-in"></ion-icon>
+        CONNEXION
+      </button>
+    </div>
 
-  </ion-list>
-  <div padding>
-      <button ion-button block type="button" (click)="onLogin()">Connexion</button>
   </div>
-</ion-header>
-
-
-<ion-content padding>
 
 </ion-content>
+

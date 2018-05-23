@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="page-header">
 
   <ion-navbar>
     <ion-title>Détails du parcours</ion-title>
@@ -8,8 +8,8 @@
 
 <ion-content>
 
-  <ion-list [formGroup]="form">
-    <ion-list-header>Caserne</ion-list-header>
+  <ion-list [formGroup]="form" class="list-items">
+    <ion-item-divider>Caserne</ion-item-divider>
     <ion-item [class.validation-error-control]="form.get('idFirestation').hasError('required')">
       <ion-select class="select-firestation" placeholder="Choisissez une caserne" formControlName="idFirestation">
         <ion-option *ngFor="let fire of firestations | orderBy:'name'" [value]="fire.id">{{fire.name}}</ion-option>
@@ -18,11 +18,11 @@
     <div *ngIf="form.get('idFirestation').hasError('required')" class="validation-error-text">*La caserne est requise.</div>
   </ion-list>
 
-  <ion-list>
-    <ion-list-header>
+  <ion-list class="list-items">
+    <ion-item-divider>
       Parcours
-      <button item-end ion-button (click)="onChangeOrder()">{{changeOrder ? "Terminer" : "Changer l'ordre"}}</button>
-    </ion-list-header>
+      <button item-end ion-button (click)="onChangeOrder()" color="caucaRed">{{changeOrder ? "Terminer" : "Changer l'ordre"}}</button>
+    </ion-item-divider>
     <ion-item-group [reorder]="changeOrder" (ionItemReorder)="onReorderLane($event)" side="start">
       <button ion-item *ngFor="let lane of courseLanes | orderBy:'sequence'" (click)="onClickLane(lane.id)">{{lane.description}}</button>
     </ion-item-group>
@@ -30,12 +30,12 @@
 
 </ion-content>
 
-<ion-footer>
+<ion-footer class="page-footer">
   <ion-toolbar>
     <ion-buttons>
       <button ion-button icon-start type="button" (click)="onClickLane(null)">
         <ion-icon name="add-circle"></ion-icon>
-        Ajouter une voie...
+        Ajout d'une voie...
       </button>
       <button ion-button icon-start type="button" (click)="onDeleteCourse()" *ngIf="form.valid">
         <ion-icon name="trash"></ion-icon>

@@ -1,11 +1,11 @@
-<ion-header>
+<ion-header class="page-header">
   <ion-navbar>
     <ion-title>Liste des bornes fontaine</ion-title>
   </ion-navbar>
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
 </ion-header>
 <ion-content>
-  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
-  <ion-list>
+  <ion-list class="list-items">
     <ion-list-header>
       Bornes
     </ion-list-header>

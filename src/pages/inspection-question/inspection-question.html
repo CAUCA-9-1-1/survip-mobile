@@ -1,10 +1,9 @@
-<ion-header>
-
+<ion-header class="page-header">
   <ion-navbar>
     <ion-title>Questionnaire</ion-title>
   </ion-navbar>
-
 </ion-header>
+
 <ion-content padding>
   <ion-slides>
     <ion-slide *ngFor="let choice of inspectionQuestionAnswer">
@@ -23,7 +22,8 @@
     </ion-slide>
   </ion-slides>
 </ion-content>
-<ion-footer>
+
+<ion-footer class="page-footer">
   <ion-toolbar>
     <ion-buttons>
     <button ion-button icon-start type="button" style="float: left;" (click)="previousQuestion()" *ngIf="previousQuestionAvailable">

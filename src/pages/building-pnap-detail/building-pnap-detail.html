@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="page-header">
   <ion-navbar>
     <ion-buttons left>
       <button ion-button  icon-only (click)="onCancelEdition()">
@@ -11,10 +11,10 @@
 
 <ion-content>
 
-  <ion-list [formGroup]="form">
+  <ion-list [formGroup]="form" class="list-items">
 
     <ion-item-group>
-      <ion-list-header color="light">Informations générales</ion-list-header>
+      <ion-item-divider>Informations générales</ion-item-divider>
       <ion-item [class.invalid]="!form.controls.idPersonRequiringAssistanceType.valid">
         <ion-label>Type</ion-label>
         <ion-select formControlName="idPersonRequiringAssistanceType">
@@ -37,7 +37,7 @@
     </ion-item-group>
 
     <ion-item-group>
-      <ion-list-header color="light">Contact</ion-list-header>
+      <ion-item-divider>Contact</ion-item-divider>
       <ion-item>
         <ion-label>Nom</ion-label>
         <ion-input formControlName="contactName" maxlength="60" type="text" placeholder="Nom du contact"></ion-input>
@@ -49,7 +49,7 @@
     </ion-item-group>
 
     <ion-item-group>
-      <ion-list-header color="light">Résidents de jour</ion-list-header>
+      <ion-item-divider>Résidents de jour</ion-item-divider>
       <ion-item [class.invalid]="!form.controls.dayResidentCount.valid">
         <ion-label>Nombre</ion-label>
         <ion-input type="tel" [pattern]="integerPattern" formControlName="dayResidentCount" placeholder="Nombre"></ion-input>
@@ -62,7 +62,7 @@
     </ion-item-group>
 
     <ion-item-group>
-      <ion-list-header color="light">Résidents de soir</ion-list-header>
+      <ion-item-divider>Résidents de soir</ion-item-divider>
       <ion-item [class.invalid]="!form.controls.eveningResidentCount.valid">
         <ion-label>Nombre</ion-label>
         <ion-input type="tel" [pattern]="integerPattern" formControlName="eveningResidentCount" placeholder="Nombre"></ion-input>
@@ -75,7 +75,7 @@
     </ion-item-group>
 
     <ion-item-group>
-      <ion-list-header color="light">Résidents de soir</ion-list-header>
+      <ion-item-divider>Résidents de soir</ion-item-divider>
       <ion-item [class.invalid]="!form.controls.nightResidentCount.valid">
         <ion-label>Nombre</ion-label>
         <ion-input type="tel" [pattern]="integerPattern" formControlName="nightResidentCount" placeholder="Nombre"></ion-input>
@@ -88,13 +88,13 @@
     </ion-item-group>
 
     <ion-item-group>
-      <ion-list-header color="light">Description</ion-list-header>
+      <ion-item-divider>Description</ion-item-divider>
       <ion-textarea maxlength="500" formControlName="description"></ion-textarea>
     </ion-item-group>
   </ion-list>
 </ion-content>
 
-<ion-footer>
+<ion-footer class="page-footer">
   <ion-navbar *ngIf="!isNew">
     <ion-buttons left>
       <button ion-button  icon-start (click)="onDeletePnap()">

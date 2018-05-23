@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="page-header">
 
   <ion-navbar>
     <ion-buttons left>
@@ -13,7 +13,7 @@
 
 
 <ion-content>
-  <ion-list [formGroup]="form">
+  <ion-list [formGroup]="form" class="list-items">
     <ion-item-group>
       <ion-item-divider>Informations générales</ion-item-divider>
       <ion-item [class.invalid]="!form.controls.firstName.valid">
@@ -84,7 +84,7 @@
   </ion-list>
 </ion-content>
 
-<ion-footer>
+<ion-footer class="page-footer">
 
   <ion-navbar *ngIf="!isNew">
     <ion-buttons left>

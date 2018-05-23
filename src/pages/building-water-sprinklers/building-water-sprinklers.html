@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="page-header">
   <ion-navbar>
     <ion-buttons left>
       <button ion-button  icon-only (click)="onCancelEdition()">
@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-list [formGroup]="form">
+  <ion-list [formGroup]="form" class="list-items">
 
     <ion-item  [class.invalid]="!form.controls.idSprinklerType.valid">
       <ion-label>Type</ion-label>
@@ -21,7 +21,7 @@
     <div *ngIf="!form.controls.idSprinklerType.valid" class="validation-error-text">*Le type est requis.</div>
 
     <ion-item-group>
-      <ion-list-header color="light">Localisation</ion-list-header>
+      <ion-item-divider>Localisation</ion-item-divider>
       <ion-item>
         <ion-label>Étage</ion-label>
         <ion-input type="text" maxlength="3" placeholder="Étage" formControlName="floor"></ion-input>
@@ -57,7 +57,7 @@
   </ion-list>
 </ion-content>
 
-<ion-footer>
+<ion-footer class="page-footer">
   <ion-navbar *ngIf="!isNew">
     <ion-buttons left>
       <button ion-button  icon-start (click)="onDeleteSprinkler()">

@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="page-header">
   <ion-navbar>
     <ion-icon name="menu" menuToggle left></ion-icon>
     <ion-title>
@@ -9,14 +9,16 @@
 
 <ion-content>
 
-  <ion-list-header>Risques particuliers</ion-list-header>
+  <div class="risk-header">
+    <ion-list-header>Risques particuliers</ion-list-header>
 
-  <ion-segment [(ngModel)]="currentSegment" class="segmentRisk">
-    <ion-segment-button value="foundation">Fondation</ion-segment-button>
-    <ion-segment-button value="floor">Plancher</ion-segment-button>
-    <ion-segment-button value="wall">Murs</ion-segment-button>
-    <ion-segment-button value="roof">Toit</ion-segment-button>
-  </ion-segment>
+    <ion-segment [(ngModel)]="currentSegment" class="segmentRisk">
+      <ion-segment-button value="foundation">Fondation</ion-segment-button>
+      <ion-segment-button value="floor">Plancher</ion-segment-button>
+      <ion-segment-button value="wall">Murs</ion-segment-button>
+      <ion-segment-button value="roof">Toit</ion-segment-button>
+    </ion-segment>
+  </div>
 
   <inspection-building-particular-risk-detail *ngIf="currentSegment=='foundation'" [idBuilding]="idBuilding" riskType="foundation">
   </inspection-building-particular-risk-detail>

@@ -1,5 +1,5 @@
 
-<ion-header>
+<ion-header class="page-header">
   <ion-navbar>
     <ion-icon name="menu" menuToggle left></ion-icon>
     <ion-title>
@@ -10,18 +10,19 @@
 
 
 <ion-content>
-  <ion-list>
+  <ion-list class="list-items">
     <ion-list-header>
       Matières dangereuses du bâtiment
     </ion-list-header>
     <button ion-item icon-start *ngFor="let mat of hazardousMaterials | orderBy:'hazardousMaterialName'" (click)="onItemClick(mat.id)">
+      <ion-icon name="nuclear" item-start></ion-icon>
       <h2>{{mat.hazardousMaterialName}}</h2>
       <p>{{mat.quantityDescription}}</p>
     </button>
   </ion-list>
 </ion-content>
 
-<ion-footer>
+<ion-footer class="page-footer">
   <ion-toolbar>
     <ion-buttons>
       <button ion-button icon-start full type="button" (click)="onItemClick(null)">

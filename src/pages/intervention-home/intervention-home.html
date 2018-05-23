@@ -1,38 +1,39 @@
 <ion-menu [content]="mycontent" [persistent]="true" id="inspectionMenu">
   <ion-header>
-    <ion-toolbar>
-      <ion-title>Plan d'intervention</ion-title>
-    </ion-toolbar>
+    <menu-profile></menu-profile>
   </ion-header>
-  <ion-content>
-    <ion-list>
-      <button ion-item menuClose (click)="openPage(generalPage)">
-        Infos générales
+
+  <ion-content color="caucaRed">
+    <ion-list class="menu-items">
+      <button ion-item menuClose class="text-menu" *ngFor="let menuItem of menuItems" (click)="openPage(menuItem.page)">
+        <ion-icon item-left [name]="menuItem.icon"></ion-icon>
+        <span ion-text>{{menuItem.title}}</span>
       </button>
-      <button ion-item icon-start menuClose (click)="openPage(buildingsPage)">
-        <ion-icon name="home"></ion-icon>
-        Bâtiments
+
+      <button ion-item menuClose class="text-menu" (click)="goToInspectionQuestions()">
+        <ion-icon item-left name="list-box"></ion-icon>
+        <span ion-text>Questionnaire</span>
       </button>
-      <button ion-item icon-start menuClose (click)="openPage(implantationPlanPage)">
-        <ion-icon name="map"></ion-icon>
-        Plan d'implantation
-      </button>
-      <button ion-item menuClose (click)="openPage(coursePage)">
-        Parcours
-      </button>
-      <button ion-item icon-start menuClose (click)="openPage(waterSuppliesPage)">
-        Alimentation en eau
-      </button>
-      <button ion-item icon-start menuClose (click)="goToInspectionQuestions()">
-        <ion-icon name="list-box"></ion-icon>
-        Questionnaire
-      </button>
-      <button ion-item (click)="goBackToInspectionList()">
-        <ion-icon name="close-circle"></ion-icon>
-        Sortir de l'inspection
-      </button>
+
     </ion-list>
   </ion-content>
+
+  <ion-footer>
+    <ion-toolbar class="user-profile">
+      <ion-grid>
+        <ion-row no-padding class="other-data">
+          <ion-col no-padding class="column">
+            <button ion-button icon-left small full color="light" menuClose (click)="goBackToInspectionList()">
+              <ion-icon name="close-circle"></ion-icon>
+              Sortir de l'inspection
+            </button>
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
+    </ion-toolbar>
+
+  </ion-footer>
 </ion-menu>
 
 <ion-nav #mycontent [root]="rootPage"></ion-nav>

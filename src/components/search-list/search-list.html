@@ -1,23 +1,23 @@
-<ion-header>
+<ion-header class="page-header">
   <ion-navbar>
-    <button ion-button icon-left small (click)="onCancelSelection()">
+    <button ion-button icon-left small (click)="onCancelSelection()" color="caucaGold">
       <ion-icon name="arrow-back"></ion-icon>Annuler
     </button>
     <ion-title>
       Recherche
     </ion-title>
   </ion-navbar>
+  <ion-searchbar [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()"></ion-searchbar>
 </ion-header>
 
 <ion-content>
 
-  <ion-searchbar [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()"></ion-searchbar>
 
   <div *ngIf="searching" class="spinner-container">
     <ion-spinner></ion-spinner>
   </div>
 
-  <ion-list>
+  <ion-list class="list-items">
     <button ion-item *ngFor="let item of items" (click)="onSelectItem(item[keyFieldName])">
       {{item[displayFieldName]}}
     </button>

@@ -1,21 +1,22 @@
-<ion-header>
+<ion-header class="page-header">
   <ion-navbar>
     <ion-icon name="menu" menuToggle left></ion-icon>
     <ion-title>
-      Anomalies du bâtiment
+      {{name}}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content>
-  <ion-list>
+  <ion-list class="list-items">
+    <ion-list-header>Anomalies du bâtiment</ion-list-header>
     <ion-item-group *ngFor="let theme of themes | orderBy:'theme'">
 
-      <ion-list-header color="light">
+      <ion-item-divider>
         {{theme.theme}}
-        <button ion-button item-end (click)="onAddAnomalyForTheme(theme.theme)">Ajouter</button>
-      </ion-list-header>
+        <button ion-button item-end (click)="onAddAnomalyForTheme(theme.theme)" color="caucaRed">Ajouter</button>
+      </ion-item-divider>
 
       <button ion-item *ngFor="let anomaly of theme.anomalies | orderBy:'notes'" (click)="onItemClick(anomaly.id)">
         {{anomaly.notes}}
@@ -26,7 +27,7 @@
 </ion-content>
 
 
-<ion-footer>
+<ion-footer class="page-footer">
   <ion-toolbar>
     <ion-buttons>
       <button ion-button icon-start full type="button" (click)="onAddNewAnomaly()">

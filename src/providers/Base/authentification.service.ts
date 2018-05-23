@@ -41,6 +41,8 @@ export class AuthenticationService {
     this.loading.dismiss();
 
     if (result.data && result.data.accessToken) {
+      localStorage.setItem('firstName', result.data.firstName);
+      localStorage.setItem('lastName', result.data.lastName);
       localStorage.setItem('currentToken', result.data.accessToken);
       return result.data;
     }

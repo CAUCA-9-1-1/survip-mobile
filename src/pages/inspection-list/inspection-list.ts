@@ -31,7 +31,7 @@ export class InspectionListPage {
     loading.present();
     riskLevelService.getAll()
       .subscribe(risks => {
-        this.riskLevels = risks
+        this.riskLevels = risks;
         inspectionService.getAll()
           .subscribe(batches => {
             this.batches = batches;
@@ -42,6 +42,15 @@ export class InspectionListPage {
   }
 
   ionViewDidLoad() {
+  }
+
+  public refreshList(refresher){
+    this.inspectionService.getAll()
+      .subscribe(batches => {
+        this.batches = batches;
+        this.filterList();
+        refresher.complete();
+      });
   }
 
   async ionViewCanEnter() {
