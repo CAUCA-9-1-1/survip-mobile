@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {AuthenticationService} from "../../providers/Base/authentification.service";
+import {NavController} from "ionic-angular";
 
 @Component({
   selector: 'menu-profile',
@@ -8,7 +10,13 @@ export class MenuProfileComponent {
 
   public fullName: string = '';
 
-  constructor() {
+  constructor(private authentificationController : AuthenticationService, private navCtrl: NavController) {
     this.fullName = localStorage.getItem('firstName') + ' ' + localStorage.getItem('lastName');
+  }
+
+  sessionLogout()
+  {
+      this.authentificationController.logout();
+      this.navCtrl.setRoot('LoginPage');
   }
 }
