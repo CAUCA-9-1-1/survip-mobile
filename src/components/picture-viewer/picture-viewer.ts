@@ -1,7 +1,6 @@
 import {Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
-import {PhotoViewer} from '@ionic-native/photo-viewer';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Platform} from 'ionic-angular';
 import {WindowRefService} from '../../providers/Base/window-ref.service';
@@ -46,7 +45,6 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
 
   constructor(
     private camera: Camera,
-    private photoViewer: PhotoViewer,
     private sanitizer: DomSanitizer,
     private platform: Platform,
     private windowRef: WindowRefService)
@@ -104,16 +102,6 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
     let options = this.options;
     options.sourceType = this.camera.PictureSourceType.CAMERA;
     this.getPicture(options);
-  }
-
-  onClickPicture(): void {
-    /*try {*/
-      this.photoViewer.show('data:image/jpeg;base64,' + this.imageData, 'Plan d\'implantation'); // this is so not working.
-    /*}
-    catch(error)
-    {
-      alert(JSON.stringify(error));
-    }*/
   }
 
   private popFileSelector(): void {

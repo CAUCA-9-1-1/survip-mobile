@@ -6,7 +6,7 @@ import {Loading, LoadingController} from 'ionic-angular';
 
 @Injectable()
 export class HttpService {
-  private apiUrl = 'http://localhost:5555/api/';
+  private apiUrl = 'http://10.10.33.101:5555/api/';
 
   constructor(private client: HttpClient,) {
   }
