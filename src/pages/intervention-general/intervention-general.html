@@ -19,11 +19,6 @@
       </ion-list-header>
 
       <ion-item>
-        <ion-label fixed># Plan</ion-label>
-        <ion-input type="text" disabled value="{{plan?.planNumber}}"></ion-input>
-      </ion-item>
-
-      <ion-item>
         <ion-label fixed>Risque</ion-label>
         <ion-input type="text" disabled value="{{riskLevel?.name}}"></ion-input>
       </ion-item>
@@ -55,5 +50,18 @@
           [keyFieldName]="'id'"
           [dataService]="laneService"></search-box>
     </ion-list>
+
+    <ion-card >
+      <ion-card-header>{{statusText}}</ion-card-header>
+      <ion-label *ngIf="plan?.approbationRefusalReason">Raison :{{plan.approbationRefusalReason}}</ion-label>
+        <button ion-button block color="caucaRed" class="large-button" (click)="startInspection()">Démarrer</button>
+        <div class="inline-button">
+          <button ion-button color="caucaRed" (click)="refuseVisit()">Refus de visite</button>
+          <button ion-button color="caucaRed" (click)="absentVisit()">Absence</button>
+        </div>
+
+        <button *ngIf="isStarted" ion-button block color="caucaRed" class="large-button">Compléter</button>
+
+    </ion-card>
   </form>
 </ion-content>
