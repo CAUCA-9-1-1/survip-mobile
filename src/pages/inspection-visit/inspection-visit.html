@@ -41,7 +41,7 @@
             <ion-item-divider>Nouvelle date</ion-item-divider>
             <ion-item>
                 <ion-label>Date :</ion-label>
-                <ion-datetime displayFormat="YYYY/MM/DD" placeholder="Date" [(ngModel)]=requestedDateOfVisit></ion-datetime>
+                <ion-datetime displayFormat="YYYY/MM/DD" placeholder="Date" [(ngModel)]=requestedDateOfVisit [pickerOptions]="customOptions"></ion-datetime>
             </ion-item>
         </ion-item-group>
     </ion-list>
