@@ -80,7 +80,7 @@ export function httpServiceFactory(
     CommonModule,
     IonicModule.forRoot(MyApp),
     BrowserModule,
-    ComponentsModule,
+    ComponentsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

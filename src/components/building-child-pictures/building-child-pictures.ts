@@ -4,7 +4,6 @@ import {UUID} from 'angular2-uuid';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {WindowRefService} from '../../providers/Base/window-ref.service';
 import {Platform, Slides} from 'ionic-angular';
-import {PhotoViewer} from '@ionic-native/photo-viewer';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MessageToolsProvider} from '../../providers/message-tools/message-tools';
 import {InspectionBuildingChildPictureForWeb} from '../../models/inspection-building-child-picture-for-web';
@@ -60,7 +59,6 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
   constructor(
     private msg: MessageToolsProvider,
     private camera: Camera,
-    private photoViewer: PhotoViewer,
     private sanitizer: DomSanitizer,
     private platform: Platform,
     private windowRef: WindowRefService) {
@@ -143,10 +141,6 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
     let options = this.options;
     options.sourceType = this.camera.PictureSourceType.CAMERA;
     this.getPicture(options);
-  }
-
-  onClickPicture(pic: string): void {
-    this.photoViewer.show('data:image/jpeg;base64,' + pic, 'Plan d\'implantation'); // this is so not working.
   }
 
   private popFileSelector(): void {

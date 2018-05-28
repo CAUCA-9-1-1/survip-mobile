@@ -19,7 +19,7 @@
           <button ion-button icon-only small outline class="deleteIcon" (click)="onDeletePhotos(id)" color="caucaRed">
             <ion-icon name="trash" class="deleteIcon" (click)="onDeletePhotos(id)"></ion-icon>
           </button>
-          <img class="selected-picture" [src]="getImageUrl(picture.pictureData)" (click)="onClickPicture(picture.pictureData)" *ngIf="hasImageUrl(picture.pictureData)">
+          <img class="selected-picture" [src]="getImageUrl(picture.pictureData)" *ngIf="hasImageUrl(picture.pictureData)" imageViewer />
         </ion-card>
       </ion-slide>
     </ion-slides>
