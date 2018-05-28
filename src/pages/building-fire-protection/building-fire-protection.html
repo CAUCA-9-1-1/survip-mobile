@@ -8,8 +8,14 @@
     </ion-title>
   </ion-navbar>
 
-  <ion-toolbar>
-    <ion-segment [(ngModel)]="currentSegment" class="segment-themed">
+</ion-header>
+
+<ion-content>
+
+  <div class="fire-protection-header">
+    <ion-list-header>Protection incendie</ion-list-header>
+
+    <ion-segment [(ngModel)]="currentSegment" class="segment-themed segment-fire-protection">
       <ion-segment-button value="panel" class="segment-fire">
         Panneaux d'alarme
       </ion-segment-button>
@@ -18,11 +24,8 @@
         Gicleurs
       </ion-segment-button>
     </ion-segment>
-  </ion-toolbar>
+  </div>
 
-</ion-header>
-
-<ion-content>
   <ion-list class="list-items">
     <ion-item-group *ngIf="currentSegment=='panel'">
       <button ion-item icon-start *ngFor="let panel of panels" (click)="onPanelClick(panel.id)">
