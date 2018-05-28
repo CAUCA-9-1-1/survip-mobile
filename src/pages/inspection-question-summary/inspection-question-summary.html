@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="page-header">
 
     <ion-navbar>
         <ion-title>Synthèse du questionnaire</ion-title>
@@ -6,32 +6,31 @@
 
 </ion-header>
 <ion-content class="outer-content">
-    <ion-list style="padding-bottom: 5px;">
-        <ion-item *ngFor="let category of inspectionQuestionSummaryCategory">
+    <div class="list-items" style="padding-bottom: 5px;">
+        <div *ngFor="let category of inspectionQuestionSummaryCategory">
             <ion-list-header *ngIf="category.title != ''">
                 {{category.title | uppercase}}
             </ion-list-header>
             <ion-list>
                 <div *ngFor="let recursive of category.answerSummary; let index = index">
-
-                    <ion-item *ngIf="recursive.isRecursive === true && recursive.recursiveAnswer.length > 0 ">
+                    <div class="recursive-item" *ngIf="recursive.isRecursive === true && recursive.recursiveAnswer.length > 0 ">
+                        <h6>{{recursive.questionTitle}} {{index + 1}}</h6>
                         <ion-list>
-                            <ion-item-divider>{{recursive.questionTitle}} {{index + 1}}</ion-item-divider>
                             <ion-item *ngFor="let answer of recursive.recursiveAnswer">
                                 <span>{{answer.questionDescription}}</span>
                                 <p>{{answer.answer}}</p>
                             </ion-item>
                         </ion-list>
-                    </ion-item>
+                    </div>
 
                     <ion-item *ngIf="recursive.isRecursive === false">
-                        <div style="padding-left: 16px;">
+                        <div class="recursive-item">
                             <span>{{recursive.questionDescription}}</span>
                             <p>{{recursive.answer}}</p>
                         </div>
                     </ion-item>
                 </div>
             </ion-list>
-        </ion-item>
-    </ion-list>
+        </div>
+    </div>
 </ion-content>
