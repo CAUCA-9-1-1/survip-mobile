@@ -15,7 +15,7 @@ export class HazardousMaterialRepositoryProvider {
       .pipe(map(response => response));
   }
 
-  public getName(idHazardousMaterial: string): Promise<any>{
+  public getSelectedMaterial(idHazardousMaterial: string): Promise<HazardousMaterialForList>{
     return this.http.get("hazardousMaterial/" + idHazardousMaterial + "/name")
       .pipe(map(response => response))
       .toPromise();

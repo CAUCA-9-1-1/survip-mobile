@@ -16,7 +16,7 @@
     </ion-list-header>
     <button ion-item icon-start *ngFor="let mat of hazardousMaterials | orderBy:'hazardousMaterialName'" (click)="onItemClick(mat.id)">
       <ion-icon name="nuclear" item-start></ion-icon>
-      <h2>{{mat.hazardousMaterialName}}</h2>
+      <h2>{{mat.hazardousMaterialName}} ({{mat.hazardousMaterialNumber}})</h2>
       <p>{{mat.quantityDescription}}</p>
     </button>
   </ion-list>

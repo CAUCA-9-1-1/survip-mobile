@@ -15,7 +15,7 @@
     <ion-item-group>
       <ion-item-divider>Produit</ion-item-divider>
       <button ion-item icon-end (click)="onChangeMaterial()" [class.invalid]="!form.controls.idHazardousMaterial.valid">
-        {{materialName}}
+        {{getSelectedMaterialDescription()}}
       </button>
       <div *ngIf="!form.controls.idHazardousMaterial.valid" class="validation-error-text">*La matière est requise.</div>
     </ion-item-group>
