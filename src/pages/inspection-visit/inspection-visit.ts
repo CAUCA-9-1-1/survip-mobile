@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {InspectionDetailRepositoryProvider} from "../../providers/repositories/inspection-detail-repository-provider.service";
 import {InspectionControllerProvider} from "../../providers/inspection-controller/inspection-controller";
 import {InspectionVisit} from "../../models/inspection-visit";
+import {InterventionGeneralPage} from "../intervention-general/intervention-general";
 
 @IonicPage()
 @Component({
@@ -15,6 +16,11 @@ export class InspectionVisitPage {
   private RefusalReason: string = '';
   private requestedDateOfVisit: Date;
   private doorHangerHasBeenLeft: boolean = false;
+  private customOptions = {
+      buttons: [{
+          text: 'Clear',handler: () => this.requestedDateOfVisit=null}]
+      };
+  private completRefusal: boolean = false;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -47,7 +53,11 @@ export class InspectionVisitPage {
     }
 
     ionViewWillLeave(){
-        this.navCtrl.setRoot('InspectionListPage');
+    let goToPage = 'InspectionListPage';
+    if(!this.completRefusal){
+      goToPage = 'InterventionGeneralPage'
+    }
+        this.navCtrl.setRoot(goToPage);
         this.navCtrl.popToRoot();
     }
 
