@@ -1,47 +1,50 @@
-<ion-header>
-
+<ion-header class="page-header">
     <ion-navbar>
-        <ion-title>inspection-visit</ion-title>
+        <ion-title>Visite d'inspection</ion-title>
     </ion-navbar>
-
 </ion-header>
 
-
-<ion-content padding>
+<ion-content>
     <ion-list class="list-items">
         <ion-list-header>Visite annulée</ion-list-header>
-
         <ion-item-group>
             <ion-item-divider>Motif de l'annulation</ion-item-divider>
+
             <div *ngIf="ownerAbsent">
                 <ion-item>
                     <ion-label>Propriétaire absent :</ion-label>
-                    <ion-toggle [checked]="true"></ion-toggle>
+                    <ion-toggle [checked]="true" [disabled]="true"></ion-toggle>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Accroche-porte laissé :</ion-label>
+                    <ion-toggle [(ngModel)]=doorHangerHasBeenLeft></ion-toggle>
                 </ion-item>
             </div>
+
             <div *ngIf="!ownerAbsent">
                 <ion-item>
                     <ion-label>Refus du propriétaire :</ion-label>
-                    <ion-toggle [checked]="true"></ion-toggle>
+                    <ion-toggle [checked]="true" [disabled]="true"></ion-toggle>
                 </ion-item>
-                <ion-item>
-                    <ion-label>Raison du refus :</ion-label>
+                <ion-item class="align-row">
+                    <ion-label>Raison du refus :</ion-label><br>
                     <ion-textarea [(ngModel)]=RefusalReason></ion-textarea>
                 </ion-item>
+                <ion-item>
+                    <ion-label>Accroche-porte laissé :</ion-label>
+                    <ion-toggle [(ngModel)]=doorHangerHasBeenLeft></ion-toggle>
+                </ion-item>
             </div>
-            <ion-item>
-                <ion-label>Accroche-porte laissé :</ion-label>
-                <ion-toggle [(ngModel)]=doorHangerHasBeenLeft></ion-toggle>
-            </ion-item>
+
         </ion-item-group>
         <ion-item-group>
             <ion-item-divider>Nouvelle date</ion-item-divider>
             <ion-item>
                 <ion-label>Date :</ion-label>
-                <ion-datetime displayFormat="YYYY/MM/DD" [(ngModel)]=requestedDateOfVisit></ion-datetime>
+                <ion-datetime displayFormat="YYYY/MM/DD" placeholder="Date" [(ngModel)]=requestedDateOfVisit></ion-datetime>
             </ion-item>
         </ion-item-group>
     </ion-list>
-    <button ion-button block color="caucaRed" class="large-button" (click)="UpdateVisit()">Enregistrer</button>
+    <button ion-button block color="caucaRed" class="large-button" (click)="UpdateVisitRefusalReason()">Enregistrer</button>
 
 </ion-content>

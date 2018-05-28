@@ -52,7 +52,7 @@ export class InterventionGeneralPage implements OnDestroy {
                 private riskLevelService: RiskLevelRepositoryProvider,
                 public laneService: LaneRepositoryProvider,
                 private utilisationCodeService: UtilisationCodeRepositoryProvider,
-                private inspectionDetailProvider: InspectionDetailRepositoryProvider,
+                public inspectionDetailProvider: InspectionDetailRepositoryProvider,
                 private messageTools: MessageToolsProvider) {
         this.createForm();
         controller.planLoaded.subscribe(() => this.setValuesAndStartListening());
@@ -156,18 +156,41 @@ export class InterventionGeneralPage implements OnDestroy {
             .subscribe( success =>
             {
                 this.controller.loadInterventionForm();
+                if(this.controller.inspectionDetail.idSurvey){
+                    this.navCtrl.push('InspectionQuestionPage', {
+                        idInspection: this.controller.idInspection,
+                        inspectionSurveyCompleted: this.controller.inspectionDetail.isSurveyCompleted
+                    });
+                }
             }, error =>
             {
-                this.messageTools.showToast("Une erreur est survenu dans le processus de démarrage de l'inspection veuillez réessayer ultérieurement.");
+                this.messageTools.showToast('Une erreur est survenue dans le processus de démarrage de l\'inspection, veuillez réessayer ultérieurement.');
             });
     }
 
-    absentVisit(){
+    private absentVisit(){
         this.navCtrl.push('InspectionVisitPage', {ownerAbsent:true});
     }
 
-    refuseVisit()
+    private refuseVisit()
     {
         this.navCtrl.push('InspectionVisitPage', {ownerAbsent:false});
+    }
+    private completeInspection(){
+        let canComplete = true;
+        if(this.controller.inspectionDetail.idSurvey) {
+            if (!this.controller.inspectionDetail.isSurveyCompleted) {
+                canComplete = false;
+                this.messageTools.showToast('Veuillez répondre au questionnaire pour compléter l\'inspection.');
+            }
+        }
+        if(canComplete){
+            this.inspectionDetailProvider.completeInspection(this.controller.idInspection)
+                .subscribe(
+                    success => {},
+                        error =>{
+                    this.messageTools.showToast('Une erreur est survenue dans le processus de finalisation de l\'inspection, veuillez réessayer ultérieurement.');
+                });
+        }
     }
 }
