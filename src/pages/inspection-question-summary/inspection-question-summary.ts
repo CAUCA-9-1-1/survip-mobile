@@ -5,6 +5,7 @@ import {InspectionQuestionSummary} from "../../models/inspection-question-summar
 import {AuthenticationService} from "../../providers/Base/authentification.service";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {InspectionQuestionSummaryCategory} from "../../models/inspection-question-summary-category";
+import {InterventionGeneralPage} from "../intervention-general/intervention-general";
 
 @IonicPage()
 @Component({
@@ -46,5 +47,10 @@ export class InspectionQuestionSummaryPage {
                     this.messageTools.showToast('Une erreur est survenue lors du chargement du résumé du questionnaire, veuillez réessayer ultérieurement.', 5);
                     this.navCtrl.pop();
                 });
+    }
+
+    ionViewWillLeave(){
+        this.navCtrl.setRoot('InterventionGeneralPage');
+        this.navCtrl.popToRoot();
     }
 }

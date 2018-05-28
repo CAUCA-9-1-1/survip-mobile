@@ -14,12 +14,6 @@ import {InspectionControllerProvider} from '../../providers/inspection-controlle
 import {InspectionDetailRepositoryProvider} from "../../providers/repositories/inspection-detail-repository-provider.service";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 
-/**
- * Generated class for the InterventionGeneralPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
     selector: 'page-intervention-general',
