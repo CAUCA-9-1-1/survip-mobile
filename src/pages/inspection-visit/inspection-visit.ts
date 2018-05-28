@@ -4,6 +4,7 @@ import {InspectionDetailRepositoryProvider} from "../../providers/repositories/i
 import {InspectionControllerProvider} from "../../providers/inspection-controller/inspection-controller";
 import {InspectionVisit} from "../../models/inspection-visit";
 import {InterventionGeneralPage} from "../intervention-general/intervention-general";
+import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 
 @IonicPage()
 @Component({
@@ -13,7 +14,7 @@ import {InterventionGeneralPage} from "../intervention-general/intervention-gene
 export class InspectionVisitPage {
 
   private ownerAbsent: boolean = false;
-  private RefusalReason: string = '';
+  private refusalReason: string = '';
   private requestedDateOfVisit: Date;
   private doorHangerHasBeenLeft: boolean = false;
   private customOptions = {
@@ -25,7 +26,8 @@ export class InspectionVisitPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private inspectionDetailProvider: InspectionDetailRepositoryProvider,
-              private inspectionController: InspectionControllerProvider) {
+              private inspectionController: InspectionControllerProvider,
+              private messageTools: MessageToolsProvider,) {
       this.ownerAbsent = this.navParams.get('ownerAbsent');
   }
 
@@ -35,12 +37,18 @@ export class InspectionVisitPage {
 
     UpdateVisitRefusalReason()
     {
+      if((!this.ownerAbsent) && (this.refusalReason == ''))
+      {
+          this.messageTools.showToast('Veuillez préalablement entrer la raison du refus de la visite d\'inspection.', 3);
+          return;
+      }
+
       const visit = new InspectionVisit();
       visit.idInspection = this.inspectionController.idInspection;
       visit.DoorHangerHasBeenLeft = this.doorHangerHasBeenLeft;
       visit.hasBeenRefused = !this.ownerAbsent;
       visit.OwnerWasAbsent = this.ownerAbsent;
-      visit.reasonForInspectionRefusal = this.RefusalReason;
+      visit.reasonForInspectionRefusal = this.refusalReason;
       visit.RequestedDateOfVisit = this.requestedDateOfVisit;
       visit.isVacant = false;
       visit.isSeasonal = false;
