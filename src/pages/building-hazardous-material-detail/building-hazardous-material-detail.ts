@@ -10,6 +10,7 @@ import {HazardousMaterialRepositoryProvider} from '../../providers/repositories/
 import {UnitOfMeasure} from '../../models/all-construction-types';
 import {UnitOfMeasureRepositoryProvider} from '../../providers/repositories/unit-of-measure-repository';
 import {StaticListRepositoryProvider} from '../../providers/static-list-repository/static-list-repository';
+import {HazardousMaterialForList} from '../../models/hazardous-material-for-list';
 
 
 @IonicPage()
@@ -26,7 +27,7 @@ export class BuildingHazardousMaterialDetailPage {
   private readonly integerPattern: string = "^(0|([1-9]([0-9]*)))$";
   private readonly decimalPattern: string = "^[0-9]+(.[0-9]{1,2})?$";
 
-  public materialName: string = "";
+  public selectedMaterial: HazardousMaterialForList;
   public material: InspectionBuildingHazardousMaterial;
   public form: FormGroup;
   public unitOfMeasures: UnitOfMeasure[] = [];
@@ -170,11 +171,11 @@ export class BuildingHazardousMaterialDetailPage {
 
   private async loadHazardousMaterialName() {
     if (this.material && this.material.idHazardousMaterial != "" && this.material.idHazardousMaterial != null) {
-      let data = await this.matRepo.getName(this.material.idHazardousMaterial);
-      this.materialName = data.name;
+      let data = await this.matRepo.getSelectedMaterial(this.material.idHazardousMaterial);
+      this.selectedMaterial = data;
     }
     else
-      this.materialName = "";
+      this.selectedMaterial = null;
   }
 
   public async onDeleteHazardousMaterial() {
@@ -208,5 +209,12 @@ export class BuildingHazardousMaterialDetailPage {
     }
     else
       await this.viewCtrl.dismiss();
+  }
+
+  public getSelectedMaterialDescription() {
+    if (this.selectedMaterial != null)
+      return this.selectedMaterial.name + " (" + this.selectedMaterial.number + ")";
+    else
+      return '';
   }
 }
