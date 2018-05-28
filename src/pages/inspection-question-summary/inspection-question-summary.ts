@@ -50,7 +50,7 @@ export class InspectionQuestionSummaryPage {
     }
 
     ionViewWillLeave(){
-        this.navCtrl.setRoot('InterventionGeneralPage');
+        this.navCtrl.setRoot('InspectionListPage');
         this.navCtrl.popToRoot();
     }
 }
