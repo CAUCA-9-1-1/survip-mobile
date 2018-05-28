@@ -13,4 +13,22 @@ page-inspection-visit {
     margin-right: 2.5%;
     width:95%;
   }
+
+  ion-item .label
+  {
+    white-space: normal!important;
+    color: black !important;
+    height: fit-content;
+    width: fit-content;
+  }
+
+  .align-row{
+    flex-flow: column;
+  }
+  .align-row ion-label:first-child{
+    margin-bottom:0px;
+  }
+  .align-row ion-textarea:last-child{
+    margin-bottom:0px;
+  }
 }

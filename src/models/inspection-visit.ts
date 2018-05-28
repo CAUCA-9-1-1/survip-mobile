@@ -5,7 +5,10 @@ export class InspectionVisit {
     hasBeenRefused: boolean;
     OwnerWasAbsent: boolean;
     DoorHangerHasBeenLeft: boolean;
-    EndedOn: Date;
+    endedOn: Date;
     RequestedDateOfVisit: Date;
+    isVacant: boolean;
+    isSeasonal: boolean;
+    isActive: boolean;
 
 }

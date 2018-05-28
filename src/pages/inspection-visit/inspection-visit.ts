@@ -12,12 +12,14 @@ import {InspectionVisit} from "../../models/inspection-visit";
 export class InspectionVisitPage {
 
   private ownerAbsent: boolean = false;
-  private ownerAbsent: boolean = false;
   private RefusalReason: string = '';
   private requestedDateOfVisit: Date;
   private doorHangerHasBeenLeft: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private inspectionDetailProvider: InspectionDetailRepositoryProvider, private inspectionController: InspectionControllerProvider) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private inspectionDetailProvider: InspectionDetailRepositoryProvider,
+              private inspectionController: InspectionControllerProvider) {
       this.ownerAbsent = this.navParams.get('ownerAbsent');
   }
 
@@ -25,7 +27,7 @@ export class InspectionVisitPage {
     console.log('ionViewDidLoad InspectionVisitPage');
   }
 
-    UpdateVisit()
+    UpdateVisitRefusalReason()
     {
       const visit = new InspectionVisit();
       visit.idInspection = this.inspectionController.idInspection;
@@ -34,8 +36,14 @@ export class InspectionVisitPage {
       visit.OwnerWasAbsent = this.ownerAbsent;
       visit.reasonForInspectionRefusal = this.RefusalReason;
       visit.RequestedDateOfVisit = this.requestedDateOfVisit;
-      this.inspectionDetailProvider.updateInspectionVisit(visit)
-          .subscribe( success => {}, error =>{});
+      visit.isVacant = false;
+      visit.isSeasonal = false;
+      visit.isActive = true;
+      visit.endedOn = new Date();
+      visit.status = this.inspectionDetailProvider.InspectionVisitStatusEnum.Completed;
+
+      this.inspectionDetailProvider.RefuseInspectionVisit(visit)
+          .subscribe( success => {this.navCtrl.pop()}, error =>{});
     }
 
 }

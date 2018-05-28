@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from '../Base/http.service';
 import {Observable} from 'rxjs/Observable';
-import {map} from 'rxjs/operators';
 import {InspectionDetail} from '../../models/inspection-detail';
 import {InspectionVisit} from "../../models/inspection-visit";
 
@@ -11,27 +10,26 @@ export class InspectionDetailRepositoryProvider{
 
   public get(idInspection : string): Observable<InspectionDetail>{
     return this.http.get('inspection/' + idInspection + '/detail')
-      .pipe(map(response => response));
   }
 
   public savePlanLane(idBuilding: string, idTransversal: string): Observable<boolean>{
     return this.http.put('inspection/building/' + idBuilding + '/idLaneIntersection/' + idTransversal)
-      .pipe(map(response => response));
   }
 
   public savePicture(idBuildingDetail: string, idPicture: string): Observable<boolean>{
     return this.http.put('inspection/buildingdetail/' + idBuildingDetail + '/idPicture/' + idPicture)
-      .pipe(map(response => response));
   }
 
     public startInspection(idInspection: string): Observable<any>{
-        return this.http.post('inspection/StartInspection', JSON.stringify(idInspection))
-            .pipe(map(response => response));
+        return this.http.post('Inspection/StartInspection', JSON.stringify(idInspection))
     }
 
-    public updateInspectionVisit(inspectionVisit: InspectionVisit): Observable<InspectionVisit>{
-        return this.http.post('inspection/updateVisit', JSON.stringify(inspectionVisit))
-            .pipe(map(response => response));
+    public completeInspection(idInspection: string): Observable<any>{
+        return this.http.post('Inspection/CompleteInspection', JSON.stringify(idInspection))
+    }
+
+    public RefuseInspectionVisit(inspectionVisit: InspectionVisit): Observable<InspectionVisit>{
+        return this.http.post('Inspection/RefuseInspectionVisit', JSON.stringify(inspectionVisit))
     }
 
   public InspectionStatusEnum = {'Todo': 0, 'Started': 1, 'WaitingForApprobation': 2, 'Approved': 3, 'Refused': 4, 'Canceled': 5}
