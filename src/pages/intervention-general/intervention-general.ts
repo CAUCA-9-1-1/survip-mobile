@@ -181,7 +181,10 @@ export class InterventionGeneralPage implements OnDestroy {
         if(canComplete){
             this.inspectionDetailProvider.completeInspection(this.controller.idInspection)
                 .subscribe(
-                    success => {},
+                    success => {
+                        this.navCtrl.setRoot('InspectionListPage');
+                        this.navCtrl.popToRoot();
+                    },
                         error =>{
                     this.messageTools.showToast('Une erreur est survenue dans le processus de finalisation de l\'inspection, veuillez réessayer ultérieurement.');
                 });

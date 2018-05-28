@@ -46,4 +46,9 @@ export class InspectionVisitPage {
           .subscribe( success => {this.navCtrl.pop()}, error =>{});
     }
 
+    ionViewWillLeave(){
+        this.navCtrl.setRoot('InspectionListPage');
+        this.navCtrl.popToRoot();
+    }
+
 }
