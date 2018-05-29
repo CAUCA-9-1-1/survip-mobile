@@ -2,3 +2,4 @@
   <ion-label item-start *ngIf="showDescription" fixed>{{description}}</ion-label>
   <ion-label item-end [class]="description != '' ? null : 'label-full-width'"><ion-spinner [style.display]="isLoading ? 'block' : 'none'" item-start></ion-spinner>{{selectedItemDescription}}</ion-label>
 </button>
+<button class="action-list-button"(click)="clearSelectedValue()"><ion-icon class="ion-md-close"></ion-icon></button>

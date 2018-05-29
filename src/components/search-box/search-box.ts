@@ -4,12 +4,6 @@ import {ModalController} from 'ionic-angular';
 import {ServiceForListInterface} from '../../interfaces/service-for-list.interface';
 import {SearchListComponent} from '../search-list/search-list';
 
-/**
- * Generated class for the SearchBoxComponent component.
- *
- * See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
- * for more info on Angular Components.
- */
 @Component({
   selector: 'search-box',
   templateUrl: 'search-box.html',
@@ -86,7 +80,7 @@ export class SearchBoxComponent implements ControlValueAccessor, OnDestroy{
 
   private showSelectionDescription() {
     this.isLoading = true;
-    if (this.innerValue == null) {
+    if(!this.innerValue) {
       this.selectedItemDescription = '';
       this.isLoading = false;
     } else {
@@ -98,4 +92,9 @@ export class SearchBoxComponent implements ControlValueAccessor, OnDestroy{
         });
     }
   }
+
+   private clearSelectedValue()
+   {
+     this.value = '';
+   }
 }
