@@ -50,7 +50,7 @@ export class BuildingMainPage {
   }
 
   public goBackToBuildingList() {
-    this.app.getRootNav().popTo('InterventionBuildingsPage');
+      this.navCtrl.setRoot('InterventionBuildingsPage');
   }
 
   public openPage(page) : void {

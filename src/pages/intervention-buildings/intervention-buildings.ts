@@ -1,16 +1,10 @@
 import { Component } from '@angular/core';
-import {App, IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
+import {App, IonicPage, MenuController, NavController, NavParams, ViewController} from 'ionic-angular';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InspectionBuildingForList} from '../../models/inspection-building-for-list';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {InspectionDetail} from '../../models/inspection-detail';
 
-/**
- * Generated class for the InterventionBuildingsPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
   selector: 'page-intervention-buildings',
@@ -30,7 +24,8 @@ export class InterventionBuildingsPage {
               private appCtrl: App,
               public navParams: NavParams,
               private controller: InspectionControllerProvider,
-              private authService: AuthenticationService) {
+              private authService: AuthenticationService,
+              private menuCtrl: MenuController) {
     this.controller.loadBuildingList();
   }
 
@@ -38,6 +33,8 @@ export class InterventionBuildingsPage {
   }
 
   async ionViewCanEnter() {
+      this.menuCtrl.enable(true, 'inspectionMenu');
+      this.menuCtrl.enable(false, 'buildingMenu');
     let isLoggedIn = await this.authService.isStillLoggedIn();
     if (!isLoggedIn)
       this.redirectToLoginPage();

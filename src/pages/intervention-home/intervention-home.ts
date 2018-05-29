@@ -18,8 +18,7 @@ export class InterventionHomePage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController, private controller: InspectionControllerProvider) {
     controller.setIdInterventionForm(this.navParams.data['id']);
     console.log('paaage', this.navParams.data['page']);
-    /*if (this.navParams.data['page'] != null)
-      this.rootPage = this.navParams.data['page'];*/
+
     this.menuItems = [
       { title: 'Infos générales', page:'InterventionGeneralPage', icon:'information-circle' },
       { title: 'Bâtiments', page:'InterventionBuildingsPage', icon:'home' },
