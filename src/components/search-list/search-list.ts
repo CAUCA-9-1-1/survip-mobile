@@ -38,7 +38,10 @@ export class SearchListComponent {
   }
 
   setFilteredItems() {
-    this.dataService.getList(this.searchTerm, this.displayFieldName).subscribe(list => this.items = list);
+    this.dataService.getList(this.searchTerm, this.displayFieldName).subscribe(list =>
+    {
+      this.items = list
+    });
   }
 
   onSelectItem(id: string){
