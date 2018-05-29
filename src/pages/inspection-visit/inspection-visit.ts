@@ -42,6 +42,8 @@ export class InspectionVisitPage {
           this.messageTools.showToast('Veuillez préalablement entrer la raison du refus de la visite d\'inspection.', 3);
           return;
       }
+      
+      this.completRefusal = true;
 
       const visit = new InspectionVisit();
       visit.idInspection = this.inspectionController.idInspection;
