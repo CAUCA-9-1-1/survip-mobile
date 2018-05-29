@@ -16,6 +16,10 @@ export class LaneRepositoryProvider implements ServiceForListInterface  {
       .pipe(map(response => response));
   }
 
+  getFilteredLanes(searchTerm: string): Observable<Lane>{
+      return this.http.get('lane/city/' + this.currentIdCity+'/Search/'+searchTerm);
+  }
+
   get(idLane: string): Observable<string>{
     if (!idLane) {
       return Observable.of("");
@@ -29,7 +33,7 @@ export class LaneRepositoryProvider implements ServiceForListInterface  {
   }
 
   getList(searchTerm: string, searchFieldName: string): Observable<any[]> {
-    return this.getAll() as Observable<any>;
+    return this.getFilteredLanes(searchTerm) as Observable<any>;
   }
 
   getDescriptionById(id: string): Observable<string> {
