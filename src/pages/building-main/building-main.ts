@@ -2,6 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import {App, IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {MenuItem} from '../../interfaces/menu-item.interface';
+import {InterventionBuildingsPage} from "../intervention-buildings/intervention-buildings";
 
 @IonicPage()
 @Component({
@@ -48,15 +49,9 @@ export class BuildingMainPage {
     this.menuCtrl.enable(true, 'buildingMenu');
   }
 
-  public async goBackToInspection() {
-    await this.app.getRootNav().popToRoot();
-    //await this.app.getRootNav().setRoot('InterventionHomePage',  {id: this.controller.idInspection});
-    await this.app.getRootNav().push('InterventionHomePage', {id: this.controller.idInspection, page: 'InterventionBuildingsPage'});
+  public goBackToBuildingList() {
+    this.app.getRootNav().popTo('InterventionBuildingsPage');
   }
-
-  /*public async goBackToInspectionList() {
-    await this.app.getRootNav().popToRoot();
-  }*/
 
   public openPage(page) : void {
     this.childNavCtrl.setRoot(page, this.getParams());
