@@ -11,12 +11,11 @@
             <ion-list-header *ngIf="category.title != ''">
                 {{category.title | uppercase}}
             </ion-list-header>
-            <ion-list>
                 <div *ngFor="let recursive of category.answerSummary; let index = index">
-                    <div class="recursive-item" *ngIf="recursive.isRecursive === true && recursive.recursiveAnswer.length > 0 ">
-                        <h6>{{recursive.questionTitle}} {{index + 1}}</h6>
+                    <div *ngIf="recursive.isRecursive === true && recursive.recursiveAnswer.length > 0 ">
+                        <ion-item-divider>{{recursive.questionTitle}} #{{index + 1}}</ion-item-divider>
                         <ion-list>
-                            <ion-item *ngFor="let answer of recursive.recursiveAnswer">
+                            <ion-item class="recursive-item" *ngFor="let answer of recursive.recursiveAnswer">
                                 <span>{{answer.questionDescription}}</span>
                                 <p>{{answer.answer}}</p>
                             </ion-item>
@@ -24,13 +23,12 @@
                     </div>
 
                     <ion-item *ngIf="recursive.isRecursive === false">
-                        <div class="recursive-item">
+                        <div class="non-recursive-item">
                             <span>{{recursive.questionDescription}}</span>
                             <p>{{recursive.answer}}</p>
                         </div>
                     </ion-item>
                 </div>
-            </ion-list>
         </div>
     </div>
 </ion-content>
