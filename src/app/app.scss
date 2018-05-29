@@ -16,6 +16,8 @@
 // automatically applied to the <body> element in the app.
 //@import "../../node_modules/openlayers/css/ol";
 
+@import "../theme/icons";
+
 .validation-error-control {
   border-left: red 4px solid;
   border-bottom: red dotted thin;

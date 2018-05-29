@@ -10,6 +10,7 @@
       Bornes
     </ion-list-header>
     <ion-item *ngFor="let hydrant of filteredCityFireHydrantList | orderBy:'number'">
+      <ion-icon name="icon-fire-hydrant" item-start [style.color]="hydrant.color" large></ion-icon>
       <div>
         <button class="action-list-button" (click)="AddBuildingFireHydrant(hydrant.id)">
           <ion-icon name="arrow-dropright-circle"></ion-icon>
