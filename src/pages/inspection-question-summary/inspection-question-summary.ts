@@ -47,9 +47,4 @@ export class InspectionQuestionSummaryPage {
                     this.navCtrl.pop();
                 });
     }
-
-    createSummaryDisplay() {
-        let output = '';
-        output += '<div><div>';
-    }
 }
