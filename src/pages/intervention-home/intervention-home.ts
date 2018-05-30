@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
 import {MenuItem} from '../../interfaces/menu-item.interface';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
+import {ISubscription} from 'rxjs/Subscription';
 
 @IonicPage({
   segment: 'inspection/:id'
@@ -10,15 +11,15 @@ import {InspectionControllerProvider} from '../../providers/inspection-controlle
   selector: 'page-intervention-home',
   templateUrl: 'intervention-home.html',
 })
-export class InterventionHomePage {
+export class InterventionHomePage implements OnDestroy {
   private rootPage = 'InterventionGeneralPage';
+  private readonly planSubscription: ISubscription;
 
   public menuItems: MenuItem[];
+  public mustShowPlanMenu: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController, private controller: InspectionControllerProvider) {
     controller.setIdInterventionForm(this.navParams.data['id']);
-    console.log('paaage', this.navParams.data['page']);
-
     this.menuItems = [
       { title: 'Infos générales', page:'InterventionGeneralPage', icon:'information-circle' },
       { title: 'Bâtiments', page:'InterventionBuildingsPage', icon:'home' },
@@ -26,6 +27,19 @@ export class InterventionHomePage {
       { title: "Plan d'implantation", page:'InterventionImplantationPlanPage', icon:'image' },
       { title: 'Parcours', page:'InterventionCoursePage', icon:'map' }
     ];
+
+    this.planSubscription = controller.planLoaded.subscribe(() => {
+        if (controller.inspectionDetail.idSurvey)
+          this.mustShowPlanMenu = true;
+        else
+          this.mustShowPlanMenu = false;
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    if (this.planSubscription)
+      this.planSubscription.unsubscribe();
   }
 
   ionViewDidLoad() {
