@@ -20,6 +20,7 @@ export class InterventionHomePage implements OnDestroy {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController, private controller: InspectionControllerProvider) {
     controller.setIdInterventionForm(this.navParams.data['id']);
+
     this.menuItems = [
       { title: 'Infos générales', page:'InterventionGeneralPage', icon:'information-circle' },
       { title: 'Bâtiments', page:'InterventionBuildingsPage', icon:'home' },

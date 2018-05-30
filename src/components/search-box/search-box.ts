@@ -11,7 +11,7 @@ import {SearchListComponent} from '../search-list/search-list';
     {provide: NG_VALUE_ACCESSOR, useExisting: SearchBoxComponent, multi: true}
   ]
 })
-export class SearchBoxComponent implements ControlValueAccessor, OnDestroy{
+export class SearchBoxComponent implements ControlValueAccessor, OnDestroy {
   private isLoading: boolean;
   private isDisposed: boolean = false;
   private innerValue: string;
@@ -31,6 +31,8 @@ export class SearchBoxComponent implements ControlValueAccessor, OnDestroy{
 
   ngOnDestroy(): void {
     this.isDisposed = true;
+    this.changed = new Array<(value: string) => void>();
+    this.touched = new Array<() => void>()
   }
 
   get value(): string {
@@ -38,7 +40,7 @@ export class SearchBoxComponent implements ControlValueAccessor, OnDestroy{
   }
 
   set value(value: string) {
-    if (this.innerValue !== value) {
+    if (this.innerValue !== value && !this.isDisposed) {
       this.innerValue = value;
       this.changed.forEach(f => f(value));
       this.showSelectionDescription();
@@ -64,14 +66,14 @@ export class SearchBoxComponent implements ControlValueAccessor, OnDestroy{
     this.touched.push(fn);
   }
 
-  private onPopSearch() {
+  public onPopSearch() {
     let profileModal = this.modalCtrl.create(SearchListComponent, {
       dataService: this.dataService,
       keyFieldName: this.keyFieldName,
       displayFieldName: this.displayFieldName
     });
     profileModal.onDidDismiss(data => {
-      if (data != null){
+      if (data != null) {
         this.value = data;
       }
     });
@@ -80,7 +82,7 @@ export class SearchBoxComponent implements ControlValueAccessor, OnDestroy{
 
   private showSelectionDescription() {
     this.isLoading = true;
-    if(!this.innerValue) {
+    if (!this.innerValue) {
       this.selectedItemDescription = '';
       this.isLoading = false;
     } else {
@@ -93,8 +95,7 @@ export class SearchBoxComponent implements ControlValueAccessor, OnDestroy{
     }
   }
 
-   private clearSelectedValue()
-   {
-     this.value = '';
-   }
+  public clearSelectedValue() {
+    this.value = '';
+  }
 }

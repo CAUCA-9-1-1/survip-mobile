@@ -7,7 +7,6 @@ import { AlertController, ToastController} from 'ionic-angular';
 export class MessageToolsProvider {
 
   constructor(public http: HttpClient,private alertCtrl: AlertController,private toastCtrl: ToastController,) {
-    console.log('Hello MessageToolsProvider Provider');
   }
 
     public ShowMessageBox(title : string, message : string) : Promise<Boolean> {
