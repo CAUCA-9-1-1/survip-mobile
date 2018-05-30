@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {PictureData} from '../../models/picture-data';
@@ -6,6 +6,7 @@ import {AuthenticationService} from '../../providers/Base/authentification.servi
 import {InterventionForm} from '../../models/intervention-form';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {InspectionDetail} from '../../models/inspection-detail';
+import {ISubscription} from 'rxjs/Subscription';
 
 /**
  * Generated class for the InterventionImplantationPlanPage page.
@@ -19,8 +20,10 @@ import {InspectionDetail} from '../../models/inspection-detail';
   selector: 'page-intervention-implantation-plan',
   templateUrl: 'intervention-implantation-plan.html',
 })
-export class InterventionImplantationPlanPage {
+export class InterventionImplantationPlanPage implements OnDestroy {
   public form: FormGroup;
+
+  private planSubscription : ISubscription;
 
   get picture(): PictureData{
     return this.controller.picture;
@@ -37,7 +40,12 @@ export class InterventionImplantationPlanPage {
     private fb: FormBuilder,
     private controller: InspectionControllerProvider,) {
     this.createForm();
-    controller.pictureLoaded.subscribe(() => this.setValuesAndStartListening());
+    this.planSubscription = this.controller.pictureLoaded.subscribe(() => this.setValuesAndStartListening());
+  }
+
+  ngOnDestroy(): void {
+    if (this.planSubscription)
+      this.planSubscription.unsubscribe();
   }
 
   ionViewDidLoad() {
