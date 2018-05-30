@@ -27,7 +27,7 @@ export class SearchListComponent {
 
   ionViewDidLoad() {
     this.setFilteredItems();
-    this.searchControl.valueChanges.debounceTime(1000).subscribe(() => {
+    this.searchControl.valueChanges.debounceTime(500).subscribe(() => {
       this.searching = false;
       this.setFilteredItems();
     });

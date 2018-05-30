@@ -11,11 +11,6 @@ export class LaneRepositoryProvider implements ServiceForListInterface  {
 
   constructor(private http: HttpService) {}
 
-  getAll(): Observable<Lane>{
-    return this.http.get('lane/city/' + this.currentIdCity)
-      .pipe(map(response => response));
-  }
-
   getFilteredLanes(searchTerm: string): Observable<Lane>{
       return this.http.get('lane/city/' + this.currentIdCity+'/Search/'+searchTerm);
   }
