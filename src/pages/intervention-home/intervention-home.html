@@ -10,7 +10,7 @@
         <span ion-text>{{menuItem.title}}</span>
       </button>
 
-      <button ion-item menuClose class="text-menu" (click)="goToInspectionQuestions()">
+      <button *ngIf="mustShowPlanMenu" ion-item menuClose class="text-menu" (click)="goToInspectionQuestions()">
         <ion-icon item-left name="list-box"></ion-icon>
         <span ion-text>Questionnaire</span>
       </button>
