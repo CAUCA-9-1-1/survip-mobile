@@ -1,30 +1,33 @@
 <ion-spinner [style.display]="isLoading ? 'block' : 'none'" item-start></ion-spinner>
 
 <ion-list class="list-items">
-  <ion-item-divider>
-    Photo(s)
-    <button item-end ion-button icon-start (click)="selectPicture()" color="caucaRed">
-      <ion-icon class="footer-button-camera" name="albums"></ion-icon>
-      Choisir...
-    </button>
-    <button item-end ion-button icon-start (click)="takeNewPicture()" *ngIf="isUsingCordova" color="caucaRed">
-      <ion-icon class="footer-button-camera" name="camera"></ion-icon>
-      Nouvelle...
-    </button>
-  </ion-item-divider>
-  <ion-item>
-    <ion-slides *ngIf="pictures.length > 0 && !isUpdatingSlides" pager [loop]="true">
-      <ion-slide *ngFor="let picture of pictures; let id = index;">
-        <ion-card class="block">
-          <button ion-button icon-only small outline class="deleteIcon" (click)="onDeletePhotos(id)" color="caucaRed">
-            <ion-icon name="trash" class="deleteIcon" (click)="onDeletePhotos(id)"></ion-icon>
-          </button>
-          <img class="selected-picture" [src]="getImageUrl(picture.pictureData)" *ngIf="hasImageUrl(picture.pictureData)" imageViewer />
-        </ion-card>
-      </ion-slide>
-    </ion-slides>
-  </ion-item>
+    <ion-item-divider>
+        Photo(s)
+        <button item-end ion-button icon-start (click)="selectPicture()" color="caucaRed">
+            <ion-icon class="footer-button-camera" name="albums"></ion-icon>
+            Choisir...
+        </button>
+        <button item-end ion-button icon-start (click)="takeNewPicture()" *ngIf="isUsingCordova" color="caucaRed">
+            <ion-icon class="footer-button-camera" name="camera"></ion-icon>
+            Nouvelle...
+        </button>
+    </ion-item-divider>
+    <ion-item>
+        <ion-slides *ngIf="pictures.length > 0 && !isUpdatingSlides" pager [loop]="true">
+            <ion-slide *ngFor="let picture of pictures; let id = index;">
+                <ion-card>
+                    <button ion-button icon-only small outline class="deleteIcon" (click)="onDeletePhotos(id)"
+                            color="caucaRed">
+                        <ion-icon name="trash" class="deleteIcon" (click)="onDeletePhotos(id)"></ion-icon>
+                    </button>
+                    <img class="selected-picture" [src]="getImageUrl(picture.pictureData)"
+                         *ngIf="hasImageUrl(picture.pictureData)" imageViewer/>
+
+                </ion-card>
+            </ion-slide>
+        </ion-slides>
+    </ion-item>
 </ion-list>
 
-<input type="file" id="fileElem" #filePicker accept="image/*" style="display:none" (change)="onFileSelected($event);" />
+<input type="file" id="fileElem" #filePicker accept="image/*" style="display:none" (change)="onFileSelected($event);"/>
 

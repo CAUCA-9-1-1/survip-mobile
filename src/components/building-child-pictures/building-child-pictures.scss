@@ -4,4 +4,16 @@ building-child-pictures {
     right: 14px;
     background: white;
   }
+  ion-card{
+    height: 600px;
+    width: auto;
+    padding-bottom: 30px;
+  }
+  ion-card img{
+    align-items: stretch;
+    display:inline-block;
+  }
+  .swiper-pagination{
+    padding-bottom: 5px;
+  }
 }
