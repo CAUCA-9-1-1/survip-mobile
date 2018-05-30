@@ -18,10 +18,11 @@ export class HazardousMaterialSelectionPage {
     public navCtrl: NavController,
     public navParams: NavParams) {
 
+      this.matRepo.getFiltered(this.searchTerm.trim())
+          .subscribe(data => this.hazardousMaterials = data);
   }
 
   public onSearch(){
-    if (this.searchTerm.trim().length >= 4)
       this.matRepo.getFiltered(this.searchTerm.trim())
         .subscribe(data => this.hazardousMaterials = data);
   }
