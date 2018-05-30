@@ -12,7 +12,6 @@ export class HazardousMaterialRepositoryProvider {
 
   public getFiltered(searchTerm: string): Observable<HazardousMaterialForList[]>{
     return this.http.get("hazardousmaterial/search/" + searchTerm)
-      .pipe(map(response => response));
   }
 
   public getSelectedMaterial(idHazardousMaterial: string): Promise<HazardousMaterialForList>{
