@@ -11,180 +11,183 @@ import {BuildingChildPictureRepositoryProvider} from '../../interfaces/building-
 
 
 @Component({
-  selector: 'building-child-pictures',
-  templateUrl: 'building-child-pictures.html',
-  providers:[
-    {provide: NG_VALUE_ACCESSOR, useExisting: BuildingChildPicturesComponent, multi: true}
-  ]
+    selector: 'building-child-pictures',
+    templateUrl: 'building-child-pictures.html',
+    providers: [
+        {provide: NG_VALUE_ACCESSOR, useExisting: BuildingChildPicturesComponent, multi: true}
+    ]
 })
 export class BuildingChildPicturesComponent implements ControlValueAccessor {
-  @ViewChild('filePicker') inputRef: ElementRef;
-  @ViewChild(Slides) slides: Slides;
-  @Input() repo: BuildingChildPictureRepositoryProvider;
+    @ViewChild('filePicker') inputRef: ElementRef;
+    @ViewChild(Slides) slides: Slides;
+    @Input() repo: BuildingChildPictureRepositoryProvider;
 
-  private changed = new Array<(value: string) => void>();
-  private touched = new Array<() => void>();
-  private options: CameraOptions = {
-    quality: 100,
-    destinationType: this.camera.DestinationType.DATA_URL,
-    encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE,
-    allowEdit: false,
-    saveToPhotoAlbum: false,
-    correctOrientation: true,
-    targetWidth: 680,
-    targetHeight: 680,
-  };
+    private changed = new Array<(value: string) => void>();
+    private touched = new Array<() => void>();
+    private options: CameraOptions = {
+        quality: 100,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE,
+        allowEdit: false,
+        saveToPhotoAlbum: false,
+        correctOrientation: true,
+        targetWidth: 680,
+        targetHeight: 680,
+    };
 
-  public isLoading: boolean = true;
-  public idParent: string;
-  public isUpdatingSlides: boolean = false;
-  public pictures: InspectionBuildingChildPictureForWeb[] = [];
-  public isUsingCordova: boolean = false;
+    public isLoading: boolean = true;
+    public idParent: string;
+    public pictures: InspectionBuildingChildPictureForWeb[] = [];
+    public isUsingCordova: boolean = false;
 
-  get value(): string {
-    return this.idParent;
-  }
-
-  set value(value: string) {
-    if (value != this.idParent && value != '') {
-      this.idParent = value;
-      this.loadPictures();
+    get value(): string {
+        return this.idParent;
     }
-    else if (value == '') {
-      this.pictures = [];
+
+    set value(value: string) {
+        if (value != this.idParent && value != '') {
+            this.idParent = value;
+            this.loadPictures();
+        }
+        else if (value == '') {
+            this.pictures = [];
+        }
     }
-  }
 
-  constructor(
-    private msg: MessageToolsProvider,
-    private camera: Camera,
-    private sanitizer: DomSanitizer,
-    private platform: Platform,
-    private windowRef: WindowRefService) {
+    constructor(
+        private msg: MessageToolsProvider,
+        private camera: Camera,
+        private sanitizer: DomSanitizer,
+        private platform: Platform,
+        private windowRef: WindowRefService) {
 
-    this.isUsingCordova = this.platform.is('cordova');
-  }
-
-  async ionViewDidLoad(){
-  }
-
-  async loadPictures(){
-    this.isLoading = true;
-    this.pictures = await this.repo.getList(this.idParent);
-    this.isLoading = false;
-  }
-
-  touch() {
-    this.touched.forEach(f => f());
-  }
-
-  writeValue(value: string) {
-    if (value != this.idParent && value != '') {
-      this.idParent = value;
-      this.loadPictures();
+        this.isUsingCordova = this.platform.is('cordova');
     }
-    else if (value == '') {
-      this.pictures = [];
+
+    async ionViewDidLoad() {
     }
-  }
 
-  registerOnChange(fn: (value: string) => void) {
-    this.changed.push(fn);
-  }
-
-  registerOnTouched(fn: () => void) {
-    this.touched.push(fn);
-  }
-
-  public addPicture(pic: string){
-    this.isUpdatingSlides = true;
-    let pictCache = [];
-    Object.assign(pictCache, this.pictures);
-    this.pictures = [];
-    let picture = new InspectionBuildingChildPictureForWeb();
-    picture.id = UUID.UUID();
-    picture.idParent = this.idParent;
-    picture.pictureData = pic;
-    pictCache.push(picture);
-    this.pictures = pictCache;
-    if (pictCache.length > 1)
-      this.slides.slideTo(this.slides.length());
-    this.repo.save(picture);
-    this.isUpdatingSlides = false;
-  }
-
-  private selectPictureNative() {
-    let options = this.options;
-    options.sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
-    this.getPicture(options);
-  }
-
-  public async onDeletePhotos(index){
-    if (await this.msg.ShowMessageBox("Demande de confirmation", "Êtes-vous sur de vouloir supprimer cette photo?")){
-      this.isUpdatingSlides = true;
-      let picture =this.pictures[index];
-      await this.repo.delete(picture.id);
-      this.pictures.splice(index);
-      this.isUpdatingSlides = false;
+    async loadPictures() {
+        this.isLoading = true;
+        this.pictures = await this.repo.getList(this.idParent);
+        this.isLoading = false;
     }
-  }
 
-  selectPicture(): void {
-    if (this.isUsingCordova)
-      this.selectPictureNative();
-    else
-      this.popFileSelector();
-  }
-
-  takeNewPicture(): void {
-    let options = this.options;
-    options.sourceType = this.camera.PictureSourceType.CAMERA;
-    this.getPicture(options);
-  }
-
-  private popFileSelector(): void {
-    this.inputRef.nativeElement.click();
-  }
-
-  onFileSelected(e: any): void {
-    const files = e.target.files;
-    const reader = this.windowRef.nativeClass('FileReader');
-
-    if (files.length) {
-      reader.addEventListener('load', this.onFileLoaded.bind(this));
-      reader.readAsDataURL(files[0]);
+    touch() {
+        this.touched.forEach(f => f());
     }
-  }
 
-  private onFileLoaded(response): void {
-    let imageUri: string = response.target.result;
-    if (imageUri.indexOf(';base64,') > 0)
-      imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);
-    this.addPicture(imageUri);
-  }
-
-  private getPicture(options: CameraOptions) {
-    try {
-      this.camera.getPicture(options).then((imageData) => {
-        this.addPicture(imageData);
-      }, (err) => {
-        alert(err);
-      });
+    writeValue(value: string) {
+        console.log('write value : ' + value + ' | idParent : ' + this.idParent);
+        if (value != this.idParent && value != '') {
+            this.idParent = value;
+            this.loadPictures();
+        }
+        else if (value == '') {
+            this.pictures = [];
+        }
     }
-    catch(error)
-    {
-      alert(JSON.stringify(error));
+
+    registerOnChange(fn: (value: string) => void) {
+        this.changed.push(fn);
     }
-  }
 
-  public hasImageUrl(pic: string): boolean{
-    return !(pic === "" || pic == null);
-  }
+    registerOnTouched(fn: () => void) {
+        this.touched.push(fn);
+    }
 
-  public getImageUrl(pic: string){
-    return pic === "" || pic == null
-      ? ''
-      : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + pic);
-  }
+    public addPicture(pic: string) {
+        let picture = new InspectionBuildingChildPictureForWeb();
+        picture.id = UUID.UUID();
+        picture.idParent = this.idParent;
+        picture.pictureData = pic;
+        this.pictures.push(picture);
+
+        this.slides.update();
+
+        this.repo.save(picture);
+    }
+
+    private selectPictureNative() {
+        let options = this.options;
+        options.sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
+        this.getPicture(options);
+    }
+
+    public onDeletePhotos() {
+        this.msg.ShowMessageBox("Demande de confirmation", "Êtes-vous sur de vouloir supprimer cette photo?").then(canDelete => {
+            if (canDelete) {
+                let picture = this.pictures[this.slides.realIndex];
+
+                this.repo.delete(picture.id);
+
+                this.pictures.splice(this.slides.realIndex, 1);
+                this.slides.update();
+
+                if(this.slides.realIndex > 0) {
+                    this.slides.slideTo(this.slides.realIndex - 1);
+                }else{
+                    this.slides.slideTo(0);
+                }
+            }
+        });
+    }
+
+    selectPicture(): void {
+        if (this.isUsingCordova)
+            this.selectPictureNative();
+        else
+            this.popFileSelector();
+    }
+
+    takeNewPicture(): void {
+        let options = this.options;
+        options.sourceType = this.camera.PictureSourceType.CAMERA;
+        this.getPicture(options);
+    }
+
+    private popFileSelector(): void {
+        this.inputRef.nativeElement.click();
+    }
+
+    onFileSelected(e: any): void {
+        const files = e.target.files;
+        const reader = this.windowRef.nativeClass('FileReader');
+
+        if (files.length) {
+            reader.addEventListener('load', this.onFileLoaded.bind(this));
+            reader.readAsDataURL(files[0]);
+        }
+    }
+
+    private onFileLoaded(response): void {
+        let imageUri: string = response.target.result;
+        if (imageUri.indexOf(';base64,') > 0)
+            imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);
+        this.addPicture(imageUri);
+    }
+
+    private getPicture(options: CameraOptions) {
+        try {
+            this.camera.getPicture(options).then((imageData) => {
+                this.addPicture(imageData);
+            }, (err) => {
+                alert(err);
+            });
+        }
+        catch (error) {
+            alert(JSON.stringify(error));
+        }
+    }
+
+    public hasImageUrl(pic: string): boolean {
+        return !(pic === "" || pic == null);
+    }
+
+    public getImageUrl(pic: string) {
+        return pic === "" || pic == null
+            ? ''
+            : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + pic);
+    }
 }

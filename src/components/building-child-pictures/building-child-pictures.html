@@ -13,12 +13,12 @@
         </button>
     </ion-item-divider>
     <ion-item>
-        <ion-slides *ngIf="pictures.length > 0 && !isUpdatingSlides" pager [loop]="true">
-            <ion-slide *ngFor="let picture of pictures; let id = index;">
+        <ion-slides pager>
+            <ion-slide *ngFor="let picture of pictures;">
                 <ion-card>
-                    <button ion-button icon-only small outline class="deleteIcon" (click)="onDeletePhotos(id)"
+                    <button ion-button icon-only small outline class="deleteIcon" (click)="onDeletePhotos()"
                             color="caucaRed">
-                        <ion-icon name="trash" class="deleteIcon" (click)="onDeletePhotos(id)"></ion-icon>
+                        <ion-icon name="trash" class="deleteIcon"></ion-icon>
                     </button>
                     <img class="selected-picture" [src]="getImageUrl(picture.pictureData)"
                          *ngIf="hasImageUrl(picture.pictureData)" imageViewer/>
