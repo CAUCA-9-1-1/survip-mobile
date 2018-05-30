@@ -41,6 +41,7 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
   public isUpdatingSlides: boolean = false;
   public pictures: InspectionBuildingChildPictureForWeb[] = [];
   public isUsingCordova: boolean = false;
+  public imgUrl:string;
 
   get value(): string {
     return this.idParent;
@@ -187,4 +188,9 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
       ? ''
       : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + pic);
   }
+    ChangedEvent(index)
+    {
+      this.imgUrl = this.getImageUrl(this.pictures[this.slides._activeIndex-1].pictureData).toString();
+      console.log("Image :" + index);
+    }
 }
