@@ -9,17 +9,12 @@
     <ion-list-header>
       Bornes
     </ion-list-header>
-    <ion-item *ngFor="let hydrant of filteredCityFireHydrantList | orderBy:'number'">
+    <button ion-item *ngFor="let hydrant of filteredCityFireHydrantList | orderBy:'number'" (click)="AddBuildingFireHydrant(hydrant.id)">
       <ion-icon name="icon-fire-hydrant" item-start [style.color]="hydrant.color" large></ion-icon>
-      <div>
-        <button class="action-list-button" (click)="AddBuildingFireHydrant(hydrant.id)">
-          <ion-icon name="arrow-dropright-circle"></ion-icon>
-        </button>
         <div>
           <h2>{{hydrant.number}}</h2>
           <p>{{hydrant.address}}</p>
         </div>
-      </div>
-    </ion-item>
+    </button>
   </ion-list>
 </ion-content>
