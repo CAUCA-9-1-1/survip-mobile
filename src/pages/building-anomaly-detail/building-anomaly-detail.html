@@ -36,9 +36,9 @@
 </ion-content>
 
 
-<ion-footer class="page-footer">
+<ion-footer class="page-footer" *ngIf="!isNew">
 
-  <ion-navbar *ngIf="!isNew">
+  <ion-navbar>
     <ion-buttons left>
       <button ion-button  icon-start (click)="onDeleteAnomaly()">
         <ion-icon name="trash"></ion-icon>

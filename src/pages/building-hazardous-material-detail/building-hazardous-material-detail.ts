@@ -20,13 +20,13 @@ import {HazardousMaterialForList} from '../../models/hazardous-material-for-list
 })
 export class BuildingHazardousMaterialDetailPage {
 
-  private isNew: boolean = false;
   private idBuildingHazardousMaterial: string;
   private readonly idBuilding: string;
   private subscription: ISubscription;
   private readonly integerPattern: string = "^(0|([1-9]([0-9]*)))$";
   private readonly decimalPattern: string = "^[0-9]+(.[0-9]{1,2})?$";
 
+  public isNew: boolean = false;
   public selectedMaterial: HazardousMaterialForList;
   public material: InspectionBuildingHazardousMaterial;
   public form: FormGroup;
@@ -49,6 +49,7 @@ export class BuildingHazardousMaterialDetailPage {
 
     this.idBuilding = navParams.get("idBuilding");
     this.idBuildingHazardousMaterial = navParams.get('idBuildingHazardousMaterial');
+    this.isNew = this.idBuildingHazardousMaterial == null;
     this.walls = this.staticRepo.getWallList();
     this.sectors = this.staticRepo.getSectorList();
     this.unitRepo.getAllForCapacity()
@@ -158,7 +159,6 @@ export class BuildingHazardousMaterialDetailPage {
   }
 
   private createBuildingHazardousMaterial() {
-    this.isNew = true;
     let data =  new InspectionBuildingHazardousMaterial();
     data.id = UUID.UUID();
     data.tankType = 0;

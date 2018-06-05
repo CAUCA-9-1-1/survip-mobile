@@ -17,11 +17,11 @@ import {AlarmPanelTypeRepository} from '../../providers/repositories/alarm-panel
 })
 export class BuildingAlarmPanelsPage {
 
-  private isNew: boolean = false;
   private idBuildingAlarmPanel: string;
   private readonly idBuilding: string;
   private subscription: ISubscription;
 
+  public isNew: boolean = false;
   public panel: InspectionBuildingAlarmPanel;
   public types: GenericType[] = [];
   public form: FormGroup;
@@ -45,6 +45,7 @@ export class BuildingAlarmPanelsPage {
     this.sectors = staticRepo.getSectorList();
     this.idBuilding = navParams.get("idBuilding");
     this.idBuildingAlarmPanel = navParams.get('idBuildingAlarmPanel');
+    this.isNew = this.idBuildingAlarmPanel == null;
     this.createForm();
   }
 
@@ -105,7 +106,6 @@ export class BuildingAlarmPanelsPage {
   }
 
   private createAlarmPanel() {
-    this.isNew = true;
     let data =  new InspectionBuildingAlarmPanel();
     data.id = UUID.UUID();
     data.idBuilding = this.idBuilding;

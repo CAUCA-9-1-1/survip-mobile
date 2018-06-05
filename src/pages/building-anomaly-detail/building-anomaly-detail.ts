@@ -15,12 +15,12 @@ import {UUID} from 'angular2-uuid';
 })
 export class BuildingAnomalyDetailPage {
 
-  private isNew: boolean = false;
   private idBuildingAnomaly: string;
   private readonly idBuilding: string;
   private subscription: ISubscription;
   private readonly selectedTheme: string;
 
+  public isNew: boolean = false;
   public anomaly: InspectionBuildingAnomaly;
   public form: FormGroup;
 
@@ -37,6 +37,7 @@ export class BuildingAnomalyDetailPage {
 
     this.idBuilding = navParams.get("idBuilding");
     this.idBuildingAnomaly = navParams.get('idBuildingAnomaly');
+    this.isNew = this.idBuildingAnomaly == null;
     this.selectedTheme = navParams.get('theme');
     this.createForm();
   }
@@ -95,7 +96,6 @@ export class BuildingAnomalyDetailPage {
   }
 
   private createAnomaly() {
-    this.isNew = true;
     let data =  new InspectionBuildingAnomaly();
     data.notes = "";
     data.id = UUID.UUID();

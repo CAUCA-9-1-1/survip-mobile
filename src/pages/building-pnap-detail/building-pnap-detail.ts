@@ -16,7 +16,7 @@ import {UUID} from 'angular2-uuid';
 })
 export class BuildingPnapDetailPage {
 
-  private isNew: boolean = false;
+  private isNew: boolean = true;
   private idBuildingPnap: string;
   private readonly idBuilding: string;
   private subscription: ISubscription;
@@ -40,6 +40,7 @@ export class BuildingPnapDetailPage {
 
     this.idBuilding = navParams.get("idBuilding");
     this.idBuildingPnap = navParams.get('idBuildingPnap');
+    this.isNew = this.idBuildingPnap == null;
     this.typeRepo.getAll()
       .subscribe(data => this.pnapTypes = data);
     this.createForm();
@@ -158,7 +159,6 @@ export class BuildingPnapDetailPage {
   }
 
   private createPnap() {
-    this.isNew = true;
     let data =  new InspectionBuildingPersonRequiringAssistance();
     data.id = UUID.UUID();
     data.idBuilding = this.idBuilding;
