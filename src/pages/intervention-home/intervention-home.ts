@@ -1,5 +1,5 @@
 import {Component, OnDestroy} from '@angular/core';
-import {IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
+import {App, IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
 import {MenuItem} from '../../interfaces/menu-item.interface';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {ISubscription} from 'rxjs/Subscription';
@@ -18,7 +18,7 @@ export class InterventionHomePage implements OnDestroy {
   public menuItems: MenuItem[];
   public mustShowPlanMenu: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController, private controller: InspectionControllerProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController, private controller: InspectionControllerProvider,) {
     controller.setIdInterventionForm(this.navParams.data['id']);
 
     this.menuItems = [
@@ -67,8 +67,7 @@ export class InterventionHomePage implements OnDestroy {
     }
   }
 
-  public async goBackToInspectionList(){
-    await this.navCtrl.popToRoot();
-    await this.navCtrl.setRoot('InspectionListPage');
+  public goBackToInspectionList(){
+      this.navCtrl.setRoot('InspectionListPage');
   }
 }

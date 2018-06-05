@@ -63,7 +63,6 @@ export function httpServiceFactory(
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
   ],
   imports: [
     //InspectionMapPageModule,
@@ -85,7 +84,6 @@ export function httpServiceFactory(
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
   ],
   exports: [
   ],

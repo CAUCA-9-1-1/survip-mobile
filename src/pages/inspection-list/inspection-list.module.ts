@@ -4,6 +4,7 @@ import { InspectionListPage } from './inspection-list';
 import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-level-repository';
 import {MaterialModule} from '@angular/material';
 import {InspectionRepositoryProvider} from '../../providers/repositories/inspection-repository-provider.service';
+import {ComponentsModule} from "../../components/components.module";
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import {InspectionRepositoryProvider} from '../../providers/repositories/inspect
   ],
   imports: [
     IonicPageModule.forChild(InspectionListPage),
+      ComponentsModule
   ],
   exports: [
     InspectionListPage
