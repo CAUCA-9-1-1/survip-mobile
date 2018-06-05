@@ -118,15 +118,16 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
     public onDeletePhotos() {
         this.msg.ShowMessageBox("Demande de confirmation", "Êtes-vous sur de vouloir supprimer cette photo?").then(canDelete => {
             if (canDelete) {
-                let picture = this.pictures[this.slides.realIndex];
+
+                let picture = this.pictures[this.slides._activeIndex];
 
                 this.repo.delete(picture.id);
 
-                this.pictures.splice(this.slides.realIndex, 1);
+                this.pictures.splice(this.slides._activeIndex, 1);
                 this.slides.update();
 
-                if(this.slides.realIndex > 0) {
-                    this.slides.slideTo(this.slides.realIndex - 1);
+                if(this.slides._activeIndex > 0) {
+                    this.slides.slideTo(this.slides._activeIndex - 1);
                 }else{
                     this.slides.slideTo(0);
                 }
