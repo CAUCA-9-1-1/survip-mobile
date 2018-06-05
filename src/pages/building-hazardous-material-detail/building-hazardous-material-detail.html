@@ -116,8 +116,8 @@
 
 </ion-content>
 
-<ion-footer class="page-footer">
-  <ion-navbar *ngIf="!isNew">
+<ion-footer class="page-footer" *ngIf="!isNew">
+  <ion-navbar>
     <ion-buttons left>
       <button ion-button icon-start (click)="onDeleteHazardousMaterial()">
         <ion-icon name="trash"></ion-icon>

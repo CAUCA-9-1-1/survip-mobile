@@ -13,11 +13,11 @@ import {MessageToolsProvider} from '../../providers/message-tools/message-tools'
   templateUrl: 'building-contact-detail.html',
 })
 export class BuildingContactDetailPage {
-  private isNew: boolean = false;
   private idBuildingContact: string;
   private readonly idBuilding: string;
   private subscription: ISubscription;
 
+  public isNew: boolean = false;
   public contact: InspectionBuildingContact;
   public form: FormGroup;
 
@@ -32,6 +32,7 @@ export class BuildingContactDetailPage {
 
     this.idBuilding = navParams.get("idBuilding");
     this.idBuildingContact = navParams.get('idBuildingContact');
+    this.isNew = this.idBuildingContact == null;
     this.createForm();
   }
 
@@ -150,7 +151,6 @@ export class BuildingContactDetailPage {
   }
 
   private createContact() {
-    this.isNew = true;
     let data =  new InspectionBuildingContact();
     data.id = UUID.UUID();
     data.idBuilding = this.idBuilding;

@@ -17,11 +17,11 @@ import {SprinklerTypeRepository} from '../../providers/repositories/sprinkler-ty
 })
 export class BuildingWaterSprinklersPage {
 
-  private isNew: boolean = false;
   private idBuildingSprinkler: string;
   private readonly idBuilding: string;
   private subscription: ISubscription;
 
+  public isNew: boolean = false;
   public sprinkler: InspectionBuildingSprinkler;
   public types: GenericType[] = [];
   public form: FormGroup;
@@ -46,6 +46,7 @@ export class BuildingWaterSprinklersPage {
     this.sectors = staticRepo.getSectorList();
     this.idBuilding = navParams.get("idBuilding");
     this.idBuildingSprinkler = navParams.get('idBuildingSprinkler');
+    this.isNew = this.idBuildingSprinkler == null;
     this.createForm();
   }
 
@@ -108,7 +109,6 @@ export class BuildingWaterSprinklersPage {
   }
 
   private createSprinkler() {
-    this.isNew = true;
     let data =  new InspectionBuildingSprinkler();
     data.id = UUID.UUID();
     data.idBuilding = this.idBuilding;
