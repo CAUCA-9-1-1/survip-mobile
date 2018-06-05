@@ -1,5 +1,5 @@
 import {Component, OnDestroy} from '@angular/core';
-import {App, IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
 import {MenuItem} from '../../interfaces/menu-item.interface';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {ISubscription} from 'rxjs/Subscription';
