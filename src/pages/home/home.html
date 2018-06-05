@@ -1,14 +1,17 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-navbar>
-</ion-header>
+<ion-menu [content]="myhomecontent" [persistent]="true">
+    <ion-header>
+        <menu-profile></menu-profile>
+    </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
-</ion-content>
+    <ion-content color="caucaRed">
+        <ion-list class="menu-items">
+            <button ion-item menuClose class="text-menu" *ngFor="let menuItem of menuItems"
+                    (click)="openPage(menuItem.page)">
+                <ion-icon item-left [name]="menuItem.icon"></ion-icon>
+                <span ion-text>{{menuItem.title}}</span>
+            </button>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+
+<ion-nav #myhomecontent [root]="rootPage"></ion-nav>

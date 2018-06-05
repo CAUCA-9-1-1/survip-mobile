@@ -61,6 +61,6 @@ export class LoginPage {
   }
 
   private redirectToInspectionList(){
-    this.navCtrl.setRoot('InspectionListPage');
+    this.navCtrl.setRoot('HomePage');
   }
 }

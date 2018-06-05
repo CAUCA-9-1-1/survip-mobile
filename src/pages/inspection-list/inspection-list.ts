@@ -19,6 +19,7 @@ export class InspectionListPage {
   filteredBatches: Batch[];
   riskLevels: RiskLevel[];
   searchTerm: string = "";
+  rootPage:string = "InterventionHomePage";
   noDataMessage: string = "Vous n'êtes assigné à aucune inspection.";
 
   constructor(public appCtrl: App,
@@ -58,6 +59,12 @@ export class InspectionListPage {
     let isLoggedIn = await this.authService.isStillLoggedIn();
     if (!isLoggedIn)
       this.redirectToLoginPage();
+    else{
+      if(this.navCtrl.getPrevious())
+      {
+        this.navCtrl.setRoot('HomePage');
+      }
+    }
   }
 
   private redirectToLoginPage(){
