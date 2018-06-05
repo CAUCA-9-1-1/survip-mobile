@@ -8,7 +8,6 @@
     [(ngModel)]="searchTerm"
     (ionInput)="filterList($event)"
     placeholder="Niveau de risque, # civique ou nom de rue">
-
   </ion-searchbar>
 </ion-header>
 
@@ -16,6 +15,9 @@
   <ion-refresher (ionRefresh)="refreshList($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+  <div class="no-data-message" *ngIf="batches?.length == 0">
+    <h2>{{noDataMessage}}</h2>
+  </div>
   <ion-list class="list-items">
       <ion-item-group *ngFor="let batch of filteredBatches">
         <ion-item-divider>Lot d'inspection : {{batch.description}}</ion-item-divider>
