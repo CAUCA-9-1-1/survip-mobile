@@ -19,6 +19,7 @@ export class InspectionListPage {
   filteredBatches: Batch[];
   riskLevels: RiskLevel[];
   searchTerm: string = "";
+  noDataMessage: string = "Vous n'êtes assigné à aucune inspection.";
 
   constructor(public appCtrl: App,
               public navCtrl: NavController,
