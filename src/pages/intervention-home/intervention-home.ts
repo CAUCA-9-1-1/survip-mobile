@@ -49,6 +49,7 @@ export class InterventionHomePage implements OnDestroy {
   ionViewDidEnter() {
     this.menuCtrl.enable(true, 'inspectionMenu');
     this.menuCtrl.enable(false, 'buildingMenu');
+    this.menuCtrl.enable(false, 'inspectionListMenu');
   }
 
   openPage(page) {

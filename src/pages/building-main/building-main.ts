@@ -47,6 +47,7 @@ export class BuildingMainPage {
   ionViewDidEnter() {
     this.menuCtrl.enable(false, 'inspectionMenu');
     this.menuCtrl.enable(true, 'buildingMenu');
+      this.menuCtrl.enable(false, 'inspectionListMenu');
   }
 
   public goBackToBuildingList() {

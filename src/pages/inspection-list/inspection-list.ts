@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {App, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {App, IonicPage, LoadingController, MenuController, NavController, NavParams} from 'ionic-angular';
 import {RiskLevel} from '../../models/risk-level';
 import {Inspection} from '../../interfaces/inspection.interface';
 import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-level-repository';
@@ -28,7 +28,8 @@ export class InspectionListPage {
               private riskLevelService: RiskLevelRepositoryProvider,
               private loadingCtrl: LoadingController,
               private inspectionService: InspectionRepositoryProvider,
-              private authService: AuthenticationService) {
+              private authService: AuthenticationService,
+              private menu: MenuController) {
     const loading = this.createLoadingControl();
     loading.present();
     riskLevelService.getAll()
@@ -56,15 +57,14 @@ export class InspectionListPage {
   }
 
   async ionViewCanEnter() {
+      this.menu.enable(false, 'inspectionMenu');
+      this.menu.enable(false, 'buildingMenu');
+      this.menu.enable(true, 'inspectionListMenu');
+
     let isLoggedIn = await this.authService.isStillLoggedIn();
     if (!isLoggedIn)
       this.redirectToLoginPage();
-    else{
-      if(this.navCtrl.getPrevious())
-      {
-        this.navCtrl.setRoot('HomePage');
-      }
-    }
+
   }
 
   private redirectToLoginPage(){
