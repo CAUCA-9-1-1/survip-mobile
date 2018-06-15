@@ -33,15 +33,18 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
 
     public isUsingCordova: boolean;
 
-    get imageUrl() {
-        return this.imageData === "" || this.imageData == null
-            ? ''
-            : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + this.imageData);
+  get imageUrl(){
+    return this.imageData === "" || this.imageData == null
+      ? ''
+      /*  : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + this.imageData); */
+      // : this.sanitizer.bypassSecurityTrustUrl(' http://www.forensicgenealogy.info/images/construction_google_earth_3d.jpg');
+      : './../../assets/img/bg.jpg';
     }
 
-    get hasImageUrl(): boolean {
-        return !(this.imageData === "" || this.imageData == null);
-    }
+
+  get hasImageUrl(): boolean{
+    return !(this.imageData === "" || this.imageData == null);
+  }
 
     constructor(
         private camera: Camera,
