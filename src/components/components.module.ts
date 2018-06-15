@@ -11,6 +11,8 @@ import {BuildingChildPicturesComponent} from './building-child-pictures/building
 import { InspectionBuildingParticularRiskDetailComponent } from './inspection-building-particular-risk-detail/inspection-building-particular-risk-detail';
 import { MenuProfileComponent } from './menu-profile/menu-profile';
 
+import { MobileSketchToolModule } from 'lib-sketch-tool';
+
 @NgModule({
 	declarations: [
 	  SearchBoxComponent,
@@ -24,7 +26,8 @@ import { MenuProfileComponent } from './menu-profile/menu-profile';
 	  FormsModule,
     IonicPageModule.forChild(SearchBoxComponent),
     IonicPageModule.forChild(SearchListComponent),
-    IonicImageViewerModule
+    IonicImageViewerModule,
+    MobileSketchToolModule,
   ],
 	exports: [
 	  SearchBoxComponent,

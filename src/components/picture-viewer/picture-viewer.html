@@ -1,5 +1,6 @@
 <div class="div-selected-picture">
-  <img class="selected-picture" [src]="imageUrl" *ngIf="hasImageUrl" imageViewer />
+  <!-- <img class="selected-picture" [src]="imageUrl" *ngIf="hasImageUrl" imageViewer /> -->
+  <lib-mobile-sketch-tool [imgUrl]="imageUrl" *ngIf="hasImageUrl"></lib-mobile-sketch-tool>
 </div>
 
 <ion-footer class="page-footer">

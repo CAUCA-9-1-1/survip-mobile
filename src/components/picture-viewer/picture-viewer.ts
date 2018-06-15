@@ -36,8 +36,11 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   get imageUrl(){
     return this.imageData === "" || this.imageData == null
       ? ''
-      : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + this.imageData);
-  }
+      /*  : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + this.imageData); */
+      // : this.sanitizer.bypassSecurityTrustUrl(' http://www.forensicgenealogy.info/images/construction_google_earth_3d.jpg');
+      : './../../assets/img/bg.jpg';
+    }
+
 
   get hasImageUrl(): boolean{
     return !(this.imageData === "" || this.imageData == null);
