@@ -10,6 +10,7 @@ import {WindowRefService} from '../providers/Base/window-ref.service';
 import {BuildingChildPicturesComponent} from './building-child-pictures/building-child-pictures';
 import {InspectionBuildingParticularRiskDetailComponent} from './inspection-building-particular-risk-detail/inspection-building-particular-risk-detail';
 import {MenuProfileComponent} from './menu-profile/menu-profile';
+import { MobileSketchToolModule } from 'lib-sketch-tool';
 import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
@@ -26,6 +27,7 @@ import {TranslateModule} from "@ngx-translate/core";
         IonicPageModule.forChild(SearchBoxComponent),
         IonicPageModule.forChild(SearchListComponent),
         IonicImageViewerModule,
+        MobileSketchToolModule,
         TranslateModule.forChild(),
     ],
     exports: [
