@@ -31,14 +31,44 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
     private changed = new Array<(value: string) => void>();
     private touched = new Array<() => void>();
 
-    public isUsingCordova: boolean;
+  public iconsPath = './../../../assets/pictograms/';
+  public icons = [
+    'Annonciateur.png',
+    'BoiteClees.png',
+    'BoiteInformationPompier.png',
+    'BorneIncendie.png',
+    'BorneIncendieMurale.png',
+    'BorneIncendiePrivee.png',
+    'BorneIncendieMurale.png',
+    'BorneIncendiePrivee.png',
+    'CamionPompier.png',
+    'EntreeElectrique.png',
+    'EntreeEauDomestique.png',
+    'GazNaturel.png',
+    'GazPropane.png',
+    'Generatrice.png',
+    'MatiereDangereuse.png',
+    'PanneauAlarmeIncendie.png',
+    'PoteauIndicateurDeVanne.png',
+    'RaccordPompierCanalisation.png',
+    'RaccordPompierGicleur.png',
+    'RaccordPompierMixte.png',
+    'ReservoirProduitPetrolier.png',
+    'SoupapeAlarmeSousAir.png',
+    'SouspapeAlarmeSousEau.png',
+    'AccesPrincipal.png',
+    'SensUnique.png',
+    'PompeIncendie.png',
+    'MurFaible.png'
+  ];
+
+  isUsingCordova: boolean;
 
   get imageUrl(){
     return this.imageData === "" || this.imageData == null
       ? ''
-      /*  : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + this.imageData); */
+        : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + this.imageData);
       // : this.sanitizer.bypassSecurityTrustUrl(' http://www.forensicgenealogy.info/images/construction_google_earth_3d.jpg');
-      : './../../assets/img/bg.jpg';
     }
 
 
