@@ -12,6 +12,6 @@
   <!--<ion-list class="list-items">
     <ion-list-header>{{plan?.mainBuildingAddress}}</ion-list-header>
   </ion-list>-->
-  <picture-viewer formControlName="picture">
+  <picture-viewer formControlName="picture" (json)="onJsonChanged($event)">
   </picture-viewer>
 </ion-content>

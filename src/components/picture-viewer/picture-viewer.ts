@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, ViewChild, Output, EventEmitter} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -14,6 +14,8 @@ import {WindowRefService} from '../../providers/Base/window-ref.service';
 })
 export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   @ViewChild('filePicker') inputRef: ElementRef;
+
+  @Output() public json = new EventEmitter<string>();
 
   private isDisposed: boolean = false;
   private imageData: string;
@@ -175,5 +177,10 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
     {
       alert(JSON.stringify(error));
     }
+  }
+
+  public onJsonChanged(json: string) {
+    this.imageJson = json;
+    this.json.emit(this.imageJson);
   }
 }
