@@ -1,6 +1,6 @@
 <div class="div-selected-picture">
   <!-- <img class="selected-picture" [src]="imageUrl" *ngIf="hasImageUrl" imageViewer /> -->
-  <lib-mobile-sketch-tool [imgUrl]="imageUrl" [iconsPath]="iconsPath" [icons]="icons" *ngIf="hasImageUrl"></lib-mobile-sketch-tool>
+  <lib-mobile-sketch-tool class="selected-picture" [imgUrl]="imageUrl" [iconsPath]="iconsPath" [icons]="icons" (json)="onJsonChanged($event)" *ngIf="hasImageUrl"></lib-mobile-sketch-tool>
 </div>
 
 <ion-footer class="page-footer">

@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, ViewChild, Output, EventEmitter} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -15,21 +15,23 @@ import {WindowRefService} from '../../providers/Base/window-ref.service';
 export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
     @ViewChild('filePicker') inputRef: ElementRef;
 
-    private isDisposed: boolean = false;
-    private imageData: string;
-    private options: CameraOptions = {
-        quality: 100,
-        destinationType: this.camera.DestinationType.DATA_URL,
-        encodingType: this.camera.EncodingType.JPEG,
-        mediaType: this.camera.MediaType.PICTURE,
-        allowEdit: false,
-        saveToPhotoAlbum: false,
-        correctOrientation: true,
-        targetWidth: 680,
-        targetHeight: 680,
-    };
-    private changed = new Array<(value: string) => void>();
-    private touched = new Array<() => void>();
+  @Output() public json = new EventEmitter<string>();
+
+  private isDisposed: boolean = false;
+  private imageData: string;
+  private options: CameraOptions = {
+    quality: 100,
+    destinationType: this.camera.DestinationType.DATA_URL,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE,
+    allowEdit: false,
+    saveToPhotoAlbum: false,
+    correctOrientation: true,
+    targetWidth: 680,
+    targetHeight: 680,
+  };
+  private changed = new Array<(value: string) => void>();
+  private touched = new Array<() => void>();
 
   public iconsPath = './../../../assets/pictograms/';
   public icons = [
@@ -174,4 +176,14 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
             alert(JSON.stringify(error));
         }
     }
+    catch(error)
+    {
+      alert(JSON.stringify(error));
+    }
+  }
+
+  public onJsonChanged(json: string) {
+    this.imageJson = json;
+    this.json.emit(this.imageJson);
+  }
 }
