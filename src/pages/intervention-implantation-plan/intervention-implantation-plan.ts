@@ -24,6 +24,7 @@ export class InterventionImplantationPlanPage implements OnDestroy {
   public form: FormGroup;
 
   private planSubscription : ISubscription;
+  public startingJson : string;
 
   get picture(): PictureData{
     return this.controller.picture;
@@ -80,6 +81,7 @@ export class InterventionImplantationPlanPage implements OnDestroy {
   private setValues() {
     if (this.picture != null) {
       this.form.patchValue(this.picture);
+      this.startingJson = this.picture.json;
     }
   }
 
@@ -93,5 +95,10 @@ export class InterventionImplantationPlanPage implements OnDestroy {
     const formModel  = this.form.value;
     Object.assign(this.controller.picture, formModel);
     await this.controller.savePicture();
+  }
+
+  public async onJsonChanged(json: JSON) {
+    this.controller.picture.json = JSON.stringify(json);
+    this.saveForm();
   }
 }
