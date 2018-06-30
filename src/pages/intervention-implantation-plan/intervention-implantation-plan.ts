@@ -81,7 +81,6 @@ export class InterventionImplantationPlanPage implements OnDestroy {
   private setValues() {
     if (this.picture != null) {
       this.form.patchValue(this.picture);
-      this.startingJson = this.picture.json;
     }
   }
 
