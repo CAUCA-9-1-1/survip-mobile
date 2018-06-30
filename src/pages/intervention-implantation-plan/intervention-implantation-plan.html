@@ -5,6 +5,6 @@
   </ion-navbar>
 </ion-header>
 <ion-content [formGroup]="form" ion-fixed>
-  <picture-viewer formControlName="picture">
+  <picture-viewer formControlName="picture" [loadedJson]="json" (json)="onJsonChanged($event)">
   </picture-viewer>
 </ion-content>

@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, ViewChild, Output, EventEmitter} from '@angular/core';
+import {Component, ElementRef, OnDestroy, ViewChild, Output, EventEmitter, Input} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -15,6 +15,7 @@ import {WindowRefService} from '../../providers/Base/window-ref.service';
 export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
     @ViewChild('filePicker') inputRef: ElementRef;
 
+  @Input() public loadedJson: string;
   @Output() public json = new EventEmitter<string>();
 
   private isDisposed: boolean = false;
@@ -34,6 +35,7 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   private touched = new Array<() => void>();
 
   public iconsPath = './../../../assets/pictograms/';
+  private modifiedJson: string;
   public icons = [
     'Annonciateur.png',
     'BoiteClees.png',
@@ -69,10 +71,9 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   get imageUrl(){
     return this.imageData === "" || this.imageData == null
       ? ''
-        : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + this.imageData);
-      // : this.sanitizer.bypassSecurityTrustUrl(' http://www.forensicgenealogy.info/images/construction_google_earth_3d.jpg');
-    }
-
+      //: this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + this.imageData);
+      : 'data:image/jpeg;base64,' + this.imageData;
+  }
 
   get hasImageUrl(): boolean{
     return !(this.imageData === "" || this.imageData == null);
@@ -183,7 +184,7 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   }
 
   public onJsonChanged(json: string) {
-    this.imageJson = json;
-    this.json.emit(this.imageJson);
+    this.modifiedJson = json;
+    this.json.emit(this.modifiedJson);
   }
 }
