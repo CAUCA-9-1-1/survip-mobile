@@ -20,8 +20,10 @@
                             color="caucaRed">
                         <ion-icon name="trash" class="deleteIcon"></ion-icon>
                     </button>
-                    <img class="selected-picture" [src]="getImageUrl(picture.pictureData)"
-                         *ngIf="hasImageUrl(picture.pictureData)" imageViewer/>
+                    <!-- <img class="selected-picture" [src]="getImageUrl(picture.pictureData)"
+                         *ngIf="hasImageUrl(picture.pictureData)" imageViewer/> -->
+                    <lib-mobile-sketch-tool class="selected-picture" [imgUrl]="getImageUrl(picture.pictureData)" [canvasJson]="loadedJson" [iconsPath]="iconsPath" [icons]="icons" (json)="onJsonChanged($event)" *ngIf="hasImageUrl(picture.pictureData)"></lib-mobile-sketch-tool>
+
 
                 </ion-card>
             </ion-slide>

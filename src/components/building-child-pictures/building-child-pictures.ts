@@ -204,6 +204,11 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
     public getImageUrl(pic: string) {
         return pic === "" || pic == null
             ? ''
-            : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + pic);
+            // : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + pic);
+            : ('data:image/jpeg;base64,' + pic);
+    }
+
+    public onJsonChanged($event) {
+        console.log('Should save picture.');
     }
 }
