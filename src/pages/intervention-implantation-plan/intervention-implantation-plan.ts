@@ -14,10 +14,10 @@ import {ISubscription} from 'rxjs/Subscription';
     templateUrl: 'intervention-implantation-plan.html',
 })
 export class InterventionImplantationPlanPage implements OnDestroy {
-    private planSubscription: ISubscription;
+  public form: FormGroup;
+  public json: string;
 
-    public form: FormGroup;
-    public startingJson : string;
+  private planSubscription : ISubscription;
 
     get picture(): PictureData {
         return this.controller.picture;
@@ -74,6 +74,9 @@ export class InterventionImplantationPlanPage implements OnDestroy {
   private setValues() {
     if (this.picture != null) {
       this.form.patchValue(this.picture);
+      if (!this.json) {
+        this.json = this.picture.json;
+      }
     }
 
     private async saveIfValid() {
