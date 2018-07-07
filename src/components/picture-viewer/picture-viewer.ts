@@ -1,9 +1,11 @@
+import {StatusBar} from '@ionic-native/status-bar';
 import {Component, ElementRef, OnDestroy, ViewChild, Output, EventEmitter, Input} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Platform} from 'ionic-angular';
 import {WindowRefService} from '../../providers/Base/window-ref.service';
+import {PictureData} from '../../models/picture-data';
 
 @Component({
     selector: 'picture-viewer',
@@ -46,6 +48,8 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   }
 
   get hasImageUrl(): boolean{
+    if (!this.imageData) 
+      return false;
     return !(this.imageData === "" || this.imageData == null);
   }
 
