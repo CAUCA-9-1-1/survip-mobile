@@ -1,9 +1,11 @@
-import {Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
+import {StatusBar} from '@ionic-native/status-bar';
+import {Component, ElementRef, OnDestroy, ViewChild, Output, EventEmitter, Input} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Platform} from 'ionic-angular';
 import {WindowRefService} from '../../providers/Base/window-ref.service';
+import {PictureData} from '../../models/picture-data';
 
 @Component({
   selector: 'picture-viewer',
@@ -14,6 +16,9 @@ import {WindowRefService} from '../../providers/Base/window-ref.service';
 })
 export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   @ViewChild('filePicker') inputRef: ElementRef;
+
+  @Input() public loadedJson: string;
+  @Output() public json = new EventEmitter<string>();
 
   private isDisposed: boolean = false;
   private imageData: string;
@@ -31,15 +36,20 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   private changed = new Array<(value: string) => void>();
   private touched = new Array<() => void>();
 
+  private modifiedJson: string;
+ 
   isUsingCordova: boolean;
 
   get imageUrl(){
     return this.imageData === "" || this.imageData == null
       ? ''
-      : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + this.imageData);
+      //: this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + this.imageData);
+      : 'data:image/jpeg;base64,' + this.imageData;
   }
 
   get hasImageUrl(): boolean{
+    if (!this.imageData) 
+      return false;
     return !(this.imageData === "" || this.imageData == null);
   }
 
@@ -142,5 +152,10 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
     {
       alert(JSON.stringify(error));
     }
+  }
+
+  public onJsonChanged(json: string) {
+    this.modifiedJson = json;
+    this.json.emit(this.modifiedJson);
   }
 }

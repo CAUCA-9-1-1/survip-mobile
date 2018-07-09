@@ -32,12 +32,12 @@ export class InspectionControllerProvider {
   public pictureLoaded: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
+    public pictureRepo: PictureRepositoryProvider,
+    
     private repoDetail: InspectionDetailRepositoryProvider,
     private repoBuildings: InspectionBuildingsRepositoryProvider,
     private loadingCtrl: LoadingController,
     private laneRepo: LaneRepositoryProvider,
-    private pictureRepo: PictureRepositoryProvider,
-
     private buildingfirehydrantRepo: BuildingFireHydrantRepositoryProvider,
   ) {}
 
@@ -86,7 +86,7 @@ export class InspectionControllerProvider {
   async savePicture() {
     let idPicture = await this.pictureRepo.savePicture(this.picture);
     if (this.inspectionDetail.idPictureSitePlan != idPicture)
-      this.savePlanIdPicture(idPicture as string);
+       this.savePlanIdPicture(idPicture as string);
   }
 
   private savePlanIdPicture(idPicture: string) {

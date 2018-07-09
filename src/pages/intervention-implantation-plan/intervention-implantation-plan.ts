@@ -22,6 +22,7 @@ import {ISubscription} from 'rxjs/Subscription';
 })
 export class InterventionImplantationPlanPage implements OnDestroy {
   public form: FormGroup;
+  public json: string;
 
   private planSubscription : ISubscription;
 
@@ -80,6 +81,9 @@ export class InterventionImplantationPlanPage implements OnDestroy {
   private setValues() {
     if (this.picture != null) {
       this.form.patchValue(this.picture);
+      if (!this.json) {
+        this.json = this.picture.json;
+      }
     }
   }
 
@@ -93,5 +97,10 @@ export class InterventionImplantationPlanPage implements OnDestroy {
     const formModel  = this.form.value;
     Object.assign(this.controller.picture, formModel);
     await this.controller.savePicture();
+  }
+
+  public async onJsonChanged(json: JSON) {
+    this.controller.picture.json = JSON.stringify(json);
+    this.saveForm();
   }
 }

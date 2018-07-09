@@ -1,5 +1,7 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <div class="div-selected-picture">
-  <img class="selected-picture" [src]="imageUrl" *ngIf="hasImageUrl" imageViewer />
+  <lib-mobile-sketch-tool class="selected-picture" [imageData]="imageUrl" [loadedJson]="loadedJson" (json)="onJsonChanged($event)" *ngIf="hasImageUrl"></lib-mobile-sketch-tool>
 </div>
 
 <ion-footer class="page-footer">
