@@ -1,14 +1,8 @@
 picture-viewer {
-  .selected-picture {
+  .div-selected-picture {
     width: 100%;
     height: 80%;
     padding: 5px;
-    padding: 5px;
-    object-fit: contain;
-  }
-
-  .div-selected-picture {
-    height: 100%;
   }
 
   .footer-button-camera {
@@ -16,3 +10,9 @@ picture-viewer {
     font-size: 1.5em;
   }
 }
+
+.action-sheet-button {
+  font-family: FontAwesome, Arial !important;
+  text-align: left, right !important;
+}
+
