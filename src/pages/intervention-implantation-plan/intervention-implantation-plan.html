@@ -4,7 +4,8 @@
     <ion-title>{{'implantationPlan' | translate}}</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content [formGroup]="form" ion-fixed>
-  <picture-viewer formControlName="picture" [loadedJson]="json" (json)="onJsonChanged($event)">
+
+<ion-content ion-fixed>
+  <picture-viewer [ngModel]="picture" (ngModelChange)="onModelChange($event)" (json)="onJsonChanged($event)">
   </picture-viewer>
 </ion-content>
