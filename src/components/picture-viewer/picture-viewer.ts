@@ -40,10 +40,13 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   isUsingCordova: boolean;
 
   get imageUrl(){
-    return this.imageData.dataUri === "" || this.imageData.dataUri == null
-      ? ''
-     // : 'data:image/jpeg;base64,' + this.imageData;
-     : this.imageData.dataUri;
+    if (this.imageData.dataUri !== "" || this.imageData.dataUri !== null) {
+      const validUri = (this.imageData.dataUri.indexOf(';base64,') > 0)
+      ? this.imageData.dataUri
+      : 'data:image/jpeg;base64,' + this.imageData.dataUri;
+      return validUri;
+    }
+    return '';
   }
 
   get hasImageUrl(): boolean{
@@ -69,11 +72,10 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   }
 
   set value(value: PictureData) {
-    console.log('set');
-    // if (this.imageData !== value) {
+    if (this.imageData !== value) {
       this.imageData = value;
       this.changed.forEach(f => f(value));
-    // }
+    }
   }
 
     public touch() {
@@ -142,11 +144,8 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
     let imageUri: string = response.target.result;
     if (imageUri.indexOf(';base64,') > 0)
       imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);
-    
-    console.log(imageUri);
-    console.log(this.value);
-    this.value = {id: '', picture: imageUri, dataUri: imageUri, json: ''};
-    console.log(this.value);    
+
+    this.value = {id: this.value.id, picture: imageUri, dataUri: imageUri, sketchJson: ''}; 
   }
 
   private getPicture(options: CameraOptions) {
@@ -164,7 +163,7 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   }
 
   public onJsonChanged(json: string) {
-    this.modifiedJson = json;
-    this.json.emit(this.modifiedJson);
+    console.log('On Json Changed');
+    this.value = {id: this.value.id, picture: this.value.dataUri, dataUri: this.value.dataUri, sketchJson: json}; 
   }
 }

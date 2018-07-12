@@ -15,7 +15,6 @@ import {ISubscription} from 'rxjs/Subscription';
 })
 export class InterventionImplantationPlanPage implements OnDestroy {
   public form: FormGroup;
-  public json: string;
 
   private planSubscription : ISubscription;
 
@@ -56,27 +55,24 @@ export class InterventionImplantationPlanPage implements OnDestroy {
         await this.navCtrl.setRoot('LoginPage');
     }
 
-    private createForm() {
-        this.form = this.fb.group({picture: ['']});
-    }
+  private createForm() {
+    this.form = this.fb.group({id: [''], picture: [''], dataUri: [''], sketchJson: ['']});
+  }
 
     public setValuesAndStartListening() {
         this.setValues();
         this.startWatchingForm();
     }
 
-    private startWatchingForm() {
-        this.form.valueChanges
-            .debounceTime(500)
-            .subscribe(() => this.saveIfValid());
-    }
-
+  private startWatchingForm() {
+    this.form.valueChanges
+      .debounceTime(500)
+      .subscribe(() => this.saveIfValid());
+  }
+ 
   private setValues() {
     if (this.picture != null) {
       this.form.patchValue(this.picture);
-      if (!this.json) {
-        this.json = this.picture.json;
-      }
     }
 
     private async saveIfValid() {
@@ -89,16 +85,18 @@ export class InterventionImplantationPlanPage implements OnDestroy {
     const formModel  = this.form.value;
     Object.assign(this.controller.picture, formModel);
     await this.controller.savePicture();
-  }
+
+  } 
 
   public async onJsonChanged(json: JSON) {
-    this.controller.picture.json = JSON.stringify(json);
+    this.controller.picture.sketchJson = JSON.stringify(json);
     // this.saveForm();
   }
 
   public onModelChange($event) {
-    console.log('test');
-    console.log(event);
+    console.log('Model Changed');
+    console.log($event);
+    this.form.setValue($event);
     this.saveForm();
   }
 }
