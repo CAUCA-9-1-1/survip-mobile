@@ -164,6 +164,9 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
 
   public onJsonChanged(json: string) {
     console.log('On Json Changed');
-    this.value = {id: this.value.id, picture: this.value.dataUri, dataUri: this.value.dataUri, sketchJson: json}; 
+    let imageUri = this.value.dataUri;
+    if (imageUri.indexOf(';base64,') > 0)
+      imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);
+    this.value = {id: this.value.id, picture:imageUri, dataUri: imageUri, sketchJson: json}; 
   }
 }
