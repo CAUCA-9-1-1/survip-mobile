@@ -39,7 +39,7 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
  
   isUsingCordova: boolean;
 
-  get imageUrl(){
+  get imageUrl(): string {
     if (this.imageData.dataUri !== "" || this.imageData.dataUri !== null) {
       const validUri = (this.imageData.dataUri.indexOf(';base64,') > 0)
       ? this.imageData.dataUri
@@ -49,10 +49,14 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
     return '';
   }
 
-  get hasImageUrl(): boolean{
+  get hasImageUrl(): boolean {
     if (!this.imageData) 
       return false;
     return !(this.imageData.dataUri === "" || this.imageData.dataUri == null);
+  }
+
+  get imageJson(): JSON {
+    return this.imageData.sketchJson;
   }
 
   constructor(
