@@ -88,14 +88,7 @@ export class InterventionImplantationPlanPage implements OnDestroy {
 
   } 
 
-  public async onJsonChanged(json: JSON) {
-    this.controller.picture.sketchJson = JSON.stringify(json);
-    // this.saveForm();
-  }
-
   public onModelChange($event) {
-    console.log('Model Changed');
-    console.log($event);
     this.form.setValue($event);
     this.saveForm();
   }
