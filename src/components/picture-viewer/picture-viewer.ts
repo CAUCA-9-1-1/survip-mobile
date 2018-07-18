@@ -55,8 +55,10 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
     return !(this.imageData.dataUri === "" || this.imageData.dataUri == null);
   }
 
-  get imageJson(): JSON {
-    return this.imageData.sketchJson;
+  get imageJson(): string {
+    return (this.imageData.sketchJson !== "" || this.imageData.sketchJson !== null)
+    ? this.imageData.sketchJson
+    : '';
   }
 
   constructor(
@@ -155,7 +157,7 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   private getPicture(options: CameraOptions) {
     try {
       this.camera.getPicture(options).then((imageData) => {
-        this.value = imageData;
+        this.value.dataUri = imageData;
       }, (err) => {
         alert(err);
       });
@@ -167,7 +169,6 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   }
 
   public onJsonChanged(json: string) {
-    console.log('On Json Changed');
     let imageUri = this.value.dataUri;
     if (imageUri.indexOf(';base64,') > 0)
       imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);
