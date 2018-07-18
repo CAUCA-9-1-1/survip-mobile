@@ -1,5 +1,5 @@
 import {Component, OnDestroy} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {PictureData} from '../../models/picture-data';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
@@ -26,15 +26,16 @@ export class InterventionImplantationPlanPage implements OnDestroy {
         return this.controller.inspectionDetail;
     }
 
-    constructor(
-        public navCtrl: NavController,
-        public navParams: NavParams,
-        private authService: AuthenticationService,
-        private fb: FormBuilder,
-        private controller: InspectionControllerProvider,) {
-        this.createForm();
-        this.planSubscription = this.controller.pictureLoaded.subscribe(() => this.setValuesAndStartListening());
-    }
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private authService: AuthenticationService,
+    private fb: FormBuilder,
+    private controller: InspectionControllerProvider,
+    private menu: MenuController,) {
+    this.createForm();
+    this.planSubscription = this.controller.pictureLoaded.subscribe(() => this.setValuesAndStartListening());
+  }
 
     public ngOnDestroy(): void {
         if (this.planSubscription)
@@ -51,9 +52,17 @@ export class InterventionImplantationPlanPage implements OnDestroy {
             await this.redirectToLoginPage();
     }
 
-    private async redirectToLoginPage() {
-        await this.navCtrl.setRoot('LoginPage');
-    }
+  ionViewDidEnter() {
+    this.menu.swipeEnable(false);
+  }
+
+  ionViewWillLeave() {
+    this.menu.swipeEnable(true);
+   }
+
+  private async redirectToLoginPage(){
+    await this.navCtrl.setRoot('LoginPage');
+  }
 
   private createForm() {
     this.form = this.fb.group({id: [''], picture: [''], dataUri: [''], sketchJson: ['']});
