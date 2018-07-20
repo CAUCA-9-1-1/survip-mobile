@@ -34,8 +34,6 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   };
   private changed = new Array<(value: PictureData) => void>();
   private touched = new Array<() => void>();
-
-  private modifiedJson: string;
  
   isUsingCordova: boolean;
 
