@@ -151,7 +151,7 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
     if (imageUri.indexOf(';base64,') > 0)
       imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);
 
-    this.value = {id: this.value.id, picture: imageUri, dataUri: imageUri, sketchJson: ''}; 
+    this.value = {id: this.value.id, picture: imageUri, dataUri: imageUri, sketchJson: null}; 
   }
 
   private getPicture(options: CameraOptions) {

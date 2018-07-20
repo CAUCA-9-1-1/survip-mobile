@@ -1,5 +1,5 @@
 import {Component, OnDestroy} from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
+import {IonicPage, NavController, NavParams, MenuController} from 'ionic-angular';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {PictureData} from '../../models/picture-data';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
@@ -94,7 +94,6 @@ export class InterventionImplantationPlanPage implements OnDestroy {
     const formModel  = this.form.value;
     Object.assign(this.controller.picture, formModel);
     await this.controller.savePicture();
-
   } 
 
   public onModelChange($event) {
