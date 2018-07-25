@@ -3,7 +3,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {UUID} from 'angular2-uuid';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {WindowRefService} from '../../providers/Base/window-ref.service';
-import {Platform, Slides} from 'ionic-angular';
+import {Platform, Slides, ModalController} from 'ionic-angular';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MessageToolsProvider} from '../../providers/message-tools/message-tools';
 import {InspectionBuildingChildPictureForWeb} from '../../models/inspection-building-child-picture-for-web';
@@ -63,6 +63,7 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         private sanitizer: DomSanitizer,
         private platform: Platform,
         private windowRef: WindowRefService,
+        private modalCtrl: ModalController,
         private translateService: TranslateService) {
 
         this.loadTranslation();
@@ -150,6 +151,10 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         });
     }
 
+    public onEditPhoto() {
+        this.openImageEditionPage();
+    }
+
     public selectPicture(): void {
         if (this.isUsingCordova)
             this.selectPictureNative();
@@ -206,4 +211,13 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
             ? ''
             : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + pic);
     }
+
+    private openImageEditionPage(){
+        let picture = this.pictures[this.slides._activeIndex];
+        console.log('picture');
+        console.log(picture);
+        let modal = this.modalCtrl.create('ImageEditionPage', { picture: picture, repo: this.repo });
+        modal.onDidDismiss(() => this.loadPictures());
+        modal.present();
+      }
 }
