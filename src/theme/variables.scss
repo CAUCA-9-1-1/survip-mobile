@@ -89,3 +89,6 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+
+$fa-font-path: "../assets/fonts";
+@import '../../node_modules/font-awesome/scss/font-awesome.scss';
