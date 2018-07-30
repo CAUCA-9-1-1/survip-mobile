@@ -11,7 +11,7 @@ export class PersonRequiringAssistanceTypeRepositoryProvider {
   }
 
   public getAll(): Observable<GenericType[]> {
-    return this.http.get('personrequiringassistancetype')
+    return this.http.get('personrequiringassistancetype/localized')
       .pipe(map(response => response));
   }
 }
