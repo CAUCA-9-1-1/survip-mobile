@@ -13,7 +13,7 @@ export class UtilisationCodeRepositoryProvider  {
     if (!idUtilisationCode) {
       return Observable.of(new UtilisationCode());
     } else {
-      return this.http.get('utilisationcode/' + idUtilisationCode)
+      return this.http.get('utilisationcode/localized/' + idUtilisationCode)
         .pipe(map(response => {
           console.log(response);
           return response;

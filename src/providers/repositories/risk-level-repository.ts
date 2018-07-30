@@ -10,7 +10,7 @@ export class RiskLevelRepositoryProvider {
   constructor(public http: HttpService){}
 
   getAll() {
-    return this.http.get('risklevel', 3)
+    return this.http.get('risklevel/localized', 3)
       .pipe(map(response => response));
   }
 
