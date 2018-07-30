@@ -16,7 +16,7 @@
 <ion-content padding>
 
   <div ion-fixed class="div-sketch-tool">
-    <lib-mobile-sketch-tool [imageData]="pictureUri" (json)="onJsonChanged($event)"></lib-mobile-sketch-tool>
+    <lib-mobile-sketch-tool [imageData]="pictureUri" [loadedJson]="sketchJson" (json)="onJsonChanged($event)"></lib-mobile-sketch-tool>
   </div>
 
 </ion-content>
