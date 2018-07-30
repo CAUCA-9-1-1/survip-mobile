@@ -2,12 +2,11 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {Loading, LoadingController} from 'ionic-angular';
 
 @Injectable()
 export class HttpService {
-  private apiUrl = 'https://survipreventiontest.cauca.ca/api/';
-  //private apiUrl = 'http://10.10.33.101:5555/api/';
+  //private apiUrl = 'https://survipreventiontest.cauca.ca/api/';
+  private apiUrl = 'http://10.10.33.103:5555/api/';
 
   constructor(private client: HttpClient,) {
   }
