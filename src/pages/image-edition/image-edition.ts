@@ -2,7 +2,6 @@ import {Component, Input} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {BuildingChildPictureRepositoryProvider} from '../../interfaces/building-child-picture-repository-provider';
 import {InspectionBuildingChildPictureForWeb} from '../../models/inspection-building-child-picture-for-web';
-
 /**
  * Generated class for the ImageEditionPage page.
  *
@@ -21,18 +20,22 @@ export class ImageEditionPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.picture = navParams.get("picture");
+    this.repo = navParams.get("repo");
   }
 
   get pictureUri() {
     return 'data:image/jpeg;base64,' + this.picture.pictureData;
   }
 
+  get sketchJson() {
+    return this.picture.sketchJson;
+  }
+
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ImageEditionPage');
   }
 
   public onJsonChanged($event) {
-    
+    this.picture.sketchJson = $event;
+    this.repo.save(this.picture);
   }
-
 }
