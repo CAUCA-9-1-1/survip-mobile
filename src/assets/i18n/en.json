@@ -1,0 +1,18 @@
+{
+  "userName":"User name",
+  "password":"Password",
+  "login":"LOG IN",
+  "logout":"Log out",
+  "inspectionList":"Inspection list",
+  "inspectionBatch":"Inspection batch",
+  "riskLevel": "Risk level",
+  "inspectionListSearchText":"Risk level, civic # or street name",
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "sourceMap": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

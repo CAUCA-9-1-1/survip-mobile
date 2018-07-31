@@ -8,6 +8,7 @@ import {AuthenticationService} from '../../providers/Base/authentification.servi
 import {LoginPage} from '../login/login';
 import {Batch} from '../../models/batch';
 import {InspectionRepositoryProvider} from '../../providers/repositories/inspection-repository-provider.service';
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
