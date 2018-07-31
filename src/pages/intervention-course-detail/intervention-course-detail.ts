@@ -24,7 +24,7 @@ export class InterventionCourseDetailPage {
   public courseLanes: InspectionBuildingCourseLaneForList[] = [];
   public firestations: FirestationForlist[] = [];
   public form: FormGroup;
-  public changeOrder: Boolean = false;
+  public changeOrder = false;
 
   constructor(
     public navCtrl: NavController,

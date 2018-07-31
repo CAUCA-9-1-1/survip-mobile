@@ -7,13 +7,13 @@
     <ion-buttons>
       <button ion-button icon-start (click)="selectPicture()">
         <ion-icon class="footer-button-camera" name="image"></ion-icon>
-        Choisir...
+        {{'choose' | translate}}...
       </button>
     </ion-buttons>
     <ion-buttons end>
       <button ion-button icon-start (click)="takeNewPicture()" *ngIf="isUsingCordova">
         <ion-icon class="footer-button-camera" name="camera"></ion-icon>
-        Nouvelle...
+        {{'New' | translate}}...
       </button>
     </ion-buttons>
     <input type="file" id="fileElem" #filePicker accept="image/*" style="display:none" (change)="onFileSelected($event);" />
