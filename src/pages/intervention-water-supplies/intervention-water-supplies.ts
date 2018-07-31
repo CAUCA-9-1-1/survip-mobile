@@ -11,6 +11,7 @@ import {InspectionControllerProvider} from '../../providers/inspection-controlle
 import {InspectionBuildingFireHydrantRepositoryProvider} from '../../providers/repositories/inspection-building-fire-hydrant-repository-provider';
 import {CityFireHydrantPage} from "../city-fire-hydrant/city-fire-hydrant";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
@@ -23,18 +24,30 @@ export class InterventionWaterSuppliesPage {
         return this.controller.inspectionDetail
     }
 
-    public fireHydrants: InspectionBuildingFireHydrantForList[] = [];
+    fireHydrants: InspectionBuildingFireHydrantForList[] = [];
+    labels = {};
 
     constructor(public navCtrl: NavController,
                 private authService: AuthenticationService,
                 public navParams: NavParams,
                 private controller: InspectionControllerProvider,
                 private fireHydrantService: InspectionBuildingFireHydrantRepositoryProvider,
-                private messageTools: MessageToolsProvider
+                private messageTools: MessageToolsProvider,
+                private translateService: TranslateService,
     ) {
         this.LoadBuildingFireHydrant();
     }
 
+    ngOnInit() {
+        this.translateService.get([
+            'fireHydrantDelete', 'fireHydrantDeleteQuestion'
+        ]).subscribe(labels => {
+                this.labels = labels;
+            },
+            error => {
+                console.log(error)
+            });
+    }
     ionViewDidLoad() {
     }
 
@@ -58,7 +71,7 @@ export class InterventionWaterSuppliesPage {
 
 
     async onClickHydrant(idInspectionBuildingFireHydrant: string) {
-        let canDelete = await this.messageTools.ShowMessageBox('Suppression de bornes', 'Voulez vous supprimer cette borne ?');
+        let canDelete = await this.messageTools.ShowMessageBox(this.labels['fireHydrantDelete'], this.labels['fireHydrantDeleteQuestion']);
         if (canDelete) {
             this.controller.deleteBuildingFireHydrant(idInspectionBuildingFireHydrant)
                 .subscribe(result => {

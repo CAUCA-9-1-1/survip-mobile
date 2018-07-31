@@ -1,26 +1,24 @@
 <ion-header class="page-header">
-
   <ion-navbar>
-    <ion-title>Détails du parcours</ion-title>
+    <ion-title>{{'courseDetail' | translate}}</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 <ion-content>
 
   <ion-list [formGroup]="form" class="list-items">
-    <ion-item-divider>Caserne</ion-item-divider>
+    <ion-item-divider>{{'fireStation' | translate}}</ion-item-divider>
     <ion-item [class.validation-error-control]="form.get('idFirestation').hasError('required')">
-      <ion-select class="select-firestation" placeholder="Choisissez une caserne" formControlName="idFirestation">
+      <ion-select class="select-firestation" placeholder="{{'chooseFireStation' | translate}}" formControlName="idFirestation">
         <ion-option *ngFor="let fire of firestations | orderBy:'name'" [value]="fire.id">{{fire.name}}</ion-option>
       </ion-select>
     </ion-item>
-    <div *ngIf="form.get('idFirestation').hasError('required')" class="validation-error-text">*La caserne est requise.</div>
+    <div *ngIf="form.get('idFirestation').hasError('required')" class="validation-error-text">*{{'fireStationRequired' | translate}}</div>
   </ion-list>
 
   <ion-list class="list-items">
     <ion-item-divider>
-      Parcours
+      {{'course' | translate}}
       <button item-end ion-button (click)="onChangeOrder()" color="caucaRed">{{changeOrder ? "Terminer" : "Changer l'ordre"}}</button>
     </ion-item-divider>
     <ion-item-group [reorder]="changeOrder" (ionItemReorder)="onReorderLane($event)" side="start">
