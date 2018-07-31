@@ -12,7 +12,7 @@
       <ion-item>
         <ion-label floating>
           <ion-icon name="contact" item-start></ion-icon>
-          Nom d'usager
+          {{'userName' | translate}}
         </ion-label>
         <ion-input type="email" [(ngModel)]="userName" [ngModelOptions]="{standalone: true}" ></ion-input>
       </ion-item>
@@ -20,7 +20,7 @@
       <ion-item>
         <ion-label floating>
           <ion-icon name="lock" item-start></ion-icon>
-          Mot de passe
+          {{'password' | translate}}
         </ion-label>
         <ion-input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" (keypress)="onKeyPress($event.keyCode)"></ion-input>
       </ion-item>
@@ -29,7 +29,7 @@
     <div>
       <button ion-button icon-start block color="caucaRed" tappable (click)="onLogin()">
         <ion-icon name="log-in"></ion-icon>
-        CONNEXION
+        {{'login' | translate}}
       </button>
     </div>
 
