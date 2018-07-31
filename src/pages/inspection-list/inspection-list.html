@@ -2,13 +2,13 @@
 
   <ion-navbar>
     <ion-icon name="menu" menuToggle left></ion-icon>
-    <ion-title>Liste des inspections</ion-title>
+    <ion-title>{{'inspectionList' | translate}}</ion-title>
   </ion-navbar>
 
   <ion-searchbar
     [(ngModel)]="searchTerm"
     (ionInput)="filterList($event)"
-    placeholder="Niveau de risque, # civique ou nom de rue">
+    placeholder="{{'inspectionListSearchText' | translate}}">
   </ion-searchbar>
 </ion-header>
 
@@ -21,11 +21,11 @@
   </div>
   <ion-list class="list-items">
       <ion-item-group *ngFor="let batch of filteredBatches">
-        <ion-item-divider>Lot d'inspection : {{batch.description}}</ion-item-divider>
+        <ion-item-divider>{{'inspectionBatch' | translate}} : {{batch.description}}</ion-item-divider>
         <button ion-item *ngFor="let inspection of batch.inspections" (click)="itemSelected(inspection)">
           <ion-avatar item-left style="font-size: 40px"><ion-icon name="home" [style.color]="getRiskColor(inspection.idRiskLevel)"></ion-icon></ion-avatar>
           <h2>{{inspection.address}}</h2>
-          <p>Niveau de risque : {{getRiskDescription(inspection.idRiskLevel)}}</p>
+          <p>{{'riskLevel' | translate}} : {{getRiskDescription(inspection.idRiskLevel)}}</p>
         </button>
       </ion-item-group>
   </ion-list>
