@@ -1,0 +1,45 @@
+{
+  "userName":"Nom d'usager",
+  "password":"Mot de passe",
+  "login":"CONNEXION",
+  "logout":"Quitter",
+  "inspectionList":"Liste des inspections",
+  "inspectionBatch":"lot d'inspection",
+  "riskLevel": "Niveau de risque",
+  "inspectionListSearchText":"Niveau de risque, # civique ou nom de rue",
+  "generalInformation":"Infos générales",
+  "Buildings":"Batîments",
+  "waterSupplies":"Alimentation en eau",
+  "implantationPlan":"Plan d'implantation",
+  "course":"Parcours",
+  "inspectionQuit":"Sortir de l'inspection",
+  "survey":"Questionnaire",
+  "Risk":"Risque",
+  "affectation":"Affectation",
+  "matricule":"Matricule",
+  "street":"Rue",
+  "transversal":"Transversale",
+  "start": "Démarrer",
+  "visitRefused": "Refus de visite",
+  "absence":"Absence",
+  "reason":"Raison",
+  "complete":"Compléter",
+  "inspectionStatusTodo":"Inspection en attente",
+  "inspectionStatusStarted":"Inspection en cours",
+  "inspectionStatusWaitingForApprobation":"Inspection en attente d'approbation",
+  "inspectionStatusApproved":"Inspection approuvée",
+  "inspectionStatusRefused":"Inspection refusée",
+  "inspectionStatusCanceled":"Inspection annulée",
+  "visitStatusTodo":"Visite en attente",
+  "visitStarted":"Visite en cours",
+  "visitCompleted":"Visit completée",
+
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "sourceMap": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

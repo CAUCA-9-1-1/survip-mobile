@@ -1,8 +1,7 @@
 <ion-header class="page-header">
     <ion-navbar>
         <ion-icon name="menu" menuToggle left></ion-icon>
-        <ion-title>
-            Informations générales
+        <ion-title>{{'generalInformation' | translate}}
         </ion-title>
     </ion-navbar>
 </ion-header>
@@ -17,17 +16,17 @@
             </ion-list-header>
 
             <ion-item>
-                <ion-label fixed>Risque</ion-label>
+                <ion-label fixed>{{'risk' | translate}}</ion-label>
                 <ion-input type="text" disabled value="{{riskLevel?.name}}"></ion-input>
             </ion-item>
 
             <ion-item>
-                <ion-label fixed>Affectation</ion-label>
+                <ion-label fixed>{{'affectation' | translate}}</ion-label>
                 <ion-input type="text" disabled value="{{utilisationCodeName}}"></ion-input>
             </ion-item>
 
             <ion-item>
-                <ion-label fixed>Matricule</ion-label>
+                <ion-label fixed>{{'matricule' | translate}}</ion-label>
                 <ion-input type="text" disabled value="{{plan?.mainBuildingMatricule}}"></ion-input>
             </ion-item>
 
@@ -37,12 +36,12 @@
             </ion-item>
 
             <ion-item>
-                <ion-label fixed>Voie de circu.</ion-label>
+                <ion-label fixed>{{'street' | translate}}</ion-label>
                 <ion-input type="text" disabled value="{{laneName}}"></ion-input>
             </ion-item>
 
             <search-box
-                    [description]="'Transversale'"
+                    description="{{'transversal' | translate}}"
                     formControlName="idLaneTransversal"
                     [displayFieldName]="'name'"
                     [keyFieldName]="'id'"
@@ -52,17 +51,17 @@
     <ion-card>
         <ion-card-header>{{statusText}}</ion-card-header>
         <div class="refuse_reason" *ngIf="plan?.approbationRefusalReason">
-            <ion-label >Raison : </ion-label>
+            <ion-label >{{'reason' | translate}} : </ion-label>
             <ion-label>{{plan.approbationRefusalReason}}</ion-label>
         </div>
-        <button *ngIf="plan?.status == inspectionDetailProvider.InspectionVisitStatusEnum.Todo" ion-button block color="caucaRed" class="large-button" (click)="startInspection()">Démarrer</button>
+        <button *ngIf="plan?.status == inspectionDetailProvider.InspectionVisitStatusEnum.Todo" ion-button block color="caucaRed" class="large-button" (click)="startInspection()">{{'start' | translate}}</button>
 
         <div class="inline-button">
-            <button ion-button color="caucaRed" (click)="refuseVisit()">Refus de visite</button>
-            <button ion-button color="caucaRed" (click)="absentVisit()">Absence</button>
+            <button ion-button color="caucaRed" (click)="refuseVisit()">{{'visitRefused' | translate}}</button>
+            <button ion-button color="caucaRed" (click)="absentVisit()">{{'absence' | translate}}</button>
         </div>
 
-        <button *ngIf="plan?.status == inspectionDetailProvider.InspectionVisitStatusEnum.Started" ion-button block color="caucaRed" class="large-button" (click)="completeInspection()">Compléter</button>
+        <button *ngIf="plan?.status == inspectionDetailProvider.InspectionVisitStatusEnum.Started" ion-button block color="caucaRed" class="large-button" (click)="completeInspection()">{{'complete' | translate}}</button>
 
     </ion-card>
 </ion-content>
