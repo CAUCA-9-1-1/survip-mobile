@@ -1,14 +1,12 @@
 <ion-header class="page-header">
   <ion-navbar>
-    <ion-title>Liste des bornes fontaine</ion-title>
+    <ion-title>{{'fireHydrantList' | translate}}</ion-title>
   </ion-navbar>
   <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
 </ion-header>
 <ion-content>
   <ion-list class="list-items">
-    <ion-list-header>
-      Bornes
-    </ion-list-header>
+    <ion-list-header>{{'fireHydrants' | translate}}</ion-list-header>
     <button ion-item *ngFor="let hydrant of filteredCityFireHydrantList | orderBy:'number'" (click)="AddBuildingFireHydrant(hydrant.id)">
       <ion-icon name="icon-fire-hydrant" item-start [style.color]="hydrant.color" large></ion-icon>
         <div>
