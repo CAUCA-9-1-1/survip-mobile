@@ -19,6 +19,7 @@ import { fabric } from 'fabric';
 export class InterventionImplantationPlanSketchPage {
   public picture: PictureData;
   public repo: PictureRepositoryProvider;
+  private canvas;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private controller: InspectionControllerProvider) {
     this.picture = navParams.get("picture");
@@ -39,18 +40,30 @@ export class InterventionImplantationPlanSketchPage {
     return this.picture.sketchJson;
   }
 
-  public async onJsonChanged($event) {
-    let json = $event;
+  public onCanvasChange($event) {
+    console.log('onCanvasChange');
+    this.canvas = $event;
+  }
 
-    let canvas = <fabric.canvas> document.getElementById('canvas');
-    //canvas.discardActiveGroup().renderAll();
-    // let ctx = canvas.getContext('2d');
-    let imageUri = canvas.toDataURL('image/jpg');
-    // let imageUri = this.picture.dataUri;
-    if (imageUri.indexOf(';base64,') > 0)
-      imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);
-    this.picture = {id: this.picture.id, picture:imageUri, dataUri: imageUri, sketchJson: json};
-    let idPicture = await this.repo.savePicture(this.picture);
+  public async onOkay() {
+    console.log(this.canvas);
+    if (this.canvas) {
+      this.canvas.renderAll();
+
+      let json = JSON.stringify(this.canvas.toJSON());
+
+      let imageUri = this.canvas.toDataURL();
+      if (imageUri.indexOf(';base64,') > 0)
+        imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);
+
+      this.picture = {id: this.picture.id, picture:imageUri, dataUri: imageUri, sketchJson: json};
+      let idPicture = await this.repo.savePicture(this.picture);
+    }
+    this.navCtrl.pop();
+  }
+
+  public onCancel() {
+    this.navCtrl.pop();
   }
 }
 

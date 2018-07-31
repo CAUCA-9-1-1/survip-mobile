@@ -211,13 +211,4 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
             ? ''
             : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + pic);
     }
-
-    private openImageEditionPage(){
-        let picture = this.pictures[this.slides._activeIndex];
-        console.log('picture');
-        console.log(picture);
-        let modal = this.modalCtrl.create('ImageEditionPage', { picture: picture, repo: this.repo });
-        modal.onDidDismiss(() => this.loadPictures());
-        modal.present();
-      }
 }
