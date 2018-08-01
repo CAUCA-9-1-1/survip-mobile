@@ -6,7 +6,7 @@
         <ion-icon name="arrow-back"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>Édition du contact</ion-title>
+    <ion-title>{{'contactDetail' | translate}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -15,68 +15,68 @@
 <ion-content>
   <ion-list [formGroup]="form" class="list-items">
     <ion-item-group>
-      <ion-item-divider>Informations générales</ion-item-divider>
+      <ion-item-divider>{{'generalInformation' | translate}}</ion-item-divider>
       <ion-item [class.invalid]="!form.controls.firstName.valid">
-          <ion-label fixed>Prénom</ion-label>
+          <ion-label fixed>{{'firstName' | translate}}</ion-label>
           <ion-input type="text" formControlName="firstName"></ion-input>
       </ion-item>
-      <div *ngIf="!form.controls.firstName.valid" class="validation-error-text">*Le prénom est requis.</div>
+      <div *ngIf="!form.controls.firstName.valid" class="validation-error-text">{{'firstNameRequired' | translate}}</div>
       <ion-item [class.invalid]="!form.controls.lastName.valid">
-        <ion-label fixed>Nom</ion-label>
+        <ion-label fixed>{{'lastName' | translate}}</ion-label>
         <ion-input type="text" formControlName="lastName"></ion-input>
       </ion-item>
-      <div *ngIf="!form.controls.lastName.valid" class="validation-error-text">*Le nom est requis.</div>
+      <div *ngIf="!form.controls.lastName.valid" class="validation-error-text">{{'lastNameRequired' | translate}}</div>
       <ion-item>
-        <ion-label fixed>Popriétaire</ion-label>
+        <ion-label fixed>{{'owner' | translate}}</ion-label>
         <ion-toggle formControlName="isOwner"></ion-toggle>
       </ion-item>
       <ion-item>
-        <ion-label fixed>Priorité</ion-label>
+        <ion-label fixed>{{'priority' | translate}}</ion-label>
         <ion-input formControlName="callPriority" type="number" maxlength="10"></ion-input>
       </ion-item>
-      <div *ngIf="!form.controls.callPriority.valid" class="validation-error-text">*Vous devez entrer un nombre valide.</div>
+      <div *ngIf="!form.controls.callPriority.valid" class="validation-error-text">{{'priorityValidationMessage' | translate}}</div>
     </ion-item-group>
 
     <ion-item-group>
-      <ion-item-divider color="light">Téléphone maison</ion-item-divider>
+      <ion-item-divider color="light">{{'homePhone' | translate}}</ion-item-divider>
       <ion-item>
-        <ion-label fixed>Numéro</ion-label>
+        <ion-label fixed>{{'number' | translate}}</ion-label>
         <ion-input placeholder="(xxx) xxx-xxxxx" [brmasker]="{mask:'(000) 000-0000', len:14, type:'num'}" type="text" formControlName="phoneNumberMasked"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label fixed>Extension</ion-label>
+        <ion-label fixed>{{'extension' | translate}}</ion-label>
         <ion-input formControlName="phoneNumberExtension" type="text" [brmasker]="{mask:'0000000000', len:10, type:'num'}"></ion-input>
       </ion-item>
     </ion-item-group>
 
     <ion-item-group>
-      <ion-item-divider color="light">Cellulaire</ion-item-divider>
+      <ion-item-divider color="light">{{'cellular' | translate}}</ion-item-divider>
       <ion-item>
-        <ion-label fixed>Numéro</ion-label>
+        <ion-label fixed>{{'number' | translate}}</ion-label>
         <ion-input placeholder="(xxx) xxx-xxxxx" [brmasker]="{mask:'(000) 000-0000', len:14, type:'num'}" type="text"formControlName="cellphoneNumberMasked"></ion-input>
       </ion-item>
     </ion-item-group>
 
     <ion-item-group>
-      <ion-item-divider color="light">Téléavertisseur</ion-item-divider>
+      <ion-item-divider color="light">{{'pager' | translate}}</ion-item-divider>
       <ion-item>
-        <ion-label fixed>Numéro</ion-label>
+        <ion-label fixed>{{'number' | translate}}</ion-label>
         <ion-input placeholder="(xxx) xxx-xxxxx" [brmasker]="{mask:'(000) 000-0000', len:14, type:'num'}" type="text" formControlName="pagerNumberMasked"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label fixed>Code</ion-label>
+        <ion-label fixed>{{'code' | translate}}</ion-label>
         <ion-input formControlName="pagerCode" type="text" [brmasker]="{mask:'0000000000', len:10, type:'num'}"></ion-input>
       </ion-item>
     </ion-item-group>
 
     <ion-item-group>
-      <ion-item-divider color="light">Autre téléphone</ion-item-divider>
+      <ion-item-divider color="light">{{'otherPhone' | translate}}</ion-item-divider>
       <ion-item>
-        <ion-label fixed>Numéro</ion-label>
+        <ion-label fixed>{{'number' | translate}}</ion-label>
         <ion-input placeholder="(xxx) xxx-xxxxx" [brmasker]="{mask:'(000) 000-0000', len:14, type:'num'}" type="text"formControlName="otherNumberMasked"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label fixed>Extension</ion-label>
+        <ion-label fixed>{{'extension' | translate}}</ion-label>
         <ion-input formControlName="otherNumberExtension" type="text" [brmasker]="{mask:'0000000000', len:10, type:'num'}"></ion-input>
       </ion-item>
     </ion-item-group>
@@ -90,7 +90,7 @@
     <ion-buttons left>
       <button ion-button  icon-start (click)="onDeleteContact()">
         <ion-icon name="trash"></ion-icon>
-        Supprimer ce contact
+        {{'contactDeleteButton' | translate}}
       </button>
     </ion-buttons>
   </ion-navbar>
