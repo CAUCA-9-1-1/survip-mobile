@@ -3,6 +3,7 @@ import {IonicPage, LoadingController, ModalController, NavController, NavParams}
 import {InspectionBuildingHazardousMaterialForList} from '../../models/inspection-building-hazardous-material-for-list';
 import {InspectionBuildingHazardousMaterialRepositoryProvider} from '../../providers/repositories/inspection-building-hazardous-material-repository';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
@@ -13,7 +14,8 @@ export class BuildingHazardousMaterialsPage {
 
   private readonly idBuilding: string;
   private readonly name: string;
-  public hazardousMaterials: InspectionBuildingHazardousMaterialForList[] = [];
+  hazardousMaterials: InspectionBuildingHazardousMaterialForList[] = [];
+  labels = {};
 
   constructor(
     private load: LoadingController,
@@ -21,14 +23,23 @@ export class BuildingHazardousMaterialsPage {
     private authService: AuthenticationService,
     private modalCtrl: ModalController,
     public navCtrl: NavController,
-    public navParams: NavParams) {
+    public navParams: NavParams,
+    private translateService : TranslateService) {
 
     this.idBuilding = navParams.get('idBuilding');
     this.name = navParams.get('name');
   }
 
-  ionViewDidLoad() {
-  }
+    ngOnInit() {
+        this.translateService.get([
+            'waitFormMessage'
+        ]).subscribe(labels => {
+                this.labels = labels;
+            },
+            error => {
+                console.log(error)
+            });
+    }
 
   async ionViewDidEnter() {
     await this.loadMaterialList();
@@ -45,7 +56,7 @@ export class BuildingHazardousMaterialsPage {
   }
 
   private async loadMaterialList() {
-    let loader = this.load.create({content: 'Patientez...'});
+    let loader = this.load.create({content: this.labels['waitFormMessage']});
     const result = await this.matRepo.getList(this.idBuilding);
     this.hazardousMaterials = result;
     await loader.dismiss();
