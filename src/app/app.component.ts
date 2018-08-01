@@ -17,8 +17,11 @@ export class MyApp {
                 statusBar.styleBlackOpaque();
             }
             splashScreen.hide();
+            console.log(window.navigator.language);
             translate.setDefaultLang('fr');
-            translate.use('en');
+            if(window.navigator.language.startsWith("en")) {
+                translate.use('en');
+            }
         });
     }
 }
