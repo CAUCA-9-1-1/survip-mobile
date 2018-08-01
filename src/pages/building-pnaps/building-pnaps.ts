@@ -3,6 +3,7 @@ import {IonicPage, LoadingController, ModalController, NavController, NavParams}
 import {InspectionBuildingPersonRequiringAssistanceTypeRepositoryProvider} from '../../providers/repositories/inspection-building-person-requiring-assistance-type-repository';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InspectionBuildingPersonRequiringAssistanceForList} from '../../models/inspection-building-person-requiring-assistance-for-list';
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
@@ -14,7 +15,8 @@ export class BuildingPnapsPage {
   private readonly idBuilding: string;
   private readonly name: string;
 
-  public pnaps: InspectionBuildingPersonRequiringAssistanceForList[] = [];
+  pnaps: InspectionBuildingPersonRequiringAssistanceForList[] = [];
+  labels = {};
 
   constructor(
     private load: LoadingController,
@@ -22,14 +24,23 @@ export class BuildingPnapsPage {
     private authService: AuthenticationService,
     private modalCtrl: ModalController,
     public navCtrl: NavController,
-    public navParams: NavParams) {
+    public navParams: NavParams,
+    private translateService: TranslateService) {
 
     this.idBuilding = navParams.get('idBuilding');
     this.name = navParams.get('name');
   }
 
-  ionViewDidLoad() {
-  }
+    ngOnInit() {
+        this.translateService.get([
+            'waitFormMessage'
+        ]).subscribe(labels => {
+                this.labels = labels;
+            },
+            error => {
+                console.log(error)
+            });
+    }
 
   async ionViewDidEnter() {
     await this.loadPnaps();
@@ -46,7 +57,7 @@ export class BuildingPnapsPage {
   }
 
   private async loadPnaps() {
-    let loader = this.load.create({content: 'Patientez...'});
+    let loader = this.load.create({content: this.labels['waitFormMessage']});
     const result = await this.pnapRepo.getList(this.idBuilding);
     this.pnaps = result;
     await loader.dismiss();

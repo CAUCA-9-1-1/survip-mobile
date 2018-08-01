@@ -8,6 +8,7 @@ import {PersonRequiringAssistanceTypeRepositoryProvider} from '../../providers/r
 import {InspectionBuildingPersonRequiringAssistanceTypeRepositoryProvider} from '../../providers/repositories/inspection-building-person-requiring-assistance-type-repository';
 import {MessageToolsProvider} from '../../providers/message-tools/message-tools';
 import {UUID} from 'angular2-uuid';
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
@@ -23,9 +24,10 @@ export class BuildingPnapDetailPage {
   private readonly integerPattern: string = "^(0|([1-9]([0-9]*)))$";
   private readonly decimalPattern: string = "^[0-9]+(.[0-9]{1,2})?$";
 
-  public pnap: InspectionBuildingPersonRequiringAssistance;
-  public form: FormGroup;
-  public pnapTypes: GenericType[] = [];
+  pnap: InspectionBuildingPersonRequiringAssistance;
+  form: FormGroup;
+  pnapTypes: GenericType[] = [];
+  labels = {};
 
   constructor(
     private fb: FormBuilder,
@@ -36,7 +38,8 @@ export class BuildingPnapDetailPage {
     private typeRepo: PersonRequiringAssistanceTypeRepositoryProvider,
     private repo: InspectionBuildingPersonRequiringAssistanceTypeRepositoryProvider,
     public navCtrl: NavController,
-    public navParams: NavParams) {
+    public navParams: NavParams,
+    private translateService: TranslateService) {
 
     this.idBuilding = navParams.get("idBuilding");
     this.idBuildingPnap = navParams.get('idBuildingPnap');
@@ -46,8 +49,19 @@ export class BuildingPnapDetailPage {
     this.createForm();
   }
 
+    ngOnInit() {
+        this.translateService.get([
+            'waitFormMessage', 'confirmation', 'pnapDeleteQuestion', 'pnapLeaveMessage'
+        ]).subscribe(labels => {
+                this.labels = labels;
+            },
+            error => {
+                console.log(error)
+            });
+    }
+
   async ionViewDidLoad() {
-    let load = this.loadCtrl.create({'content': 'Patientez...'});
+    let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
     await load.present();
     if (this.idBuildingPnap == null)
       this.createPnap();
@@ -167,7 +181,7 @@ export class BuildingPnapDetailPage {
   }
 
   public async onDeletePnap() {
-    if (!this.isNew && await this.msg.ShowMessageBox("Confirmation de suppression", "Êtes-vous certain de vouloir supprimer ce PNAP?")) {
+    if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['pnapDeleteQuestion'])) {
       await this.repo.delete(this.idBuildingPnap);
       await this.viewCtrl.dismiss();
     }
@@ -178,7 +192,7 @@ export class BuildingPnapDetailPage {
 
   public async onCancelEdition() {
     if (this.form.dirty || this.isNew) {
-      if (await this.msg.ShowMessageBox("Confirmation", "Le PNAP contient des erreurs de validation et n'a pas été sauvegardée.  Voulez-vous quand même retourner à la page des PNAPs du bâtiment?"))
+      if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['pnapLeaveMessage']))
         await this.viewCtrl.dismiss();
     }
     else
