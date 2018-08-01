@@ -11,9 +11,7 @@
 
 <ion-content>
   <ion-list class="list-items">
-    <ion-list-header>
-      Contacts du bâtiment
-    </ion-list-header>
+    <ion-list-header>{{'buildingContact' | translate}}</ion-list-header>
     <button ion-item icon-start *ngFor="let contact of contacts | orderBy:'name'" (click)="onItemClick(contact.id)">
       <ion-icon [name]="contact.isOwner ? 'key' : 'contact'" small></ion-icon>
       {{contact.name}}
@@ -26,7 +24,7 @@
     <ion-buttons>
       <button ion-button icon-start full type="button" (click)="onItemClick(null)">
         <ion-icon name="add-circle"></ion-icon>
-        Ajouter un contact...
+        {{'addContactButton' | translate}}
       </button>
     </ion-buttons>
   </ion-toolbar>
