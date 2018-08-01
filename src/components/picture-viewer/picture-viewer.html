@@ -1,5 +1,8 @@
 <div class="div-selected-picture">
-  <lib-mobile-sketch-tool class="selected-picture" [imageData]="imageUrl" [loadedJson]="imageJson" (json)="onJsonChanged($event)" *ngIf="hasImageUrl"></lib-mobile-sketch-tool>
+    <button ion-button icon-only small outline class="brushIcon" (click)="onEditPhoto()" color="caucaRed">
+      <ion-icon name="brush" class="brushIcon"></ion-icon>
+    </button>
+  <img class="selected-picture" [src]="imageUrl" *ngIf="hasImageUrl" imageViewer />
 </div>
 
 <ion-footer class="page-footer">

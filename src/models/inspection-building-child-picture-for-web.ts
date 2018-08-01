@@ -3,5 +3,4 @@ export class InspectionBuildingChildPictureForWeb {
   idParent: string;
   idPicture: string;
   pictureData: string;
-  sketchJson: string;
 }
