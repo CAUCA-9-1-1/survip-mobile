@@ -13,6 +13,7 @@ import {InspectionDetail} from '../../models/inspection-detail';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {InspectionDetailRepositoryProvider} from "../../providers/repositories/inspection-detail-repository-provider.service";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
@@ -29,6 +30,7 @@ export class InterventionGeneralPage implements OnDestroy {
     utilisationCodeName: string;
     statusText: string;
     startVisible: boolean = false;
+    labels = {};
 
     get plan(): InspectionDetail {
         return this.controller.inspectionDetail
@@ -45,9 +47,21 @@ export class InterventionGeneralPage implements OnDestroy {
                 public laneService: LaneRepositoryProvider,
                 private utilisationCodeService: UtilisationCodeRepositoryProvider,
                 public inspectionDetailProvider: InspectionDetailRepositoryProvider,
-                private messageTools: MessageToolsProvider) {
+                private messageTools: MessageToolsProvider,
+                private translateService: TranslateService) {
         this.createForm();
         this.controllerPlanSubscription = controller.planLoaded.subscribe(() => this.setValuesAndStartListening());
+    }
+
+    ngOnInit() {
+        this.translateService.get([
+            'surveyRequired'
+        ]).subscribe(labels => {
+                this.labels = labels;
+            },
+            error => {
+                console.log(error)
+            });
     }
 
     ngOnDestroy(): void {
@@ -141,13 +155,10 @@ export class InterventionGeneralPage implements OnDestroy {
         } else {
             if (this.plan.status == this.inspectionDetailProvider.InspectionStatusEnum.Todo) {
                 this.startVisible = true;
-                this.statusText = 'Inspection en attente';
             } else if (this.plan.status == this.inspectionDetailProvider.InspectionStatusEnum.Started) {
                 this.startVisible = false;
-                this.statusText = 'Inspection en cours';
             } else if (this.plan.status == this.inspectionDetailProvider.InspectionStatusEnum.WaitingForApprobation) {
                 this.startVisible = false;
-                this.statusText = 'Inspection en attente d\'approbation';
             }
             this.statusText = this.inspectionDetailProvider.getInspectionStatusText(this.plan.status);
         }
@@ -182,7 +193,7 @@ export class InterventionGeneralPage implements OnDestroy {
         if (this.controller.inspectionDetail.idSurvey) {
             if (!this.controller.inspectionDetail.isSurveyCompleted) {
                 canComplete = false;
-                this.messageTools.showToast('Veuillez répondre au questionnaire pour compléter l\'inspection.');
+                this.messageTools.showToast(this.labels['surveyRequired']);
             }
         }
         if (canComplete) {

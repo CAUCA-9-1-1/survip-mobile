@@ -19,7 +19,7 @@
   <ion-list class="list-items">
     <ion-item-divider>
       {{'course' | translate}}
-      <button item-end ion-button (click)="onChangeOrder()" color="caucaRed">{{changeOrder ? "Terminer" : "Changer l'ordre"}}</button>
+      <button item-end ion-button (click)="onChangeOrder()" color="caucaRed">{{changeCourseAction}}</button>
     </ion-item-divider>
     <ion-item-group [reorder]="changeOrder" (ionItemReorder)="onReorderLane($event)" side="start">
       <button ion-item *ngFor="let lane of courseLanes | orderBy:'sequence'" (click)="onClickLane(lane.id)">{{lane.description}}</button>
@@ -33,11 +33,11 @@
     <ion-buttons>
       <button ion-button icon-start type="button" (click)="onClickLane(null)">
         <ion-icon name="add-circle"></ion-icon>
-        Ajout d'une voie...
+        {{'addLaneButton' | translate}}
       </button>
       <button ion-button icon-start type="button" (click)="onDeleteCourse()" *ngIf="form.valid">
         <ion-icon name="trash"></ion-icon>
-        Supprimer le parcours
+        {{'courseDetailDeleteButton' | translate}}
       </button>
     </ion-buttons>
   </ion-toolbar>

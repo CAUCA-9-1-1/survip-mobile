@@ -1,7 +1,7 @@
 <ion-header class="page-header">
 
   <ion-navbar>
-    <ion-title>Détails de la voie</ion-title>
+    <ion-title>{{'courseLaneDetail' | translate}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -9,7 +9,7 @@
 <ion-content [formGroup]="form">
 
   <ion-list class="list-items">
-    <ion-item-divider>Voie de circulation</ion-item-divider>
+    <ion-item-divider>{{'lane' | translate}}</ion-item-divider>
     <search-box
       [hasValidationError]="form.get('idLane').hasError('required') ? 'validation-error-control' : null"
       [description]=""
@@ -18,11 +18,11 @@
       [keyFieldName]="'id'"
       [showDescription]="false"
       [dataService]="laneRepo"></search-box>
-    <div *ngIf="form.get('idLane').hasError('required')" class="validation-error-text">*La voie de circulation est requise.</div>
+    <div *ngIf="form.get('idLane').hasError('required')" class="validation-error-text">{{'laneRequired' | translate}}</div>
   </ion-list>
 
   <ion-list class="list-items">
-    <ion-item-divider>Direction</ion-item-divider>
+    <ion-item-divider>{{'direction' | translate}}</ion-item-divider>
     <ion-item>
       <ion-select class="selected-direction" formControlName="direction" placeholder="Direction">
         <ion-option *ngFor="let dir of directions" [value]="dir.id">{{dir.description | uppercase}}</ion-option>
@@ -37,7 +37,7 @@
     <ion-buttons>
       <button ion-button icon-start type="button" (click)="onDeleteLane()">
         <ion-icon name="trash"></ion-icon>
-        Supprimer la voie
+        {{'laneDeleteButton' | translate}}
       </button>
     </ion-buttons>
   </ion-toolbar>
