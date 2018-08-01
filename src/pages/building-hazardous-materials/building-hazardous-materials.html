@@ -11,9 +11,7 @@
 
 <ion-content>
   <ion-list class="list-items">
-    <ion-list-header>
-      Matières dangereuses du bâtiment
-    </ion-list-header>
+    <ion-list-header>{{'buildingHazardousMaterial' | translate}}</ion-list-header>
     <button ion-item icon-start *ngFor="let mat of hazardousMaterials | orderBy:'hazardousMaterialName'" (click)="onItemClick(mat.id)">
       <ion-icon name="nuclear" item-start></ion-icon>
       <h2>{{mat.hazardousMaterialName}} ({{mat.hazardousMaterialNumber}})</h2>
@@ -27,7 +25,7 @@
     <ion-buttons>
       <button ion-button icon-start full type="button" (click)="onItemClick(null)">
         <ion-icon name="add-circle"></ion-icon>
-        Ajouter une matière dangereuse...
+        {{'addHazardousMaterialButton' | translate}}
       </button>
     </ion-buttons>
   </ion-toolbar>
