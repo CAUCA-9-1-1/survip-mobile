@@ -5,11 +5,11 @@
         Photo(s)
         <button item-end ion-button icon-start (click)="selectPicture()" color="caucaRed">
             <ion-icon class="footer-button-camera" name="albums"></ion-icon>
-            Choisir...
+            {{'choose' | translate}}
         </button>
         <button item-end ion-button icon-start (click)="takeNewPicture()" *ngIf="isUsingCordova" color="caucaRed">
             <ion-icon class="footer-button-camera" name="camera"></ion-icon>
-            Nouvelle...
+            {{'new' | translate}}
         </button>
     </ion-item-divider>
     <ion-item>

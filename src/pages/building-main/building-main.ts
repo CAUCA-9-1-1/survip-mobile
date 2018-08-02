@@ -3,6 +3,7 @@ import {App, IonicPage, MenuController, NavController, NavParams} from 'ionic-an
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {MenuItem} from '../../interfaces/menu-item.interface';
 import {InterventionBuildingsPage} from "../intervention-buildings/intervention-buildings";
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
@@ -16,29 +17,45 @@ export class BuildingMainPage {
 
   @ViewChild('buildingContent') childNavCtrl: NavController;
 
-  public rootPage = 'BuildingDetailsPage';
-  public menuItems: MenuItem[];
+  rootPage = 'BuildingDetailsPage';
+  menuItems: MenuItem[];
+  labels = {};
 
   constructor(
     private app: App,
     private controller: InspectionControllerProvider,
     public navCtrl: NavController,
     public navParams: NavParams,
-    private menuCtrl: MenuController) {
+    private menuCtrl: MenuController,
+    private translateService: TranslateService) {
+
+    this.loadTranslation();
 
     this.idBuilding = navParams.get("idBuilding");
     this.name = navParams.get('name');
     this.menuItems = [
-      { title: 'Détails du bâtiment', page:'BuildingDetailsPage', icon:'information-circle' },
-      { title: 'Contacts', page:'BuildingContactsPage', icon:'contacts' },
-      { title: 'PNAPS', page:'BuildingPnapsPage', icon:'people' },
-      { title: 'Matières dangereuses', page:'BuildingHazardousMaterialsPage', icon:'nuclear' },
-      { title: 'Protection incendie', page:'BuildingFireProtectionPage', icon:'flame' },
-      { title: 'Risques particuliers', page:'BuildingParticularRisksPage', icon:'flash' },
-      { title: 'Anomalies', page:'BuildingAnomaliesPage', icon:'warning' },
+      { title: this.labels['buildingDetail'], page:'BuildingDetailsPage', icon:'information-circle' },
+      { title: this.labels['contacts'], page:'BuildingContactsPage', icon:'contacts' },
+      { title: this.labels['pnaps'], page:'BuildingPnapsPage', icon:'people' },
+      { title: this.labels['hazardousMaterial'], page:'BuildingHazardousMaterialsPage', icon:'nuclear' },
+      { title: this.labels['fireSafety'], page:'BuildingFireProtectionPage', icon:'flame' },
+      { title: this.labels['particularRisk'], page:'BuildingParticularRisksPage', icon:'flash' },
+      { title: this.labels['Abnromalities'], page:'BuildingAnomaliesPage', icon:'warning' },
     ];
 
     console.log(this.menuItems);
+  }
+
+  loadTranslation()
+  {
+      this.translateService.get([
+          'buildingDetail', 'contacts', 'hazardousMaterial', 'pnaps','fireSafety', 'particularRisk', 'Abnromalities'
+      ]).subscribe(labels => {
+              this.labels = labels;
+          },
+          error => {
+              console.log(error)
+          });
   }
 
   ionViewDidLoad() {
