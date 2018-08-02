@@ -1,50 +1,39 @@
 <ion-header class="page-header">
-
-  <ion-navbar>
-    <ion-buttons left>
-      <button ion-button  icon-only (click)="onCancelEdition()">
-        <ion-icon name="arrow-back"></ion-icon>
-      </button>
-    </ion-buttons>
-    <ion-title>Édition de l'anomalie</ion-title>
-  </ion-navbar>
-
+    <ion-navbar>
+        <ion-buttons left>
+            <button ion-button icon-only (click)="onCancelEdition()">
+                <ion-icon name="arrow-back"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>{{'abnormalityDetail' | translate}}</ion-title>
+    </ion-navbar>
 </ion-header>
 
-
 <ion-content [formGroup]="form">
-  <ion-list class="list-items">
+    <ion-list class="list-items">
+        <button ion-item (click)="onSelectAnomaly()">
+            <ion-label item-start fixed>{{'theme' | translate}}</ion-label>
+            <ion-label item-content>{{anomaly?.theme}}</ion-label>
+        </button>
 
-    <button ion-item (click)="onSelectAnomaly()">
-      <ion-label item-start fixed>Thème</ion-label>
-      <ion-label item-content>{{anomaly?.theme}}</ion-label>
-    </button>
+        <ion-item-group>
+            <ion-item-divider>{{'notes' | translate}}</ion-item-divider>
+            <ion-item>
+                <ion-textarea maxlength="500" formControlName="notes"></ion-textarea>
+            </ion-item>
+        </ion-item-group>
+    </ion-list>
 
-    <ion-item-group>
-      <ion-item-divider>Notes</ion-item-divider>
-      <ion-item>
-        <ion-textarea maxlength="500" formControlName="notes"></ion-textarea>
-      </ion-item>
-    </ion-item-group>
-
-  </ion-list>
-
-  <building-child-pictures [repo]="picRepo" formControlName="id">
-    Loading...
-  </building-child-pictures>
-
+    <building-child-pictures [repo]="picRepo" formControlName="id">{{'loading' | translate}}</building-child-pictures>
 </ion-content>
 
-
 <ion-footer class="page-footer" *ngIf="!isNew">
-
-  <ion-navbar>
-    <ion-buttons left>
-      <button ion-button  icon-start (click)="onDeleteAnomaly()">
-        <ion-icon name="trash"></ion-icon>
-        Supprimer cette anomalie
-      </button>
-    </ion-buttons>
-  </ion-navbar>
-
+    <ion-navbar>
+        <ion-buttons left>
+            <button ion-button icon-start (click)="onDeleteAnomaly()">
+                <ion-icon name="trash"></ion-icon>
+                {{'abnormalityDelete' | translate}}
+            </button>
+        </ion-buttons>
+    </ion-navbar>
 </ion-footer>

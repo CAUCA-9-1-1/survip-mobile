@@ -7,6 +7,7 @@ import {MessageToolsProvider} from '../../providers/message-tools/message-tools'
 import {InspectionBuildingAnomalyRepositoryProvider} from '../../providers/repositories/inspection-building-anomaly-repository-provider.service';
 import {InspectionBuildingAnomalyPictureRepositoryProvider} from '../../providers/repositories/inspection-building-anomaly-picture-repository-provider.service';
 import {UUID} from 'angular2-uuid';
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
@@ -20,9 +21,10 @@ export class BuildingAnomalyDetailPage {
   private subscription: ISubscription;
   private readonly selectedTheme: string;
 
-  public isNew: boolean = false;
-  public anomaly: InspectionBuildingAnomaly;
-  public form: FormGroup;
+  isNew: boolean = false;
+  anomaly: InspectionBuildingAnomaly;
+  form: FormGroup;
+  labels = {};
 
   constructor(
     private fb: FormBuilder,
@@ -33,7 +35,8 @@ export class BuildingAnomalyDetailPage {
     private msg: MessageToolsProvider,
     public navCtrl: NavController,
     public viewCtrl: ViewController,
-    public navParams: NavParams) {
+    public navParams: NavParams,
+    private translateService: TranslateService) {
 
     this.idBuilding = navParams.get("idBuilding");
     this.idBuildingAnomaly = navParams.get('idBuildingAnomaly');
@@ -42,11 +45,19 @@ export class BuildingAnomalyDetailPage {
     this.createForm();
   }
 
-  ionViewDidLoad() {
-  }
+    ngOnInit() {
+        this.translateService.get([
+            'waitFormMessage', 'confirmation', 'abnormalityDeleteQuestion','abnormalityLeaveMessage'
+        ]).subscribe(labels => {
+                this.labels = labels;
+            },
+            error => {
+                console.log(error)
+            });
+    }
 
   async ionViewDidEnter(){
-    let load = this.loadCtrl.create({'content': 'Patientez...'});
+    let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
     await load.present();
     if (this.idBuildingAnomaly == null)
       this.createAnomaly();
@@ -107,7 +118,7 @@ export class BuildingAnomalyDetailPage {
   }
 
   public async onDeleteAnomaly() {
-    if (!this.isNew && await this.msg.ShowMessageBox("Confirmation de suppression", "Êtes-vous certain de vouloir supprimer cette anomalie?")) {
+    if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['abnormalityDeleteQuestion'])) {
       await this.repo.delete(this.idBuildingAnomaly);
       this.viewCtrl.dismiss();
     }
@@ -118,7 +129,7 @@ export class BuildingAnomalyDetailPage {
 
   public async onCancelEdition() {
     if (this.form.dirty || this.isNew) {
-      if (await this.msg.ShowMessageBox("Confirmation", "L'anomalie contient des erreurs de validation et n'a pas été sauvegardée.  Voulez-vous quand même retourner à la page des anomalies du bâtiment?"))
+      if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['abnormalityLeaveMessage']))
         this.viewCtrl.dismiss();
     }
     else
