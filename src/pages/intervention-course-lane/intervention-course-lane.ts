@@ -144,7 +144,7 @@ export class InterventionCourseLanePage {
         this.form.markAsPristine();
     }
 
-    public async onDeleteLane() {
+    async onDeleteLane() {
         let alert = this.alertCtrl.create({
             title: this.labels['confirmation'],
             message: this.labels['laneDeleteQuestion'],

@@ -191,7 +191,7 @@ export class BuildingHazardousMaterialDetailPage {
             this.selectedMaterial = null;
     }
 
-    public async onDeleteHazardousMaterial() {
+    async onDeleteHazardousMaterial() {
         if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['hazardousMaterialDeleteQuestion'])) {
             await this.repo.delete(this.idBuildingHazardousMaterial);
             await this.viewCtrl.dismiss();
@@ -201,7 +201,7 @@ export class BuildingHazardousMaterialDetailPage {
         }
     }
 
-    public onChangeMaterial() {
+    onChangeMaterial() {
         let matModal = this.modalCtrl.create('HazardousMaterialSelectionPage');
         matModal.onDidDismiss(data => {
             if (data.hasSelected) {
@@ -215,7 +215,7 @@ export class BuildingHazardousMaterialDetailPage {
         matModal.present();
     }
 
-    public async onCancelEdition() {
+    async onCancelEdition() {
         if (this.form.dirty || this.isNew) {
             if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['hazardousMaterialLeaveMessage']))
                 await this.viewCtrl.dismiss();
@@ -224,7 +224,7 @@ export class BuildingHazardousMaterialDetailPage {
             await this.viewCtrl.dismiss();
     }
 
-    public getSelectedMaterialDescription() {
+    getSelectedMaterialDescription() {
         if (this.selectedMaterial != null)
             return this.selectedMaterial.name + " (" + this.selectedMaterial.number + ")";
         else
