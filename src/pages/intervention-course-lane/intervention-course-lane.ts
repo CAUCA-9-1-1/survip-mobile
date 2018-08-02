@@ -20,6 +20,7 @@ export class InterventionCourseLanePage {
     private idInspectionBuildingCourseLane: string;
     private readonly idInspectionBuildingCourse: string;
     private readonly nextSequence: number;
+
     form: FormGroup;
     directions: RouteDirection[];
     courseLane: InspectionBuildingCourseLane;
@@ -155,7 +156,7 @@ export class InterventionCourseLanePage {
         this.form.markAsPristine();
     }
 
-    public async onDeleteLane() {
+    async onDeleteLane() {
         let alert = this.alertCtrl.create({
             title: this.labels['confirmation'],
             message: this.labels['laneDeleteQuestion'],

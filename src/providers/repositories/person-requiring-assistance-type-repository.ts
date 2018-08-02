@@ -7,13 +7,13 @@ import {GenericType} from '../../models/generic-type';
 @Injectable()
 export class PersonRequiringAssistanceTypeRepositoryProvider {
 
-  constructor(public http: HttpService) {
-  }
+    constructor(public http: HttpService) {
+    }
 
-  public getAll(): Observable<GenericType[]> {
-    return this.http.get('personrequiringassistancetype/localized')
-      .pipe(map(response => response));
-  }
+    getAll(): Observable<GenericType[]> {
+        return this.http.get('personrequiringassistancetype/localized')
+            .pipe(map(response => response));
+    }
 }
 
 

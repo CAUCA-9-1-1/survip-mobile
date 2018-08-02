@@ -5,12 +5,12 @@ import {map} from 'rxjs/operators';
 
 @Injectable()
 export class FirestationRepositoryProvider {
-  constructor(private http: HttpService){}
+    constructor(private http: HttpService) {
+    }
 
-  public getList(idCity:string) : Promise<FirestationForlist[]>
-  {
-    return this.http.get('city/' + idCity + '/firestations' )
-      .pipe(map(response => response))
-      .toPromise();
-  }
+    getList(idCity: string): Promise<FirestationForlist[]> {
+        return this.http.get('city/' + idCity + '/firestations')
+            .pipe(map(response => response))
+            .toPromise();
+    }
 }

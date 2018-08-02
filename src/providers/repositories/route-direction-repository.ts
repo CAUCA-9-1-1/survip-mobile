@@ -5,11 +5,13 @@ import {map} from 'rxjs/operators';
 
 @Injectable()
 export class RouteDirectionRepositoryProvider {
-  constructor(private http: HttpService) {}
 
-  public getList(): Promise<RouteDirection[]> {
-    return this.http.get('routedirection')
-      .pipe(map(response => response))
-      .toPromise();
-  }
+    constructor(private http: HttpService) {
+    }
+
+    getList(): Promise<RouteDirection[]> {
+        return this.http.get('routedirection')
+            .pipe(map(response => response))
+            .toPromise();
+    }
 }

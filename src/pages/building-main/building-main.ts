@@ -7,29 +7,29 @@ import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
-  selector: 'page-building-main',
-  templateUrl: 'building-main.html',
+    selector: 'page-building-main',
+    templateUrl: 'building-main.html',
 })
 export class BuildingMainPage {
 
-  private readonly idBuilding: string;
-  private readonly name: string;
+    private readonly idBuilding: string;
+    private readonly name: string;
 
-  @ViewChild('buildingContent') childNavCtrl: NavController;
+    @ViewChild('buildingContent') childNavCtrl: NavController;
 
-  rootPage = 'BuildingDetailsPage';
-  menuItems: MenuItem[];
-  labels = {};
+    rootPage = 'BuildingDetailsPage';
+    menuItems: MenuItem[];
+    labels = {};
 
-  constructor(
-    private app: App,
-    private controller: InspectionControllerProvider,
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    private menuCtrl: MenuController,
-    private translateService: TranslateService) {
+    constructor(
+        private app: App,
+        private controller: InspectionControllerProvider,
+        public navCtrl: NavController,
+        public navParams: NavParams,
+        private menuCtrl: MenuController,
+        private translateService: TranslateService) {
 
-    this.loadTranslation();
+        this.loadTranslation();
 
     this.idBuilding = navParams.get("idBuilding");
     this.name = navParams.get('name');
@@ -43,8 +43,8 @@ export class BuildingMainPage {
       { title: this.labels['anomalies'], page:'BuildingAnomaliesPage', icon:'warning' },
     ];
 
-    console.log(this.menuItems);
-  }
+        console.log(this.menuItems);
+    }
 
   loadTranslation()
   {
@@ -58,24 +58,24 @@ export class BuildingMainPage {
           });
   }
 
-  ionViewDidLoad() {
-  }
+    ionViewDidLoad() {
+    }
 
-  ionViewDidEnter() {
-    this.menuCtrl.enable(false, 'inspectionMenu');
-    this.menuCtrl.enable(true, 'buildingMenu');
-      this.menuCtrl.enable(false, 'inspectionListMenu');
-  }
+    ionViewDidEnter() {
+        this.menuCtrl.enable(false, 'inspectionMenu');
+        this.menuCtrl.enable(true, 'buildingMenu');
+        this.menuCtrl.enable(false, 'inspectionListMenu');
+    }
 
-  public goBackToBuildingList() {
-      this.navCtrl.setRoot('InterventionBuildingsPage');
-  }
+    goBackToBuildingList() {
+        this.navCtrl.setRoot('InterventionBuildingsPage');
+    }
 
-  public openPage(page) : void {
-    this.childNavCtrl.setRoot(page, this.getParams());
-  }
+    openPage(page): void {
+        this.childNavCtrl.setRoot(page, this.getParams());
+    }
 
-  public getParams(){
-    return{idBuilding: this.idBuilding, name: this.name};
-  }
+    getParams() {
+        return {idBuilding: this.idBuilding, name: this.name};
+    }
 }

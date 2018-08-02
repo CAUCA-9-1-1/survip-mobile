@@ -1,21 +1,21 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {IonicPage, MenuController, NavController} from 'ionic-angular';
 import {MenuItem} from "../../interfaces/menu-item.interface";
 import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+    selector: 'page-home',
+    templateUrl: 'home.html'
 })
 export class HomePage {
     private rootPage = 'InspectionListPage';
-    public menuItems: MenuItem[];
-    public labels = {}
+    menuItems: MenuItem[];
+    labels = {}
 
-  constructor(public navCtrl: NavController, public menuCtrl: MenuController,private translateService: TranslateService) {
+    constructor(public navCtrl: NavController, public menuCtrl: MenuController, private translateService: TranslateService) {
+    }
 
-  }
     ngOnInit() {
         this.translateService.get([
             'inspectionList'
@@ -23,9 +23,10 @@ export class HomePage {
             this.labels = labels;
         });
         this.menuItems = [
-            { title: this.labels['inspectionList'], page:'InspectionListPage', icon:'clipboard' }
+            {title: this.labels['inspectionList'], page: 'InspectionListPage', icon: 'clipboard'}
         ];
     }
+
     openPage(page) {
         this.rootPage = page;
     }

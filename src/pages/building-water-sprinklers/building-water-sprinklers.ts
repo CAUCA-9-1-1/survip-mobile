@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {IonicPage, LoadingController, NavController, NavParams, ViewController} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ISubscription} from 'rxjs/Subscription';
@@ -13,49 +13,49 @@ import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
-  selector: 'page-building-water-sprinklers',
-  templateUrl: 'building-water-sprinklers.html',
+    selector: 'page-building-water-sprinklers',
+    templateUrl: 'building-water-sprinklers.html',
 })
 export class BuildingWaterSprinklersPage {
 
-  private idBuildingSprinkler: string;
-  private readonly idBuilding: string;
-  private subscription: ISubscription;
+    private idBuildingSprinkler: string;
+    private readonly idBuilding: string;
+    private subscription: ISubscription;
 
-  isNew: boolean = false;
-  sprinkler: InspectionBuildingSprinkler;
-  types: GenericType[] = [];
-  form: FormGroup;
-  walls: string[] = [];
-  sectors: string[] = [];
-  labels = {};
+    isNew: boolean = false;
+    sprinkler: InspectionBuildingSprinkler;
+    types: GenericType[] = [];
+    form: FormGroup;
+    walls: string[] = [];
+    sectors: string[] = [];
+    labels = {};
 
-  constructor(
-    private staticRepo: StaticListRepositoryProvider,
-    private fb: FormBuilder,
-    private loadCtrl: LoadingController,
-    private typeRepo: SprinklerTypeRepository,
-    private repo: InspectionBuildingSprinklerRepositoryProvider,
-    private msg: MessageToolsProvider,
-    public navCtrl: NavController,
-    public viewCtrl: ViewController,
-    public navParams: NavParams,
-    private translateService: TranslateService) {
+    constructor(
+        private staticRepo: StaticListRepositoryProvider,
+        private fb: FormBuilder,
+        private loadCtrl: LoadingController,
+        private typeRepo: SprinklerTypeRepository,
+        private repo: InspectionBuildingSprinklerRepositoryProvider,
+        private msg: MessageToolsProvider,
+        public navCtrl: NavController,
+        public viewCtrl: ViewController,
+        public navParams: NavParams,
+        private translateService: TranslateService) {
 
-    typeRepo.getAll()
-      .subscribe(data => this.types = data);
+        typeRepo.getAll()
+            .subscribe(data => this.types = data);
 
-    this.walls = staticRepo.getWallList();
-    this.sectors = staticRepo.getSectorList();
-    this.idBuilding = navParams.get("idBuilding");
-    this.idBuildingSprinkler = navParams.get('idBuildingSprinkler');
-    this.isNew = this.idBuildingSprinkler == null;
-    this.createForm();
-  }
+        this.walls = staticRepo.getWallList();
+        this.sectors = staticRepo.getSectorList();
+        this.idBuilding = navParams.get("idBuilding");
+        this.idBuildingSprinkler = navParams.get('idBuildingSprinkler');
+        this.isNew = this.idBuildingSprinkler == null;
+        this.createForm();
+    }
 
     ngOnInit() {
         this.translateService.get([
-            'confirmation','waitFormMessage','fireSprinklerLeaveMessage','fireSprinklerDeleteQuestion'
+            'confirmation', 'waitFormMessage', 'fireSprinklerLeaveMessage', 'fireSprinklerDeleteQuestion'
         ]).subscribe(labels => {
                 this.labels = labels;
             },
@@ -64,85 +64,85 @@ export class BuildingWaterSprinklersPage {
             });
     }
 
-  async ionViewDidEnter(){
-    let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
-    await load.present();
-    if (this.idBuildingSprinkler == null){
-      this.createSprinkler();
+    async ionViewDidEnter() {
+        let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
+        await load.present();
+        if (this.idBuildingSprinkler == null) {
+            this.createSprinkler();
+        }
+        else {
+            const data = await this.repo.get(this.idBuildingSprinkler);
+            this.sprinkler = data;
+        }
+        this.setValuesAndStartListening();
+        await load.dismiss();
     }
-    else {
-      const data = await this.repo.get(this.idBuildingSprinkler);
-      this.sprinkler = data;
+
+    private createForm() {
+        this.form = this.fb.group({
+            idSprinklerType: ['', [Validators.required]],
+            floor: ['', [Validators.maxLength(100)]],
+            wall: ['', [Validators.maxLength(100)]],
+            sector: ['', [Validators.maxLength(100)]],
+            pipeLocation: ['', [Validators.maxLength(500)]],
+            collectorLocation: ['', [Validators.maxLength(500)]]
+        });
     }
-    this.setValuesAndStartListening();
-    await load.dismiss();
-  }
 
-  private createForm() {
-    this.form = this.fb.group({
-      idSprinklerType: ['', [Validators.required]],
-      floor: ['', [Validators.maxLength(100)]],
-      wall: ['', [Validators.maxLength(100)]],
-      sector: ['', [Validators.maxLength(100)]],
-      pipeLocation: ['', [Validators.maxLength(500)]],
-      collectorLocation: ['', [Validators.maxLength(500)]]
-    });
-  }
-
-  private setValuesAndStartListening(): void{
-    this.setValues();
-    this.startWatchingForm();
-  }
-
-  private setValues() {
-    if (this.sprinkler != null) {
-      this.form.patchValue(this.sprinkler);
+    private setValuesAndStartListening(): void {
+        this.setValues();
+        this.startWatchingForm();
     }
-  }
 
-  private startWatchingForm() {
-    this.subscription = this.form.valueChanges
-      .debounceTime(500)
-      .subscribe(() => this.saveIfValid());
-  }
-
-  private saveIfValid() {
-    if (this.form.valid && this.form.dirty)
-      this.saveForm();
-  }
-
-  private async saveForm() {
-    const formModel = this.form.value;
-    Object.assign(this.sprinkler, formModel);
-    await this.repo.save(this.sprinkler);
-    this.form.markAsPristine();
-    this.isNew = false;
-  }
-
-  private createSprinkler() {
-    let data =  new InspectionBuildingSprinkler();
-    data.id = UUID.UUID();
-    data.idBuilding = this.idBuilding;
-    this.idBuildingSprinkler = data.id;
-    this.sprinkler = data;
-  }
-
-  public async onDeleteSprinkler() {
-    if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['fireSprinklerDeleteQuestion'])) {
-      await this.repo.delete(this.idBuildingSprinkler);
-      this.viewCtrl.dismiss();
+    private setValues() {
+        if (this.sprinkler != null) {
+            this.form.patchValue(this.sprinkler);
+        }
     }
-    else if (this.isNew) {
-      this.viewCtrl.dismiss();
-    }
-  }
 
-  public async onCancelEdition() {
-    if (this.form.dirty || this.isNew) {
-      if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['fireSprinklerLeaveMessage']))
-        this.viewCtrl.dismiss();
+    private startWatchingForm() {
+        this.subscription = this.form.valueChanges
+            .debounceTime(500)
+            .subscribe(() => this.saveIfValid());
     }
-    else
-      this.viewCtrl.dismiss();
-  }
+
+    private saveIfValid() {
+        if (this.form.valid && this.form.dirty)
+            this.saveForm();
+    }
+
+    private async saveForm() {
+        const formModel = this.form.value;
+        Object.assign(this.sprinkler, formModel);
+        await this.repo.save(this.sprinkler);
+        this.form.markAsPristine();
+        this.isNew = false;
+    }
+
+    private createSprinkler() {
+        let data = new InspectionBuildingSprinkler();
+        data.id = UUID.UUID();
+        data.idBuilding = this.idBuilding;
+        this.idBuildingSprinkler = data.id;
+        this.sprinkler = data;
+    }
+
+    async onDeleteSprinkler() {
+        if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['fireSprinklerDeleteQuestion'])) {
+            await this.repo.delete(this.idBuildingSprinkler);
+            this.viewCtrl.dismiss();
+        }
+        else if (this.isNew) {
+            this.viewCtrl.dismiss();
+        }
+    }
+
+    async onCancelEdition() {
+        if (this.form.dirty || this.isNew) {
+            if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['fireSprinklerLeaveMessage']))
+                this.viewCtrl.dismiss();
+        }
+        else
+            this.viewCtrl.dismiss();
+    }
 }

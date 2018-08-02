@@ -124,7 +124,7 @@ export class BuildingAlarmPanelsPage {
     this.panel = data;
   }
 
-  public async onDeleteAlarmPanel() {
+  async onDeleteAlarmPanel() {
     if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['fireAlarmPanelDeleteQuestion'])) {
       await this.repo.delete(this.idBuildingAlarmPanel);
       this.viewCtrl.dismiss();
@@ -134,7 +134,7 @@ export class BuildingAlarmPanelsPage {
     }
   }
 
-  public async onCancelEdition() {
+  async onCancelEdition() {
     if (this.form.dirty || this.isNew) {
       if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['fireAlarmPanelLeaveMessage']))
         this.viewCtrl.dismiss();

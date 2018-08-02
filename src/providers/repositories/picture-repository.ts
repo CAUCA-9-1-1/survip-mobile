@@ -5,20 +5,21 @@ import {PictureData} from '../../models/picture-data';
 import {map} from 'rxjs/operators';
 
 @Injectable()
-export class PictureRepositoryProvider{
-  constructor(private http: HttpService){}
-
-  getPicture(idPicture: string):Observable<PictureData>{
-    if (!idPicture)
-      return Observable.of(new PictureData());
-    else {
-      return this.http.get("picture/" + idPicture)
-        .pipe(map(response => response));
+export class PictureRepositoryProvider {
+    constructor(private http: HttpService) {
     }
-  }
 
-  savePicture(picture: PictureData): Promise<string> {
-    return this.http.put("picture", JSON.stringify(picture))
-      .pipe(map(response => response)).toPromise<string>();
-  }
+    getPicture(idPicture: string): Observable<PictureData> {
+        if (!idPicture)
+            return Observable.of(new PictureData());
+        else {
+            return this.http.get("picture/" + idPicture)
+                .pipe(map(response => response));
+        }
+    }
+
+    savePicture(picture: PictureData): Promise<string> {
+        return this.http.put("picture", JSON.stringify(picture))
+            .pipe(map(response => response)).toPromise<string>();
+    }
 }

@@ -6,32 +6,33 @@ import {map} from 'rxjs/operators';
 import {ServiceForListInterface} from '../../interfaces/service-for-list.interface';
 
 @Injectable()
-export class LaneRepositoryProvider implements ServiceForListInterface  {
-  public currentIdCity : string;
+export class LaneRepositoryProvider implements ServiceForListInterface {
+    public currentIdCity: string;
 
-  constructor(private http: HttpService) {}
-
-  getFilteredLanes(searchTerm: string): Observable<Lane>{
-      return this.http.get('lane/city/' + this.currentIdCity+'/Search/'+searchTerm);
-  }
-
-  get(idLane: string): Observable<string>{
-    if (!idLane) {
-      return Observable.of("");
-    } else {
-      return this.http.get('lane/localized/' + idLane)
-        .pipe(map(response => {
-          console.log(response);
-          return response;
-        }));
+    constructor(private http: HttpService) {
     }
-  }
 
-  getList(searchTerm: string, searchFieldName: string): Observable<any[]> {
-    return this.getFilteredLanes(searchTerm) as Observable<any>;
-  }
+    getFilteredLanes(searchTerm: string): Observable<Lane> {
+        return this.http.get('lane/city/' + this.currentIdCity + '/Search/' + searchTerm);
+    }
 
-  getDescriptionById(id: string): Observable<string> {
-    return this.get(id);
-  }
+    get(idLane: string): Observable<string> {
+        if (!idLane) {
+            return Observable.of("");
+        } else {
+            return this.http.get('lane/localized/' + idLane)
+                .pipe(map(response => {
+                    console.log(response);
+                    return response;
+                }));
+        }
+    }
+
+    getList(searchTerm: string, searchFieldName: string): Observable<any[]> {
+        return this.getFilteredLanes(searchTerm) as Observable<any>;
+    }
+
+    getDescriptionById(id: string): Observable<string> {
+        return this.get(id);
+    }
 }

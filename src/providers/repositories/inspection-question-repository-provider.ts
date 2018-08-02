@@ -7,32 +7,31 @@ import {InspectionQuestionSummaryCategory} from "../../models/inspection-questio
 @Injectable()
 export class InspectionQuestionRepositoryProvider {
 
-    constructor(private http: HttpService) {}
+    constructor(private http: HttpService) {
+    }
 
-    public answerQuestion(inspectionQuestion: InspectionQuestion): Observable<any>
-    {
-        if(!inspectionQuestion)
+    answerQuestion(inspectionQuestion: InspectionQuestion): Observable<any> {
+        if (!inspectionQuestion)
             return Observable.of('');
         else {
-            return this.http.post('InspectionQuestion/Answer',JSON.stringify(inspectionQuestion));
+            return this.http.post('InspectionQuestion/Answer', JSON.stringify(inspectionQuestion));
         }
     }
 
-    public getQuestionList(idInspection : string): Observable<InspectionQuestion[]>{
-        return this.http.get('InspectionQuestion/Inspection/' + idInspection+'/Question');
+    getQuestionList(idInspection: string): Observable<InspectionQuestion[]> {
+        return this.http.get('InspectionQuestion/Inspection/' + idInspection + '/Question');
     }
 
-    public getAnswerList(idInspection : string): Observable<InspectionQuestion[]>{
-        return this.http.get('InspectionQuestion/Inspection/' + idInspection+'/Answer');
+    getAnswerList(idInspection: string): Observable<InspectionQuestion[]> {
+        return this.http.get('InspectionQuestion/Inspection/' + idInspection + '/Answer');
     }
 
-    public getAnswerSummaryList(idInspection : string): Observable<InspectionQuestionSummaryCategory[]>{
-        return this.http.get('InspectionQuestion/Inspection/' + idInspection+'/Summary');
+    getAnswerSummaryList(idInspection: string): Observable<InspectionQuestionSummaryCategory[]> {
+        return this.http.get('InspectionQuestion/Inspection/' + idInspection + '/Summary');
     }
 
-    public CompleteSurvey(idInspection: string): Observable<any>
-    {
-        if(!idInspection)
+    CompleteSurvey(idInspection: string): Observable<any> {
+        if (!idInspection)
             return Observable.of('');
         else {
             return this.http.post('InspectionQuestion/CompleteSurvey', JSON.stringify(idInspection));
