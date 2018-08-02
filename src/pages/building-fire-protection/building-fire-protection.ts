@@ -4,6 +4,7 @@ import {InspectionBuildingFireProtectionForList} from '../../models/inspection-b
 import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InspectionBuildingSprinklerRepositoryProvider} from '../../providers/repositories/inspection-building-sprinkler-repository-provider.service';
 import {InspectionBuildingAlarmPanelRepositoryProvider} from '../../providers/repositories/inspection-building-alarm-panel-repository-provider.service';
+import {TranslateService} from "@ngx-translate/core";
 
 
 @IonicPage()
@@ -16,9 +17,10 @@ export class BuildingFireProtectionPage {
   private readonly idBuilding: string;
   private readonly name: string;
 
-  public sprinklers: InspectionBuildingFireProtectionForList[] = [];
-  public panels: InspectionBuildingFireProtectionForList[] = [];
-  public currentSegment: string = "panel";
+  sprinklers: InspectionBuildingFireProtectionForList[] = [];
+  panels: InspectionBuildingFireProtectionForList[] = [];
+  currentSegment: string = "panel";
+  labels = {};
 
   constructor(
     private sprinklerRepo: InspectionBuildingSprinklerRepositoryProvider,
@@ -27,17 +29,26 @@ export class BuildingFireProtectionPage {
     private authService: AuthenticationService,
     private modalCtrl: ModalController,
     public navCtrl: NavController,
-    public navParams: NavParams) {
+    public navParams: NavParams,
+    private translateService : TranslateService) {
 
     this.idBuilding = navParams.get('idBuilding');
     this.name = navParams.get('name');
   }
 
-  ionViewDidLoad() {
-  }
+    ngOnInit() {
+        this.translateService.get([
+            'confirmation','waitFormMessage','addFirePanelAlarmButton','addFireSprinklerButton'
+        ]).subscribe(labels => {
+                this.labels = labels;
+            },
+            error => {
+                console.log(error)
+            });
+    }
 
   get entityName(): string{
-    return this.currentSegment == 'panel' ? "panneau d'alarme" : "gicleur";
+    return this.currentSegment == 'panel' ? this.labels['addFirePanelAlarmButton'] : this.labels['addFireSprinklerButton'];
   }
 
   async ionViewDidEnter() {
@@ -56,14 +67,14 @@ export class BuildingFireProtectionPage {
   }
 
   private async loadSprinklers() {
-    let loader = this.load.create({content: 'Patientez...'});
+    let loader = this.load.create({content: this.labels['waitFormMessage']});
     const result = await this.sprinklerRepo.getList(this.idBuilding);
     this.sprinklers = result;
     await loader.dismiss();
   }
 
   private async loadPanels() {
-    let loader = this.load.create({content: 'Patientez...'});
+    let loader = this.load.create({content: this.labels['waitFormMessage']});
     const result = await this.panelRepo.getList(this.idBuilding);
     this.panels = result;
     await loader.dismiss();
