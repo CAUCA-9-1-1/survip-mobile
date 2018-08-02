@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { PictureRepositoryProvider } from './../../providers/repositories/picture-repository';
 import { PictureData } from './../../models/picture-data';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
@@ -21,7 +21,7 @@ export class InterventionImplantationPlanSketchPage {
   public repo: PictureRepositoryProvider;
   private canvas;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private controller: InspectionControllerProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private controller: InspectionControllerProvider, public viewCtrl: ViewController) {
     this.picture = navParams.get("picture");
     this.repo = navParams.get("repo");
   }
@@ -46,11 +46,11 @@ export class InterventionImplantationPlanSketchPage {
   }
 
   public async onOkay() {
-    console.log(this.canvas);
     if (this.canvas) {
       this.canvas.renderAll();
 
       let json = JSON.stringify(this.canvas.toJSON());
+      this.controller.picture.sketchJson = json;
 
       let imageUri = this.canvas.toDataURL();
       if (imageUri.indexOf(';base64,') > 0)
@@ -59,11 +59,11 @@ export class InterventionImplantationPlanSketchPage {
       this.picture = {id: this.picture.id, picture:imageUri, dataUri: imageUri, sketchJson: json};
       let idPicture = await this.repo.savePicture(this.picture);
     }
-    this.navCtrl.pop();
+    this.viewCtrl.dismiss();
   }
 
   public onCancel() {
-    this.navCtrl.pop();
+    this.viewCtrl.dismiss();
   }
 }
 

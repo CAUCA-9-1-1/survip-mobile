@@ -1,9 +1,11 @@
-<div class="div-selected-picture">
-    <button ion-button icon-only small outline class="brushIcon" (click)="onEditPhoto()" color="caucaRed">
-      <ion-icon name="brush" class="brushIcon"></ion-icon>
-    </button>
-  <img class="selected-picture" [src]="imageUrl" *ngIf="hasImageUrl" imageViewer />
-</div>
+<ion-content scroll="false">
+  <div class="div-selected-picture">
+      <button ion-button icon-only small outline class="brushIcon" (click)="onEditPhoto()" color="caucaRed">
+        <ion-icon name="brush" class="brushIcon"></ion-icon>
+      </button>
+    <img class="selected-picture" [src]="imageUrl" *ngIf="hasImageUrl" imageViewer />
+  </div>
+</ion-content>
 
 <ion-footer class="page-footer">
   <ion-toolbar>
