@@ -80,13 +80,13 @@ export class BuildingFireProtectionPage {
     await loader.dismiss();
   }
 
-  public onPanelClick(idPanel: string): void {
+  onPanelClick(idPanel: string): void {
     let modal = this.modalCtrl.create('BuildingAlarmPanelsPage', { idBuildingAlarmPanel: idPanel, idBuilding: this.idBuilding });
     modal.onDidDismiss(() => this.loadPanels());
     modal.present();
   }
 
-  public onSprinklerClick(idSprinkler: string): void {
+  onSprinklerClick(idSprinkler: string): void {
     let modal = this.modalCtrl.create('BuildingWaterSprinklersPage', { idBuildingSprinkler: idSprinkler, idBuilding: this.idBuilding });
     modal.onDidDismiss(() => this.loadSprinklers());
     modal.present();

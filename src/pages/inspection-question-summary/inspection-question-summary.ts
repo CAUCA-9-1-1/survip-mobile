@@ -5,7 +5,6 @@ import {InspectionQuestionSummary} from "../../models/inspection-question-summar
 import {AuthenticationService} from "../../providers/Base/authentification.service";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {InspectionQuestionSummaryCategory} from "../../models/inspection-question-summary-category";
-import {InterventionGeneralPage} from "../intervention-general/intervention-general";
 
 @IonicPage()
 @Component({
@@ -14,9 +13,9 @@ import {InterventionGeneralPage} from "../intervention-general/intervention-gene
 })
 export class InspectionQuestionSummaryPage {
 
-    public inspectionQuestionSummaryCategory: InspectionQuestionSummaryCategory[] = [];
-    public inspectionQuestionSummary: InspectionQuestionSummary[] = [];
-    public idInspection: string = '';
+    inspectionQuestionSummaryCategory: InspectionQuestionSummaryCategory[] = [];
+    inspectionQuestionSummary: InspectionQuestionSummary[] = [];
+    idInspection: string = '';
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,

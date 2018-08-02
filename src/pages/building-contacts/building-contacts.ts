@@ -13,7 +13,7 @@ export class BuildingContactsPage {
 
   private readonly idBuilding: string;
   private readonly name: string;
-  public contacts: InspectionBuildingContactForList[] = [];
+  contacts: InspectionBuildingContactForList[] = [];
 
   constructor(
     private load: LoadingController,
@@ -51,7 +51,7 @@ export class BuildingContactsPage {
     await loader.dismiss();
   }
 
-  public onItemClick(idBuildingContact: string): void {
+  onItemClick(idBuildingContact: string): void {
     let modal = this.modalCtrl.create('BuildingContactDetailPage', { idBuildingContact: idBuildingContact, idBuilding: this.idBuilding });
     modal.onDidDismiss(() => this.loadContactList());
     modal.present();

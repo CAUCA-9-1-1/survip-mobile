@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {HttpService} from '../Base/http.service';
 import {Observable} from 'rxjs/Observable';
@@ -7,12 +7,13 @@ import {map} from 'rxjs/operators';
 @Injectable()
 export class RiskLevelRepositoryProvider {
 
-  constructor(public http: HttpService){}
+    constructor(public http: HttpService) {
+    }
 
-  getAll() {
-    return this.http.get('risklevel/localized', 3)
-      .pipe(map(response => response));
-  }
+    getAll() {
+        return this.http.get('risklevel/localized', 3)
+            .pipe(map(response => response));
+    }
 
     getById(idRiskLevel: string) {
         if (idRiskLevel == null)

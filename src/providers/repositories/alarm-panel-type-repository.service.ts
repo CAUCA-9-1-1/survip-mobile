@@ -7,11 +7,11 @@ import {map} from 'rxjs/operators';
 @Injectable()
 export class AlarmPanelTypeRepository {
 
-  constructor(public http: HttpService) {
-  }
+    constructor(public http: HttpService) {
+    }
 
-  public getAll(): Observable<GenericType[]> {
-    return this.http.get('alarmpaneltype')
-      .pipe(map(response => response));
-  }
+    getAll(): Observable<GenericType[]> {
+        return this.http.get('alarmpaneltype')
+            .pipe(map(response => response));
+    }
 }

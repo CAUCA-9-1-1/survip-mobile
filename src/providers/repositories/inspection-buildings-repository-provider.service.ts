@@ -5,11 +5,13 @@ import {map} from 'rxjs/operators';
 import {InspectionBuildingForList} from '../../models/inspection-building-for-list';
 
 @Injectable()
-export class InspectionBuildingsRepositoryProvider{
-  constructor(private http: HttpService) {}
+export class InspectionBuildingsRepositoryProvider {
 
-  public get(idInspection : string): Observable<InspectionBuildingForList[]>{
-    return this.http.get("inspection/" + idInspection + "/building")
-      .pipe(map(response => response));
-  }
+    constructor(private http: HttpService) {
+    }
+
+    get(idInspection: string): Observable<InspectionBuildingForList[]> {
+        return this.http.get("inspection/" + idInspection + "/building")
+            .pipe(map(response => response));
+    }
 }

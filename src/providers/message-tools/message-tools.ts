@@ -9,9 +9,13 @@ export class MessageToolsProvider {
 
     labels = {};
 
-    constructor(public http: HttpClient, private alertCtrl: AlertController, private toastCtrl: ToastController, private translateService: TranslateService) {
+    constructor(public http: HttpClient,
+                private alertCtrl: AlertController,
+                private toastCtrl: ToastController,
+                private translateService: TranslateService) {
+
         this.translateService.get([
-            'Yes', 'No'
+            'yes', 'no'
         ]).subscribe(labels => {
                 this.labels = labels;
             },
@@ -21,19 +25,19 @@ export class MessageToolsProvider {
     }
 
 
-    public ShowMessageBox(title: string, message: string): Promise<Boolean> {
+    ShowMessageBox(title: string, message: string): Promise<Boolean> {
         return new Promise((resolve, rejeect) => {
             let alert = this.alertCtrl.create({
                 title: title,
                 message: message,
                 buttons: [
                     {
-                        text: this.labels['Yes'], handler: () => {
+                        text: this.labels['yes'], handler: () => {
                             resolve(true);
                         }
                     },
                     {
-                        text: this.labels['No'], handler: () => {
+                        text: this.labels['no'], handler: () => {
                             resolve(false);
                         }
                     }

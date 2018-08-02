@@ -7,37 +7,37 @@ import {InspectionBuildingAnomalyThemeForList} from '../../models/inspection-bui
 @Injectable()
 export class InspectionBuildingAnomalyRepositoryProvider {
 
-  constructor(public http: HttpService) {
-  }
+    constructor(public http: HttpService) {
+    }
 
-  public getList(idBuilding: string): Promise<InspectionBuildingAnomalyThemeForList[]> {
-    return this.http.get('inspection/building/' + idBuilding + '/anomaly')
-      .pipe(map(response => response))
-      .toPromise();
-  }
+    getList(idBuilding: string): Promise<InspectionBuildingAnomalyThemeForList[]> {
+        return this.http.get('inspection/building/' + idBuilding + '/anomaly')
+            .pipe(map(response => response))
+            .toPromise();
+    }
 
-  public getThemes(): Promise<string[]> {
-    return this.http.get('inspection/anomalythemes')
-      .pipe(map(response => response))
-      .toPromise();
-  }
+    getThemes(): Promise<string[]> {
+        return this.http.get('inspection/anomalythemes')
+            .pipe(map(response => response))
+            .toPromise();
+    }
 
-  public get(idBuildingAnomaly: string): Promise<InspectionBuildingAnomaly> {
-    return this.http.get('inspection/building/anomaly/' + idBuildingAnomaly)
-      .pipe(map(response => response))
-      .toPromise();
-  }
+    get(idBuildingAnomaly: string): Promise<InspectionBuildingAnomaly> {
+        return this.http.get('inspection/building/anomaly/' + idBuildingAnomaly)
+            .pipe(map(response => response))
+            .toPromise();
+    }
 
-  public save(anomaly: InspectionBuildingAnomaly): Promise<any> {
-    return this.http.post('inspection/building/anomaly/', JSON.stringify(anomaly))
-      .pipe(map(response => response))
-      .toPromise();
-  }
+    save(anomaly: InspectionBuildingAnomaly): Promise<any> {
+        return this.http.post('inspection/building/anomaly/', JSON.stringify(anomaly))
+            .pipe(map(response => response))
+            .toPromise();
+    }
 
-  public delete(idBuildingAnomaly: string): Promise<any> {
-    return this.http.delete('inspection/building/anomaly/' + idBuildingAnomaly)
-      .pipe(map(response => response))
-      .toPromise();
-  }
+    delete(idBuildingAnomaly: string): Promise<any> {
+        return this.http.delete('inspection/building/anomaly/' + idBuildingAnomaly)
+            .pipe(map(response => response))
+            .toPromise();
+    }
 }
 

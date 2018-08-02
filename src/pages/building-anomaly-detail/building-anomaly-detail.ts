@@ -127,7 +127,7 @@ export class BuildingAnomalyDetailPage {
     }
   }
 
-  public async onCancelEdition() {
+  async onCancelEdition() {
     if (this.form.dirty || this.isNew) {
       if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['anomalyLeaveMessage']))
         this.viewCtrl.dismiss();
@@ -136,7 +136,7 @@ export class BuildingAnomalyDetailPage {
       this.viewCtrl.dismiss();
   }
 
-  public onSelectAnomaly() {
+  onSelectAnomaly() {
     let matModal = this.modalCtrl.create('AnomalyThemeSelectionPage');
     matModal.onDidDismiss(data => {
       if (data.hasSelected) {
@@ -149,7 +149,7 @@ export class BuildingAnomalyDetailPage {
     matModal.present();
   }
 
-  public getAllErrors(form: FormGroup): { [key: string]: any; } | null {
+  getAllErrors(form: FormGroup): { [key: string]: any; } | null {
     let hasError = false;
     const result = Object.keys(form.controls).reduce((acc, key) => {
       const control = form.get(key);

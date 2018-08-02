@@ -5,11 +5,12 @@ import {map} from 'rxjs/operators';
 import {InspectionBuildingFireHydrantForList} from '../../models/inspection-building-fire-hydrant-for-list';
 
 @Injectable()
-export class InspectionBuildingFireHydrantRepositoryProvider{
-  constructor(private http: HttpService) {}
+export class InspectionBuildingFireHydrantRepositoryProvider {
+    constructor(private http: HttpService) {
+    }
 
-  public get(idInspection : string): Observable<InspectionBuildingFireHydrantForList[]>{
-    return this.http.get('inspection/' + idInspection + '/firehydrant')
-      .pipe(map(response => response));
-  }
+    get(idInspection: string): Observable<InspectionBuildingFireHydrantForList[]> {
+        return this.http.get('inspection/' + idInspection + '/firehydrant')
+            .pipe(map(response => response));
+    }
 }

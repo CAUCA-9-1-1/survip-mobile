@@ -55,11 +55,11 @@ export class AnomalyThemeSelectionPage {
     load.dismiss();
   }
 
-  public onCreateTheme() {
+  onCreateTheme() {
     this.showPrompt();
   }
 
-  public onSearch(ev: any) {
+  onSearch(ev: any) {
     let value = ev.target.value;
     if (value != null && value.trim().toLowerCase().length > 0) {
       Object.assign(this.filteredThemes, this.themes);
@@ -82,11 +82,11 @@ export class AnomalyThemeSelectionPage {
     });
   }
 
-  public onSelectExistingTheme(theme: string) {
+  onSelectExistingTheme(theme: string) {
     this.viewCtrl.dismiss({'hasSelected': true, selectedTheme: theme});
   }
 
-  public onCancel() {
+  onCancel() {
     this.viewCtrl.dismiss({'hasSelected': false});
   }
 

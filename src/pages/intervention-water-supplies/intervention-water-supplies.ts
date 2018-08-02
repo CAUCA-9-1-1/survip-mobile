@@ -48,8 +48,6 @@ export class InterventionWaterSuppliesPage {
                 console.log(error)
             });
     }
-    ionViewDidLoad() {
-    }
 
     async ionViewCanEnter() {
         let isLoggedIn = await this.authService.isStillLoggedIn();
@@ -82,7 +80,7 @@ export class InterventionWaterSuppliesPage {
         }
     }
 
-    public onItemClick(idCity: string) {
+    onItemClick(idCity: string) {
         this.navCtrl.push('CityFireHydrantPage', {idCity: idCity, idBuilding: this.controller.inspectionDetail.id});
     }
 }

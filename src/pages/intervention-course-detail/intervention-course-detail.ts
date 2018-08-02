@@ -27,7 +27,7 @@ export class InterventionCourseDetailPage {
     form: FormGroup;
     changeOrder = false;
     labels = {};
-    changeCourseAction:string;
+    changeCourseAction: string;
 
     constructor(
         public navCtrl: NavController,

@@ -84,11 +84,11 @@ export class InspectionQuestionPage {
             .subscribe(answerResult => {
                 this.inspectionQuestionAnswer = answerResult;
 
-                if(this.inspectionQuestionAnswer.length > 0) {
-                    if(!this.inspectionSurveyCompleted){
+                if (this.inspectionQuestionAnswer.length > 0) {
+                    if (!this.inspectionSurveyCompleted) {
                         this.selectedIndex = this.inspectionQuestionAnswer.length - 1;
                     }
-                }else{
+                } else {
                     this.addNewAnswer(this.selectedIndex);
                 }
                 this.currentQuestion = this.inspectionQuestionAnswer[this.selectedIndex];
@@ -162,7 +162,7 @@ export class InspectionQuestionPage {
         }
     }
 
-    completeInspectionQuestion(){
+    completeInspectionQuestion() {
         this.controller.CompleteSurvey(this.idInspection)
             .subscribe(result => {
 
@@ -175,8 +175,9 @@ export class InspectionQuestionPage {
                 error => {
                     this.messageTools.showToast('Une erreur est survenue lors de la finalisation du questionnaire, veuillez réessayer ultérieurement.', 3);
                 })
-            ;
+        ;
     }
+
     previousQuestion() {
         this.slides.lockSwipes(false);
         this.slides.slideTo(this.selectedIndex - 1);

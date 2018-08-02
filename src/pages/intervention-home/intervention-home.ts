@@ -16,8 +16,8 @@ export class InterventionHomePage implements OnDestroy {
     private rootPage = 'InterventionGeneralPage';
     private readonly planSubscription: ISubscription;
 
-    public menuItems: MenuItem[];
-    public mustShowPlanMenu: boolean = false;
+    menuItems: MenuItem[];
+    mustShowPlanMenu: boolean = false;
     labels = {};
 
     constructor(public navCtrl: NavController,
@@ -85,7 +85,7 @@ export class InterventionHomePage implements OnDestroy {
         }
     }
 
-    public goBackToInspectionList() {
+    goBackToInspectionList() {
         this.navCtrl.setRoot('InspectionListPage');
     }
 }

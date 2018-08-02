@@ -7,10 +7,11 @@ import {map} from 'rxjs/operators';
 @Injectable()
 export class BuildingFireHydrantRepositoryProvider {
 
-    constructor(private http: HttpService) {}
+    constructor(private http: HttpService) {
+    }
 
-    public deleteBuildingFireHydrant(idBuildingFireHydrant : string) : Observable<any> {
-        if (idBuildingFireHydrant ==  null)
+    deleteBuildingFireHydrant(idBuildingFireHydrant: string): Observable<any> {
+        if (idBuildingFireHydrant == null)
             return Observable.of('');
         else {
             return this.http.delete('inspection/buildingFireHydrant/' + idBuildingFireHydrant)
@@ -18,22 +19,22 @@ export class BuildingFireHydrantRepositoryProvider {
         }
     }
 
-    public addBuildingFireHydrant(idBuilding : string, idFireHydrant : string): Observable<any>
-    {
-        if((!idBuilding)||(!idFireHydrant))
+    addBuildingFireHydrant(idBuilding: string, idFireHydrant: string): Observable<any> {
+        if ((!idBuilding) || (!idFireHydrant))
             return Observable.of('');
         else {
-            return this.http.post('inspection/building/' + idBuilding+'/fireHydrant/'+ idFireHydrant)
+            return this.http.post('inspection/building/' + idBuilding + '/fireHydrant/' + idFireHydrant)
                 .pipe(map(response => response));
         }
     }
 
-    public getList(idCity : string): Observable<CityFireHydrantForList[]>{
+    getList(idCity: string): Observable<CityFireHydrantForList[]> {
         return this.http.get('FireHydrant/city/' + idCity)
             .pipe(map(response => response));
     }
-    public getCityFireHydrantListForBuilding(idCity : string, idBuilding : string): Observable<CityFireHydrantForList[]>{
-        return this.http.get('FireHydrant/city/' + idCity+'/building/'+idBuilding)
+
+    getCityFireHydrantListForBuilding(idCity: string, idBuilding: string): Observable<CityFireHydrantForList[]> {
+        return this.http.get('FireHydrant/city/' + idCity + '/building/' + idBuilding)
             .pipe(map(response => response));
     }
 }
