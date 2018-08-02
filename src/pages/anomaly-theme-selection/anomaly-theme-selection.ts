@@ -9,6 +9,7 @@ import {
   ViewController
 } from 'ionic-angular';
 import {InspectionBuildingAnomalyRepositoryProvider} from '../../providers/repositories/inspection-building-anomaly-repository-provider.service';
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
@@ -17,9 +18,10 @@ import {InspectionBuildingAnomalyRepositoryProvider} from '../../providers/repos
 })
 export class AnomalyThemeSelectionPage {
 
-  public currentSearch: string = "";
-  public themes: string[] = [];
-  public filteredThemes: string[] = [];
+  currentSearch: string = "";
+  themes: string[] = [];
+  filteredThemes: string[] = [];
+  labels = {};
 
   constructor(
     private loadCtrl: LoadingController,
@@ -28,11 +30,24 @@ export class AnomalyThemeSelectionPage {
     private viewCtrl: ViewController,
     public alertCtrl: AlertController,
     public navCtrl: NavController,
-    public navParams: NavParams) {
+    public navParams: NavParams,
+    private translateService: TranslateService) {
   }
 
+    ngOnInit() {
+        this.translateService.get([
+            'waitFormMessage', 'themeValidationMessage', 'cancel', 'themeCreationTitle', 'themeCreationMessage',
+            'themeNameHolder'
+        ]).subscribe(labels => {
+                this.labels = labels;
+            },
+            error => {
+                console.log(error)
+            });
+    }
+
   async ionViewDidLoad() {
-    let load = this.loadCtrl.create({'content': 'Patientez...'});
+    let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
     await load.present();
     this.themes = await this.repo.getThemes();
     Object.assign(this.filteredThemes, this.themes);
@@ -76,16 +91,16 @@ export class AnomalyThemeSelectionPage {
   }
 
   private showMessage() {
-    let toast = this.toastCtrl.create({message: 'Le thème doit avoit au moins un caractère.', duration: 3000});
+    let toast = this.toastCtrl.create({message: this.labels['themeValidationMessage'], duration: 3000});
     toast.present();
   }
 
   private showPrompt() {
     let prompt = this.alertCtrl.create({
-      title:"Nouveau thème",
-      message: 'Entrez le nom du nouveau thème',
-      inputs: [{name:'themeName', placeholder: 'Nom du thème', value: this.currentSearch}],
-      buttons: [{text:'Annuler'}, {text: 'Ok', handler: data => {
+      title:this.labels['themeCreationTitle'],
+      message: this.labels['themeCreationMessage'],
+      inputs: [{name:'themeName', placeholder: this.labels['themeNameHolder'], value: this.currentSearch}],
+      buttons: [{text:this.labels['cancel']}, {text: 'Ok', handler: data => {
         let themeSelected = data.themeName;
         if (themeSelected.trim().length == 0)
           this.showMessage();

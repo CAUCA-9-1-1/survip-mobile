@@ -3,6 +3,7 @@ import {IonicPage, LoadingController, ModalController, NavController, NavParams}
 import {InspectionBuildingAnomalyThemeForList} from '../../models/inspection-building-anomaly-theme-for-list';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InspectionBuildingAnomalyRepositoryProvider} from '../../providers/repositories/inspection-building-anomaly-repository-provider.service';
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
@@ -14,7 +15,8 @@ export class BuildingAnomaliesPage {
   private readonly idBuilding: string;
   private readonly name: string;
 
-  public themes: InspectionBuildingAnomalyThemeForList[] = [];
+  themes: InspectionBuildingAnomalyThemeForList[] = [];
+  labels = {};
 
   constructor(
     private load: LoadingController,
@@ -22,14 +24,23 @@ export class BuildingAnomaliesPage {
     private authService: AuthenticationService,
     private modalCtrl: ModalController,
     public navCtrl: NavController,
-    public navParams: NavParams) {
+    public navParams: NavParams,
+    private translateService: TranslateService) {
 
     this.idBuilding = navParams.get('idBuilding');
     this.name = navParams.get('name');
   }
 
-  ionViewDidLoad() {
-  }
+    ngOnInit() {
+        this.translateService.get([
+            'waitFormMessage'
+        ]).subscribe(labels => {
+                this.labels = labels;
+            },
+            error => {
+                console.log(error)
+            });
+    }
 
   async ionViewDidEnter() {
     await this.loadAnomalies();
@@ -46,21 +57,21 @@ export class BuildingAnomaliesPage {
   }
 
   private async loadAnomalies() {
-    let loader = this.load.create({content: 'Patientez...'});
+    let loader = this.load.create({content: this.labels['waitFormMessage']});
     const result = await this.anomalyRepo.getList(this.idBuilding);
     this.themes = result;
     await loader.dismiss();
   }
 
-  public onItemClick(idBuildingAnomaly: string): void {
+  onItemClick(idBuildingAnomaly: string): void {
     this.openAnomalyPage(idBuildingAnomaly);
   }
 
-  public onAddAnomalyForTheme(theme: string){
+  onAddAnomalyForTheme(theme: string){
     this.openAnomalyPage(null, theme);
   }
 
-  public onAddNewAnomaly(){
+  onAddNewAnomaly(){
    this.selectThemeThenCreateAnomaly();
   }
 

@@ -10,12 +10,12 @@
 
 <ion-content>
   <ion-list class="list-items">
-    <ion-list-header>Anomalies du bâtiment</ion-list-header>
+    <ion-list-header>{{'buildingAbnormalities' | translate}}</ion-list-header>
     <ion-item-group *ngFor="let theme of themes | orderBy:'theme'">
 
       <ion-item-divider>
         {{theme.theme}}
-        <button ion-button item-end (click)="onAddAnomalyForTheme(theme.theme)" color="caucaRed">Ajouter</button>
+        <button ion-button item-end (click)="onAddAnomalyForTheme(theme.theme)" color="caucaRed">{{'add' | translate}}</button>
       </ion-item-divider>
 
       <button ion-item *ngFor="let anomaly of theme.anomalies | orderBy:'notes'" (click)="onItemClick(anomaly.id)">
@@ -32,7 +32,7 @@
     <ion-buttons>
       <button ion-button icon-start full type="button" (click)="onAddNewAnomaly()">
         <ion-icon name="add-circle"></ion-icon>
-        Ajouter une anomalie...
+        {{'addAbnormalityButton' | translate}}
       </button>
     </ion-buttons>
   </ion-toolbar>
