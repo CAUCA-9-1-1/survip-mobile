@@ -172,4 +172,11 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
       imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);
     this.value = {id: this.value.id, picture:imageUri, dataUri: imageUri, sketchJson: json}; 
   }
+
+  private openImageEditionPage(){
+    const picture = {id: this.value.id, picture: this.imageUrl, dataUri: this.imageUrl, sketchJson: this.imageJson}
+    console.log(picture);
+    let modal = this.modalCtrl.create('InterventionImplantationPlanSketchPage', { picture: picture, repo: this.repo });
+    modal.present();
+  }
 }
