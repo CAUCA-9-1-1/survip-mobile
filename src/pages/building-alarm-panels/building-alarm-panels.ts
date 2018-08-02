@@ -9,6 +9,7 @@ import {UUID} from 'angular2-uuid';
 import {StaticListRepositoryProvider} from '../../providers/static-list-repository/static-list-repository';
 import {GenericType} from '../../models/generic-type';
 import {AlarmPanelTypeRepository} from '../../providers/repositories/alarm-panel-type-repository.service';
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
@@ -21,12 +22,13 @@ export class BuildingAlarmPanelsPage {
   private readonly idBuilding: string;
   private subscription: ISubscription;
 
-  public isNew: boolean = false;
-  public panel: InspectionBuildingAlarmPanel;
-  public types: GenericType[] = [];
-  public form: FormGroup;
-  public walls: string[] = [];
-  public sectors: string[] = [];
+  isNew: boolean = false;
+  panel: InspectionBuildingAlarmPanel;
+  types: GenericType[] = [];
+  form: FormGroup;
+  walls: string[] = [];
+  sectors: string[] = [];
+  labels = {};
 
   constructor(
     private typeRepo: AlarmPanelTypeRepository,
@@ -37,7 +39,8 @@ export class BuildingAlarmPanelsPage {
     private msg: MessageToolsProvider,
     public navCtrl: NavController,
     public viewCtrl: ViewController,
-    public navParams: NavParams) {
+    public navParams: NavParams,
+    private translateService: TranslateService) {
 
     typeRepo.getAll()
       .subscribe(data => this.types = data);
@@ -49,11 +52,19 @@ export class BuildingAlarmPanelsPage {
     this.createForm();
   }
 
-  ionViewDidLoad() {
-  }
+    ngOnInit() {
+        this.translateService.get([
+            'confirmation','waitFormMessage','fireAlarmPanelDeleteQuestion','fireAlarmPanelLeaveMessage'
+        ]).subscribe(labels => {
+                this.labels = labels;
+            },
+            error => {
+                console.log(error)
+            });
+    }
 
   async ionViewDidEnter(){
-    let load = this.loadCtrl.create({'content': 'Patientez...'});
+    let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
     await load.present();
     if (this.idBuildingAlarmPanel == null){
       this.createAlarmPanel();
@@ -114,7 +125,7 @@ export class BuildingAlarmPanelsPage {
   }
 
   public async onDeleteAlarmPanel() {
-    if (!this.isNew && await this.msg.ShowMessageBox("Confirmation de suppression", "Êtes-vous certain de vouloir supprimer ce panneau d'alarme?")) {
+    if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['fireAlarmPanelDeleteQuestion'])) {
       await this.repo.delete(this.idBuildingAlarmPanel);
       this.viewCtrl.dismiss();
     }
@@ -125,7 +136,7 @@ export class BuildingAlarmPanelsPage {
 
   public async onCancelEdition() {
     if (this.form.dirty || this.isNew) {
-      if (await this.msg.ShowMessageBox("Confirmation", "Le panneaux d'alarme contient des erreurs de validation et n'a pas été sauvegardé.  Voulez-vous quand même retourner à la page des panneaux d'alarmes du bâtiment?"))
+      if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['fireAlarmPanelLeaveMessage']))
         this.viewCtrl.dismiss();
     }
     else

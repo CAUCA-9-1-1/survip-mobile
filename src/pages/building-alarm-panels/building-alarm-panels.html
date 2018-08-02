@@ -5,7 +5,7 @@
         <ion-icon name="arrow-back"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>Édition du panneau d'alarme</ion-title>
+    <ion-title>{{'fireAlarmPanelDetail' | translate}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -14,28 +14,28 @@
   <ion-list [formGroup]="form" class="list-items">
 
     <ion-item [class.invalid]="!form.controls.idAlarmPanelType.valid">
-      <ion-label>Type</ion-label>
+      <ion-label>{{'type' | translate}}</ion-label>
       <ion-select formControlName="idAlarmPanelType">
         <ion-option *ngFor="let t of types" [value]="t.id">{{t.name}}</ion-option>
       </ion-select>
     </ion-item>
-    <div *ngIf="!form.controls.idAlarmPanelType.valid" class="validation-error-text">*Le type est requis.</div>
+    <div *ngIf="!form.controls.idAlarmPanelType.valid" class="validation-error-text">{{'typeRequired' | translate}}</div>
 
     <ion-item-group>
-      <ion-item-divider>Localisation</ion-item-divider>
+      <ion-item-divider>{{'localization' | translate}}</ion-item-divider>
       <ion-item>
-        <ion-label>Étage</ion-label>
-        <ion-input type="text" maxlength="3" placeholder="Étage" formControlName="floor"></ion-input>
+        <ion-label>{{'floor' | translate}}</ion-label>
+        <ion-input type="text" maxlength="3" placeholder="{{'floor' | translate}}" formControlName="floor"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label>Mur</ion-label>
-        <ion-select formControlName="wall" placeholder="Mur">
+        <ion-label>{{'wall' | translate}}</ion-label>
+        <ion-select formControlName="wall" placeholder="{{'wall' | translate}}">
           <ion-option *ngFor="let wall of walls">{{wall}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label>Section</ion-label>
-        <ion-select formControlName="sector" placeholder="Section">
+        <ion-label>{{'division' | translate}}</ion-label>
+        <ion-select formControlName="sector" placeholder="{{'division' | translate}}">
           <ion-option *ngFor="let sector of sectors">{{sector}}</ion-option>
         </ion-select>
       </ion-item>
@@ -49,7 +49,7 @@
     <ion-buttons left>
       <button ion-button  icon-start (click)="onDeleteAlarmPanel()">
         <ion-icon name="trash"></ion-icon>
-        Supprimer ce panneau
+        {{'fireAlarmPanelDelete' | translate}}
       </button>
     </ion-buttons>
   </ion-navbar>

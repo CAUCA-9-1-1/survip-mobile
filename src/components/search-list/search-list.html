@@ -3,11 +3,9 @@
     <button ion-button icon-left small (click)="onCancelSelection()" color="caucaGold">
       <ion-icon name="arrow-back"></ion-icon>Annuler
     </button>
-    <ion-title>
-      Recherche
-    </ion-title>
+    <ion-title>{{'search' | translate}}</ion-title>
   </ion-navbar>
-  <ion-searchbar placeholder="Recherche..." [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()"></ion-searchbar>
+  <ion-searchbar placeholder="{{'searchHolder' | translate}}" [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()"></ion-searchbar>
 </ion-header>
 
 <ion-content>

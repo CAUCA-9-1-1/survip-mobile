@@ -10,13 +10,13 @@
 <ion-content>
 
   <div class="risk-header">
-    <ion-list-header>Risques particuliers</ion-list-header>
+    <ion-list-header>{{'particularRisk' | translate}}</ion-list-header>
 
     <ion-segment [(ngModel)]="currentSegment" class="segmentRisk">
-      <ion-segment-button value="foundation">Fondation</ion-segment-button>
-      <ion-segment-button value="floor">Plancher</ion-segment-button>
-      <ion-segment-button value="wall">Murs</ion-segment-button>
-      <ion-segment-button value="roof">Toit</ion-segment-button>
+      <ion-segment-button value="foundation">{{'foundation' | translate}}</ion-segment-button>
+      <ion-segment-button value="floor">{{'particularRiskFloor' | translate}}</ion-segment-button>
+      <ion-segment-button value="wall">{{'wall' | translate}}</ion-segment-button>
+      <ion-segment-button value="roof">{{'roof' | translate}}</ion-segment-button>
     </ion-segment>
   </div>
 

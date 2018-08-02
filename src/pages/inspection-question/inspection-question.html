@@ -1,6 +1,6 @@
 <ion-header class="page-header">
   <ion-navbar>
-    <ion-title>Questionnaire</ion-title>
+    <ion-title>{{'survey' | translate}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -28,7 +28,7 @@
     <ion-buttons>
     <button ion-button icon-start type="button" style="float: left;" (click)="previousQuestion()" *ngIf="previousQuestionAvailable">
       <ion-icon name="skip-backward"></ion-icon>
-      Précédente
+      {{'surveyPreviousQuestion' | translate}}
     </button>
     <button ion-button icon-start type="button" style="float: right;" (click)="saveAnswer()" [disabled]="nextQuestionDisabled">
       <ion-icon name="skip-forward"></ion-icon>

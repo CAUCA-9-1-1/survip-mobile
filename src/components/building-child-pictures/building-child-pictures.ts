@@ -8,6 +8,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {MessageToolsProvider} from '../../providers/message-tools/message-tools';
 import {InspectionBuildingChildPictureForWeb} from '../../models/inspection-building-child-picture-for-web';
 import {BuildingChildPictureRepositoryProvider} from '../../interfaces/building-child-picture-repository-provider';
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -36,10 +37,11 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         targetHeight: 680,
     };
 
-    public isLoading: boolean = true;
-    public idParent: string;
-    public pictures: InspectionBuildingChildPictureForWeb[] = [];
-    public isUsingCordova: boolean = false;
+    isLoading: boolean = true;
+    idParent: string;
+    pictures: InspectionBuildingChildPictureForWeb[] = [];
+    isUsingCordova: boolean = false;
+    labels = {};
 
     get value(): string {
         return this.idParent;
@@ -60,9 +62,22 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         private camera: Camera,
         private sanitizer: DomSanitizer,
         private platform: Platform,
-        private windowRef: WindowRefService) {
+        private windowRef: WindowRefService,
+        private translateService: TranslateService) {
 
+        this.loadTranslation();
         this.isUsingCordova = this.platform.is('cordova');
+    }
+
+    loadTranslation(){
+        this.translateService.get([
+            'confirmation','photoDeleteQuestion'
+        ]).subscribe(labels => {
+                this.labels = labels;
+            },
+            error => {
+                console.log(error)
+            });
     }
 
     async ionViewDidLoad() {
@@ -116,7 +131,7 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
     }
 
     public onDeletePhotos() {
-        this.msg.ShowMessageBox("Demande de confirmation", "Êtes-vous sur de vouloir supprimer cette photo?").then(canDelete => {
+        this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['photoDeleteQuestion']).then(canDelete => {
             if (canDelete) {
 
                 let picture = this.pictures[this.slides._activeIndex];

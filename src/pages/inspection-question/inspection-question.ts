@@ -4,6 +4,7 @@ import {InspectionQuestion} from "../../models/inspection-question";
 import {InspectionQuestionRepositoryProvider} from "../../providers/repositories/inspection-question-repository-provider";
 import {AuthenticationService} from "../../providers/Base/authentification.service";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
@@ -13,29 +14,43 @@ import {MessageToolsProvider} from "../../providers/message-tools/message-tools"
 export class InspectionQuestionPage {
     @ViewChild(Slides) slides: Slides;
 
-    public inspectionQuestionAnswer: InspectionQuestion[] = [];
-    public inspectionQuestion: InspectionQuestion[] = [];
-    public idInspection: string = '';
-    public inspectionSurveyCompleted: boolean = false;
-    public selectedIndex = 0;
-    public currentQuestion: InspectionQuestion = new InspectionQuestion();
-    public previousQuestionAvailable = false;
-    public nextQuestionDisabled = false;
-    public questionTypeEnum = {'MultipleChoice': 1, 'TextAnswer': 2, 'DateAnswer': 3};
-    public nextButtonTitle: string = 'Suivante';
-    public nextQuestionId: string = '';
-    public reviewOnly = false;
-    public changingValueTimer = null;
+    inspectionQuestionAnswer: InspectionQuestion[] = [];
+    inspectionQuestion: InspectionQuestion[] = [];
+    idInspection: string = '';
+    inspectionSurveyCompleted: boolean = false;
+    selectedIndex = 0;
+    currentQuestion: InspectionQuestion = new InspectionQuestion();
+    previousQuestionAvailable = false;
+    nextQuestionDisabled = false;
+    questionTypeEnum = {'MultipleChoice': 1, 'TextAnswer': 2, 'DateAnswer': 3};
+    nextButtonTitle: string = 'Suivante';
+    nextQuestionId: string = '';
+    reviewOnly = false;
+    changingValueTimer = null;
+    labels = {};
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 public controller: InspectionQuestionRepositoryProvider,
                 private authService: AuthenticationService,
                 private messageTools: MessageToolsProvider,
-    ) {
+                private translateService: TranslateService) {
+
         this.idInspection = this.navParams.get('idInspection');
         this.inspectionSurveyCompleted = this.navParams.get('inspectionSurveyCompleted')
         this.loadInspectionQuestion();
+    }
+
+    ngOnInit() {
+        this.translateService.get([
+            'surveyCompletedMessage', 'surveyNextQuestion', 'complete'
+        ]).subscribe(labels => {
+                this.labels = labels;
+            },
+            error => {
+                console.log(error)
+            });
+        this.nextButtonTitle = this.labels['surveyNextQuestion'];
     }
 
     async ionViewCanEnter() {
@@ -151,7 +166,7 @@ export class InspectionQuestionPage {
         this.controller.CompleteSurvey(this.idInspection)
             .subscribe(result => {
 
-                    this.messageTools.showToast('Le questionnaire est terminé, redirection vers le résumé du questionnaire.', 3);
+                    this.messageTools.showToast(this.labels['surveyCompletedMessage'], 3);
                     setTimeout(() => {
                         this.navCtrl.push('InspectionQuestionSummaryPage', {idInspection: this.idInspection});
                     }, 3000);
@@ -219,9 +234,9 @@ export class InspectionQuestionPage {
         }
 
         if (this.nextQuestionId || this.isNextQuestionExists()) {
-            this.nextButtonTitle = 'Suivante';
+            this.nextButtonTitle = this.labels['surveyNextQuestion'];
         } else {
-            this.nextButtonTitle = 'Compléter';
+            this.nextButtonTitle = this.labels['complete'];
         }
     }
 
