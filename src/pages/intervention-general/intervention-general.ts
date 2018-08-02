@@ -106,7 +106,11 @@ export class InterventionGeneralPage implements OnDestroy {
     loadRiskLevel() { // why am i loading this exactly?
         if (this.plan != null) {
             this.riskLevelService.getById(this.plan.mainBuildingIdRiskLevel)
-                .subscribe(result => this.riskLevel = result);
+                .subscribe(
+                    result =>
+                    {
+                        this.riskLevel = result;
+                    });
         }
     }
 

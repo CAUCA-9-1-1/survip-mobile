@@ -20,6 +20,7 @@ export class MyApp {
             console.log(window.navigator.language);
             translate.setDefaultLang('fr');
             if(window.navigator.language.startsWith("en")) {
+                translate.setDefaultLang('en');
                 translate.use('en');
             }
         });

@@ -2,25 +2,25 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-
+import {TranslateService} from "@ngx-translate/core";
 @Injectable()
 export class HttpService {
   //private apiUrl = 'https://survipreventiontest.cauca.ca/api/';
   private apiUrl = 'http://10.10.33.103:5555/api/';
 
-  constructor(private client: HttpClient,) {
-  }
+    constructor(private client: HttpClient,private translateService: TranslateService) {
+    }
 
-  private getHeaders(){
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('currentToken'),
-        'languageCode': 'fr'
-      })
-    };
-    return options;
-  }
+    private getHeaders() {
+        const options = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('currentToken'),
+                'languageCode': this.translateService.getDefaultLang()
+            })
+        };
+        return options;
+    }
 
   public get(url: string, retryCount: number = 3): Observable<any> {
     return this.client.get(this.getFullUrl(url),  this.getHeaders() )

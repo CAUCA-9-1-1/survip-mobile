@@ -31,7 +31,6 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
 
   constructor(public appCtrl: App,
      //         @Self() component?: MapBrowserComponent,
-              private interventionService?: InterventionRepositoryProvider,
               private riskLevelService?: RiskLevelRepositoryProvider) {
 
    /* if (component) {

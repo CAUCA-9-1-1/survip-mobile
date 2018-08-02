@@ -14,11 +14,11 @@ export class RiskLevelRepositoryProvider {
       .pipe(map(response => response));
   }
 
-  getById(idRiskLevel: string) {
-    if (idRiskLevel == null)
-      return Observable.of('');
-    else
-      return this.http.get('risklevel/' + idRiskLevel, 3)
-        .pipe(map(response => response));
-  }
+    getById(idRiskLevel: string) {
+        if (idRiskLevel == null)
+            return Observable.of('');
+        else
+            return this.http.get('risklevel/localized/' + idRiskLevel, 3)
+                .pipe(map(response => response));
+    }
 }
