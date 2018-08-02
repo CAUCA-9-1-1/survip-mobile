@@ -49,15 +49,17 @@ import {InspectionBuildingAnomalyRepositoryProvider} from '../providers/reposito
 import {InspectionBuildingAnomalyPictureRepositoryProvider} from '../providers/repositories/inspection-building-anomaly-picture-repository-provider.service';
 import {InspectionBuildingParticularRiskPictureRepositoryProvider} from '../providers/repositories/inspection-building-particular-risk-picture-repository-provider.service';
 import {InspectionBuildingParticularRiskRepositoryProvider} from '../providers/repositories/inspection-building-particular-risk-repository-provider.service';
+import {TranslateService} from "@ngx-translate/core";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 export function httpServiceFactory(
-  client: HttpClient
+  client: HttpClient,
+  translate: TranslateService
 ) {
-  return new HttpService(client);
+  return new HttpService(client, translate);
 }
 
 @NgModule({

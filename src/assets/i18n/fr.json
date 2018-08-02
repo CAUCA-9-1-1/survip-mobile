@@ -181,6 +181,7 @@
   "surveyCompletedMessage":"Le questionnaire est complété, redirection vers le résumé du questionnaire.",
   "surveyPreviousQuestion":"Précédente",
   "surveyRequired":"Veuillez remplir le questionnaire pour compléter l'inpection.",
+  "surveySummary":"Résumé du questionnaire",
   "surveyUnassignedMessage":"Vous n'êtes assigné à aucune inspection.",
   "tank":"Réservoir",
   "tankTypeUndetermined":"Indéterminé",

@@ -182,6 +182,7 @@
   "surveyNextQuestion":"Previous",
   "surveyPreviousQuestion":"Previous",
   "surveyRequired":"Please answer the survey to complete inspection.",
+  "surveySummary":"Survey summary",
   "surveyUnassignedMessage":"You are not assigned to any inspection.",
   "tank":"Tank",
   "tankTypeUndetermined":"Undetermined",
