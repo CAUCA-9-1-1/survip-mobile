@@ -1,50 +1,49 @@
 <ion-header class="page-header">
     <ion-navbar>
-        <ion-title>Visite d'inspection</ion-title>
+        <ion-title>{{'inspectionVisit' | translate}}</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content>
     <ion-list class="list-items">
-        <ion-list-header>Visite annulée</ion-list-header>
+        <ion-list-header>{{'inspectionVisitCanceled'}}</ion-list-header>
         <ion-item-group>
-            <ion-item-divider>Motif de l'annulation</ion-item-divider>
-
+            <ion-item-divider>{{'visitCanceledMotive' | translate}}</ion-item-divider>
             <div *ngIf="ownerAbsent">
                 <ion-item>
-                    <ion-label>Propriétaire absent :</ion-label>
+                    <ion-label>{{'ownerAbsent' | translate}}</ion-label>
                     <ion-toggle [checked]="true" [disabled]="true"></ion-toggle>
                 </ion-item>
                 <ion-item>
-                    <ion-label>Accroche-porte laissé :</ion-label>
+                    <ion-label>{{'doorHangerLeft' | translate}}</ion-label>
                     <ion-toggle [(ngModel)]=doorHangerHasBeenLeft></ion-toggle>
                 </ion-item>
             </div>
 
             <div *ngIf="!ownerAbsent">
                 <ion-item>
-                    <ion-label>Refus du propriétaire :</ion-label>
+                    <ion-label>{{'ownerRefused' | translate}}</ion-label>
                     <ion-toggle [checked]="true" [disabled]="true"></ion-toggle>
                 </ion-item>
                 <ion-item class="align-row">
-                    <ion-label>Raison du refus :</ion-label><br>
+                    <ion-label>{{'visitRefusedMotive' | translate}}</ion-label><br>
                     <ion-textarea [(ngModel)]=refusalReason></ion-textarea>
                 </ion-item>
                 <ion-item>
-                    <ion-label>Accroche-porte laissé :</ion-label>
+                    <ion-label>{{'doorHangerLeft' | translate}}</ion-label>
                     <ion-toggle [(ngModel)]=doorHangerHasBeenLeft></ion-toggle>
                 </ion-item>
             </div>
 
         </ion-item-group>
         <ion-item-group>
-            <ion-item-divider>Nouvelle date</ion-item-divider>
+            <ion-item-divider>{{'visitNewSchedule' | translate}}</ion-item-divider>
             <ion-item>
-                <ion-label>Date :</ion-label>
-                <ion-datetime displayFormat="YYYY/MM/DD" placeholder="Date" [(ngModel)]=requestedDateOfVisit [pickerOptions]="customOptions"></ion-datetime>
+                <ion-label>{{'date' | translate}}</ion-label>
+                <ion-datetime displayFormat="YYYY/MM/DD" placeholder="{{'date' | translate}}" [(ngModel)]=requestedDateOfVisit [pickerOptions]="customOptions"></ion-datetime>
             </ion-item>
         </ion-item-group>
     </ion-list>
-    <button ion-button block color="caucaRed" class="large-button" (click)="UpdateVisitRefusalReason()">Enregistrer</button>
+    <button ion-button block color="caucaRed" class="large-button" (click)="UpdateVisitRefusalReason()">{{'save' | translate}}</button>
 
 </ion-content>
