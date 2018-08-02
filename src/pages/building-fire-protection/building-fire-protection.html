@@ -13,15 +13,15 @@
 <ion-content>
 
   <div class="fire-protection-header">
-    <ion-list-header>Protection incendie</ion-list-header>
+    <ion-list-header>{{'fireSafety' | translate}}</ion-list-header>
 
     <ion-segment [(ngModel)]="currentSegment" class="segment-themed segment-fire-protection">
       <ion-segment-button value="panel" class="segment-fire">
-        Panneaux d'alarme
+        {{'fireAlarmPanel' | translate}}
       </ion-segment-button>
 
       <ion-segment-button value="sprinkler" class="segment-fire">
-        Gicleurs
+        {{'fireSprinkler' | translate}}
       </ion-segment-button>
     </ion-segment>
   </div>
@@ -49,7 +49,7 @@
     <ion-buttons>
       <button ion-button icon-start full type="button" (click)="onCreateNewRecord()">
         <ion-icon name="add-circle"></ion-icon>
-        Ajouter un {{entityName}}...
+        {{entityName}}
       </button>
     </ion-buttons>
   </ion-toolbar>
