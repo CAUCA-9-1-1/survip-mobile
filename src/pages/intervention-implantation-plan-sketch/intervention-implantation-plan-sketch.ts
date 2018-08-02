@@ -50,13 +50,13 @@ export class InterventionImplantationPlanSketchPage {
       this.canvas.renderAll();
 
       let json = JSON.stringify(this.canvas.toJSON());
-      this.controller.picture.sketchJson = json;
 
       let imageUri = this.canvas.toDataURL();
       if (imageUri.indexOf(';base64,') > 0)
         imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);
 
       this.picture = {id: this.picture.id, picture:imageUri, dataUri: imageUri, sketchJson: json};
+      this.controller.picture = this.picture;
       let idPicture = await this.repo.savePicture(this.picture);
     }
     this.viewCtrl.dismiss();
