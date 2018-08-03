@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { ImageEditionPage } from './image-edition';
+import { BuildingChildPictureEditionPage } from './building-child-picture-edition';
 import { SketchToolModule } from 'lib-sketch-tool';
+import { fabric } from 'fabric';
 
 @NgModule({
   declarations: [
-    ImageEditionPage,
+    BuildingChildPictureEditionPage,
   ],
   imports: [
-    IonicPageModule.forChild(ImageEditionPage),
+    IonicPageModule.forChild(BuildingChildPictureEditionPage),
     SketchToolModule,
   ],
 })
