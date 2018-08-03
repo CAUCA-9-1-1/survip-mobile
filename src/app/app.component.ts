@@ -12,7 +12,7 @@ export class MyApp {
 
     constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, translate: TranslateService) {
         platform.ready().then(() => {
-            statusBar.styleDefault();
+            statusBar.styleLightContent();
             if (platform.is('android')) {
                 statusBar.styleBlackOpaque();
             }
