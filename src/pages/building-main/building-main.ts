@@ -40,7 +40,7 @@ export class BuildingMainPage {
       { title: this.labels['hazardousMaterial'], page:'BuildingHazardousMaterialsPage', icon:'nuclear' },
       { title: this.labels['fireSafety'], page:'BuildingFireProtectionPage', icon:'flame' },
       { title: this.labels['particularRisk'], page:'BuildingParticularRisksPage', icon:'flash' },
-      { title: this.labels['abnormalities'], page:'BuildingAnomaliesPage', icon:'warning' },
+      { title: this.labels['anomalities'], page:'BuildingAnomaliesPage', icon:'warning' },
     ];
 
     console.log(this.menuItems);
@@ -49,7 +49,7 @@ export class BuildingMainPage {
   loadTranslation()
   {
       this.translateService.get([
-          'buildingDetail', 'contacts', 'hazardousMaterial', 'pnaps','fireSafety', 'particularRisk', 'abnormalities'
+          'buildingDetail', 'contacts', 'hazardousMaterial', 'pnaps','fireSafety', 'particularRisk', 'anomalities'
       ]).subscribe(labels => {
               this.labels = labels;
           },
