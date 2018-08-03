@@ -47,7 +47,7 @@ export class BuildingAnomalyDetailPage {
 
     ngOnInit() {
         this.translateService.get([
-            'waitFormMessage', 'confirmation', 'abnormalityDeleteQuestion','abnormalityLeaveMessage'
+            'waitFormMessage', 'confirmation', 'anomalityDeleteQuestion','anomalityLeaveMessage'
         ]).subscribe(labels => {
                 this.labels = labels;
             },
@@ -118,7 +118,7 @@ export class BuildingAnomalyDetailPage {
   }
 
   public async onDeleteAnomaly() {
-    if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['abnormalityDeleteQuestion'])) {
+    if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['anomalityDeleteQuestion'])) {
       await this.repo.delete(this.idBuildingAnomaly);
       this.viewCtrl.dismiss();
     }
@@ -129,7 +129,7 @@ export class BuildingAnomalyDetailPage {
 
   public async onCancelEdition() {
     if (this.form.dirty || this.isNew) {
-      if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['abnormalityLeaveMessage']))
+      if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['anomalityLeaveMessage']))
         this.viewCtrl.dismiss();
     }
     else
