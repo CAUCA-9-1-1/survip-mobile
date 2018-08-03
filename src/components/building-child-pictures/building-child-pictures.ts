@@ -151,7 +151,7 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         });
     }
 
-    public onEditPhoto() {
+    onEditPhoto() {
         this.openImageEditionPage();
     }
 
@@ -214,9 +214,7 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
 
     private openImageEditionPage(){
         let picture = this.pictures[this.slides._activeIndex];
-        console.log('picture');
-        console.log(picture);
-        let modal = this.modalCtrl.create('ImageEditionPage', { picture: picture, repo: this.repo });
+        let modal = this.modalCtrl.create('BuildingChildPictureEditionPage', { picture: picture, repo: this.repo });
         modal.onDidDismiss(() => this.loadPictures());
         modal.present();
       }
