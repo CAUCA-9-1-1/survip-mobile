@@ -14,7 +14,6 @@ import {InspectionBuildingChildPictureForWeb} from '../../models/inspection-buil
 @Component({
   selector: 'page-building-child-picture-edition',
   templateUrl: 'building-child-picture-edition.html'
-  //styleUrls: ['building-child-picture-edition.scss']
 })
 export class BuildingChildPictureEditionPage {
   picture: InspectionBuildingChildPictureForWeb;
@@ -35,11 +34,7 @@ export class BuildingChildPictureEditionPage {
     return this.picture.sketchJson;
   }
 
-  ionViewDidLoad() {
-  }
-
   onCanvasChange($event) {
-    console.log('onCanvasChange');
     this.canvas = $event;
   }
 
@@ -54,13 +49,11 @@ export class BuildingChildPictureEditionPage {
       this.picture = {id: this.picture.id, idParent: this.picture.idParent, idPicture: this.picture.idPicture, pictureData: imageUri, sketchJson: json };
 
       let idPicture = await this.repo.save(this.picture);
-
-      console.log('Canvas');
     }
-    console.log('onOkay');
     this.viewCtrl.dismiss();
   }
-   public onCancel() {
+
+  onCancel() {
     this.viewCtrl.dismiss();
   }
 }
