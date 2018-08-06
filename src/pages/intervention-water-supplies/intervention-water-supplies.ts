@@ -24,8 +24,8 @@ export class InterventionWaterSuppliesPage {
         return this.controller.inspectionDetail
     }
 
-    fireHydrants: InspectionBuildingFireHydrantForList[] = [];
-    labels = {};
+    public fireHydrants: InspectionBuildingFireHydrantForList[] = [];
+    public labels = {};
 
     constructor(public navCtrl: NavController,
                 private authService: AuthenticationService,
@@ -38,7 +38,7 @@ export class InterventionWaterSuppliesPage {
         this.LoadBuildingFireHydrant();
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.translateService.get([
             'fireHydrantDelete', 'fireHydrantDeleteQuestion'
         ]).subscribe(labels => {
@@ -49,7 +49,7 @@ export class InterventionWaterSuppliesPage {
             });
     }
 
-    async ionViewCanEnter() {
+    public async ionViewCanEnter() {
         let isLoggedIn = await this.authService.isStillLoggedIn();
         if (!isLoggedIn) {
             this.redirectToLoginPage();
@@ -68,7 +68,7 @@ export class InterventionWaterSuppliesPage {
     }
 
 
-    async onClickHydrant(idInspectionBuildingFireHydrant: string) {
+    public async onClickHydrant(idInspectionBuildingFireHydrant: string) {
         let canDelete = await this.messageTools.ShowMessageBox(this.labels['fireHydrantDelete'], this.labels['fireHydrantDeleteQuestion']);
         if (canDelete) {
             this.controller.deleteBuildingFireHydrant(idInspectionBuildingFireHydrant)
@@ -80,7 +80,7 @@ export class InterventionWaterSuppliesPage {
         }
     }
 
-    onItemClick(idCity: string) {
+    public onItemClick(idCity: string) {
         this.navCtrl.push('CityFireHydrantPage', {idCity: idCity, idBuilding: this.controller.inspectionDetail.id});
     }
 }

@@ -10,7 +10,7 @@ export class PersonRequiringAssistanceTypeRepositoryProvider {
     constructor(public http: HttpService) {
     }
 
-    getAll(): Observable<GenericType[]> {
+    public getAll(): Observable<GenericType[]> {
         return this.http.get('personrequiringassistancetype/localized')
             .pipe(map(response => response));
     }

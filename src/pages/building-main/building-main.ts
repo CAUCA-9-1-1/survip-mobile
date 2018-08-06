@@ -17,9 +17,9 @@ export class BuildingMainPage {
 
     @ViewChild('buildingContent') childNavCtrl: NavController;
 
-    rootPage = 'BuildingDetailsPage';
-    menuItems: MenuItem[];
-    labels = {};
+    public rootPage = 'BuildingDetailsPage';
+    public menuItems: MenuItem[];
+    public labels = {};
 
     constructor(
         private app: App,
@@ -31,51 +31,47 @@ export class BuildingMainPage {
 
         this.loadTranslation();
 
-    this.idBuilding = navParams.get("idBuilding");
-    this.name = navParams.get('name');
-    this.menuItems = [
-      { title: this.labels['buildingDetail'], page:'BuildingDetailsPage', icon:'information-circle' },
-      { title: this.labels['contacts'], page:'BuildingContactsPage', icon:'contacts' },
-      { title: this.labels['pnaps'], page:'BuildingPnapsPage', icon:'people' },
-      { title: this.labels['hazardousMaterial'], page:'BuildingHazardousMaterialsPage', icon:'nuclear' },
-      { title: this.labels['fireSafety'], page:'BuildingFireProtectionPage', icon:'flame' },
-      { title: this.labels['particularRisk'], page:'BuildingParticularRisksPage', icon:'flash' },
-      { title: this.labels['anomalies'], page:'BuildingAnomaliesPage', icon:'warning' },
-    ];
+        this.idBuilding = navParams.get("idBuilding");
+        this.name = navParams.get('name');
+        this.menuItems = [
+            {title: this.labels['buildingDetail'], page: 'BuildingDetailsPage', icon: 'information-circle'},
+            {title: this.labels['contacts'], page: 'BuildingContactsPage', icon: 'contacts'},
+            {title: this.labels['pnaps'], page: 'BuildingPnapsPage', icon: 'people'},
+            {title: this.labels['hazardousMaterial'], page: 'BuildingHazardousMaterialsPage', icon: 'nuclear'},
+            {title: this.labels['fireSafety'], page: 'BuildingFireProtectionPage', icon: 'flame'},
+            {title: this.labels['particularRisk'], page: 'BuildingParticularRisksPage', icon: 'flash'},
+            {title: this.labels['anomalies'], page: 'BuildingAnomaliesPage', icon: 'warning'},
+        ];
 
         console.log(this.menuItems);
     }
 
-  loadTranslation()
-  {
-      this.translateService.get([
-          'buildingDetail', 'contacts', 'hazardousMaterial', 'pnaps','fireSafety', 'particularRisk', 'anomalies'
-      ]).subscribe(labels => {
-              this.labels = labels;
-          },
-          error => {
-              console.log(error)
-          });
-  }
-
-    ionViewDidLoad() {
+    public loadTranslation() {
+        this.translateService.get([
+            'buildingDetail', 'contacts', 'hazardousMaterial', 'pnaps', 'fireSafety', 'particularRisk', 'anomalies'
+        ]).subscribe(labels => {
+                this.labels = labels;
+            },
+            error => {
+                console.log(error)
+            });
     }
 
-    ionViewDidEnter() {
+    public ionViewDidEnter() {
         this.menuCtrl.enable(false, 'inspectionMenu');
         this.menuCtrl.enable(true, 'buildingMenu');
         this.menuCtrl.enable(false, 'inspectionListMenu');
     }
 
-    goBackToBuildingList() {
+    public goBackToBuildingList() {
         this.navCtrl.setRoot('InterventionBuildingsPage');
     }
 
-    openPage(page): void {
+    public openPage(page): void {
         this.childNavCtrl.setRoot(page, this.getParams());
     }
 
-    getParams() {
+    public getParams() {
         return {idBuilding: this.idBuilding, name: this.name};
     }
 }

@@ -10,7 +10,7 @@ export class InspectionQuestionRepositoryProvider {
     constructor(private http: HttpService) {
     }
 
-    answerQuestion(inspectionQuestion: InspectionQuestion): Observable<any> {
+    public answerQuestion(inspectionQuestion: InspectionQuestion): Observable<any> {
         if (!inspectionQuestion)
             return Observable.of('');
         else {
@@ -18,19 +18,19 @@ export class InspectionQuestionRepositoryProvider {
         }
     }
 
-    getQuestionList(idInspection: string): Observable<InspectionQuestion[]> {
+    public getQuestionList(idInspection: string): Observable<InspectionQuestion[]> {
         return this.http.get('InspectionQuestion/Inspection/' + idInspection + '/Question');
     }
 
-    getAnswerList(idInspection: string): Observable<InspectionQuestion[]> {
+    public getAnswerList(idInspection: string): Observable<InspectionQuestion[]> {
         return this.http.get('InspectionQuestion/Inspection/' + idInspection + '/Answer');
     }
 
-    getAnswerSummaryList(idInspection: string): Observable<InspectionQuestionSummaryCategory[]> {
+    public getAnswerSummaryList(idInspection: string): Observable<InspectionQuestionSummaryCategory[]> {
         return this.http.get('InspectionQuestion/Inspection/' + idInspection + '/Summary');
     }
 
-    CompleteSurvey(idInspection: string): Observable<any> {
+    public CompleteSurvey(idInspection: string): Observable<any> {
         if (!idInspection)
             return Observable.of('');
         else {

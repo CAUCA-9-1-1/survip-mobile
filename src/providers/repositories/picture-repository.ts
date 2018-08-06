@@ -9,7 +9,7 @@ export class PictureRepositoryProvider {
     constructor(private http: HttpService) {
     }
 
-    getPicture(idPicture: string): Observable<PictureData> {
+    public getPicture(idPicture: string): Observable<PictureData> {
         if (!idPicture)
             return Observable.of(new PictureData());
         else {
@@ -18,7 +18,7 @@ export class PictureRepositoryProvider {
         }
     }
 
-    savePicture(picture: PictureData): Promise<string> {
+    public savePicture(picture: PictureData): Promise<string> {
         return this.http.put("picture", JSON.stringify(picture))
             .pipe(map(response => response)).toPromise<string>();
     }

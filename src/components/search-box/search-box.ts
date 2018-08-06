@@ -29,7 +29,7 @@ export class SearchBoxComponent implements ControlValueAccessor, OnDestroy {
     constructor(private modalCtrl: ModalController) {
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.isDisposed = true;
         this.changed = new Array<(value: string) => void>();
         this.touched = new Array<() => void>()
@@ -47,26 +47,26 @@ export class SearchBoxComponent implements ControlValueAccessor, OnDestroy {
         }
     }
 
-    touch() {
+    public touch() {
         this.touched.forEach(f => f());
     }
 
-    writeValue(value: string) {
+    public writeValue(value: string) {
         if (!this.isDisposed) { // this is a patch to fix an issue where some ghost instance of this component would exist in memory and would be linked to the same formGroup somehow.
             this.innerValue = value;
             this.showSelectionDescription();
         }
     }
 
-    registerOnChange(fn: (value: string) => void) {
+    public registerOnChange(fn: (value: string) => void) {
         this.changed.push(fn);
     }
 
-    registerOnTouched(fn: () => void) {
+    public registerOnTouched(fn: () => void) {
         this.touched.push(fn);
     }
 
-    onPopSearch() {
+    public onPopSearch() {
         let profileModal = this.modalCtrl.create(SearchListComponent, {
             dataService: this.dataService,
             keyFieldName: this.keyFieldName,
@@ -95,7 +95,7 @@ export class SearchBoxComponent implements ControlValueAccessor, OnDestroy {
         }
     }
 
-    clearSelectedValue() {
+    public clearSelectedValue() {
         this.value = '';
     }
 }

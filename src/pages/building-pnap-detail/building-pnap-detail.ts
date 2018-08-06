@@ -24,10 +24,10 @@ export class BuildingPnapDetailPage {
     private readonly integerPattern: string = "^(0|([1-9]([0-9]*)))$";
     private readonly decimalPattern: string = "^[0-9]+(.[0-9]{1,2})?$";
 
-    pnap: InspectionBuildingPersonRequiringAssistance;
-    form: FormGroup;
-    pnapTypes: GenericType[] = [];
-    labels = {};
+    public pnap: InspectionBuildingPersonRequiringAssistance;
+    public form: FormGroup;
+    public pnapTypes: GenericType[] = [];
+    public labels = {};
 
     constructor(
         private fb: FormBuilder,
@@ -49,7 +49,7 @@ export class BuildingPnapDetailPage {
         this.createForm();
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.translateService.get([
             'waitFormMessage', 'confirmation', 'pnapDeleteQuestion', 'pnapLeaveMessage'
         ]).subscribe(labels => {
@@ -60,7 +60,7 @@ export class BuildingPnapDetailPage {
             });
     }
 
-    async ionViewDidLoad() {
+    public async ionViewDidLoad() {
         let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
         await load.present();
         if (this.idBuildingPnap == null)
@@ -179,7 +179,7 @@ export class BuildingPnapDetailPage {
         this.pnap = data;
     }
 
-    async onDeletePnap() {
+    public async onDeletePnap() {
         if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['pnapDeleteQuestion'])) {
             await this.repo.delete(this.idBuildingPnap);
             await this.viewCtrl.dismiss();
@@ -189,7 +189,7 @@ export class BuildingPnapDetailPage {
         }
     }
 
-    async onCancelEdition() {
+    public async onCancelEdition() {
         if (this.form.dirty || this.isNew) {
             if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['pnapLeaveMessage']))
                 await this.viewCtrl.dismiss();

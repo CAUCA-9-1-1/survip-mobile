@@ -10,13 +10,13 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class HomePage {
     private rootPage = 'InspectionListPage';
-    menuItems: MenuItem[];
-    labels = {}
+    public menuItems: MenuItem[];
+    public labels = {};
 
     constructor(public navCtrl: NavController, public menuCtrl: MenuController, private translateService: TranslateService) {
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.translateService.get([
             'inspectionList'
         ]).subscribe(labels => {
@@ -27,7 +27,7 @@ export class HomePage {
         ];
     }
 
-    openPage(page) {
+    public openPage(page) {
         this.rootPage = page;
     }
 }

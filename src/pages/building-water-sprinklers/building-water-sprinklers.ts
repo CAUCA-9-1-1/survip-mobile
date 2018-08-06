@@ -22,13 +22,13 @@ export class BuildingWaterSprinklersPage {
     private readonly idBuilding: string;
     private subscription: ISubscription;
 
-    isNew: boolean = false;
-    sprinkler: InspectionBuildingSprinkler;
-    types: GenericType[] = [];
-    form: FormGroup;
-    walls: string[] = [];
-    sectors: string[] = [];
-    labels = {};
+    public isNew: boolean = false;
+    public sprinkler: InspectionBuildingSprinkler;
+    public types: GenericType[] = [];
+    public form: FormGroup;
+    public walls: string[] = [];
+    public sectors: string[] = [];
+    public labels = {};
 
     constructor(
         private staticRepo: StaticListRepositoryProvider,
@@ -53,7 +53,7 @@ export class BuildingWaterSprinklersPage {
         this.createForm();
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.translateService.get([
             'confirmation', 'waitFormMessage', 'fireSprinklerLeaveMessage', 'fireSprinklerDeleteQuestion'
         ]).subscribe(labels => {
@@ -64,7 +64,7 @@ export class BuildingWaterSprinklersPage {
             });
     }
 
-    async ionViewDidEnter() {
+    public async ionViewDidEnter() {
         let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
         await load.present();
         if (this.idBuildingSprinkler == null) {
@@ -127,7 +127,7 @@ export class BuildingWaterSprinklersPage {
         this.sprinkler = data;
     }
 
-    async onDeleteSprinkler() {
+    public async onDeleteSprinkler() {
         if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['fireSprinklerDeleteQuestion'])) {
             await this.repo.delete(this.idBuildingSprinkler);
             this.viewCtrl.dismiss();
@@ -137,7 +137,7 @@ export class BuildingWaterSprinklersPage {
         }
     }
 
-    async onCancelEdition() {
+    public async onCancelEdition() {
         if (this.form.dirty || this.isNew) {
             if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['fireSprinklerLeaveMessage']))
                 this.viewCtrl.dismiss();

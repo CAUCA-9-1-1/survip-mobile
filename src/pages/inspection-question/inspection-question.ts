@@ -14,20 +14,20 @@ import {TranslateService} from "@ngx-translate/core";
 export class InspectionQuestionPage {
     @ViewChild(Slides) slides: Slides;
 
-    inspectionQuestionAnswer: InspectionQuestion[] = [];
-    inspectionQuestion: InspectionQuestion[] = [];
-    idInspection: string = '';
-    inspectionSurveyCompleted: boolean = false;
-    selectedIndex = 0;
-    currentQuestion: InspectionQuestion = new InspectionQuestion();
-    previousQuestionAvailable = false;
-    nextQuestionDisabled = false;
-    questionTypeEnum = {'MultipleChoice': 1, 'TextAnswer': 2, 'DateAnswer': 3};
-    nextButtonTitle: string = 'Suivante';
-    nextQuestionId: string = '';
-    reviewOnly = false;
-    changingValueTimer = null;
-    labels = {};
+    public inspectionQuestionAnswer: InspectionQuestion[] = [];
+    public inspectionQuestion: InspectionQuestion[] = [];
+    public idInspection: string = '';
+    public inspectionSurveyCompleted: boolean = false;
+    public selectedIndex = 0;
+    public currentQuestion: InspectionQuestion = new InspectionQuestion();
+    public previousQuestionAvailable = false;
+    public nextQuestionDisabled = false;
+    public questionTypeEnum = {'MultipleChoice': 1, 'TextAnswer': 2, 'DateAnswer': 3};
+    public nextButtonTitle: string = 'Suivante';
+    public nextQuestionId: string = '';
+    public reviewOnly = false;
+    public changingValueTimer = null;
+    public labels = {};
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -41,7 +41,7 @@ export class InspectionQuestionPage {
         this.loadInspectionQuestion();
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.translateService.get([
             'surveyCompletedMessage', 'surveyNextQuestion', 'complete'
         ]).subscribe(labels => {
@@ -53,7 +53,7 @@ export class InspectionQuestionPage {
         this.nextButtonTitle = this.labels['surveyNextQuestion'];
     }
 
-    async ionViewCanEnter() {
+    public async ionViewCanEnter() {
         let isLoggedIn = await this.authService.isStillLoggedIn();
         if (!isLoggedIn)
             this.redirectToLoginPage();
@@ -63,11 +63,11 @@ export class InspectionQuestionPage {
         this.navCtrl.setRoot('LoginPage');
     }
 
-    ionViewDidLoad() {
+    public ionViewDidLoad() {
         this.slides.lockSwipes(true);
     }
 
-    loadInspectionQuestion() {
+    public loadInspectionQuestion() {
         this.controller.getQuestionList(this.idInspection)
             .subscribe(result => {
                     this.inspectionQuestion = result;
@@ -79,7 +79,7 @@ export class InspectionQuestionPage {
                 });
     }
 
-    loadInspectionAnswer() {
+    public loadInspectionAnswer() {
         this.controller.getAnswerList(this.idInspection)
             .subscribe(answerResult => {
                 this.inspectionQuestionAnswer = answerResult;
@@ -98,14 +98,14 @@ export class InspectionQuestionPage {
     }
 
 
-    switchQuestion() {
+    public switchQuestion() {
         this.selectedIndex = this.slides.getActiveIndex();
         this.currentQuestion = this.inspectionQuestionAnswer[this.selectedIndex];
         this.getNextQuestionFromAnswer();
         this.canSwitchQuestion();
     }
 
-    canSwitchQuestion() {
+    public canSwitchQuestion() {
         let retValue = true;
         if (this.currentQuestion.answer) {
             this.nextQuestionDisabled = false;
@@ -119,7 +119,7 @@ export class InspectionQuestionPage {
         return retValue;
     }
 
-    findQuestion(idSurveyQuestion: string) {
+    public findQuestion(idSurveyQuestion: string) {
         const questionCount = this.inspectionQuestion.length;
         for (let index = 0; index < questionCount; index++) {
             if (this.inspectionQuestion[index].idSurveyQuestion == idSurveyQuestion && (!this.inspectionQuestion[index].answer)) {
@@ -128,7 +128,7 @@ export class InspectionQuestionPage {
         }
     }
 
-    isNextQuestionExists() {
+    public isNextQuestionExists() {
         let nextExists = false;
         const questionCount = this.currentQuestion.choicesList.length;
         for (let index = 0; index < questionCount; index++) {
@@ -145,7 +145,7 @@ export class InspectionQuestionPage {
         return nextExists;
     }
 
-    nextQuestion() {
+    public nextQuestion() {
         if (this.nextQuestionId) {
             let nextIndex = this.findQuestion(this.nextQuestionId);
 
@@ -162,7 +162,7 @@ export class InspectionQuestionPage {
         }
     }
 
-    completeInspectionQuestion() {
+    public completeInspectionQuestion() {
         this.controller.CompleteSurvey(this.idInspection)
             .subscribe(result => {
 
@@ -178,14 +178,14 @@ export class InspectionQuestionPage {
         ;
     }
 
-    previousQuestion() {
+    public previousQuestion() {
         this.slides.lockSwipes(false);
         this.slides.slideTo(this.selectedIndex - 1);
         this.switchQuestion();
         this.slides.lockSwipes(true);
     }
 
-    getNextQuestionFromAnswer() {
+    public getNextQuestionFromAnswer() {
         if (this.currentQuestion.answer) {
             if (this.currentQuestion.questionType == this.questionTypeEnum.MultipleChoice) {
                 this.currentQuestion.idSurveyQuestionChoice = this.currentQuestion.answer;
@@ -204,7 +204,7 @@ export class InspectionQuestionPage {
         this.questionNavigationDisplay();
     }
 
-    answerTextChanged() {
+    public answerTextChanged() {
         if (this.changingValueTimer) {
             clearTimeout(this.changingValueTimer);
         }
@@ -213,7 +213,7 @@ export class InspectionQuestionPage {
         }, 1500);
     }
 
-    getChoiceNextQuestionId(idChoiceSelected) {
+    public getChoiceNextQuestionId(idChoiceSelected) {
         let idNext = '';
         const count = this.currentQuestion.choicesList.length;
         for (let index = 0; index < count; index++) {
@@ -227,7 +227,7 @@ export class InspectionQuestionPage {
         return idNext;
     }
 
-    questionNavigationDisplay() {
+    public questionNavigationDisplay() {
         if (this.selectedIndex > 0) {
             this.previousQuestionAvailable = true;
         } else {
@@ -241,7 +241,7 @@ export class InspectionQuestionPage {
         }
     }
 
-    createAnswer() {
+    public createAnswer() {
         const newAnswer = new InspectionQuestion();
         newAnswer.id = this.currentQuestion.id;
         newAnswer.idInspection = this.currentQuestion.idInspection;
@@ -251,13 +251,13 @@ export class InspectionQuestionPage {
         return newAnswer;
     }
 
-    addNewAnswer(questionIndex: number) {
+    public addNewAnswer(questionIndex: number) {
         let newAnswer = Object.assign({}, this.inspectionQuestion[questionIndex]);
         this.inspectionQuestionAnswer.push(newAnswer);
         this.slides.update();
     }
 
-    saveAnswer() {
+    public saveAnswer() {
         if (this.currentQuestion.answer) {
             const answer = this.createAnswer();
             this.controller.answerQuestion(answer)

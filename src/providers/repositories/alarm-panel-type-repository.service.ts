@@ -10,7 +10,7 @@ export class AlarmPanelTypeRepository {
     constructor(public http: HttpService) {
     }
 
-    getAll(): Observable<GenericType[]> {
+    public getAll(): Observable<GenericType[]> {
         return this.http.get('alarmpaneltype')
             .pipe(map(response => response));
     }

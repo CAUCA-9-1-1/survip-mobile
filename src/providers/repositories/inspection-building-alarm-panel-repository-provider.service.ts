@@ -10,25 +10,25 @@ export class InspectionBuildingAlarmPanelRepositoryProvider {
     constructor(public http: HttpService) {
     }
 
-    getList(idBuilding: string): Promise<InspectionBuildingFireProtectionForList[]> {
+    public getList(idBuilding: string): Promise<InspectionBuildingFireProtectionForList[]> {
         return this.http.get('inspection/building/' + idBuilding + '/alarmpanel')
             .pipe(map(response => response))
             .toPromise();
     }
 
-    get(idBuildingAlarmPanel: string): Promise<InspectionBuildingAlarmPanel> {
+    public get(idBuildingAlarmPanel: string): Promise<InspectionBuildingAlarmPanel> {
         return this.http.get('inspection/building/alarmpanel/' + idBuildingAlarmPanel)
             .pipe(map(response => response))
             .toPromise();
     }
 
-    save(panel: InspectionBuildingAlarmPanel): Promise<any> {
+    public save(panel: InspectionBuildingAlarmPanel): Promise<any> {
         return this.http.post('inspection/building/alarmpanel/', JSON.stringify(panel))
             .pipe(map(response => response))
             .toPromise();
     }
 
-    delete(idBuildingAlarmPanel: string): Promise<any> {
+    public delete(idBuildingAlarmPanel: string): Promise<any> {
         return this.http.delete('inspection/building/alarmpanel/' + idBuildingAlarmPanel)
             .pipe(map(response => response))
             .toPromise();

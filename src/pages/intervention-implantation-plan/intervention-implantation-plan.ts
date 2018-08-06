@@ -16,7 +16,7 @@ import {ISubscription} from 'rxjs/Subscription';
 export class InterventionImplantationPlanPage implements OnDestroy {
     private planSubscription: ISubscription;
 
-    form: FormGroup;
+    public form: FormGroup;
 
     get picture(): PictureData {
         return this.controller.picture;
@@ -36,16 +36,16 @@ export class InterventionImplantationPlanPage implements OnDestroy {
         this.planSubscription = this.controller.pictureLoaded.subscribe(() => this.setValuesAndStartListening());
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         if (this.planSubscription)
             this.planSubscription.unsubscribe();
     }
 
-    ionViewDidLoad() {
+    public ionViewDidLoad() {
         this.controller.loadInterventionFormPicture();
     }
 
-    async ionViewCanEnter() {
+    public async ionViewCanEnter() {
         let isLoggedIn = await this.authService.isStillLoggedIn();
         if (!isLoggedIn)
             await this.redirectToLoginPage();
@@ -59,7 +59,7 @@ export class InterventionImplantationPlanPage implements OnDestroy {
         this.form = this.fb.group({picture: ['']});
     }
 
-    setValuesAndStartListening() {
+    public setValuesAndStartListening() {
         this.setValues();
         this.startWatchingForm();
     }

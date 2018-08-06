@@ -9,14 +9,14 @@ import {ServiceForListInterface} from '../../interfaces/service-for-list.interfa
     templateUrl: 'search-list.html'
 })
 export class SearchListComponent {
-    dataService: ServiceForListInterface;
-    keyFieldName: string;
-    displayFieldName: string;
 
-    searchTerm: string = '';
-    searchControl: FormControl;
-    items: any;
-    searching: any = false;
+    public dataService: ServiceForListInterface;
+    public keyFieldName: string;
+    public displayFieldName: string;
+    public searchTerm: string = '';
+    public searchControl: FormControl;
+    public items: any;
+    public searching: any = false;
 
     constructor(public viewCtrl: ViewController, params: NavParams) {
         this.dataService = params.get('dataService');
@@ -25,7 +25,7 @@ export class SearchListComponent {
         this.searchControl = new FormControl();
     }
 
-    ionViewDidLoad() {
+    public ionViewDidLoad() {
         this.setFilteredItems();
         this.searchControl.valueChanges.debounceTime(500).subscribe(() => {
             this.searching = false;
@@ -33,21 +33,21 @@ export class SearchListComponent {
         });
     }
 
-    onSearchInput() {
+    public onSearchInput() {
         this.searching = true;
     }
 
-    setFilteredItems() {
+    public setFilteredItems() {
         this.dataService.getList(this.searchTerm, this.displayFieldName).subscribe(list => {
             this.items = list
         });
     }
 
-    onSelectItem(id: string) {
+    public onSelectItem(id: string) {
         this.viewCtrl.dismiss(id);
     }
 
-    onCancelSelection() {
+    public onCancelSelection() {
         this.viewCtrl.dismiss();
     }
 }

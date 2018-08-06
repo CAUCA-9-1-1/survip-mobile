@@ -7,8 +7,8 @@ import {IonicPage, NavController} from 'ionic-angular';
 })
 @IonicPage()
 export class InspectionsPage {
-  inspectionListRoot = 'InspectionListPage';
-  inspectionMapRoot = 'InspectionMapPage';
+    public inspectionListRoot = 'InspectionListPage';
+    public inspectionMapRoot = 'InspectionMapPage';
 
   constructor(public navCtrl: NavController) {
   }

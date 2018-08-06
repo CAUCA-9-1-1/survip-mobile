@@ -10,11 +10,11 @@ export class HazardousMaterialRepositoryProvider {
     constructor(public http: HttpService) {
     }
 
-    getFiltered(searchTerm: string): Observable<HazardousMaterialForList[]> {
+    public getFiltered(searchTerm: string): Observable<HazardousMaterialForList[]> {
         return this.http.get("hazardousmaterial/search/" + searchTerm)
     }
 
-    getSelectedMaterial(idHazardousMaterial: string): Promise<HazardousMaterialForList> {
+    public getSelectedMaterial(idHazardousMaterial: string): Promise<HazardousMaterialForList> {
         return this.http.get("hazardousMaterial/" + idHazardousMaterial + "/name")
             .pipe(map(response => response))
             .toPromise();

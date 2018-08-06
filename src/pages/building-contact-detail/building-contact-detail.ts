@@ -18,10 +18,10 @@ export class BuildingContactDetailPage {
     private readonly idBuilding: string;
     private subscription: ISubscription;
 
-    isNew: boolean = false;
-    contact: InspectionBuildingContact;
-    form: FormGroup;
-    labels = {};
+    public isNew: boolean = false;
+    public contact: InspectionBuildingContact;
+    public form: FormGroup;
+    public labels = {};
 
     constructor(
         private fb: FormBuilder,
@@ -39,7 +39,7 @@ export class BuildingContactDetailPage {
         this.createForm();
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.translateService.get([
             'waitFormMessage','confirmation','contactDeleteQuestion','contactLeaveMessage'
         ]).subscribe(labels => {
@@ -87,7 +87,7 @@ export class BuildingContactDetailPage {
             return result + firstThree + '-' + lastFour;
     }
 
-    async ionViewDidEnter() {
+    public async ionViewDidEnter() {
         let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
         await load.present();
         if (this.idBuildingContact == null) {
@@ -117,7 +117,7 @@ export class BuildingContactDetailPage {
         });
     }
 
-    noWhitespaceValidator(control: FormControl) {
+    public noWhitespaceValidator(control: FormControl) {
         let isWhitespace = (control.value || '').trim().length === 0;
         let isValid = !isWhitespace;
         return isValid ? null : {'whitespace': true}
@@ -169,7 +169,7 @@ export class BuildingContactDetailPage {
         this.contact = data;
     }
 
-    async onDeleteContact() {
+    public async onDeleteContact() {
         if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['contactDeleteQuestion'])) {
             await this.repo.delete(this.idBuildingContact);
             this.viewCtrl.dismiss();
@@ -179,7 +179,7 @@ export class BuildingContactDetailPage {
         }
     }
 
-    async onCancelEdition() {
+    public async onCancelEdition() {
         if (this.form.dirty || this.isNew) {
             if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['contactLeaveMessage']))
                 this.viewCtrl.dismiss();

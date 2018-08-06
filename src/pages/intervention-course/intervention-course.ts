@@ -17,8 +17,8 @@ export class InterventionCoursePage {
 
     private hasNavigated: boolean = true;
 
-    courses: InspectionBuildingCourseForList[] = [];
-    labels = {};
+    public courses: InspectionBuildingCourseForList[] = [];
+    public labels = {};
 
     get plan(): InspectionDetail {
         return this.controller.inspectionDetail
@@ -34,7 +34,7 @@ export class InterventionCoursePage {
         private translateService: TranslateService) {
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.translateService.get([
             'waitFormMessage'
         ]).subscribe(labels => {
@@ -45,14 +45,14 @@ export class InterventionCoursePage {
             });
     }
 
-    ionViewDidEnter() {
+    public ionViewDidEnter() {
         if (this.hasNavigated) {
             this.hasNavigated = false;
             this.loadCourseList();
         }
     }
 
-    loadCourseList() {
+    public loadCourseList() {
         let loader = this.load.create({content: this.labels['waitFromMessage']});
         const result = this.courseRepo.getList(this.controller.idInspection);
         result.subscribe(data => {
@@ -61,7 +61,7 @@ export class InterventionCoursePage {
         });
     }
 
-    async ionViewCanEnter() {
+    public async ionViewCanEnter() {
         let isLoggedIn = await this.authService.isStillLoggedIn();
         if (!isLoggedIn)
             this.redirectToLoginPage();
@@ -71,7 +71,7 @@ export class InterventionCoursePage {
         this.navCtrl.setRoot('LoginPage');
     }
 
-    onItemClick(idInspectionBuildingCourse: string) {
+    public onItemClick(idInspectionBuildingCourse: string) {
         this.hasNavigated = true;
         this.navCtrl.push("InterventionCourseDetailPage", {idInspectionBuildingCourse: idInspectionBuildingCourse});
     }

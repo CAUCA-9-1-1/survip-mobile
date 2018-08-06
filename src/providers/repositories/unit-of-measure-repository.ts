@@ -12,23 +12,23 @@ export class UnitOfMeasureRepositoryProvider {
     constructor(public http: HttpService) {
     }
 
-    getAllForRate(): Observable<UnitOfMeasure[]> {
+    public  getAllForRate(): Observable<UnitOfMeasure[]> {
         return this.getAllForType('rate');
     }
 
-    getAllForDiameter(): Observable<UnitOfMeasure[]> {
+    public getAllForDiameter(): Observable<UnitOfMeasure[]> {
         return this.getAllForType('diameter');
     }
 
-    getAllForPressure(): Observable<UnitOfMeasure[]> {
+    public getAllForPressure(): Observable<UnitOfMeasure[]> {
         return this.getAllForType('pressure');
     }
 
-    getAllForCapacity(): Observable<UnitOfMeasure[]> {
+    public getAllForCapacity(): Observable<UnitOfMeasure[]> {
         return this.getAllForType('capacity');
     }
 
-    getAllForDimension(): Observable<UnitOfMeasure[]> {
+    public getAllForDimension(): Observable<UnitOfMeasure[]> {
         return this.getAllForType('dimension');
     }
 

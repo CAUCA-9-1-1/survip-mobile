@@ -27,14 +27,14 @@ export class BuildingHazardousMaterialDetailPage {
     private readonly integerPattern: string = "^(0|([1-9]([0-9]*)))$";
     private readonly decimalPattern: string = "^[0-9]+(.[0-9]{1,2})?$";
 
-    isNew: boolean = false;
-    selectedMaterial: HazardousMaterialForList;
-    material: InspectionBuildingHazardousMaterial;
-    form: FormGroup;
-    unitOfMeasures: UnitOfMeasure[] = [];
-    walls: string[] = [];
-    sectors: string[] = [];
-    labels = {};
+    public isNew: boolean = false;
+    public selectedMaterial: HazardousMaterialForList;
+    public material: InspectionBuildingHazardousMaterial;
+    public form: FormGroup;
+    public unitOfMeasures: UnitOfMeasure[] = [];
+    public walls: string[] = [];
+    public sectors: string[] = [];
+    public labels = {};
 
     constructor(
         private fb: FormBuilder,
@@ -60,9 +60,9 @@ export class BuildingHazardousMaterialDetailPage {
         this.createForm();
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.translateService.get([
-            'confirmation','waitFormMessage', 'hazardousMaterialDeleteQuestion','hazardousMaterialLeaveMessage'
+            'confirmation', 'waitFormMessage', 'hazardousMaterialDeleteQuestion', 'hazardousMaterialLeaveMessage'
         ]).subscribe(labels => {
                 this.labels = labels;
             },
@@ -71,7 +71,7 @@ export class BuildingHazardousMaterialDetailPage {
             });
     }
 
-    async ionViewDidLoad() {
+    public async ionViewDidLoad() {
         let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
         await load.present();
         if (this.idBuildingHazardousMaterial == null)
@@ -145,7 +145,7 @@ export class BuildingHazardousMaterialDetailPage {
             this.saveForm();
     }
 
-    getAllErrors(form: FormGroup): { [key: string]: any; } | null {
+    public getAllErrors(form: FormGroup): { [key: string]: any; } | null {
         let hasError = false;
         const result = Object.keys(form.controls).reduce((acc, key) => {
             const control = form.get(key);
@@ -191,7 +191,7 @@ export class BuildingHazardousMaterialDetailPage {
             this.selectedMaterial = null;
     }
 
-    async onDeleteHazardousMaterial() {
+    public async onDeleteHazardousMaterial() {
         if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['hazardousMaterialDeleteQuestion'])) {
             await this.repo.delete(this.idBuildingHazardousMaterial);
             await this.viewCtrl.dismiss();
@@ -201,7 +201,7 @@ export class BuildingHazardousMaterialDetailPage {
         }
     }
 
-    onChangeMaterial() {
+    public onChangeMaterial() {
         let matModal = this.modalCtrl.create('HazardousMaterialSelectionPage');
         matModal.onDidDismiss(data => {
             if (data.hasSelected) {
@@ -215,7 +215,7 @@ export class BuildingHazardousMaterialDetailPage {
         matModal.present();
     }
 
-    async onCancelEdition() {
+    public async onCancelEdition() {
         if (this.form.dirty || this.isNew) {
             if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['hazardousMaterialLeaveMessage']))
                 await this.viewCtrl.dismiss();
@@ -224,7 +224,7 @@ export class BuildingHazardousMaterialDetailPage {
             await this.viewCtrl.dismiss();
     }
 
-    getSelectedMaterialDescription() {
+    public getSelectedMaterialDescription() {
         if (this.selectedMaterial != null)
             return this.selectedMaterial.name + " (" + this.selectedMaterial.number + ")";
         else

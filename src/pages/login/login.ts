@@ -10,9 +10,9 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class LoginPage {
 
-    userName: string;
-    password: string;
-    labels = {};
+    public userName: string;
+    public password: string;
+    public labels = {};
 
     constructor(
         public navCtrl: NavController,
@@ -22,7 +22,7 @@ export class LoginPage {
         private translateService: TranslateService) {
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.translateService.get([
             'loginError'
         ]).subscribe(labels => {
@@ -33,7 +33,7 @@ export class LoginPage {
             });
     }
 
-    async ionViewCanEnter() {
+    public async ionViewCanEnter() {
         if (localStorage.getItem('currentToken')) {
             let isLoggedIn = await this.authService.isStillLoggedIn();
             if (isLoggedIn)
@@ -41,12 +41,12 @@ export class LoginPage {
         }
     }
 
-    onLogin() {
+    public onLogin() {
         this.authService.login(this.userName, this.password)
             .subscribe(response => this.handleResponse(response));
     }
 
-    onKeyPress(keyCode) {
+    public onKeyPress(keyCode) {
         if (keyCode == 13)
             this.onLogin();
     }

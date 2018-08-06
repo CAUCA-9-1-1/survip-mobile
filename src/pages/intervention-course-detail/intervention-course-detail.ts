@@ -21,13 +21,13 @@ export class InterventionCourseDetailPage {
     private hasNavigated: boolean = true;
     private idInspectionFormCourse: string;
 
-    course: InspectionBuildingCourse;
-    courseLanes: InspectionBuildingCourseLaneForList[] = [];
-    firestations: FirestationForlist[] = [];
-    form: FormGroup;
-    changeOrder = false;
-    labels = {};
-    changeCourseAction: string;
+    public course: InspectionBuildingCourse;
+    public courseLanes: InspectionBuildingCourseLaneForList[] = [];
+    public firestations: FirestationForlist[] = [];
+    public form: FormGroup;
+    public changeOrder = false;
+    public labels = {};
+    public changeCourseAction: string;
 
     constructor(
         public navCtrl: NavController,
@@ -46,7 +46,7 @@ export class InterventionCourseDetailPage {
         this.idInspectionFormCourse = navParams.get('idInspectionBuildingCourse');
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.translateService.get([
             'yes', 'no', 'confirmation', 'courseDetailLeaveMessage', 'warning', 'courseLaneValidationMessage',
             'courseDetailDeleteQuestion', 'waitFormMessage', 'cancel', 'finish', 'courseOrderChange'
@@ -59,7 +59,7 @@ export class InterventionCourseDetailPage {
         this.changeCourseOrderAction();
     }
 
-    async ionViewDidEnter() {
+    public async ionViewDidEnter() {
         if (this.hasNavigated) {
             let loader = this.load.create({content: this.labels['waitFormMessage']});
             loader.present();
@@ -69,7 +69,7 @@ export class InterventionCourseDetailPage {
         }
     }
 
-    ionViewCanLeave() {
+    public ionViewCanLeave() {
         if (this.form.dirty || !this.form.valid) {
             return new Promise((resolve, reject) => {
                 let alert = this.alertCtrl.create({
@@ -109,7 +109,7 @@ export class InterventionCourseDetailPage {
         }
     }
 
-    createPlanCourse() {
+    public createPlanCourse() {
         let course = new InspectionBuildingCourse();
         course.id = UUID.UUID();
         this.idInspectionFormCourse = course.id;
@@ -123,7 +123,7 @@ export class InterventionCourseDetailPage {
         this.firestations = result;
     }
 
-    async ionViewCanEnter() {
+    public async ionViewCanEnter() {
         let isLoggedIn = await this.authService.isStillLoggedIn();
         if (!isLoggedIn)
             this.redirectToLoginPage();
@@ -137,7 +137,7 @@ export class InterventionCourseDetailPage {
         this.form = this.fb.group({idFirestation: ['', Validators.required]});
     }
 
-    setValuesAndStartListening() {
+    public setValuesAndStartListening() {
         this.setValues();
         this.startWatchingForm();
     }
@@ -167,17 +167,17 @@ export class InterventionCourseDetailPage {
         this.form.markAsPristine();
     }
 
-    onChangeOrder(): void {
+    public onChangeOrder(): void {
         this.changeOrder = !this.changeOrder;
         this.changeCourseOrderAction();
     }
 
-    async onReorderLane(indexes) {
+    public async onReorderLane(indexes) {
         this.courseLanes = reorderArray(this.courseLanes, indexes);
         await this.setLanesSequenceAndSave();
     }
 
-    async setLanesSequenceAndSave() {
+    public async setLanesSequenceAndSave() {
         for (let i = 0; i < this.courseLanes.length; i++) {
             let item = this.courseLanes[i];
             if (item.sequence != i + 1) {
@@ -187,7 +187,7 @@ export class InterventionCourseDetailPage {
         }
     }
 
-    onClickLane(idInspectionBuildingCourseLane: string): void {
+    public onClickLane(idInspectionBuildingCourseLane: string): void {
         if (idInspectionBuildingCourseLane == null && !this.form.valid) {
             let alert = this.alertCtrl.create({
                 title: this.labels['warning'],
@@ -246,7 +246,7 @@ export class InterventionCourseDetailPage {
         this.navCtrl.pop();
     }
 
-    changeCourseOrderAction() {
+    public changeCourseOrderAction() {
         this.changeCourseAction = this.labels['finish']
         if (!this.changeOrder) {
             this.changeCourseAction = this.labels['courseOrderChange'];

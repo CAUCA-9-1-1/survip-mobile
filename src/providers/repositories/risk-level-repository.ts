@@ -10,12 +10,12 @@ export class RiskLevelRepositoryProvider {
     constructor(public http: HttpService) {
     }
 
-    getAll() {
+    public getAll() {
         return this.http.get('risklevel/localized', 3)
             .pipe(map(response => response));
     }
 
-    getById(idRiskLevel: string) {
+    public getById(idRiskLevel: string) {
         if (idRiskLevel == null)
             return Observable.of('');
         else

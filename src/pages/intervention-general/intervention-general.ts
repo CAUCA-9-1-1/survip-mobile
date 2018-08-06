@@ -22,21 +22,21 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class InterventionGeneralPage implements OnDestroy {
 
-    planForm: FormGroup;
-    planSubscription: ISubscription;
-    controllerPlanSubscription: ISubscription;
-    idLaneTransversal: string;
-    laneName: string;
-    utilisationCodeName: string;
-    statusText: string;
-    startVisible: boolean = false;
-    labels = {};
+    public planForm: FormGroup;
+    public planSubscription: ISubscription;
+    public controllerPlanSubscription: ISubscription;
+    public idLaneTransversal: string;
+    public laneName: string;
+    public utilisationCodeName: string;
+    public statusText: string;
+    public startVisible: boolean = false;
+    public labels = {};
 
     get plan(): InspectionDetail {
         return this.controller.inspectionDetail
     }
 
-    riskLevel: RiskLevel;
+    public riskLevel: RiskLevel;
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -53,7 +53,7 @@ export class InterventionGeneralPage implements OnDestroy {
         this.controllerPlanSubscription = controller.planLoaded.subscribe(() => this.setValuesAndStartListening());
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.translateService.get([
             'surveyRequired'
         ]).subscribe(labels => {
@@ -64,7 +64,7 @@ export class InterventionGeneralPage implements OnDestroy {
             });
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         if (this.planSubscription)
             this.planSubscription.unsubscribe();
 
@@ -72,11 +72,11 @@ export class InterventionGeneralPage implements OnDestroy {
             this.controllerPlanSubscription.unsubscribe();
     }
 
-    ionViewDidLoad() {
+    public ionViewDidLoad() {
         this.controller.loadInterventionForm();
     }
 
-    async ionViewCanEnter() {
+    public async ionViewCanEnter() {
         let isLoggedIn = await this.authService.isStillLoggedIn();
         if (!isLoggedIn)
             this.redirectToLoginPage();
@@ -86,7 +86,7 @@ export class InterventionGeneralPage implements OnDestroy {
         this.navCtrl.setRoot('LoginPage');
     }
 
-    setValuesAndStartListening() {
+    public setValuesAndStartListening() {
         this.idLaneTransversal = this.plan.idLaneTransversal;
         this.setValues();
         this.loadRiskLevel();
@@ -97,13 +97,13 @@ export class InterventionGeneralPage implements OnDestroy {
         this.validInspectionStatus();
     }
 
-    createForm() {
+    public createForm() {
         this.planForm = this.fb.group({
             idLaneTransversal: ['']
         });
     }
 
-    loadRiskLevel() { // why am i loading this exactly?
+    public loadRiskLevel() { // why am i loading this exactly?
         if (this.plan != null) {
             this.riskLevelService.getById(this.plan.mainBuildingIdRiskLevel)
                 .subscribe(
@@ -114,14 +114,14 @@ export class InterventionGeneralPage implements OnDestroy {
         }
     }
 
-    loadLaneName() {
+    public loadLaneName() {
         if (this.plan != null) {
             this.laneService.getDescriptionById(this.plan.mainBuildingIdLane)
                 .subscribe(result => this.laneName = result);
         }
     }
 
-    loadUtilisationCode() {
+    public loadUtilisationCode() {
         if (this.plan != null) {
             this.utilisationCodeService.get(this.plan.mainBuildingIdUtilisationCode)
                 .subscribe(result => this.utilisationCodeName = result.name);
@@ -169,7 +169,7 @@ export class InterventionGeneralPage implements OnDestroy {
 
     }
 
-    startInspection() {
+    public startInspection() {
         this.inspectionDetailProvider.startInspection(this.controller.idInspection)
             .subscribe(success => {
                 this.controller.loadInterventionForm();
@@ -184,15 +184,15 @@ export class InterventionGeneralPage implements OnDestroy {
             });
     }
 
-    absentVisit() {
+    public absentVisit() {
         this.navCtrl.push('InspectionVisitPage', {ownerAbsent: true});
     }
 
-    refuseVisit() {
+    public refuseVisit() {
         this.navCtrl.push('InspectionVisitPage', {ownerAbsent: false});
     }
 
-    completeInspection() {
+    public completeInspection() {
         let canComplete = true;
         if (this.controller.inspectionDetail.idSurvey) {
             if (!this.controller.inspectionDetail.isSurveyCompleted) {

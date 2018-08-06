@@ -31,7 +31,7 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
     private changed = new Array<(value: string) => void>();
     private touched = new Array<() => void>();
 
-    isUsingCordova: boolean;
+    public isUsingCordova: boolean;
 
     get imageUrl() {
         return this.imageData === "" || this.imageData == null
@@ -51,7 +51,7 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
         this.isUsingCordova = this.platform.is('cordova');
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.isDisposed = true;
     }
 
@@ -66,25 +66,25 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
         }
     }
 
-    touch() {
+    public touch() {
         this.touched.forEach(f => f());
     }
 
-    writeValue(value: string) {
+    public writeValue(value: string) {
         if (!this.isDisposed) { // this is a patch to fix an issue where some ghost instance of this component would exist in memory and would be linked to the same formGroup somehow.
             this.imageData = value;
         }
     }
 
-    registerOnChange(fn: (value: string) => void) {
+    public registerOnChange(fn: (value: string) => void) {
         this.changed.push(fn);
     }
 
-    registerOnTouched(fn: () => void) {
+    public registerOnTouched(fn: () => void) {
         this.touched.push(fn);
     }
 
-    selectPicture(): void {
+    public selectPicture(): void {
         if (this.isUsingCordova)
             this.selectPictureNative();
         else
@@ -97,7 +97,7 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
         this.getPicture(options);
     }
 
-    takeNewPicture(): void {
+    public takeNewPicture(): void {
         let options = this.options;
         options.sourceType = this.camera.PictureSourceType.CAMERA;
         this.getPicture(options);
@@ -107,7 +107,7 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
         this.inputRef.nativeElement.click();
     }
 
-    onFileSelected(e: any): void {
+    public onFileSelected(e: any): void {
         const files = e.target.files;
         const reader = this.windowRef.nativeClass('FileReader');
 

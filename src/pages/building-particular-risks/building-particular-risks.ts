@@ -11,8 +11,8 @@ export class BuildingParticularRisksPage {
 
     private readonly name: string;
 
-    readonly idBuilding: string;
-    currentSegment: string = "foundation";
+    public readonly idBuilding: string;
+    public currentSegment: string = "foundation";
 
     constructor(
         private authService: AuthenticationService,
@@ -23,7 +23,7 @@ export class BuildingParticularRisksPage {
         this.name = navParams.get('name');
     }
 
-    async ionViewCanEnter() {
+    public async ionViewCanEnter() {
         let isLoggedIn = await this.authService.isStillLoggedIn();
         if (!isLoggedIn)
             this.redirectToLoginPage();

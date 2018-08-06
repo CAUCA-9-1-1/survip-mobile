@@ -10,31 +10,31 @@ export class InspectionBuildingAnomalyRepositoryProvider {
     constructor(public http: HttpService) {
     }
 
-    getList(idBuilding: string): Promise<InspectionBuildingAnomalyThemeForList[]> {
+    public getList(idBuilding: string): Promise<InspectionBuildingAnomalyThemeForList[]> {
         return this.http.get('inspection/building/' + idBuilding + '/anomaly')
             .pipe(map(response => response))
             .toPromise();
     }
 
-    getThemes(): Promise<string[]> {
+    public getThemes(): Promise<string[]> {
         return this.http.get('inspection/anomalythemes')
             .pipe(map(response => response))
             .toPromise();
     }
 
-    get(idBuildingAnomaly: string): Promise<InspectionBuildingAnomaly> {
+    public get(idBuildingAnomaly: string): Promise<InspectionBuildingAnomaly> {
         return this.http.get('inspection/building/anomaly/' + idBuildingAnomaly)
             .pipe(map(response => response))
             .toPromise();
     }
 
-    save(anomaly: InspectionBuildingAnomaly): Promise<any> {
+    public save(anomaly: InspectionBuildingAnomaly): Promise<any> {
         return this.http.post('inspection/building/anomaly/', JSON.stringify(anomaly))
             .pipe(map(response => response))
             .toPromise();
     }
 
-    delete(idBuildingAnomaly: string): Promise<any> {
+    public delete(idBuildingAnomaly: string): Promise<any> {
         return this.http.delete('inspection/building/anomaly/' + idBuildingAnomaly)
             .pipe(map(response => response))
             .toPromise();

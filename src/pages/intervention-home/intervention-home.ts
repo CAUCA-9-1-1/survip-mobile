@@ -16,9 +16,9 @@ export class InterventionHomePage implements OnDestroy {
     private rootPage = 'InterventionGeneralPage';
     private readonly planSubscription: ISubscription;
 
-    menuItems: MenuItem[];
-    mustShowPlanMenu: boolean = false;
-    labels = {};
+    public menuItems: MenuItem[];
+    public mustShowPlanMenu: boolean = false;
+    public labels = {};
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -36,7 +36,7 @@ export class InterventionHomePage implements OnDestroy {
         );
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.translateService.get([
             'generalInformation', 'Buildings', 'waterSupplies', 'implantationPlan', 'course'
         ]).subscribe(labels => {
@@ -55,25 +55,22 @@ export class InterventionHomePage implements OnDestroy {
         ];
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         if (this.planSubscription)
             this.planSubscription.unsubscribe();
     }
 
-    ionViewDidLoad() {
-    }
-
-    ionViewDidEnter() {
+    public ionViewDidEnter() {
         this.menuCtrl.enable(true, 'inspectionMenu');
         this.menuCtrl.enable(false, 'buildingMenu');
         this.menuCtrl.enable(false, 'inspectionListMenu');
     }
 
-    openPage(page) {
+    public openPage(page) {
         this.rootPage = page;
     }
 
-    goToInspectionQuestions() {
+    public goToInspectionQuestions() {
         if (this.controller.inspectionDetail.isSurveyCompleted) {
             this.navCtrl.push('InspectionQuestionSummaryPage', {idInspection: this.controller.idInspection});
         }
@@ -85,7 +82,7 @@ export class InterventionHomePage implements OnDestroy {
         }
     }
 
-    goBackToInspectionList() {
+    public goBackToInspectionList() {
         this.navCtrl.setRoot('InspectionListPage');
     }
 }

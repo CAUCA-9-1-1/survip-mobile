@@ -22,13 +22,13 @@ export class HttpService {
         return options;
     }
 
-    get(url: string, retryCount: number = 3): Observable<any> {
+    public get(url: string, retryCount: number = 3): Observable<any> {
         return this.client.get(this.getFullUrl(url), this.getHeaders())
             .retry(retryCount)
             .catch((err: HttpErrorResponse) => this.handleError(err));
     }
 
-    post(url: string, body?: any): Observable<any> {
+    public post(url: string, body?: any): Observable<any> {
         console.log('post', this.getFullUrl(url));
         return this.client
             .post(this.getFullUrl(url), body, this.getHeaders())
@@ -36,14 +36,14 @@ export class HttpService {
             .catch((err: HttpErrorResponse) => this.handleError(err));
     }
 
-    put(url: string, body?: any): Observable<any> {
+    public put(url: string, body?: any): Observable<any> {
         console.log('post', this.getFullUrl(url));
         return this.client.post(this.getFullUrl(url), body, this.getHeaders())
             .retry(3)
             .catch((err: HttpErrorResponse) => this.handleError(err));
     }
 
-    delete(url: string): Observable<any> {
+    public delete(url: string): Observable<any> {
         return this.client.delete(this.getFullUrl(url), this.getHeaders())
             .retry(3)
             .catch((err: HttpErrorResponse) => this.handleError(err));

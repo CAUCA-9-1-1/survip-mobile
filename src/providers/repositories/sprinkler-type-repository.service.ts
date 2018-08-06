@@ -10,7 +10,7 @@ export class SprinklerTypeRepository {
     constructor(public http: HttpService) {
     }
 
-    getAll(): Observable<GenericType[]> {
+    public getAll(): Observable<GenericType[]> {
         return this.http.get('sprinklertype')
             .pipe(map(response => response));
     }
