@@ -15,12 +15,12 @@ export class InspectionBuildingParticularRiskDetailComponent implements OnChange
 
     private subscription: ISubscription;
 
-    currentRiskType: string = null;
-    currentIdBuilding: string = null;
-    risk: InspectionBuildingParticularRisk;
-    form: FormGroup;
-    walls: string[] = [];
-    sectors: string[] = [];
+    public currentRiskType: string = null;
+    public currentIdBuilding: string = null;
+    public risk: InspectionBuildingParticularRisk;
+    public form: FormGroup;
+    public walls: string[] = [];
+    public sectors: string[] = [];
 
     @Input() set idBuilding(value: string) {
         this.currentIdBuilding = value;
@@ -42,7 +42,7 @@ export class InspectionBuildingParticularRiskDetailComponent implements OnChange
         this.createForm();
     }
 
-    async ngOnChanges() {
+    public async ngOnChanges() {
         if (this.currentRiskType != null && this.currentIdBuilding != null && this.risk == null) {
             let load = this.loadCtrl.create({'content': 'Patientez...'});
             await load.present();
@@ -93,7 +93,7 @@ export class InspectionBuildingParticularRiskDetailComponent implements OnChange
         this.form.markAsPristine();
     }
 
-    getAllErrors(form: FormGroup): { [key: string]: any; } | null {
+    public getAllErrors(form: FormGroup): { [key: string]: any; } | null {
         let hasError = false;
         const result = Object.keys(form.controls).reduce((acc, key) => {
             const control = form.get(key);

@@ -10,25 +10,25 @@ export class InspectionBuildingPersonRequiringAssistanceTypeRepositoryProvider {
     constructor(public http: HttpService) {
     }
 
-    getList(idBuilding: string): Promise<InspectionBuildingPersonRequiringAssistanceForList[]> {
+    public getList(idBuilding: string): Promise<InspectionBuildingPersonRequiringAssistanceForList[]> {
         return this.http.get('inspection/building/' + idBuilding + '/pnaps')
             .pipe(map(response => response))
             .toPromise();
     }
 
-    get(idBuildingPnap: string): Promise<InspectionBuildingPersonRequiringAssistance> {
+    public get(idBuildingPnap: string): Promise<InspectionBuildingPersonRequiringAssistance> {
         return this.http.get('inspection/building/pnaps/' + idBuildingPnap)
             .pipe(map(response => response))
             .toPromise();
     }
 
-    save(pnap: InspectionBuildingPersonRequiringAssistance): Promise<any> {
+    public save(pnap: InspectionBuildingPersonRequiringAssistance): Promise<any> {
         return this.http.post('inspection/building/pnaps/', JSON.stringify(pnap))
             .pipe(map(response => response))
             .toPromise();
     }
 
-    delete(idBuildingPnap: string): Promise<any> {
+    public delete(idBuildingPnap: string): Promise<any> {
         return this.http.delete('inspection/building/pnaps/' + idBuildingPnap)
             .pipe(map(response => response))
             .toPromise();

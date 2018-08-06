@@ -29,7 +29,7 @@ export class InterventionBuildingsPage {
         this.controller.loadBuildingList();
     }
 
-    async ionViewCanEnter() {
+    public async ionViewCanEnter() {
         this.menuCtrl.enable(true, 'inspectionMenu');
         this.menuCtrl.enable(false, 'buildingMenu');
         let isLoggedIn = await this.authService.isStillLoggedIn();
@@ -41,7 +41,7 @@ export class InterventionBuildingsPage {
         this.navCtrl.setRoot('LoginPage');
     }
 
-    async onClickBuilding(idBuilding: string, name: string) {
+    public async onClickBuilding(idBuilding: string, name: string) {
         this.navCtrl.push("BuildingMainPage", {idBuilding: idBuilding, name: name});
     }
 }

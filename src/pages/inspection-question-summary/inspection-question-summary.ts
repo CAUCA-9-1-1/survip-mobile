@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {InspectionQuestionRepositoryProvider} from "../../providers/repositories/inspection-question-repository-provider";
-import {InspectionQuestionSummary} from "../../models/inspection-question-summary";
 import {AuthenticationService} from "../../providers/Base/authentification.service";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {InspectionQuestionSummaryCategory} from "../../models/inspection-question-summary-category";
@@ -13,9 +12,8 @@ import {InspectionQuestionSummaryCategory} from "../../models/inspection-questio
 })
 export class InspectionQuestionSummaryPage {
 
-    inspectionQuestionSummaryCategory: InspectionQuestionSummaryCategory[] = [];
-    inspectionQuestionSummary: InspectionQuestionSummary[] = [];
-    idInspection: string = '';
+    public inspectionQuestionSummaryCategory: InspectionQuestionSummaryCategory[] = [];
+    public idInspection: string = '';
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -27,17 +25,13 @@ export class InspectionQuestionSummaryPage {
         this.loadInspectionQuestionSummary();
     }
 
-    ionViewDidLoad() {
-        console.log('ionViewDidLoad InspectionQuestionSummaryPage');
-    }
-
-    async ionViewCanEnter() {
+    public async ionViewCanEnter() {
         let isLoggedIn = await this.authService.isStillLoggedIn();
         if (!isLoggedIn)
             this.navCtrl.setRoot('LoginPage');
     }
 
-    loadInspectionQuestionSummary() {
+    public loadInspectionQuestionSummary() {
         this.controller.getAnswerSummaryList(this.idInspection)
             .subscribe(result => {
                     this.inspectionQuestionSummaryCategory = result;
@@ -48,7 +42,7 @@ export class InspectionQuestionSummaryPage {
                 });
     }
 
-    ionViewWillLeave(){
+    public ionViewWillLeave() {
         this.navCtrl.setRoot('InspectionListPage');
         this.navCtrl.popToRoot();
     }

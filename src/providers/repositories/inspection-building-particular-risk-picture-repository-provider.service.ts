@@ -10,19 +10,19 @@ export class InspectionBuildingParticularRiskPictureRepositoryProvider implement
     constructor(public http: HttpService) {
     }
 
-    getList(idBuildingParticularRisk: string): Promise<InspectionBuildingChildPictureForWeb[]> {
+    public getList(idBuildingParticularRisk: string): Promise<InspectionBuildingChildPictureForWeb[]> {
         return this.http.get('inspection/building/particularrisk/' + idBuildingParticularRisk + '/picture')
             .pipe(map(response => response))
             .toPromise();
     }
 
-    save(picture: InspectionBuildingChildPictureForWeb): Promise<any> {
+    public save(picture: InspectionBuildingChildPictureForWeb): Promise<any> {
         return this.http.post('inspection/building/particularrisk/picture/', JSON.stringify(picture))
             .pipe(map(response => response))
             .toPromise();
     }
 
-    delete(idBuildingParticularRisk: string): Promise<any> {
+    public delete(idBuildingParticularRisk: string): Promise<any> {
         return this.http.delete('inspection/building/particularrisk/picture/' + idBuildingParticularRisk)
             .pipe(map(response => response))
             .toPromise();

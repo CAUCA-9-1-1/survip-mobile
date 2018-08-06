@@ -7,7 +7,7 @@ import {TranslateService} from "@ngx-translate/core";
 
 export class MessageToolsProvider {
 
-    labels = {};
+    public labels = {};
 
     constructor(public http: HttpClient,
                 private alertCtrl: AlertController,
@@ -25,7 +25,7 @@ export class MessageToolsProvider {
     }
 
 
-    ShowMessageBox(title: string, message: string): Promise<Boolean> {
+    public ShowMessageBox(title: string, message: string): Promise<Boolean> {
         return new Promise((resolve, rejeect) => {
             let alert = this.alertCtrl.create({
                 title: title,

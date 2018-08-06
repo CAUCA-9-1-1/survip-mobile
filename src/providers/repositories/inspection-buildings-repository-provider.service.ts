@@ -10,7 +10,7 @@ export class InspectionBuildingsRepositoryProvider {
     constructor(private http: HttpService) {
     }
 
-    get(idInspection: string): Observable<InspectionBuildingForList[]> {
+    public get(idInspection: string): Observable<InspectionBuildingForList[]> {
         return this.http.get("inspection/" + idInspection + "/building")
             .pipe(map(response => response));
     }

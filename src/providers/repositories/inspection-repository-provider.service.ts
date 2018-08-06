@@ -12,12 +12,12 @@ export class InspectionRepositoryProvider {
     constructor(public http: HttpService) {
     }
 
-    getAll(): Observable<Batch[]> {
+    public getAll(): Observable<Batch[]> {
         return this.http.get('inspection')
             .pipe(map(response => response));
     }
 
-    get(id: string): Observable<Inspection> {
+    public get(id: string): Observable<Inspection> {
         return this.http.get('api/inspection/' + id)
             .pipe(map(response => response));
     }

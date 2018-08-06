@@ -16,13 +16,13 @@ import {TranslateService} from "@ngx-translate/core";
     templateUrl: 'inspection-list.html'
 })
 export class InspectionListPage {
-    batches: Batch[];
-    filteredBatches: Batch[];
-    riskLevels: RiskLevel[];
-    searchTerm: string = "";
-    rootPage: string = "InterventionHomePage";
-    noDataMessage = "";
-    labels = {};
+    public batches: Batch[];
+    public filteredBatches: Batch[];
+    public riskLevels: RiskLevel[];
+    public searchTerm: string = "";
+    public rootPage: string = "InterventionHomePage";
+    public noDataMessage = "";
+    public labels = {};
 
     constructor(public appCtrl: App,
                 public navCtrl: NavController,
@@ -47,7 +47,7 @@ export class InspectionListPage {
             });
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.translateService.get([
             'loading', 'surveyUnassignedMessage'
         ]).subscribe(labels => {
@@ -57,7 +57,7 @@ export class InspectionListPage {
     }
 
 
-    refreshList(refresher) {
+    public refreshList(refresher) {
         this.inspectionService.getAll()
             .subscribe(batches => {
                 this.batches = batches;
@@ -66,7 +66,7 @@ export class InspectionListPage {
             });
     }
 
-    async ionViewCanEnter() {
+    public async ionViewCanEnter() {
         this.menu.enable(false, 'inspectionMenu');
         this.menu.enable(false, 'buildingMenu');
         this.menu.enable(true, 'inspectionListMenu');
@@ -85,7 +85,7 @@ export class InspectionListPage {
         return this.loadingCtrl.create({content: this.labels['loading']});
     }
 
-    getRiskDescription(idRiskLevel: string): string {
+    public getRiskDescription(idRiskLevel: string): string {
         const result = this.riskLevels.find(risk => risk.id === idRiskLevel);
         if (result != null) {
             return result.name;
@@ -94,7 +94,7 @@ export class InspectionListPage {
         }
     }
 
-    getRiskColor(idRiskLevel: string): string {
+    public getRiskColor(idRiskLevel: string): string {
         const result = this.riskLevels.find(risk => risk.id === idRiskLevel);
         if (result != null) {
             return this.toColor(result.color);
@@ -103,7 +103,7 @@ export class InspectionListPage {
         }
     }
 
-    toColor(num) {
+    public toColor(num) {
         num >>>= 0;
         var b = num & 0xFF,
             g = (num & 0xFF00) >>> 8,
@@ -112,11 +112,11 @@ export class InspectionListPage {
         return "rgba(" + [r, g, b, a].join(",") + ")";
     }
 
-    itemSelected(inspection: Inspection) {
+    public itemSelected(inspection: Inspection) {
         this.navCtrl.push('InterventionHomePage', {id: inspection.id});
     }
 
-    filterList() {
+    public filterList() {
         if (this.searchTerm && this.searchTerm != '')
             this.applyFilter();
         else

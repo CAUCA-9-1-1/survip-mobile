@@ -25,7 +25,7 @@ export class InspectionVisitPage {
     };
     private completRefusal: boolean = false;
 
-    labels = {};
+    public labels = {};
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -37,7 +37,7 @@ export class InspectionVisitPage {
         this.ownerAbsent = this.navParams.get('ownerAbsent');
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.translateService.get([
             'visitRefusedValidationMessage'
         ]).subscribe(labels => {
@@ -48,7 +48,7 @@ export class InspectionVisitPage {
             });
     }
 
-    UpdateVisitRefusalReason() {
+    public UpdateVisitRefusalReason() {
         if ((!this.ownerAbsent) && (this.refusalReason == '')) {
             this.messageTools.showToast(this.labels['visitRefusedValidationMessage'], 3);
             return;
@@ -76,7 +76,7 @@ export class InspectionVisitPage {
             });
     }
 
-    ionViewWillLeave() {
+    public ionViewWillLeave() {
         let goToPage = 'InspectionListPage';
         if (!this.completRefusal) {
             goToPage = 'InterventionGeneralPage'

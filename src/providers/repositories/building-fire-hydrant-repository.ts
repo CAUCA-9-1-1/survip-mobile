@@ -10,7 +10,7 @@ export class BuildingFireHydrantRepositoryProvider {
     constructor(private http: HttpService) {
     }
 
-    deleteBuildingFireHydrant(idBuildingFireHydrant: string): Observable<any> {
+    public deleteBuildingFireHydrant(idBuildingFireHydrant: string): Observable<any> {
         if (idBuildingFireHydrant == null)
             return Observable.of('');
         else {
@@ -19,7 +19,7 @@ export class BuildingFireHydrantRepositoryProvider {
         }
     }
 
-    addBuildingFireHydrant(idBuilding: string, idFireHydrant: string): Observable<any> {
+    public addBuildingFireHydrant(idBuilding: string, idFireHydrant: string): Observable<any> {
         if ((!idBuilding) || (!idFireHydrant))
             return Observable.of('');
         else {
@@ -28,12 +28,12 @@ export class BuildingFireHydrantRepositoryProvider {
         }
     }
 
-    getList(idCity: string): Observable<CityFireHydrantForList[]> {
+    public getList(idCity: string): Observable<CityFireHydrantForList[]> {
         return this.http.get('FireHydrant/city/' + idCity)
             .pipe(map(response => response));
     }
 
-    getCityFireHydrantListForBuilding(idCity: string, idBuilding: string): Observable<CityFireHydrantForList[]> {
+    public getCityFireHydrantListForBuilding(idCity: string, idBuilding: string): Observable<CityFireHydrantForList[]> {
         return this.http.get('FireHydrant/city/' + idCity + '/building/' + idBuilding)
             .pipe(map(response => response));
     }

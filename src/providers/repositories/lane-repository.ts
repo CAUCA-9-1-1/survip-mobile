@@ -12,11 +12,11 @@ export class LaneRepositoryProvider implements ServiceForListInterface {
     constructor(private http: HttpService) {
     }
 
-    getFilteredLanes(searchTerm: string): Observable<Lane> {
+    public getFilteredLanes(searchTerm: string): Observable<Lane> {
         return this.http.get('lane/city/' + this.currentIdCity + '/Search/' + searchTerm);
     }
 
-    get(idLane: string): Observable<string> {
+    public get(idLane: string): Observable<string> {
         if (!idLane) {
             return Observable.of("");
         } else {
@@ -28,11 +28,11 @@ export class LaneRepositoryProvider implements ServiceForListInterface {
         }
     }
 
-    getList(searchTerm: string, searchFieldName: string): Observable<any[]> {
+    public getList(searchTerm: string, searchFieldName: string): Observable<any[]> {
         return this.getFilteredLanes(searchTerm) as Observable<any>;
     }
 
-    getDescriptionById(id: string): Observable<string> {
+    public getDescriptionById(id: string): Observable<string> {
         return this.get(id);
     }
 }

@@ -15,8 +15,8 @@ export class BuildingPnapsPage {
     private readonly idBuilding: string;
     private readonly name: string;
 
-    pnaps: InspectionBuildingPersonRequiringAssistanceForList[] = [];
-    labels = {};
+    public pnaps: InspectionBuildingPersonRequiringAssistanceForList[] = [];
+    public labels = {};
 
     constructor(
         private load: LoadingController,
@@ -31,7 +31,7 @@ export class BuildingPnapsPage {
         this.name = navParams.get('name');
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.translateService.get([
             'waitFormMessage'
         ]).subscribe(labels => {
@@ -42,11 +42,11 @@ export class BuildingPnapsPage {
             });
     }
 
-    async ionViewDidEnter() {
+    public async ionViewDidEnter() {
         await this.loadPnaps();
     }
 
-    async ionViewCanEnter() {
+    public async ionViewCanEnter() {
         let isLoggedIn = await this.authService.isStillLoggedIn();
         if (!isLoggedIn)
             this.redirectToLoginPage();
@@ -63,7 +63,7 @@ export class BuildingPnapsPage {
         await loader.dismiss();
     }
 
-    onItemClick(idBuildingPnap: string): void {
+    public onItemClick(idBuildingPnap: string): void {
         let modal = this.modalCtrl.create('BuildingPnapDetailPage', {
             idBuildingPnap: idBuildingPnap,
             idBuilding: this.idBuilding

@@ -17,7 +17,7 @@ export class InspectionMapPage implements OnInit{
               public navParams: NavParams) {
   }
 
-  ngOnInit() {/*
+    public ngOnInit() {/*
     const layer1 = {
       'source': {
         'title': 'Fond de carte du Québec',
@@ -42,7 +42,7 @@ export class InspectionMapPage implements OnInit{
     } as DetailedContext);*/
   }
 
-  async ionViewCanEnter() {
+    public async ionViewCanEnter() {
     let isLoggedIn = await this.authService.isStillLoggedIn();
     if (!isLoggedIn)
       this.redirectToLoginPage();
@@ -50,8 +50,5 @@ export class InspectionMapPage implements OnInit{
 
   private redirectToLoginPage(){
     this.navCtrl.setRoot('LoginPage');
-  }
-
-  ionViewDidLoad() {
   }
 }

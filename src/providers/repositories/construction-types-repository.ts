@@ -10,7 +10,7 @@ export class ConstructionTypesRepositoryProvider {
     constructor(public http: HttpService) {
     }
 
-    getAllTypes(): Observable<AllConstructionTypes> {
+    public getAllTypes(): Observable<AllConstructionTypes> {
         return this.http.get('construction/all')
             .pipe(map(response => response));
     }

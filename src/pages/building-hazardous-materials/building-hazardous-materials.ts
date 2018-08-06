@@ -14,8 +14,9 @@ export class BuildingHazardousMaterialsPage {
 
     private readonly idBuilding: string;
     private readonly name: string;
-    hazardousMaterials: InspectionBuildingHazardousMaterialForList[] = [];
-    labels = {};
+
+    public hazardousMaterials: InspectionBuildingHazardousMaterialForList[] = [];
+    public labels = {};
 
     constructor(
         private load: LoadingController,
@@ -30,7 +31,7 @@ export class BuildingHazardousMaterialsPage {
         this.name = navParams.get('name');
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.translateService.get([
             'waitFormMessage'
         ]).subscribe(labels => {
@@ -41,11 +42,11 @@ export class BuildingHazardousMaterialsPage {
             });
     }
 
-    async ionViewDidEnter() {
+    public async ionViewDidEnter() {
         await this.loadMaterialList();
     }
 
-    async ionViewCanEnter() {
+    public async ionViewCanEnter() {
         let isLoggedIn = await this.authService.isStillLoggedIn();
         if (!isLoggedIn)
             this.redirectToLoginPage();
@@ -62,7 +63,7 @@ export class BuildingHazardousMaterialsPage {
         await loader.dismiss();
     }
 
-    onItemClick(idBuildingHazardousMaterial: string): void {
+    public onItemClick(idBuildingHazardousMaterial: string): void {
         let modal = this.modalCtrl.create('BuildingHazardousMaterialDetailPage', {
             idBuildingHazardousMaterial: idBuildingHazardousMaterial,
             idBuilding: this.idBuilding

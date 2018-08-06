@@ -11,19 +11,19 @@ export class InspectionBuildingAnomalyPictureRepositoryProvider implements Build
     constructor(public http: HttpService) {
     }
 
-    getList(idBuildingAnomaly: string): Promise<InspectionBuildingChildPictureForWeb[]> {
+    public getList(idBuildingAnomaly: string): Promise<InspectionBuildingChildPictureForWeb[]> {
         return this.http.get('inspection/building/anomaly/' + idBuildingAnomaly + '/picture')
             .pipe(map(response => response))
             .toPromise();
     }
 
-    save(picture: InspectionBuildingChildPictureForWeb): Promise<any> {
+    public save(picture: InspectionBuildingChildPictureForWeb): Promise<any> {
         return this.http.post('inspection/building/anomaly/picture/', JSON.stringify(picture))
             .pipe(map(response => response))
             .toPromise();
     }
 
-    delete(idBuildingAnomalyPicture: string): Promise<any> {
+    public delete(idBuildingAnomalyPicture: string): Promise<any> {
         return this.http.delete('inspection/building/anomaly/picture/' + idBuildingAnomalyPicture)
             .pipe(map(response => response))
             .toPromise();

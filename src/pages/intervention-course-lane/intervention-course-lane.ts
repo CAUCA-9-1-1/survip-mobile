@@ -21,10 +21,10 @@ export class InterventionCourseLanePage {
     private readonly idInspectionBuildingCourse: string;
     private readonly nextSequence: number;
 
-    form: FormGroup;
-    directions: RouteDirection[];
-    courseLane: InspectionBuildingCourseLane;
-    labels = {};
+    public form: FormGroup;
+    public directions: RouteDirection[];
+    public courseLane: InspectionBuildingCourseLane;
+    public labels = {};
 
     constructor(
         public navCtrl: NavController,
@@ -45,7 +45,7 @@ export class InterventionCourseLanePage {
         this.createForm();
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.translateService.get([
             'yes', 'no', 'confirmation', 'laneLeaveMessage', 'waitFormMessage', 'cancel', 'laneDeleteQuestion'
         ]).subscribe(labels => {
@@ -56,7 +56,7 @@ export class InterventionCourseLanePage {
             });
     }
 
-    async loadSpecificCourseLane(idInspectionBuildingCourseLane: string) {
+    public async loadSpecificCourseLane(idInspectionBuildingCourseLane: string) {
         if (idInspectionBuildingCourseLane == null) {
             this.createPlanCourseLane();
         } else {
@@ -66,7 +66,7 @@ export class InterventionCourseLanePage {
         this.setValuesAndStartListening();
     }
 
-    createPlanCourseLane() {
+    public createPlanCourseLane() {
         let lane = new InspectionBuildingCourseLane();
         lane.id = UUID.UUID();
         this.idInspectionBuildingCourseLane = lane.id;
@@ -76,7 +76,7 @@ export class InterventionCourseLanePage {
         this.courseLane = lane;
     }
 
-    async ionViewDidLoad() {
+    public async ionViewDidLoad() {
         let loader = this.load.create({content: this.labels['waitFormMessage']});
         loader.present();
         this.directions = await this.directionRepo.getList();
@@ -84,7 +84,7 @@ export class InterventionCourseLanePage {
         loader.dismiss();
     }
 
-    async ionViewCanEnter() {
+    public async ionViewCanEnter() {
         let isLoggedIn = await this.authService.isStillLoggedIn();
         if (!isLoggedIn)
             this.redirectToLoginPage();
@@ -94,7 +94,7 @@ export class InterventionCourseLanePage {
         this.navCtrl.setRoot('LoginPage');
     }
 
-    ionViewCanLeave() {
+    public ionViewCanLeave() {
         if (this.form.dirty || !this.form.valid) {
             return new Promise((resolve, rejeect) => {
                 let alert = this.alertCtrl.create({
@@ -126,7 +126,7 @@ export class InterventionCourseLanePage {
         });
     }
 
-    setValuesAndStartListening() {
+    public setValuesAndStartListening() {
         this.setValues();
         this.startWatchingForm();
     }
@@ -156,7 +156,7 @@ export class InterventionCourseLanePage {
         this.form.markAsPristine();
     }
 
-    async onDeleteLane() {
+    public async onDeleteLane() {
         let alert = this.alertCtrl.create({
             title: this.labels['confirmation'],
             message: this.labels['laneDeleteQuestion'],
@@ -173,19 +173,19 @@ export class InterventionCourseLanePage {
         await alert.present();
     }
 
-    async deleteThenGoBack() {
+    public async deleteThenGoBack() {
         await this.deleteCourseLane();
         this.goBack();
     }
 
-    async saveCourseLane() {
+    public async saveCourseLane() {
         let loader = this.load.create({content: this.labels['waitFormMessage']});
         loader.present();
         await this.courseLaneRepo.save(this.courseLane);
         loader.dismiss();
     }
 
-    async deleteCourseLane(): Promise<any> {
+    public async deleteCourseLane(): Promise<any> {
         let loader = this.load.create({content: this.labels['waitFormMessage']});
         loader.present();
         let result = await this.courseLaneRepo.delete(this.courseLane);

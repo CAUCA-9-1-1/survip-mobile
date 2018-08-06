@@ -9,8 +9,8 @@ import {HazardousMaterialForList} from '../../models/hazardous-material-for-list
     templateUrl: 'hazardous-material-selection.html',
 })
 export class HazardousMaterialSelectionPage {
-    searchTerm: string = "";
-    hazardousMaterials: HazardousMaterialForList[] = [];
+    public searchTerm: string = "";
+    public hazardousMaterials: HazardousMaterialForList[] = [];
 
     constructor(
         private matRepo: HazardousMaterialRepositoryProvider,
@@ -22,16 +22,16 @@ export class HazardousMaterialSelectionPage {
             .subscribe(data => this.hazardousMaterials = data);
     }
 
-    onSearch() {
+    public onSearch() {
         this.matRepo.getFiltered(this.searchTerm.trim())
             .subscribe(data => this.hazardousMaterials = data);
     }
 
-    onSelectMaterial(id: string) {
+    public onSelectMaterial(id: string) {
         this.viewCtrl.dismiss({'hasSelected': true, 'selectedId': id});
     }
 
-    onCancel() {
+    public onCancel() {
         this.viewCtrl.dismiss({'hasSelected': false});
     }
 }

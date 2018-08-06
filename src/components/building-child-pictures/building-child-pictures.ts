@@ -37,11 +37,11 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         targetHeight: 680,
     };
 
-    isLoading: boolean = true;
-    idParent: string;
-    pictures: InspectionBuildingChildPictureForWeb[] = [];
-    isUsingCordova: boolean = false;
-    labels = {};
+    public isLoading: boolean = true;
+    public  idParent: string;
+    public pictures: InspectionBuildingChildPictureForWeb[] = [];
+    public isUsingCordova: boolean = false;
+    public labels = {};
 
     get value(): string {
         return this.idParent;
@@ -69,7 +69,7 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         this.isUsingCordova = this.platform.is('cordova');
     }
 
-    loadTranslation() {
+    public loadTranslation() {
         this.translateService.get([
             'confirmation', 'photoDeleteQuestion'
         ]).subscribe(labels => {
@@ -80,20 +80,20 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
             });
     }
 
-    async ionViewDidLoad() {
+    public async ionViewDidLoad() {
     }
 
-    async loadPictures() {
+    public async loadPictures() {
         this.isLoading = true;
         this.pictures = await this.repo.getList(this.idParent);
         this.isLoading = false;
     }
 
-    touch() {
+    public touch() {
         this.touched.forEach(f => f());
     }
 
-    writeValue(value: string) {
+    public writeValue(value: string) {
         console.log('write value : ' + value + ' | idParent : ' + this.idParent);
         if (value != this.idParent && value != '') {
             this.idParent = value;
@@ -104,15 +104,15 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         }
     }
 
-    registerOnChange(fn: (value: string) => void) {
+    public registerOnChange(fn: (value: string) => void) {
         this.changed.push(fn);
     }
 
-    registerOnTouched(fn: () => void) {
+    public registerOnTouched(fn: () => void) {
         this.touched.push(fn);
     }
 
-    addPicture(pic: string) {
+    public addPicture(pic: string) {
         let picture = new InspectionBuildingChildPictureForWeb();
         picture.id = UUID.UUID();
         picture.idParent = this.idParent;
@@ -130,7 +130,7 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         this.getPicture(options);
     }
 
-    onDeletePhotos() {
+    public onDeletePhotos() {
         this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['photoDeleteQuestion']).then(canDelete => {
             if (canDelete) {
 
@@ -150,14 +150,14 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         });
     }
 
-    selectPicture(): void {
+    public selectPicture(): void {
         if (this.isUsingCordova)
             this.selectPictureNative();
         else
             this.popFileSelector();
     }
 
-    takeNewPicture(): void {
+    public takeNewPicture(): void {
         let options = this.options;
         options.sourceType = this.camera.PictureSourceType.CAMERA;
         this.getPicture(options);
@@ -167,7 +167,7 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         this.inputRef.nativeElement.click();
     }
 
-    onFileSelected(e: any): void {
+    public onFileSelected(e: any): void {
         const files = e.target.files;
         const reader = this.windowRef.nativeClass('FileReader');
 
@@ -197,11 +197,11 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         }
     }
 
-    hasImageUrl(pic: string): boolean {
+    public hasImageUrl(pic: string): boolean {
         return !(pic === "" || pic == null);
     }
 
-    getImageUrl(pic: string) {
+    public getImageUrl(pic: string) {
         return pic === "" || pic == null
             ? ''
             : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + pic);

@@ -16,21 +16,21 @@ import {TranslateService} from "@ngx-translate/core";
 
 @Injectable()
 export class InspectionControllerProvider {
-    idInspection: string;
-    mainBuildingName: string;
+    public idInspection: string;
+    public mainBuildingName: string;
 
-    courses: InspectionBuildingCourseForList[];
+    public courses: InspectionBuildingCourseForList[];
 
-    buildings: InspectionBuildingForList[];
-    firestations: FirestationForlist[];
+    public buildings: InspectionBuildingForList[];
+    public firestations: FirestationForlist[];
 
-    inspectionDetail: InspectionDetail;
-    picture: PictureData;
+    public inspectionDetail: InspectionDetail;
+    public picture: PictureData;
 
-    planLoaded: EventEmitter<any> = new EventEmitter<any>();
-    pictureLoaded: EventEmitter<any> = new EventEmitter<any>();
+    public planLoaded: EventEmitter<any> = new EventEmitter<any>();
+    public pictureLoaded: EventEmitter<any> = new EventEmitter<any>();
 
-    labels = {};
+    public labels = {};
 
     constructor(
         private repoDetail: InspectionDetailRepositoryProvider,
@@ -43,7 +43,7 @@ export class InspectionControllerProvider {
     ) {
     }
 
-    loadTranslation() {
+    public  loadTranslation() {
         this.translateService.get([
             'loading'
         ]).subscribe(labels => {
@@ -54,11 +54,11 @@ export class InspectionControllerProvider {
             });
     }
 
-    setIdInterventionForm(idInterventionForm: string) {
+    public setIdInterventionForm(idInterventionForm: string) {
         this.idInspection = idInterventionForm;
     }
 
-    loadInterventionForm() {
+    public loadInterventionForm() {
         const loading = this.createLoadingControl();
         loading.present();
         const result = this.repoDetail.get(this.idInspection);
@@ -71,7 +71,7 @@ export class InspectionControllerProvider {
         });
     }
 
-    loadBuildingList() {
+    public loadBuildingList() {
         const loading = this.createLoadingControl();
         loading.present();
         const result = this.repoBuildings.get(this.idInspection);
@@ -85,7 +85,7 @@ export class InspectionControllerProvider {
         return this.loadingCtrl.create({content: this.labels['loading']});
     }
 
-    loadInterventionFormPicture() {
+    public loadInterventionFormPicture() {
         const loading = this.createLoadingControl();
         loading.present();
         const result = this.pictureRepo.getPicture(this.inspectionDetail.idPictureSitePlan);
@@ -96,7 +96,7 @@ export class InspectionControllerProvider {
         });
     }
 
-    async savePicture() {
+    public async savePicture() {
         let idPicture = await this.pictureRepo.savePicture(this.picture);
         if (this.inspectionDetail.idPictureSitePlan != idPicture)
             this.savePlanIdPicture(idPicture as string);
@@ -110,14 +110,14 @@ export class InspectionControllerProvider {
             });
     }
 
-    savePlanTransversal() {
+    public savePlanTransversal() {
         this.repoDetail.savePlanLane(this.inspectionDetail.id, this.inspectionDetail.idLaneTransversal)
             .subscribe(ok => {
                 console.log("Plan saved", ok);
             });
     }
 
-    deleteBuildingFireHydrant(idBuildingFireHydrant: string) {
+    public deleteBuildingFireHydrant(idBuildingFireHydrant: string) {
         return this.buildingfirehydrantRepo.deleteBuildingFireHydrant(idBuildingFireHydrant)
             .pipe(map(response => response));
     }

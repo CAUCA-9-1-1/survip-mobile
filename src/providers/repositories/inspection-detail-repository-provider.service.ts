@@ -8,8 +8,8 @@ import {TranslateService} from "@ngx-translate/core";
 @Injectable()
 export class InspectionDetailRepositoryProvider {
 
-    labels = {};
-    InspectionStatusEnum = {
+    public labels = {};
+    public InspectionStatusEnum = {
         'Todo': 0,
         'Started': 1,
         'WaitingForApprobation': 2,
@@ -17,7 +17,7 @@ export class InspectionDetailRepositoryProvider {
         'Refused': 4,
         'Canceled': 5
     };
-    InspectionVisitStatusEnum = {'Todo': 0, 'Started': 1, 'Completed': 2};
+    public InspectionVisitStatusEnum = {'Todo': 0, 'Started': 1, 'Completed': 2};
 
     constructor(private http: HttpService, private translateService: TranslateService) {
         this.translateService.get([
@@ -33,35 +33,35 @@ export class InspectionDetailRepositoryProvider {
             });
     }
 
-    get(idInspection: string): Observable<InspectionDetail> {
+    public get(idInspection: string): Observable<InspectionDetail> {
         return this.http.get('inspection/' + idInspection + '/detail')
     }
 
-    savePlanLane(idBuilding: string, idTransversal: string): Observable<boolean> {
+    public savePlanLane(idBuilding: string, idTransversal: string): Observable<boolean> {
         return this.http.put('inspection/building/' + idBuilding + '/idLaneIntersection/' + idTransversal)
     }
 
-    savePicture(idBuildingDetail: string, idPicture: string): Observable<boolean> {
+    public savePicture(idBuildingDetail: string, idPicture: string): Observable<boolean> {
         return this.http.put('inspection/buildingdetail/' + idBuildingDetail + '/idPicture/' + idPicture)
     }
 
-    startInspection(idInspection: string): Observable<any> {
+    public startInspection(idInspection: string): Observable<any> {
         return this.http.post('Inspection/StartInspection', JSON.stringify(idInspection))
     }
 
-    completeInspection(idInspection: string): Observable<any> {
+    public completeInspection(idInspection: string): Observable<any> {
         return this.http.post('Inspection/CompleteInspection', JSON.stringify(idInspection))
     }
 
-    RefuseInspectionVisit(inspectionVisit: InspectionVisit): Observable<InspectionVisit> {
+    public RefuseInspectionVisit(inspectionVisit: InspectionVisit): Observable<InspectionVisit> {
         return this.http.post('Inspection/RefuseInspectionVisit', JSON.stringify(inspectionVisit))
     }
 
-    getInspectionStatusText(status: number) {
+    public getInspectionStatusText(status: number) {
         return this.labels["inspectionStatus" + Object.keys(this.InspectionStatusEnum).find(e => this.InspectionStatusEnum[e] === status)];
     }
 
-    getVisitStatusText(status: number) {
+    public getVisitStatusText(status: number) {
         return this.labels["visitStatus" + Object.keys(this.InspectionVisitStatusEnum).find(e => this.InspectionVisitStatusEnum[e] === status)];
     }
 }

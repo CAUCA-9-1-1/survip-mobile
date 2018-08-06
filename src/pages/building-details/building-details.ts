@@ -22,14 +22,15 @@ export class BuildingDetailsPage {
     private readonly decimalPattern: string = "^[0-9]+(.[0-9]{1,2})?$";
     private subscription: ISubscription;
 
-    readonly idBuilding: string;
-    readonly name: string;
-    allTypes: AllConstructionTypes;
-    ratesUnitOfMeasure: UnitOfMeasure[];
-    dimensionUnitOfMeasure: UnitOfMeasure[];
-    detail: InspectionBuildingDetail;
-    form: FormGroup;
-    labels = {};
+    public readonly idBuilding: string;
+    public readonly name: string;
+
+    public allTypes: AllConstructionTypes;
+    public ratesUnitOfMeasure: UnitOfMeasure[];
+    public dimensionUnitOfMeasure: UnitOfMeasure[];
+    public detail: InspectionBuildingDetail;
+    public form: FormGroup;
+    public labels = {};
 
     constructor(
         private formBuilding: FormBuilder,
@@ -49,9 +50,9 @@ export class BuildingDetailsPage {
         this.loadDataForLookups();
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.translateService.get([
-            'buildingLeaveMessage','confirmation','waitFormMessage'
+            'buildingLeaveMessage', 'confirmation', 'waitFormMessage'
         ]).subscribe(labels => {
                 this.labels = labels;
             },
@@ -69,7 +70,7 @@ export class BuildingDetailsPage {
             .subscribe((units: UnitOfMeasure[]) => this.ratesUnitOfMeasure = units);
     }
 
-    async ionViewDidEnter() {
+    public async ionViewDidEnter() {
         let load = this.loadingCtrl.create({'content': this.labels['waitFormMessage']});
         await load.present();
         this.detail = await this.detailRepo.get(this.idBuilding);
@@ -77,13 +78,13 @@ export class BuildingDetailsPage {
         await load.dismiss();
     }
 
-    async ionViewCanEnter() {
+    public async ionViewCanEnter() {
         let isLoggedIn = await this.authService.isStillLoggedIn();
         if (!isLoggedIn)
             this.redirectToLoginPage();
     }
 
-    async ionViewCanLeave() {
+    public async ionViewCanLeave() {
         if (this.form.dirty || !this.form.valid)
             return await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['buildingLeaveMessage']);
     }

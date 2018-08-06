@@ -10,7 +10,7 @@ export class UtilisationCodeRepositoryProvider {
     constructor(private http: HttpService) {
     }
 
-    get(idUtilisationCode: string): Observable<UtilisationCode> {
+    public get(idUtilisationCode: string): Observable<UtilisationCode> {
         if (!idUtilisationCode) {
             return Observable.of(new UtilisationCode());
         } else {
