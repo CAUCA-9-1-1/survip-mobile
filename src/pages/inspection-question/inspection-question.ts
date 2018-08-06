@@ -5,6 +5,7 @@ import {InspectionQuestionRepositoryProvider} from "../../providers/repositories
 import {AuthenticationService} from "../../providers/Base/authentification.service";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {TranslateService} from "@ngx-translate/core";
+import {InspectionControllerProvider} from "../../providers/inspection-controller/inspection-controller";
 
 @IonicPage()
 @Component({
@@ -34,7 +35,8 @@ export class InspectionQuestionPage {
                 public controller: InspectionQuestionRepositoryProvider,
                 private authService: AuthenticationService,
                 private messageTools: MessageToolsProvider,
-                private translateService: TranslateService) {
+                private translateService: TranslateService,
+                private inspectionController: InspectionControllerProvider) {
 
         this.idInspection = this.navParams.get('idInspection');
         this.inspectionSurveyCompleted = this.navParams.get('inspectionSurveyCompleted')
@@ -96,7 +98,6 @@ export class InspectionQuestionPage {
                 this.getNextQuestionFromAnswer();
             });
     }
-
 
     public switchQuestion() {
         this.selectedIndex = this.slides.getActiveIndex();
@@ -268,6 +269,12 @@ export class InspectionQuestionPage {
                     error => {
                         this.messageTools.showToast('Une erreur est survenue lors de la sauvegarde de votre réponse veuillez recommencer ultérieurement.', 5);
                     });
+        }
+    }
+
+    public ionViewWillLeave() {
+        if(this.navCtrl.getPrevious().name == "InterventionHomePage"){
+            this.inspectionController.loadInterventionForm();
         }
     }
 
