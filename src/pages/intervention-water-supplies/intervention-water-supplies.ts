@@ -67,7 +67,7 @@ export class InterventionWaterSuppliesPage {
         }
     }
 
-    onItemClick(idCity: string) {
+    public onItemClick(idCity: string) {
         this.navCtrl.push('CityFireHydrantPage', {idCity: idCity, idBuilding: this.controller.inspectionDetail.id});
     }
 }

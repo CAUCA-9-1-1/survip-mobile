@@ -157,7 +157,7 @@ export class InterventionGeneralPage implements OnDestroy {
 
     }
 
-    startInspection() {
+    public startInspection() {
         this.inspectionDetailProvider.startInspection(this.controller.idInspection)
             .subscribe(success => {
                 this.controller.loadInterventionForm();
@@ -172,15 +172,15 @@ export class InterventionGeneralPage implements OnDestroy {
             });
     }
 
-    absentVisit() {
+    public absentVisit() {
         this.navCtrl.push('InspectionVisitPage', {ownerAbsent: true});
     }
 
-    refuseVisit() {
+    public refuseVisit() {
         this.navCtrl.push('InspectionVisitPage', {ownerAbsent: false});
     }
 
-    completeInspection() {
+    public completeInspection() {
         let canComplete = true;
         if (this.controller.inspectionDetail.idSurvey) {
             if (!this.controller.inspectionDetail.isSurveyCompleted) {

@@ -117,7 +117,7 @@ export class BuildingContactDetailPage {
         });
     }
 
-    noWhitespaceValidator(control: FormControl) {
+    public noWhitespaceValidator(control: FormControl) {
         let isWhitespace = (control.value || '').trim().length === 0;
         let isValid = !isWhitespace;
         return isValid ? null : {'whitespace': true}
@@ -169,7 +169,7 @@ export class BuildingContactDetailPage {
         this.contact = data;
     }
 
-    async onDeleteContact() {
+    public async onDeleteContact() {
         if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['contactDeleteQuestion'])) {
             await this.repo.delete(this.idBuildingContact);
             this.viewCtrl.dismiss();
@@ -179,7 +179,7 @@ export class BuildingContactDetailPage {
         }
     }
 
-    async onCancelEdition() {
+    public async onCancelEdition() {
         if (this.form.dirty || this.isNew) {
             if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['contactLeaveMessage']))
                 this.viewCtrl.dismiss();
