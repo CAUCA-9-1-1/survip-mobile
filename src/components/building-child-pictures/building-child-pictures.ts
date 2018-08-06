@@ -113,7 +113,7 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         this.touched.push(fn);
     }
 
-    addPicture(pic: string) {
+    public addPicture(pic: string) {
         let picture = new InspectionBuildingChildPictureForWeb();
         picture.id = UUID.UUID();
         picture.idParent = this.idParent;
@@ -131,7 +131,7 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         this.getPicture(options);
     }
 
-    onDeletePhotos() {
+    public onDeletePhotos() {
         this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['photoDeleteQuestion']).then(canDelete => {
             if (canDelete) {
 
@@ -198,11 +198,11 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         }
     }
 
-    hasImageUrl(pic: string): boolean {
+    public hasImageUrl(pic: string): boolean {
         return !(pic === "" || pic == null);
     }
 
-    getImageUrl(pic: string) {
+    public getImageUrl(pic: string) {
         return pic === "" || pic == null
             ? ''
             : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + pic);

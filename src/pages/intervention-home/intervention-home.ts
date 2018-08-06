@@ -82,7 +82,7 @@ export class InterventionHomePage implements OnDestroy {
         }
     }
 
-    goBackToInspectionList() {
+    public goBackToInspectionList() {
         this.navCtrl.setRoot('InspectionListPage');
     }
 }
