@@ -5,8 +5,8 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {TranslateService} from "@ngx-translate/core";
 @Injectable()
 export class HttpService {
-    //private apiUrl = 'https://survipreventiontest.cauca.ca/api/';
-    private apiUrl = 'http://10.10.33.103:5555/api/';
+  //private apiUrl = 'https://survipreventiontest.cauca.ca/api/';
+  private apiUrl = 'http://10.10.33.101:5555/api/';
 
     constructor(private client: HttpClient,private translateService: TranslateService) {
     }
@@ -15,7 +15,7 @@ export class HttpService {
         const options = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('currentToken'),
+                'Authorization': 'Bearer ' + sessionStorage.getItem('currentToken'),
                 'languageCode': this.translateService.getDefaultLang()
             })
         };

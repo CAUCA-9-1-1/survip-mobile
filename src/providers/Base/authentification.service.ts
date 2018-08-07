@@ -10,9 +10,9 @@ export class AuthenticationService {
   }
 
   public login(username: string, password: string) {
-    localStorage.removeItem('currentToken');
+    sessionStorage.removeItem('currentToken');
     this.showLoading();
-    return this.http.post('Authentification/Logon?user=' + username + '&password=' + password, {
+    return this.http.post('Authentification/Logon', {
       username: username,
       password: password,
     }).pipe(
@@ -34,16 +34,17 @@ export class AuthenticationService {
   }
 
   public logout() {
-    localStorage.removeItem('currentToken');
+    sessionStorage.clear();
   }
 
   private onResponse(result) {
     this.loading.dismiss();
 
     if (result.data && result.data.accessToken) {
-      localStorage.setItem('firstName', result.data.firstName);
-      localStorage.setItem('lastName', result.data.lastName);
-      localStorage.setItem('currentToken', result.data.accessToken);
+      sessionStorage.setItem('firstName', result.data.firstName);
+      sessionStorage.setItem('lastName', result.data.lastName);
+      sessionStorage.setItem('currentToken', result.data.accessToken);
+      sessionStorage.setItem('refreshToken', result.data.refreshToken);
       return result.data;
     }
     return result;

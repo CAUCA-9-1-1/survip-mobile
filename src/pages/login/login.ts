@@ -33,12 +33,11 @@ export class LoginPage {
             });
     }
 
-    public async ionViewCanEnter() {
-        if (localStorage.getItem('currentToken')) {
-            let isLoggedIn = await this.authService.isStillLoggedIn();
-            if (isLoggedIn)
-                this.redirectToInspectionList();
-        }
+  async ionViewCanEnter(){
+    if (sessionStorage.getItem('currentToken')) {
+      let isLoggedIn = await this.authService.isStillLoggedIn();
+      if (isLoggedIn)
+        this.redirectToInspectionList();
     }
 
     public onLogin() {
@@ -51,14 +50,14 @@ export class LoginPage {
             this.onLogin();
     }
 
-    private handleResponse(response) {
-        if (localStorage.getItem('currentToken'))
-            this.redirectToInspectionList();
-        else if (response.status && response.status == 401)
-            this.showToast(this.labels['loginError']);
-        else
-            this.showToast("Problème de communication avec le serveur.  Veuillez communiquer avec un adminstrateur.");
-    }
+  private handleResponse(response){
+    if (sessionStorage.getItem('currentToken'))
+      this.redirectToInspectionList();
+    else if (response.status && response.status == 401)
+      this.showToast("Nom d'usager ou mot de passe incorrect.");
+    else
+      this.showToast("Problème de communication avec le serveur.  Veuillez communiquer avec un adminstrateur.");
+  }
 
     private showToast(message: string) {
         let toast = this.toastCtrl.create({
