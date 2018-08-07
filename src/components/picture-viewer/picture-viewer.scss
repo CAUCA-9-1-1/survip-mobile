@@ -15,6 +15,12 @@ picture-viewer {
     height: 100%;
     object-fit: contain;
   }
+
+  button.brushIcon{
+    position: absolute;
+    right: 14px;
+    background: white;
+  }
 }
 
 .action-sheet-button {
