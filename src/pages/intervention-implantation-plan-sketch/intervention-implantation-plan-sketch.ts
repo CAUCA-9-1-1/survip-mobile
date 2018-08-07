@@ -4,12 +4,6 @@ import { PictureRepositoryProvider } from './../../providers/repositories/pictur
 import { PictureData } from './../../models/picture-data';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import { fabric } from 'fabric';
-/**
- * Generated class for the InterventionImplantationPlanSketchPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -17,11 +11,16 @@ import { fabric } from 'fabric';
   templateUrl: 'intervention-implantation-plan-sketch.html',
 })
 export class InterventionImplantationPlanSketchPage {
+  public labels = {};
   public picture: PictureData;
   public repo: PictureRepositoryProvider;
+
   private canvas;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private controller: InspectionControllerProvider, public viewCtrl: ViewController) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private controller: InspectionControllerProvider,
+              public viewCtrl: ViewController) {
     this.picture = navParams.get("picture");
     this.repo = navParams.get("repo");
   }
