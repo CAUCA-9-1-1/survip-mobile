@@ -40,7 +40,6 @@ export class InterventionImplantationPlanSketchPage {
   }
 
   public onCanvasChange($event) {
-    console.log('onCanvasChange');
     this.canvas = $event;
   }
 
