@@ -3,51 +3,56 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {TranslateService} from "@ngx-translate/core";
+import {Events} from 'ionic-angular';
+
 @Injectable()
 export class HttpService {
   //private apiUrl = 'https://survipreventiontest.cauca.ca/api/';
   private apiUrl = 'http://10.10.33.101:5555/api/';
 
-    constructor(private client: HttpClient,private translateService: TranslateService) {
-    }
+  constructor(
+    private client: HttpClient,
+    private translateService: TranslateService,
+    private events: Events) {
+  }
 
-    private getHeaders() {
-        const options = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('currentToken'),
-                'languageCode': this.translateService.getDefaultLang()
-            })
-        };
-        return options;
-    }
+  private getHeaders() {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + sessionStorage.getItem('currentToken'),
+        'languageCode': this.translateService.getDefaultLang()
+      })
+    };
+    return options;
+  }
 
-    public get(url: string, retryCount: number = 3): Observable<any> {
-        return this.client.get(this.getFullUrl(url), this.getHeaders())
-            .retry(retryCount)
-            .catch((err: HttpErrorResponse) => this.handleError(err));
-    }
+  public get(url: string, retryCount: number = 3): Observable<any> {
+    return this.client.get(this.getFullUrl(url), this.getHeaders())
+      .retry(retryCount)
+      .catch((err: HttpErrorResponse) => this.handleError(err));
+  }
 
-    public post(url: string, body?: any): Observable<any> {
-        console.log('post', this.getFullUrl(url));
-        return this.client
-            .post(this.getFullUrl(url), body, this.getHeaders())
-            .retry(3)
-            .catch((err: HttpErrorResponse) => this.handleError(err));
-    }
+  public post(url: string, body?: any): Observable<any> {
+    console.log('post', this.getFullUrl(url));
+    return this.client
+      .post(this.getFullUrl(url), body, this.getHeaders())
+      .retry(3)
+      .catch((err: HttpErrorResponse) => this.handleError(err));
+  }
 
-    public put(url: string, body?: any): Observable<any> {
-        console.log('post', this.getFullUrl(url));
-        return this.client.post(this.getFullUrl(url), body, this.getHeaders())
-            .retry(3)
-            .catch((err: HttpErrorResponse) => this.handleError(err));
-    }
+  public put(url: string, body?: any): Observable<any> {
+    console.log('post', this.getFullUrl(url));
+    return this.client.post(this.getFullUrl(url), body, this.getHeaders())
+      .retry(3)
+      .catch((err: HttpErrorResponse) => this.handleError(err));
+  }
 
-    public delete(url: string): Observable<any> {
-        return this.client.delete(this.getFullUrl(url), this.getHeaders())
-            .retry(3)
-            .catch((err: HttpErrorResponse) => this.handleError(err));
-    }
+  public delete(url: string): Observable<any> {
+    return this.client.delete(this.getFullUrl(url), this.getHeaders())
+      .retry(3)
+      .catch((err: HttpErrorResponse) => this.handleError(err));
+  }
 
     private getFullUrl(url: string): string {
         if (!this.apiUrl) {

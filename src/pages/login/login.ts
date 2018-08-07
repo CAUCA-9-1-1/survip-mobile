@@ -53,7 +53,7 @@ export class LoginPage {
   private handleResponse(response){
     if (sessionStorage.getItem('currentToken'))
       this.redirectToInspectionList();
-    else if (response.status && response.status == 401)
+    else if (!response)
       this.showToast("Nom d'usager ou mot de passe incorrect.");
     else
       this.showToast("Problème de communication avec le serveur.  Veuillez communiquer avec un adminstrateur.");

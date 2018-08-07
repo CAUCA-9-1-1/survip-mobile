@@ -1,7 +1,9 @@
 import {Injectable} from '@angular/core';
-import {map} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 import {HttpService} from './http.service';
 import {Loading, LoadingController} from 'ionic-angular';
+import {HttpErrorResponse} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class AuthenticationService {
@@ -16,6 +18,7 @@ export class AuthenticationService {
       username: username,
       password: password,
     }).pipe(
+      catchError((error: HttpErrorResponse) => Observable.of(false)),
       map(response => this.onResponse(response))
     );
   }
@@ -45,8 +48,12 @@ export class AuthenticationService {
       sessionStorage.setItem('lastName', result.data.lastName);
       sessionStorage.setItem('currentToken', result.data.accessToken);
       sessionStorage.setItem('refreshToken', result.data.refreshToken);
-      return result.data;
+      return true;
     }
-    return result;
+    return false;
+  }
+
+  private onFailure(result){
+    return Observable.of(false);
   }
 }

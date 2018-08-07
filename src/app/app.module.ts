@@ -1,5 +1,5 @@
 import { ErrorHandler, NgModule } from '@angular/core';
-import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
+import {Events, IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
@@ -57,9 +57,10 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 export function httpServiceFactory(
   client: HttpClient,
-  translate: TranslateService
+  translate: TranslateService,
+  events: Events
 ) {
-  return new HttpService(client, translate);
+  return new HttpService(client, translate, events);
 }
 
 @NgModule({
