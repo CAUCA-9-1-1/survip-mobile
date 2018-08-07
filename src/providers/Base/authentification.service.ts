@@ -14,7 +14,7 @@ export class AuthenticationService {
   public login(username: string, password: string) {
     sessionStorage.removeItem('currentToken');
     this.showLoading();
-    return this.http.post('Authentification/Logon', {
+    return this.http.rawPost('Authentification/Logon', {
       username: username,
       password: password,
     }).pipe(
@@ -24,8 +24,9 @@ export class AuthenticationService {
   }
 
   public async isStillLoggedIn() : Promise<boolean> {
-    return this.http.get('Authentification/SessionStatus').pipe(
+    return this.http.rawGet('Authentification/SessionStatus').pipe(
       map(response => {
+        console.log(response);
         return response === true;
       })
     ).toPromise();
