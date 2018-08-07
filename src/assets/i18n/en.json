@@ -62,6 +62,7 @@
   "dieValidationMessage":"*DIE must be an integer equal or superior to 0.",
   "direction":"Direction",
   "division":"Division",
+  "done":"Done",
   "doorHangerLeft":"Door hanger left",
   "extension":"Extension",
   "finish":"Finish",

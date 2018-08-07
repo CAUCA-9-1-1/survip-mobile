@@ -2,9 +2,10 @@ import {StatusBar} from '@ionic-native/status-bar';
 import {Component, ElementRef, OnDestroy, ViewChild, Output, EventEmitter, Input} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Camera, CameraOptions} from '@ionic-native/camera';
-import {Platform} from 'ionic-angular';
+import {Platform, ModalController} from 'ionic-angular';
 import {WindowRefService} from '../../providers/Base/window-ref.service';
 import {PictureData} from '../../models/picture-data';
+import {PictureRepositoryProvider} from '../../providers/repositories/picture-repository';
 
 @Component({
     selector: 'picture-viewer',
@@ -50,11 +51,11 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   get hasImageUrl(): boolean {
     if (!this.imageData) 
       return false;
-    return !(this.imageData.dataUri === "" || this.imageData.dataUri == null);
+    return !(this.imageData.dataUri == null || this.imageData.dataUri === "");
   }
 
   get imageJson(): string {
-    return (this.imageData.sketchJson !== "" || this.imageData.sketchJson !== null)
+    return (this.imageData.sketchJson !== null || this.imageData.sketchJson !== "")
     ? this.imageData.sketchJson
     : '';
   }
@@ -62,7 +63,9 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   constructor(
     private camera: Camera,
     private platform: Platform,
-    private windowRef: WindowRefService)
+    private windowRef: WindowRefService,
+    private modalCtrl: ModalController,
+    private repo: PictureRepositoryProvider)
   {
     this.isUsingCordova = this.platform.is('cordova');
   }

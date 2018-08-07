@@ -62,6 +62,7 @@
   "dieValidationMessage":"*Le DIE doit être une valeur entière et valide supérieure ou égale à 0.",
   "direction":"Direction",
   "division":"Section",
+  "done":"Terminer",
   "doorHangerLeft":"Accroche-porte laissé",
   "extension":"Extension",
   "finish":"Terminer",
