@@ -59,7 +59,7 @@
                         <ion-item>
                             <ion-input item-end type="number" [pattern]="decimalPattern"
                                        placeholder="{{'capacity' | translate}}"
-                                       formControlName="capacityContainerMasked"></ion-input>
+                                       formControlName="capacityContainerMasked" (ionChange)="onCapacityChanged()"></ion-input>
                         </ion-item>
                     </ion-col>
                     <ion-col width-50>

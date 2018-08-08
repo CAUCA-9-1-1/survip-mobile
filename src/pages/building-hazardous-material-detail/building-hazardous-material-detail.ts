@@ -86,7 +86,7 @@ export class BuildingHazardousMaterialDetailPage {
 
     private createForm() {
         let unitOfMeasureValidator = (control: FormControl) => {
-            if (this.material != null && this.material.capacityContainer > 0 && (control.value == null || control.value == ""))
+            if (this.material != null && this.form.value['capacityContainerMasked'] > 0 && (control.value == null || control.value == ""))
                 return {'missingUnitOfMeasure': true};
             return null;
         };
@@ -229,5 +229,11 @@ export class BuildingHazardousMaterialDetailPage {
             return this.selectedMaterial.name + " (" + this.selectedMaterial.number + ")";
         else
             return '';
+    }
+
+    public onCapacityChanged(){
+        if(!this.material.idUnitOfMeasure){
+            this.form.controls['idUnitOfMeasure'].reset();
+        }
     }
 }
