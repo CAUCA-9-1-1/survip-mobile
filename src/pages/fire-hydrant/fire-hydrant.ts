@@ -30,6 +30,7 @@ export class FireHydrantPage {
     public inspectionCity = "";
     public pressureMeasuringUnit: UnitOfMeasure[] = [];
     public rateMeasuringUnit: UnitOfMeasure[] = [];
+    public selectedIdFireHydrant: string = "";
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -41,7 +42,8 @@ export class FireHydrantPage {
                 public laneService: LaneRepositoryProvider,) {
 
         this.inspectionCity = this.navParams.get("idCity");
-        this.fireHydrant = new FireHydrant();
+        this.selectedIdFireHydrant = this.navParams.get("id");
+
     }
 
     ngOnInit(){
@@ -50,12 +52,26 @@ export class FireHydrantPage {
     }
 
     private initializeFireHydrantCollections(){
+        this.loadFireHydrant()
         this.intializeLocationTypeEnum();
         this.intializeAddressLocalizationTypeEnum();
-        this.hydrantColors = this.fireHydrantRepo.colors;
         this.loadFireHydrantTypes();
         this.loadOperators();
         this.LoadMeasuringUnit();
+        this.hydrantColors = this.fireHydrantRepo.colors;
+    }
+
+    private loadFireHydrant(){
+        if(this.selectedIdFireHydrant){
+            this.fireHydrantRepo.getFireHydrant(this.selectedIdFireHydrant)
+                .subscribe(success => {
+                    this.fireHydrant = success;
+                }, error => {
+                    console.log("Error in getFireHydrant :" + error.message)
+                })
+        }else {
+            this.fireHydrant = new FireHydrant();
+        }
     }
 
     private loadFireHydrantTypes(){

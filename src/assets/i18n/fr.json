@@ -105,6 +105,7 @@
   "fireHydrantDelete":"Suppression de borne",
   "fireHydrantDeleteQuestion":"Êtes-vous sûre de vouloir supprimer cette borne ? ?",
   "fireHydrantDetail":"Détails de la borne",
+  "fireHydrantGeoPositionHolder":"Cliquer sur la carte pour localiser...",
   "fireHydrantList":"Liste des bornes incendie",
   "fireHydrants":"Bornes incendie",
   "fireResistance":"Résistance au feu",
