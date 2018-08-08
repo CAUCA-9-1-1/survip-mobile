@@ -104,6 +104,7 @@
   "fireHydrantDelete":"Delete fire hydrant",
   "fireHydrantDeleteQuestion":"Do you really want to delete this fire hydrant ?",
   "fireHydrantDetail":"Fire hydrant's details",
+  "fireHydrantGeoPositionHolder":"Click on the map to locate...",
   "fireHydrantList":"Fire hydrant list",
   "fireHydrants":"Fire hydrants",
   "fireHydrantLocationType":"Location type",

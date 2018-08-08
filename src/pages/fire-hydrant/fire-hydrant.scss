@@ -26,6 +26,16 @@ page-fire-hydrant {
     width: 100%;
   }
 
+  .map-label span {
+    width: 80%;
+  }
+
+  .map-label ion-icon {
+    width: 20% !important;
+    text-align: right !important;
+    margin-right:1rem;
+  }
+
   .col {
     padding: 0px;
   }

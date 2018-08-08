@@ -11,6 +11,9 @@ export class FireHydrantRepositoryProvider {
     constructor(private http: HttpService) {
     }
 
+    public getFireHydrant(idFireHydrant: string): Observable<FireHydrant>{
+        return this.http.get('FireHydrant/' + idFireHydrant);
+    }
     public deleteFireHydrant(idFireHydrant: string): Observable<any> {
         return this.http.delete('fireHydrant/' + idFireHydrant)
             .pipe(map(response => response));
