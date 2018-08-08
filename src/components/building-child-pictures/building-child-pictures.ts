@@ -150,10 +150,6 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         });
     }
 
-    public onEditPhoto() {
-        this.openImageEditionPage();
-    }
-
     public selectPicture(): void {
         if (this.isUsingCordova)
             this.selectPictureNative();
