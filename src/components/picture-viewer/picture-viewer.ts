@@ -15,10 +15,7 @@ import {PictureRepositoryProvider} from '../../providers/repositories/picture-re
     ]
 })
 export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
-    @ViewChild('filePicker') inputRef: ElementRef;
-
-  @Input() public loadedJson: string;
-  @Output() public json = new EventEmitter<string>();
+  @ViewChild('filePicker') inputRef: ElementRef;
 
   private isDisposed: boolean = false;
   private imageData: PictureData;
@@ -85,67 +82,60 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
     }
   }
 
-    public touch() {
-        this.touched.forEach(f => f());
-    }
+  public touch() {
+      this.touched.forEach(f => f());
+  }
 
   writeValue(value: PictureData) {
     if (!this.isDisposed) { // this is a patch to fix an issue where some ghost instance of this component would exist in memory and would be linked to the same formGroup somehow.
       this.imageData = value;
     }
+  }
 
   registerOnChange(fn: (value: PictureData) => void) {
     this.changed.push(fn);
   }
 
-    public registerOnTouched(fn: () => void) {
-        this.touched.push(fn);
-    }
+  public registerOnTouched(fn: () => void) {
+      this.touched.push(fn);
+  }
 
-    public selectPicture(): void {
-        if (this.isUsingCordova)
-            this.selectPictureNative();
-        else
-            this.popFileSelector();
-    }
+  public selectPicture(): void {
+      if (this.isUsingCordova)
+          this.selectPictureNative();
+      else
+          this.popFileSelector();
+  }
 
-    private selectPictureNative() {
-        let options = this.options;
-        options.sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
-        this.getPicture(options);
-    }
+  private selectPictureNative() {
+      let options = this.options;
+      options.sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
+      this.getPicture(options);
+  }
 
-    public takeNewPicture(): void {
-        let options = this.options;
-        options.sourceType = this.camera.PictureSourceType.CAMERA;
-        this.getPicture(options);
-    }
+  public takeNewPicture(): void {
+      let options = this.options;
+      options.sourceType = this.camera.PictureSourceType.CAMERA;
+      this.getPicture(options);
+  }
 
-    private popFileSelector(): void {
-        this.inputRef.nativeElement.click();
-    }
+  private popFileSelector(): void {
+      this.inputRef.nativeElement.click();
+  }
 
-    public onFileSelected(e: any): void {
-        const files = e.target.files;
-        const reader = this.windowRef.nativeClass('FileReader');
+  public onFileSelected(e: any): void {
+      const files = e.target.files;
+      const reader = this.windowRef.nativeClass('FileReader');
 
-        /*this.dialogService.wait();*/
+      /*this.dialogService.wait();*/
 
-        if (files.length) {
-            reader.addEventListener('load', this.onFileLoaded.bind(this));
-            reader.readAsDataURL(files[0]);
-        }
+      if (files.length) {
+          reader.addEventListener('load', this.onFileLoaded.bind(this));
+          reader.readAsDataURL(files[0]);
+      }
 
-        /*this.dialogService.close();*/
-    }
-
-    private onFileLoaded(response): void {
-        console.log(response);
-        let imageUri: string = response.target.result;
-        if (imageUri.indexOf(';base64,') > 0)
-            imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);
-        this.value = imageUri;
-    }
+      /*this.dialogService.close();*/
+  }
 
   private onFileLoaded(response): void {
     let imageUri: string = response.target.result;

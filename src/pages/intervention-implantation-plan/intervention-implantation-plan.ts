@@ -14,8 +14,6 @@ import {ISubscription} from 'rxjs/Subscription';
     templateUrl: 'intervention-implantation-plan.html',
 })
 export class InterventionImplantationPlanPage implements OnDestroy {
-  private planSubscription: ISubscription;
-
   public form: FormGroup;
 
   private planSubscription : ISubscription;
@@ -85,6 +83,7 @@ export class InterventionImplantationPlanPage implements OnDestroy {
     if (this.picture != null) {
       this.form.patchValue(this.picture);
     }
+  }
 
   private async saveIfValid() {
       if (this.form.valid && this.form.dirty) {
