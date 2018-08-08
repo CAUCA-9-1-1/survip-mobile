@@ -1,11 +1,168 @@
 <ion-header class="page-header">
-  <ion-navbar>
-    <ion-title>fire-hydrant</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>{{'fireHydrantDetail' | translate}}</ion-title>
+    </ion-navbar>
 
 </ion-header>
 
+<ion-content>
+    <ion-list [formGroup]="form" class="list-items">
+        <ion-item-group>
+            <ion-item-divider>{{'generalInformation' | translate}}</ion-item-divider>
+            <ion-item>
+                <ion-label>{{'type' | translate}}</ion-label>
+                <ion-select formControlName="idFireHydrantType">
+                    <ion-option *ngFor="let ftype of fireHydrantTypes" [value]="ftype.id">{{ftype.name}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label>{{'number' | translate}}</ion-label>
+                <ion-input item-end formControlName="number" maxlength="10" type="text"
+                           placeholder="{{'number' | translate}}"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>{{'color' | translate}}</ion-label>
+                <ion-select formControlName="color">
+                    <ion-option *ngFor="let ftype of hydrantColors" [value]="ftype.id"
+                                [ngStyle]="{backgroundColor: ftype.color }"></ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-item-group>
 
-<ion-content padding>
+        <ion-item-group>
+            <ion-item-divider>{{'outflow' | translate}}</ion-item-divider>
+            <ion-item>
+                <ion-label>{{'operator' | translate}}</ion-label>
+                <ion-select formControlName="idOperatorTypeRate" placeholder="{{'operator' | translate}}">
+                    <ion-option *ngFor="let op of operators" [value]="op.id">{{op.symbol}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-grid>
+                <ion-row>
+                    <ion-col width-50>
+                        <ion-item>
+                            <ion-label>{{'from' | translate}}</ion-label>
+                            <ion-input item-end formControlName="rateFrom" maxlength="10" type="number"
+                                       placeholder="{{'number' | translate}}"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col width-50>
+                        <ion-item>
+                            <ion-label>{{'to' | translate}}</ion-label>
+                            <ion-input item-end formControlName="rateTo" maxlength="10" type="number"
+                                       placeholder="{{'number' | translate}}"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <ion-item>
+                <ion-label>{{'unit' | translate}}</ion-label>
+                <ion-select formControlName="idOperatorTypeRate" placeholder="{{'unit' | translate}}">
+                    <ion-option *ngFor="let unit of rateMeasuringUnit" [value]="unit.id">{{unit.name}}
+                    </ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-item-group>
 
+        <ion-item-group>
+            <ion-item-divider>{{'pressure' | translate}}</ion-item-divider>
+            <ion-item>
+                <ion-label>{{'operator' | translate}}</ion-label>
+                <ion-select formControlName="idOperatorTypeRate" placeholder="{{'operator' | translate}}">
+                    <ion-option *ngFor="let op of operators" [value]="op.id">{{op.symbol}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-grid>
+                <ion-row>
+                    <ion-col width-50>
+                        <ion-item>
+                            <ion-label>{{'from' | translate}}</ion-label>
+                            <ion-input item-end formControlName="pressureFrom" maxlength="10" type="number"
+                                       placeholder="{{'number' | translate}}"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col width-50>
+                        <ion-item>
+                            <ion-label>{{'to' | translate}}</ion-label>
+                            <ion-input item-end formControlName="pressureTo" maxlength="10" type="number"
+                                       placeholder="{{'number' | translate}}"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <ion-item>
+                <ion-label>{{'unit' | translate}}</ion-label>
+                <ion-select formControlName="idOperatorTypePressure" placeholder="{{'unit' | translate}}">
+                    <ion-option *ngFor="let unit of pressureMeasuringUnit" [value]="unit.id">{{unit.name}}</ion-option>
+                </ion-select>
+            </ion-item>
+
+        </ion-item-group>
+
+        <ion-item-group>
+            <ion-item-divider>{{'localization' | translate}}</ion-item-divider>
+            <ion-item>
+                <ion-label>{{'type' | translate}}</ion-label>
+                <ion-select formControlName="locationType">
+                    <ion-option *ngFor="let key of fireHydrantLocationTypeKeys" [value]="key">
+                        {{"enumFireHydrantLocationType."+fireHydrantLocationType[key] | translate}}
+                    </ion-option>
+                </ion-select>
+            </ion-item>
+            <div *ngIf="form.value.locationType == fireHydrantLocationType.Address">
+                <ion-item>
+                    <ion-label>{{'type' | translate}}</ion-label>
+                    <ion-select formControlName="locationType">
+                        <ion-option *ngFor="let key of addressLocalizationTypeKeys" [value]="key">
+                            {{"enumAddressLocalisationType."+addressLocationType[key] | translate}}
+                        </ion-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{'civicNumber' | translate}}</ion-label>
+                    <ion-input item-end formControlName="civicNumber" maxlength="10" type="text"
+                               placeholder="{{'civicNumber' | translate}}"></ion-input>
+                </ion-item>
+                <search-box
+                        description="{{'lane' | translate}}"
+                        formControlName="idLane"
+                        [displayFieldName]="'name'"
+                        [keyFieldName]="'id'"
+                        [dataService]="laneService"></search-box>
+            </div>
+            <div *ngIf="form.value.locationType == fireHydrantLocationType.LaneAndIntersection">
+                <search-box
+                        description="{{'lane' | translate}}"
+                        formControlName="idLane"
+                        [displayFieldName]="'name'"
+                        [keyFieldName]="'id'"
+                        [dataService]="laneService"></search-box>
+                <search-box
+                        description="{{'transversal' | translate}}"
+                        formControlName="idIntersection"
+                        [displayFieldName]="'name'"
+                        [keyFieldName]="'id'"
+                        [dataService]="laneService"></search-box>
+            </div>
+            <div *ngIf="form.value.locationType == fireHydrantLocationType.Coordinates">
+                <div class="map-label">
+                    <span class="custom-item-label">Localisation* : </span>
+                    <ion-icon name="icon-map" (click)="getMapLocalization()"></ion-icon>
+                </div>
+                <ion-item>
+                    <ion-input item-end formControlName="coordinates" type="number"
+                               placeholder="{{'position' | translate}}"></ion-input>
+                </ion-item>
+            </div>
+            <div *ngIf="form.value.locationType == fireHydrantLocationType.Text">
+                <div>
+                    <ion-label class="custom-item-label">{{'location' | translate}}</ion-label>
+                </div>
+                <ion-item>
+                    <ion-textarea item-end formControlName="physicalLocation" type="text"
+                                  placeholder="{{'location' | translate}}"></ion-textarea>
+                </ion-item>
+            </div>
+        </ion-item-group>
+    </ion-list>
 </ion-content>

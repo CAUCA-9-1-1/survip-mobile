@@ -1,3 +1,36 @@
 page-fire-hydrant {
 
+  ion-select{
+    max-width: 75%;
+  }
+
+  textarea.text-input {
+    height: 20vh;
+    border: 1px solid black;
+    font-size: 1.5rem;
+    width: 100%;
+    padding: 5px;
+    margin:0px -5px !important;
+  }
+
+  .custom-item-label {
+    padding-left: 18px;
+    font-size: 1.7rem;
+    margin-bottom: 0px;
+  }
+
+  .map-label {
+    display: inline-flex;
+    align-items: center;
+    padding-top: 10px;
+    width: 100%;
+  }
+
+  .col {
+    padding: 0px;
+  }
+
+  .grid {
+    padding: 0px;
+  }
 }

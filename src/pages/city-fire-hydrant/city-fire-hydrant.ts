@@ -14,13 +14,15 @@ export class CityFireHydrantPage {
     public cityFireHydrants: CityFireHydrantForList[] = [];
     public filteredCityFireHydrantList: CityFireHydrantForList[] = [];
     private idBuilding: string;
+    private idCity = "";
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 private controller: BuildingFireHydrantRepositoryProvider,
                 private messageTools: MessageToolsProvider) {
         this.idBuilding = this.navParams.get('idBuilding');
-        this.LoadCityFireHydrant(navParams.get('idCity'));
+        this.idCity = navParams.get('idCity');
+        this.LoadCityFireHydrant();
 
     }
 
@@ -37,8 +39,8 @@ export class CityFireHydrantPage {
         }
     }
 
-    private LoadCityFireHydrant(idCity: string) {
-        this.controller.getCityFireHydrantListForBuilding(idCity, this.idBuilding)
+    private LoadCityFireHydrant() {
+        this.controller.getCityFireHydrantListForBuilding(this.idCity, this.idBuilding)
             .subscribe(result => {
                 this.cityFireHydrants = this.filteredCityFireHydrantList = result
             });
@@ -52,5 +54,9 @@ export class CityFireHydrantPage {
             }, error1 => {
                 this.messageTools.showToast("Erreur lors de l'ajout de borne " + error1);
             })
+    }
+
+    public createFireHydrant(){
+        this.navCtrl.push('FireHydrantPage', {idCity: this.idCity});
     }
 }
