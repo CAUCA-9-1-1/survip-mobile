@@ -14,17 +14,19 @@ import {ISubscription} from 'rxjs/Subscription';
     templateUrl: 'intervention-implantation-plan.html',
 })
 export class InterventionImplantationPlanPage implements OnDestroy {
+  private planSubscription: ISubscription;
+
   public form: FormGroup;
 
   private planSubscription : ISubscription;
 
-    get picture(): PictureData {
-        return this.controller.picture;
-    }
+  get picture(): PictureData {
+      return this.controller.picture;
+  }
 
-    get plan(): InspectionDetail {
-        return this.controller.inspectionDetail;
-    }
+  get plan(): InspectionDetail {
+      return this.controller.inspectionDetail;
+  }
 
   constructor(
     public navCtrl: NavController,
@@ -37,20 +39,20 @@ export class InterventionImplantationPlanPage implements OnDestroy {
     this.planSubscription = this.controller.pictureLoaded.subscribe(() => this.setValuesAndStartListening());
   }
 
-    public ngOnDestroy(): void {
-        if (this.planSubscription)
-            this.planSubscription.unsubscribe();
-    }
+  public ngOnDestroy(): void {
+      if (this.planSubscription)
+          this.planSubscription.unsubscribe();
+  }
 
-    public ionViewDidLoad() {
-        this.controller.loadInterventionFormPicture();
-    }
+  public ionViewDidLoad() {
+      this.controller.loadInterventionFormPicture();
+  }
 
-    public async ionViewCanEnter() {
-        let isLoggedIn = await this.authService.isStillLoggedIn();
-        if (!isLoggedIn)
-            await this.redirectToLoginPage();
-    }
+  public async ionViewCanEnter() {
+      let isLoggedIn = await this.authService.isStillLoggedIn();
+      if (!isLoggedIn)
+          await this.redirectToLoginPage();
+  }
 
   ionViewDidEnter() {
     this.menu.swipeEnable(false);
@@ -68,33 +70,33 @@ export class InterventionImplantationPlanPage implements OnDestroy {
     this.form = this.fb.group({id: [''], picture: [''], dataUri: [''], sketchJson: ['']});
   }
 
-    public setValuesAndStartListening() {
-        this.setValues();
-        this.startWatchingForm();
-    }
+  public setValuesAndStartListening() {
+      this.setValues();
+      this.startWatchingForm();
+  }
 
   private startWatchingForm() {
     this.form.valueChanges
       .debounceTime(500)
       .subscribe(() => this.saveIfValid());
   }
- 
+
   private setValues() {
     if (this.picture != null) {
       this.form.patchValue(this.picture);
     }
 
-    private async saveIfValid() {
-        if (this.form.valid && this.form.dirty) {
-            await this.saveForm();
-        }
-    }
+  private async saveIfValid() {
+      if (this.form.valid && this.form.dirty) {
+          await this.saveForm();
+      }
+  }
 
   private async saveForm() {
     const formModel  = this.form.value;
     Object.assign(this.controller.picture, formModel);
     await this.controller.savePicture();
-  } 
+  }
 
   public onModelChange($event) {
     this.form.setValue($event);

@@ -35,11 +35,11 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   };
   private changed = new Array<(value: PictureData) => void>();
   private touched = new Array<() => void>();
- 
+
   isUsingCordova: boolean;
 
   get imageUrl(): string {
-    if (this.imageData.dataUri !== "" || this.imageData.dataUri !== null) {
+    if (this.imageData.dataUri !== null || this.imageData.dataUri !== "") {
       const validUri = (this.imageData.dataUri.indexOf(';base64,') > 0)
       ? this.imageData.dataUri
       : 'data:image/jpeg;base64,' + this.imageData.dataUri;
@@ -49,7 +49,7 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   }
 
   get hasImageUrl(): boolean {
-    if (!this.imageData) 
+    if (!this.imageData)
       return false;
     return !(this.imageData.dataUri == null || this.imageData.dataUri === "");
   }
@@ -152,7 +152,7 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
     if (imageUri.indexOf(';base64,') > 0)
       imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);
 
-    this.value = {id: this.value.id, picture: imageUri, dataUri: imageUri, sketchJson: null}; 
+    this.value = {id: this.value.id, picture: imageUri, dataUri: imageUri, sketchJson: null};
   }
 
   private getPicture(options: CameraOptions) {
