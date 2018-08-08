@@ -29,18 +29,18 @@ import {InspectionDetailRepositoryProvider} from '../providers/repositories/insp
 import {InspectionControllerProvider} from '../providers/inspection-controller/inspection-controller';
 import {InspectionRepositoryProvider} from '../providers/repositories/inspection-repository-provider.service';
 import {FirestationRepositoryProvider} from '../providers/repositories/firestation-repository-provider.service';
-import { MessageToolsProvider } from '../providers/message-tools/message-tools';
+import {MessageToolsProvider} from '../providers/message-tools/message-tools';
 import {BuildingFireHydrantRepositoryProvider} from "../providers/repositories/building-fire-hydrant-repository";
-import { BuildingContactRepositoryProvider } from '../providers/repositories/building-contact-repository';
-import { ConstructionTypesRepositoryProvider } from '../providers/repositories/construction-types-repository';
-import { UnitOfMeasureRepositoryProvider } from '../providers/repositories/unit-of-measure-repository';
-import { BuildingDetailRepositoryProvider } from '../providers/repositories/building-detail-repository';
+import {BuildingContactRepositoryProvider} from '../providers/repositories/building-contact-repository';
+import {ConstructionTypesRepositoryProvider} from '../providers/repositories/construction-types-repository';
+import {UnitOfMeasureRepositoryProvider} from '../providers/repositories/unit-of-measure-repository';
+import {BuildingDetailRepositoryProvider} from '../providers/repositories/building-detail-repository';
 import {InspectionQuestionRepositoryProvider} from "../providers/repositories/inspection-question-repository-provider";
-import { InspectionBuildingHazardousMaterialRepositoryProvider } from '../providers/repositories/inspection-building-hazardous-material-repository';
-import { HazardousMaterialRepositoryProvider } from '../providers/repositories/hazardous-material-repository';
-import { PersonRequiringAssistanceTypeRepositoryProvider } from '../providers/repositories/person-requiring-assistance-type-repository';
-import { InspectionBuildingPersonRequiringAssistanceTypeRepositoryProvider } from '../providers/repositories/inspection-building-person-requiring-assistance-type-repository';
-import { StaticListRepositoryProvider } from '../providers/static-list-repository/static-list-repository';
+import {InspectionBuildingHazardousMaterialRepositoryProvider} from '../providers/repositories/inspection-building-hazardous-material-repository';
+import {HazardousMaterialRepositoryProvider} from '../providers/repositories/hazardous-material-repository';
+import {PersonRequiringAssistanceTypeRepositoryProvider} from '../providers/repositories/person-requiring-assistance-type-repository';
+import {InspectionBuildingPersonRequiringAssistanceTypeRepositoryProvider} from '../providers/repositories/inspection-building-person-requiring-assistance-type-repository';
+import {StaticListRepositoryProvider} from '../providers/static-list-repository/static-list-repository';
 import {InspectionBuildingSprinklerRepositoryProvider} from '../providers/repositories/inspection-building-sprinkler-repository-provider.service';
 import {InspectionBuildingAlarmPanelRepositoryProvider} from '../providers/repositories/inspection-building-alarm-panel-repository-provider.service';
 import {AlarmPanelTypeRepository} from '../providers/repositories/alarm-panel-type-repository.service';
@@ -50,10 +50,12 @@ import {InspectionBuildingAnomalyPictureRepositoryProvider} from '../providers/r
 import {InspectionBuildingParticularRiskPictureRepositoryProvider} from '../providers/repositories/inspection-building-particular-risk-picture-repository-provider.service';
 import {InspectionBuildingParticularRiskRepositoryProvider} from '../providers/repositories/inspection-building-particular-risk-repository-provider.service';
 import {TranslateService} from "@ngx-translate/core";
+import {FireHydrantRepositoryProvider} from "../providers/repositories/fire-hydrant-repository-provider";
+import {OperatorTypeRepositoryProvider} from "../providers/repositories/operator-type-repository-provider";
 import {ExpiredTokenInterceptor} from '../providers/Base/expired-token.interceptor';
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 export function httpServiceFactory(
@@ -65,88 +67,77 @@ export function httpServiceFactory(
 }
 
 @NgModule({
-  declarations: [
-    MyApp,
-  ],
-  imports: [
-    //InspectionMapPageModule,
-    FormsModule,
-    HttpModule,
-    HttpClientModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    }),
-    CommonModule,
-    IonicModule.forRoot(MyApp),
-    BrowserModule,
-    ComponentsModule
-  ],
-  bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-  ],
-  exports: [
-  ],
-  providers: [
+    declarations: [
+        MyApp,
+    ],
+    imports: [
+        //InspectionMapPageModule,
+        FormsModule,
+        HttpModule,
+        HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
+        CommonModule,
+        IonicModule.forRoot(MyApp),
+        BrowserModule,
+        ComponentsModule
+    ],
+    bootstrap: [IonicApp],
+    entryComponents: [
+        MyApp,
+    ],
+    exports: [],
+    providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ExpiredTokenInterceptor, multi: true },
-    InspectionMapPage,
-    StatusBar,
-    SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    PictureRepositoryProvider,
-    RiskLevelRepositoryProvider,
-    InspectionControllerProvider,
-    LaneRepositoryProvider,
-    InspectionRepositoryProvider,
-    InspectionDetailRepositoryProvider,
-    InspectionBuildingsRepositoryProvider,
-    InspectionBuildingCourseRepositoryProvider,
-    InspectionBuildingCourseLaneRepositoryProvider,
-    InspectionBuildingFireHydrantRepositoryProvider,
-    InspectionBuildingSprinklerRepositoryProvider,
-    InspectionBuildingAlarmPanelRepositoryProvider,
-    InspectionBuildingAnomalyRepositoryProvider,
-    InspectionBuildingAnomalyPictureRepositoryProvider,
-    InspectionBuildingParticularRiskPictureRepositoryProvider,
-    InspectionBuildingParticularRiskRepositoryProvider,
-    AlarmPanelTypeRepository,
-    SprinklerTypeRepository,
-    FirestationRepositoryProvider,
-    UtilisationCodeRepositoryProvider,
-    RouteDirectionRepositoryProvider,
-    BuildingFireHydrantRepositoryProvider,
-    //ConfigService,
-    HttpService,
-    RequestLoaderService,
-    AuthenticationService,
-    MessageToolsProvider,
-    BuildingContactRepositoryProvider,
-    ConstructionTypesRepositoryProvider,
-    UnitOfMeasureRepositoryProvider,
-    BuildingDetailRepositoryProvider,
-    InspectionBuildingHazardousMaterialRepositoryProvider,
-    HazardousMaterialRepositoryProvider,
-    PersonRequiringAssistanceTypeRepositoryProvider,
-    InspectionBuildingPersonRequiringAssistanceTypeRepositoryProvider,
-    StaticListRepositoryProvider,
-    InspectionQuestionRepositoryProvider,
+        InspectionMapPage,
+        StatusBar,
+        SplashScreen,
+        {provide: ErrorHandler, useClass: IonicErrorHandler},
+        PictureRepositoryProvider,
+        RiskLevelRepositoryProvider,
+        InspectionControllerProvider,
+        LaneRepositoryProvider,
+        InspectionRepositoryProvider,
+        InspectionDetailRepositoryProvider,
+        InspectionBuildingsRepositoryProvider,
+        InspectionBuildingCourseRepositoryProvider,
+        InspectionBuildingCourseLaneRepositoryProvider,
+        InspectionBuildingFireHydrantRepositoryProvider,
+        InspectionBuildingSprinklerRepositoryProvider,
+        InspectionBuildingAlarmPanelRepositoryProvider,
+        InspectionBuildingAnomalyRepositoryProvider,
+        InspectionBuildingAnomalyPictureRepositoryProvider,
+        InspectionBuildingParticularRiskPictureRepositoryProvider,
+        InspectionBuildingParticularRiskRepositoryProvider,
+        AlarmPanelTypeRepository,
+        SprinklerTypeRepository,
+        FirestationRepositoryProvider,
+        UtilisationCodeRepositoryProvider,
+        RouteDirectionRepositoryProvider,
+        BuildingFireHydrantRepositoryProvider,
+        HttpService,
+        RequestLoaderService,
+        AuthenticationService,
+        MessageToolsProvider,
+        BuildingContactRepositoryProvider,
+        ConstructionTypesRepositoryProvider,
+        UnitOfMeasureRepositoryProvider,
+        BuildingDetailRepositoryProvider,
+        InspectionBuildingHazardousMaterialRepositoryProvider,
+        HazardousMaterialRepositoryProvider,
+        PersonRequiringAssistanceTypeRepositoryProvider,
+        InspectionBuildingPersonRequiringAssistanceTypeRepositoryProvider,
+        StaticListRepositoryProvider,
+        InspectionQuestionRepositoryProvider,
+        FireHydrantRepositoryProvider,
+        OperatorTypeRepositoryProvider,
 
-    /*provideConfig({
-      default: {
-        //apiUrl: 'http://10.10.33.101:8080/',
-        apiUrl: 'http://localhost:5555/api/',
-        languages: ['fr', 'en']
-      }})*/,
-/*    provideConfigLoader(),
-    {
-      provide: HttpService,
-      useFactory: httpServiceFactory,
-      deps: [RequestLoaderService, ConfigService, HttpClient]
-    }*/
-  ]
+    ]
 })
-export class AppModule {}
+export class AppModule {
+}

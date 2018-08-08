@@ -35,4 +35,8 @@ export class LaneRepositoryProvider implements ServiceForListInterface {
     public getDescriptionById(id: string): Observable<string> {
         return this.get(id);
     }
+
+    public getCityLanes(): Observable<Lane[]> {
+        return this.http.get('lane/city/' + this.currentIdCity);
+    }
 }
