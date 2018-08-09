@@ -10,18 +10,16 @@
 
     <ion-list class="list-items">
         <ion-list-header>
-          {{plan?.mainBuildingAddress}}
+            {{plan?.mainBuildingAddress}}
         </ion-list-header>
         <ion-item *ngFor="let hydrant of fireHydrants | orderBy:'number'">
-          <ion-icon name="icon-fire-hydrant" item-start [style.color]="hydrant.color" large></ion-icon>
-            <div>
-                <button class="action-list-button" (click)="onClickHydrant(hydrant.id)">
-                    <ion-icon class="ion-md-trash"></ion-icon>
-                </button>
-                <div>
-                    <h2>{{hydrant.number}}</h2>
-                    <p>{{hydrant.address}}</p>
-                </div>
+            <ion-icon name="icon-fire-hydrant" item-start [style.color]="hydrant.color" large (click)="goToFireHydrantDetail(hydrant.idFireHydrant)"></ion-icon>
+            <button class="action-list-button" (click)="onClickHydrant(hydrant.id)">
+                <ion-icon class="ion-md-trash"></ion-icon>
+            </button>
+            <div (click)="goToFireHydrantDetail(hydrant.idFireHydrant)">
+                <h2>{{hydrant.number}}</h2>
+                <p>{{hydrant.address}}</p>
             </div>
         </ion-item>
     </ion-list>
@@ -29,11 +27,11 @@
 
 <ion-footer class="page-footer">
     <ion-toolbar>
-      <ion-buttons>
-      <button ion-button icon-left (click)="onItemClick(plan?.idCity)">
-        <ion-icon name="add-circle"></ion-icon>
-        {{'addButton' | translate}}
-      </button>
-      </ion-buttons>
+        <ion-buttons>
+            <button ion-button icon-left (click)="onItemClick(plan?.idCity)">
+                <ion-icon name="add-circle"></ion-icon>
+                {{'addButton' | translate}}
+            </button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-footer>

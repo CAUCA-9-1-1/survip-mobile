@@ -15,6 +15,8 @@ export class CityFireHydrantPage {
     public filteredCityFireHydrantList: CityFireHydrantForList[] = [];
     private idBuilding: string;
     private idCity = "";
+    public editMode = false;
+    public editModeColor = "whitesmoke";
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -48,15 +50,28 @@ export class CityFireHydrantPage {
     }
 
     private AddBuildingFireHydrant(idFireHydrant: string) {
-        this.controller.addBuildingFireHydrant(this.idBuilding, idFireHydrant)
-            .subscribe(result => {
-                this.navCtrl.pop();
-            }, error1 => {
-                this.messageTools.showToast("Erreur lors de l'ajout de borne " + error1);
-            })
+        if(!this.editMode) {
+            this.controller.addBuildingFireHydrant(this.idBuilding, idFireHydrant)
+                .subscribe(result => {
+                    this.navCtrl.pop();
+                }, error1 => {
+                    this.messageTools.showToast("Erreur lors de l'ajout de borne " + error1);
+                })
+        }else{
+            this.navCtrl.push('FireHydrantPage', {id: idFireHydrant, idCity: this.idCity});
+        }
     }
 
     public createFireHydrant(){
         this.navCtrl.push('FireHydrantPage', {idCity: this.idCity});
+    }
+
+    public onEditModeChanged(){
+        this.editMode = !this.editMode;
+        if(!this.editMode){
+            this.editModeColor = "white";
+        }else{
+            this.editModeColor = "#B32017";
+        }
     }
 }

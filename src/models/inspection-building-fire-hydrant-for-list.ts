@@ -3,4 +3,5 @@ export class InspectionBuildingFireHydrantForList {
   idInspection: string;
   number: string;
   address: string;
+  idFireHydrant: string;
 }
