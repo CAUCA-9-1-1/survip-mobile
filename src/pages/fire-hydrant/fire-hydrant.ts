@@ -32,8 +32,6 @@ export class FireHydrantPage {
     public rateMeasuringUnit: UnitOfMeasure[] = [];
     public selectedIdFireHydrant: string = "";
 
-    public defaultColor = '#000000';
-
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 private formBuilder: FormBuilder,
