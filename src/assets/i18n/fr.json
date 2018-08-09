@@ -103,7 +103,7 @@
   "fireAlarmPanelDetail":"Détails du panneau d'alarme",
   "fireAlarmPanelLeaveMessage":"Le panneaux d'alarme contient des erreurs de validation et n'a pas été sauvegardé.  Voulez-vous quand même retourner à la page des protections incendie du bâtiment?",
   "fireHydrantDelete":"Suppression de borne",
-  "fireHydrantDeleteQuestion":"Êtes-vous sûre de vouloir supprimer cette borne ? ?",
+  "fireHydrantDeleteQuestion":"Êtes-vous sûre de vouloir supprimer l'association de cette borne au batîment?",
   "fireHydrantDetail":"Détails de la borne",
   "fireHydrantGeoPositionHolder":"Cliquer sur la carte pour localiser...",
   "fireHydrantList":"Liste des bornes incendie",

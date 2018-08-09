@@ -54,6 +54,7 @@ import {FireHydrantRepositoryProvider} from "../providers/repositories/fire-hydr
 import {OperatorTypeRepositoryProvider} from "../providers/repositories/operator-type-repository-provider";
 import {ExpiredTokenInterceptor} from '../providers/Base/expired-token.interceptor';
 
+
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -85,7 +86,7 @@ export function httpServiceFactory(
         CommonModule,
         IonicModule.forRoot(MyApp),
         BrowserModule,
-        ComponentsModule
+        ComponentsModule,
     ],
     bootstrap: [IonicApp],
     entryComponents: [

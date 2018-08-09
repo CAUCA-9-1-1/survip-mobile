@@ -102,7 +102,7 @@
   "fireAlarmPanelDetail":"Alarm panel details",
   "fireAlarmPanelLeaveMessage":"The alarm panel contains some validation errors and has not been saved. Do you still want to go to the building fire safety list?",
   "fireHydrantDelete":"Delete fire hydrant",
-  "fireHydrantDeleteQuestion":"Do you really want to delete this fire hydrant ?",
+  "fireHydrantDeleteQuestion":"Do you really want to delete the link between this fire hydrant and the building?",
   "fireHydrantDetail":"Fire hydrant's details",
   "fireHydrantGeoPositionHolder":"Click on the map to locate...",
   "fireHydrantList":"Fire hydrant list",
