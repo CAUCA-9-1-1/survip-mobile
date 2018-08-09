@@ -56,4 +56,11 @@ export class FireHydrantRepositoryProvider {
         id: '#CB42F4',
         color: '#CB42F4',
     }];
+
+    getEnumsKeysCollection(enumCollection: any): number[]{
+        return Object.keys(enumCollection)
+            .map(k => enumCollection[k])
+            .filter(v => typeof v === "number") as number[];
+    }
+
 }
