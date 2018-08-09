@@ -106,6 +106,7 @@
   "fireHydrantDeleteQuestion":"Êtes-vous sûre de vouloir supprimer l'association de cette borne au batîment?",
   "fireHydrantDetail":"Détails de la borne",
   "fireHydrantGeoPositionHolder":"Cliquer sur la carte pour localiser...",
+  "fireHydrantLeaveMessage":"La borne incendie contient des erreurs de validation et n'a pas été sauvegardée.  Voulez-vous quand même retourner à la liste des bornes de la ville?",
   "fireHydrantList":"Liste des bornes incendie",
   "fireHydrants":"Bornes incendie",
   "fireResistance":"Résistance au feu",

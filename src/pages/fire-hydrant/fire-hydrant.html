@@ -23,8 +23,7 @@
             <ion-row class="colorselect color_{{form.value.color.slice(1,7)}}">
                 <ion-item>
                     <ion-label>{{'color' | translate}}</ion-label>
-                    <ion-select formControlName="color" (ionChange)="setColor(form.value.color)"
-                                (click)="prepareColorSelector()">
+                    <ion-select formControlName="color" (click)="prepareColorSelector()">
                         <ion-option (ionSelect)="selectColor(color.color)" *ngFor="let color of hydrantColors" [value]="color.color">
                             {{color.color}}
                         </ion-option>

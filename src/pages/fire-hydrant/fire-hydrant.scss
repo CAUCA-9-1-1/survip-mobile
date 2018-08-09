@@ -49,41 +49,4 @@ page-fire-hydrant {
   }
 }
 
-.colorselect {
-  .select-text {
-    width: 75px;
-    border-radius: 5px;
-  }
 
-  .alert-radio-inner,
-  .alert-radio-icon,
-  .alert-radio-label {
-    display: none;
-  }
-
-  &.colorselected:before {
-    content: '\2713';
-    color: white;
-    z-index: 999999;
-    width: 100%;
-    height: 100%;
-    font-size: 33px;
-    left: 50%;
-    top: 50%;
-    position: relative;
-    transform: translate(-50%);
-  }
-
-  $colorsToSelect: "#000000" "#FFFFFF" "#6495ED" "#9ACD32" "#FFA500" "#FF0000" "#FFFF00" "#CB42F4";
-
-  @each $colorOption in $colorsToSelect {
-    $colorWithoutHash: str-slice($colorOption, 2, 7);
-
-    &.color_#{$colorWithoutHash} {
-      &, & .select-text {
-        color: #{$colorOption};
-        background-color: #{$colorOption};
-      }
-    }
-  }
-}

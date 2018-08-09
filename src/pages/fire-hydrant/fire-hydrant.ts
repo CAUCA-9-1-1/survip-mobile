@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import {AddressLocalisationType, FireHydrant, FireHydrantLocationType} from "../../models/fire-hydrant";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UUID} from "angular2-uuid";
@@ -9,6 +9,7 @@ import {OperatorTypeRepositoryProvider} from "../../providers/repositories/opera
 import {LaneRepositoryProvider} from "../../providers/repositories/lane-repository";
 import {UnitOfMeasureRepositoryProvider} from "../../providers/repositories/unit-of-measure-repository";
 import {UnitOfMeasure} from "../../models/all-construction-types";
+import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 
 @IonicPage()
 @Component({
@@ -31,15 +32,18 @@ export class FireHydrantPage {
     public pressureMeasuringUnit: UnitOfMeasure[] = [];
     public rateMeasuringUnit: UnitOfMeasure[] = [];
     public selectedIdFireHydrant: string = "";
+    public isDataSaved = false;
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
+                private viewCtrl: ViewController,
                 private formBuilder: FormBuilder,
                 private fireHydrantRepo: FireHydrantRepositoryProvider,
                 private operatorsRepo: OperatorTypeRepositoryProvider,
                 private laneRepo: LaneRepositoryProvider,
                 private unitRepo: UnitOfMeasureRepositoryProvider,
-                public laneService: LaneRepositoryProvider,) {
+                public laneService: LaneRepositoryProvider,
+                private msgTools: MessageToolsProvider) {
 
         this.inspectionCity = this.navParams.get("idCity");
         this.selectedIdFireHydrant = this.navParams.get("id");
@@ -47,19 +51,19 @@ export class FireHydrantPage {
         this.initiateForm();
     }
 
-    ngOnInit(){
+    public ngOnInit(){
         this.initializeFireHydrantCollections();
     }
 
     private initializeFireHydrantCollections(){
-        this.intializeLocationTypeEnum();
-        this.intializeAddressLocalizationTypeEnum();
+        this.initializeEnumCollection();
         this.hydrantColors = this.fireHydrantRepo.colors;
 
         this.loadFireHydrant();
         this.loadFireHydrantTypes();
         this.loadOperators();
-        this.LoadMeasuringUnit();
+        this.loadPressureMeasuringUnit();
+        this.loadRateMeasuringUnit();
     }
 
     private loadFireHydrant(){
@@ -95,26 +99,12 @@ export class FireHydrantPage {
         });
     }
 
-    private intializeLocationTypeEnum(){
-        this.fireHydrantLocationTypeKeys = Object.keys(this.fireHydrantLocationType)
-            .map(k => this.fireHydrantLocationType[k])
-            .filter(v => typeof v === "number") as number[];
+    private initializeEnumCollection(){
+        this.fireHydrantLocationTypeKeys = this.fireHydrantRepo.getEnumsKeysCollection(this.fireHydrantLocationType);
+        this.addressLocalizationTypeKeys = this.fireHydrantRepo.getEnumsKeysCollection(this.addressLocationType);
     }
 
-    private intializeAddressLocalizationTypeEnum(){
-        this.addressLocalizationTypeKeys = Object.keys(this.addressLocationType)
-            .map(k => this.addressLocationType[k])
-            .filter(v => typeof v === "number") as number[];
-    }
-
-    private LoadMeasuringUnit(){
-        this.unitRepo.getAllForRate()
-            .subscribe(success => {
-                this.rateMeasuringUnit = success;
-            }, error => {
-                console.log("Erreur dans getAllForRate " + error);
-            });
-
+    private loadPressureMeasuringUnit(){
         this.unitRepo.getAllForPressure()
             .subscribe(success => {
                 this.pressureMeasuringUnit = success;
@@ -123,6 +113,14 @@ export class FireHydrantPage {
             })
     }
 
+    private loadRateMeasuringUnit(){
+        this.unitRepo.getAllForRate()
+            .subscribe(success => {
+                this.rateMeasuringUnit = success;
+            }, error => {
+                console.log("Erreur dans getAllForRate " + error);
+            });
+    }
 
     private initiateForm() {
         this.form = this.formBuilder.group({
@@ -192,9 +190,30 @@ export class FireHydrantPage {
         }
     }
 
-    public setColor(color) {
-        console.log('Selected Color is', color);
+    private saveFireHydrant(){
+        if(!this.form.dirty) {
+            Object.assign(this.fireHydrant, this.form.value);
+            this.fireHydrantRepo.saveFireHydrant(this.fireHydrant)
+                .subscribe(
+                    success => {
+                        this.isDataSaved = true;
+                        this.viewCtrl.dismiss();
+                    }, error => {
+                        this.isDataSaved = false;
+                    });
+        }
+    }
 
+    public ionViewWillLeave() {
+        this.saveFireHydrant();
+    }
+
+    public async ionViewCanLeave() {
+        if (!this.isDataSaved || this.form.dirty) {
+            if (! await this.msgTools.ShowMessageBox(this.labels['confirmation'], this.labels['fireHydrantLeaveMessage'])) {
+                return false;
+            }
+        }
     }
 
 }
