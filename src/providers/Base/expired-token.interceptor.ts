@@ -15,24 +15,17 @@ export class ExpiredTokenInterceptor implements HttpInterceptor {
   }
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-    console.log('intercepted request!');
-
     const authRequest = req.clone();
 
     return next.handle(this.setToken(authRequest))
       .catch(error => {
-        //return Observable.throw(error);
-        console.log("Error occured", error);
-
         if (error instanceof HttpErrorResponse && authRequest.url.indexOf('Authentification/') < 0 && (<HttpErrorResponse>error).status == 401) {
-          console.log("401 in interceptor!!!");
+          console.log('Intercepted request!');
+
           return this.refreshToken(authRequest, next);
         } else {
-          console.log("Authentification error not catched", error);
           return Observable.throw(error);
         }
-
       });
   }
 
@@ -40,24 +33,17 @@ export class ExpiredTokenInterceptor implements HttpInterceptor {
 
     if (!this.isRefreshingToken) {
       this.isRefreshingToken = true;
-
-      // Reset here so that the following requests wait until the token
-      // comes back from the refreshToken call.
       this.tokenSubject.next(null);
-
       const authService = this.injector.get(AuthenticationService);
 
       return authService.refreshToken()
         .switchMap((response) => {
-          console.log("Token refreshed???");
-          this.onRefresh(response);
+          this.onTokenRefreshed(response);
           if (sessionStorage.getItem("currentToken")){
             this.tokenSubject.next(sessionStorage.getItem("currentToken"));
             this.isRefreshingToken = false;
             return next.handle(this.setToken(req));
           }
-
-          // If we don't get a new token, we are in trouble so logout.
           return this.onLogout();
         })
         .catch(() => {
@@ -85,7 +71,7 @@ export class ExpiredTokenInterceptor implements HttpInterceptor {
     return Observable.throw("");
   }
 
-  private onRefresh(response) {
+  private onTokenRefreshed(response) {
     if (response.accessToken) {
       sessionStorage.setItem('currentToken', response.accessToken);
     }

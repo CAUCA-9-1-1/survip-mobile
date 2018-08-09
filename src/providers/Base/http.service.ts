@@ -86,8 +86,7 @@ export class HttpService {
         message = this.translateService.instant(error.error);
         break;
       case 401:
-        //this.refresh();
-        console.log("401 in http.service");
+        console.log("401 in http.service.");
         break;
       case 404:
         message = this.translateService.instant('requestServer404', {url: error.url});
@@ -103,18 +102,6 @@ export class HttpService {
     console.log(message);
     return Observable.throw(error);
   }
-
-  /*private refresh() {
-    this.client.post(this.apiUrl + 'Authentification/Refresh', {
-      accessToken: sessionStorage.getItem('currentToken'),
-      refreshToken: sessionStorage.getItem('refreshToken'),
-    }).subscribe(
-      response => this.onRefresh(response),
-      error => this.onLogout(error)
-    );
-  }
-
-  }*/
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
