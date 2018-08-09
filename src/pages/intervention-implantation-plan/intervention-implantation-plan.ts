@@ -2,7 +2,6 @@ import {Component, OnDestroy} from '@angular/core';
 import {IonicPage, NavController, NavParams, MenuController} from 'ionic-angular';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {PictureData} from '../../models/picture-data';
-import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InterventionForm} from '../../models/intervention-form';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {InspectionDetail} from '../../models/inspection-detail';
@@ -29,7 +28,6 @@ export class InterventionImplantationPlanPage implements OnDestroy {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private authService: AuthenticationService,
     private fb: FormBuilder,
     private controller: InspectionControllerProvider,
     private menu: MenuController,) {
@@ -44,13 +42,7 @@ export class InterventionImplantationPlanPage implements OnDestroy {
 
   public ionViewDidLoad() {
       this.controller.loadInterventionFormPicture();
-  }
-
-  public async ionViewCanEnter() {
-      let isLoggedIn = await this.authService.isStillLoggedIn();
-      if (!isLoggedIn)
-          await this.redirectToLoginPage();
-  }
+ }
 
   ionViewDidEnter() {
     this.menu.swipeEnable(false);
@@ -58,10 +50,6 @@ export class InterventionImplantationPlanPage implements OnDestroy {
 
   ionViewWillLeave() {
     this.menu.swipeEnable(true);
-   }
-
-  private async redirectToLoginPage(){
-    await this.navCtrl.setRoot('LoginPage');
   }
 
   private createForm() {

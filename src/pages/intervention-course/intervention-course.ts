@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
-import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InterventionForm} from '../../models/intervention-form';
 import {InspectionDetail} from '../../models/inspection-detail';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
@@ -30,7 +29,6 @@ export class InterventionCoursePage {
         public controller: InspectionControllerProvider,
         private load: LoadingController,
         private courseRepo: InspectionBuildingCourseRepositoryProvider,
-        private authService: AuthenticationService,
         private translateService: TranslateService) {
     }
 
@@ -59,16 +57,6 @@ export class InterventionCoursePage {
             this.courses = data as InspectionBuildingCourseForList[];
             loader.dismiss();
         });
-    }
-
-    public async ionViewCanEnter() {
-        let isLoggedIn = await this.authService.isStillLoggedIn();
-        if (!isLoggedIn)
-            this.redirectToLoginPage();
-    }
-
-    private redirectToLoginPage() {
-        this.navCtrl.setRoot('LoginPage');
     }
 
     public onItemClick(idInspectionBuildingCourse: string) {

@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {AlertController, IonicPage, LoadingController, NavController, NavParams, reorderArray} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {FirestationForlist} from '../../models/firestation';
 import {FirestationRepositoryProvider} from '../../providers/repositories/firestation-repository-provider.service';
@@ -32,7 +31,6 @@ export class InterventionCourseDetailPage {
     constructor(
         public navCtrl: NavController,
         public navParams: NavParams,
-        private authService: AuthenticationService,
         private firestationRepo: FirestationRepositoryProvider,
         private courseRepo: InspectionBuildingCourseRepositoryProvider,
         private courseLaneRepo: InspectionBuildingCourseLaneRepositoryProvider,
@@ -121,16 +119,6 @@ export class InterventionCourseDetailPage {
     private async loadFirestations() {
         const result = await this.firestationRepo.getList(this.controller.inspectionDetail.idCity);
         this.firestations = result;
-    }
-
-    public async ionViewCanEnter() {
-        let isLoggedIn = await this.authService.isStillLoggedIn();
-        if (!isLoggedIn)
-            this.redirectToLoginPage();
-    }
-
-    private redirectToLoginPage() {
-        this.navCtrl.setRoot('LoginPage');
     }
 
     private createForm() {

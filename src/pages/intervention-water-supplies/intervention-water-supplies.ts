@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InterventionFormFireHydrantRepositoryProvider} from '../../providers/repositories/intervention-form-fire-hydrant-repository';
 import {InspectionBuildingFireHydrantForLIst} from '../../models/intervention-form-fire-hydrant-for-list';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
@@ -28,7 +27,6 @@ export class InterventionWaterSuppliesPage {
     public labels = {};
 
     constructor(public navCtrl: NavController,
-                private authService: AuthenticationService,
                 public navParams: NavParams,
                 private controller: InspectionControllerProvider,
                 private fireHydrantService: InspectionBuildingFireHydrantRepositoryProvider,
@@ -50,23 +48,13 @@ export class InterventionWaterSuppliesPage {
     }
 
     public async ionViewCanEnter() {
-        let isLoggedIn = await this.authService.isStillLoggedIn();
-        if (!isLoggedIn) {
-            this.redirectToLoginPage();
-        } else {
-            this.LoadBuildingFireHydrant();
-        }
+        this.LoadBuildingFireHydrant();
     }
 
     private LoadBuildingFireHydrant() {
         this.fireHydrantService.get(this.controller.idInspection)
             .subscribe(result => this.fireHydrants = result);
     }
-
-    private redirectToLoginPage() {
-        this.navCtrl.setRoot('LoginPage');
-    }
-
 
     public async onClickHydrant(idInspectionBuildingFireHydrant: string) {
         let canDelete = await this.messageTools.ShowMessageBox(this.labels['fireHydrantDelete'], this.labels['fireHydrantDeleteQuestion']);

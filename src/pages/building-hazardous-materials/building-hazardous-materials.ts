@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {IonicPage, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
 import {InspectionBuildingHazardousMaterialForList} from '../../models/inspection-building-hazardous-material-for-list';
 import {InspectionBuildingHazardousMaterialRepositoryProvider} from '../../providers/repositories/inspection-building-hazardous-material-repository';
-import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
@@ -21,7 +20,6 @@ export class BuildingHazardousMaterialsPage {
     constructor(
         private load: LoadingController,
         private matRepo: InspectionBuildingHazardousMaterialRepositoryProvider,
-        private authService: AuthenticationService,
         private modalCtrl: ModalController,
         public navCtrl: NavController,
         public navParams: NavParams,
@@ -44,16 +42,6 @@ export class BuildingHazardousMaterialsPage {
 
     public async ionViewDidEnter() {
         await this.loadMaterialList();
-    }
-
-    public async ionViewCanEnter() {
-        let isLoggedIn = await this.authService.isStillLoggedIn();
-        if (!isLoggedIn)
-            this.redirectToLoginPage();
-    }
-
-    private redirectToLoginPage(): void {
-        this.navCtrl.setRoot('LoginPage');
     }
 
     private async loadMaterialList() {
