@@ -32,6 +32,8 @@ export class FireHydrantPage {
     public rateMeasuringUnit: UnitOfMeasure[] = [];
     public selectedIdFireHydrant: string = "";
 
+    public defaultColor = '#000000';
+
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 private formBuilder: FormBuilder,
@@ -43,34 +45,37 @@ export class FireHydrantPage {
 
         this.inspectionCity = this.navParams.get("idCity");
         this.selectedIdFireHydrant = this.navParams.get("id");
-
+        this.fireHydrant = new FireHydrant();
+        this.initiateForm();
     }
 
     ngOnInit(){
         this.initializeFireHydrantCollections();
-        this.initiateForm();
     }
 
     private initializeFireHydrantCollections(){
-        this.loadFireHydrant()
         this.intializeLocationTypeEnum();
         this.intializeAddressLocalizationTypeEnum();
+        this.hydrantColors = this.fireHydrantRepo.colors;
+
+        this.loadFireHydrant();
         this.loadFireHydrantTypes();
         this.loadOperators();
         this.LoadMeasuringUnit();
-        this.hydrantColors = this.fireHydrantRepo.colors;
     }
 
     private loadFireHydrant(){
         if(this.selectedIdFireHydrant){
             this.fireHydrantRepo.getFireHydrant(this.selectedIdFireHydrant)
+                ._finally(() =>{this.initiateForm();})
                 .subscribe(success => {
                     this.fireHydrant = success;
                 }, error => {
                     console.log("Error in getFireHydrant :" + error.message)
-                })
+                });
         }else {
             this.fireHydrant = new FireHydrant();
+            this.initiateForm();
         }
     }
 
@@ -123,31 +128,75 @@ export class FireHydrantPage {
 
     private initiateForm() {
         this.form = this.formBuilder.group({
-            id: UUID.UUID(),
-            locationType: [0, Validators.required],
-            coordinates: [''],
-            altitude: [0, Validators.required],
-            number: ['', Validators.required],
-            rateFrom: [0, Validators.required],
-            rateTo: [0, Validators.required],
-            pressureFrom: [0, Validators.required],
-            pressureTo: [0, Validators.required],
-            color: ['', Validators.required],
-            comments: [''],
-            idCity: ['', Validators.required],
-            idLane: [''],
-            idIntersection: [''],
-            idFireHydrantType: ['', Validators.required],
-            idOperatorTypeRate: ['', Validators.required],
-            idUnitOfMeasureRate: ['', Validators.required],
-            idOperatorTypePressure: ['', Validators.required],
-            idUnitOfMeasurePressure: ['', Validators.required],
-            physicalLocation:[''],
-            civicNumber:['']
+            id: (this.fireHydrant.id ? this.fireHydrant.id : UUID.UUID()),
+            locationType: [this.fireHydrant.locationType ? this.fireHydrant.locationType : FireHydrantLocationType.Address, Validators.required],
+            coordinates: [this.fireHydrant.coordinates ? this.fireHydrant.coordinates : []],
+            altitude: [this.fireHydrant.altitude ? this.fireHydrant.altitude : 0, Validators.required],
+            number: [this.fireHydrant.number ? this.fireHydrant.number : '', Validators.required],
+            rateFrom: [this.fireHydrant.rateFrom ? this.fireHydrant.rateFrom : 0, Validators.required],
+            rateTo: [this.fireHydrant.rateTo ? this.fireHydrant.rateTo : 0, Validators.required],
+            pressureFrom: [this.fireHydrant.pressureFrom ? this.fireHydrant.pressureFrom : 0, Validators.required],
+            pressureTo: [this.fireHydrant.pressureTo ? this.fireHydrant.pressureTo : 0, Validators.required],
+            color: [this.fireHydrant.color ? this.fireHydrant.color : '#FFFFFF', Validators.required],
+            comments: [this.fireHydrant.comments ? this.fireHydrant.comments : ''],
+            idCity: [this.fireHydrant.idCity ? this.fireHydrant.idCity : '', Validators.required],
+            idLane: [this.fireHydrant.idLane ? this.fireHydrant.idLane : ''],
+            idIntersection: [this.fireHydrant.idIntersection ? this.fireHydrant.idIntersection : ''],
+            idFireHydrantType: [this.fireHydrant.idFireHydrantType ? this.fireHydrant.idFireHydrantType : '', Validators.required],
+            idOperatorTypeRate: [this.fireHydrant.idOperatorTypeRate ? this.fireHydrant.idOperatorTypeRate : '', Validators.required],
+            idUnitOfMeasureRate: [this.fireHydrant.idUnitOfMeasureRate ? this.fireHydrant.idUnitOfMeasureRate : '', Validators.required],
+            idOperatorTypePressure: [this.fireHydrant.idOperatorTypePressure ? this.fireHydrant.idOperatorTypePressure : '', Validators.required],
+            idUnitOfMeasurePressure: [this.fireHydrant.idUnitOfMeasurePressure ? this.fireHydrant.idUnitOfMeasurePressure : '', Validators.required],
+            physicalLocation:[this.fireHydrant.physicalLocation ? this.fireHydrant.physicalLocation : ''],
+            civicNumber:[this.fireHydrant.civicNumber ? this.fireHydrant.civicNumber : ''],
+            addressLocationType:[this.fireHydrant.addressLocationType ? this.fireHydrant.addressLocationType : AddressLocalisationType.NextTo]
         });
     }
 
     public getMapLocalization(){
+    }
+
+    public prepareColorSelector() {
+        setTimeout(() => {
+            let buttonElements = document.querySelectorAll('div.alert-radio-group button');
+            if (!buttonElements.length) {
+                this.prepareColorSelector();
+            } else {
+                for (let index = 0; index < buttonElements.length; index++) {
+                    let buttonElement = buttonElements[index];
+                    let optionLabelElement = buttonElement.querySelector('.alert-radio-label');
+                    let color = optionLabelElement.innerHTML.trim();
+
+                    if (this.isHexColor(color)) {
+                        buttonElement.classList.add('colorselect', 'color_' + color.slice(1, 7));
+                        if (color == this.form.value.color) {
+                            buttonElement.classList.add('colorselected');
+                        }
+                    }
+                }
+            }
+        }, 100);
+    }
+
+    private isHexColor(color) {
+        let hexColorRegEx = /^#(?:[0-9a-fA-F]{3}){1,2}$/;
+        return hexColorRegEx.test(color);
+    }
+
+    public selectColor(color) {
+        let buttonElements = document.querySelectorAll('div.alert-radio-group button.colorselect');
+        for (let index = 0; index < buttonElements.length; index++) {
+            let buttonElement = buttonElements[index];
+            buttonElement.classList.remove('colorselected');
+            if (buttonElement.classList.contains('color_' + color.slice(1, 7))) {
+                buttonElement.classList.add('colorselected');
+            }
+        }
+    }
+
+    public setColor(color) {
+        console.log('Selected Color is', color);
+
     }
 
 }

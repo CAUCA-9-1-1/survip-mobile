@@ -23,7 +23,6 @@ export class FireHydrant {
     civicNumber="";
     addressLocationType="";
     physicalLocation="";
-
 };
 
 export enum FireHydrantLocationType {

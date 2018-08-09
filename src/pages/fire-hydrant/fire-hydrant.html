@@ -20,13 +20,17 @@
                 <ion-input item-end formControlName="number" maxlength="10" type="text"
                            placeholder="{{'number' | translate}}"></ion-input>
             </ion-item>
-            <ion-item>
-                <ion-label>{{'color' | translate}}</ion-label>
-                <ion-select formControlName="color">
-                    <ion-option *ngFor="let ftype of hydrantColors" [value]="ftype.id"
-                                [ngStyle]="{backgroundColor: ftype.color }"></ion-option>
-                </ion-select>
-            </ion-item>
+            <ion-row class="colorselect color_{{form.value.color.slice(1,7)}}">
+                <ion-item>
+                    <ion-label>{{'color' | translate}}</ion-label>
+                    <ion-select formControlName="color" (ionChange)="setColor(form.value.color)"
+                                (click)="prepareColorSelector()">
+                        <ion-option (ionSelect)="selectColor(color.color)" *ngFor="let color of hydrantColors" [value]="color.color">
+                            {{color.color}}
+                        </ion-option>
+                    </ion-select>
+                </ion-item>
+            </ion-row>
         </ion-item-group>
 
         <ion-item-group>
@@ -57,7 +61,7 @@
             </ion-grid>
             <ion-item>
                 <ion-label>{{'unit' | translate}}</ion-label>
-                <ion-select formControlName="idOperatorTypeRate" placeholder="{{'unit' | translate}}">
+                <ion-select formControlName="idUnitOfMeasureRate" placeholder="{{'unit' | translate}}">
                     <ion-option *ngFor="let unit of rateMeasuringUnit" [value]="unit.id">{{unit.name}}
                     </ion-option>
                 </ion-select>
@@ -92,7 +96,7 @@
             </ion-grid>
             <ion-item>
                 <ion-label>{{'unit' | translate}}</ion-label>
-                <ion-select formControlName="idOperatorTypePressure" placeholder="{{'unit' | translate}}">
+                <ion-select formControlName="idUnitOfMeasurePressure" placeholder="{{'unit' | translate}}">
                     <ion-option *ngFor="let unit of pressureMeasuringUnit" [value]="unit.id">{{unit.name}}</ion-option>
                 </ion-select>
             </ion-item>
@@ -112,7 +116,7 @@
             <div *ngIf="form.value.locationType == fireHydrantLocationType.Address">
                 <ion-item>
                     <ion-label>{{'type' | translate}}</ion-label>
-                    <ion-select formControlName="locationType">
+                    <ion-select formControlName="addressLocationType">
                         <ion-option *ngFor="let key of addressLocalizationTypeKeys" [value]="key">
                             {{"enumAddressLocalisationType."+addressLocationType[key] | translate}}
                         </ion-option>
