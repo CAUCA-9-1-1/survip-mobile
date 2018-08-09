@@ -1,14 +1,19 @@
 import {Injectable} from '@angular/core';
 import {catchError, map} from 'rxjs/operators';
 import {HttpService} from './http.service';
-import {Loading, LoadingController} from 'ionic-angular';
+import {Events, Loading, LoadingController} from 'ionic-angular';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class AuthenticationService {
+
   private loading: Loading;
-  constructor(private http: HttpService, private loadingCtrl: LoadingController) {
+
+  constructor(
+    private http: HttpService,
+    private loadingCtrl: LoadingController,
+    private events: Events) {
   }
 
   public login(username: string, password: string) {
@@ -56,5 +61,23 @@ export class AuthenticationService {
 
   private onFailure(result){
     return Observable.of(false);
+  }
+
+  public refreshToken() {
+    return this.http.rawPost('Authentification/Refresh', {
+      accessToken: sessionStorage.getItem('currentToken'),
+      refreshToken: sessionStorage.getItem('refreshToken')
+    });
+  }
+
+  private onLogout(error) {
+    sessionStorage.clear();
+    this.events.publish('user:logout');
+  }
+
+  private onRefresh(response) {
+    if (response.accessToken) {
+      sessionStorage.setItem('currentToken', response.accessToken);
+    }
   }
 }

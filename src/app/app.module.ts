@@ -17,7 +17,7 @@ import {RouteDirectionRepositoryProvider} from '../providers/repositories/route-
 import {CommonModule} from '@angular/common';
 import {InspectionMapPage} from '../pages/inspection-map/inspection-map';
 import {AuthenticationService} from '../providers/Base/authentification.service';
-import {HttpClientModule, HttpClient} from '@angular/common/http';
+import {HttpClientModule, HttpClient, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {UtilisationCodeRepositoryProvider} from '../providers/repositories/utilisation-code-repository';
@@ -50,6 +50,7 @@ import {InspectionBuildingAnomalyPictureRepositoryProvider} from '../providers/r
 import {InspectionBuildingParticularRiskPictureRepositoryProvider} from '../providers/repositories/inspection-building-particular-risk-picture-repository-provider.service';
 import {InspectionBuildingParticularRiskRepositoryProvider} from '../providers/repositories/inspection-building-particular-risk-repository-provider.service';
 import {TranslateService} from "@ngx-translate/core";
+import {ExpiredTokenInterceptor} from '../providers/Base/expired-token.interceptor';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -91,6 +92,7 @@ export function httpServiceFactory(
   exports: [
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ExpiredTokenInterceptor, multi: true },
     InspectionMapPage,
     StatusBar,
     SplashScreen,

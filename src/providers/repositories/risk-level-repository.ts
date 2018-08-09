@@ -11,7 +11,7 @@ export class RiskLevelRepositoryProvider {
     }
 
     public getAll() {
-        return this.http.get('risklevel/localized', 3)
+        return this.http.get('risklevel/localized')
             .pipe(map(response => response));
     }
 
@@ -19,7 +19,7 @@ export class RiskLevelRepositoryProvider {
         if (idRiskLevel == null)
             return Observable.of('');
         else
-            return this.http.get('risklevel/localized/' + idRiskLevel, 3)
+            return this.http.get('risklevel/localized/' + idRiskLevel)
                 .pipe(map(response => response));
     }
 }

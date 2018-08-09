@@ -28,9 +28,9 @@ export class HttpService {
     return options;
   }
 
-  public get(url: string, onTokenRefreshed = null): Observable<any> {
+  public get(url: string): Observable<any> {
     return this.client.get(this.getFullUrl(url), this.getHeaders()).pipe(
-        catchError((error: HttpErrorResponse) => this.onError(error, onTokenRefreshed))
+      catchError((error: HttpErrorResponse) => this.onError(error))
     );
   }
 
@@ -40,11 +40,11 @@ export class HttpService {
       .catch((err: HttpErrorResponse) => this.handleError(err));
   }
 
-  public post(url: string, body?: any, onTokenRefreshed = null): Observable<any> {
+  public post(url: string, body?: any): Observable<any> {
     console.log('post', this.getFullUrl(url));
     return this.client
       .post(this.getFullUrl(url), body, this.getHeaders()).pipe(
-        catchError((error: HttpErrorResponse) => this.onError(error, onTokenRefreshed))
+        catchError((error: HttpErrorResponse) => this.onError(error))
       );
   }
 
@@ -55,27 +55,27 @@ export class HttpService {
       .catch((err: HttpErrorResponse) => this.handleError(err));
   }
 
-  public put(url: string, body?: any, onTokenRefreshed = null): Observable<any> {
+  public put(url: string, body?: any): Observable<any> {
     console.log('post', this.getFullUrl(url));
     return this.client.post(this.getFullUrl(url), body, this.getHeaders()).pipe(
-      catchError((error: HttpErrorResponse) => this.onError(error, onTokenRefreshed))
+      catchError((error: HttpErrorResponse) => this.onError(error))
     );
   }
 
-  public delete(url: string, onTokenRefreshed = null): Observable<any> {
+  public delete(url: string): Observable<any> {
     return this.client.delete(this.getFullUrl(url), this.getHeaders()).pipe(
-      catchError((error: HttpErrorResponse) => this.onError(error, onTokenRefreshed))
+      catchError((error: HttpErrorResponse) => this.onError(error))
     );
   }
 
-    private getFullUrl(url: string): string {
-        if (!this.apiUrl) {
-            throw new Error('You need to set "apiUrl" inside your "cause" configuration.');
-        }
-        return this.apiUrl + url;
+  private getFullUrl(url: string): string {
+    if (!this.apiUrl) {
+      throw new Error('You need to set "apiUrl" inside your "cause" configuration.');
     }
+    return this.apiUrl + url;
+  }
 
-  private onError(error: HttpErrorResponse, onTokenRefreshed = null) {
+  private onError(error: HttpErrorResponse) {
     let message = '';
 
     switch (error.status) {
@@ -86,7 +86,8 @@ export class HttpService {
         message = this.translateService.instant(error.error);
         break;
       case 401:
-        this.refresh(onTokenRefreshed);
+        //this.refresh();
+        console.log("401 in http.service");
         break;
       case 404:
         message = this.translateService.instant('requestServer404', {url: error.url});
@@ -103,29 +104,17 @@ export class HttpService {
     return Observable.throw(error);
   }
 
-  private refresh(onTokenRefreshed = null) {
+  /*private refresh() {
     this.client.post(this.apiUrl + 'Authentification/Refresh', {
       accessToken: sessionStorage.getItem('currentToken'),
       refreshToken: sessionStorage.getItem('refreshToken'),
     }).subscribe(
-      response => this.onRefresh(response, onTokenRefreshed),
+      response => this.onRefresh(response),
       error => this.onLogout(error)
     );
   }
 
-  private onLogout(error) {
-    sessionStorage.clear();
-    this.events.publish('user:logout');
-  }
-
-  private onRefresh(response, onTokenRefreshed = null) {
-    if (response.accessToken) {
-      sessionStorage.setItem('currentToken', response.accessToken);
-      if (onTokenRefreshed){
-        onTokenRefreshed();
-      }
-    }
-  }
+  }*/
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
@@ -137,6 +126,12 @@ export class HttpService {
       if (error.status == 0 || error.status == 401)
         console.log("shall redirect");
     }
+
+    return Observable.of({
+      'status': error.status,
+      'body': error.error
+    });
+  }
 }
 
 
