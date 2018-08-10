@@ -3,7 +3,7 @@ export class FireHydrant {
     createdOn = "";
     isActive = true;
     locationType = 0;
-    coordinates = [];
+    coordinates = {};
     altitude=0;
     number:"";
     rateFrom=0;
@@ -22,7 +22,7 @@ export class FireHydrant {
     idUnitOfMeasurePressure = "";
     civicNumber="";
     addressLocationType="";
-    physicalLocation="";
+    physicalPosition="";
 };
 
 export enum FireHydrantLocationType {

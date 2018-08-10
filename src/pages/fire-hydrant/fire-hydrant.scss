@@ -47,6 +47,15 @@ page-fire-hydrant {
   .text-input{
     text-align: right;
   }
+
+  .item-input ion-input{
+    margin:0px !important;
+  }
+
+  .left-align-input .text-input{
+    text-align: left;
+  }
+
 }
 
 
