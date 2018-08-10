@@ -7,7 +7,7 @@
 <ion-header>
   
     <ion-navbar>
-      <ion-title>Éditer l'image</ion-title>
+      <ion-title>{{'editPicture' | translate}}</ion-title>
     </ion-navbar>
   
   </ion-header>
@@ -29,14 +29,14 @@
                 class="loginnavbtn"
                 (click)="onOkay()"
             >
-                OK
+                {{'done' | translate}}
             </button>
             <button
                 ion-button
                 class="loginnavbtn"
                 (click)="onCancel()"
             >
-                Cancel
+                {{'cancel' | translate}}
             </button>
         </ion-buttons>
     </ion-toolbar>

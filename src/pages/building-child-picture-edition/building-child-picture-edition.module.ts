@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { BuildingChildPictureEditionPage } from './building-child-picture-edition';
 import { SketchToolModule } from 'lib-sketch-tool';
 import { fabric } from 'fabric';
+import { TranslateModule } from "@ngx-translate/core";
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { fabric } from 'fabric';
   imports: [
     IonicPageModule.forChild(BuildingChildPictureEditionPage),
     SketchToolModule,
+    TranslateModule.forChild(),
   ],
 })
 export class ImageEditionPageModule {}
