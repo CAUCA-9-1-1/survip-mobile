@@ -1,7 +1,7 @@
 <ion-content scroll="false">
   <div class="div-selected-picture">
-      <button ion-button icon-only small outline class="brushIcon" (click)="onEditPhoto()" color="caucaRed" *ngIf="hasImageUrl">
-        <ion-icon name="brush" class="brushIcon"></ion-icon>
+      <button ion-button icon-only small outline class="colorPaletteIcon" (click)="onEditPhoto()" color="caucaRed" *ngIf="hasImageUrl">
+        <ion-icon name="color-palette" class="colorPaletteIcon"></ion-icon>
       </button>
     <img class="selected-picture" [src]="imageUrl" *ngIf="hasImageUrl" imageViewer />
   </div>
