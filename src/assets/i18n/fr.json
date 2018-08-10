@@ -208,6 +208,7 @@
   "quantityValidationMessage":"*La quantité doit être une valeur entière valide.",
   "reason":"Raison",
   "rectangle": "Rectangle",
+  "requiredInformation":"*Cette information est requise.",
   "risk":"Risque",
   "riskLevel": "Niveau de risque",
   "roof":"Toit",
