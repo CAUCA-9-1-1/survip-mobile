@@ -9,7 +9,8 @@ export class MapLocalizationRepositoryService {
 
     positionChanged: EventEmitter<any> = new EventEmitter<any>();
 
-    geoPosition = {};
+    userGeoPosition = {};
+    targetPosition={};
     constructor(public http: HttpService,
                 private msgTool: MessageToolsProvider,
                 private geoLocation: Geolocation) {
@@ -18,7 +19,11 @@ export class MapLocalizationRepositoryService {
     public getUserGeoLocation(): any{
         this.geoLocation.getCurrentPosition()
             .then((resp) => {
-                return resp;
+
+                this.userGeoPosition = new ol.geom.Point(ol.proj.transform([resp.coords.longitude, resp.coords.latitude], 'EPSG:4326', 'EPSG:3857'));
+                this.positionChanged.emit(this.userGeoPosition);
+                return this.userGeoPosition;
+
             })
             .catch(error =>
             {

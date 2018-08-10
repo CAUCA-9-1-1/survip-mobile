@@ -56,7 +56,7 @@ export class FireHydrantPage {
         this.inspectionCity = this.navParams.get("idCity");
         this.selectedIdFireHydrant = this.navParams.get("id");
         this.fireHydrant = new FireHydrant();
-        this.subscriber = this.mapService.positionChanged.subscribe(() => this.updateFireHydrantCoordinates());
+        this.subscriber = this.mapService.positionChanged.subscribe((position) => this.updateFireHydrantCoordinates(position));
         this.initiateForm();
     }
 
@@ -158,7 +158,7 @@ export class FireHydrantPage {
             color: [this.fireHydrant.color ? this.fireHydrant.color : '#FFFFFF', Validators.required],
             comments: [this.fireHydrant.comments ? this.fireHydrant.comments : ''],
             idCity: [this.fireHydrant.idCity ? this.fireHydrant.idCity : this.inspectionCity, Validators.required],
-            idLane: [this.fireHydrant.idLane ? this.fireHydrant.idLane : '5e85bb26-b93c-4a0b-aed6-769ab4680117', Validators.required],
+            idLane: [this.fireHydrant.idLane ? this.fireHydrant.idLane : '', Validators.required],
             idIntersection: [this.fireHydrant.idIntersection ? this.fireHydrant.idIntersection : '', Validators.required],
             idFireHydrantType: [this.fireHydrant.idFireHydrantType ? this.fireHydrant.idFireHydrantType : '', Validators.required],
             idOperatorTypeRate: [this.fireHydrant.idOperatorTypeRate ? this.fireHydrant.idOperatorTypeRate : '', Validators.required],
@@ -174,11 +174,11 @@ export class FireHydrantPage {
     }
 
     public getMapLocalization() {
-
+        this.mapService.getUserGeoLocation()
     }
 
-    private updateFireHydrantCoordinates(){
-        this.form.controls['coordinantes'].patchValue(this.mapService.geoPosition);
+    private updateFireHydrantCoordinates(position){
+        this.form.controls['coordinantes'].patchValue(position);
     }
 
     public prepareColorSelector() {

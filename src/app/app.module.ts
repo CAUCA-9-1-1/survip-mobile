@@ -54,6 +54,7 @@ import {FireHydrantRepositoryProvider} from "../providers/repositories/fire-hydr
 import {OperatorTypeRepositoryProvider} from "../providers/repositories/operator-type-repository-provider";
 import {MapLocalizationRepositoryService} from "../providers/repositories/map-localisation-repository-service";
 import {ExpiredTokenInterceptor} from '../providers/Base/expired-token.interceptor';
+import {Geolocation} from "@ionic-native/geolocation";
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -88,7 +89,6 @@ export function httpServiceFactory(
         IonicModule.forRoot(MyApp),
         BrowserModule,
         ComponentsModule,
-        Geolocation,
     ],
     bootstrap: [IonicApp],
     entryComponents: [
@@ -140,7 +140,7 @@ export function httpServiceFactory(
         FireHydrantRepositoryProvider,
         OperatorTypeRepositoryProvider,
         MapLocalizationRepositoryService,
-
+        Geolocation,
     ]
 })
 export class AppModule {
