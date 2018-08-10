@@ -151,10 +151,6 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         });
     }
 
-    onEditPhoto() {
-        this.openImageEditionPage();
-    }
-
     public selectPicture(): void {
         if (this.isUsingCordova)
             this.selectPictureNative();
@@ -212,7 +208,7 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
             : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + pic);
     }
 
-    private openImageEditionPage(){
+    public onEditPhoto(){
         let picture = this.pictures[this.slides._activeIndex];
         let modal = this.modalCtrl.create('BuildingChildPictureEditionPage', { picture: picture, repo: this.repo });
         modal.onDidDismiss(() => this.loadPictures());
