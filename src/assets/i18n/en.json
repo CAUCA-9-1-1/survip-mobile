@@ -207,6 +207,7 @@
   "quantity":"Quantity",
   "quantityValidationMessage":"*The quantity must be a valid integer.",
   "reason":"Reason",
+  "requiredInformation":"*This information is required.",
   "rectangle": "Rectangle",
   "risk":"Risk",
   "riskLevel": "Risk level",

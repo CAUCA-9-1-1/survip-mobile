@@ -52,6 +52,7 @@ import {InspectionBuildingParticularRiskRepositoryProvider} from '../providers/r
 import {TranslateService} from "@ngx-translate/core";
 import {FireHydrantRepositoryProvider} from "../providers/repositories/fire-hydrant-repository-provider";
 import {OperatorTypeRepositoryProvider} from "../providers/repositories/operator-type-repository-provider";
+import {MapLocalizationRepositoryService} from "../providers/repositories/map-localisation-repository-service";
 import {ExpiredTokenInterceptor} from '../providers/Base/expired-token.interceptor';
 
 
@@ -87,6 +88,7 @@ export function httpServiceFactory(
         IonicModule.forRoot(MyApp),
         BrowserModule,
         ComponentsModule,
+        Geolocation,
     ],
     bootstrap: [IonicApp],
     entryComponents: [
@@ -137,6 +139,7 @@ export function httpServiceFactory(
         InspectionQuestionRepositoryProvider,
         FireHydrantRepositoryProvider,
         OperatorTypeRepositoryProvider,
+        MapLocalizationRepositoryService,
 
     ]
 })
