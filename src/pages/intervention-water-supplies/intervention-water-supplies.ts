@@ -33,6 +33,9 @@ export class InterventionWaterSuppliesPage {
                 private messageTools: MessageToolsProvider,
                 private translateService: TranslateService,
     ) {
+    }
+
+    public ionViewDidLoad(){
         this.LoadBuildingFireHydrant();
     }
 
@@ -45,10 +48,6 @@ export class InterventionWaterSuppliesPage {
             error => {
                 console.log(error)
             });
-    }
-
-    public async ionViewCanEnter() {
-        this.LoadBuildingFireHydrant();
     }
 
     private LoadBuildingFireHydrant() {
