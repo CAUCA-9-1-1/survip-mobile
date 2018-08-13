@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
 import {InspectionBuildingFireProtectionForList} from '../../models/inspection-building-fire-protection-for-list';
-import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InspectionBuildingSprinklerRepositoryProvider} from '../../providers/repositories/inspection-building-sprinkler-repository-provider.service';
 import {InspectionBuildingAlarmPanelRepositoryProvider} from '../../providers/repositories/inspection-building-alarm-panel-repository-provider.service';
 import {TranslateService} from "@ngx-translate/core";
@@ -26,7 +25,6 @@ export class BuildingFireProtectionPage {
         private sprinklerRepo: InspectionBuildingSprinklerRepositoryProvider,
         private panelRepo: InspectionBuildingAlarmPanelRepositoryProvider,
         private load: LoadingController,
-        private authService: AuthenticationService,
         private modalCtrl: ModalController,
         public navCtrl: NavController,
         public navParams: NavParams,
@@ -54,16 +52,6 @@ export class BuildingFireProtectionPage {
     public async ionViewDidEnter() {
         await this.loadPanels();
         await this.loadSprinklers();
-    }
-
-    public async ionViewCanEnter() {
-        let isLoggedIn = await this.authService.isStillLoggedIn();
-        if (!isLoggedIn)
-            this.redirectToLoginPage();
-    }
-
-    private redirectToLoginPage(): void {
-        this.navCtrl.setRoot('LoginPage');
     }
 
     private async loadSprinklers() {

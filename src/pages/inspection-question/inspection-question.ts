@@ -2,7 +2,6 @@ import {Component, ViewChild} from '@angular/core';
 import {IonicPage, NavController, NavParams, Slides} from 'ionic-angular';
 import {InspectionQuestion} from "../../models/inspection-question";
 import {InspectionQuestionRepositoryProvider} from "../../providers/repositories/inspection-question-repository-provider";
-import {AuthenticationService} from "../../providers/Base/authentification.service";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {TranslateService} from "@ngx-translate/core";
 import {InspectionControllerProvider} from "../../providers/inspection-controller/inspection-controller";
@@ -33,7 +32,6 @@ export class InspectionQuestionPage {
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 public controller: InspectionQuestionRepositoryProvider,
-                private authService: AuthenticationService,
                 private messageTools: MessageToolsProvider,
                 private translateService: TranslateService,
                 private inspectionController: InspectionControllerProvider) {
@@ -53,16 +51,6 @@ export class InspectionQuestionPage {
                 console.log(error)
             });
         this.nextButtonTitle = this.labels['surveyNextQuestion'];
-    }
-
-    public async ionViewCanEnter() {
-        let isLoggedIn = await this.authService.isStillLoggedIn();
-        if (!isLoggedIn)
-            this.redirectToLoginPage();
-    }
-
-    private redirectToLoginPage() {
-        this.navCtrl.setRoot('LoginPage');
     }
 
     public ionViewDidLoad() {

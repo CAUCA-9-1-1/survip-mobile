@@ -1,5 +1,5 @@
 import { ErrorHandler, NgModule } from '@angular/core';
-import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
+import {Events, IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
@@ -17,7 +17,7 @@ import {RouteDirectionRepositoryProvider} from '../providers/repositories/route-
 import {CommonModule} from '@angular/common';
 import {InspectionMapPage} from '../pages/inspection-map/inspection-map';
 import {AuthenticationService} from '../providers/Base/authentification.service';
-import {HttpClientModule, HttpClient} from '@angular/common/http';
+import {HttpClientModule, HttpClient, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {UtilisationCodeRepositoryProvider} from '../providers/repositories/utilisation-code-repository';
@@ -50,6 +50,7 @@ import {InspectionBuildingAnomalyPictureRepositoryProvider} from '../providers/r
 import {InspectionBuildingParticularRiskPictureRepositoryProvider} from '../providers/repositories/inspection-building-particular-risk-picture-repository-provider.service';
 import {InspectionBuildingParticularRiskRepositoryProvider} from '../providers/repositories/inspection-building-particular-risk-repository-provider.service';
 import {TranslateService} from "@ngx-translate/core";
+import {ExpiredTokenInterceptor} from '../providers/Base/expired-token.interceptor';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -57,9 +58,10 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 export function httpServiceFactory(
   client: HttpClient,
-  translate: TranslateService
+  translate: TranslateService,
+  events: Events
 ) {
-  return new HttpService(client, translate);
+  return new HttpService(client, translate, events);
 }
 
 @NgModule({
@@ -90,6 +92,7 @@ export function httpServiceFactory(
   exports: [
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ExpiredTokenInterceptor, multi: true },
     InspectionMapPage,
     StatusBar,
     SplashScreen,

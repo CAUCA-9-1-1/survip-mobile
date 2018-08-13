@@ -8,7 +8,7 @@ export class BaseService {
   }
 
   protected authorization() {
-    const token = localStorage.getItem('currentToken');
+    const token = sessionStorage.getItem('currentToken');
 
     if (token) {
       return new RequestOptions({

@@ -8,7 +8,6 @@ import {BuildingDetailRepositoryProvider} from '../../providers/repositories/bui
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MessageToolsProvider} from '../../providers/message-tools/message-tools';
 import {ISubscription} from 'rxjs/Subscription';
-import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
@@ -35,7 +34,6 @@ export class BuildingDetailsPage {
     constructor(
         private formBuilding: FormBuilder,
         private msg: MessageToolsProvider,
-        private authService: AuthenticationService,
         private constructionRepo: ConstructionTypesRepositoryProvider,
         private unitOfMeasureRepo: UnitOfMeasureRepositoryProvider,
         private detailRepo: BuildingDetailRepositoryProvider,
@@ -78,19 +76,9 @@ export class BuildingDetailsPage {
         await load.dismiss();
     }
 
-    public async ionViewCanEnter() {
-        let isLoggedIn = await this.authService.isStillLoggedIn();
-        if (!isLoggedIn)
-            this.redirectToLoginPage();
-    }
-
     public async ionViewCanLeave() {
         if (this.form.dirty || !this.form.valid)
             return await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['buildingLeaveMessage']);
-    }
-
-    private redirectToLoginPage(): void {
-        this.navCtrl.setRoot('LoginPage');
     }
 
     private createForm() {

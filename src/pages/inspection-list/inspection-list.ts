@@ -70,15 +70,6 @@ export class InspectionListPage {
         this.menu.enable(false, 'inspectionMenu');
         this.menu.enable(false, 'buildingMenu');
         this.menu.enable(true, 'inspectionListMenu');
-
-        let isLoggedIn = await this.authService.isStillLoggedIn();
-        if (!isLoggedIn)
-            this.redirectToLoginPage();
-
-    }
-
-    private redirectToLoginPage() {
-        this.navCtrl.setRoot('LoginPage');
     }
 
     private createLoadingControl() {

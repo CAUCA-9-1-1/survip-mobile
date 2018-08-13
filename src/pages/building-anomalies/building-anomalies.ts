@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
 import {InspectionBuildingAnomalyThemeForList} from '../../models/inspection-building-anomaly-theme-for-list';
-import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InspectionBuildingAnomalyRepositoryProvider} from '../../providers/repositories/inspection-building-anomaly-repository-provider.service';
 import {TranslateService} from "@ngx-translate/core";
 
@@ -21,7 +20,6 @@ export class BuildingAnomaliesPage {
     constructor(
         private load: LoadingController,
         private anomalyRepo: InspectionBuildingAnomalyRepositoryProvider,
-        private authService: AuthenticationService,
         private modalCtrl: ModalController,
         public navCtrl: NavController,
         public navParams: NavParams,
@@ -44,16 +42,6 @@ export class BuildingAnomaliesPage {
 
     public async ionViewDidEnter() {
         await this.loadAnomalies();
-    }
-
-    public async ionViewCanEnter() {
-        let isLoggedIn = await this.authService.isStillLoggedIn();
-        if (!isLoggedIn)
-            this.redirectToLoginPage();
-    }
-
-    private redirectToLoginPage(): void {
-        this.navCtrl.setRoot('LoginPage');
     }
 
     private async loadAnomalies() {

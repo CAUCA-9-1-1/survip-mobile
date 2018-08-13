@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
 import {InspectionBuildingPersonRequiringAssistanceTypeRepositoryProvider} from '../../providers/repositories/inspection-building-person-requiring-assistance-type-repository';
-import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InspectionBuildingPersonRequiringAssistanceForList} from '../../models/inspection-building-person-requiring-assistance-for-list';
 import {TranslateService} from "@ngx-translate/core";
 
@@ -21,7 +20,6 @@ export class BuildingPnapsPage {
     constructor(
         private load: LoadingController,
         private pnapRepo: InspectionBuildingPersonRequiringAssistanceTypeRepositoryProvider,
-        private authService: AuthenticationService,
         private modalCtrl: ModalController,
         public navCtrl: NavController,
         public navParams: NavParams,
@@ -44,16 +42,6 @@ export class BuildingPnapsPage {
 
     public async ionViewDidEnter() {
         await this.loadPnaps();
-    }
-
-    public async ionViewCanEnter() {
-        let isLoggedIn = await this.authService.isStillLoggedIn();
-        if (!isLoggedIn)
-            this.redirectToLoginPage();
-    }
-
-    private redirectToLoginPage(): void {
-        this.navCtrl.setRoot('LoginPage');
     }
 
     private async loadPnaps() {

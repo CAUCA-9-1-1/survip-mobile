@@ -4,7 +4,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LaneRepositoryProvider} from '../../providers/repositories/lane-repository';
 import {RouteDirectionRepositoryProvider} from '../../providers/repositories/route-direction-repository';
 import {RouteDirection} from '../../models/route-direction';
-import {AuthenticationService} from '../../providers/Base/authentification.service';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {InspectionBuildingCourseLane} from '../../models/inspection-building-course-lane';
 import {InspectionBuildingCourseLaneRepositoryProvider} from '../../providers/repositories/inspection-building-course-lane-repository-provider.service';
@@ -31,7 +30,6 @@ export class InterventionCourseLanePage {
         public navParams: NavParams,
         private load: LoadingController,
         private courseLaneRepo: InspectionBuildingCourseLaneRepositoryProvider,
-        private authService: AuthenticationService,
         public controller: InspectionControllerProvider,
         private fb: FormBuilder,
         public laneRepo: LaneRepositoryProvider,
@@ -82,16 +80,6 @@ export class InterventionCourseLanePage {
         this.directions = await this.directionRepo.getList();
         await this.loadSpecificCourseLane(this.idInspectionBuildingCourseLane);
         loader.dismiss();
-    }
-
-    public async ionViewCanEnter() {
-        let isLoggedIn = await this.authService.isStillLoggedIn();
-        if (!isLoggedIn)
-            this.redirectToLoginPage();
-    }
-
-    private redirectToLoginPage() {
-        this.navCtrl.setRoot('LoginPage');
     }
 
     public ionViewCanLeave() {

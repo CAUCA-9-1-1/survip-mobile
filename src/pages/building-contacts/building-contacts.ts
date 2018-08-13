@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {IonicPage, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
 import {BuildingContactRepositoryProvider} from '../../providers/repositories/building-contact-repository';
 import {InspectionBuildingContactForList} from '../../models/inspection-building-contact-for-list';
-import {AuthenticationService} from '../../providers/Base/authentification.service';
 
 @IonicPage()
 @Component({
@@ -18,7 +17,6 @@ export class BuildingContactsPage {
     constructor(
         private load: LoadingController,
         private contactRepo: BuildingContactRepositoryProvider,
-        private authService: AuthenticationService,
         private modalCtrl: ModalController,
         public navCtrl: NavController,
         public navParams: NavParams) {
@@ -29,16 +27,6 @@ export class BuildingContactsPage {
 
     public async ionViewDidEnter() {
         await this.loadContactList();
-    }
-
-    public async ionViewCanEnter() {
-        let isLoggedIn = await this.authService.isStillLoggedIn();
-        if (!isLoggedIn)
-            this.redirectToLoginPage();
-    }
-
-    private redirectToLoginPage(): void {
-        this.navCtrl.setRoot('LoginPage');
     }
 
     private async loadContactList() {

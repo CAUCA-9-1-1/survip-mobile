@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {InspectionQuestionRepositoryProvider} from "../../providers/repositories/inspection-question-repository-provider";
-import {AuthenticationService} from "../../providers/Base/authentification.service";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {InspectionQuestionSummaryCategory} from "../../models/inspection-question-summary-category";
 
@@ -18,17 +17,10 @@ export class InspectionQuestionSummaryPage {
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 public controller: InspectionQuestionRepositoryProvider,
-                private authService: AuthenticationService,
                 private messageTools: MessageToolsProvider,) {
 
         this.idInspection = this.navParams.get('idInspection');
         this.loadInspectionQuestionSummary();
-    }
-
-    public async ionViewCanEnter() {
-        let isLoggedIn = await this.authService.isStillLoggedIn();
-        if (!isLoggedIn)
-            this.navCtrl.setRoot('LoginPage');
     }
 
     public loadInspectionQuestionSummary() {

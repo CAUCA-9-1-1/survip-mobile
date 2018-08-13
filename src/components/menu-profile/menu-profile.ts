@@ -10,9 +10,9 @@ export class MenuProfileComponent {
 
     public fullName: string = '';
 
-    constructor(private authentificationController: AuthenticationService, private navCtrl: NavController) {
-        this.fullName = localStorage.getItem('firstName') + ' ' + localStorage.getItem('lastName');
-    }
+  constructor(private authentificationController : AuthenticationService, private navCtrl: NavController) {
+    this.fullName = sessionStorage.getItem('firstName') + ' ' + sessionStorage.getItem('lastName');
+  }
 
     public sessionLogout() {
         this.authentificationController.logout();
