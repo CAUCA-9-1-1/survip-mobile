@@ -7,10 +7,11 @@ import ol from "openlayers";
 @Injectable()
 export class MapLocalizationRepositoryService {
 
-    positionChanged: EventEmitter<any> = new EventEmitter<any>();
+    public positionChanged: EventEmitter<any> = new EventEmitter<any>();
 
-    userGeoPosition = {};
-    targetPosition={};
+    public userGeoPosition = {};
+    public targetPosition={};
+
     constructor(public http: HttpService,
                 private msgTool: MessageToolsProvider,
                 private geoLocation: Geolocation) {
@@ -30,6 +31,27 @@ export class MapLocalizationRepositoryService {
                 console.log("Error in getUserGeoLocation", error);
                 return null;
             });
+    }
+
+    public setTargetPosition(position){
+        this.targetPosition = position;
+        this.positionChanged.emit(position);
+    }
+
+    public getCoordinatesFromGeometry(position){
+        return [position['x'],position['y']];
+    }
+
+    public isLocationAuthorized(){
+        /*this.diagnostic.isLocationAuthorized()
+            .then((result)=>
+            {
+                this.diagnostic.isLocationEnabled()
+                    .then((result)=>{return result as boolean;})
+                    .catch(()=>{return false;});
+            })
+            .catch(()=>{return false;});*/
+        return true;
     }
 
 }

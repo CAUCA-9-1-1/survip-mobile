@@ -37,6 +37,7 @@ export class FireHydrantPage {
     public rateMeasuringUnit: UnitOfMeasure[] = [];
     public selectedIdFireHydrant: string = "";
     public isDataSaved = false;
+    public showMap = false;
 
     private subscriber :ISubscription;
 
@@ -58,6 +59,10 @@ export class FireHydrantPage {
         this.fireHydrant = new FireHydrant();
         this.subscriber = this.mapService.positionChanged.subscribe((position) => this.updateFireHydrantCoordinates(position));
         this.initiateForm();
+    }
+
+    public ionViewDidLoad(){
+        this.showMap = false;
     }
 
     public ngOnInit() {
@@ -174,11 +179,12 @@ export class FireHydrantPage {
     }
 
     public getMapLocalization() {
-        this.mapService.getUserGeoLocation()
+        this.showMap = true;
+        this.navCtrl.push('MapLocalizationPage',{position:this.form.value['coordinates']});
     }
 
     private updateFireHydrantCoordinates(position){
-        this.form.controls['coordinantes'].patchValue(position);
+        this.form.controls['coordinantes'].patchValue(JSON.stringify(position));
     }
 
     public prepareColorSelector() {
@@ -239,9 +245,11 @@ export class FireHydrantPage {
     }
 
     public async ionViewCanLeave() {
-        if (!this.form.valid) {
-            if (!await this.msgTools.ShowMessageBox(this.labels['confirmation'], this.labels['fireHydrantLeaveMessage'])) {
-                return false;
+        if (!this.showMap) {
+            if (!this.form.valid) {
+                if (!await this.msgTools.ShowMessageBox(this.labels['confirmation'], this.labels['fireHydrantLeaveMessage'])) {
+                    return false;
+                }
             }
         }
     }
