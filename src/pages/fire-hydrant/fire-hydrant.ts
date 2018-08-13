@@ -71,7 +71,7 @@ export class FireHydrantPage {
     }
 
     private loadTranslation() {
-        this.translateService.get(['confirmation', 'fireHydrantLeaveMessage'])
+        this.translateService.get(['confirmation', 'fireHydrantLeaveMessage','localizationServiceDisabled'])
             .subscribe(
                 labels => {
                     this.labels = labels;
@@ -179,8 +179,12 @@ export class FireHydrantPage {
     }
 
     public getMapLocalization() {
-        this.showMap = true;
-        this.navCtrl.push('MapLocalizationPage',{position:this.form.value['coordinates']});
+        if(this.mapService.isLocationAuthorized()) {
+            this.showMap = true;
+            this.navCtrl.push('MapLocalizationPage', {position: this.form.value['coordinates']});
+        }else{
+            this.msgTools.showToast(this.labels['localizationServiceDisabled']);
+        }
     }
 
     private updateFireHydrantCoordinates(position){

@@ -160,6 +160,7 @@
   "line": "Line",
   "loading":"Loading...",
   "localization":"Localization",
+  "localizationServiceDisabled":"The localization service is disabled, please activate it to use cartography.",
   "locate":"Locate",
   "location":"Location",
   "login":"LOG IN",

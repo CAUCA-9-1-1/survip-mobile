@@ -160,6 +160,7 @@
   "line": "Ligne",
   "loading":"Chargement...",
   "localization":"Localisation",
+  "localizationServiceDisabled":"Le service de localisation est désactivé, veuillez l'activer pour utiliser la cartographie.",
   "locate":"Positionner",
   "location":"Emplacement",
   "login":"CONNEXION",
