@@ -20,9 +20,9 @@
                             color="caucaRed">
                         <ion-icon name="trash" class="deleteIcon"></ion-icon>
                     </button>
-                    <button ion-button icon-only small outline class="colorPaletteIcon" (click)="onEditPhoto()"
+                    <button ion-button icon-only small outline class="brushIcon" (click)="onEditPhoto()"
                             color="caucaRed">
-                        <ion-icon name="color-palette" class="colorPaletteIcon"></ion-icon>
+                        <ion-icon name="brush" class="brushIcon"></ion-icon>
                     </button>
                     <img class="selected-picture" [src]="getImageUrl(picture.pictureData)"
                          *ngIf="hasImageUrl(picture.pictureData)" imageViewer/>
