@@ -3,6 +3,7 @@ import {HttpService} from "../Base/http.service";
 import {MessageToolsProvider} from "../message-tools/message-tools";
 import { Geolocation } from '@ionic-native/geolocation';
 import ol from "openlayers";
+import {Diagnostic} from "@ionic-native/diagnostic";
 
 @Injectable()
 export class MapLocalizationRepositoryService {
@@ -14,7 +15,8 @@ export class MapLocalizationRepositoryService {
 
     constructor(public http: HttpService,
                 private msgTool: MessageToolsProvider,
-                private geoLocation: Geolocation) {
+                private geoLocation: Geolocation,
+                private diagnostic: Diagnostic) {
     }
 
     public getUserGeoLocation(): any{
@@ -43,15 +45,14 @@ export class MapLocalizationRepositoryService {
     }
 
     public isLocationAuthorized(){
-        /*this.diagnostic.isLocationAuthorized()
+        this.diagnostic.isLocationAuthorized()
             .then((result)=>
             {
                 this.diagnostic.isLocationEnabled()
                     .then((result)=>{return result as boolean;})
                     .catch(()=>{return false;});
             })
-            .catch(()=>{return false;});*/
-        return true;
+            .catch(()=>{return false;});
     }
 
 }
