@@ -91,5 +91,7 @@ $colors: (
 @import "noto-sans";
 
 // Font Awesome
-$fa-font-path: $font-path;
-@import "font-awesome";
+$fa-font-path: "../assets/fonts/fontawesome/webfonts";
+@import '../assets/fonts/fontawesome/css/fontawesome.css';
+@import '../assets/fonts/fontawesome/css/regular.css';
+@import '../assets/fonts/fontawesome/css/solid.css';
