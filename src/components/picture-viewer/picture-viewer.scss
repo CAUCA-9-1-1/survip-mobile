@@ -23,8 +23,13 @@ picture-viewer {
   }
 }
 
-.action-sheet-button {
-  font-family: FontAwesome, Arial !important;
-  text-align: left, right !important;
+.action-sheet-button .button-inner::first-letter {
+  font-weight: 900 !important;
 }
 
+.button-inner {display:block}
+
+.action-sheet-button {
+  font-family: Font Awesome\ 5 Free, Arial !important;
+  text-align: left, right !important;
+}
