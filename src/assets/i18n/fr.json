@@ -9,7 +9,6 @@
   "addAnomalyButton":"Ajouter une anomalie...",
   "addButton":"Ajouter...",
   "addContactButton":"Ajouter un contact...",
-  "addFireHydrantButton":"Ajouter une borne...",
   "addFirePanelAlarmButton":"Ajouter un panneau d'alarme...",
   "addFireSprinklerButton":"Ajouter un gicleur...",
   "addHazardousMaterialButton":"Ajouter une matière dangereuse...",
@@ -65,7 +64,7 @@
   "courseLaneDetail":"Détails de la voie",
   "courseLaneValidationMessage":"Vous devez sélectionner une caserne avant de pouvoir ajouter une rue.",
   "courseOrderChange":"Changer l'ordre",
-  "createFireHydrant":"Créer une borne",
+  "createFireHydrantButton":"Créer une nouvelle borne...",
   "crop": "Rogner",
   "cross": "Croix",
   "date":"Date",
@@ -94,7 +93,7 @@
   "enumFireHydrantLocationType":{
     "Address":"Adresse",
     "LaneAndIntersection":"Rue et intersection",
-    "Coordinates":"Géolocalization",
+    "Coordinates":"Géolocalisation",
     "Text":"Emplacement approximatif"
   },
   "extension":"Extension",

@@ -14,7 +14,7 @@
     <button ion-item detail-none *ngFor="let hydrant of filteredCityFireHydrantList | orderBy:'number'" (click)="AddBuildingFireHydrant(hydrant.id)">
       <ion-icon name="icon-fire-hydrant" item-start [style.color]="hydrant.color" large></ion-icon>
       <ion-icon class="custom-icon-select" *ngIf="editMode" name="arrow-forward" item-end large></ion-icon>
-        <div>
+        <div class="fire-hydrant-info">
           <h2>{{hydrant.number}}</h2>
           <p>{{hydrant.address}}</p>
         </div>
@@ -27,7 +27,7 @@
     <ion-buttons>
       <button ion-button icon-left (click)="createFireHydrant()">
         <ion-icon name="add-circle"></ion-icon>
-        {{'addFireHydrantButton' | translate}}
+        {{'createFireHydrantButton' | translate}}
       </button>
     </ion-buttons>
   </ion-toolbar>

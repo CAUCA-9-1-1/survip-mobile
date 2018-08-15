@@ -11,7 +11,7 @@
             <ion-item-divider>{{'generalInformation' | translate}}</ion-item-divider>
             <ion-item [class.invalid]="!form.controls.idFireHydrantType.valid">
                 <ion-label>{{'type' | translate}}</ion-label>
-                <ion-select formControlName="idFireHydrantType">
+                <ion-select formControlName="idFireHydrantType" okText="Ok" cancelText="{{'cancel' | translate}}">
                     <ion-option *ngFor="let ftype of fireHydrantTypes" [value]="ftype.id">{{ftype.name}}</ion-option>
                 </ion-select>
             </ion-item>
@@ -27,7 +27,7 @@
             <ion-row class="colorselect color_{{form.value.color.slice(1,7)}}">
                 <ion-item [class.invalid]="!form.controls.color.valid">
                     <ion-label>{{'color' | translate}}</ion-label>
-                    <ion-select formControlName="color" (click)="prepareColorSelector()">
+                    <ion-select formControlName="color" (click)="prepareColorSelector()" okText="Ok" cancelText="{{'cancel' | translate}}">
                         <ion-option (ionSelect)="selectColor(color.color)" *ngFor="let color of hydrantColors" [value]="color.color">
                             {{color.color}}
                         </ion-option>
@@ -41,7 +41,7 @@
             <ion-item-divider>{{'outflow' | translate}}</ion-item-divider>
             <ion-item [class.invalid]="!form.controls.idOperatorTypeRate.valid">
                 <ion-label>{{'operator' | translate}}</ion-label>
-                <ion-select formControlName="idOperatorTypeRate" placeholder="{{'operator' | translate}}">
+                <ion-select formControlName="idOperatorTypeRate" placeholder="{{'operator' | translate}}" okText="Ok" cancelText="{{'cancel' | translate}}">
                     <ion-option *ngFor="let op of operators" [value]="op.id">{{op.symbol}}</ion-option>
                 </ion-select>
             </ion-item>
@@ -70,7 +70,7 @@
 
             <ion-item [class.invalid]="!form.controls.idUnitOfMeasureRate.valid">
                 <ion-label>{{'unit' | translate}}</ion-label>
-                <ion-select formControlName="idUnitOfMeasureRate" placeholder="{{'unit' | translate}}">
+                <ion-select formControlName="idUnitOfMeasureRate" placeholder="{{'unit' | translate}}" okText="Ok" cancelText="{{'cancel' | translate}}">
                     <ion-option *ngFor="let unit of rateMeasuringUnit" [value]="unit.id">{{unit.name}}
                     </ion-option>
                 </ion-select>
@@ -82,7 +82,7 @@
             <ion-item-divider>{{'pressure' | translate}}</ion-item-divider>
             <ion-item [class.invalid]="!form.controls.idOperatorTypePressure.valid">
                 <ion-label>{{'operator' | translate}}</ion-label>
-                <ion-select formControlName="idOperatorTypePressure" placeholder="{{'operator' | translate}}">
+                <ion-select formControlName="idOperatorTypePressure" placeholder="{{'operator' | translate}}" okText="Ok" cancelText="{{'cancel' | translate}}">
                     <ion-option *ngFor="let op of operators" [value]="op.id">{{op.symbol}}</ion-option>
                 </ion-select>
             </ion-item>
@@ -111,7 +111,7 @@
 
             <ion-item>
                 <ion-label [class.invalid]="!form.controls.idUnitOfMeasurePressure.valid">{{'unit' | translate}}</ion-label>
-                <ion-select formControlName="idUnitOfMeasurePressure" placeholder="{{'unit' | translate}}">
+                <ion-select formControlName="idUnitOfMeasurePressure" placeholder="{{'unit' | translate}}" okText="Ok" cancelText="{{'cancel' | translate}}">
                     <ion-option *ngFor="let unit of pressureMeasuringUnit" [value]="unit.id">{{unit.name}}</ion-option>
                 </ion-select>
             </ion-item>
@@ -123,7 +123,7 @@
             <ion-item-divider>{{'localization' | translate}}</ion-item-divider>
             <ion-item [class.invalid]="!form.controls.locationType.valid">
                 <ion-label>{{'type' | translate}}</ion-label>
-                <ion-select formControlName="locationType" (ionChange)="refreshLocationTypeValidator()">
+                <ion-select formControlName="locationType" (ionChange)="refreshLocationTypeValidator()" okText="Ok" cancelText="{{'cancel' | translate}}">
                     <ion-option *ngFor="let key of fireHydrantLocationTypeKeys" [value]="key">
                         {{"enumFireHydrantLocationType."+fireHydrantLocationType[key] | translate}}
                     </ion-option>
@@ -150,7 +150,7 @@
             <div *ngIf="form.value.locationType == fireHydrantLocationType.Address">
                 <ion-item [class.invalid]="!form.controls.addressLocationType.valid && form.value.locationType == fireHydrantLocationType.Address">
                     <ion-label>{{'type' | translate}}</ion-label>
-                    <ion-select formControlName="addressLocationType">
+                    <ion-select formControlName="addressLocationType" okText="Ok" cancelText="{{'cancel' | translate}}">
                         <ion-option *ngFor="let key of addressLocalizationTypeKeys" [value]="key">
                             {{"enumAddressLocalisationType."+addressLocationType[key] | translate}}
                         </ion-option>

@@ -10,7 +10,7 @@
     <ion-item-divider>{{'fireStation' | translate}}</ion-item-divider>
     <ion-item [class.validation-error-control]="form.get('idFirestation').hasError('required')">
       <ion-label [hidden]="true">{{'fireStation' | translate}}</ion-label>
-      <ion-select class="select-firestation" placeholder="{{'chooseFireStation' | translate}}" formControlName="idFirestation">
+      <ion-select class="select-firestation" placeholder="{{'chooseFireStation' | translate}}" formControlName="idFirestation" okText="Ok" cancelText="{{'cancel' | translate}}">
         <ion-option *ngFor="let fire of firestations | orderBy:'name'" [value]="fire.id">{{fire.name}}</ion-option>
       </ion-select>
     </ion-item>

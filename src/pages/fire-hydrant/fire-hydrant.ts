@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {DateTime, IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import {AddressLocalisationType, FireHydrant, FireHydrantLocationType} from "../../models/fire-hydrant";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UUID} from "angular2-uuid";
@@ -21,6 +21,10 @@ import {MapLocalizationRepositoryService} from "../../providers/repositories/map
 })
 export class FireHydrantPage {
 
+    private showMap = false;
+    private isCanceled = false;
+    private subscriber :ISubscription;
+
     public fireHydrantLocationType = FireHydrantLocationType;
     public addressLocationType = AddressLocalisationType;
     public fireHydrantLocationTypeKeys = [];
@@ -35,10 +39,6 @@ export class FireHydrantPage {
     public pressureMeasuringUnit: UnitOfMeasure[] = [];
     public rateMeasuringUnit: UnitOfMeasure[] = [];
     public selectedIdFireHydrant: string = "";
-    public showMap = false;
-    public isCanceled = false;
-
-    private subscriber :ISubscription;
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -198,7 +198,7 @@ export class FireHydrantPage {
                     let optionLabelElement = buttonElement.querySelector('.alert-radio-label');
                     let color = optionLabelElement.innerHTML.trim();
 
-                    if (this.isHexColor(color)) {
+                    if (FireHydrantPage.isHexColor(color)) {
                         buttonElement.classList.add('colorselect', 'color_' + color.slice(1, 7));
                         if (color == this.form.value.color) {
                             buttonElement.classList.add('colorselected');
@@ -209,7 +209,7 @@ export class FireHydrantPage {
         }, 100);
     }
 
-    private isHexColor(color) {
+    private static isHexColor(color) {
         let hexColorRegEx = /^#(?:[0-9a-fA-F]{3}){1,2}$/;
         return hexColorRegEx.test(color);
     }
@@ -230,7 +230,7 @@ export class FireHydrantPage {
             Object.assign(this.fireHydrant, this.form.value);
             this.fireHydrantRepo.saveFireHydrant(this.fireHydrant)
                 .subscribe(
-                    success => {
+                    () => {
                         this.viewCtrl.dismiss();
                     }, error => {
                         console.log("Erreur dans saveFireHydrant : "+error.message);
