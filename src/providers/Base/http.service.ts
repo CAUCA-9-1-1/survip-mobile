@@ -9,7 +9,7 @@ import {catchError} from 'rxjs/operators';
 @Injectable()
 export class HttpService {
   //private apiUrl = 'https://survipreventiontest.cauca.ca/api/';
-  private apiUrl = 'http://localhost:5555/api/';
+  private apiUrl = 'http://10.10.33.103:5555/api/';
 
   constructor(
     private client: HttpClient,

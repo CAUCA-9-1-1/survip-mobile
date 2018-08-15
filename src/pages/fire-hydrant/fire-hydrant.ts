@@ -14,7 +14,6 @@ import {TranslateService} from "@ngx-translate/core";
 import {ISubscription} from "../../../node_modules/rxjs/Subscription";
 import {MapLocalizationRepositoryService} from "../../providers/repositories/map-localisation-repository-service";
 
-
 @IonicPage()
 @Component({
     selector: 'page-fire-hydrant',
@@ -36,8 +35,8 @@ export class FireHydrantPage {
     public pressureMeasuringUnit: UnitOfMeasure[] = [];
     public rateMeasuringUnit: UnitOfMeasure[] = [];
     public selectedIdFireHydrant: string = "";
-    public isDataSaved = false;
     public showMap = false;
+    public isCanceled = false;
 
     private subscriber :ISubscription;
 
@@ -63,6 +62,7 @@ export class FireHydrantPage {
 
     public ionViewDidEnter(){
         this.showMap = false;
+        this.isCanceled = false;
     }
 
     public ngOnInit() {
@@ -226,15 +226,13 @@ export class FireHydrantPage {
     }
 
     private saveFireHydrant() {
-        if (this.form.valid) {
+        if (this.form.valid &&(!this.isCanceled)) {
             Object.assign(this.fireHydrant, this.form.value);
             this.fireHydrantRepo.saveFireHydrant(this.fireHydrant)
                 .subscribe(
                     success => {
-                        this.isDataSaved = true;
                         this.viewCtrl.dismiss();
                     }, error => {
-                        this.isDataSaved = false;
                         console.log("Erreur dans saveFireHydrant : "+error.message);
                     });
         }
@@ -247,7 +245,7 @@ export class FireHydrantPage {
     }
 
     public async ionViewCanLeave() {
-        if (!this.showMap) {
+        if (!this.showMap && !this.isCanceled) {
             if (!this.form.valid) {
                 if (!await this.msgTools.ShowMessageBox(this.labels['confirmation'], this.labels['fireHydrantLeaveMessage'])) {
                     return false;
@@ -264,6 +262,7 @@ export class FireHydrantPage {
         }
         this.form.controls[field].updateValueAndValidity();
     }
+
     private disableAddressLocationValidators(){
         this.SetValidators('idIntersection', false);
         this.SetValidators('coordinates', false);
@@ -289,5 +288,10 @@ export class FireHydrantPage {
         } else if (this.form.controls['locationType'].value == this.fireHydrantLocationType.Text) {
             this.SetValidators('physicalPosition', true);
         }
+    }
+
+    public cancelEdition(){
+        this.isCanceled = true;
+        this.viewCtrl.dismiss();
     }
 }
