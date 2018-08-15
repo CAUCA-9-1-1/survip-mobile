@@ -38,7 +38,7 @@
             </ion-item>
             <ion-item>
                 <ion-label>{{'tank' | translate}}</ion-label>
-                <ion-select formControlName="tankTypeMasked">
+                <ion-select formControlName="tankTypeMasked" okText="Ok" cancelText="{{'cancel' | translate}}">
                     <ion-option value="0">{{'tankTypeUndetermined' | translate}}</ion-option>
                     <ion-option value="1">{{'tankTypeUnderground' | translate}}</ion-option>
                     <ion-option value="2">{{'tankTypeAboveground' | translate}}</ion-option>
@@ -65,7 +65,7 @@
                     <ion-col width-50>
                         <ion-item [class.invalid]="!form.controls.idUnitOfMeasure.valid">
                             <ion-label [hidden]="true">{{'unit' | translate}}</ion-label>
-                            <ion-select class="unit-select" formControlName="idUnitOfMeasure" placeholder="{{'unit' | translate}}">
+                            <ion-select class="unit-select" formControlName="idUnitOfMeasure" placeholder="{{'unit' | translate}}" okText="Ok" cancelText="{{'cancel' | translate}}">
                                 <ion-option *ngFor="let unit of unitOfMeasures" [value]="unit.id">{{unit.name}}
                                 </ion-option>
                             </ion-select>
@@ -96,13 +96,13 @@
             </ion-item>
             <ion-item>
                 <ion-label>{{'wall' | translate}}</ion-label>
-                <ion-select formControlName="wall">
+                <ion-select formControlName="wall" okText="Ok" cancelText="{{'cancel' | translate}}">
                     <ion-option *ngFor="let wall of walls">{{wall}}</ion-option>
                 </ion-select>
             </ion-item>
             <ion-item>
                 <ion-label>{{'division' | translate}}</ion-label>
-                <ion-select formControlName="sector">
+                <ion-select formControlName="sector" okText="Ok" cancelText="{{'cancel' | translate}}">
                     <ion-option *ngFor="let sector of sectors">{{sector}}</ion-option>
                 </ion-select>
             </ion-item>

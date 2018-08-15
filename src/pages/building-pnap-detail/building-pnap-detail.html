@@ -17,7 +17,7 @@
       <ion-item-divider>{{'generalInformation' | translate}}</ion-item-divider>
       <ion-item [class.invalid]="!form.controls.idPersonRequiringAssistanceType.valid">
         <ion-label>{{'type' | translate}}</ion-label>
-        <ion-select formControlName="idPersonRequiringAssistanceType">
+        <ion-select formControlName="idPersonRequiringAssistanceType" okText="Ok" cancelText="{{'cancel' | translate}}">
           <ion-option *ngFor="let t of pnapTypes | orderBy:'name'" [value]="t.id">{{t.name}}</ion-option>
         </ion-select>
       </ion-item>

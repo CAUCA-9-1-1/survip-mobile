@@ -17,7 +17,7 @@
             <button class="action-list-button" (click)="onClickHydrant(hydrant.id)">
                 <ion-icon class="ion-md-trash"></ion-icon>
             </button>
-            <div (click)="goToFireHydrantDetail(hydrant.idFireHydrant)">
+            <div class="fire-hydrant-info" (click)="goToFireHydrantDetail(hydrant.idFireHydrant)">
                 <h2>{{hydrant.number}}</h2>
                 <p>{{hydrant.address}}</p>
             </div>
