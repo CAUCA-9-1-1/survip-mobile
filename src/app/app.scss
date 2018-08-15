@@ -53,13 +53,16 @@
 }
 
 .user-profile {
+  padding-top: calc(20px + 4px);
+  padding-top: calc(constant(safe-area-inset-top) + 4px);
+  padding-top: calc(env(safe-area-inset-top) + 4px);
+
   .user-avatar {
     background-color: white;
     width: 55px;
     height: 55px;
     display: inline-block;
     border-radius: 20%;
-    //box-shadow: inset 0 0 10rem rgba(0,0,0,.25), 0 0 4rem rgba(255,255,255,.45);
     img {
       border-radius: 20%;
     }
@@ -86,15 +89,14 @@
       border-color: rgba(86, 61, 124, .1);
     }
     .item-icon {
-      //color: color($colors, caucaRed);
     }
   }
+
 }
 
 .page-header {
   .toolbar-background {
     background-color: color($colors, caucaRed);
-    //background-image: linear-gradient(135deg, color($colors, dark), color($colors, caucaRed));
   }
   .searchbar {
     background-color: gray;
@@ -120,24 +122,17 @@
 }
 
 .list-items {
-  /*.item:first-child {
-    border: none;
-  }*/
   .item:last-child {
     border: none;
   }
   .item-divider {
     background-color: #cbb677;
     color: black;
-/*    background-color: #737373;
-    color: whitesmoke;*/
   }
   .item-inner {
     border-color: rgba(86, 61, 124, .1);
   }
   .list-header {
-    /*background-color: #cbb677;
-    color: black;*/
     background-color: #737373;
     color: whitesmoke;
     border-color: rgba(86, 61, 124, .1);
@@ -157,6 +152,7 @@
     border-color: color($colors, caucaGold);
   }
 }
+
 ion-navbar ion-icon{
   padding-left: 10px;
   font-size: 2em;
@@ -172,3 +168,4 @@ ion-navbar ion-icon{
 .list-md{
   margin: 0px 0 16px;
 }
+
