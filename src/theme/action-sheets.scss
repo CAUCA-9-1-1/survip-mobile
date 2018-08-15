@@ -1,0 +1,12 @@
+// Styling action sheets for SketchTool
+.edit-action-sheet{
+  .action-sheet-button .button-inner::first-letter {
+    font-weight: 900;
+  }
+  
+  .action-sheet-button .button-inner {display:block}
+  
+  .action-sheet-button {
+    font-family: Font Awesome\ 5 Free, Arial;
+  }
+}
