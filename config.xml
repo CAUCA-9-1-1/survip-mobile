@@ -106,4 +106,5 @@
     <engine name="android" spec="7.1.1" />
     <engine name="ios" spec="4.5.5" />
     <plugin name="cordova.plugins.diagnostic" spec="~4.0.8" />
+    <plugin name="cordova-plugin-nativegeocoder" spec="^3.1.2" />
 </widget>

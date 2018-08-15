@@ -191,11 +191,11 @@
                 <div>
                     <ion-label class="custom-item-label">{{'location' | translate}}</ion-label>
                 </div>
-                <ion-item [class.invalid]="!form.controls.physicalLocation.valid && form.value.locationType == fireHydrantLocationType.Text">
-                    <ion-textarea class="left-align-input" item-end formControlName="physicalLocation" type="text"
+                <ion-item [class.invalid]="!form.controls.physicalPosition.valid && form.value.locationType == fireHydrantLocationType.Text">
+                    <ion-textarea class="left-align-input" item-end formControlName="physicalPosition" type="text"
                                   placeholder="{{'location' | translate}}"></ion-textarea>
                 </ion-item>
-                <div class="validation-error-text" *ngIf="!form.controls.physicalLocation.valid">{{'requiredInformation' | translate}}</div>
+                <div class="validation-error-text" *ngIf="!form.controls.physicalPosition.valid">{{'requiredInformation' | translate}}</div>
             </div>
 
         </ion-item-group>

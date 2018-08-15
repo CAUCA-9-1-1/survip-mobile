@@ -3,7 +3,6 @@ import {Events, IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
 import { RiskLevelRepositoryProvider } from '../providers/repositories/risk-level-repository';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -55,6 +54,9 @@ import {OperatorTypeRepositoryProvider} from "../providers/repositories/operator
 import {MapLocalizationRepositoryService} from "../providers/repositories/map-localisation-repository-service";
 import {ExpiredTokenInterceptor} from '../providers/Base/expired-token.interceptor';
 import {Geolocation} from "@ionic-native/geolocation";
+import {Diagnostic} from "@ionic-native/diagnostic";
+import {NativeGeocoder} from "@ionic-native/native-geocoder";
+import {CityRepositoryProvider} from "../providers/repositories/city-repository-provider";
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -141,6 +143,9 @@ export function httpServiceFactory(
         OperatorTypeRepositoryProvider,
         MapLocalizationRepositoryService,
         Geolocation,
+        Diagnostic,
+        NativeGeocoder,
+        CityRepositoryProvider,
     ]
 })
 export class AppModule {

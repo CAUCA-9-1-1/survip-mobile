@@ -1,9 +1,8 @@
 export class FireHydrant {
     id="";
-    createdOn = "";
     isActive = true;
     locationType = 0;
-    coordinates = {};
+    coordinates = null;
     altitude=0;
     number:"";
     rateFrom=0;

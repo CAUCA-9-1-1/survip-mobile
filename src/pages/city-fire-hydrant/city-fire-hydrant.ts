@@ -24,9 +24,12 @@ export class CityFireHydrantPage {
                 private messageTools: MessageToolsProvider) {
         this.idBuilding = this.navParams.get('idBuilding');
         this.idCity = navParams.get('idCity');
-        this.LoadCityFireHydrant();
-
     }
+
+    public ionViewWillEnter(){
+        this.LoadCityFireHydrant();
+    }
+
 
     private getItems(ev: any) {
         this.filteredCityFireHydrantList = [];

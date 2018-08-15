@@ -13,6 +13,7 @@ import {InspectionControllerProvider} from '../../providers/inspection-controlle
 import {InspectionDetailRepositoryProvider} from "../../providers/repositories/inspection-detail-repository-provider.service";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {TranslateService} from "@ngx-translate/core";
+import {MapLocalizationRepositoryService} from "../../providers/repositories/map-localisation-repository-service";
 
 @IonicPage()
 @Component({
@@ -46,7 +47,8 @@ export class InterventionGeneralPage implements OnDestroy {
                 private utilisationCodeService: UtilisationCodeRepositoryProvider,
                 public inspectionDetailProvider: InspectionDetailRepositoryProvider,
                 private messageTools: MessageToolsProvider,
-                private translateService: TranslateService) {
+                private translateService: TranslateService,
+                private mapService: MapLocalizationRepositoryService,) {
         this.createForm();
         this.controllerPlanSubscription = controller.planLoaded.subscribe(() => this.setValuesAndStartListening());
     }
@@ -83,6 +85,16 @@ export class InterventionGeneralPage implements OnDestroy {
         this.startWatchingForm();
 
         this.validInspectionStatus();
+
+        this.setBuildingPosition();
+        this.setCityPosition();
+    }
+
+    private setBuildingPosition(){
+        this.mapService.setBuildingPosition(this.plan.coordinates);
+    }
+    private setCityPosition(){
+        this.mapService.setInspectionCity(this.plan.idCity);
     }
 
     public createForm() {
