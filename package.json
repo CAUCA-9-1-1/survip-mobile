@@ -31,9 +31,9 @@
     "angular2-uuid": "^1.1.1",
     "brmasker-ionic-3": "^1.1.0",
     "canvas": "^1.6.11",
-    "cordova-android": "7.0.0",
+    "cordova-android": "7.1.1",
     "cordova-browser": "5.0.3",
-    "cordova-ios": "4.5.4",
+    "cordova-ios": "4.5.5",
     "cordova-plugin-camera": "^4.0.3",
     "cordova-plugin-compat": "^1.1.0",
     "cordova-plugin-console": "^1.1.0",
@@ -74,6 +74,7 @@
     },
     "platforms": [
       "browser",
+      "android",
       "ios"
     ]
   },
