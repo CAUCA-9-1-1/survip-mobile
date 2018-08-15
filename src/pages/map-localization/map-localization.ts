@@ -2,6 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import ol from "openlayers";
 import {MapLocalizationRepositoryService} from "../../providers/repositories/map-localisation-repository-service";
+import {ISubscription} from "../../../node_modules/rxjs/Subscription";
 
 @IonicPage()
 @Component({
@@ -13,29 +14,42 @@ export class MapLocalizationPage {
 
     public mapLayer: ol.Map;
     public vectorSource: ol.source.Vector;
-    public targetLocation: {};
+    public fireHydrantLocation: ol.geom.Geometry = null;
+    public getLocation = false;
+    private subscriber :ISubscription;
+    private setPinpoint = false;
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 private mapService: MapLocalizationRepositoryService,
                 private viewCtrl: ViewController) {
+        this.getLocation = this.navParams.get('getLocation') as boolean;
+        this.subscriber = this.mapService.mapCenterChanged.subscribe((geometry) => this.mapCenterChanged(geometry));
         if (this.navParams.get('position')) {
-            this.targetLocation = this.mapService.getCoordinatesFromGeometry(this.navParams.get('position'));
+            this.fireHydrantLocation = this.navParams.get('position');
+            this.setPinpoint = true;
+            this.fireHydrantLocation = this.mapService.getGeometry(this.fireHydrantLocation);
         }
     }
 
     public ionViewDidLoad() {
         this.loadMap();
+        if(this.fireHydrantLocation) {
+            this.centerMap();
+        }else{
+            this.mapService.getMapCenter();
+        }
+    }
+
+    private mapCenterChanged(geometry){
+        this.fireHydrantLocation = geometry;
         this.centerMap();
     }
 
     private centerMap() {
-        let geometries = new ol.geom.GeometryCollection();
-        if (this.targetLocation) {
-            geometries.setGeometries([new
-            ol.geom.Point(ol.proj.transform([this.targetLocation[0], this.targetLocation[1]], 'EPSG:4326', 'EPSG:3857'))]);
+        if (this.fireHydrantLocation) {
+            this.mapLayer.getView().fit(this.fireHydrantLocation.getExtent());
         }
-        this.mapLayer.getView().fit(geometries.getExtent());
 
         this.refreshMap();
     }
@@ -45,11 +59,11 @@ export class MapLocalizationPage {
 
         const iconStyle = new ol.style.Style({
             image: new ol.style.Icon(({
-                anchor: [0.5, 46],
+                anchor: [0.5, 0.5],
                 anchorXUnits: 'fraction',
-                anchorYUnits: 'pixels',
+                anchorYUnits: 'fraction',
                 opacity: 0.75,
-                src: './assets/icon/location.svg'
+                src: './assets/icon/fire-hydrant.svg'
             }))
         });
 
@@ -80,13 +94,29 @@ export class MapLocalizationPage {
     }
 
     private refreshMap() {
-        this.addMapCentroidTarget();
+        if(this.getLocation) {
+            this.addMapCentroidTarget();
+        }
+        if(this.setPinpoint){
+            this.pinPointFireHydrant();
+        }
         this.mapLayer.updateSize();
     }
 
     public getLocalization() {
-        this.mapService.setTargetPosition(ol.proj.transform(this.mapLayer.getView().getCenter(), 'EPSG:3857', 'EPSG:4326'));
+        this.mapService.setTargetPosition(new ol.geom.Point(ol.proj.transform(this.mapLayer.getView().getCenter(), 'EPSG:3857', 'EPSG:4326')));
         this.viewCtrl.dismiss();
     }
 
+    private pinPointFireHydrant() {
+
+        this.vectorSource.clear();
+
+            const iconFeature = new ol.Feature({
+                geometry: this.fireHydrantLocation,
+                name: 'fireHydrant ' + 0
+            });
+            this.vectorSource.addFeature(iconFeature);
+
+    }
 }

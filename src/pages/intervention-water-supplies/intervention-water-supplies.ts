@@ -33,9 +33,10 @@ export class InterventionWaterSuppliesPage {
                 private messageTools: MessageToolsProvider,
                 private translateService: TranslateService,
     ) {
+
     }
 
-    public ionViewDidLoad(){
+    public ionViewWillEnter(){
         this.LoadBuildingFireHydrant();
     }
 

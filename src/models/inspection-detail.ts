@@ -18,4 +18,5 @@ export class InspectionDetail {
   isSurveyCompleted: boolean;
   status: number
   approbationRefusalReason: string;
+  coordinates:{};
 }

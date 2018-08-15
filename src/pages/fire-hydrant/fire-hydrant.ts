@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
+import {DateTime, IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import {AddressLocalisationType, FireHydrant, FireHydrantLocationType} from "../../models/fire-hydrant";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UUID} from "angular2-uuid";
@@ -61,7 +61,7 @@ export class FireHydrantPage {
         this.initiateForm();
     }
 
-    public ionViewDidLoad(){
+    public ionViewDidEnter(){
         this.showMap = false;
     }
 
@@ -153,7 +153,7 @@ export class FireHydrantPage {
         this.form = this.formBuilder.group({
             id: (this.fireHydrant.id ? this.fireHydrant.id : UUID.UUID()),
             locationType: [this.fireHydrant.locationType ? this.fireHydrant.locationType : FireHydrantLocationType.Address, Validators.required],
-            coordinates: [this.fireHydrant.coordinates ? this.fireHydrant.coordinates : {} , Validators.required],
+            coordinates: [this.fireHydrant.coordinates ? this.fireHydrant.coordinates : null , Validators.required],
             altitude: [this.fireHydrant.altitude ? this.fireHydrant.altitude : 0, Validators.required],
             number: [this.fireHydrant.number ? this.fireHydrant.number : '', Validators.required],
             rateFrom: [this.fireHydrant.rateFrom ? this.fireHydrant.rateFrom : 0, Validators.required],
@@ -179,16 +179,12 @@ export class FireHydrantPage {
     }
 
     public getMapLocalization() {
-        if(this.mapService.isLocationAuthorized()) {
-            this.showMap = true;
-            this.navCtrl.push('MapLocalizationPage', {position: this.form.value['coordinates']});
-        }else{
-            this.msgTools.showToast(this.labels['localizationServiceDisabled']);
-        }
+        this.showMap = true;
+        this.navCtrl.push('MapLocalizationPage', {position: this.form.value['coordinates'], getLocation: true});
     }
 
     private updateFireHydrantCoordinates(position){
-        this.form.controls['coordinantes'].patchValue(JSON.stringify(position));
+        this.form.controls['coordinates'].patchValue(position);
     }
 
     public prepareColorSelector() {
@@ -245,7 +241,9 @@ export class FireHydrantPage {
     }
 
     public ionViewWillLeave() {
-        this.saveFireHydrant();
+        if(!this.showMap) {
+            this.saveFireHydrant();
+        }
     }
 
     public async ionViewCanLeave() {
@@ -258,31 +256,38 @@ export class FireHydrantPage {
         }
     }
 
-    public disableAddressLocationValidators(){
-        this.form.controls['idIntersection'].setValidators(null);
-        this.form.controls['coordinates'].setValidators(null);
-        this.form.controls['physicalPosition'].setValidators(null);
-        this.form.controls['idLane'].setValidators(null);
-        this.form.controls['addressLocationType'].setValidators(null);
-        this.form.controls['civicNumber'].setValidators(null);
+    private SetValidators(field: string, enable: boolean){
+        if(enable){
+            this.form.controls[field].setValidators(Validators.required);
+        }else {
+            this.form.controls[field].setValidators(null);
+        }
+        this.form.controls[field].updateValueAndValidity();
+    }
+    private disableAddressLocationValidators(){
+        this.SetValidators('idIntersection', false);
+        this.SetValidators('coordinates', false);
+        this.SetValidators('physicalPosition', false);
+        this.SetValidators('idLane', false);
+        this.SetValidators('addressLocationType', false);
+        this.SetValidators('civicNumber', false);
     }
 
-    public refreshLocationTypeValidator() {
+    private refreshLocationTypeValidator() {
 
         this.disableAddressLocationValidators();
 
         if (this.form.controls['locationType'].value == this.fireHydrantLocationType.Address) {
-            this.form.controls['idLane'].setValidators(Validators.required);
-            this.form.controls['addressLocationType'].setValidators(Validators.required);
-            this.form.controls['civicNumber'].setValidators(Validators.required);
-
+            this.SetValidators('idLane', true);
+            this.SetValidators('addressLocationType', true);
+            this.SetValidators('civicNumber', true);
         } else if (this.form.controls['locationType'].value == this.fireHydrantLocationType.LaneAndIntersection) {
-            this.form.controls['idLane'].setValidators(Validators.required);
-            this.form.controls['idIntersection'].setValidators(Validators.required);
+            this.SetValidators('idLane', true);
+            this.SetValidators('idIntersection', true);
         } else if (this.form.controls['locationType'].value == this.fireHydrantLocationType.Coordinates) {
-            this.form.controls['coordinates'].setValidators(Validators.required);
+            this.SetValidators('coordinates', true);
         } else if (this.form.controls['locationType'].value == this.fireHydrantLocationType.Text) {
-            this.form.controls['physicalPosition'].setValidators(Validators.required);
+            this.SetValidators('physicalPosition', true);
         }
     }
 }
