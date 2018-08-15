@@ -17,7 +17,7 @@
 //@import "../../node_modules/openlayers/css/ol";
 
 @import "../theme/icons";
-/*
+
 .validation-error-control {
   border-left: red 4px solid;
   border-bottom: red dotted thin;
@@ -53,6 +53,10 @@
 }
 
 .user-profile {
+  padding-top: calc(20px + 4px);
+  padding-top: calc(constant(safe-area-inset-top) + 4px);
+  padding-top: calc(env(safe-area-inset-top) + 4px);
+
   .user-avatar {
     background-color: white;
     width: 55px;
@@ -87,6 +91,7 @@
     .item-icon {
     }
   }
+
 }
 
 .page-header {
@@ -147,6 +152,7 @@
     border-color: color($colors, caucaGold);
   }
 }
+
 ion-navbar ion-icon{
   padding-left: 10px;
   font-size: 2em;
@@ -162,4 +168,4 @@ ion-navbar ion-icon{
 .list-md{
   margin: 0px 0 16px;
 }
-*/
+
