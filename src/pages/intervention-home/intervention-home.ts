@@ -38,7 +38,7 @@ export class InterventionHomePage implements OnDestroy {
 
     public ngOnInit() {
         this.translateService.get([
-            'generalInformation', 'Buildings', 'waterSupplies', 'implantationPlan', 'course'
+            'generalInformation', 'buildings', 'waterSupplies', 'implantationPlan', 'course'
         ]).subscribe(labels => {
                 this.labels = labels;
             },
@@ -48,7 +48,7 @@ export class InterventionHomePage implements OnDestroy {
 
         this.menuItems = [
             {title: this.labels['generalInformation'], page: 'InterventionGeneralPage', icon: 'information-circle'},
-            {title: this.labels['Buildings'], page: 'InterventionBuildingsPage', icon: 'home'},
+            {title: this.labels['buildings'], page: 'InterventionBuildingsPage', icon: 'home'},
             {title: this.labels['waterSupplies'], page: 'InterventionWaterSuppliesPage', icon: 'water'},
             {title: this.labels['implantationPlan'], page: 'InterventionImplantationPlanPage', icon: 'image'},
             {title: this.labels['course'], page: 'InterventionCoursePage', icon: 'map'}
