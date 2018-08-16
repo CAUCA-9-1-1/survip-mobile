@@ -36,7 +36,7 @@ export class InterventionWaterSuppliesPage {
 
     }
 
-    public ionViewWillEnter(){
+    public ionViewDidEnter(){
         this.LoadBuildingFireHydrant();
     }
 

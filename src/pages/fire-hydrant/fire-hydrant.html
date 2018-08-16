@@ -181,9 +181,10 @@
                     <span class="custom-item-label">{{'localization' | translate}}</span>
                     <ion-icon name="icon-map" large></ion-icon>
                 </div>
-                <ion-item  [class.invalid]="!form.controls.coordinates.valid && form.value.locationType == fireHydrantLocationType.Coordinates">
-                    <ion-input class="left-align-input" formControlName="coordinates" [disabled]="true"
-                               placeholder="{{'fireHydrantGeoPositionHolder' | translate}}"></ion-input>
+                <ion-item [class.invalid]="!form.controls.coordinates.valid && form.value.locationType == fireHydrantLocationType.Coordinates">
+                    <ion-input class="left-align-input" formControlName="coordinates" hidden></ion-input>
+                    <ion-input type="text" class="left-align-input" [disabled]="true"
+                               placeholder="{{'fireHydrantGeoPositionHolder' | translate}}" value="{{form.controls.coordinates.value | formatCoordinates}}"></ion-input>
                 </ion-item>
                 <div class="validation-error-text" *ngIf="!form.controls.coordinates.valid">{{'requiredInformation' | translate}}</div>
             </div>

@@ -19,7 +19,7 @@
             </button>
             <div class="fire-hydrant-info" (click)="goToFireHydrantDetail(hydrant.idFireHydrant)">
                 <h2>{{hydrant.number}}</h2>
-                <p>{{hydrant.address}}</p>
+                <p>{{hydrant.address | formatCoordinates}}</p>
             </div>
         </ion-item>
     </ion-list>

@@ -16,7 +16,7 @@
       <ion-icon class="custom-icon-select" *ngIf="editMode" name="arrow-forward" item-end large></ion-icon>
         <div class="fire-hydrant-info">
           <h2>{{hydrant.number}}</h2>
-          <p>{{hydrant.address}}</p>
+          <p>{{hydrant.address | formatCoordinates}}</p>
         </div>
     </button>
   </ion-list>

@@ -77,7 +77,7 @@
       "ionic-plugin-keyboard": {},
       "cordova-plugin-compat": {},
       "cordova-plugin-ionic-webview": {},
-      "cordova.plugins.diagnostic": {}
+      "cordova.plugins.diagnostic": {},
       "cordova-plugin-nativegeocoder": {}
     },
     "platforms": [
