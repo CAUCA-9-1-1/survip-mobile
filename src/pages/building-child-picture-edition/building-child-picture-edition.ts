@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import {BuildingChildPictureRepositoryProvider} from '../../interfaces/building-child-picture-repository-provider';
 import {InspectionBuildingChildPictureForWeb} from '../../models/inspection-building-child-picture-for-web';
+import { fabric } from 'fabric';
 
 /**
  * Generated class for the ImageEditionPage page.
@@ -40,8 +41,11 @@ export class BuildingChildPictureEditionPage {
 
   async onOkay() {
     if (this.canvas) {
-      this.canvas.renderAll();
        let json = JSON.stringify(this.canvas.toJSON());
+
+       this.canvas.zoomToPoint(new fabric.Point(0, 0), 1);
+       this.canvas.absolutePan(new fabric.Point(0, 0));
+
        let imageUri = this.canvas.toDataURL();
       if (imageUri.indexOf(';base64,') > 0)
         imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);
