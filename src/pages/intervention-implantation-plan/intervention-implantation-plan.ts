@@ -44,14 +44,6 @@ export class InterventionImplantationPlanPage implements OnDestroy {
       this.controller.loadInterventionFormPicture();
  }
 
-  ionViewDidEnter() {
-    this.menu.swipeEnable(false);
-  }
-
-  ionViewWillLeave() {
-    this.menu.swipeEnable(true);
-  }
-
   private createForm() {
     this.form = this.fb.group({id: [''], picture: [''], dataUri: [''], sketchJson: ['']});
   }

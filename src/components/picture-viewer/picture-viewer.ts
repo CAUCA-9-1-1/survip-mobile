@@ -148,7 +148,7 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   private getPicture(options: CameraOptions) {
     try {
       this.camera.getPicture(options).then((imageData) => {
-        this.value.dataUri = imageData;
+        this.value = {id: this.value.id, picture: imageData, dataUri: imageData, sketchJson: null};
       }, (err) => {
         alert(err);
       });
