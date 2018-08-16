@@ -26,7 +26,7 @@ export class CityFireHydrantPage {
         this.idCity = navParams.get('idCity');
     }
 
-    public ionViewWillEnter(){
+    public ionViewDidEnter(){
         this.LoadCityFireHydrant();
     }
 
