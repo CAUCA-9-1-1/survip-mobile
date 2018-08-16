@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { PictureRepositoryProvider } from './../../providers/repositories/picture-repository';
 import { PictureData } from './../../models/picture-data';
-import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
+import { InspectionControllerProvider } from '../../providers/inspection-controller/inspection-controller';
+import { Gesture } from 'ionic-angular/gestures/gesture';
 import { fabric } from 'fabric';
 
 @IonicPage()
@@ -45,9 +46,10 @@ export class InterventionImplantationPlanSketchPage {
 
   public async onOkay() {
     if (this.canvas) {
-      this.canvas.renderAll();
-
       let json = JSON.stringify(this.canvas.toJSON());
+
+      this.canvas.zoomToPoint(new fabric.Point(0, 0), 1);
+      this.canvas.absolutePan(new fabric.Point(0, 0));
 
       let imageUri = this.canvas.toDataURL();
       if (imageUri.indexOf(';base64,') > 0)
