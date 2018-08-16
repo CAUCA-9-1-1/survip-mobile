@@ -57,6 +57,7 @@ export class FireHydrantPage {
         this.selectedIdFireHydrant = this.navParams.get("id");
         this.fireHydrant = new FireHydrant();
         this.subscriber = this.mapService.positionChanged.subscribe((position) => this.updateFireHydrantCoordinates(position));
+        this.subscriber = this.mapService.addressFromCoordinatesUpdated.subscribe((position) => this.updatePhysicalPositionFromCoordinates(position));
         this.initiateForm();
     }
 
@@ -187,6 +188,9 @@ export class FireHydrantPage {
         this.form.controls['coordinates'].patchValue(position);
     }
 
+    private updatePhysicalPositionFromCoordinates(address:string){
+        this.form.controls['physicalPosition'].patchValue(address);
+    }
     public prepareColorSelector() {
         setTimeout(() => {
             let buttonElements = document.querySelectorAll('div.alert-radio-group button');

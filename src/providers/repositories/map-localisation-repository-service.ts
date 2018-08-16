@@ -6,7 +6,7 @@ import ol from "openlayers";
 import {Diagnostic} from "@ionic-native/diagnostic";
 import {Platform} from "ionic-angular";
 import {CityWithRegion} from "../../models/city-with-region";
-import {NativeGeocoder} from "@ionic-native/native-geocoder";
+import {NativeGeocoder, NativeGeocoderReverseResult} from "@ionic-native/native-geocoder";
 import {CityRepositoryProvider} from "./city-repository-provider";
 
 
@@ -15,6 +15,7 @@ export class MapLocalizationRepositoryService {
 
     public positionChanged: EventEmitter<any> = new EventEmitter<any>();
     public mapCenterChanged: EventEmitter<any> = new EventEmitter<any>();
+    public addressFromCoordinatesUpdated: EventEmitter<any> = new EventEmitter<any>();
 
     public mapCenterPosition: ol.geom.Geometry;
     public targetPosition: ol.geom.Geometry;
@@ -85,6 +86,50 @@ export class MapLocalizationRepositoryService {
     public setTargetPosition(geometry) {
         this.targetPosition = geometry;
         this.positionChanged.emit(new ol.format.WKT().writeGeometry(geometry));
+        this.getAddressFromGeometry(geometry);
+    }
+
+    private getAddressFromGeometry(geometry){
+
+        this.nativeGeocoder.reverseGeocode(geometry['A'][1], geometry['A'][0])
+            .then((success: NativeGeocoderReverseResult[]) => {
+                this.formatAddressFromLocation(JSON.stringify(success[0]));
+            })
+            .catch((error: any) => console.log(error));
+    }
+
+    private formatAddressFromLocation(locationDetail: string) {
+        let address = '';
+        try {
+            let detail = JSON.parse(locationDetail);
+            if (detail) {
+                if (detail['subThoroughfare']) {
+                    address += detail['subThoroughfare'];
+                }
+                if (detail['thoroughfare']) {
+                    if (address) {
+                        address += ' ';
+                    }
+                    address += detail['thoroughfare'];
+                }
+                if (detail['postalCode']) {
+                    if (address) {
+                        address += ', ';
+                    }
+                    address += detail['postalCode'];
+                }
+                if (detail['locality']) {
+                    if (address) {
+                        address += ', ';
+                    }
+                    address += detail['locality'];
+                }
+            }
+        } catch (e) {
+            address = '';
+            console.log("Erreur dans le traitement de l'adresse du geocoder : " + e.toString());
+        }
+        this.addressFromCoordinatesUpdated.emit(address);
     }
 
     public getGeometry(geometry) {
