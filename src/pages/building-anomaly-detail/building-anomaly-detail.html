@@ -11,16 +11,18 @@
 
 <ion-content [formGroup]="form">
     <ion-list class="list-items">
-        <button ion-item (click)="onSelectAnomaly()">
-            <ion-label item-start fixed>{{'theme' | translate}}</ion-label>
-            <ion-label item-content>{{anomaly?.theme}}</ion-label>
+        <button ion-item [class.invalid]="!form.controls.theme.valid" (click)="onSelectAnomaly()">
+            <ion-label item-start>{{'theme' | translate}}</ion-label>
+            <ion-label item-content>{{form.value.theme}}</ion-label>
         </button>
+        <div *ngIf="!form.controls.theme.valid" class="validation-error-text">{{'requiredInformation' | translate}}</div>
 
         <ion-item-group>
             <ion-item-divider>{{'notes' | translate}}</ion-item-divider>
-            <ion-item>
+            <ion-item [class.invalid]="!form.controls.notes.valid">
                 <ion-textarea maxlength="500" formControlName="notes"></ion-textarea>
             </ion-item>
+            <div *ngIf="!form.controls.notes.valid" class="validation-error-text">{{'requiredInformation' | translate}}</div>
         </ion-item-group>
     </ion-list>
 

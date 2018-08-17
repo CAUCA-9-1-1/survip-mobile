@@ -1,7 +1,7 @@
 export class InspectionBuildingAnomaly {
-  id: string;
-  idBuilding: string;
-  theme: string = '';
-  notes: string = '';
+  id = '';
+  idBuilding = '';
+  theme = '';
+  notes = '';
 }
 
