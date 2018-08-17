@@ -22,7 +22,7 @@ export class BuildingAnomalyDetailPage {
     private readonly selectedTheme: string;
 
     public isNew: boolean = false;
-    public anomaly: InspectionBuildingAnomaly;
+    public anomaly: InspectionBuildingAnomaly = new InspectionBuildingAnomaly();
     public form: FormGroup;
     public labels = {};
 
@@ -59,32 +59,33 @@ export class BuildingAnomalyDetailPage {
     public async ionViewDidEnter() {
         let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
         await load.present();
-        if (this.idBuildingAnomaly == null)
-            this.createAnomaly();
-        else
+
+        this.loadBuildingAnomaly();
+
+        await load.dismiss();
+    }
+
+    private async loadBuildingAnomaly(){
+        if (this.idBuildingAnomaly) {
             this.anomaly = await this.repo.get(this.idBuildingAnomaly);
+        }
+
+        this.createForm();
 
         this.setValuesAndStartListening();
-        await load.dismiss();
     }
 
     private createForm() {
         this.form = this.fb.group({
-            id: [''],
-            theme: ['', [Validators.required, Validators.maxLength(50)]],
-            notes: ['', [Validators.maxLength(500)]],
+            id: [this.anomaly.id ? this.anomaly.id : UUID.UUID()],
+            theme: [this.anomaly.theme ? this.anomaly.theme : this.selectedTheme, [Validators.required, Validators.maxLength(50)]],
+            notes: [this.anomaly.notes ? this.anomaly.notes : '', [Validators.required,Validators.maxLength(500)]],
+            idBuilding:[this.anomaly.idBuilding ? this.anomaly.idBuilding : this.idBuilding]
         });
     }
 
     private setValuesAndStartListening(): void {
-        this.setValues();
         this.startWatchingForm();
-    }
-
-    private setValues() {
-        if (this.anomaly != null) {
-            this.form.patchValue(this.anomaly);
-        }
     }
 
     private startWatchingForm() {
@@ -94,27 +95,22 @@ export class BuildingAnomalyDetailPage {
     }
 
     private saveIfValid() {
-        if (this.form.valid && this.form.dirty)
+        if (this.form.valid && this.form.dirty) {
             this.saveForm();
+        }
     }
 
     private async saveForm() {
-        const formModel = this.form.value;
-        Object.assign(this.anomaly, formModel);
-        await this.repo.save(this.anomaly);
-        this.form.markAsPristine();
-        this.isNew = false;
-    }
+        Object.assign(this.anomaly, this.form.value);
+        await this.repo.save(this.anomaly)
+            .then(()=>{
+                this.form.markAsPristine();
+                this.isNew = false;
+        })
+            .catch(error =>{
+                console.log("Error in saveForm", error);
+            });
 
-    private createAnomaly() {
-        let data = new InspectionBuildingAnomaly();
-        data.notes = "";
-        data.id = UUID.UUID();
-        data.theme = this.selectedTheme;
-        data.idBuilding = this.idBuilding;
-        this.idBuildingAnomaly = data.id;
-        this.anomaly = data;
-        this.repo.save(this.anomaly);
     }
 
     public async onDeleteAnomaly() {

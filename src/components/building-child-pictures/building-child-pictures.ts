@@ -102,6 +102,7 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         }
         else if (value == '') {
             this.pictures = [];
+            this.isLoading = false;
         }
     }
 
