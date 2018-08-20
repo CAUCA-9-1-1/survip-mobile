@@ -37,7 +37,7 @@ export class InspectionQuestionPage {
                 private inspectionController: InspectionControllerProvider) {
 
         this.idInspection = this.navParams.get('idInspection');
-        this.inspectionSurveyCompleted = this.navParams.get('inspectionSurveyCompleted')
+        this.inspectionSurveyCompleted = this.navParams.get('inspectionSurveyCompleted');
         this.loadInspectionQuestion();
     }
 

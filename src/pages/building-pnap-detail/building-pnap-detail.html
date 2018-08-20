@@ -23,8 +23,8 @@
       </ion-item>
       <div *ngIf="!form.controls.idPersonRequiringAssistanceType.valid" class="validation-error-text">{{'typeRequired' | translate}}</div>
       <ion-item>
-        <ion-label>{{'lastName' | translate}}</ion-label>
-        <ion-input item-end formControlName="personName" maxlength="60" type="text" placeholder="{{'pnapDetailNameHolder' | translate}}"></ion-input>
+        <ion-label>{{'name' | translate}}</ion-label>
+        <ion-input item-end formControlName="personName" maxlength="60" type="text" placeholder="{{'name' | translate}}"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>{{'floor' | translate}}</ion-label>
@@ -39,8 +39,8 @@
     <ion-item-group>
       <ion-item-divider>{{'contact' | translate}}</ion-item-divider>
       <ion-item>
-        <ion-label>{{'lastName' | translate}}</ion-label>
-        <ion-input formControlName="contactName" maxlength="60" type="text" placeholder="{{'pnapDetailContactNameHolder' | translate}}"></ion-input>
+        <ion-label>{{'name' | translate}}</ion-label>
+        <ion-input formControlName="contactName" maxlength="60" type="text" placeholder="{{'name' | translate}}"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>{{'phone' | translate}}</ion-label>

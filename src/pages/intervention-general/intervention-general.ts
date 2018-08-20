@@ -171,15 +171,24 @@ export class InterventionGeneralPage implements OnDestroy {
         this.inspectionDetailProvider.startInspection(this.controller.idInspection)
             .subscribe(success => {
                 this.controller.loadInterventionForm();
-                if (this.controller.inspectionDetail.idSurvey) {
-                    this.navCtrl.push('InspectionQuestionPage', {
-                        idInspection: this.controller.idInspection,
-                        inspectionSurveyCompleted: this.controller.inspectionDetail.isSurveyCompleted
-                    });
-                }
+                this.validateSurveyNavigation();
             }, error => {
                 this.messageTools.showToast('Une erreur est survenue dans le processus de démarrage de l\'inspection, veuillez réessayer ultérieurement.');
             });
+    }
+
+    private validateSurveyNavigation(){
+        if (this.controller.inspectionDetail.idSurvey) {
+            if (this.controller.inspectionDetail.isSurveyCompleted) {
+                this.navCtrl.push('InspectionQuestionSummaryPage', {idInspection: this.controller.idInspection});
+            }
+            else {
+                this.navCtrl.push('InspectionQuestionPage', {
+                    idInspection: this.controller.idInspection,
+                    inspectionSurveyCompleted: this.controller.inspectionDetail.isSurveyCompleted
+                });
+            }
+        }
     }
 
     public absentVisit() {

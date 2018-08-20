@@ -22,7 +22,7 @@
       </ion-item>
       <div *ngIf="!form.controls.firstName.valid" class="validation-error-text">{{'firstNameRequired' | translate}}</div>
       <ion-item [class.invalid]="!form.controls.lastName.valid">
-        <ion-label fixed>{{'lastName' | translate}}</ion-label>
+        <ion-label fixed>{{'name' | translate}}</ion-label>
         <ion-input type="text" formControlName="lastName"></ion-input>
       </ion-item>
       <div *ngIf="!form.controls.lastName.valid" class="validation-error-text">{{'lastNameRequired' | translate}}</div>
