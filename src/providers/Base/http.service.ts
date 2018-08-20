@@ -5,16 +5,18 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {TranslateService} from "@ngx-translate/core";
 import {Events} from 'ionic-angular';
 import {catchError} from 'rxjs/operators';
+import config from '../../assets/config/config.json';
 
 @Injectable()
 export class HttpService {
-  //private apiUrl = 'https://survipreventiontest.cauca.ca/api/';
-  private apiUrl = 'http://10.10.33.103:5555/api/';
+  private apiUrl:string;
 
   constructor(
     private client: HttpClient,
     private translateService: TranslateService,
     private events: Events) {
+
+    this.apiUrl = config.apiUrl;
   }
 
   private getHeaders() {
