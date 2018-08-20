@@ -109,8 +109,8 @@
                 </ion-row>
             </ion-grid>
 
-            <ion-item>
-                <ion-label [class.invalid]="!form.controls.idUnitOfMeasurePressure.valid">{{'unit' | translate}}</ion-label>
+            <ion-item [class.invalid]="!form.controls.idUnitOfMeasurePressure.valid">
+                <ion-label>{{'unit' | translate}}</ion-label>
                 <ion-select formControlName="idUnitOfMeasurePressure" placeholder="{{'unit' | translate}}" okText="Ok" cancelText="{{'cancel' | translate}}">
                     <ion-option *ngFor="let unit of pressureMeasuringUnit" [value]="unit.id">{{unit.name}}</ion-option>
                 </ion-select>
@@ -141,7 +141,7 @@
                             [dataService]="laneService"></search-box>
                 <div class="validation-error-text"
                      *ngIf="!form.controls.idLane.valid &&
-                            (form.value.locationType == fireHydrantLocationType.LaneAndIntersection ||
+                            (form.value.locationType == fireHydrantLocationType.Address ||
                              form.value.locationType ==  fireHydrantLocationType.LaneAndIntersection)">
                     {{'requiredInformation' | translate}}
                 </div>
