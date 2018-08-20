@@ -54,7 +54,7 @@
             <ion-label >{{'reason' | translate}} : </ion-label>
             <ion-label>{{plan.approbationRefusalReason}}</ion-label>
         </div>
-        <button *ngIf="plan?.status == inspectionDetailProvider.InspectionVisitStatusEnum.Todo" ion-button block color="caucaRed" class="large-button" (click)="startInspection()">{{'start' | translate}}</button>
+        <button *ngIf="startVisible" ion-button block color="caucaRed" class="large-button" (click)="startInspection()">{{'start' | translate}}</button>
 
         <div class="inline-button">
             <button ion-button color="caucaRed" (click)="refuseVisit()">{{'visitRefused' | translate}}</button>
