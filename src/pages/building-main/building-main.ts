@@ -4,6 +4,7 @@ import {InspectionControllerProvider} from '../../providers/inspection-controlle
 import {MenuItem} from '../../interfaces/menu-item.interface';
 import {InterventionBuildingsPage} from "../intervention-buildings/intervention-buildings";
 import {TranslateService} from "@ngx-translate/core";
+import {InspectionConfigurationProvider} from '../../providers/inspection-configuration/inspection-configuration';
 
 @IonicPage()
 @Component({
@@ -27,23 +28,31 @@ export class BuildingMainPage {
         public navCtrl: NavController,
         public navParams: NavParams,
         private menuCtrl: MenuController,
+        private configurationService: InspectionConfigurationProvider,
         private translateService: TranslateService) {
 
         this.loadTranslation();
 
         this.idBuilding = navParams.get("idBuilding");
         this.name = navParams.get('name');
+        const configuration = this.configurationService.configuration;
         this.menuItems = [
-            {title: this.labels['buildingDetail'], page: 'BuildingDetailsPage', icon: 'information-circle'},
-            {title: this.labels['contacts'], page: 'BuildingContactsPage', icon: 'contacts'},
-            {title: this.labels['pnaps'], page: 'BuildingPnapsPage', icon: 'people'},
-            {title: this.labels['hazardousMaterial'], page: 'BuildingHazardousMaterialsPage', icon: 'nuclear'},
-            {title: this.labels['fireSafety'], page: 'BuildingFireProtectionPage', icon: 'flame'},
-            {title: this.labels['particularRisk'], page: 'BuildingParticularRisksPage', icon: 'flash'},
-            {title: this.labels['anomalies'], page: 'BuildingAnomaliesPage', icon: 'warning'},
+            {title: this.labels['buildingDetail'], page: 'BuildingDetailsPage', icon: 'information-circle', enabled: configuration.hasBuildingDetails},
+            {title: this.labels['contacts'], page: 'BuildingContactsPage', icon: 'contacts', enabled: configuration.hasBuildingContacts},
+            {title: this.labels['pnaps'], page: 'BuildingPnapsPage', icon: 'people', enabled: configuration.hasBuildingPnaps},
+            {title: this.labels['hazardousMaterial'], page: 'BuildingHazardousMaterialsPage', icon: 'nuclear', enabled: configuration.hasBuildingHazardousMaterials},
+            {title: this.labels['fireSafety'], page: 'BuildingFireProtectionPage', icon: 'flame', enabled: configuration.hasBuildingFireProtection},
+            {title: this.labels['particularRisk'], page: 'BuildingParticularRisksPage', icon: 'flash', enabled: configuration.hasBuildingParticularRisks},
+            {title: this.labels['anomalies'], page: 'BuildingAnomaliesPage', icon: 'warning', enabled: configuration.hasBuildingAnomalies},
         ];
+        this.rootPage = this.getFirstEnabledMenuItem().page;
+    }
 
-        console.log(this.menuItems);
+    private getFirstEnabledMenuItem():MenuItem{
+      for(let item of this.menuItems){
+        if (item.enabled)
+          return item;
+      }
     }
 
     public loadTranslation() {

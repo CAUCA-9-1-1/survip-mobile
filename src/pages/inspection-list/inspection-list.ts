@@ -1,14 +1,14 @@
 import {Component} from '@angular/core';
-import {App, IonicPage, LoadingController, MenuController, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, LoadingController, MenuController, NavController, NavParams} from 'ionic-angular';
 import {RiskLevel} from '../../models/risk-level';
 import {Inspection} from '../../interfaces/inspection.interface';
 import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-level-repository';
 import {InterventionHomePage} from '../intervention-home/intervention-home';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
-import {LoginPage} from '../login/login';
 import {Batch} from '../../models/batch';
 import {InspectionRepositoryProvider} from '../../providers/repositories/inspection-repository-provider.service';
 import {TranslateService} from "@ngx-translate/core";
+import {InspectionConfigurationProvider} from '../../providers/inspection-configuration/inspection-configuration';
 
 @IonicPage()
 @Component({
@@ -24,14 +24,14 @@ export class InspectionListPage {
     public noDataMessage = "";
     public labels = {};
 
-    constructor(public appCtrl: App,
-                public navCtrl: NavController,
+    constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 private riskLevelService: RiskLevelRepositoryProvider,
                 private loadingCtrl: LoadingController,
                 private inspectionService: InspectionRepositoryProvider,
                 private authService: AuthenticationService,
                 private menu: MenuController,
+                private configuration: InspectionConfigurationProvider,
                 private translateService: TranslateService) {
         const loading = this.createLoadingControl();
         loading.present();
@@ -103,7 +103,8 @@ export class InspectionListPage {
         return "rgba(" + [r, g, b, a].join(",") + ")";
     }
 
-    public itemSelected(inspection: Inspection) {
+    public async itemSelected(inspection: Inspection) {
+        await this.configuration.loadConfiguration(inspection.id);
         this.navCtrl.push('InterventionHomePage', {id: inspection.id});
     }
 

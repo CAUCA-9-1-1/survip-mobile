@@ -56,7 +56,9 @@ export class MapLocalizationRepositoryService {
     }
 
     public setBuildingPosition(coordinates) {
+      if(coordinates) {
         this.buildingPosition = new ol.format.WKT().readGeometry(coordinates).transform('EPSG:4326', 'EPSG:3857');
+      }
     }
 
     public setInspectionCity(idCity: string){
