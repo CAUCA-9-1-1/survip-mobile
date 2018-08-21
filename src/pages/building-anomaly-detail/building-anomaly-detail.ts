@@ -43,6 +43,8 @@ export class BuildingAnomalyDetailPage {
         this.isNew = this.idBuildingAnomaly == null;
         this.selectedTheme = navParams.get('theme');
         this.createForm();
+
+        this.subscription = this.picRepo.picturesChanged.subscribe(() => this.picturesUpdated());
     }
 
     public ngOnInit() {
@@ -106,6 +108,7 @@ export class BuildingAnomalyDetailPage {
             .then(()=>{
                 this.form.markAsPristine();
                 this.isNew = false;
+                this.picRepo.saveAll();
         })
             .catch(error =>{
                 console.log("Error in saveForm", error);
@@ -159,5 +162,10 @@ export class BuildingAnomalyDetailPage {
             return acc;
         }, {} as { [key: string]: any; });
         return hasError ? result : null;
+    }
+
+    private picturesUpdated(){
+        this.form.markAsDirty();
+        this.form.controls['id'].updateValueAndValidity();
     }
 }

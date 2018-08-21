@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {BuildingChildPictureRepositoryProvider} from '../../interfaces/building-child-picture-repository-provider';
 import {HttpService} from '../Base/http.service';
 import {InspectionBuildingChildPictureForWeb} from '../../models/inspection-building-child-picture-for-web';
@@ -9,6 +9,9 @@ export class InspectionBuildingParticularRiskPictureRepositoryProvider implement
 
     constructor(public http: HttpService) {
     }
+
+    public pictures: InspectionBuildingChildPictureForWeb[] = [];
+    public picturesChanged: EventEmitter<any> = new EventEmitter<any>();
 
     public getList(idBuildingParticularRisk: string): Promise<InspectionBuildingChildPictureForWeb[]> {
         return this.http.get('inspection/building/particularrisk/' + idBuildingParticularRisk + '/picture')
@@ -24,6 +27,12 @@ export class InspectionBuildingParticularRiskPictureRepositoryProvider implement
 
     public delete(idBuildingParticularRisk: string): Promise<any> {
         return this.http.delete('inspection/building/particularrisk/picture/' + idBuildingParticularRisk)
+            .pipe(map(response => response))
+            .toPromise();
+    }
+
+    public saveAll(){
+        return this.http.post('inspection/building/particularrisk/pictures/', JSON.stringify(this.pictures))
             .pipe(map(response => response))
             .toPromise();
     }
