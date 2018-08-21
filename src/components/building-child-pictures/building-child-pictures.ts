@@ -118,12 +118,13 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         picture.id = UUID.UUID();
         picture.idParent = this.idParent;
         picture.pictureData = pic;
+        picture.modified = true;
         this.repo.pictures.push(picture);
 
         this.slides.update();
-        if(this.saveAuto) {
+        if(this.saveAuto){
             this.repo.save(picture);
-        }else{
+        }else {
             this.repo.picturesChanged.emit(null);
         }
     }
@@ -214,7 +215,12 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
     public onEditPhoto(){
         let picture = this.repo.pictures[this.slides._activeIndex];
         let modal = this.modalCtrl.create('BuildingChildPictureEditionPage', { picture: picture, repo: this.repo });
-        modal.onDidDismiss(() => this.loadPictures());
+        modal.onDidDismiss(data => {
+            this.repo.pictures[this.slides._activeIndex] = data;
+            if(this.repo.pictures[this.slides._activeIndex].modified) {
+                this.repo.picturesChanged.emit(null);
+            }
+        });
         modal.present();
       }
 }
