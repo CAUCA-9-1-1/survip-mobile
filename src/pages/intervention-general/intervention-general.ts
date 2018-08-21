@@ -155,7 +155,6 @@ export class InterventionGeneralPage implements OnDestroy {
     private validInspectionStatus() {
         if (this.plan.status == this.inspectionDetailProvider.InspectionStatusEnum.Refused) {
             this.startVisible = true;
-            this.statusText = this.plan.approbationRefusalReason;
         } else {
             if (this.plan.status == this.inspectionDetailProvider.InspectionStatusEnum.Todo) {
                 this.startVisible = true;
@@ -164,9 +163,8 @@ export class InterventionGeneralPage implements OnDestroy {
             } else if (this.plan.status == this.inspectionDetailProvider.InspectionStatusEnum.WaitingForApprobation) {
                 this.startVisible = false;
             }
-            this.statusText = this.inspectionDetailProvider.getInspectionStatusText(this.plan.status);
         }
-
+        this.statusText = this.inspectionDetailProvider.getInspectionStatusText(this.plan.status);
     }
 
     public startInspection() {
