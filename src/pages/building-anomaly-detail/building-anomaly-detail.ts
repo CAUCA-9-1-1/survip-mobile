@@ -19,10 +19,11 @@ export class BuildingAnomalyDetailPage {
     private idBuildingAnomaly: string;
     private readonly idBuilding: string;
     private subscription: ISubscription;
-    private readonly selectedTheme: string;
+    private pictureSubscriber: ISubscription;
+    private selectedTheme: string;
 
     public isNew: boolean = false;
-    public anomaly: InspectionBuildingAnomaly = new InspectionBuildingAnomaly();
+    public anomaly: InspectionBuildingAnomaly;
     public form: FormGroup;
     public labels = {};
 
@@ -38,13 +39,14 @@ export class BuildingAnomalyDetailPage {
         public navParams: NavParams,
         private translateService: TranslateService) {
 
+        this.anomaly = new InspectionBuildingAnomaly();
         this.idBuilding = navParams.get("idBuilding");
         this.idBuildingAnomaly = navParams.get('idBuildingAnomaly');
         this.isNew = this.idBuildingAnomaly == null;
         this.selectedTheme = navParams.get('theme');
-        this.createForm();
+        this.initiateForm();
 
-        this.subscription = this.picRepo.picturesChanged.subscribe(() => this.picturesUpdated());
+        this.pictureSubscriber = this.picRepo.picturesChanged.subscribe(() => this.picturesUpdated());
     }
 
     public ngOnInit() {
@@ -72,21 +74,17 @@ export class BuildingAnomalyDetailPage {
             this.anomaly = await this.repo.get(this.idBuildingAnomaly);
         }
 
-        this.createForm();
-
-        this.setValuesAndStartListening();
+        this.initiateForm();
     }
 
-    private createForm() {
+    private initiateForm() {
         this.form = this.fb.group({
             id: [this.anomaly.id ? this.anomaly.id : UUID.UUID()],
             theme: [this.anomaly.theme ? this.anomaly.theme : this.selectedTheme, [Validators.required, Validators.maxLength(50)]],
             notes: [this.anomaly.notes ? this.anomaly.notes : '', [Validators.required,Validators.maxLength(500)]],
             idBuilding:[this.anomaly.idBuilding ? this.anomaly.idBuilding : this.idBuilding]
         });
-    }
 
-    private setValuesAndStartListening(): void {
         this.startWatchingForm();
     }
 
@@ -120,19 +118,25 @@ export class BuildingAnomalyDetailPage {
         if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['anomalyDeleteQuestion'])) {
             await this.repo.delete(this.idBuildingAnomaly);
             this.viewCtrl.dismiss();
+            this.unSubscribeEvent();
         }
         else if (this.isNew) {
             this.viewCtrl.dismiss();
+            this.unSubscribeEvent();
         }
     }
 
     public async onCancelEdition() {
         if (this.form.dirty || this.isNew) {
-            if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['anomalyLeaveMessage']))
+            if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['anomalyLeaveMessage'])) {
                 this.viewCtrl.dismiss();
+                this.unSubscribeEvent();
+            }
         }
-        else
+        else {
             this.viewCtrl.dismiss();
+            this.unSubscribeEvent();
+        }
     }
 
     public onSelectAnomaly() {
@@ -140,32 +144,20 @@ export class BuildingAnomalyDetailPage {
         matModal.onDidDismiss(data => {
             if (data.hasSelected) {
                 this.form.markAsDirty();
-                this.form.controls['theme'].setValue(data.selectedTheme);
-                this.anomaly.theme = data.selectedTheme;
+                this.form.value['theme'].setValue(data.selectedTheme);
                 this.saveIfValid();
             }
         });
         matModal.present();
     }
 
-    public getAllErrors(form: FormGroup): { [key: string]: any; } | null {
-        let hasError = false;
-        const result = Object.keys(form.controls).reduce((acc, key) => {
-            const control = form.get(key);
-            const errors = (control instanceof FormGroup)
-                ? this.getAllErrors(control)
-                : control.errors;
-            if (errors) {
-                acc[key] = errors;
-                hasError = true;
-            }
-            return acc;
-        }, {} as { [key: string]: any; });
-        return hasError ? result : null;
-    }
-
     private picturesUpdated(){
         this.form.markAsDirty();
         this.form.controls['id'].updateValueAndValidity();
+    }
+
+    public unSubscribeEvent(){
+        this.subscription.unsubscribe();
+        this.pictureSubscriber.unsubscribe();
     }
 }

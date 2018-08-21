@@ -126,15 +126,10 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   public onFileSelected(e: any): void {
       const files = e.target.files;
       const reader = this.windowRef.nativeClass('FileReader');
-
-      /*this.dialogService.wait();*/
-
       if (files.length) {
           reader.addEventListener('load', this.onFileLoaded.bind(this));
           reader.readAsDataURL(files[0]);
       }
-
-      /*this.dialogService.close();*/
   }
 
   private onFileLoaded(response): void {

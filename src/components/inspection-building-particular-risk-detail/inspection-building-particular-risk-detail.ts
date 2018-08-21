@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnChanges} from '@angular/core';
 import {InspectionBuildingParticularRiskPictureRepositoryProvider} from '../../providers/repositories/inspection-building-particular-risk-picture-repository-provider.service';
 import {InspectionBuildingParticularRiskRepositoryProvider} from '../../providers/repositories/inspection-building-particular-risk-repository-provider.service';
 import {InspectionBuildingParticularRisk} from '../../models/inspection-building-particular-risk';
@@ -14,7 +14,6 @@ import {StaticListRepositoryProvider} from '../../providers/static-list-reposito
 export class InspectionBuildingParticularRiskDetailComponent implements OnChanges {
 
     private subscription: ISubscription;
-
     public currentRiskType: string = null;
     public currentIdBuilding: string = null;
     public risk: InspectionBuildingParticularRisk;
@@ -89,8 +88,11 @@ export class InspectionBuildingParticularRiskDetailComponent implements OnChange
     private async saveForm() {
         const formModel = this.form.value;
         Object.assign(this.risk, formModel);
-        await this.repo.save(this.currentRiskType, this.risk);
-        this.form.markAsPristine();
+        await this.repo.save(this.currentRiskType, this.risk)
+            .then(()=>{
+                this.form.markAsPristine();
+            });
+
     }
 
     public getAllErrors(form: FormGroup): { [key: string]: any; } | null {

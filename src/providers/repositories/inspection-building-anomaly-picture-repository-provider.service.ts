@@ -17,7 +17,15 @@ export class InspectionBuildingAnomalyPictureRepositoryProvider implements Build
 
     public getList(idBuildingAnomaly: string): Promise<InspectionBuildingChildPictureForWeb[]> {
         return this.http.get('inspection/building/anomaly/' + idBuildingAnomaly + '/picture')
-            .pipe(map(response => response))
+            .pipe(map(response =>
+                {
+                    let picCollection = [];
+                    response.forEach(result => {
+                        picCollection.push(Object.assign(new InspectionBuildingChildPictureForWeb(),result));
+                    })
+                    return picCollection;
+                }
+            ))
             .toPromise();
     }
 
@@ -34,8 +42,9 @@ export class InspectionBuildingAnomalyPictureRepositoryProvider implements Build
     }
 
     public saveAll(){
-        if(this.pictures.length > 0) {
-            return this.http.post('inspection/building/anomaly/pictures/', JSON.stringify(this.pictures))
+        let modifiedPic = this.pictures.filter(p=>p.modified == true);
+        if(modifiedPic.length > 0) {
+            return this.http.post('inspection/building/anomaly/pictures/', JSON.stringify(modifiedPic))
                 .pipe(map(response => response))
                 .toPromise();
         }
