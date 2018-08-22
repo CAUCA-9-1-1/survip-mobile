@@ -94,7 +94,6 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
     }
 
     public writeValue(value: string) {
-        console.log('write value : ' + value + ' | idParent : ' + this.idParent);
         if (value != this.idParent && value != '') {
             this.idParent = value;
             this.loadPictures();
@@ -218,7 +217,7 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         let modal = this.modalCtrl.create('BuildingChildPictureEditionPage', { picture: picture, repo: this.repo });
         modal.onDidDismiss(data => {
             this.repo.pictures[this.slides._activeIndex] = data;
-            if(this.repo.pictures[this.slides._activeIndex].modified) {
+            if(data.modified) {
                 this.repo.picturesChanged.emit(null);
             }
         });

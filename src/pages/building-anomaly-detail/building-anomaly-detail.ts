@@ -40,6 +40,7 @@ export class BuildingAnomalyDetailPage {
         private translateService: TranslateService) {
 
         this.anomaly = new InspectionBuildingAnomaly();
+        this.anomaly.id = UUID.UUID();
         this.idBuilding = navParams.get("idBuilding");
         this.idBuildingAnomaly = navParams.get('idBuildingAnomaly');
         this.isNew = this.idBuildingAnomaly == null;
@@ -79,7 +80,7 @@ export class BuildingAnomalyDetailPage {
 
     private initiateForm() {
         this.form = this.fb.group({
-            id: [this.anomaly.id ? this.anomaly.id : UUID.UUID()],
+            id: [this.anomaly.id],
             theme: [this.anomaly.theme ? this.anomaly.theme : this.selectedTheme, [Validators.required, Validators.maxLength(50)]],
             notes: [this.anomaly.notes ? this.anomaly.notes : '', [Validators.required,Validators.maxLength(500)]],
             idBuilding:[this.anomaly.idBuilding ? this.anomaly.idBuilding : this.idBuilding]
