@@ -57,6 +57,7 @@ import {Geolocation} from "@ionic-native/geolocation";
 import {Diagnostic} from "@ionic-native/diagnostic";
 import {NativeGeocoder} from "@ionic-native/native-geocoder";
 import {CityRepositoryProvider} from "../providers/repositories/city-repository-provider";
+import { InspectionConfigurationProvider } from '../providers/inspection-configuration/inspection-configuration';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -146,6 +147,7 @@ export function httpServiceFactory(
         Diagnostic,
         NativeGeocoder,
         CityRepositoryProvider,
+    InspectionConfigurationProvider,
     ]
 })
 export class AppModule {

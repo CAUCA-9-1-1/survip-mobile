@@ -4,6 +4,7 @@ import {MenuItem} from '../../interfaces/menu-item.interface';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {ISubscription} from 'rxjs/Subscription';
 import {TranslateService} from "@ngx-translate/core";
+import {InspectionConfigurationProvider} from '../../providers/inspection-configuration/inspection-configuration';
 
 @IonicPage({
     segment: 'inspection/:id'
@@ -24,8 +25,10 @@ export class InterventionHomePage implements OnDestroy {
                 public navParams: NavParams,
                 public menuCtrl: MenuController,
                 private controller: InspectionControllerProvider,
-                private translateService: TranslateService) {
+                private translateService: TranslateService,
+                private configurationService: InspectionConfigurationProvider) {
         controller.setIdInterventionForm(this.navParams.data['id']);
+        console.log('configuration', this.configurationService.configuration);
 
         this.planSubscription = controller.planLoaded.subscribe(() => {
                 if (controller.inspectionDetail.idSurvey)
@@ -46,13 +49,25 @@ export class InterventionHomePage implements OnDestroy {
                 console.log(error)
             });
 
+        const configuration = this.configurationService.configuration;
         this.menuItems = [
-            {title: this.labels['generalInformation'], page: 'InterventionGeneralPage', icon: 'information-circle'},
-            {title: this.labels['buildings'], page: 'InterventionBuildingsPage', icon: 'home'},
-            {title: this.labels['waterSupplies'], page: 'InterventionWaterSuppliesPage', icon: 'water'},
-            {title: this.labels['implantationPlan'], page: 'InterventionImplantationPlanPage', icon: 'image'},
-            {title: this.labels['course'], page: 'InterventionCoursePage', icon: 'map'}
+            {title: this.labels['generalInformation'], page: 'InterventionGeneralPage', icon: 'information-circle', enabled: true},
+            {title: this.labels['buildings'], page: 'InterventionBuildingsPage', icon: 'home', enabled: this.mustShowBuildingSection() },
+            {title: this.labels['waterSupplies'], page: 'InterventionWaterSuppliesPage', icon: 'water', enabled: configuration.hasWaterSupply},
+            {title: this.labels['implantationPlan'], page: 'InterventionImplantationPlanPage', icon: 'image', enabled: configuration.hasImplantationPlan},
+            {title: this.labels['course'], page: 'InterventionCoursePage', icon: 'map', enabled: configuration.hasCourse}
         ];
+    }
+
+    private mustShowBuildingSection(): boolean {
+      const configuration = this.configurationService.configuration;
+      return (configuration.hasBuildingAnomalies
+        || configuration.hasBuildingContacts
+        || configuration.hasBuildingFireProtection
+        || configuration.hasBuildingDetails
+        || configuration.hasBuildingHazardousMaterials
+        || configuration.hasBuildingParticularRisks
+        || configuration.hasBuildingPnaps);
     }
 
     public ngOnDestroy() {

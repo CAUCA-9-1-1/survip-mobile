@@ -7,11 +7,12 @@
   <ion-content color="caucaRed">
     <ion-list class="menu-items">
 
-      <button ion-item menuClose class="text-menu" *ngFor="let menuItem of menuItems" (click)="openPage(menuItem.page)">
-        <ion-icon item-left [name]="menuItem.icon"></ion-icon>
-        <span ion-text>{{menuItem.title}}</span>
-      </button>
-
+      <div *ngFor="let menuItem of menuItems">
+        <button ion-item menuClose class="text-menu" (click)="openPage(menuItem.page)" *ngIf="menuItem.enabled">
+          <ion-icon item-left [name]="menuItem.icon"></ion-icon>
+          <span ion-text>{{menuItem.title}}</span>
+        </button>
+      </div>
     </ion-list>
   </ion-content>
 

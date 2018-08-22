@@ -20,3 +20,4 @@ export class InspectionDetail {
   approbationRefusalReason: string;
   coordinates:{};
 }
+
