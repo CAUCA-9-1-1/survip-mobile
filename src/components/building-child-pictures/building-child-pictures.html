@@ -14,7 +14,7 @@
     </ion-item-divider>
     <ion-item>
         <ion-slides pager>
-            <ion-slide *ngFor="let picture of pictures;">
+            <ion-slide *ngFor="let picture of repo.pictures;">
                 <ion-card>
                     <button ion-button icon-only small outline class="deleteIcon" (click)="onDeletePhotos()"
                             color="caucaRed">

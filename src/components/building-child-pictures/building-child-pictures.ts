@@ -10,7 +10,6 @@ import {InspectionBuildingChildPictureForWeb} from '../../models/inspection-buil
 import {BuildingChildPictureRepositoryProvider} from '../../interfaces/building-child-picture-repository-provider';
 import {TranslateService} from "@ngx-translate/core";
 
-
 @Component({
     selector: 'building-child-pictures',
     templateUrl: 'building-child-pictures.html',
@@ -22,6 +21,7 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
     @ViewChild('filePicker') inputRef: ElementRef;
     @ViewChild(Slides) slides: Slides;
     @Input() repo: BuildingChildPictureRepositoryProvider;
+    @Input() saveAuto = true;
 
     private changed = new Array<(value: string) => void>();
     private touched = new Array<() => void>();
@@ -39,7 +39,6 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
 
     public isLoading: boolean = true;
     public  idParent: string;
-    public pictures: InspectionBuildingChildPictureForWeb[] = [];
     public isUsingCordova: boolean = false;
     public labels = {};
 
@@ -53,7 +52,7 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
             this.loadPictures();
         }
         else if (value == '') {
-            this.pictures = [];
+            this.repo.pictures = [];
         }
     }
 
@@ -86,7 +85,7 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
 
     public async loadPictures() {
         this.isLoading = true;
-        this.pictures = await this.repo.getList(this.idParent);
+        this.repo.pictures = await this.repo.getList(this.idParent);
         this.isLoading = false;
     }
 
@@ -95,13 +94,13 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
     }
 
     public writeValue(value: string) {
-        console.log('write value : ' + value + ' | idParent : ' + this.idParent);
         if (value != this.idParent && value != '') {
             this.idParent = value;
             this.loadPictures();
         }
         else if (value == '') {
-            this.pictures = [];
+            this.repo.pictures = [];
+            this.isLoading = false;
         }
     }
 
@@ -118,11 +117,18 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         picture.id = UUID.UUID();
         picture.idParent = this.idParent;
         picture.pictureData = pic;
-        this.pictures.push(picture);
+        picture.modified = true;
+        if (this.isUsingCordova) {
+            picture.pictureData = 'data:image/jpeg;base64,' + pic;
+        }
+        this.repo.pictures.push(picture);
 
         this.slides.update();
-
-        this.repo.save(picture);
+        if(this.saveAuto){
+            this.repo.save(picture);
+        }else {
+            this.repo.picturesChanged.emit(null);
+        }
     }
 
     private selectPictureNative() {
@@ -135,11 +141,11 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['photoDeleteQuestion']).then(canDelete => {
             if (canDelete) {
 
-                let picture = this.pictures[this.slides._activeIndex];
+                let picture = this.repo.pictures[this.slides._activeIndex];
 
                 this.repo.delete(picture.id);
 
-                this.pictures.splice(this.slides._activeIndex, 1);
+                this.repo.pictures.splice(this.slides._activeIndex, 1);
                 this.slides.update();
 
                 if (this.slides._activeIndex > 0) {
@@ -180,8 +186,6 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
 
     private onFileLoaded(response): void {
         let imageUri: string = response.target.result;
-        if (imageUri.indexOf(';base64,') > 0)
-            imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);
         this.addPicture(imageUri);
     }
 
@@ -205,13 +209,18 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
     public getImageUrl(pic: string) {
         return pic === "" || pic == null
             ? ''
-            : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + pic);
+            : this.sanitizer.bypassSecurityTrustUrl(pic);
     }
 
     public onEditPhoto(){
-        let picture = this.pictures[this.slides._activeIndex];
+        let picture = this.repo.pictures[this.slides._activeIndex];
         let modal = this.modalCtrl.create('BuildingChildPictureEditionPage', { picture: picture, repo: this.repo });
-        modal.onDidDismiss(() => this.loadPictures());
+        modal.onDidDismiss(data => {
+            this.repo.pictures[this.slides._activeIndex] = data;
+            if(data.modified) {
+                this.repo.picturesChanged.emit(null);
+            }
+        });
         modal.present();
       }
 }

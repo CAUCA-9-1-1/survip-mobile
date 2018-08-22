@@ -28,7 +28,7 @@ export class BuildingChildPictureEditionPage {
   }
 
   get pictureUri() {
-    return 'data:image/jpeg;base64,' + this.picture.pictureData;
+    return this.picture.pictureData;
   }
 
   get sketchJson() {
@@ -47,17 +47,13 @@ export class BuildingChildPictureEditionPage {
        this.canvas.absolutePan(new fabric.Point(0, 0));
 
        let imageUri = this.canvas.toDataURL();
-      if (imageUri.indexOf(';base64,') > 0)
-        imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);
 
-      this.picture = {id: this.picture.id, idParent: this.picture.idParent, idPicture: this.picture.idPicture, pictureData: imageUri, sketchJson: json };
-
-      let idPicture = await this.repo.save(this.picture);
+      this.picture = {id: this.picture.id, idParent: this.picture.idParent, idPicture: this.picture.idPicture, pictureData: imageUri, sketchJson: json, modified:true };
     }
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss(this.picture);
   }
 
   onCancel() {
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss(this.picture);
   }
 }

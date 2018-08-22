@@ -19,10 +19,11 @@ export class BuildingAnomalyDetailPage {
     private idBuildingAnomaly: string;
     private readonly idBuilding: string;
     private subscription: ISubscription;
-    private readonly selectedTheme: string;
+    private pictureSubscriber: ISubscription;
+    private selectedTheme: string;
 
     public isNew: boolean = false;
-    public anomaly: InspectionBuildingAnomaly;
+    public anomaly: InspectionBuildingAnomaly = new InspectionBuildingAnomaly();
     public form: FormGroup;
     public labels = {};
 
@@ -38,11 +39,15 @@ export class BuildingAnomalyDetailPage {
         public navParams: NavParams,
         private translateService: TranslateService) {
 
+        this.anomaly = new InspectionBuildingAnomaly();
+        this.anomaly.id = UUID.UUID();
         this.idBuilding = navParams.get("idBuilding");
         this.idBuildingAnomaly = navParams.get('idBuildingAnomaly');
         this.isNew = this.idBuildingAnomaly == null;
         this.selectedTheme = navParams.get('theme');
-        this.createForm();
+        this.initiateForm();
+
+        this.pictureSubscriber = this.picRepo.picturesChanged.subscribe(() => this.picturesUpdated());
     }
 
     public ngOnInit() {
@@ -59,32 +64,29 @@ export class BuildingAnomalyDetailPage {
     public async ionViewDidEnter() {
         let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
         await load.present();
-        if (this.idBuildingAnomaly == null)
-            this.createAnomaly();
-        else
-            this.anomaly = await this.repo.get(this.idBuildingAnomaly);
 
-        this.setValuesAndStartListening();
+        this.loadBuildingAnomaly();
+
         await load.dismiss();
     }
 
-    private createForm() {
-        this.form = this.fb.group({
-            id: [''],
-            theme: ['', [Validators.required, Validators.maxLength(50)]],
-            notes: ['', [Validators.maxLength(500)]],
-        });
-    }
-
-    private setValuesAndStartListening(): void {
-        this.setValues();
-        this.startWatchingForm();
-    }
-
-    private setValues() {
-        if (this.anomaly != null) {
-            this.form.patchValue(this.anomaly);
+    private async loadBuildingAnomaly(){
+        if (this.idBuildingAnomaly) {
+            this.anomaly = await this.repo.get(this.idBuildingAnomaly);
         }
+
+        this.initiateForm();
+    }
+
+    private initiateForm() {
+        this.form = this.fb.group({
+            id: [this.anomaly.id],
+            theme: [this.anomaly.theme ? this.anomaly.theme : this.selectedTheme, [Validators.required, Validators.maxLength(50)]],
+            notes: [this.anomaly.notes ? this.anomaly.notes : '', [Validators.required,Validators.maxLength(500)]],
+            idBuilding:[this.anomaly.idBuilding ? this.anomaly.idBuilding : this.idBuilding]
+        });
+
+        this.startWatchingForm();
     }
 
     private startWatchingForm() {
@@ -94,46 +96,48 @@ export class BuildingAnomalyDetailPage {
     }
 
     private saveIfValid() {
-        if (this.form.valid && this.form.dirty)
+        if (this.form.valid && this.form.dirty) {
             this.saveForm();
+        }
     }
 
     private async saveForm() {
-        const formModel = this.form.value;
-        Object.assign(this.anomaly, formModel);
-        await this.repo.save(this.anomaly);
-        this.form.markAsPristine();
-        this.isNew = false;
-    }
+        Object.assign(this.anomaly, this.form.value);
+        await this.repo.save(this.anomaly)
+            .then(()=>{
+                this.form.markAsPristine();
+                this.isNew = false;
+                this.picRepo.saveAll();
+        })
+            .catch(error =>{
+                console.log("Error in saveForm", error);
+            });
 
-    private createAnomaly() {
-        let data = new InspectionBuildingAnomaly();
-        data.notes = "";
-        data.id = UUID.UUID();
-        data.theme = this.selectedTheme;
-        data.idBuilding = this.idBuilding;
-        this.idBuildingAnomaly = data.id;
-        this.anomaly = data;
-        this.repo.save(this.anomaly);
     }
 
     public async onDeleteAnomaly() {
         if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['anomalyDeleteQuestion'])) {
             await this.repo.delete(this.idBuildingAnomaly);
             this.viewCtrl.dismiss();
+            this.unSubscribeEvent();
         }
         else if (this.isNew) {
             this.viewCtrl.dismiss();
+            this.unSubscribeEvent();
         }
     }
 
     public async onCancelEdition() {
         if (this.form.dirty || this.isNew) {
-            if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['anomalyLeaveMessage']))
+            if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['anomalyLeaveMessage'])) {
                 this.viewCtrl.dismiss();
+                this.unSubscribeEvent();
+            }
         }
-        else
+        else {
             this.viewCtrl.dismiss();
+            this.unSubscribeEvent();
+        }
     }
 
     public onSelectAnomaly() {
@@ -141,27 +145,20 @@ export class BuildingAnomalyDetailPage {
         matModal.onDidDismiss(data => {
             if (data.hasSelected) {
                 this.form.markAsDirty();
-                this.form.controls['theme'].setValue(data.selectedTheme);
-                this.anomaly.theme = data.selectedTheme;
+                this.form.value['theme'].setValue(data.selectedTheme);
                 this.saveIfValid();
             }
         });
         matModal.present();
     }
 
-    public getAllErrors(form: FormGroup): { [key: string]: any; } | null {
-        let hasError = false;
-        const result = Object.keys(form.controls).reduce((acc, key) => {
-            const control = form.get(key);
-            const errors = (control instanceof FormGroup)
-                ? this.getAllErrors(control)
-                : control.errors;
-            if (errors) {
-                acc[key] = errors;
-                hasError = true;
-            }
-            return acc;
-        }, {} as { [key: string]: any; });
-        return hasError ? result : null;
+    private picturesUpdated(){
+        this.form.markAsDirty();
+        this.form.controls['id'].updateValueAndValidity();
+    }
+
+    public unSubscribeEvent(){
+        this.subscription.unsubscribe();
+        this.pictureSubscriber.unsubscribe();
     }
 }

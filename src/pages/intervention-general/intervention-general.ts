@@ -29,7 +29,7 @@ export class InterventionGeneralPage implements OnDestroy {
     public laneName: string;
     public utilisationCodeName: string;
     public statusText: string;
-    public startVisible: boolean = false;
+    public startVisible = false;
     public labels = {};
 
     get plan(): InspectionDetail {

@@ -43,7 +43,6 @@ export class HttpService {
   }
 
   public post(url: string, body?: any): Observable<any> {
-    console.log('post', this.getFullUrl(url));
     return this.client
       .post(this.getFullUrl(url), body, this.getHeaders()).pipe(
         catchError((error: HttpErrorResponse) => this.onError(error))
@@ -51,15 +50,13 @@ export class HttpService {
   }
 
   public rawPost(url: string, body?: any): Observable<any> {
-    console.log('post', this.getFullUrl(url));
     return this.client
       .post(this.getFullUrl(url), body, this.getHeaders())
       .catch((err: HttpErrorResponse) => this.handleError(err));
   }
 
   public put(url: string, body?: any): Observable<any> {
-    console.log('post', this.getFullUrl(url));
-    return this.client.post(this.getFullUrl(url), body, this.getHeaders()).pipe(
+    return this.client.put(this.getFullUrl(url), body, this.getHeaders()).pipe(
       catchError((error: HttpErrorResponse) => this.onError(error))
     );
   }

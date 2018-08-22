@@ -1,9 +1,3 @@
-<!--
-  Generated template for the ImageEditionPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
   
     <ion-navbar color="caucaRed">
@@ -11,12 +5,12 @@
     </ion-navbar>
   
   </ion-header>
-  
-  
+
   <ion-content padding>
   
     <div ion-fixed class="div-sketch-tool">
-      <lib-mobile-sketch-tool [imageData]="pictureUri" [loadedJson]="sketchJson" (canvas)="onCanvasChange($event)"></lib-mobile-sketch-tool>
+      <lib-mobile-sketch-tool [imageData]="pictureUri" [loadedJson]="sketchJson" (canvas)="onCanvasChange($event)">
+      </lib-mobile-sketch-tool>
     </div>
   
   </ion-content>
@@ -24,18 +18,10 @@
   <ion-footer>
     <ion-toolbar color="caucaRed">
         <ion-buttons>
-            <button
-                ion-button
-                class="loginnavbtn"
-                (click)="onOkay()"
-            >
+            <button ion-button class="loginnavbtn" (click)="onOkay()">
                 {{'done' | translate}}
             </button>
-            <button
-                ion-button
-                class="loginnavbtn"
-                (click)="onCancel()"
-            >
+            <button ion-button class="loginnavbtn" (click)="onCancel()" >
                 {{'cancel' | translate}}
             </button>
         </ion-buttons>

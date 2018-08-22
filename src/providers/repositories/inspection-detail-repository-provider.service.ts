@@ -42,7 +42,7 @@ export class InspectionDetailRepositoryProvider {
     }
 
     public savePicture(idBuildingDetail: string, idPicture: string): Observable<boolean> {
-        return this.http.put('inspection/buildingdetail/' + idBuildingDetail + '/idPicture/' + idPicture)
+        return this.http.post('inspection/buildingdetail/' + idBuildingDetail + '/idPicture/' + idPicture)
     }
 
     public startInspection(idInspection: string): Observable<any> {
