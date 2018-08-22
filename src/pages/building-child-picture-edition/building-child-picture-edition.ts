@@ -28,7 +28,7 @@ export class BuildingChildPictureEditionPage {
   }
 
   get pictureUri() {
-    return 'data:image/jpeg;base64,' + this.picture.pictureData;
+    return this.picture.pictureData;
   }
 
   get sketchJson() {
@@ -37,6 +37,7 @@ export class BuildingChildPictureEditionPage {
 
   onCanvasChange($event) {
     this.canvas = $event;
+
   }
 
   async onOkay() {
@@ -47,12 +48,17 @@ export class BuildingChildPictureEditionPage {
        this.canvas.absolutePan(new fabric.Point(0, 0));
 
        let imageUri = this.canvas.toDataURL();
-      if (imageUri.indexOf(';base64,') > 0)
-        imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);
 
-      this.picture = {id: this.picture.id, idParent: this.picture.idParent, idPicture: this.picture.idPicture, pictureData: imageUri, sketchJson: json, modified:true };
+      this.picture = {id: this.picture.id, idParent: this.picture.idParent, idPicture: this.picture.idPicture, pictureData: imageUri, sketchJson: json, modified:this.isCanvasModified(json) };
     }
     this.viewCtrl.dismiss(this.picture);
+  }
+
+  private isCanvasModified(newSketchJson){
+    if(JSON.stringify(this.sketchJson) != newSketchJson){
+        return true;
+    }
+    return false;
   }
 
   onCancel() {
