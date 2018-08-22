@@ -13,6 +13,7 @@ import {InspectionBuildingsRepositoryProvider} from '../repositories/inspection-
 import {BuildingFireHydrantRepositoryProvider} from "../repositories/building-fire-hydrant-repository";
 import {map} from "rxjs/operators";
 import {TranslateService} from "@ngx-translate/core";
+import {UUID} from "angular2-uuid";
 
 @Injectable()
 export class InspectionControllerProvider {
@@ -90,8 +91,13 @@ export class InspectionControllerProvider {
         loading.present();
         const result = this.pictureRepo.getPicture(this.inspectionDetail.idPictureSitePlan);
         result.subscribe(data => {
-            this.picture = data as PictureData;
-            this.pictureLoaded.emit(null);
+            if(data.id) {
+                this.picture = data as PictureData;
+                this.pictureLoaded.emit(null);
+            }else{
+                this.picture = new PictureData();
+                this.picture.id = UUID.UUID();
+            }
             loading.dismiss();
         });
     }

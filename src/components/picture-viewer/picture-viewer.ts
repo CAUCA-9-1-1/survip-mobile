@@ -134,8 +134,10 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
 
   private onFileLoaded(response): void {
     let imageUri: string = response.target.result;
-    if (imageUri.indexOf(';base64,') > 0)
-      imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);
+    if(this.platform.is('cordova'))
+    {
+        imageUri = 'data:image/jpeg;base64,' + imageUri;
+    }
 
     this.value = {id: this.value.id, picture: imageUri, dataUri: imageUri, sketchJson: null};
   }
@@ -143,6 +145,10 @@ export class PictureViewerComponent implements ControlValueAccessor, OnDestroy {
   private getPicture(options: CameraOptions) {
     try {
       this.camera.getPicture(options).then((imageData) => {
+          if(this.platform.is('cordova'))
+          {
+              imageData = 'data:image/jpeg;base64,' + imageData;
+          }
         this.value = {id: this.value.id, picture: imageData, dataUri: imageData, sketchJson: null};
       }, (err) => {
         alert(err);

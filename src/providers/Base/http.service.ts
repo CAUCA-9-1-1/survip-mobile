@@ -56,7 +56,7 @@ export class HttpService {
   }
 
   public put(url: string, body?: any): Observable<any> {
-    return this.client.post(this.getFullUrl(url), body, this.getHeaders()).pipe(
+    return this.client.put(this.getFullUrl(url), body, this.getHeaders()).pipe(
       catchError((error: HttpErrorResponse) => this.onError(error))
     );
   }
