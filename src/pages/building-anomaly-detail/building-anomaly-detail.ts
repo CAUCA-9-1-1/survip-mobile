@@ -23,7 +23,7 @@ export class BuildingAnomalyDetailPage {
     private selectedTheme: string;
 
     public isNew: boolean = false;
-    public anomaly: InspectionBuildingAnomaly;
+    public anomaly: InspectionBuildingAnomaly = new InspectionBuildingAnomaly();
     public form: FormGroup;
     public labels = {};
 
