@@ -119,6 +119,9 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         picture.idParent = this.idParent;
         picture.pictureData = pic;
         picture.modified = true;
+        if (this.isUsingCordova) {
+            picture.pictureData = 'data:image/jpeg;base64,' + pic;
+        }
         this.repo.pictures.push(picture);
 
         this.slides.update();
@@ -184,8 +187,6 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
 
     private onFileLoaded(response): void {
         let imageUri: string = response.target.result;
-        if (imageUri.indexOf(';base64,') > 0)
-            imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);
         this.addPicture(imageUri);
     }
 
@@ -209,7 +210,7 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
     public getImageUrl(pic: string) {
         return pic === "" || pic == null
             ? ''
-            : this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + pic);
+            : this.sanitizer.bypassSecurityTrustUrl(pic);
     }
 
     public onEditPhoto(){
