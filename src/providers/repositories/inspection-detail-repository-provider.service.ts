@@ -38,7 +38,7 @@ export class InspectionDetailRepositoryProvider {
     }
 
     public savePlanLane(idBuilding: string, idTransversal: string): Observable<boolean> {
-        return this.http.put('inspection/building/' + idBuilding + '/idLaneIntersection/' + idTransversal)
+        return this.http.post('inspection/building/' + idBuilding + '/idLaneIntersection/' + idTransversal)
     }
 
     public savePicture(idBuildingDetail: string, idPicture: string): Observable<boolean> {

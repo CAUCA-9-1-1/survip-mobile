@@ -15,7 +15,7 @@ export class InspectionBuildingCourseLaneRepositoryProvider {
     }
 
     public save(courseLane: InspectionBuildingCourseLane): Promise<any> {
-        return this.http.put('inspection/courselane', JSON.stringify(courseLane))
+        return this.http.post('inspection/courselane', JSON.stringify(courseLane))
             .pipe(map(response => response))
             .toPromise();
     }
@@ -27,7 +27,7 @@ export class InspectionBuildingCourseLaneRepositoryProvider {
     }
 
     public saveCourseLaneSequence(idInspectionCourseLane: string, sequence: number): Promise<any> {
-        return this.http.put('inspection/courselane/' + idInspectionCourseLane + "/sequence/" + sequence)
+        return this.http.post('inspection/courselane/' + idInspectionCourseLane + "/sequence/" + sequence)
             .pipe(map(response => response))
             .toPromise();
     }
