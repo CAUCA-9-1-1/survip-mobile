@@ -9,7 +9,6 @@
   </ion-navbar>
 </ion-header>
 
-
 <ion-content>
   <ion-list [formGroup]="form" class="list-items">
 
@@ -44,10 +43,10 @@
   </ion-list>
 </ion-content>
 
-<ion-footer class="page-footer" *ngIf="!isNew">
+<ion-footer class="page-footer">
   <ion-navbar>
     <ion-buttons left>
-      <button ion-button  icon-start (click)="onDeleteAlarmPanel()">
+      <button *ngIf="!isNew" ion-button  icon-start (click)="onDeleteAlarmPanel()">
         <ion-icon name="trash"></ion-icon>
         {{'fireAlarmPanelDelete' | translate}}
       </button>

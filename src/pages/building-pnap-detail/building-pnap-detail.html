@@ -94,10 +94,10 @@
   </ion-list>
 </ion-content>
 
-<ion-footer class="page-footer" *ngIf="!isNew">
+<ion-footer class="page-footer">
   <ion-navbar>
     <ion-buttons left>
-      <button ion-button  icon-start (click)="onDeletePnap()">
+      <button *ngIf="!isNew" ion-button  icon-start (click)="onDeletePnap()">
         <ion-icon name="trash"></ion-icon>
         {{'pnapDeleteButton' | translate}}
       </button>

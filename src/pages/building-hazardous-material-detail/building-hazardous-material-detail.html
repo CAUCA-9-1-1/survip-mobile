@@ -129,10 +129,10 @@
 
 </ion-content>
 
-<ion-footer class="page-footer" *ngIf="!isNew">
+<ion-footer class="page-footer">
     <ion-navbar>
         <ion-buttons left>
-            <button ion-button icon-start (click)="onDeleteHazardousMaterial()">
+            <button *ngIf="!isNew" ion-button icon-start (click)="onDeleteHazardousMaterial()">
                 <ion-icon name="trash"></ion-icon>
                 {{'hazardousMaterialDelete' | translate}}
             </button>
