@@ -89,7 +89,8 @@ export function httpServiceFactory(
             }
         }),
         CommonModule,
-        IonicModule.forRoot(MyApp),
+        IonicModule.forRoot(MyApp, {scrollAssist: false,
+    autoFocusAssist: false}),
         BrowserModule,
         ComponentsModule,
     ],
