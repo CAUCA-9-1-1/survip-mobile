@@ -1,12 +1,12 @@
-import { ErrorHandler, NgModule } from '@angular/core';
+import {ErrorHandler, NgModule } from '@angular/core';
 import {Events, IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { StatusBar } from '@ionic-native/status-bar';
-import { MyApp } from './app.component';
-import { RiskLevelRepositoryProvider } from '../providers/repositories/risk-level-repository';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { LaneRepositoryProvider } from '../providers/repositories/lane-repository';
+import {SplashScreen } from '@ionic-native/splash-screen';
+import {StatusBar } from '@ionic-native/status-bar';
+import {MyApp } from './app.component';
+import {RiskLevelRepositoryProvider } from '../providers/repositories/risk-level-repository';
+import {TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import {TranslateHttpLoader } from '@ngx-translate/http-loader';
+import {LaneRepositoryProvider } from '../providers/repositories/lane-repository';
 import {RequestLoaderService} from '../providers/Base/request-loader.service';
 import {HttpService} from '../providers/Base/http.service';
 import {PictureRepositoryProvider} from '../providers/repositories/picture-repository';
@@ -17,7 +17,7 @@ import {CommonModule} from '@angular/common';
 import {InspectionMapPage} from '../pages/inspection-map/inspection-map';
 import {AuthenticationService} from '../providers/Base/authentification.service';
 import {HttpClientModule, HttpClient, HTTP_INTERCEPTORS} from '@angular/common/http';
-import { HttpModule} from '@angular/http';
+import {HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {UtilisationCodeRepositoryProvider} from '../providers/repositories/utilisation-code-repository';
 import {InspectionBuildingCourseLaneRepositoryProvider} from '../providers/repositories/inspection-building-course-lane-repository-provider.service';
@@ -77,7 +77,6 @@ export function httpServiceFactory(
         MyApp,
     ],
     imports: [
-        //InspectionMapPageModule,
         FormsModule,
         HttpModule,
         HttpClientModule,
@@ -89,7 +88,8 @@ export function httpServiceFactory(
             }
         }),
         CommonModule,
-        IonicModule.forRoot(MyApp),
+        IonicModule.forRoot(MyApp, {scrollAssist: false,
+    autoFocusAssist: false}),
         BrowserModule,
         ComponentsModule,
     ],
