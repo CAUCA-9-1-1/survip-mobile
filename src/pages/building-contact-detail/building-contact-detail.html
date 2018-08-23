@@ -85,15 +85,13 @@
 </ion-content>
 
 <ion-footer class="page-footer">
-
-  <ion-navbar>
+  <ion-toolbar>
     <ion-buttons left>
       <button *ngIf="!isNew" ion-button  icon-start (click)="onDeleteContact()">
         <ion-icon name="trash"></ion-icon>
         {{'contactDeleteButton' | translate}}
       </button>
     </ion-buttons>
-  </ion-navbar>
-
+  </ion-toolbar>
 </ion-footer>
 
