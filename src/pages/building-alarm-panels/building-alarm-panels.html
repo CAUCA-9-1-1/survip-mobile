@@ -44,12 +44,12 @@
 </ion-content>
 
 <ion-footer class="page-footer">
-  <ion-navbar>
+  <ion-toolbar>
     <ion-buttons left>
       <button *ngIf="!isNew" ion-button  icon-start (click)="onDeleteAlarmPanel()">
         <ion-icon name="trash"></ion-icon>
         {{'fireAlarmPanelDelete' | translate}}
       </button>
     </ion-buttons>
-  </ion-navbar>
+  </ion-toolbar>
 </ion-footer>

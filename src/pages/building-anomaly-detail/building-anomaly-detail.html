@@ -30,12 +30,12 @@
 </ion-content>
 
 <ion-footer class="page-footer">
-    <ion-navbar>
+    <ion-toolbar>
         <ion-buttons left>
             <button *ngIf="!isNew" ion-button icon-start (click)="onDeleteAnomaly()">
                 <ion-icon name="trash"></ion-icon>
                 {{'anomalyDelete' | translate}}
             </button>
         </ion-buttons>
-    </ion-navbar>
+    </ion-toolbar>
 </ion-footer>
