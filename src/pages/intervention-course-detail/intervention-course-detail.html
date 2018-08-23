@@ -14,7 +14,7 @@
         <ion-option *ngFor="let fire of firestations | orderBy:'name'" [value]="fire.id">{{fire.name}}</ion-option>
       </ion-select>
     </ion-item>
-    <div *ngIf="form.get('idFirestation').hasError('required')" class="validation-error-text">*{{'fireStationRequired' | translate}}</div>
+    <div *ngIf="form.get('idFirestation').hasError('required')" class="validation-error-text">{{'fireStationRequired' | translate}}</div>
   </ion-list>
 
   <ion-list class="list-items">

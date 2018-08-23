@@ -25,7 +25,7 @@
         <ion-label fixed>{{'name' | translate}}</ion-label>
         <ion-input type="text" formControlName="lastName"></ion-input>
       </ion-item>
-      <div *ngIf="!form.controls.lastName.valid" class="validation-error-text">{{'lastNameRequired' | translate}}</div>
+      <div *ngIf="!form.controls.lastName.valid" class="validation-error-text">{{'nameRequired' | translate}}</div>
       <ion-item>
         <ion-label fixed>{{'owner' | translate}}</ion-label>
         <ion-toggle formControlName="isOwner"></ion-toggle>

@@ -98,7 +98,6 @@ export class AnomalyThemeSelectionPage {
     private showPrompt() {
         let prompt = this.alertCtrl.create({
             title: this.labels['themeCreationTitle'],
-            message: this.labels['themeCreationMessage'],
             inputs: [{name: 'themeName', placeholder: this.labels['themeNameHolder'], value: this.currentSearch}],
             buttons: [{text: this.labels['cancel']}, {
                 text: 'Ok', handler: data => {
