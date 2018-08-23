@@ -29,10 +29,10 @@
     <building-child-pictures [repo]="picRepo" [saveAuto]="false" formControlName="id">{{'loading' | translate}}</building-child-pictures>
 </ion-content>
 
-<ion-footer class="page-footer" *ngIf="!isNew">
+<ion-footer class="page-footer">
     <ion-navbar>
         <ion-buttons left>
-            <button ion-button icon-start (click)="onDeleteAnomaly()">
+            <button *ngIf="!isNew" ion-button icon-start (click)="onDeleteAnomaly()">
                 <ion-icon name="trash"></ion-icon>
                 {{'anomalyDelete' | translate}}
             </button>

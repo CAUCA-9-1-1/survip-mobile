@@ -44,6 +44,14 @@
             </ion-item>
         </ion-item-group>
     </ion-list>
-    <button ion-button block color="caucaRed" class="large-button" (click)="UpdateVisitRefusalReason()">{{'save' | translate}}</button>
-
 </ion-content>
+<ion-footer class="page-footer">
+    <ion-toolbar>
+        <ion-buttons>
+            <button ion-button icon-start full type="button" (click)="UpdateVisitRefusalReason()">
+                <ion-icon name="icon-save"></ion-icon>
+                {{'save' | translate}}
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>
