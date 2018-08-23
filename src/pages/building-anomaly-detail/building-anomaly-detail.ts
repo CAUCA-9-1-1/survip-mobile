@@ -16,11 +16,8 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class BuildingAnomalyDetailPage {
 
-    private idBuildingAnomaly: string;
-    private readonly idBuilding: string;
     private subscription: ISubscription;
     private pictureSubscriber: ISubscription;
-    private selectedTheme: string;
 
     public isNew: boolean = false;
     public anomaly: InspectionBuildingAnomaly = new InspectionBuildingAnomaly();
@@ -40,11 +37,10 @@ export class BuildingAnomalyDetailPage {
         private translateService: TranslateService) {
 
         this.anomaly = new InspectionBuildingAnomaly();
-        this.anomaly.id = UUID.UUID();
-        this.idBuilding = navParams.get("idBuilding");
-        this.idBuildingAnomaly = navParams.get('idBuildingAnomaly');
-        this.isNew = this.idBuildingAnomaly == null;
-        this.selectedTheme = navParams.get('theme');
+        this.isNew = navParams.get('idBuildingAnomaly') == null;
+        this.anomaly.id = navParams.get('idBuildingAnomaly') ? navParams.get('idBuildingAnomaly') :UUID.UUID();
+        this.anomaly.theme = navParams.get('theme');
+        this.anomaly.idBuilding = navParams.get("idBuilding");
         this.initiateForm();
 
         this.pictureSubscriber = this.picRepo.picturesChanged.subscribe(() => this.picturesUpdated());
@@ -61,7 +57,7 @@ export class BuildingAnomalyDetailPage {
             });
     }
 
-    public async ionViewDidEnter() {
+    public async ionViewDidLoad() {
         let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
         await load.present();
 
@@ -71,25 +67,27 @@ export class BuildingAnomalyDetailPage {
     }
 
     private async loadBuildingAnomaly(){
-        if (this.idBuildingAnomaly) {
-            this.anomaly = await this.repo.get(this.idBuildingAnomaly);
+        if (!this.isNew) {
+            this.anomaly = await this.repo.get(this.anomaly.id);
+            this.initiateForm();
         }
 
-        this.initiateForm();
+        this.startWatchingForm();
     }
 
     private initiateForm() {
         this.form = this.fb.group({
             id: [this.anomaly.id],
-            theme: [this.anomaly.theme ? this.anomaly.theme : this.selectedTheme, [Validators.required, Validators.maxLength(50)]],
+            theme: [this.anomaly.theme, [Validators.required, Validators.maxLength(50)]],
             notes: [this.anomaly.notes ? this.anomaly.notes : '', [Validators.required,Validators.maxLength(500)]],
-            idBuilding:[this.anomaly.idBuilding ? this.anomaly.idBuilding : this.idBuilding]
+            idBuilding:[this.anomaly.idBuilding]
         });
-
-        this.startWatchingForm();
     }
 
     private startWatchingForm() {
+        if(this.subscription){
+            this.subscription.unsubscribe();
+        }
         this.subscription = this.form.valueChanges
             .debounceTime(500)
             .subscribe(() => this.saveIfValid());
@@ -117,7 +115,7 @@ export class BuildingAnomalyDetailPage {
 
     public async onDeleteAnomaly() {
         if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['anomalyDeleteQuestion'])) {
-            await this.repo.delete(this.idBuildingAnomaly);
+            await this.repo.delete(this.anomaly.id);
             this.viewCtrl.dismiss();
             this.unSubscribeEvent();
         }
@@ -145,8 +143,7 @@ export class BuildingAnomalyDetailPage {
         matModal.onDidDismiss(data => {
             if (data.hasSelected) {
                 this.form.markAsDirty();
-                this.form.value['theme'].setValue(data.selectedTheme);
-                this.saveIfValid();
+                this.form.controls['theme'].patchValue(data.selectedTheme);
             }
         });
         matModal.present();
@@ -154,7 +151,6 @@ export class BuildingAnomalyDetailPage {
 
     private picturesUpdated(){
         this.form.markAsDirty();
-        this.form.controls['id'].updateValueAndValidity();
     }
 
     public unSubscribeEvent(){
