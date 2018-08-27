@@ -187,8 +187,9 @@ export class InterventionGeneralPage implements OnDestroy {
         }
     }
 
-    public startInspection() {
-        if(this.canUserAccessInspection()) {
+    public async startInspection() {
+        let canStart =  await this.canUserAccessInspection();
+        if(canStart){
             this.inspectionDetailProvider.startInspection(this.controller.idInspection)
                 .subscribe(success => {
                     this.controller.loadInterventionForm();
@@ -207,8 +208,9 @@ export class InterventionGeneralPage implements OnDestroy {
         }
     }
 
-    public refuseVisit() {
-        if(this.canUserAccessInspection()) {
+    public async refuseVisit() {
+        let canRefuse =  await this.canUserAccessInspection();
+        if(canRefuse){
             this.navCtrl.push('InspectionVisitPage', {ownerAbsent: false});
         }
     }
@@ -242,15 +244,14 @@ export class InterventionGeneralPage implements OnDestroy {
         }else {
          return await this.inspectionDetailProvider.CanUserAccessInspection(this.controller.idInspection)
                 .then(
-                    result => {
+                    () => {
                         this.userAllowed = true;
                         this.configService.activateMenu();
-                        return true;
-                    }, error => {
+                    }, () => {
                         this.userAllowed = false;
                         this.configService.disableMenu();
-                        return false;
-                    });
+                    })
+             .catch(error=>{console.log("Error in CanUserAccessInspection", error)});
         }
     }
 }
