@@ -16,6 +16,7 @@ import {InspectionConfigurationProvider} from '../../providers/inspection-config
 export class InterventionHomePage implements OnDestroy {
     private rootPage = 'InterventionGeneralPage';
     private readonly planSubscription: ISubscription;
+    private menuSubscription: ISubscription;
 
     public menuItems: MenuItem[];
     public mustShowPlanMenu: boolean = false;
@@ -28,8 +29,7 @@ export class InterventionHomePage implements OnDestroy {
                 private translateService: TranslateService,
                 private configurationService: InspectionConfigurationProvider) {
         controller.setIdInterventionForm(this.navParams.data['id']);
-        console.log('configuration', this.configurationService.configuration);
-
+        this.initMenuEvent();
         this.planSubscription = controller.planLoaded.subscribe(() => {
                 if (controller.inspectionDetail.idSurvey)
                     this.mustShowPlanMenu = true;
@@ -37,6 +37,14 @@ export class InterventionHomePage implements OnDestroy {
                     this.mustShowPlanMenu = false;
             }
         );
+    }
+
+    private initMenuEvent(){
+        if(this.menuSubscription)
+        {
+            this.menuSubscription.unsubscribe();
+        }
+        this.menuSubscription = this.configurationService.menuRefreshed.subscribe(()=>this.loadMenu());
     }
 
     public ngOnInit() {
@@ -49,6 +57,10 @@ export class InterventionHomePage implements OnDestroy {
                 console.log(error)
             });
 
+        this.loadMenu();
+    }
+
+    private loadMenu(){
         const configuration = this.configurationService.configuration;
         this.menuItems = [
             {title: this.labels['generalInformation'], page: 'InterventionGeneralPage', icon: 'information-circle', enabled: true},

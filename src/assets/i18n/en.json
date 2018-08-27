@@ -178,6 +178,7 @@
   "operator":"Operator",
   "otherInformation":"Other information",
   "otherPhone":"Other phone",
+  "otherUserInspection":"This inspection is in progress by another user",
   "outflow":"Outflow",
   "owner":"Owner",
   "ownerAbsent":"Owner absent",
