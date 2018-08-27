@@ -173,16 +173,6 @@ export class InterventionGeneralPage implements OnDestroy {
         this.statusText = this.inspectionDetailProvider.getInspectionStatusText(this.plan.status);
     }
 
-    public startInspection() {
-        this.inspectionDetailProvider.startInspection(this.controller.idInspection)
-            .subscribe(success => {
-                this.controller.loadInterventionForm();
-                this.validateSurveyNavigation();
-            }, error => {
-                this.userAllowed = false;
-            });
-    }
-
     private validateSurveyNavigation(){
         if (this.controller.inspectionDetail.idSurvey) {
             if (this.controller.inspectionDetail.isSurveyCompleted) {
@@ -197,12 +187,30 @@ export class InterventionGeneralPage implements OnDestroy {
         }
     }
 
-    public absentVisit() {
-        this.navCtrl.push('InspectionVisitPage', {ownerAbsent: true});
+    public startInspection() {
+        if(this.canUserAccessInspection()) {
+            this.inspectionDetailProvider.startInspection(this.controller.idInspection)
+                .subscribe(success => {
+                    this.controller.loadInterventionForm();
+                    this.validateSurveyNavigation();
+                },
+                    error=>{
+                    console.log("Error in startInspection",error);
+                    });
+        }
+    }
+
+    public async absentVisit() {
+       let canCancel =  await this.canUserAccessInspection();
+       if(canCancel){
+           this.navCtrl.push('InspectionVisitPage', {ownerAbsent: true});
+        }
     }
 
     public refuseVisit() {
-        this.navCtrl.push('InspectionVisitPage', {ownerAbsent: false});
+        if(this.canUserAccessInspection()) {
+            this.navCtrl.push('InspectionVisitPage', {ownerAbsent: false});
+        }
     }
 
     public completeInspection() {
@@ -226,20 +234,23 @@ export class InterventionGeneralPage implements OnDestroy {
         }
     }
 
-    private canUserAccessInspection(){
+    private async canUserAccessInspection(){
         if(this.plan.status != this.inspectionDetailProvider.InspectionStatusEnum.Started){
+            this.userAllowed = false;
             this.configService.disableMenu();
-            return;
+            return false;
+        }else {
+         return await this.inspectionDetailProvider.CanUserAccessInspection(this.controller.idInspection)
+                .then(
+                    result => {
+                        this.userAllowed = true;
+                        this.configService.activateMenu();
+                        return true;
+                    }, error => {
+                        this.userAllowed = false;
+                        this.configService.disableMenu();
+                        return false;
+                    });
         }
-        this.inspectionDetailProvider.CanUserAccessInspection(this.controller.idInspection)
-            .subscribe(
-                success => {
-                    this.userAllowed = true;
-                    this.configService.activateMenu();
-
-            }, error => {
-                    this.userAllowed = false;
-                    this.configService.disableMenu();
-                })
     }
 }
