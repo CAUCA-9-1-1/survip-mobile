@@ -65,7 +65,7 @@ export class InspectionDetailRepositoryProvider {
         return this.labels["visitStatus" + Object.keys(this.InspectionVisitStatusEnum).find(e => this.InspectionVisitStatusEnum[e] === status)];
     }
 
-    public CanUserAccessInspection(idInspection: string):Observable<boolean>{
-        return this.http.get('inspection/' + idInspection + '/userAllowed');
+    public CanUserAccessInspection(idInspection: string):Promise<boolean>{
+        return this.http.get('inspection/' + idInspection + '/userAllowed').toPromise();
     }
 }
