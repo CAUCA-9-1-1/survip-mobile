@@ -158,4 +158,8 @@ export class BuildingAnomalyDetailPage {
         this.subscription.unsubscribe();
         this.pictureSubscriber.unsubscribe();
     }
+
+    public ngOnDestroy(){
+        this.unSubscribeEvent();
+    }
 }
