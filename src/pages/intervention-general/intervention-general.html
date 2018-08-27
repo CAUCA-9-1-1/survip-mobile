@@ -50,19 +50,30 @@
     </form>
     <ion-card>
         <ion-card-header>{{statusText}}</ion-card-header>
+        <div *ngIf="userAllowed">
         <div class="refuse_reason" *ngIf="plan?.approbationRefusalReason">
-            <ion-label >{{'reason' | translate}} : </ion-label>
+            <ion-label>{{'reason' | translate}} :</ion-label>
             <ion-label>{{plan.approbationRefusalReason}}</ion-label>
         </div>
-        <button *ngIf="startVisible" ion-button block color="caucaRed" class="large-button" (click)="startInspection()">{{'start' | translate}}</button>
 
-        <div class="inline-button">
-            <button ion-button color="caucaRed" (click)="refuseVisit()">{{'visitRefused' | translate}}</button>
-            <button ion-button color="caucaRed" (click)="absentVisit()">{{'absence' | translate}}</button>
+            <button *ngIf="startVisible" ion-button block color="caucaRed" class="large-button"
+                    (click)="startInspection()">{{'start' | translate}}
+            </button>
+
+            <div class="inline-button">
+                <button ion-button color="caucaRed" (click)="refuseVisit()">{{'visitRefused' | translate}}</button>
+                <button ion-button color="caucaRed" (click)="absentVisit()">{{'absence' | translate}}</button>
+            </div>
+
+            <button *ngIf="plan?.status == inspectionDetailProvider.InspectionVisitStatusEnum.Started" ion-button block
+                    color="caucaRed" class="large-button" (click)="completeInspection()">{{'complete' | translate}}
+            </button>
         </div>
-
-        <button *ngIf="plan?.status == inspectionDetailProvider.InspectionVisitStatusEnum.Started" ion-button block color="caucaRed" class="large-button" (click)="completeInspection()">{{'complete' | translate}}</button>
-
+        <div *ngIf="!userAllowed">
+        <div class="refuse_reason">
+            <ion-label>{{'otherUserInspection' | translate}}</ion-label>
+        </div>
+        </div>
     </ion-card>
 </ion-content>
 

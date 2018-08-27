@@ -34,27 +34,27 @@ export class InspectionDetailRepositoryProvider {
     }
 
     public get(idInspection: string): Observable<InspectionDetail> {
-        return this.http.get('inspection/' + idInspection + '/detail')
+        return this.http.get('inspection/' + idInspection + '/detail');
     }
 
     public savePlanLane(idBuilding: string, idTransversal: string): Observable<boolean> {
-        return this.http.post('inspection/building/' + idBuilding + '/idLaneIntersection/' + idTransversal)
+        return this.http.post('inspection/building/' + idBuilding + '/idLaneIntersection/' + idTransversal);
     }
 
     public savePicture(idBuildingDetail: string, idPicture: string): Observable<boolean> {
-        return this.http.post('inspection/buildingdetail/' + idBuildingDetail + '/idPicture/' + idPicture)
+        return this.http.post('inspection/buildingdetail/' + idBuildingDetail + '/idPicture/' + idPicture);
     }
 
     public startInspection(idInspection: string): Observable<any> {
-        return this.http.post('Inspection/StartInspection', JSON.stringify(idInspection))
+        return this.http.post('Inspection/StartInspection', JSON.stringify(idInspection));
     }
 
     public completeInspection(idInspection: string): Observable<any> {
-        return this.http.post('Inspection/CompleteInspection', JSON.stringify(idInspection))
+        return this.http.post('Inspection/CompleteInspection', JSON.stringify(idInspection));
     }
 
     public RefuseInspectionVisit(inspectionVisit: InspectionVisit): Observable<InspectionVisit> {
-        return this.http.post('Inspection/RefuseInspectionVisit', JSON.stringify(inspectionVisit))
+        return this.http.post('Inspection/RefuseInspectionVisit', JSON.stringify(inspectionVisit));
     }
 
     public getInspectionStatusText(status: number) {
@@ -63,5 +63,9 @@ export class InspectionDetailRepositoryProvider {
 
     public getVisitStatusText(status: number) {
         return this.labels["visitStatus" + Object.keys(this.InspectionVisitStatusEnum).find(e => this.InspectionVisitStatusEnum[e] === status)];
+    }
+
+    public CanUserAccessInspection(idInspection: string):Observable<boolean>{
+        return this.http.get('inspection/' + idInspection + '/userAllowed');
     }
 }

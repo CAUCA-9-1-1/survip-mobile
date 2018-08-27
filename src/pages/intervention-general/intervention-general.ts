@@ -1,5 +1,5 @@
 import {Component, OnDestroy} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {RiskLevel} from '../../models/risk-level';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
@@ -14,6 +14,7 @@ import {InspectionDetailRepositoryProvider} from "../../providers/repositories/i
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {TranslateService} from "@ngx-translate/core";
 import {MapLocalizationRepositoryService} from "../../providers/repositories/map-localisation-repository-service";
+import {InspectionConfigurationProvider} from "../../providers/inspection-configuration/inspection-configuration";
 
 @IonicPage()
 @Component({
@@ -31,6 +32,7 @@ export class InterventionGeneralPage implements OnDestroy {
     public statusText: string;
     public startVisible = false;
     public labels = {};
+    public userAllowed = true;
 
     get plan(): InspectionDetail {
         return this.controller.inspectionDetail
@@ -48,14 +50,15 @@ export class InterventionGeneralPage implements OnDestroy {
                 public inspectionDetailProvider: InspectionDetailRepositoryProvider,
                 private messageTools: MessageToolsProvider,
                 private translateService: TranslateService,
-                private mapService: MapLocalizationRepositoryService,) {
+                private mapService: MapLocalizationRepositoryService,
+                private configService: InspectionConfigurationProvider) {
         this.createForm();
         this.controllerPlanSubscription = controller.planLoaded.subscribe(() => this.setValuesAndStartListening());
     }
 
     public ngOnInit() {
         this.translateService.get([
-            'surveyRequired'
+            'surveyRequired','otherUserInspection'
         ]).subscribe(labels => {
                 this.labels = labels;
             },
@@ -77,6 +80,7 @@ export class InterventionGeneralPage implements OnDestroy {
     }
 
     public setValuesAndStartListening() {
+        this.canUserAccessInspection();
         this.idLaneTransversal = this.plan.idLaneTransversal;
         this.setValues();
         this.loadRiskLevel();
@@ -173,7 +177,7 @@ export class InterventionGeneralPage implements OnDestroy {
                 this.controller.loadInterventionForm();
                 this.validateSurveyNavigation();
             }, error => {
-                this.messageTools.showToast('Une erreur est survenue dans le processus de démarrage de l\'inspection, veuillez réessayer ultérieurement.');
+                this.messageTools.showToast(this.labels['otherUserInspection']);
             });
     }
 
@@ -218,5 +222,20 @@ export class InterventionGeneralPage implements OnDestroy {
                         this.messageTools.showToast('Une erreur est survenue dans le processus de finalisation de l\'inspection, veuillez réessayer ultérieurement.');
                     });
         }
+    }
+
+    private canUserAccessInspection(){
+        if(this.plan.status != this.inspectionDetailProvider.InspectionStatusEnum.Started){
+            this.configService.disableMenu();
+        }
+        this.inspectionDetailProvider.CanUserAccessInspection(this.controller.idInspection)
+            .subscribe(
+                success => {
+                    this.userAllowed = true;
+
+            }, error => {
+                    this.userAllowed = false;
+                    this.configService.disableMenu();
+                })
     }
 }
