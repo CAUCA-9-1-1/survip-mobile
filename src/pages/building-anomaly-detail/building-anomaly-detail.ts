@@ -151,6 +151,7 @@ export class BuildingAnomalyDetailPage {
 
     private picturesUpdated(){
         this.form.markAsDirty();
+        this.form.updateValueAndValidity();
     }
 
     public unSubscribeEvent(){
