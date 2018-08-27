@@ -29,7 +29,7 @@ export class InterventionHomePage implements OnDestroy {
                 private translateService: TranslateService,
                 private configurationService: InspectionConfigurationProvider) {
         controller.setIdInterventionForm(this.navParams.data['id']);
-        this.initMenuEvent();
+        this.menuSubscription = this.configurationService.menuRefreshed.subscribe(()=>this.loadMenu());
         this.planSubscription = controller.planLoaded.subscribe(() => {
                 if (controller.inspectionDetail.idSurvey)
                     this.mustShowPlanMenu = true;
@@ -37,14 +37,6 @@ export class InterventionHomePage implements OnDestroy {
                     this.mustShowPlanMenu = false;
             }
         );
-    }
-
-    private initMenuEvent(){
-        if(this.menuSubscription)
-        {
-            this.menuSubscription.unsubscribe();
-        }
-        this.menuSubscription = this.configurationService.menuRefreshed.subscribe(()=>this.loadMenu());
     }
 
     public ngOnInit() {
@@ -83,8 +75,12 @@ export class InterventionHomePage implements OnDestroy {
     }
 
     public ngOnDestroy() {
-        if (this.planSubscription)
+        if (this.planSubscription) {
             this.planSubscription.unsubscribe();
+        }
+        if(this.menuSubscription){
+            this.menuSubscription.unsubscribe();
+        }
     }
 
     public ionViewDidEnter() {

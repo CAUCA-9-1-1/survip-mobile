@@ -6,20 +6,22 @@ import {HttpService} from '../Base/http.service';
 export class InspectionConfigurationProvider {
 
   public configuration: InspectionConfiguration;
+  private initialConfiguration: InspectionConfiguration;
   public menuRefreshed : EventEmitter<any> = new EventEmitter<any>();
-
 
   constructor(public http: HttpService) {
   }
 
   public async loadConfiguration(idInspection: string){
-    this.configuration = await this.http
+    this.initialConfiguration = await this.http
       .get('inspection/' + idInspection + '/configuration')
       .toPromise<InspectionConfiguration>();
+
+    this.configuration = Object.assign(new InspectionConfiguration(),this.initialConfiguration);
   }
   
   public disableMenu(){
-      this.configuration.hasGeneralInformation = false;
+
       this.configuration.hasImplantationPlan = false;
       this.configuration.hasCourse = false;
       this.configuration.hasWaterSupply = false;
@@ -30,6 +32,11 @@ export class InspectionConfigurationProvider {
       this.configuration.hasBuildingHazardousMaterials = false;
       this.configuration.hasBuildingParticularRisks = false;
       this.configuration.hasBuildingAnomalies = false;
+      this.menuRefreshed.emit(null);
+  }
+
+  public activateMenu(){
+      this.configuration = this.initialConfiguration;
       this.menuRefreshed.emit(null);
   }
 }
