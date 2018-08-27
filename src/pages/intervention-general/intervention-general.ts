@@ -53,7 +53,7 @@ export class InterventionGeneralPage implements OnDestroy {
                 private mapService: MapLocalizationRepositoryService,
                 private configService: InspectionConfigurationProvider) {
         this.createForm();
-        this.controllerPlanSubscription = controller.planLoaded.subscribe(() => this.setValuesAndStartListening());
+        this.controllerPlanSubscription = controller.planLoaded.subscribe(() =>this.setValuesAndStartListening());
     }
 
     public ngOnInit() {
@@ -68,11 +68,13 @@ export class InterventionGeneralPage implements OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        if (this.planSubscription)
+        if (this.planSubscription) {
             this.planSubscription.unsubscribe();
+        }
 
-        if (this.controllerPlanSubscription)
+        if (this.controllerPlanSubscription) {
             this.controllerPlanSubscription.unsubscribe();
+        }
     }
 
     public ionViewDidLoad() {
@@ -177,7 +179,7 @@ export class InterventionGeneralPage implements OnDestroy {
                 this.controller.loadInterventionForm();
                 this.validateSurveyNavigation();
             }, error => {
-                this.messageTools.showToast(this.labels['otherUserInspection']);
+                this.userAllowed = false;
             });
     }
 
@@ -227,11 +229,13 @@ export class InterventionGeneralPage implements OnDestroy {
     private canUserAccessInspection(){
         if(this.plan.status != this.inspectionDetailProvider.InspectionStatusEnum.Started){
             this.configService.disableMenu();
+            return;
         }
         this.inspectionDetailProvider.CanUserAccessInspection(this.controller.idInspection)
             .subscribe(
                 success => {
                     this.userAllowed = true;
+                    this.configService.activateMenu();
 
             }, error => {
                     this.userAllowed = false;
