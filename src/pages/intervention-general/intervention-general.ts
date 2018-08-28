@@ -238,7 +238,6 @@ export class InterventionGeneralPage implements OnDestroy {
 
     private async canUserAccessInspection(){
         if(this.plan.status != this.inspectionDetailProvider.InspectionStatusEnum.Started){
-            this.userAllowed = false;
             this.configService.disableMenu();
             return false;
         }else {
