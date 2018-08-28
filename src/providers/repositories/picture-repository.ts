@@ -13,13 +13,13 @@ export class PictureRepositoryProvider {
         if (!idPicture)
             return Observable.of(new PictureData());
         else {
-            return this.http.get("picture/" + idPicture)
+            return this.http.get("inspectionpicture/" + idPicture)
                 .pipe(map(response => response));
         }
     }
 
     public savePicture(picture: PictureData): Promise<string> {
-        return this.http.put("picture", JSON.stringify(picture))
+        return this.http.put("inspectionpicture", JSON.stringify(picture))
             .pipe(map(response => response)).toPromise<string>();
     }
 }
