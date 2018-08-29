@@ -45,7 +45,8 @@
                     formControlName="idLaneTransversal"
                     [displayFieldName]="'name'"
                     [keyFieldName]="'id'"
-                    [dataService]="laneService"></search-box>
+                    [dataService]="laneService"
+                    [isDisabled]="!userAllowed"></search-box>
         </ion-list>
     </form>
     <ion-card>
