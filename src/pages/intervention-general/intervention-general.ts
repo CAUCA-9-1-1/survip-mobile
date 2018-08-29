@@ -82,7 +82,7 @@ export class InterventionGeneralPage implements OnDestroy {
     }
 
     public setValuesAndStartListening() {
-        this.canUserAccessInspection();
+        this.userAccessValidation();
         this.idLaneTransversal = this.plan.idLaneTransversal;
         this.setValues();
         this.loadRiskLevel();
@@ -236,21 +236,24 @@ export class InterventionGeneralPage implements OnDestroy {
         }
     }
 
-    private async canUserAccessInspection(){
+    private async userAccessValidation(){
         if(this.plan.status != this.inspectionDetailProvider.InspectionStatusEnum.Started){
             this.configService.disableMenu();
             return false;
-        }else {
-         return await this.inspectionDetailProvider.CanUserAccessInspection(this.controller.idInspection)
-                .then(
-                    () => {
-                        this.userAllowed = true;
-                        this.configService.activateMenu();
-                    }, () => {
-                        this.userAllowed = false;
-                        this.configService.disableMenu();
-                    })
-             .catch(error=>{console.log("Error in CanUserAccessInspection", error)});
         }
+         return await this.canUserAccessInspection();
+    }
+
+    private async canUserAccessInspection(){
+     return await this.inspectionDetailProvider.CanUserAccessInspection(this.controller.idInspection)
+            .then(
+                () => {
+                    this.userAllowed = true;
+                    this.configService.activateMenu();
+                }, () => {
+                    this.userAllowed = false;
+                    this.configService.disableMenu();
+                })
+            .catch(error=>{console.log("Error in CanUserAccessInspection", error)});
     }
 }
