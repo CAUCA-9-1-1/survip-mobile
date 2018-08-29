@@ -33,6 +33,7 @@ export class InterventionGeneralPage implements OnDestroy {
     public startVisible = false;
     public labels = {};
     public userAllowed = true;
+    public refreshUserPermission = false;
 
     get plan(): InspectionDetail {
         return this.controller.inspectionDetail
@@ -83,6 +84,7 @@ export class InterventionGeneralPage implements OnDestroy {
 
     public setValuesAndStartListening() {
         this.userAccessValidation();
+        this.refreshUserPermission = false;
         this.idLaneTransversal = this.plan.idLaneTransversal;
         this.setValues();
         this.loadRiskLevel();
@@ -237,22 +239,28 @@ export class InterventionGeneralPage implements OnDestroy {
     }
 
     private async userAccessValidation(){
-        if(this.plan.status != this.inspectionDetailProvider.InspectionStatusEnum.Started){
-            this.configService.disableMenu();
-            return false;
+        if(!this.refreshUserPermission) {
+            if (this.plan.status != this.inspectionDetailProvider.InspectionStatusEnum.Started) {
+                this.configService.disableMenu();
+                return false;
+            }
+            return await this.canUserAccessInspection();
         }
-         return await this.canUserAccessInspection();
     }
 
     private async canUserAccessInspection(){
      return await this.inspectionDetailProvider.CanUserAccessInspection(this.controller.idInspection)
             .then(
-                () => {
-                    this.userAllowed = true;
-                    this.configService.activateMenu();
-                }, () => {
-                    this.userAllowed = false;
-                    this.configService.disableMenu();
+                (result) => {
+                    this.userAllowed = result;
+                    if(result){
+                        this.configService.activateMenu();
+                    }else{
+
+                        this.configService.disableMenu();
+                    }
+                    this.refreshUserPermission = true;
+                    return result;
                 })
             .catch(error=>{console.log("Error in CanUserAccessInspection", error)});
     }
