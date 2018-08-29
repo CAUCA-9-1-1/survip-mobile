@@ -250,6 +250,7 @@
   "typeRequired":"*Le type est requis.",
   "unit":"Unité",
   "userName":"Nom d'usager",
+  "UserNotAllowedInspection":"Vous n'êtes pas autorisé à accéder à cette inspection",
   "visitCanceled": "Visite annulée",
   "visitCanceledMotive":"Motif d'annulation",
   "visitNewSchedule":"Nouvelle date de visite",
