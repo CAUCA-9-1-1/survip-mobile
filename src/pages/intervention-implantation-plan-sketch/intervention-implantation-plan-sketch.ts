@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 import { PictureRepositoryProvider } from './../../providers/repositories/picture-repository';
 import { PictureData } from './../../models/picture-data';
 import { InspectionControllerProvider } from '../../providers/inspection-controller/inspection-controller';
-import { Gesture } from 'ionic-angular/gestures/gesture';
 import { fabric } from 'fabric';
 
 @IonicPage()
@@ -12,7 +11,6 @@ import { fabric } from 'fabric';
   templateUrl: 'intervention-implantation-plan-sketch.html',
 })
 export class InterventionImplantationPlanSketchPage {
-  public labels = {};
   public picture: PictureData;
   public repo: PictureRepositoryProvider;
 
@@ -27,13 +25,7 @@ export class InterventionImplantationPlanSketchPage {
   }
 
   get pictureUri() {
-    if (this.picture.dataUri !== "" || this.picture.dataUri !== null) {
-      const validUri = (this.picture.dataUri.indexOf(';base64,') > 0)
-      ? this.picture.dataUri
-      : 'data:image/jpeg;base64,' + this.picture.dataUri;
-      return validUri;
-    }
-    return '';
+      return this.picture.dataUri;
   }
 
   get sketchJson() {
@@ -52,12 +44,10 @@ export class InterventionImplantationPlanSketchPage {
       this.canvas.absolutePan(new fabric.Point(0, 0));
 
       let imageUri = this.canvas.toDataURL();
-      if (imageUri.indexOf(';base64,') > 0)
-        imageUri = imageUri.substr(imageUri.indexOf(';base64,') + 8);
 
       this.picture = {id: this.picture.id, picture:imageUri, dataUri: imageUri, sketchJson: json};
       this.controller.picture = this.picture;
-      let idPicture = await this.repo.savePicture(this.picture);
+      await this.repo.savePicture(this.picture);
     }
     this.viewCtrl.dismiss();
   }
