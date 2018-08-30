@@ -17,8 +17,8 @@ import { fabric } from 'fabric';
   templateUrl: 'building-child-picture-edition.html'
 })
 export class BuildingChildPictureEditionPage {
-  picture: InspectionBuildingChildPictureForWeb;
-  repo: BuildingChildPictureRepositoryProvider;
+  public picture: InspectionBuildingChildPictureForWeb;
+  public repo: BuildingChildPictureRepositoryProvider;
 
   private canvas;
 
@@ -35,11 +35,11 @@ export class BuildingChildPictureEditionPage {
     return this.picture.sketchJson;
   }
 
-  onCanvasChange($event) {
+  public onCanvasChange($event) {
     this.canvas = $event;
   }
 
-  async onOkay() {
+  public async onOkay() {
     if (this.canvas) {
        let json = JSON.stringify(this.canvas.toJSON());
 
@@ -53,7 +53,7 @@ export class BuildingChildPictureEditionPage {
     this.viewCtrl.dismiss(this.picture);
   }
 
-  onCancel() {
+  public onCancel() {
     this.viewCtrl.dismiss(this.picture);
   }
 }
