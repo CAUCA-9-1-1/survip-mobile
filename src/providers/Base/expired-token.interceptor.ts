@@ -39,8 +39,8 @@ export class ExpiredTokenInterceptor implements HttpInterceptor {
       return authService.refreshToken()
         .switchMap((response) => {
           this.onTokenRefreshed(response);
-          if (sessionStorage.getItem("currentToken")){
-            this.tokenSubject.next(sessionStorage.getItem("currentToken"));
+          if (localStorage.getItem("currentToken")){
+            this.tokenSubject.next(localStorage.getItem("currentToken"));
             this.isRefreshingToken = false;
             return next.handle(this.setToken(req));
           }
@@ -73,11 +73,11 @@ export class ExpiredTokenInterceptor implements HttpInterceptor {
 
   private onTokenRefreshed(response) {
     if (response.accessToken) {
-      sessionStorage.setItem('currentToken', response.accessToken);
+        localStorage.setItem('currentToken', response.accessToken);
     }
   }
 
   private setToken(req: HttpRequest<any>): HttpRequest<any> {
-    return req.clone({ setHeaders: { Authorization: 'Bearer ' + sessionStorage.getItem('currentToken') }});
+    return req.clone({ setHeaders: { Authorization: 'Bearer ' + localStorage.getItem('currentToken') }});
   }
 }

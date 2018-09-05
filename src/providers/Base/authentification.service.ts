@@ -17,7 +17,8 @@ export class AuthenticationService {
   }
 
   public login(username: string, password: string) {
-    sessionStorage.removeItem('currentToken');
+    localStorage.removeItem('currentToken');
+
     this.showLoading();
     return this.http.rawPost('Authentification/Logon', {
       username: username,
@@ -30,10 +31,8 @@ export class AuthenticationService {
 
   public async isStillLoggedIn() : Promise<boolean> {
     return this.http.rawGet('Authentification/SessionStatus').pipe(
-      map(response => {
-        console.log(response);
-        return response === true;
-      })
+        catchError((error: HttpErrorResponse) => Observable.of(false)),
+        map(response => response === true)
     ).toPromise();
   }
 
@@ -52,8 +51,10 @@ export class AuthenticationService {
     if (result.data && result.data.accessToken) {
       sessionStorage.setItem('firstName', result.data.firstName);
       sessionStorage.setItem('lastName', result.data.lastName);
-      sessionStorage.setItem('currentToken', result.data.accessToken);
-      sessionStorage.setItem('refreshToken', result.data.refreshToken);
+
+      localStorage.setItem('currentToken', result.data.accessToken);
+      localStorage.setItem('refreshToken', result.data.refreshToken);
+
       return true;
     }
     return false;
@@ -65,8 +66,8 @@ export class AuthenticationService {
 
   public refreshToken() {
     return this.http.rawPost('Authentification/Refresh', {
-      accessToken: sessionStorage.getItem('currentToken'),
-      refreshToken: sessionStorage.getItem('refreshToken')
+      accessToken: localStorage.getItem('currentToken'),
+      refreshToken: localStorage.getItem('refreshToken')
     });
   }
 
@@ -77,7 +78,7 @@ export class AuthenticationService {
 
   private onRefresh(response) {
     if (response.accessToken) {
-      sessionStorage.setItem('currentToken', response.accessToken);
+      localStorage.setItem('currentToken', response.accessToken);
     }
   }
 }
