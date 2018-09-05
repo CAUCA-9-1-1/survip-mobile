@@ -1,11 +1,13 @@
 import {HttpService} from "../Base/http.service";
 import {Observable} from "rxjs/Observable";
-import {Injectable} from "@angular/core";
+import {EventEmitter, Injectable} from "@angular/core";
 import {InspectionQuestion} from "../../models/inspection-question";
 import {InspectionQuestionSummaryCategory} from "../../models/inspection-question-summary-category";
 
 @Injectable()
 export class InspectionQuestionRepositoryProvider {
+
+    public questionAnswered: EventEmitter<any> = new EventEmitter<any>();
 
     constructor(private http: HttpService) {
     }
