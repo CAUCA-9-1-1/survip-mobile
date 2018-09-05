@@ -12,6 +12,8 @@ import {InspectionBuildingParticularRiskDetailComponent} from './inspection-buil
 import {MenuProfileComponent} from './menu-profile/menu-profile';
 import {SketchToolModule} from 'lib-sketch-tool';
 import {TranslateModule} from "@ngx-translate/core";
+import { ParentChildQuestionComponent } from './parent-child-question/parent-child-question';
+import { SurveyQuestionComponent } from './survey-question/survey-question';
 
 @NgModule({
     declarations: [
@@ -20,7 +22,9 @@ import {TranslateModule} from "@ngx-translate/core";
         PictureViewerComponent,
         BuildingChildPicturesComponent,
         InspectionBuildingParticularRiskDetailComponent,
-        MenuProfileComponent
+        MenuProfileComponent,
+    ParentChildQuestionComponent,
+    SurveyQuestionComponent
     ],
     imports: [
         FormsModule,
@@ -37,6 +41,8 @@ import {TranslateModule} from "@ngx-translate/core";
         BuildingChildPicturesComponent,
         InspectionBuildingParticularRiskDetailComponent,
         MenuProfileComponent,
+    ParentChildQuestionComponent,
+    SurveyQuestionComponent,
     ],
     providers: [
         WindowRefService,

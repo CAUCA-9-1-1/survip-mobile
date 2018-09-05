@@ -1,0 +1,10 @@
+<div>
+    <h2>{{questions[0].title}}</h2>
+    <button ion-button icon-end>
+        <ion-icon name="add"></ion-icon>
+        {{'add' | translate}}
+    </button>
+    <ion-card *ngFor="let question of questions">
+        <survey-question [question]="question" (questionAnswered)="showNextQuestion()"></survey-question>
+    </ion-card>
+</div>
