@@ -11,14 +11,8 @@
         <h2>{{currentQuestion.title}}</h2>
         <p>{{currentQuestion.description}}</p>
       </div>
-      <ion-list radio-group [(ngModel)]=currentQuestion.answer [disabled]="reviewOnly" *ngIf="currentQuestion.questionType == 1">
-        <ion-item *ngFor="let choice of currentQuestion.choicesList">
-          <ion-label>{{choice.description}}</ion-label>
-          <ion-radio [value]=choice.id (ionSelect)="getNextQuestionFromAnswer()"></ion-radio>
-        </ion-item>
-      </ion-list>
-      <ion-textarea [(ngModel)]=currentQuestion.answer [disabled]="reviewOnly"  (ionChange)="answerTextChanged()" *ngIf="currentQuestion.questionType == 2"></ion-textarea>
-      <ion-datetime displayFormat="YYYY/MM/DD" [(ngModel)]=currentQuestion.answer [disabled]="reviewOnly" (ionChange)="getNextQuestionFromAnswer()"  *ngIf="currentQuestion.questionType == 3"></ion-datetime>
+      <survey-question [question]="currentQuestion" (questionAnswered)="getNextQuestionFromAnswer(data)" *ngIf="currentQuestion.questionType != 4"></survey-question>
+      <parent-child-question [questions]="getChildQuestions()" (childQuestionAnswered)="getNextQuestionFromAnswer(data)" *ngIf="currentQuestion.questionType == 4"></parent-child-question>
     </ion-slide>
   </ion-slides>
 </ion-content>
