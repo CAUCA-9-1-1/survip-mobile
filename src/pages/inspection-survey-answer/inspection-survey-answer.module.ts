@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { InspectionQuestionSummaryPage } from './inspection-question-summary';
+import { InspectionSurveyAnswerPage } from './inspection-survey-answer';
 import {PipesModule} from "../../pipes/pipes.module";
 import {ComponentsModule} from "../../components/components.module";
 import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   declarations: [
-    InspectionQuestionSummaryPage,
+      InspectionSurveyAnswerPage,
   ],
   imports: [
-    IonicPageModule.forChild(InspectionQuestionSummaryPage),
+    IonicPageModule.forChild(InspectionSurveyAnswerPage),
       ComponentsModule,
       PipesModule,
       TranslateModule.forChild(),
   ],
 })
-export class InspectionQuestionSummaryPageModule {}
+export class InspectionSurveyAnswerPageModule {}

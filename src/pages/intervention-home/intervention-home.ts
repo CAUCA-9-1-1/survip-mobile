@@ -107,10 +107,10 @@ export class InterventionHomePage implements OnDestroy {
 
     public goToInspectionQuestions = () => {
         if (this.controller.inspectionDetail.isSurveyCompleted) {
-            this.navCtrl.push('InspectionQuestionSummaryPage', {idInspection: this.controller.idInspection});
+            this.navCtrl.push('InspectionSurveySummaryPage', {idInspection: this.controller.idInspection});
         }
         else {
-            this.navCtrl.push('InspectionQuestionPage', {
+            this.navCtrl.push('InspectionSurveyAnswerPage', {
                 idInspection: this.controller.idInspection,
                 inspectionSurveyCompleted: this.controller.inspectionDetail.isSurveyCompleted
             });
