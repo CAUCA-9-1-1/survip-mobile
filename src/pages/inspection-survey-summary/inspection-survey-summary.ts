@@ -7,9 +7,9 @@ import {InspectionQuestionSummaryCategory} from "../../models/inspection-questio
 @IonicPage()
 @Component({
     selector: 'page-inspection-question-summary',
-    templateUrl: 'inspection-question-summary.html',
+    templateUrl: 'inspection-survey-summary.html',
 })
-export class InspectionQuestionSummaryPage {
+export class InspectionSurveySummaryPage {
 
     public inspectionQuestionSummaryCategory: InspectionQuestionSummaryCategory[] = [];
     public idInspection: string = '';

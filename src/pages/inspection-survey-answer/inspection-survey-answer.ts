@@ -9,9 +9,9 @@ import {InspectionControllerProvider} from "../../providers/inspection-controlle
 @IonicPage()
 @Component({
     selector: 'page-inspection-question',
-    templateUrl: 'inspection-question.html',
+    templateUrl: 'inspection-survey-answer.html',
 })
-export class InspectionQuestionPage {
+export class InspectionSurveyAnswerPage {
     @ViewChild(Slides) slides: Slides;
 
     public inspectionQuestionAnswer: InspectionQuestion[] = [];
