@@ -96,6 +96,11 @@
     "Coordinates":"Géolocalisation",
     "Text":"Emplacement approximatif"
   },
+  "enumGarageType": {
+    "No": "No",
+    "Yes": "Yes",
+    "Detached": "Detached"
+  },
   "extension":"Extension",
   "finish":"Terminer",
   "fireAlarmPanel":"Panneaux d'alarme",

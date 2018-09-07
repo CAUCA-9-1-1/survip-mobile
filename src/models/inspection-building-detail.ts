@@ -14,3 +14,8 @@ export class InspectionBuildingDetail {
   idBuildingSidingType: string;
 }
 
+export enum GarageType {
+  No,
+  Yes,
+  Detached
+}

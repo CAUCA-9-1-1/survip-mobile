@@ -22,13 +22,12 @@
       <ion-item>
         <ion-label>{{'garage' | translate}}</ion-label>
         <ion-select formControlName="garageType" okText="Ok" cancelText="{{'cancel' | translate}}">
-          <ion-option value="0">{{'no' | translate}}</ion-option>
-          <ion-option value="1">{{'yes' | translate}}</ion-option>
-          <ion-option value="2">{{'detached' | translate}}</ion-option>
+          <ion-option *ngFor="let key of garageTypeKeys" [value]="key">
+            {{"enumGarageType."+garageType[key] | translate}}
+          </ion-option>
         </ion-select>
       </ion-item>
     </ion-item-group>
-
     <ion-item-group [class.invalid]="!form.controls.idUnitOfMeasureHeight.valid">
       <ion-item-divider>{{'height' | translate}}</ion-item-divider>
         <ion-grid>

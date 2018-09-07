@@ -51,4 +51,3 @@ export enum AddressLocalisationType{
     Near,
     VisibleFrom
 };
-
