@@ -38,7 +38,7 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
     };
 
     public isLoading: boolean = true;
-    public  idParent: string;
+    public idParent: string;
     public isUsingCordova: boolean = false;
     public labels = {};
 

@@ -1,14 +1,14 @@
 import {Component, ViewChild} from '@angular/core';
 import {IonicPage, NavController, NavParams, Slides} from 'ionic-angular';
 import {InspectionQuestion} from "../../models/inspection-question";
-import {InspectionQuestionRepositoryProvider} from "../../providers/repositories/inspection-question-repository-provider";
+import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey_answer-repository-provider";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {TranslateService} from "@ngx-translate/core";
 import {InspectionControllerProvider} from "../../providers/inspection-controller/inspection-controller";
 
 @IonicPage()
 @Component({
-    selector: 'page-inspection-question',
+    selector: 'page-inspection-survey-answer',
     templateUrl: 'inspection-survey-answer.html',
 })
 export class InspectionSurveyAnswerPage {
@@ -31,7 +31,7 @@ export class InspectionSurveyAnswerPage {
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
-                public controller: InspectionQuestionRepositoryProvider,
+                public controller: InspectionSurveyAnswerRepositoryProvider,
                 private messageTools: MessageToolsProvider,
                 private translateService: TranslateService,
                 private inspectionController: InspectionControllerProvider) {
@@ -264,6 +264,11 @@ export class InspectionSurveyAnswerPage {
         if(this.navCtrl.getPrevious().name == "InterventionHomePage"){
             this.inspectionController.loadInterventionForm();
         }
+    }
+
+    public getChildQuestions(idParent :string){
+        const questions = this.inspectionQuestion.filter((question)=> question.idSurveyQuestionParent == idParent);
+        return questions;
     }
 
 }

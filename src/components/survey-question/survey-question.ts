@@ -1,20 +1,29 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {InspectionQuestion} from "../../models/inspection-question";
-import {InspectionQuestionRepositoryProvider} from "../../providers/repositories/inspection-question-repository-provider";
+import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey_answer-repository-provider";
+import {NG_VALUE_ACCESSOR} from "@angular/forms";
 
 @Component({
     selector: 'survey-question',
-    templateUrl: 'survey-question.html'
+    templateUrl: 'survey-question.html',
+    providers: [
+        {provide: NG_VALUE_ACCESSOR, useExisting: SurveyQuestionComponent, multi: true}
+    ]
 })
 export class SurveyQuestionComponent {
     @Input() question: InspectionQuestion;
+    @Input() showTitle = true;
     @Output() questionAnswered = new EventEmitter<any>();
 
+    constructor(private questionRepo: InspectionSurveyAnswerRepositoryProvider) {
 
-    constructor(private questionRepo: InspectionQuestionRepositoryProvider) {
     }
 
-    public ValidateAnswer(e: InspectionQuestion) {
+    ngOnInit(){
+        console.log("survey question component : ",this.question);
+    }
+
+    public ValidateAnswer() {
         if (this.question.answer) {
             this.saveAnswer();
         }
