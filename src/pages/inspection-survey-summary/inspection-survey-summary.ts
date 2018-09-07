@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {InspectionQuestionRepositoryProvider} from "../../providers/repositories/inspection-question-repository-provider";
+import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey_answer-repository-provider";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {InspectionQuestionSummaryCategory} from "../../models/inspection-question-summary-category";
 
@@ -16,7 +16,7 @@ export class InspectionSurveySummaryPage {
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
-                public controller: InspectionQuestionRepositoryProvider,
+                public controller: InspectionSurveyAnswerRepositoryProvider,
                 private messageTools: MessageToolsProvider,) {
 
         this.idInspection = this.navParams.get('idInspection');

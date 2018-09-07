@@ -1,9 +1,13 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {InspectionQuestion} from "../../models/inspection-question";
+import {NG_VALUE_ACCESSOR} from "@angular/forms";
 
 @Component({
     selector: 'parent-child-question',
-    templateUrl: 'parent-child-question.html'
+    templateUrl: 'parent-child-question.html',
+    providers: [
+        {provide: NG_VALUE_ACCESSOR, useExisting: ParentChildQuestionComponent, multi: true}
+    ]
 })
 export class ParentChildQuestionComponent {
     @Input() questions: InspectionQuestion[] = [];
@@ -12,12 +16,19 @@ export class ParentChildQuestionComponent {
     public currentQuestion: InspectionQuestion;
     public answeredQuestions: InspectionQuestion[] = [];
 
+
     constructor() {
-        this.loadAnsweredQuestion();
+    }
+
+    public ngOnInit(){
+        console.log("parent survey question component : ",this.questions);
     }
 
     private loadAnsweredQuestion() {
         this.answeredQuestions = this.questions.filter((question) => question.answer != "");
+        if(this.answeredQuestions.length == 0){
+
+        }
     }
 
     private validateLastQuestionAnswer() {
@@ -30,4 +41,6 @@ export class ParentChildQuestionComponent {
         this.validateLastQuestionAnswer();
 
     }
+
+
 }

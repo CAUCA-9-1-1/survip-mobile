@@ -5,7 +5,7 @@ import {InspectionQuestion} from "../../models/inspection-question";
 import {InspectionQuestionSummaryCategory} from "../../models/inspection-question-summary-category";
 
 @Injectable()
-export class InspectionQuestionRepositoryProvider {
+export class InspectionSurveyAnswerRepositoryProvider {
 
     public questionAnswered: EventEmitter<any> = new EventEmitter<any>();
 
@@ -16,27 +16,27 @@ export class InspectionQuestionRepositoryProvider {
         if (!inspectionQuestion)
             return Observable.of('');
         else {
-            return this.http.post('InspectionQuestion/Answer', JSON.stringify(inspectionQuestion));
+            return this.http.post('InspectionSurveyAnswer/Answer', JSON.stringify(inspectionQuestion));
         }
     }
 
     public getQuestionList(idInspection: string): Observable<InspectionQuestion[]> {
-        return this.http.get('InspectionQuestion/Inspection/' + idInspection + '/Question');
+        return this.http.get('InspectionSurveyAnswer/Inspection/' + idInspection + '/Question');
     }
 
     public getAnswerList(idInspection: string): Observable<InspectionQuestion[]> {
-        return this.http.get('InspectionQuestion/Inspection/' + idInspection + '/Answer');
+        return this.http.get('InspectionSurveyAnswer/Inspection/' + idInspection + '/Answer');
     }
 
     public getAnswerSummaryList(idInspection: string): Observable<InspectionQuestionSummaryCategory[]> {
-        return this.http.get('InspectionQuestion/Inspection/' + idInspection + '/Summary');
+        return this.http.get('InspectionSurveyAnswer/Inspection/' + idInspection + '/Summary');
     }
 
     public CompleteSurvey(idInspection: string): Observable<any> {
         if (!idInspection)
             return Observable.of('');
         else {
-            return this.http.post('InspectionQuestion/CompleteSurvey', JSON.stringify(idInspection));
+            return this.http.post('InspectionSurveyAnswer/CompleteSurvey', JSON.stringify(idInspection));
         }
     }
 }

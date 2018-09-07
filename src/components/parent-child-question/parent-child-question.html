@@ -1,10 +1,9 @@
 <div>
-    <h2>{{questions[0].title}}</h2>
-    <button ion-button icon-end>
-        <ion-icon name="add"></ion-icon>
-        {{'add' | translate}}
-    </button>
+    <div class="parent-question-title">
+        <h4>{{questions[0].title}}</h4>
+        <div><ion-icon name="add-circle"></ion-icon></div>
+    </div>
     <ion-card *ngFor="let question of questions">
-        <survey-question [question]="question" (questionAnswered)="showNextQuestion()"></survey-question>
+        <survey-question [showTitle]="false" [question]="question" (questionAnswered)="showNextQuestion()"></survey-question>
     </ion-card>
 </div>
