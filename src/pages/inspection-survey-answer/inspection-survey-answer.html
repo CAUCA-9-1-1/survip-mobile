@@ -6,13 +6,9 @@
 
 <ion-content padding>
   <ion-slides>
-    <ion-slide *ngFor="let choice of inspectionQuestionAnswer">
-      <div class="question-title">
-        <h2>{{currentQuestion.title}}</h2>
-        <p>{{currentQuestion.description}}</p>
-      </div>
-      <survey-question [question]="currentQuestion" (questionAnswered)="getNextQuestionFromAnswer(data)" *ngIf="currentQuestion.questionType != 4"></survey-question>
-      <parent-child-question [questions]="getChildQuestions()" (childQuestionAnswered)="getNextQuestionFromAnswer(data)" *ngIf="currentQuestion.questionType == 4"></parent-child-question>
+    <ion-slide *ngFor="let question of inspectionQuestionAnswer">
+      <!--<survey-question [question]="currentQuestion" (questionAnswered)="getNextQuestionFromAnswer(data)" *ngIf="currentQuestion.questionType != 4"></survey-question>-->
+      <parent-child-question [questions]="getChildQuestions(currentQuestion.idSurveyQuestion)" (childQuestionAnswered)="getNextQuestionFromAnswer(data)" *ngIf="currentQuestion.questionType == 4"></parent-child-question>
     </ion-slide>
   </ion-slides>
 </ion-content>
