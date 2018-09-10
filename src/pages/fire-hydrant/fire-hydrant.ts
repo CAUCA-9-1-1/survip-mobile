@@ -233,12 +233,7 @@ export class FireHydrantPage {
         if (this.form.valid &&(!this.isCanceled)) {
             Object.assign(this.fireHydrant, this.form.value);
             this.fireHydrantRepo.saveFireHydrant(this.fireHydrant)
-                .subscribe(
-                    () => {
-                        //this.viewCtrl.dismiss()
-                    }, error => {
-                        console.log("Erreur dans saveFireHydrant : "+error.message);
-                    });
+                .subscribe();
         }
     }
 
