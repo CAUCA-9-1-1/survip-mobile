@@ -15,19 +15,20 @@ export class ParentChildQuestionComponent {
 
     public currentQuestion: InspectionQuestion;
     public answeredQuestions: InspectionQuestion[] = [];
+    public questionIndex = 0;
 
 
     constructor() {
     }
 
     public ngOnInit(){
-        console.log("parent survey question component : ",this.questions);
     }
 
     private loadAnsweredQuestion() {
         this.answeredQuestions = this.questions.filter((question) => question.answer != "");
         if(this.answeredQuestions.length == 0){
-
+            const newQuestion = Object.assign({}, this.questions[this.questionIndex]);
+            this.answeredQuestions.push(newQuestion);
         }
     }
 
