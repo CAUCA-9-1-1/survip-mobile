@@ -3,7 +3,7 @@ import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angu
 import {AllConstructionTypes, UnitOfMeasure} from '../../models/all-construction-types';
 import {ConstructionTypesRepositoryProvider} from '../../providers/repositories/construction-types-repository';
 import {UnitOfMeasureRepositoryProvider} from '../../providers/repositories/unit-of-measure-repository';
-import {InspectionBuildingDetail} from '../../models/inspection-building-detail';
+import {GarageType, InspectionBuildingDetail} from '../../models/inspection-building-detail';
 import {BuildingDetailRepositoryProvider} from '../../providers/repositories/building-detail-repository';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MessageToolsProvider} from '../../providers/message-tools/message-tools';
@@ -21,6 +21,7 @@ export class BuildingDetailsPage {
     private readonly decimalPattern: string = "^[0-9]+(.[0-9]{1,2})?$";
     private subscription: ISubscription;
 
+    public garageTypeKeys = [];
     public readonly idBuilding: string;
     public readonly name: string;
 
@@ -30,6 +31,7 @@ export class BuildingDetailsPage {
     public detail: InspectionBuildingDetail;
     public form: FormGroup;
     public labels = {};
+    public garageType = GarageType;
 
     constructor(
         private formBuilding: FormBuilder,
@@ -46,17 +48,23 @@ export class BuildingDetailsPage {
         this.name = navParams.get('name');
         this.createForm();
         this.loadDataForLookups();
-    }
+            }
 
     public ngOnInit() {
         this.translateService.get([
             'buildingLeaveMessage', 'confirmation', 'waitFormMessage'
         ]).subscribe(labels => {
                 this.labels = labels;
+                console.log('labels', this.labels);
             },
             error => {
                 console.log(error)
             });
+      this.initializeEnumCollection();
+    }
+
+    private initializeEnumCollection() {
+      this.garageTypeKeys = this.detailRepo.getEnumsKeysCollection(this.garageType);
     }
 
     private loadDataForLookups() {

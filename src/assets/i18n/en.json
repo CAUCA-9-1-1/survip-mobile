@@ -93,6 +93,11 @@
     "Coordinates":"Geolocation",
     "Text":"Approximate location"
   },
+  "enumGarageType": {
+    "No": "No",
+    "Yes": "Yes",
+    "Detached": "Detached"
+  },
   "editPicture": "Edit picture",
   "edition":"Edition",
   "extension":"Extension",

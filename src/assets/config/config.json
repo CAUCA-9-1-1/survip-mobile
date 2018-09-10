@@ -1,4 +1,4 @@
 {
-  "apiUrl":"http://10.10.33.103:5555/api/",
+  "apiUrl":"http://10.10.33.101:5555/api/",
   "--apiUrl":"https://survipreventiontest.cauca.ca/api/"
 }
