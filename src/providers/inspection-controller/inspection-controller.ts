@@ -69,7 +69,12 @@ export class InspectionControllerProvider {
             this.inspectionDetail = plan;
             this.planLoaded.emit(null);
             loading.dismiss();
-        });
+        },
+          error => {
+            this.planLoaded.emit('loadingError');
+            loading.dismiss();
+          }
+        );
     }
 
     public loadBuildingList() {
@@ -79,7 +84,8 @@ export class InspectionControllerProvider {
         result.subscribe(data => {
             this.buildings = data as InspectionBuildingForList[];
             loading.dismiss();
-        });
+        },
+          () => loading.dismiss());
     }
 
     private createLoadingControl() {
@@ -99,7 +105,7 @@ export class InspectionControllerProvider {
                 this.picture.id = UUID.UUID();
             }
             loading.dismiss();
-        });
+        }, () => loading.dismiss());
     }
 
     public async savePicture() {

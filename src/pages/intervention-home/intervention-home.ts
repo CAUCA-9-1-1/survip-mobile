@@ -28,15 +28,19 @@ export class InterventionHomePage implements OnDestroy {
                 private controller: InspectionControllerProvider,
                 private translateService: TranslateService,
                 private configurationService: InspectionConfigurationProvider) {
-        controller.setIdInterventionForm(this.navParams.data['id']);
-        this.menuSubscription = this.configurationService.menuRefreshed.subscribe(()=>this.loadMenu());
-        this.planSubscription = controller.planLoaded.subscribe(() => {
-                if (controller.inspectionDetail.idSurvey)
-                    this.mustShowPlanMenu = true;
-                else
-                    this.mustShowPlanMenu = false;
-            }
-        );
+      controller.setIdInterventionForm(this.navParams.data['id']);
+      this.planSubscription = controller.planLoaded.subscribe((value) => {
+        console.log('planLoaded', value);
+          if (value == 'loadingError') {
+            this.goBackToInspectionList();
+          }
+          else if (controller.inspectionDetail.idSurvey) {
+            this.mustShowPlanMenu = true;
+          } else {
+            this.mustShowPlanMenu = false;
+          }
+        }
+      );
     }
 
     public ngOnInit() {
@@ -49,7 +53,15 @@ export class InterventionHomePage implements OnDestroy {
                 console.log(error)
             });
 
-        this.loadMenu();
+      if (!this.configurationService.configuration) {
+        this.configurationService.loadConfiguration(this.controller.idInspection)
+          .then(() =>
+              this.menuSubscription = this.configurationService.menuRefreshed
+                .subscribe(() => this.loadMenu())
+          )
+      } else {
+        this.menuSubscription = this.configurationService.menuRefreshed.subscribe(() => this.loadMenu());
+      }
     }
 
     private loadMenu(){

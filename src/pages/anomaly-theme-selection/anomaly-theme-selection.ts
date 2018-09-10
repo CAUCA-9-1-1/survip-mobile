@@ -49,10 +49,13 @@ export class AnomalyThemeSelectionPage {
     public async ionViewDidLoad() {
         let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
         await load.present();
-        this.themes = await this.repo.getThemes();
-        Object.assign(this.filteredThemes, this.themes);
-        this.sortFilteredThemes();
-        load.dismiss();
+        try {
+          this.themes = await this.repo.getThemes();
+          Object.assign(this.filteredThemes, this.themes);
+          this.sortFilteredThemes();
+        } finally {
+          load.dismiss();
+        }
     }
 
     public onCreateTheme() {

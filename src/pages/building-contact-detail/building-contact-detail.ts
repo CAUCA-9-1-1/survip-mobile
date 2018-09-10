@@ -90,15 +90,20 @@ export class BuildingContactDetailPage {
     public async ionViewDidEnter() {
         let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
         await load.present();
-        if (this.idBuildingContact == null) {
+        try {
+
+
+          if (this.idBuildingContact == null) {
             this.createContact();
-        }
-        else {
+          }
+          else {
             const data = await this.repo.get(this.idBuildingContact);
             this.contact = data;
+          }
+          this.setValuesAndStartListening();
+        } finally {
+          await load.dismiss();
         }
-        this.setValuesAndStartListening();
-        await load.dismiss();
     }
 
     private createForm() {

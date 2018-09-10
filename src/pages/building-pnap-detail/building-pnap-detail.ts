@@ -63,13 +63,18 @@ export class BuildingPnapDetailPage {
     public async ionViewDidLoad() {
         let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
         await load.present();
-        if (this.idBuildingPnap == null)
+        try {
+
+
+          if (this.idBuildingPnap == null)
             this.createPnap();
-        else
+          else
             this.pnap = await this.repo.get(this.idBuildingPnap);
 
-        this.setValuesAndStartListening();
-        await load.dismiss();
+          this.setValuesAndStartListening();
+        } finally {
+          await load.dismiss();
+        }
     }
 
     private createForm() {

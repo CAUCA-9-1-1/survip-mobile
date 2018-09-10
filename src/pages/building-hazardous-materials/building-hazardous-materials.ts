@@ -46,9 +46,12 @@ export class BuildingHazardousMaterialsPage {
 
     private async loadMaterialList() {
         let loader = this.load.create({content: this.labels['waitFormMessage']});
-        const result = await this.matRepo.getList(this.idBuilding);
-        this.hazardousMaterials = result;
-        await loader.dismiss();
+        try {
+          const result = await this.matRepo.getList(this.idBuilding);
+          this.hazardousMaterials = result;
+        } finally {
+          await loader.dismiss();
+        }
     }
 
     public onItemClick(idBuildingHazardousMaterial: string): void {

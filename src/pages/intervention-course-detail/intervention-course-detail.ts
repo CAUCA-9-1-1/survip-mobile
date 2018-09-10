@@ -219,15 +219,18 @@ export class InterventionCourseDetailPage {
         this.courseRepo.save(this.course)
             .subscribe(ok => {
                 loader.dismiss();
-            })
+            }, () => loader.dismiss())
     }
 
     private deleteCourse() {
         let loader = this.load.create({content: this.labels['waitFormMessage']});
         loader.present();
-        let result = this.courseRepo.delete(this.course);
-        loader.dismiss();
-        return result;
+        try {
+          let result = this.courseRepo.delete(this.course);
+          return result;
+        } finally {
+          loader.dismiss();
+        }
     }
 
     private goBack(): void {

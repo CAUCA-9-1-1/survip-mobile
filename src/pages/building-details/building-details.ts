@@ -48,7 +48,7 @@ export class BuildingDetailsPage {
         this.name = navParams.get('name');
         this.createForm();
         this.loadDataForLookups();
-            }
+    }
 
     public ngOnInit() {
         this.translateService.get([
@@ -78,10 +78,17 @@ export class BuildingDetailsPage {
 
     public async ionViewDidEnter() {
         let load = this.loadingCtrl.create({'content': this.labels['waitFormMessage']});
-        await load.present();
-        this.detail = await this.detailRepo.get(this.idBuilding);
-        this.setValuesAndStartListening();
-        await load.dismiss();
+        try {
+          await load.present();
+          this.detailRepo.get(this.idBuilding);
+          this.setValuesAndStartListening();
+        }
+        catch(error) {
+          console.log('erreur', error);
+        }
+        finally {
+          await load.dismiss();
+        }
     }
 
     public async ionViewCanLeave() {

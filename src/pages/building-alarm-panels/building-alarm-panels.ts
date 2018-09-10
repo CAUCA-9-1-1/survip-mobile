@@ -66,15 +66,18 @@ export class BuildingAlarmPanelsPage {
     public async ionViewDidEnter() {
         let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
         await load.present();
-        if (this.idBuildingAlarmPanel == null) {
+        try {
+          if (this.idBuildingAlarmPanel == null) {
             this.createAlarmPanel();
-        }
-        else {
+          }
+          else {
             const data = await this.repo.get(this.idBuildingAlarmPanel);
             this.panel = data;
+          }
+          this.setValuesAndStartListening();
+        } finally {
+          await load.dismiss();
         }
-        this.setValuesAndStartListening();
-        await load.dismiss();
     }
 
     private createForm() {

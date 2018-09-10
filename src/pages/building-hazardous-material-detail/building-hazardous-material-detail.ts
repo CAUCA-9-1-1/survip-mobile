@@ -74,14 +74,17 @@ export class BuildingHazardousMaterialDetailPage {
     public async ionViewDidLoad() {
         let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
         await load.present();
-        if (this.idBuildingHazardousMaterial == null)
+        try {
+          if (this.idBuildingHazardousMaterial == null)
             this.createBuildingHazardousMaterial();
-        else
+          else
             this.material = await this.repo.get(this.idBuildingHazardousMaterial);
 
-        await this.loadHazardousMaterialName();
-        this.setValuesAndStartListening();
-        await load.dismiss();
+          await this.loadHazardousMaterialName();
+          this.setValuesAndStartListening();
+        } finally {
+          await load.dismiss();
+        }
     }
 
     private createForm() {

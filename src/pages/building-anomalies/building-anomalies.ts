@@ -46,9 +46,12 @@ export class BuildingAnomaliesPage {
 
     private async loadAnomalies() {
         let loader = this.load.create({content: this.labels['waitFormMessage']});
-        const result = await this.anomalyRepo.getList(this.idBuilding);
-        this.themes = result;
-        await loader.dismiss();
+        try {
+          const result = await this.anomalyRepo.getList(this.idBuilding);
+          this.themes = result;
+        } finally {
+          await loader.dismiss();
+        }
     }
 
     public onItemClick(idBuildingAnomaly: string): void {
