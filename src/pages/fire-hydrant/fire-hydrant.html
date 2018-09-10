@@ -6,6 +6,8 @@
 </ion-header>
 
 <ion-content>
+
+
     <ion-list [formGroup]="form" class="list-items">
         <ion-item-group>
             <ion-item-divider>{{'generalInformation' | translate}}</ion-item-divider>
@@ -123,7 +125,7 @@
             <ion-item-divider>{{'localization' | translate}}</ion-item-divider>
             <ion-item [class.invalid]="!form.controls.locationType.valid">
                 <ion-label>{{'type' | translate}}</ion-label>
-                <ion-select formControlName="locationType" (ionChange)="refreshLocationTypeValidator()" okText="Ok" cancelText="{{'cancel' | translate}}">
+                <ion-select formControlName="locationType" (ionChange)="changeLocationType()" okText="Ok" cancelText="{{'cancel' | translate}}">
                     <ion-option *ngFor="let key of fireHydrantLocationTypeKeys" [value]="key">
                         {{"enumFireHydrantLocationType."+fireHydrantLocationType[key] | translate}}
                     </ion-option>
