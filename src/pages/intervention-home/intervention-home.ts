@@ -30,7 +30,6 @@ export class InterventionHomePage implements OnDestroy {
                 private configurationService: InspectionConfigurationProvider) {
       controller.setIdInterventionForm(this.navParams.data['id']);
       this.planSubscription = controller.planLoaded.subscribe((value) => {
-        console.log('planLoaded', value);
           if (value == 'loadingError') {
             this.goBackToInspectionList();
           }

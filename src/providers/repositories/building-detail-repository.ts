@@ -15,9 +15,10 @@ export class BuildingDetailRepositoryProvider {
       .pipe(map(response => response));
   }
 
-  public save(detail: InspectionBuildingDetail): Observable<any> {
+  public save(detail: InspectionBuildingDetail): Promise<any> {
     return this.http.post('inspection/building/detail/', JSON.stringify(detail))
-      .pipe(map(response => response));
+      .pipe(map(response => response))
+      .toPromise();
   }
 
   public getEnumsKeysCollection(enumCollection: any): number[] {
