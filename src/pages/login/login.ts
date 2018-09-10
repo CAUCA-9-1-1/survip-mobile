@@ -35,7 +35,9 @@ export class LoginPage {
 
   async ionViewCanEnter() {
     if (localStorage.getItem('currentToken')) {
+      console.log('currentToken', localStorage.getItem('currentToken'));
       let isLoggedIn = await this.authService.isStillLoggedIn();
+      console.log('still loged in', isLoggedIn);
       if (isLoggedIn)
         this.redirectToInspectionList();
     }

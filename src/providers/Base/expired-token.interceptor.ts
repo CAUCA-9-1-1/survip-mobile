@@ -65,7 +65,10 @@ export class ExpiredTokenInterceptor implements HttpInterceptor {
   }
 
   private onLogout() {
-    sessionStorage.clear();
+    localStorage.removeItem('currentToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('firstName');
+    localStorage.removeItem('lastName');
     const events = this.injector.get(Events);
     events.publish('user:logout');
     return Observable.throw("");
