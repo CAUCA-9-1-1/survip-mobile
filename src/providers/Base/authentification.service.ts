@@ -30,8 +30,10 @@ export class AuthenticationService {
   }
 
   public async isStillLoggedIn() : Promise<boolean> {
-    return this.http.rawGet('Authentification/SessionStatus').pipe(
-        catchError((error: HttpErrorResponse) => Observable.of(false)),
+    return this.http.get('Authentification/SessionStatus').pipe(
+        catchError((error: HttpErrorResponse, xhr: any) => {
+            return Observable.of(false);
+        }),
         map(response => response === true)
     ).toPromise();
   }

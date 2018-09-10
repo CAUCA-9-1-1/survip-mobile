@@ -24,9 +24,10 @@ export class HttpService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('currentToken'),
-        'languageCode': this.translateService.getDefaultLang()
+        'languageCode': this.translateService.getDefaultLang() || 'fr'
       })
     };
+
     return options;
   }
 
