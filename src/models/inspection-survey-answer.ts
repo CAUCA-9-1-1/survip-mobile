@@ -1,6 +1,6 @@
-import {InspectionQuestionChoice} from "./inspection-question-choice";
+import {InspectionSurveyAnswerChoice} from "./inspection-survey-answer-choice";
 
-export class InspectionQuestion {
+export class InspectionSurveyAnswer {
     id: string;
     idInspection: string;
     idSurveyQuestion: string;
@@ -12,5 +12,5 @@ export class InspectionQuestion {
     idSurveyQuestionNext: string;
     sequence: number
 
-    choicesList: InspectionQuestionChoice[];
+    choicesList: InspectionSurveyAnswerChoice[];
 }

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {InspectionQuestion} from "../../models/inspection-question";
+import {InspectionSurveyAnswer} from "../../models/inspection-survey-answer";
 import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey_answer-repository-provider";
 import {NG_VALUE_ACCESSOR} from "@angular/forms";
 
@@ -11,7 +11,7 @@ import {NG_VALUE_ACCESSOR} from "@angular/forms";
     ]
 })
 export class SurveyQuestionComponent {
-    @Input() question: InspectionQuestion;
+    @Input() question: InspectionSurveyAnswer;
     @Input() showTitle = true;
     @Output() questionAnswered = new EventEmitter<any>();
 

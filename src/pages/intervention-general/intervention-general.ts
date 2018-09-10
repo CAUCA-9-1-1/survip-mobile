@@ -181,7 +181,7 @@ export class InterventionGeneralPage implements OnDestroy {
                 this.navCtrl.push('InspectionQuestionSummaryPage', {idInspection: this.controller.idInspection});
             }
             else {
-                this.navCtrl.push('InspectionQuestionPage', {
+                this.navCtrl.push('InspectionSurveyAnswerPage', {
                     idInspection: this.controller.idInspection,
                     inspectionSurveyCompleted: this.controller.inspectionDetail.isSurveyCompleted
                 });

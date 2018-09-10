@@ -1,4 +1,4 @@
-export class InspectionQuestionChoice {
+export class InspectionSurveyAnswerChoice {
     id: string;
     idSurveyQuestion: string;
     idSurveyQuestionNext: string;

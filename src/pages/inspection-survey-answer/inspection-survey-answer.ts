@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {IonicPage, NavController, NavParams, Slides} from 'ionic-angular';
-import {InspectionQuestion} from "../../models/inspection-question";
+import {InspectionSurveyAnswer} from "../../models/inspection-survey-answer";
 import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey_answer-repository-provider";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {TranslateService} from "@ngx-translate/core";
@@ -14,12 +14,12 @@ import {InspectionControllerProvider} from "../../providers/inspection-controlle
 export class InspectionSurveyAnswerPage {
     @ViewChild(Slides) slides: Slides;
 
-    public inspectionQuestionAnswer: InspectionQuestion[] = [];
-    public inspectionQuestion: InspectionQuestion[] = [];
+    public inspectionQuestionAnswer: InspectionSurveyAnswer[] = [];
+    public inspectionSurveyQuestion: InspectionSurveyAnswer[] = [];
     public idInspection: string = '';
     public inspectionSurveyCompleted: boolean = false;
     public selectedIndex = 0;
-    public currentQuestion: InspectionQuestion = new InspectionQuestion();
+    public currentQuestion: InspectionSurveyAnswer = new InspectionSurveyAnswer();
     public previousQuestionAvailable = false;
     public nextQuestionDisabled = false;
     public questionTypeEnum = {'MultipleChoice': 1, 'TextAnswer': 2, 'DateAnswer': 3};
@@ -60,7 +60,7 @@ export class InspectionSurveyAnswerPage {
     public loadInspectionQuestion() {
         this.controller.getQuestionList(this.idInspection)
             .subscribe(result => {
-                    this.inspectionQuestion = result;
+                    this.inspectionSurveyQuestion = result;
                     this.loadInspectionAnswer();
                 },
                 error => {
@@ -109,9 +109,9 @@ export class InspectionSurveyAnswerPage {
     }
 
     public findQuestion(idSurveyQuestion: string) {
-        const questionCount = this.inspectionQuestion.length;
+        const questionCount = this.inspectionSurveyQuestion.length;
         for (let index = 0; index < questionCount; index++) {
-            if (this.inspectionQuestion[index].idSurveyQuestion == idSurveyQuestion && (!this.inspectionQuestion[index].answer)) {
+            if (this.inspectionSurveyQuestion[index].idSurveyQuestion == idSurveyQuestion && (!this.inspectionSurveyQuestion[index].answer)) {
                 return index;
             }
         }
@@ -231,7 +231,7 @@ export class InspectionSurveyAnswerPage {
     }
 
     public createAnswer() {
-        const newAnswer = new InspectionQuestion();
+        const newAnswer = new InspectionSurveyAnswer();
         newAnswer.id = this.currentQuestion.id;
         newAnswer.idInspection = this.currentQuestion.idInspection;
         newAnswer.idSurveyQuestion = this.currentQuestion.idSurveyQuestion;
@@ -241,7 +241,7 @@ export class InspectionSurveyAnswerPage {
     }
 
     public addNewAnswer(questionIndex: number) {
-        let newAnswer = Object.assign({}, this.inspectionQuestion[questionIndex]);
+        let newAnswer = Object.assign({}, this.inspectionSurveyQuestion[questionIndex]);
         this.inspectionQuestionAnswer.push(newAnswer);
         this.slides.update();
     }
@@ -267,7 +267,7 @@ export class InspectionSurveyAnswerPage {
     }
 
     public getChildQuestions(idParent :string){
-        const questions = this.inspectionQuestion.filter((question)=> question.idSurveyQuestionParent == idParent);
+        const questions = this.inspectionSurveyQuestion.filter((question)=> question.idSurveyQuestionParent == idParent);
         return questions;
     }
 
