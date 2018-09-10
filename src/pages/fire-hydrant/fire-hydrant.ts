@@ -235,7 +235,7 @@ export class FireHydrantPage {
             this.fireHydrantRepo.saveFireHydrant(this.fireHydrant)
                 .subscribe(
                     () => {
-                        this.viewCtrl.dismiss();
+                        //this.viewCtrl.dismiss()
                     }, error => {
                         console.log("Erreur dans saveFireHydrant : "+error.message);
                     });
@@ -274,6 +274,18 @@ export class FireHydrantPage {
         this.SetValidators('idLane', false);
         this.SetValidators('addressLocationType', false);
         this.SetValidators('civicNumber', false);
+    }
+
+    public changeLocationType(){
+      this.form.patchValue({
+        'idIntersection': '',
+        'coordinates': null,
+        'physicalPosition': '',
+        'addressLocationType': AddressLocalisationType.NextTo,
+        'idLane': '',
+        'civicNumber': ''
+      });
+      this.refreshLocationTypeValidator();
     }
 
     private refreshLocationTypeValidator() {
