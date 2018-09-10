@@ -3,7 +3,7 @@
         <h4>{{questions[0].title}}</h4>
         <div><ion-icon name="add-circle"></ion-icon></div>
     </div>
-    <ion-card *ngFor="let question of questions">
+    <ion-card *ngFor="let question of answeredQuestions">
         <survey-question [showTitle]="false" [question]="question" (questionAnswered)="showNextQuestion()"></survey-question>
     </ion-card>
 </div>
