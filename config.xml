@@ -98,12 +98,12 @@
     <plugin name="cordova-plugin-device" spec="^2.0.2" />
     <plugin name="cordova-plugin-splashscreen" spec="^5.0.2" />
     <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
-    <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
-    <plugin name="cordova-plugin-compat" spec="^1.1.0" />
-    <plugin name="cordova-plugin-ionic-webview" spec="^2.0.2" />
-    <plugin name="cordova.plugins.diagnostic" spec="~4.0.8" />
+    <plugin name="cordova-plugin-compat" spec="^1.2.0" />
+    <plugin name="cordova-plugin-ionic-webview" spec="^2.1.3" />
     <plugin name="cordova-plugin-nativegeocoder" spec="^3.1.2" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
+    <plugin name="cordova.plugins.diagnostic" spec="^4.0.10" />
+    <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
     <engine name="browser" spec="5.0.3" />
     <engine name="android" spec="7.1.1" />
     <engine name="ios" spec="4.5.5" />
