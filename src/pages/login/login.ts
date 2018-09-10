@@ -34,7 +34,7 @@ export class LoginPage {
   }
 
   async ionViewCanEnter() {
-    if (sessionStorage.getItem('currentToken')) {
+    if (localStorage.getItem('currentToken')) {
       let isLoggedIn = await this.authService.isStillLoggedIn();
       if (isLoggedIn)
         this.redirectToInspectionList();
@@ -52,7 +52,7 @@ export class LoginPage {
   }
 
   private handleResponse(response) {
-    if (sessionStorage.getItem('currentToken'))
+    if (localStorage.getItem('currentToken'))
       this.redirectToInspectionList();
     else if (!response)
       this.showToast("Nom d'usager ou mot de passe incorrect.");

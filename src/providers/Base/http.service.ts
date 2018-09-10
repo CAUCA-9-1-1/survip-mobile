@@ -23,10 +23,11 @@ export class HttpService {
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + sessionStorage.getItem('currentToken'),
-        'languageCode': this.translateService.getDefaultLang()
+        'Authorization': 'Bearer ' + localStorage.getItem('currentToken'),
+        'languageCode': this.translateService.getDefaultLang() || 'fr'
       })
     };
+
     return options;
   }
 
@@ -38,8 +39,9 @@ export class HttpService {
 
   public rawGet(url: string, retryCount: number = 3): Observable<any> {
     return this.client.get(this.getFullUrl(url), this.getHeaders())
-      .retry(retryCount)
-      .catch((err: HttpErrorResponse) => this.handleError(err));
+      .retry(retryCount).pipe(
+        catchError((err: HttpErrorResponse) => this.onError(err))
+      );
   }
 
   public post(url: string, body?: any): Observable<any> {
@@ -51,8 +53,9 @@ export class HttpService {
 
   public rawPost(url: string, body?: any): Observable<any> {
     return this.client
-      .post(this.getFullUrl(url), body, this.getHeaders())
-      .catch((err: HttpErrorResponse) => this.handleError(err));
+      .post(this.getFullUrl(url), body, this.getHeaders()).pipe(
+        catchError((err: HttpErrorResponse) => this.onError(err))
+      );
   }
 
   public put(url: string, body?: any): Observable<any> {
@@ -97,26 +100,10 @@ export class HttpService {
 
     if (message) {
       this.events.publish("http:error", message);
+        console.log(message);
     }
-    console.log(message);
+
     return Observable.throw(error);
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      console.error('An error occurred:', error.error.message);
-    } else {
-      console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
-      if (error.status == 0 || error.status == 401)
-        console.log("shall redirect");
-    }
-
-    return Observable.of({
-      'status': error.status,
-      'body': error.error
-    });
   }
 }
 
