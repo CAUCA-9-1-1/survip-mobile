@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey_answer-repository-provider";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
-import {InspectionQuestionSummaryCategory} from "../../models/inspection-question-summary-category";
+import {InspectionSurveySummaryCategory} from "../../models/inspection-survey-summary-category";
 
 @IonicPage()
 @Component({
@@ -11,7 +11,7 @@ import {InspectionQuestionSummaryCategory} from "../../models/inspection-questio
 })
 export class InspectionSurveySummaryPage {
 
-    public inspectionQuestionSummaryCategory: InspectionQuestionSummaryCategory[] = [];
+    public inspectionQuestionSummaryCategory: InspectionSurveySummaryCategory[] = [];
     public idInspection: string = '';
 
     constructor(public navCtrl: NavController,

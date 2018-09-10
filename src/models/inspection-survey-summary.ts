@@ -1,4 +1,4 @@
-export class InspectionQuestionSummary {
+export class InspectionSurveySummary {
     id: string;
     questionTitle: string;
     questionDescription: string;
@@ -7,5 +7,5 @@ export class InspectionQuestionSummary {
     sequence: number;
     isRecursive: boolean;
 
-    recursiveAnswer: InspectionQuestionSummary[];
+    recursiveAnswer: InspectionSurveySummary[];
 }

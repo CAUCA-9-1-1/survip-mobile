@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {InspectionQuestion} from "../../models/inspection-question";
+import {InspectionSurveyAnswer} from "../../models/inspection-survey-answer";
 import {NG_VALUE_ACCESSOR} from "@angular/forms";
 
 @Component({
@@ -10,18 +10,22 @@ import {NG_VALUE_ACCESSOR} from "@angular/forms";
     ]
 })
 export class ParentChildQuestionComponent {
-    @Input() questions: InspectionQuestion[] = [];
+    @Input() questions: InspectionSurveyAnswer[] = [];
     @Output() childQuestionAnswered = new EventEmitter<any>();
 
-    public currentQuestion: InspectionQuestion;
-    public answeredQuestions: InspectionQuestion[] = [];
+    public currentQuestion: InspectionSurveyAnswer;
+    public answeredQuestions: InspectionSurveyAnswer[] = [];
     public questionIndex = 0;
-
+    public questionTitle = "";
 
     constructor() {
     }
 
     public ngOnInit(){
+        if(this.questions.length > 0){
+            this.questionTitle = this.questions[0].title;
+        }
+        this.loadAnsweredQuestion();
     }
 
     private loadAnsweredQuestion() {
