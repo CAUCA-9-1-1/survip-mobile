@@ -1,8 +1,8 @@
 import {HttpService} from "../Base/http.service";
 import {Observable} from "rxjs/Observable";
 import {EventEmitter, Injectable} from "@angular/core";
-import {InspectionQuestion} from "../../models/inspection-question";
-import {InspectionQuestionSummaryCategory} from "../../models/inspection-question-summary-category";
+import {InspectionSurveyAnswer} from "../../models/inspection-survey-answer";
+import {InspectionSurveySummaryCategory} from "../../models/inspection-survey-summary-category";
 
 @Injectable()
 export class InspectionSurveyAnswerRepositoryProvider {
@@ -12,23 +12,23 @@ export class InspectionSurveyAnswerRepositoryProvider {
     constructor(private http: HttpService) {
     }
 
-    public answerQuestion(inspectionQuestion: InspectionQuestion): Observable<any> {
-        if (!inspectionQuestion)
+    public answerQuestion(inspectionSurveyAnswer: InspectionSurveyAnswer): Observable<any> {
+        if (!inspectionSurveyAnswer)
             return Observable.of('');
         else {
-            return this.http.post('InspectionSurveyAnswer/Answer', JSON.stringify(inspectionQuestion));
+            return this.http.post('InspectionSurveyAnswer/Answer', JSON.stringify(inspectionSurveyAnswer));
         }
     }
 
-    public getQuestionList(idInspection: string): Observable<InspectionQuestion[]> {
+    public getQuestionList(idInspection: string): Observable<InspectionSurveyAnswer[]> {
         return this.http.get('InspectionSurveyAnswer/Inspection/' + idInspection + '/Question');
     }
 
-    public getAnswerList(idInspection: string): Observable<InspectionQuestion[]> {
+    public getAnswerList(idInspection: string): Observable<InspectionSurveyAnswer[]> {
         return this.http.get('InspectionSurveyAnswer/Inspection/' + idInspection + '/Answer');
     }
 
-    public getAnswerSummaryList(idInspection: string): Observable<InspectionQuestionSummaryCategory[]> {
+    public getAnswerSummaryList(idInspection: string): Observable<InspectionSurveySummaryCategory[]> {
         return this.http.get('InspectionSurveyAnswer/Inspection/' + idInspection + '/Summary');
     }
 
