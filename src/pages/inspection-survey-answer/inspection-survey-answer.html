@@ -1,29 +1,41 @@
 <ion-header class="page-header">
-  <ion-navbar>
-    <ion-title>{{'survey' | translate}}</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>{{'survey' | translate}}</ion-title>
+    </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-slides>
-    <ion-slide *ngFor="let question of inspectionQuestionAnswer">
-      <survey-question [question]="currentQuestion" (questionAnswered)="validateQuestionAnswer($event)" *ngIf="currentQuestion.questionType != questionTypeEnum.groupedQuestion"></survey-question>
-      <parent-child-question [question]="currentQuestion" (childQuestionAnswered)="getNextQuestionFromAnswer($event)" *ngIf="currentQuestion.questionType == questionTypeEnum.groupedQuestion"></parent-child-question>
-    </ion-slide>
-  </ion-slides>
+    <ion-slides>
+        <ion-slide *ngFor="let question of inspectionQuestionAnswer">
+            <survey-question [question]="currentQuestion" (questionAnswered)="validateQuestionAnswer($event)"
+                             *ngIf="currentQuestion.questionType != questionTypeEnum.groupedQuestion"></survey-question>
+            <div *ngIf="currentQuestion.questionType == questionTypeEnum.groupedQuestion">
+                <div class="parent-question-title">
+                    <h4>{{question.title}}</h4>
+                    <div>
+                        <ion-icon name="add-circle" onclick="AddNewQuestionGroup()"></ion-icon>
+                    </div>
+                </div>
+                <parent-child-question [question]="currentQuestion"
+                                       (childQuestionAnswered)="getNextQuestionFromAnswer($event)"></parent-child-question>
+            </div>
+        </ion-slide>
+    </ion-slides>
 </ion-content>
 
 <ion-footer class="page-footer">
-  <ion-toolbar>
-    <ion-buttons>
-    <button ion-button icon-start type="button" style="float: left;" (click)="previousQuestion()" *ngIf="previousQuestionAvailable">
-      <ion-icon name="skip-backward"></ion-icon>
-      {{'surveyPreviousQuestion' | translate}}
-    </button>
-    <button ion-button icon-start type="button" style="float: right;" (click)="saveAnswer()" [disabled]="nextQuestionDisabled">
-      <ion-icon name="skip-forward"></ion-icon>
-      {{nextButtonTitle}}
-    </button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-buttons>
+            <button ion-button icon-start type="button" style="float: left;" (click)="previousQuestion()"
+                    *ngIf="previousQuestionAvailable">
+                <ion-icon name="skip-backward"></ion-icon>
+                {{'surveyPreviousQuestion' | translate}}
+            </button>
+            <button ion-button icon-start type="button" style="float: right;" (click)="saveAnswer()"
+                    [disabled]="nextQuestionDisabled">
+                <ion-icon name="skip-forward"></ion-icon>
+                {{nextButtonTitle}}
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-footer>>
