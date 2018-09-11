@@ -56,13 +56,11 @@ export class LoginPage {
     }
 
     private validateKeychainTouchId() {
-        this.keychainTouchId.isAvailable().then(biometricType => {
-            console.log('biometric type : ' + biometricType);
-            
+        this.keychainTouchId.isAvailable().then(result => {
             this.keychainTouchId.has(this.authService.keychainTouchIdKey).then(result => {
                 console.log('keychain-touch-id, has key', result);
                 
-                this.keychainTouchId.verify(this.authService.keychainTouchIdKey, '')
+                this.keychainTouchId.verify(this.authService.keychainTouchIdKey, ' ')
                     .then(saveInfo => {
                         const user = JSON.parse(saveInfo);
 

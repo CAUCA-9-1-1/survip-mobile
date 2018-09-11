@@ -93,6 +93,9 @@
     <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryUsageDescription">
         <string>need photo library access to get pictures from there</string>
     </edit-config>
+    <edit-config file="*-Info.plist" mode="merge" target="NSFaceIDUsageDescription">
+        <string />
+    </edit-config>
     <plugin name="cordova-plugin-camera" spec="^4.0.3" />
     <plugin name="cordova-plugin-console" spec="^1.1.0" />
     <plugin name="cordova-plugin-device" spec="^2.0.2" />
@@ -103,7 +106,7 @@
     <plugin name="cordova-plugin-nativegeocoder" spec="^3.1.2" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
     <plugin name="cordova.plugins.diagnostic" spec="^4.0.10" />
-    <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
+    <plugin name="cordova-plugin-ionic-keyboard" spec="^2.1.2" />
     <plugin name="cordova-plugin-keychain-touch-id" spec="https://github.com/paychex/cordova-plugin-keychain-touch-id" />
     <engine name="browser" spec="5.0.3" />
     <engine name="android" spec="7.1.1" />
