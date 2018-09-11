@@ -10,42 +10,50 @@ import {NG_VALUE_ACCESSOR} from "@angular/forms";
     ]
 })
 export class ParentChildQuestionComponent {
-    @Input() questions: InspectionSurveyAnswer[] = [];
+    @Input() question: InspectionSurveyAnswer;
     @Output() childQuestionAnswered = new EventEmitter<any>();
 
-    public currentQuestion: InspectionSurveyAnswer;
     public answeredQuestions: InspectionSurveyAnswer[] = [];
     public questionIndex = 0;
-    public questionTitle = "";
 
     constructor() {
+
     }
 
     public ngOnInit(){
-        if(this.questions.length > 0){
-            this.questionTitle = this.questions[0].title;
-        }
         this.loadAnsweredQuestion();
     }
 
     private loadAnsweredQuestion() {
-        this.answeredQuestions = this.questions.filter((question) => question.answer != "");
+        this.answeredQuestions = this.question.childSurveyAnswerList.filter((question) => question.answer != "" && question.answer != null);
         if(this.answeredQuestions.length == 0){
-            const newQuestion = Object.assign({}, this.questions[this.questionIndex]);
+            const newQuestion = Object.assign({}, this.question.childSurveyAnswerList[this.questionIndex]);
             this.answeredQuestions.push(newQuestion);
+        }else{
+            this.getNextQuestion();
         }
     }
 
     private validateLastQuestionAnswer() {
-        if (this.currentQuestion.id == this.questions[this.questions.length - 1].id) {
+        if (this.answeredQuestions[this.questionIndex].idSurveyQuestion == this.question.childSurveyAnswerList[this.question.childSurveyAnswerList.length - 1].idSurveyQuestion) {
             this.childQuestionAnswered.emit(null);
+        }else{
+            this.getNextQuestion();
         }
     }
 
-    public showNextQuestion() {
-        this.validateLastQuestionAnswer();
-
+    private getNextQuestion(){
+        const NextQuestion = this.question.childSurveyAnswerList.filter((question) => question.idSurveyQuestion == this.answeredQuestions[this.questionIndex].idSurveyQuestionNext);
+        this.answeredQuestions.push(NextQuestion[0]);
     }
 
+    public validateAnswer(answer) {
+        this.validateLastQuestionAnswer();
+    }
+
+    public AddNewQuestionGroup(){
+        const NewQuestionGroup = this.question.childSurveyAnswerList.filter((question) => question.answer != "" && question.answer != null);
+        this.answeredQuestions.push.apply(NewQuestionGroup);
+    }
 
 }
