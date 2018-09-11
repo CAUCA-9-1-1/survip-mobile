@@ -7,8 +7,8 @@
 <ion-content padding>
   <ion-slides>
     <ion-slide *ngFor="let question of inspectionQuestionAnswer">
-      <survey-question [question]="currentQuestion" (questionAnswered)="validateQuestionAnswer($event)" *ngIf="currentQuestion.questionType != 4"></survey-question>
-      <parent-child-question [question]="currentQuestion" (childQuestionAnswered)="getNextQuestionFromAnswer($event)" *ngIf="currentQuestion.questionType == 4"></parent-child-question>
+      <survey-question [question]="currentQuestion" (questionAnswered)="validateQuestionAnswer($event)" *ngIf="currentQuestion.questionType != questionTypeEnum.groupedQuestion"></survey-question>
+      <parent-child-question [question]="currentQuestion" (childQuestionAnswered)="getNextQuestionFromAnswer($event)" *ngIf="currentQuestion.questionType == questionTypeEnum.groupedQuestion"></parent-child-question>
     </ion-slide>
   </ion-slides>
 </ion-content>
