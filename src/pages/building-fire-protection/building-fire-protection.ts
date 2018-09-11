@@ -56,16 +56,22 @@ export class BuildingFireProtectionPage {
 
     private async loadSprinklers() {
         let loader = this.load.create({content: this.labels['waitFormMessage']});
-        const result = await this.sprinklerRepo.getList(this.idBuilding);
-        this.sprinklers = result;
-        await loader.dismiss();
+        try {
+          const result = await this.sprinklerRepo.getList(this.idBuilding);
+          this.sprinklers = result;
+        } finally {
+          await loader.dismiss();
+        }
     }
 
     private async loadPanels() {
         let loader = this.load.create({content: this.labels['waitFormMessage']});
-        const result = await this.panelRepo.getList(this.idBuilding);
-        this.panels = result;
-        await loader.dismiss();
+        try {
+          const result = await this.panelRepo.getList(this.idBuilding);
+          this.panels = result;
+        } finally {
+          await loader.dismiss();
+        }
     }
 
     public onPanelClick(idPanel: string): void {

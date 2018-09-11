@@ -56,7 +56,7 @@ export class InterventionCoursePage {
         result.subscribe(data => {
             this.courses = data as InspectionBuildingCourseForList[];
             loader.dismiss();
-        });
+        }, () => loader.dismiss());
     }
 
     public onItemClick(idInspectionBuildingCourse: string) {

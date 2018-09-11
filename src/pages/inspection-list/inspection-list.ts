@@ -43,7 +43,7 @@ export class InspectionListPage {
                         this.batches = batches;
                         this.filterList();
                         loading.dismiss();
-                    });
+                    }, () => loading.dismiss());
             });
     }
 
@@ -88,19 +88,19 @@ export class InspectionListPage {
     public getRiskColor(idRiskLevel: string): string {
         const result = this.riskLevels.find(risk => risk.id === idRiskLevel);
         if (result != null) {
-            return this.toColor(result.color);
+            return InspectionListPage.toColor(result.color);
         } else {
             return 'black';
         }
     }
 
-    public toColor(num) {
-        num >>>= 0;
-        var b = num & 0xFF,
-            g = (num & 0xFF00) >>> 8,
-            r = (num & 0xFF0000) >>> 16,
-            a = ((num & 0xFF000000) >>> 24) / 255;
-        return "rgba(" + [r, g, b, a].join(",") + ")";
+    static toColor(num) {
+      num >>>= 0;
+      let b = num & 0xFF,
+        g = (num & 0xFF00) >>> 8,
+        r = (num & 0xFF0000) >>> 16,
+        a = ((num & 0xFF000000) >>> 24) / 255;
+      return "rgba(" + [r, g, b, a].join(",") + ")";
     }
 
     public async itemSelected(inspection: Inspection) {

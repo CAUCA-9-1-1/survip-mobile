@@ -31,9 +31,12 @@ export class BuildingContactsPage {
 
     private async loadContactList() {
         let loader = this.load.create({content: 'Patientez...'});
-        const result = await this.contactRepo.getList(this.idBuilding);
-        this.contacts = result;
-        await loader.dismiss();
+        try {
+          const result = await this.contactRepo.getList(this.idBuilding);
+          this.contacts = result;
+        } finally {
+          await loader.dismiss();
+        }
     }
 
     public onItemClick(idBuildingContact: string): void {

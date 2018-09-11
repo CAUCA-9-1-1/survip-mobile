@@ -77,9 +77,12 @@ export class InterventionCourseLanePage {
     public async ionViewDidLoad() {
         let loader = this.load.create({content: this.labels['waitFormMessage']});
         loader.present();
-        this.directions = await this.directionRepo.getList();
-        await this.loadSpecificCourseLane(this.idInspectionBuildingCourseLane);
-        loader.dismiss();
+        try {
+          this.directions = await this.directionRepo.getList();
+          await this.loadSpecificCourseLane(this.idInspectionBuildingCourseLane);
+        } finally {
+          loader.dismiss();
+        }
     }
 
     public ionViewCanLeave() {
@@ -169,8 +172,11 @@ export class InterventionCourseLanePage {
     public async saveCourseLane() {
         let loader = this.load.create({content: this.labels['waitFormMessage']});
         loader.present();
-        await this.courseLaneRepo.save(this.courseLane);
-        loader.dismiss();
+        try {
+          await this.courseLaneRepo.save(this.courseLane);
+        } finally {
+          loader.dismiss();
+        }
     }
 
     public async deleteCourseLane(): Promise<any> {

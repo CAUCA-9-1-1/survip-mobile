@@ -45,9 +45,12 @@ export class InspectionBuildingParticularRiskDetailComponent implements OnChange
         if (this.currentRiskType != null && this.currentIdBuilding != null && this.risk == null) {
             let load = this.loadCtrl.create({'content': 'Patientez...'});
             await load.present();
-            this.risk = await this.repo.get(this.currentRiskType, this.currentIdBuilding);
-            this.setValuesAndStartListening();
-            await load.dismiss();
+            try {
+              this.risk = await this.repo.get(this.currentRiskType, this.currentIdBuilding);
+              this.setValuesAndStartListening();
+            } finally {
+              await load.dismiss();
+            }
         }
     }
 

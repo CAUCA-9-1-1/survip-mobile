@@ -67,15 +67,18 @@ export class BuildingWaterSprinklersPage {
     public async ionViewDidEnter() {
         let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
         await load.present();
-        if (this.idBuildingSprinkler == null) {
+        try {
+          if (this.idBuildingSprinkler == null) {
             this.createSprinkler();
-        }
-        else {
+          }
+          else {
             const data = await this.repo.get(this.idBuildingSprinkler);
             this.sprinkler = data;
+          }
+          this.setValuesAndStartListening();
+        } finally {
+          await load.dismiss();
         }
-        this.setValuesAndStartListening();
-        await load.dismiss();
     }
 
     private createForm() {

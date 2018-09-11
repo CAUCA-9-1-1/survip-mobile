@@ -46,9 +46,12 @@ export class BuildingPnapsPage {
 
     private async loadPnaps() {
         let loader = this.load.create({content: this.labels['waitFormMessage']});
-        const result = await this.pnapRepo.getList(this.idBuilding);
-        this.pnaps = result;
-        await loader.dismiss();
+        try {
+          const result = await this.pnapRepo.getList(this.idBuilding);
+          this.pnaps = result;
+        } finally {
+          await loader.dismiss();
+        }
     }
 
     public onItemClick(idBuildingPnap: string): void {

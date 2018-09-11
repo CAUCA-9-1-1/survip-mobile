@@ -58,12 +58,13 @@ export class BuildingAnomalyDetailPage {
     }
 
     public async ionViewDidLoad() {
-        let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
-        await load.present();
-
-        this.loadBuildingAnomaly();
-
+      let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
+      await load.present();
+      try {
+        await this.loadBuildingAnomaly();
+      } finally {
         await load.dismiss();
+      }
     }
 
     private async loadBuildingAnomaly(){
@@ -71,7 +72,6 @@ export class BuildingAnomalyDetailPage {
             this.anomaly = await this.repo.get(this.anomaly.id);
             this.initiateForm();
         }
-
         this.startWatchingForm();
     }
 
