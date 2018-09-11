@@ -80,11 +80,10 @@ export class AuthenticationService {
     private saveKeychainTouchId(infoToSave) {
         if (infoToSave) {
             this.keychainTouchId.isAvailable().then(biometricType => {
-            console.log(biometricType);
                 this.keychainTouchId.save(this.keychainTouchIdKey, JSON.stringify(infoToSave)).then(result => {
-                    console.log('keychain-touch-id saved information', result);
+                    console.log('keychain-touch-id, saved information', result);
                 }).catch(error => {
-                    console.log('keychain-touch-id can\'t saved information', error);
+                    console.log('keychain-touch-id, can\'t saved information', error);
                 });
             });
         }
