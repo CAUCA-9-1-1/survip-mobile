@@ -44,15 +44,18 @@ export class AuthenticationService {
   }
 
   public logout() {
-    sessionStorage.clear();
+    localStorage.removeItem('currentToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('firstName');
+    localStorage.removeItem('lastName');
   }
 
   private onResponse(result) {
     this.loading.dismiss();
 
     if (result.data && result.data.accessToken) {
-      sessionStorage.setItem('firstName', result.data.firstName);
-      sessionStorage.setItem('lastName', result.data.lastName);
+      localStorage.setItem('firstName', result.data.firstName);
+      localStorage.setItem('lastName', result.data.lastName);
 
       localStorage.setItem('currentToken', result.data.accessToken);
       localStorage.setItem('refreshToken', result.data.refreshToken);
@@ -74,7 +77,10 @@ export class AuthenticationService {
   }
 
   private onLogout(error) {
-    sessionStorage.clear();
+    localStorage.removeItem('currentToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('firstName');
+    localStorage.removeItem('lastName');
     this.events.publish('user:logout');
   }
 
