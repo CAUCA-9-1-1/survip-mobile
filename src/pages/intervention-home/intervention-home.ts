@@ -102,7 +102,6 @@ export class InterventionHomePage implements OnDestroy {
     }
 
     public openPage = (page) => {
-      console.log('icitte', page);
         this.rootPage = page;
     }
 
