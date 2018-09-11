@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey_answer-repository-provider";
+import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey-answer-repository-provider";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {InspectionSurveySummaryCategory} from "../../models/inspection-survey-summary-category";
 
