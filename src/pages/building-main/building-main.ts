@@ -37,13 +37,13 @@ export class BuildingMainPage {
         this.name = navParams.get('name');
         const configuration = this.configurationService.configuration;
         this.menuItems = [
-            {title: this.labels['buildingDetail'], page: 'BuildingDetailsPage', icon: 'information-circle', enabled: configuration.hasBuildingDetails},
-            {title: this.labels['contacts'], page: 'BuildingContactsPage', icon: 'contacts', enabled: configuration.hasBuildingContacts},
-            {title: this.labels['pnaps'], page: 'BuildingPnapsPage', icon: 'people', enabled: configuration.hasBuildingPnaps},
-            {title: this.labels['hazardousMaterial'], page: 'BuildingHazardousMaterialsPage', icon: 'nuclear', enabled: configuration.hasBuildingHazardousMaterials},
-            {title: this.labels['fireSafety'], page: 'BuildingFireProtectionPage', icon: 'flame', enabled: configuration.hasBuildingFireProtection},
-            {title: this.labels['particularRisk'], page: 'BuildingParticularRisksPage', icon: 'flash', enabled: configuration.hasBuildingParticularRisks},
-            {title: this.labels['anomalies'], page: 'BuildingAnomaliesPage', icon: 'warning', enabled: configuration.hasBuildingAnomalies},
+            {title: this.labels['buildingDetail'], page: 'BuildingDetailsPage', icon: 'information-circle', enabled: configuration.hasBuildingDetails, customAction: null},
+            {title: this.labels['contacts'], page: 'BuildingContactsPage', icon: 'contacts', enabled: configuration.hasBuildingContacts, customAction: null},
+            {title: this.labels['pnaps'], page: 'BuildingPnapsPage', icon: 'people', enabled: configuration.hasBuildingPnaps, customAction: null},
+            {title: this.labels['hazardousMaterial'], page: 'BuildingHazardousMaterialsPage', icon: 'nuclear', enabled: configuration.hasBuildingHazardousMaterials, customAction: null},
+            {title: this.labels['fireSafety'], page: 'BuildingFireProtectionPage', icon: 'flame', enabled: configuration.hasBuildingFireProtection, customAction: null},
+            {title: this.labels['particularRisk'], page: 'BuildingParticularRisksPage', icon: 'flash', enabled: configuration.hasBuildingParticularRisks, customAction: null},
+            {title: this.labels['anomalies'], page: 'BuildingAnomaliesPage', icon: 'warning', enabled: configuration.hasBuildingAnomalies, customAction: null},
         ];
         this.rootPage = this.getFirstEnabledMenuItem().page;
     }

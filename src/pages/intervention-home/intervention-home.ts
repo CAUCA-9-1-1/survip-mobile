@@ -41,7 +41,7 @@ export class InterventionHomePage implements OnDestroy {
 
     public ngOnInit() {
         this.translateService.get([
-            'generalInformation', 'buildings', 'waterSupplies', 'implantationPlan', 'course'
+            'generalInformation', 'buildings', 'waterSupplies', 'implantationPlan', 'course', 'survey'
         ]).subscribe(labels => {
                 this.labels = labels;
             },
@@ -55,11 +55,12 @@ export class InterventionHomePage implements OnDestroy {
     private loadMenu(){
         const configuration = this.configurationService.configuration;
         this.menuItems = [
-            {title: this.labels['generalInformation'], page: 'InterventionGeneralPage', icon: 'information-circle', enabled: true},
-            {title: this.labels['buildings'], page: 'InterventionBuildingsPage', icon: 'home', enabled: this.mustShowBuildingSection() },
-            {title: this.labels['waterSupplies'], page: 'InterventionWaterSuppliesPage', icon: 'water', enabled: configuration.hasWaterSupply},
-            {title: this.labels['implantationPlan'], page: 'InterventionImplantationPlanPage', icon: 'image', enabled: configuration.hasImplantationPlan},
-            {title: this.labels['course'], page: 'InterventionCoursePage', icon: 'map', enabled: configuration.hasCourse}
+            {title: this.labels['generalInformation'], page: 'InterventionGeneralPage', icon: 'information-circle', enabled: true, customAction: this.openPage},
+            {title: this.labels['buildings'], page: 'InterventionBuildingsPage', icon: 'home', enabled: this.mustShowBuildingSection(), customAction: this.openPage},
+            {title: this.labels['waterSupplies'], page: 'InterventionWaterSuppliesPage', icon: 'water', enabled: configuration.hasWaterSupply, customAction: this.openPage},
+            {title: this.labels['implantationPlan'], page: 'InterventionImplantationPlanPage', icon: 'image', enabled: configuration.hasImplantationPlan, customAction: this.openPage},
+            {title: this.labels['course'], page: 'InterventionCoursePage', icon: 'map', enabled: configuration.hasCourse, customAction: this.openPage},
+            {title: this.labels['survey'], page: '', icon: 'list-box', enabled: configuration.hasSurvey, customAction: this.goToInspectionQuestions}
         ];
     }
 
@@ -89,11 +90,12 @@ export class InterventionHomePage implements OnDestroy {
         this.menuCtrl.enable(false, 'inspectionListMenu');
     }
 
-    public openPage(page) {
+    public openPage = (page) => {
+      console.log('icitte', page);
         this.rootPage = page;
     }
 
-    public goToInspectionQuestions() {
+    public goToInspectionQuestions = () => {
         if (this.controller.inspectionDetail.isSurveyCompleted) {
             this.navCtrl.push('InspectionQuestionSummaryPage', {idInspection: this.controller.idInspection});
         }

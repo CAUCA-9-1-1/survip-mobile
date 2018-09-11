@@ -10,4 +10,5 @@ export class InspectionConfiguration {
   hasBuildingHazardousMaterials: boolean;
   hasBuildingParticularRisks: boolean;
   hasBuildingAnomalies: boolean;
+  hasSurvey: boolean;
 }

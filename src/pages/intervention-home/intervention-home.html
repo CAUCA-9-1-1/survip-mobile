@@ -7,16 +7,11 @@
     <ion-list class="menu-items">
 
       <div *ngFor="let menuItem of menuItems">
-        <button ion-item menuClose class="text-menu" *ngIf="menuItem.enabled" (click)="openPage(menuItem.page)">
+        <button ion-item menuClose class="text-menu" *ngIf="menuItem.enabled" (click)="menuItem.customAction(menuItem.page)">
           <ion-icon item-left [name]="menuItem.icon"></ion-icon>
           <span ion-text>{{menuItem.title}}</span>
         </button>
       </div>
-
-      <button *ngIf="mustShowPlanMenu" ion-item menuClose class="text-menu" (click)="goToInspectionQuestions()">
-        <ion-icon item-left name="list-box"></ion-icon>
-        <span ion-text>Questionnaire</span>
-      </button>
 
     </ion-list>
   </ion-content>

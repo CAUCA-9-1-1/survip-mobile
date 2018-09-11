@@ -23,7 +23,7 @@ export class HomePage {
             this.labels = labels;
         });
         this.menuItems = [
-            {title: this.labels['inspectionList'], page: 'InspectionListPage', icon: 'clipboard', enabled: true}
+            {title: this.labels['inspectionList'], page: 'InspectionListPage', icon: 'clipboard', enabled: true, customAction: null}
         ];
     }
 

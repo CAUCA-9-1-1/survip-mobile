@@ -3,4 +3,5 @@ export interface MenuItem {
   page: string;
   icon: string;
   enabled: boolean;
+  customAction: any;
 }
