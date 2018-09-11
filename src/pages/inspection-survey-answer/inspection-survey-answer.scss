@@ -1,13 +1,30 @@
 page-inspection-survey-answer {
 
-  .swiper-slide
-  {
+  .swiper-slide {
     text-align: left;
     webkit-align-items: initial;
     align-items: initial;
   }
 
-.slides{
-    height:auto;
+  .slides {
+    height: auto;
+  }
+
+  .parent-question-title {
+    display: table;
+    width: 100%;
+    padding-bottom: 10px;
+  }
+
+  .parent-question-title h4 {
+    display: table-cell;
+    text-align: left;
+    width: 80%;
+    vertical-align: middle;
+  }
+
+  .parent-question-title div {
+    font-size:2.7rem;
+    text-align: right;
   }
 }
