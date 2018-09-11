@@ -1,9 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {
-    InspectionSurveyAnswer,
-    SurveyQuestionTypeEnum
-} from "../../models/inspection-survey-answer";
-import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey_answer-repository-provider";
+import {InspectionSurveyAnswer, SurveyQuestionTypeEnum} from "../../models/inspection-survey-answer";
+import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey-answer-repository-provider";
 import {NG_VALUE_ACCESSOR} from "@angular/forms";
 
 @Component({
