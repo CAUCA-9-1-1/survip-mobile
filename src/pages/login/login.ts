@@ -10,9 +10,6 @@ import {AuthenticationService} from '../../providers/Base/authentification.servi
     templateUrl: 'login.html',
 })
 export class LoginPage {
-    private keychainTouchIdKey = 'survi-prevention';
-    private keychainTouchIdPassword = 'password%survi%prevention%keychain%touch%id';
-
     public userName: string;
     public password: string;
     public labels = {};
@@ -41,15 +38,15 @@ export class LoginPage {
         if (localStorage.getItem('currentToken')) {
             let isLoggedIn = await this.authService.isStillLoggedIn();
             if (isLoggedIn) {
-                this.redirectToInspectionList();
-            } else {
-                this.validateKeychainTouchId();
+                return this.redirectToInspectionList();
             }
         }
+
+        this.validateKeychainTouchId();
     }
 
     public onLogin() {
-        this.authService.login(this.userName, this.password)
+        this.authService.login(this.userName, this.password, true)
             .subscribe(response => this.handleResponse(response));
     }
 
@@ -58,40 +55,35 @@ export class LoginPage {
             this.onLogin();
     }
 
+    private validateKeychainTouchId() {
+        this.keychainTouchId.isAvailable().then(result => {
+            this.keychainTouchId.has(this.authService.keychainTouchIdKey).then(result => {
+                this.keychainTouchId.verify(this.authService.keychainTouchIdKey, '')
+                    .then(saveInfo => {
+                        const user = JSON.parse(saveInfo);
+
+                        this.authService.login(user.username, user.password, false)
+                            .subscribe(response => this.handleResponse(response));
+                    })
+                    .catch(error => {
+                        console.log('Can\'t verify the keychain-touch-id');
+                    });
+            }).catch(error => {
+                console.log('keychain-touch-id-key doesn\'t exist');
+            });
+        }).catch(error => {
+            console.log('keychain-touch-id is not available');
+        });
+    }
+
     private handleResponse(response) {
         if (localStorage.getItem('currentToken')) {
-            this.keychainTouchId.isAvailable().then(result => {
-                this.saveKeychainTouchId();
-            }).catch(errror => {
-                this.redirectToInspectionList();
-            });
+            this.redirectToInspectionList();
         } else if (!response) {
             this.showToast("Nom d'usager ou mot de passe incorrect.");
         } else {
             this.showToast("Problème de communication avec le serveur.  Veuillez communiquer avec un adminstrateur.");
         }
-    }
-
-    private validateKeychainTouchId() {
-        this.keychainTouchId.isAvailable().then(result => {
-            this.keychainTouchId.has(this.keychainTouchIdKey).then(result => {
-                this.keychainTouchId.verify(this.keychainTouchIdKey, 'test')
-                    .then(result => console.log(result))
-                    .catch(error => console.log(error));
-            });
-        });
-    }
-
-    private saveKeychainTouchId() {
-        this.keychainTouchId.has(this.keychainTouchIdKey).then(result => {
-            this.redirectToInspectionList();
-        }).catch(error => {
-            this.keychainTouchId.save(this.keychainTouchIdKey, this.keychainTouchIdPassword).then(result => {
-                this.redirectToInspectionList();
-            }).catch(error => {
-                console.log('error when saving touch id');
-            });
-        });
     }
 
     private showToast(message: string) {
