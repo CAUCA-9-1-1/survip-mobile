@@ -1,7 +1,7 @@
 <div>
     <div class="parent-question-title">
         <h4>{{question.title}}</h4>
-        <div><ion-icon name="add-circle"></ion-icon></div>
+        <div><ion-icon name="add-circle" onclick="AddNewQuestionGroup()"></ion-icon></div>
     </div>
     <div  *ngFor="let question of answeredQuestions">
     <ion-card>
