@@ -1,5 +1,9 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {InspectionSurveyAnswer} from "../../models/inspection-survey-answer";
+import {
+    InspectionSurveyAnswer,
+    SurveyQuestionType,
+    SurveyQuestionTypeEnum
+} from "../../models/inspection-survey-answer";
 import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey_answer-repository-provider";
 import {NG_VALUE_ACCESSOR} from "@angular/forms";
 
@@ -15,6 +19,8 @@ export class SurveyQuestionComponent {
     @Input() showTitle = true;
     @Output() questionAnswered = new EventEmitter<any>();
 
+    public questionTypeEnum = SurveyQuestionTypeEnum;
+
     constructor(private questionRepo: InspectionSurveyAnswerRepositoryProvider) {
 
     }
@@ -23,8 +29,11 @@ export class SurveyQuestionComponent {
         console.log("survey question component : ",this.question);
     }
 
-    public ValidateAnswer() {
+    public validateAnswer() {
         if (this.question.answer) {
+            if(this.question.questionType == this.questionTypeEnum.choiceAnswer){
+                this.question.idSurveyQuestionChoice = this.question.answer;
+            }
             this.saveAnswer();
         }
     }
@@ -33,7 +42,7 @@ export class SurveyQuestionComponent {
         this.questionRepo.answerQuestion(this.question)
             .subscribe(result => {
                     this.question.id = result['id'];
-                    this.questionAnswered.emit(null);
+                    this.questionAnswered.emit(this.question);
                 },
                 error => {
                     console.log("Erreur lors de la sauvegarde de la réponse.");
