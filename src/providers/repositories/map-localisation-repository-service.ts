@@ -68,7 +68,7 @@ export class MapLocalizationRepositoryService {
                 this.selectedCity = success;
                 this.setCityPosition(this.selectedCity);
             }, error => {
-                console.log("Error in setInspectionCity", error);
+                console.log('Error in setInspectionCity', error);
             })
     }
     public async setCityPosition(city : CityWithRegion) {
@@ -77,8 +77,18 @@ export class MapLocalizationRepositoryService {
             this.cityPosition = new ol.geom.Point(ol.proj.transform([-70.6771584, 46.1214952], 'EPSG:3857', 'EPSG:4326'));
             return;
         }
-        let coordinates = await this.nativeGeocoder.forwardGeocode(city.name + ', ' + city.regionName);
-        this.cityPosition = new ol.geom.Point(ol.proj.transform([parseFloat(coordinates[0]['longitude']), parseFloat(coordinates[0]['latitude'])], 'EPSG:4326', 'EPSG:3857'));
+        this.nativeGeocoder.forwardGeocode(city.name + ', ' + city.regionName)
+            .then(
+                (coordinates)=>{
+                    this.cityPosition = new ol.geom.Point(ol.proj.transform([parseFloat(coordinates[0]['longitude']), parseFloat(coordinates[0]['latitude'])], 'EPSG:4326', 'EPSG:3857'));
+                }
+            )
+            .catch((error: any) =>
+            {
+                this.cityPosition = null;
+                console.log('Error in geocoder location from city name',error);
+            });
+
     }
 
     public getMapCenter() {
