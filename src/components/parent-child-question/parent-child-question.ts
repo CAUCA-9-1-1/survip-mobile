@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {InspectionSurveyAnswer} from "../../models/inspection-survey-answer";
 import {NG_VALUE_ACCESSOR} from "@angular/forms";
-import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey_answer-repository-provider";
+import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey-answer-repository-provider";
 
 @Component({
     selector: 'parent-child-question',
