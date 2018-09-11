@@ -93,9 +93,6 @@
     <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryUsageDescription">
         <string>need photo library access to get pictures from there</string>
     </edit-config>
-    <engine name="browser" spec="5.0.3" />
-    <engine name="android" spec="7.1.1" />
-    <engine name="ios" spec="4.5.5" />
     <plugin name="cordova-plugin-camera" spec="^4.0.3" />
     <plugin name="cordova-plugin-console" spec="^1.1.0" />
     <plugin name="cordova-plugin-device" spec="^2.0.2" />
@@ -107,4 +104,7 @@
     <plugin name="cordova.plugins.diagnostic" spec="~4.0.8" />
     <plugin name="cordova-plugin-nativegeocoder" spec="^3.1.2" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
+    <engine name="browser" spec="5.0.3" />
+    <engine name="android" spec="7.1.1" />
+    <engine name="ios" spec="4.5.5" />
 </widget>
