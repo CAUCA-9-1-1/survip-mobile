@@ -15,11 +15,11 @@ export class InspectionSurveyAnswer {
 
     childSurveyAnswerList: InspectionSurveyAnswer[];
     choicesList: InspectionSurveyAnswerChoice[];
-}
+};
 
 export enum SurveyQuestionTypeEnum {
     choiceAnswer = 1,
     textAnswer = 2,
     dateAnswer = 3,
     groupedQuestion = 4
-}
+};
