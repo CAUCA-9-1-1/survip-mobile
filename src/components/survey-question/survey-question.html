@@ -3,7 +3,7 @@
     <h2 *ngIf="showTitle">{{question.title}}</h2>
     <p>{{question.description}}</p>
   </div>
-  <div *ngIf="question.questionType == 1">
+  <div *ngIf="question.questionType == questionTypeEnum.choiceAnswer">
     <ion-list radio-group [(ngModel)]=question.answer  *ngIf="question.choicesList.length <= 2">
       <ion-item *ngFor="let choice of question.choicesList">
         <ion-label>{{choice.description}}</ion-label>
@@ -19,8 +19,8 @@
     </ion-item>
   </div>
   <ion-textarea [(ngModel)]=question.answer (ionChange)="validateAnswer()"
-                *ngIf="question.questionType == 2"></ion-textarea>
+                *ngIf="question.questionType == questionTypeEnum.textAnswer"></ion-textarea>
   <ion-datetime displayFormat="YYYY/MM/DD" [(ngModel)]=question.answer
                 (ionChange)="validateAnswer()"
-                *ngIf="question.questionType == 3"></ion-datetime>
+                *ngIf="question.questionType == questionTypeEnum.dateAnswer"></ion-datetime>
 </div>
