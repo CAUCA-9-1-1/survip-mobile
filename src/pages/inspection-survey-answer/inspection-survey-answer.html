@@ -13,11 +13,11 @@
                 <div class="parent-question-title">
                     <h4>{{question.title}}</h4>
                     <div>
-                        <ion-icon name="add-circle" onclick="AddNewQuestionGroup()"></ion-icon>
+                        <ion-icon name="add-circle" (click)="addNewQuestionGroup()"></ion-icon>
                     </div>
                 </div>
-                <parent-child-question [question]="currentQuestion"
-                                       (childQuestionAnswered)="getNextQuestionFromAnswer($event)"></parent-child-question>
+                <parent-child-question *ngFor="let answer of currentQuestionAnswerList; let i = index" [groupIndex]="i" [question]="answer"
+                                       (childQuestionAnswered)="getNextQuestionFromAnswer($event)">{{i+1}}</parent-child-question>
             </div>
         </ion-slide>
     </ion-slides>
