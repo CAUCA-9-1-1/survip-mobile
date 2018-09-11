@@ -10,7 +10,16 @@ export class InspectionSurveyAnswer {
     title: string;
     description: string;
     idSurveyQuestionNext: string;
-    sequence: number
+    sequence: number;
+    idSurveyQuestionParent: string;
 
+    childSurveyAnswerList: InspectionSurveyAnswer[];
     choicesList: InspectionSurveyAnswerChoice[];
+}
+
+export enum SurveyQuestionTypeEnum {
+    choiceAnswer = 1,
+    textAnswer = 2,
+    dateAnswer = 3,
+    groupedQuestion = 4
 }

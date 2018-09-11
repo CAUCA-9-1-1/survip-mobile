@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {IonicPage, NavController, NavParams, Slides} from 'ionic-angular';
-import {InspectionSurveyAnswer} from "../../models/inspection-survey-answer";
+import {InspectionSurveyAnswer, SurveyQuestionTypeEnum} from "../../models/inspection-survey-answer";
 import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey_answer-repository-provider";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {TranslateService} from "@ngx-translate/core";
@@ -16,13 +16,13 @@ export class InspectionSurveyAnswerPage {
 
     public inspectionQuestionAnswer: InspectionSurveyAnswer[] = [];
     public inspectionSurveyQuestion: InspectionSurveyAnswer[] = [];
+    public questionTypeEnum = SurveyQuestionTypeEnum;
     public idInspection: string = '';
     public inspectionSurveyCompleted: boolean = false;
     public selectedIndex = 0;
     public currentQuestion: InspectionSurveyAnswer = new InspectionSurveyAnswer();
     public previousQuestionAvailable = false;
     public nextQuestionDisabled = false;
-    public questionTypeEnum = {'MultipleChoice': 1, 'TextAnswer': 2, 'DateAnswer': 3};
     public nextButtonTitle: string = 'Suivante';
     public nextQuestionId: string = '';
     public reviewOnly = false;
@@ -174,9 +174,15 @@ export class InspectionSurveyAnswerPage {
         this.slides.lockSwipes(true);
     }
 
+    public validateQuestionAnswer(){
+        if(this.inspectionSurveyQuestion[this.selectedIndex].questionType != this.questionTypeEnum.groupedQuestion){
+            this.getNextQuestionFromAnswer() ;
+        }
+    }
     public getNextQuestionFromAnswer() {
+
         if (this.currentQuestion.answer) {
-            if (this.currentQuestion.questionType == this.questionTypeEnum.MultipleChoice) {
+            if (this.currentQuestion.questionType == this.questionTypeEnum.choiceAnswer) {
                 this.currentQuestion.idSurveyQuestionChoice = this.currentQuestion.answer;
                 this.nextQuestionId = this.getChoiceNextQuestionId(this.currentQuestion.idSurveyQuestionChoice);
                 if (!this.nextQuestionId) {
