@@ -57,8 +57,8 @@ import {Geolocation} from "@ionic-native/geolocation";
 import {Diagnostic} from "@ionic-native/diagnostic";
 import {NativeGeocoder} from "@ionic-native/native-geocoder";
 import {CityRepositoryProvider} from "../providers/repositories/city-repository-provider";
-import { InspectionConfigurationProvider } from '../providers/inspection-configuration/inspection-configuration';
-
+import {InspectionConfigurationProvider} from '../providers/inspection-configuration/inspection-configuration';
+import {KeychainTouchId} from '@ionic-native/keychain-touch-id';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -147,7 +147,8 @@ export function httpServiceFactory(
         Diagnostic,
         NativeGeocoder,
         CityRepositoryProvider,
-    InspectionConfigurationProvider,
+        InspectionConfigurationProvider,
+        KeychainTouchId,
     ]
 })
 export class AppModule {
