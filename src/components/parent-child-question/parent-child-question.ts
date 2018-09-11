@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {InspectionSurveyAnswer} from "../../models/inspection-survey-answer";
 import {NG_VALUE_ACCESSOR} from "@angular/forms";
+import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey_answer-repository-provider";
 
 @Component({
     selector: 'parent-child-question',
@@ -16,7 +17,7 @@ export class ParentChildQuestionComponent {
     public answeredQuestions: InspectionSurveyAnswer[] = [];
     public questionIndex = 0;
 
-    constructor() {
+    constructor(private surveyRepo: InspectionSurveyAnswerRepositoryProvider) {
 
     }
 
@@ -54,6 +55,10 @@ export class ParentChildQuestionComponent {
     public AddNewQuestionGroup(){
         const NewQuestionGroup = this.question.childSurveyAnswerList.filter((question) => question.answer != "" && question.answer != null);
         this.answeredQuestions.push.apply(NewQuestionGroup);
+    }
+
+    public deleteQuestionGroup(){
+        this.surveyRepo.deleteSurveyAnswers(this.answeredQuestions)
     }
 
 }

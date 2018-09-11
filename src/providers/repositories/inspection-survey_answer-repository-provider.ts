@@ -39,4 +39,8 @@ export class InspectionSurveyAnswerRepositoryProvider {
             return this.http.post('InspectionSurveyAnswer/CompleteSurvey', JSON.stringify(idInspection));
         }
     }
+
+    public deleteSurveyAnswers(AnswerList: InspectionSurveyAnswer[]): Observable<any>{
+        return this.http.put('InspectionSurveyAnswer/Inspection/DeleteAnswers', AnswerList);
+    }
 }
