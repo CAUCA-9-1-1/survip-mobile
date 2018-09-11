@@ -13,6 +13,7 @@ import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/reposito
 export class ParentChildQuestionComponent {
     @Input() question: InspectionSurveyAnswer;
     @Output() childQuestionAnswered = new EventEmitter<any>();
+    @Input() groupIndex = 1;
 
     public answeredQuestions: InspectionSurveyAnswer[] = [];
     public questionIndex = 0;
@@ -50,11 +51,6 @@ export class ParentChildQuestionComponent {
 
     public validateAnswer(answer) {
         this.validateLastQuestionAnswer();
-    }
-
-    public AddNewQuestionGroup(){
-        const NewQuestionGroup = this.question.childSurveyAnswerList.filter((question) => question.answer != "" && question.answer != null);
-        this.answeredQuestions.push.apply(NewQuestionGroup);
     }
 
     public deleteQuestionGroup(){

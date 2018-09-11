@@ -28,6 +28,7 @@ export class InspectionSurveyAnswerPage {
     public reviewOnly = false;
     public changingValueTimer = null;
     public labels = {};
+    public currentQuestionAnswerList : InspectionSurveyAnswer[] = [];
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -39,6 +40,7 @@ export class InspectionSurveyAnswerPage {
         this.idInspection = this.navParams.get('idInspection');
         this.inspectionSurveyCompleted = this.navParams.get('inspectionSurveyCompleted');
         this.loadInspectionQuestion();
+        this.addNewQuestionGroup = this.addNewQuestionGroup.bind(this);
     }
 
     public ngOnInit() {
@@ -82,6 +84,9 @@ export class InspectionSurveyAnswerPage {
                     this.addNewAnswer(this.selectedIndex);
                 }
                 this.currentQuestion = this.inspectionQuestionAnswer[this.selectedIndex];
+                this.currentQuestionAnswerList = [];
+                this.currentQuestionAnswerList.push(this.currentQuestion);
+
                 this.canSwitchQuestion();
                 this.getNextQuestionFromAnswer();
             });
@@ -272,9 +277,8 @@ export class InspectionSurveyAnswerPage {
         }
     }
 
-    public getChildQuestions(idParent :string){
-        const questions = this.inspectionSurveyQuestion.filter((question)=> question.idSurveyQuestionParent == idParent);
-        return questions;
+    public addNewQuestionGroup(){
+        this.currentQuestionAnswerList.push(this.inspectionSurveyQuestion[this.selectedIndex]);
     }
 
 }
