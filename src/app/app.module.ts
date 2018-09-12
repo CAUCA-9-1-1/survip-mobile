@@ -59,6 +59,7 @@ import {NativeGeocoder} from "@ionic-native/native-geocoder";
 import {CityRepositoryProvider} from "../providers/repositories/city-repository-provider";
 import {InspectionConfigurationProvider} from '../providers/inspection-configuration/inspection-configuration';
 import {KeychainTouchId} from '@ionic-native/keychain-touch-id';
+import {HockeyApp} from 'ionic-hockeyapp';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -149,6 +150,7 @@ export function httpServiceFactory(
         CityRepositoryProvider,
         InspectionConfigurationProvider,
         KeychainTouchId,
+        HockeyApp,
     ]
 })
 export class AppModule {
