@@ -232,6 +232,7 @@
   "supply":"Supply",
   "survey":"Survey",
   "surveyCompletedMessage":"The survey is completed, redirecting to the survey summary.",
+  "surveyDeleteQuestionGroup":"Do you really want to delete this question group?",
   "surveyNextQuestion":"Next",
   "surveyPreviousQuestion":"Previous",
   "surveyRequired":"Please answer the survey to complete inspection.",

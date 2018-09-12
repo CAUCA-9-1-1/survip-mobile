@@ -12,6 +12,8 @@ export class InspectionSurveyAnswer {
     idSurveyQuestionNext: string;
     sequence: number;
     idSurveyQuestionParent: string;
+    maxOccurrence = 0;
+    minOccurrence = 0;
 
     childSurveyAnswerList: InspectionSurveyAnswer[];
     choicesList: InspectionSurveyAnswerChoice[];
