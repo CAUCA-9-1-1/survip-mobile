@@ -57,18 +57,6 @@ export class MyApp {
         const ignoreCrashDialog = true;
         this.hockeyApp.start(androidAppId, iosAppId, autoSendCrashReports, ignoreCrashDialog);
         this.hockeyApp.trackEvent('SURVI-Prevention start');
-
-        // So app doesn't close when hockey app activities close
-        // This also has a side effect of unable to close the app when on the rootPage and using the back button.
-        // Back button will perform as normal on other pages and pop to the previous page.
-        this.platform.registerBackButtonAction(() => {
-            let nav = this.app.getRootNav();
-            if (nav.canGoBack()) {
-                nav.pop();
-            } else {
-                nav.setRoot(this.rootPage);
-            }
-        });
     }
 }
 
