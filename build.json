@@ -1,0 +1,12 @@
+{
+  "android": {
+    "debug": {},
+    "release": {
+      "keystore": "./resources/android/cause.keystore",
+      "keystoreType": "jks",
+      "alias": "cause",
+      "storePassword": "DevCauca911",
+      "password" : "DevCauca911"
+    }
+  }
+}
