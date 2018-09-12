@@ -241,6 +241,7 @@
   "supply":"Alimentation",
   "survey":"Questionnaire",
   "surveyCompletedMessage":"Le questionnaire est complété, redirection vers le résumé du questionnaire.",
+  "surveyDeleteQuestionGroup":"Êtes-vous sûre de vouloir supprimer ce groupe de question ?",
   "surveyNextQuestion":"Suivante",
   "surveyPreviousQuestion":"Précédente",
   "surveyRequired":"Veuillez remplir le questionnaire pour compléter l'inpection.",

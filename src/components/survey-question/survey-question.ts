@@ -16,6 +16,7 @@ export class SurveyQuestionComponent {
     @Output() questionAnswered = new EventEmitter<any>();
 
     public questionTypeEnum = SurveyQuestionTypeEnum;
+    public changingValueTimer = null;
 
     constructor(private questionRepo: InspectionSurveyAnswerRepositoryProvider) {
 
@@ -34,7 +35,16 @@ export class SurveyQuestionComponent {
         }
     }
 
-    saveAnswer() {
+    public textAnswerChanged() {
+        if (this.changingValueTimer) {
+            clearTimeout(this.changingValueTimer);
+        }
+        this.changingValueTimer = setTimeout(() => {
+            this.saveAnswer();
+        }, 1500);
+    }
+
+    private saveAnswer() {
         this.questionRepo.answerQuestion(this.question)
             .subscribe(result => {
                     this.question.id = result['id'];

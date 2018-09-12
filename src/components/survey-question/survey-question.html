@@ -18,7 +18,7 @@
       </ion-select>
     </ion-item>
   </div>
-  <ion-textarea [(ngModel)]=question.answer (ionChange)="validateAnswer()"
+  <ion-textarea [(ngModel)]=question.answer (ionChange)="textAnswerChanged()"
                 *ngIf="question.questionType == questionTypeEnum.textAnswer"></ion-textarea>
   <ion-datetime displayFormat="YYYY/MM/DD" [(ngModel)]=question.answer
                 (ionChange)="validateAnswer()"
