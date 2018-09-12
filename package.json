@@ -45,6 +45,7 @@
     "cordova-plugin-console": "^1.1.0",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-geolocation": "^2.4.3",
+    "cordova-plugin-hockeyapp": "^5.1.2",
     "cordova-plugin-ionic-keyboard": "^2.1.2",
     "cordova-plugin-ionic-webview": "^2.1.4",
     "cordova-plugin-keychain-touch-id": "git+https://github.com/paychex/cordova-plugin-keychain-touch-id.git",
@@ -55,6 +56,7 @@
     "cordova.plugins.diagnostic": "^4.0.10",
     "fabric": "^2.3.3",
     "ionic-angular": "^3.9.2",
+    "ionic-hockeyapp": "^1.0.0",
     "ionic-img-viewer": "^2.9.0",
     "ionicons": "3.0.0",
     "lib-sketch-tool": "^1.5.0",
@@ -89,12 +91,13 @@
       "cordova-plugin-whitelist": {},
       "cordova.plugins.diagnostic": {},
       "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-keychain-touch-id": {}
+      "cordova-plugin-keychain-touch-id": {},
+      "cordova-plugin-hockeyapp": {}
     },
     "platforms": [
       "browser",
-      "android",
-      "ios"
+      "ios",
+      "android"
     ]
   },
   "config": {
