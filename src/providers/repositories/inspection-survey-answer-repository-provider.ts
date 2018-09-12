@@ -41,6 +41,12 @@ export class InspectionSurveyAnswerRepositoryProvider {
     }
 
     public deleteSurveyAnswers(AnswerList: InspectionSurveyAnswer[]): Observable<any>{
-        return this.http.put('InspectionSurveyAnswer/Inspection/DeleteAnswers', AnswerList);
+        let Ids = [];
+        AnswerList.forEach(answer=>{
+           Ids.push(answer.id) ;
+        });
+        if(Ids.length > 0) {
+            return this.http.put('InspectionSurveyAnswer/Inspection/DeleteAnswers', Ids);
+        }
     }
 }

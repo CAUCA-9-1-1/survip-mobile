@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, Slides} from 'ionic-angular';
 import {InspectionSurveyAnswer, SurveyQuestionTypeEnum} from "../../models/inspection-survey-answer";
 import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey-answer-repository-provider";
@@ -12,8 +12,6 @@ import {InspectionControllerProvider} from "../../providers/inspection-controlle
     templateUrl: 'inspection-survey-answer.html',
 })
 export class InspectionSurveyAnswerPage {
-    @ViewChild(Slides) slides: Slides;
-
     public inspectionQuestionAnswer: InspectionSurveyAnswer[] = [];
     public inspectionSurveyQuestion: InspectionSurveyAnswer[] = [];
     public questionTypeEnum = SurveyQuestionTypeEnum;
@@ -25,8 +23,6 @@ export class InspectionSurveyAnswerPage {
     public nextQuestionDisabled = false;
     public nextButtonTitle: string = 'Suivante';
     public nextQuestionId: string = '';
-    public reviewOnly = false;
-    public changingValueTimer = null;
     public labels = {};
     public currentQuestionAnswerList : InspectionSurveyAnswer[] = [];
 
@@ -40,12 +36,11 @@ export class InspectionSurveyAnswerPage {
         this.idInspection = this.navParams.get('idInspection');
         this.inspectionSurveyCompleted = this.navParams.get('inspectionSurveyCompleted');
         this.loadInspectionQuestion();
-        this.addNewQuestionGroup = this.addNewQuestionGroup.bind(this);
     }
 
     public ngOnInit() {
         this.translateService.get([
-            'surveyCompletedMessage', 'surveyNextQuestion', 'complete'
+            'surveyCompletedMessage', 'surveyNextQuestion', 'complete','surveyDeleteQuestionGroup','confirmation'
         ]).subscribe(labels => {
                 this.labels = labels;
             },
@@ -53,10 +48,6 @@ export class InspectionSurveyAnswerPage {
                 console.log(error)
             });
         this.nextButtonTitle = this.labels['surveyNextQuestion'];
-    }
-
-    public ionViewDidLoad() {
-        this.slides.lockSwipes(true);
     }
 
     public loadInspectionQuestion() {
@@ -84,33 +75,10 @@ export class InspectionSurveyAnswerPage {
                     this.addNewAnswer(this.selectedIndex);
                 }
                 this.currentQuestion = this.inspectionQuestionAnswer[this.selectedIndex];
-                this.currentQuestionAnswerList = [];
-                this.currentQuestionAnswerList.push(this.currentQuestion);
+                this.initiateQuestionGroup();
 
-                this.canSwitchQuestion();
                 this.getNextQuestionFromAnswer();
             });
-    }
-
-    public switchQuestion() {
-        this.selectedIndex = this.slides.getActiveIndex();
-        this.currentQuestion = this.inspectionQuestionAnswer[this.selectedIndex];
-        this.getNextQuestionFromAnswer();
-        this.canSwitchQuestion();
-    }
-
-    public canSwitchQuestion() {
-        let retValue = true;
-        if (this.currentQuestion.answer) {
-            this.nextQuestionDisabled = false;
-            this.reviewOnly = true;
-        } else {
-            this.nextQuestionDisabled = true;
-            this.reviewOnly = false;
-            retValue = false;
-        }
-
-        return retValue;
     }
 
     public findQuestion(idSurveyQuestion: string) {
@@ -122,39 +90,6 @@ export class InspectionSurveyAnswerPage {
         }
     }
 
-    public isNextQuestionExists() {
-        let nextExists = false;
-        const questionCount = this.currentQuestion.choicesList.length;
-        for (let index = 0; index < questionCount; index++) {
-            if (this.currentQuestion.choicesList[index].idSurveyQuestionNext) {
-                nextExists = true;
-                break;
-            }
-        }
-        if (!nextExists) {
-            if (this.currentQuestion.idSurveyQuestionNext) {
-                nextExists = true;
-            }
-        }
-        return nextExists;
-    }
-
-    public nextQuestion() {
-        if (this.nextQuestionId) {
-            let nextIndex = this.findQuestion(this.nextQuestionId);
-
-            if (!this.inspectionQuestionAnswer[this.selectedIndex + 1]) {
-                this.addNewAnswer(nextIndex);
-            }
-            this.slides.lockSwipes(false);
-            this.slides.slideTo(this.selectedIndex + 1);
-            this.switchQuestion();
-            this.slides.lockSwipes(true);
-
-        } else {
-            this.completeInspectionQuestion();
-        }
-    }
 
     public completeInspectionQuestion() {
         this.controller.CompleteSurvey(this.idInspection)
@@ -172,11 +107,14 @@ export class InspectionSurveyAnswerPage {
         ;
     }
 
-    public previousQuestion() {
-        this.slides.lockSwipes(false);
-        this.slides.slideTo(this.selectedIndex - 1);
-        this.switchQuestion();
-        this.slides.lockSwipes(true);
+    public previousQuestion(){
+        this.currentQuestion = this.inspectionQuestionAnswer[this.selectedIndex-1];
+        this.initiateQuestionGroup();
+    }
+
+    public nextQuestion(){
+        this.currentQuestion = this.inspectionSurveyQuestion[this.selectedIndex + 1];
+        this.initiateQuestionGroup();
     }
 
     public validateQuestionAnswer(){
@@ -201,16 +139,6 @@ export class InspectionSurveyAnswerPage {
             this.nextQuestionDisabled = true;
             this.nextQuestionId = null;
         }
-        this.questionNavigationDisplay();
-    }
-
-    public answerTextChanged() {
-        if (this.changingValueTimer) {
-            clearTimeout(this.changingValueTimer);
-        }
-        this.changingValueTimer = setTimeout(() => {
-            this.getNextQuestionFromAnswer();
-        }, 1500);
     }
 
     public getChoiceNextQuestionId(idChoiceSelected) {
@@ -227,49 +155,13 @@ export class InspectionSurveyAnswerPage {
         return idNext;
     }
 
-    public questionNavigationDisplay() {
-        if (this.selectedIndex > 0) {
-            this.previousQuestionAvailable = true;
-        } else {
-            this.previousQuestionAvailable = false;
-        }
 
-        if (this.nextQuestionId || this.isNextQuestionExists()) {
-            this.nextButtonTitle = this.labels['surveyNextQuestion'];
-        } else {
-            this.nextButtonTitle = this.labels['complete'];
-        }
-    }
-
-    public createAnswer() {
-        const newAnswer = new InspectionSurveyAnswer();
-        newAnswer.id = this.currentQuestion.id;
-        newAnswer.idInspection = this.currentQuestion.idInspection;
-        newAnswer.idSurveyQuestion = this.currentQuestion.idSurveyQuestion;
-        newAnswer.answer = this.currentQuestion.answer;
-        newAnswer.idSurveyQuestionChoice = this.currentQuestion.idSurveyQuestionChoice;
-        return newAnswer;
-    }
 
     public addNewAnswer(questionIndex: number) {
         let newAnswer = Object.assign({}, this.inspectionSurveyQuestion[questionIndex]);
         this.inspectionQuestionAnswer.push(newAnswer);
-        this.slides.update();
     }
 
-    public saveAnswer() {
-        if (this.currentQuestion.answer) {
-            const answer = this.createAnswer();
-            this.controller.answerQuestion(answer)
-                .subscribe(result => {
-                        this.currentQuestion.id = result['id'];
-                        this.nextQuestion();
-                    },
-                    error => {
-                        this.messageTools.showToast('Une erreur est survenue lors de la sauvegarde de votre réponse veuillez recommencer ultérieurement.', 5);
-                    });
-        }
-    }
 
     public ionViewWillLeave() {
         if(this.navCtrl.getPrevious().name == "InterventionHomePage"){
@@ -277,8 +169,25 @@ export class InspectionSurveyAnswerPage {
         }
     }
 
-    public addNewQuestionGroup(){
-        this.currentQuestionAnswerList.push(this.inspectionSurveyQuestion[this.selectedIndex]);
+    public initiateQuestionGroup(){
+        this.currentQuestionAnswerList = [];
+        if(this.currentQuestion.answer) {
+            this.currentQuestionAnswerList = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
+        } else {
+            for (let index = 0; index < this.inspectionSurveyQuestion[this.selectedIndex].minOccurrence; index++) {
+                this.currentQuestionAnswerList.push(this.inspectionSurveyQuestion[this.selectedIndex]);
+            }
+        }
+    }
+
+    public async addNewQuestionGroup(){
+        if (this.currentQuestionAnswerList.length < this.inspectionSurveyQuestion[this.selectedIndex].maxOccurrence) {
+            this.currentQuestionAnswerList.push(this.inspectionSurveyQuestion[this.selectedIndex]);
+        }
+    }
+
+    public deleteChildQuestion(index:number){
+        this.currentQuestionAnswerList.splice(index,1);
     }
 
 }

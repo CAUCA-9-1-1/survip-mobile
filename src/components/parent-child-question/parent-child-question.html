@@ -1,11 +1,16 @@
 <div class="question-container">
     <div class="parent-question-title">
-        <h4>{{question.title}}</h4>
-        <div><ion-icon name="trash" onclick="deleteQuestionGroup(question)"></ion-icon></div>
+        <h4 (click)="hideExpandGroup()" >{{question.title}} # {{groupIndex+1}}</h4>
+        <div>
+            <ion-icon name="trash" (click)="deleteQuestionGroup(question)"></ion-icon>
+        </div>
     </div>
-    <div  *ngFor="let question of answeredQuestions">
-    <ion-card>
-        <survey-question [showTitle]="false" [question]="question" (questionAnswered)="validateAnswer($event)"></survey-question>
-    </ion-card>
+    <div #questionGroup>
+        <div *ngFor="let question of answeredQuestions">
+            <ion-card>
+                <survey-question [showTitle]="false" [question]="question"
+                                 (questionAnswered)="validateAnswer($event)"></survey-question>
+            </ion-card>
+        </div>
     </div>
 </div>
