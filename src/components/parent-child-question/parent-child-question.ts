@@ -4,6 +4,7 @@ import {NG_VALUE_ACCESSOR} from "@angular/forms";
 import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey-answer-repository-provider";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {TranslateService} from "@ngx-translate/core";
+import {UUID} from "angular2-uuid";
 
 @Component({
     selector: 'parent-child-question',
@@ -16,17 +17,17 @@ export class ParentChildQuestionComponent {
     @ViewChild("questionGroup") questionGroup: ElementRef;
     @Input() question: InspectionSurveyAnswer;
     @Input() answer: InspectionSurveyAnswer;
-    @Output() childQuestionAnswered = new EventEmitter<any>();
-    @Output() childQuestionDeleted = new EventEmitter<any>();
+    @Output() questionAnswered = new EventEmitter<any>();
+    @Output() answerGroupDeleted = new EventEmitter<any>();
     @Input() groupIndex = 1;
 
     public answeredQuestions: InspectionSurveyAnswer[] = [];
     public questionIndex = 0;
     public labels = {};
 
+
     constructor(private surveyRepo: InspectionSurveyAnswerRepositoryProvider, private msgTools: MessageToolsProvider,
                 private translateService: TranslateService) {
-
     }
 
     public ngOnInit() {
@@ -42,10 +43,14 @@ export class ParentChildQuestionComponent {
     }
 
     private loadAnsweredQuestion() {
-        this.answeredQuestions = this.answer.childSurveyAnswerList.filter((question) => question.answer != null && question.answer != "");
-        if(this.answeredQuestions.length == 0){
-            this.answeredQuestions.push(this.question.childSurveyAnswerList[0]);
-        }else {
+        if(!this.answer.id){
+            this.answer.id = UUID.UUID();
+        }
+        this.answeredQuestions = this.answer.childSurveyAnswerList.filter((answer) => answer.answer != null && answer.answer != "");
+        if (this.answeredQuestions.length == 0) {
+            this.answeredQuestions.push(Object.assign({},this.question.childSurveyAnswerList[0]));
+        } else {
+            this.questionIndex = this.answer.childSurveyAnswerList.filter((answer)=> answer.answer != null && answer.answer != "").length - 1;
             this.getNextQuestion();
         }
     }
@@ -53,34 +58,46 @@ export class ParentChildQuestionComponent {
     private validateLastQuestionAnswer() {
         const nextId = this.getNextQuestionId();
         if (nextId == this.question.idSurveyQuestion) {
-            this.childQuestionAnswered.emit(null);
-        }else{
+            this.questionAnswered.emit(this.question.idSurveyQuestionNext);
+        } else {
             this.getNextQuestion(nextId);
         }
     }
 
     private getNextQuestion(nextQuestionId?: string) {
         let nextId = nextQuestionId;
-        if(!nextId){
+        if (!nextId) {
             nextId = this.getNextQuestionId();
         }
         const NextQuestion = this.question.childSurveyAnswerList.filter((question) => question.idSurveyQuestion == nextId);
-        this.answeredQuestions.push(NextQuestion[0]);
-        this.questionIndex++;
+        if (NextQuestion.length > 0) {
+            this.answeredQuestions.push(Object.assign({},NextQuestion[0]));
+            this.questionIndex++;
+        }
     }
 
-    private getNextQuestionId(): string{
+    private getNextQuestionId(): string {
         let retVal = this.answeredQuestions[this.questionIndex].idSurveyQuestionNext;
-        if(this.answeredQuestions[this.questionIndex].answer) {
+        if (this.answeredQuestions[this.questionIndex].answer) {
             if (this.answeredQuestions[this.questionIndex].questionType == SurveyQuestionTypeEnum.choiceAnswer) {
-                const questionChoice = this.question.childSurveyAnswerList[this.questionIndex].choicesList.filter(choice => choice.id == this.answeredQuestions[this.questionIndex].idSurveyQuestionChoice);
+                const childIndex = this.getQuestionIndex();
+                const questionChoice = this.question.childSurveyAnswerList[childIndex].choicesList.filter(choice => choice.id == this.answeredQuestions[this.questionIndex].idSurveyQuestionChoice);
                 if (questionChoice.length > 0 && questionChoice[0].idSurveyQuestionNext) {
                     retVal = questionChoice[0].idSurveyQuestionNext;
                 }
             }
         }
         return retVal;
-}
+    }
+
+    private getQuestionIndex(){
+        const questionCount = this.question.childSurveyAnswerList.length;
+        for (let index = 0; index < questionCount; index++) {
+            if (this.question.childSurveyAnswerList[index].idSurveyQuestion == this.answeredQuestions[this.questionIndex].idSurveyQuestion) {
+                return index;
+            }
+        }
+    }
 
     public validateAnswer(answer) {
         this.saveParentAnswer();
@@ -91,28 +108,33 @@ export class ParentChildQuestionComponent {
         let canDelete = await this.msgTools.ShowMessageBox(this.labels['confirmation'], this.labels['surveyDeleteQuestionGroup']);
         if (canDelete) {
 
-            this.surveyRepo.deleteSurveyAnswers(this.answeredQuestions)
-                .subscribe(()=>
-                {
-                    this.childQuestionDeleted.emit(this.groupIndex);
-                    },()=>
-                {
-                    this.childQuestionDeleted.emit(this.groupIndex);
+            let Ids = [this.answer.id];
+            this.answeredQuestions.forEach(answer => {
+                if (answer.id) {
+                    Ids.push(answer.id);
+                }
+            });
+            this.surveyRepo.deleteSurveyAnswers(Ids)
+                .subscribe(() => {
+                    this.answerGroupDeleted.emit(this.answer.id);
+                }, () => {
+                    this.answerGroupDeleted.emit(this.answer.id);
                 });
         }
     }
 
-    public hideExpandGroup(){
-        if(this.questionGroup.nativeElement.style.display == 'none'){
+    public manageQuestionGroupDisplay() {
+        if (this.questionGroup.nativeElement.style.display == 'none') {
             this.questionGroup.nativeElement.style.display = 'block';
-        }else{
-        this.questionGroup.nativeElement.style.display = 'none';}
+        } else {
+            this.questionGroup.nativeElement.style.display = 'none';
+        }
     }
 
-    private saveParentAnswer(){
-        if(!this.question.answer) {
-            this.question.answer = "child completed";
-            this.surveyRepo.answerQuestion(this.question).subscribe();
+    private saveParentAnswer() {
+        if (!this.answer.answer) {
+            this.answer.answer = "Group completed";
+            this.surveyRepo.answerQuestion(this.answer).subscribe();
         }
     }
 }
