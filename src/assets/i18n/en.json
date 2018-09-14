@@ -231,6 +231,7 @@
   "street":"Street",
   "supply":"Supply",
   "survey":"Survey",
+  "surveyChangingAnswerQuestion":"This change will reset the rest of the survey, do you want to continue?",
   "surveyCompletedMessage":"The survey is completed, redirecting to the survey summary.",
   "surveyDeleteQuestionGroup":"Do you really want to delete this question group?",
   "surveyNextQuestion":"Next",
