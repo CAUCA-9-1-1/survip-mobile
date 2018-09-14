@@ -20,9 +20,8 @@
         <div *ngIf="currentQuestionAnswerList.length > 0">
             <parent-child-question *ngFor="let answer of currentQuestionAnswerList; let i = index"
                                    [groupIndex]="i"
-                                   [question]="inspectionSurveyQuestion[selectedIndex]"
                                    [answer]="answer"
-                                   (questionAnswered)="getNextQuestionFromAnswer($event)"
+                                   (questionAnswered)="validateQuestionAnswer($event)"
                                    (answerGroupDeleted)="deleteChildQuestion($event)"></parent-child-question>
         </div>
         <div *ngIf="currentQuestionAnswerList.length == 0">{{currentQuestion.description}}</div>

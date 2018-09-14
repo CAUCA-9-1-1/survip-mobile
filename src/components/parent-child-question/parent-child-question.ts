@@ -15,7 +15,6 @@ import {UUID} from "angular2-uuid";
 })
 export class ParentChildQuestionComponent {
     @ViewChild("questionGroup") questionGroup: ElementRef;
-    @Input() question: InspectionSurveyAnswer;
     @Input() answer: InspectionSurveyAnswer;
     @Output() questionAnswered = new EventEmitter<any>();
     @Output() answerGroupDeleted = new EventEmitter<any>();
@@ -48,7 +47,7 @@ export class ParentChildQuestionComponent {
         }
         this.answeredQuestions = this.answer.childSurveyAnswerList.filter((answer) => answer.answer != null && answer.answer != "");
         if (this.answeredQuestions.length == 0) {
-            this.answeredQuestions.push(Object.assign({},this.question.childSurveyAnswerList[0]));
+            this.answeredQuestions.push(this.answer.childSurveyAnswerList[0]);
         } else {
             this.questionIndex = this.answer.childSurveyAnswerList.filter((answer)=> answer.answer != null && answer.answer != "").length - 1;
             this.getNextQuestion();
@@ -57,7 +56,7 @@ export class ParentChildQuestionComponent {
 
     private validateLastQuestionAnswer() {
         const nextId = this.getNextQuestionId();
-        if (nextId == this.question.idSurveyQuestion) {
+        if (nextId == this.answer.idSurveyQuestion) {
             this.questionAnswered.emit(this.answer);
         } else {
             this.getNextQuestion(nextId);
@@ -69,9 +68,9 @@ export class ParentChildQuestionComponent {
         if (!nextId) {
             nextId = this.getNextQuestionId();
         }
-        const NextQuestion = this.question.childSurveyAnswerList.filter((question) => question.idSurveyQuestion == nextId);
+        let NextQuestion = this.answer.childSurveyAnswerList.filter((question) => question.idSurveyQuestion == nextId);
         if (NextQuestion.length > 0) {
-            this.answeredQuestions.push(Object.assign({},NextQuestion[0]));
+            this.answeredQuestions.push(NextQuestion[0]);
             this.questionIndex++;
         }
     }
@@ -81,7 +80,7 @@ export class ParentChildQuestionComponent {
         if (this.answeredQuestions[this.questionIndex].answer) {
             if (this.answeredQuestions[this.questionIndex].questionType == SurveyQuestionTypeEnum.choiceAnswer) {
                 const childIndex = this.getQuestionIndex();
-                const questionChoice = this.question.childSurveyAnswerList[childIndex].choicesList.filter(choice => choice.id == this.answeredQuestions[this.questionIndex].idSurveyQuestionChoice);
+                const questionChoice = this.answer.childSurveyAnswerList[childIndex].choicesList.filter(choice => choice.id == this.answeredQuestions[this.questionIndex].idSurveyQuestionChoice);
                 if (questionChoice.length > 0 && questionChoice[0].idSurveyQuestionNext) {
                     retVal = questionChoice[0].idSurveyQuestionNext;
                 }
@@ -91,9 +90,9 @@ export class ParentChildQuestionComponent {
     }
 
     private getQuestionIndex(){
-        const questionCount = this.question.childSurveyAnswerList.length;
+        const questionCount = this.answer.childSurveyAnswerList.length;
         for (let index = 0; index < questionCount; index++) {
-            if (this.question.childSurveyAnswerList[index].idSurveyQuestion == this.answeredQuestions[this.questionIndex].idSurveyQuestion) {
+            if (this.answer.childSurveyAnswerList[index].idSurveyQuestion == this.answeredQuestions[this.questionIndex].idSurveyQuestion) {
                 return index;
             }
         }

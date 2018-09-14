@@ -21,8 +21,8 @@ export class SurveyQuestionComponent {
 
     public questionTypeEnum = SurveyQuestionTypeEnum;
     private changingValueTimer = null;
-    private originalQuestion: InspectionSurveyAnswer;
-    private labels
+    private answer = "";
+    private labels = {};
 
     constructor(private questionRepo: InspectionSurveyAnswerRepositoryProvider,
                 private msgTools: MessageToolsProvider,
@@ -31,7 +31,6 @@ export class SurveyQuestionComponent {
     }
 
     ngOnInit(){
-        this.originalQuestion = Object.assign( new InspectionSurveyAnswer(),this.question);
         this.translateService.get([
             'surveyChangingAnswerQuestion', 'confirmation'
         ]).subscribe(labels => {
@@ -44,11 +43,14 @@ export class SurveyQuestionComponent {
 
     public validateAnswer() {
         if(this.validateNextQuestionSequence())
-        if (this.question.answer) {
+        if (this.answer) {
+            this.question.answer = this.answer;
             if(this.question.questionType == this.questionTypeEnum.choiceAnswer){
-                this.question.idSurveyQuestionChoice = this.question.answer;
+                this.question.idSurveyQuestionChoice = this.answer;
             }
             this.saveAnswer();
+        }else{
+            this.answer = this.question.answer;
         }
     }
 
@@ -58,7 +60,7 @@ export class SurveyQuestionComponent {
         }
         this.changingValueTimer = setTimeout(() => {
             this.saveAnswer();
-        }, 1500);
+        }, 500);
     }
 
     private saveAnswer() {
@@ -88,10 +90,7 @@ export class SurveyQuestionComponent {
     }
     private nextQuestionChanged(){
         let retValue = false;
-        if(this.originalQuestion.answer) {
-            if (this.question.idSurveyQuestionNext != this.originalQuestion.idSurveyQuestionNext) {
-                retValue = true;
-            }
+        if(this.question.answer) {
             if(this.question.questionType == SurveyQuestionTypeEnum.choiceAnswer) {
                 retValue =  this.nextQuestionFromChoiceChanged();
             }
@@ -100,8 +99,8 @@ export class SurveyQuestionComponent {
     }
 
     private nextQuestionFromChoiceChanged(){
-        let NewChoice = this.question.choicesList.filter((choice)=> choice.id == this.question.idSurveyQuestionChoice);
-        const originalChoice = this.question.choicesList.filter((choice)=> choice.id == this.originalQuestion.idSurveyQuestionChoice);
+        const NewChoice = this.question.choicesList.filter((choice)=> choice.id == this.question.idSurveyQuestionChoice);
+        const originalChoice = this.question.choicesList.filter((choice)=> choice.id == this.answer);
 
         if(NewChoice[0].idSurveyQuestionNext != originalChoice[0].idSurveyQuestionNext){
             return true;
