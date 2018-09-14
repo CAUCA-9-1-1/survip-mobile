@@ -147,7 +147,12 @@ export class InspectionSurveyAnswerPage {
         this.manageNavigationDisplay();
     }
 
-    public validateQuestionAnswer() {
+    public validateQuestionAnswer(answer) {
+        if(!this.inspectionQuestionAnswer[this.selectedIndex]){
+            this.inspectionQuestionAnswer.push(answer);
+        }else{
+            this.inspectionQuestionAnswer[this.selectedIndex] = Object.assign({},answer);
+        }
             this.getNextQuestionFromAnswer();
     }
 
@@ -166,15 +171,18 @@ export class InspectionSurveyAnswerPage {
     }
 
     public getNextQuestionFromAnswer() {
-        if (this.currentQuestion.answer) {
-            if (this.currentQuestion.questionType == this.questionTypeEnum.choiceAnswer) {
-                this.currentQuestion.idSurveyQuestionChoice = this.currentQuestion.answer;
-                this.nextQuestionId = this.getChoiceNextQuestionId(this.currentQuestion.idSurveyQuestionChoice);
+        let answer = Object.assign({},this.currentAnswer);
+        if(this.currentQuestion.questionType == SurveyQuestionTypeEnum.groupedQuestion){
+            answer = Object.assign({},this.currentQuestionAnswerList[0]);
+        }
+        if (answer.answer) {
+            if (answer.questionType == this.questionTypeEnum.choiceAnswer) {
+                this.nextQuestionId = this.getChoiceNextQuestionId(answer.idSurveyQuestionChoice);
                 if (!this.nextQuestionId) {
-                    this.nextQuestionId = this.currentQuestion.idSurveyQuestionNext;
+                    this.nextQuestionId = answer.idSurveyQuestionNext;
                 }
             } else {
-                this.nextQuestionId = this.currentQuestion.idSurveyQuestionNext;
+                this.nextQuestionId = answer.idSurveyQuestionNext;
             }
             this.nextQuestionDisabled = false;
         } else {
@@ -207,11 +215,12 @@ export class InspectionSurveyAnswerPage {
         this.currentQuestionAnswerList = [];
         const answers = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
         if (answers.length > 0) {
+
             this.currentQuestionAnswerList = answers;
         } else {
             for (let index = 0; index < this.inspectionSurveyQuestion[this.selectedIndex].minOccurrence; index++) {
                 this.inspectionQuestionAnswer.push(Object.assign({}, this.inspectionSurveyQuestion[this.selectedIndex]));
-                this.currentQuestionAnswerList = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion).slice(0);
+                this.currentQuestionAnswerList = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
             }
         }
     }
@@ -222,14 +231,16 @@ export class InspectionSurveyAnswerPage {
             const answers = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
             if(answers.length > 0){
                 this.currentAnswer = answers[0];
+            }else{
+                this.inspectionQuestionAnswer.push(Object.assign({}, this.inspectionSurveyQuestion[this.selectedIndex]));
+                this.currentAnswer = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion)[0];
             }
         }
     }
 
     public async addNewQuestionGroup() {
         if ((this.currentQuestionAnswerList.length < this.inspectionSurveyQuestion[this.selectedIndex].maxOccurrence) || this.inspectionSurveyQuestion[this.selectedIndex].maxOccurrence == 0) {
-            this.inspectionQuestionAnswer.push(Object.assign({}, this.inspectionSurveyQuestion[this.selectedIndex]));
-            this.currentQuestionAnswerList = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion).slice(0);
+            this.currentQuestionAnswerList.push(Object.assign({}, this.inspectionSurveyQuestion[this.selectedIndex]));
 
         }
     }
