@@ -42,7 +42,6 @@
     "cordova-plugin-add-swift-support": "^1.7.1",
     "cordova-plugin-camera": "^4.0.3",
     "cordova-plugin-compat": "^1.2.0",
-    "cordova-plugin-console": "^1.1.0",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-geolocation": "^2.4.3",
     "cordova-plugin-hockeyapp": "^5.1.2",
@@ -78,7 +77,6 @@
     "plugins": {
       "cordova-plugin-camera": {},
       "cordova-plugin-compat": {},
-      "cordova-plugin-console": {},
       "cordova-plugin-device": {},
       "cordova-plugin-ionic-webview": {
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
