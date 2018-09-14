@@ -4,23 +4,23 @@
     <p>{{question.description}}</p>
   </div>
   <div *ngIf="question.questionType == questionTypeEnum.choiceAnswer">
-    <ion-list radio-group [(ngModel)]=question.answer  *ngIf="question.choicesList.length <= 2">
+    <ion-list radio-group [(ngModel)]=answer  *ngIf="question.choicesList.length <= 2">
       <ion-item *ngFor="let choice of question.choicesList">
         <ion-label>{{choice.description}}</ion-label>
         <ion-radio [value]=choice.id (ionSelect)="validateAnswer()"></ion-radio>
       </ion-item>
     </ion-list>
     <ion-item *ngIf="question.choicesList.length > 2">
-      <ion-select (ionChange)="validateAnswer()" [(ngModel)]=question.answer>
+      <ion-select (ionChange)="validateAnswer()" [(ngModel)]=answer>
         <ion-option *ngFor="let choice of question.choicesList" value="{{choice.id}}">
           {{choice.description}}
         </ion-option>
       </ion-select>
     </ion-item>
   </div>
-  <ion-textarea [(ngModel)]=question.answer (ionChange)="textAnswerChanged()"
+  <ion-textarea [(ngModel)]=answer (ionChange)="textAnswerChanged()"
                 *ngIf="question.questionType == questionTypeEnum.textAnswer"></ion-textarea>
-  <ion-datetime displayFormat="YYYY/MM/DD" [(ngModel)]=question.answer
+  <ion-datetime displayFormat="YYYY/MM/DD" [(ngModel)]=answer
                 (ionChange)="validateAnswer()"
                 *ngIf="question.questionType == questionTypeEnum.dateAnswer"></ion-datetime>
 </div>
