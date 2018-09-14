@@ -11,7 +11,7 @@ export class InspectionSurveyAnswer {
     description: string;
     idSurveyQuestionNext: string;
     sequence: number;
-    idSurveyQuestionParent: string;
+    idParent: string;
     maxOccurrence = 0;
     minOccurrence = 0;
 
