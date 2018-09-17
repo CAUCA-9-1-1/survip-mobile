@@ -268,10 +268,12 @@ export class InspectionSurveyAnswerPage {
     }
 
     public deleteRemainingAnswers(answerId: string){
-        const startIndex = this.findAnswerById(answerId);
+        const startIndex = this.findAnswerById(answerId) + 1;
         let ids = [];
         for (let index = startIndex; index < this.inspectionQuestionAnswer.length; index++) {
-            ids.push(this.inspectionQuestionAnswer[index].id);
+            if(this.inspectionQuestionAnswer[index].id) {
+                ids.push(this.inspectionQuestionAnswer[index].id);
+            }
         }
         this.surveyRepo.deleteSurveyAnswers(ids)
             .subscribe(() => {
