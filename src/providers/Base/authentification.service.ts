@@ -81,6 +81,8 @@ export class AuthenticationService {
         if (infoToSave) {
             this.keychainTouchId.isAvailable().then(biometricType => {
                 this.keychainTouchId.save(this.keychainTouchIdKey, JSON.stringify(infoToSave)).then(result => {
+                    localStorage.setItem('biometricActivated', 'save');
+
                     console.log('keychain-touch-id, saved information', result);
                 }).catch(error => {
                     console.log('keychain-touch-id, can\'t saved information', error);

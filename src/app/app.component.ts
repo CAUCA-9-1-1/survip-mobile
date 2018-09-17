@@ -8,13 +8,13 @@ import {TranslateService} from "@ngx-translate/core";
     templateUrl: 'app.html'
 })
 export class MyApp {
-    rootPage: any = 'LoginPage';
+    rootPage: any = (localStorage.getItem('biometricActivated') ? 'LoginPage' : 'LoginBiometricPage');
     @ViewChild(Nav) nav: Nav;
 
     constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, translate: TranslateService, events: Events, toastCtrl: ToastController) {
 
         events.subscribe('user:logout', () => {
-          this.nav.setRoot('LoginPage');
+          this.nav.setRoot(this.rootPage);
         });
 
         events.subscribe('http:error', (error) => {
@@ -23,7 +23,7 @@ export class MyApp {
             duration: 3000
           });
           toast.present();
-        })
+        });
 
         platform.ready().then(() => {
             statusBar.styleLightContent();
@@ -31,9 +31,9 @@ export class MyApp {
                 statusBar.styleBlackOpaque();
             }
             splashScreen.hide();
-            console.log(window.navigator.language);
+
             translate.setDefaultLang('fr');
-            if(window.navigator.language.startsWith("en")) {
+            if(window.navigator.language.startsWith('en')) {
                 translate.setDefaultLang('en');
                 translate.use('en');
             }
