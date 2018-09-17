@@ -24,17 +24,7 @@ export class LoginPage {
     ) {
     }
 
-    public ngOnInit() {
-        this.translateService.get([
-            'loginError'
-        ]).subscribe(labels => {
-            this.labels = labels;
-        }, error => {
-            console.log(error)
-        });
-    }
-
-    async ionViewCanEnter() {
+    public async ngOnInit() {
         if (localStorage.getItem('currentToken')) {
             let isLoggedIn = await this.authService.isStillLoggedIn();
             if (isLoggedIn) {
@@ -42,7 +32,18 @@ export class LoginPage {
             }
         }
 
-        this.validateKeychainTouchId();
+        this.translateService.get([
+            'loginError', 'biometric.confirmYourFingerprint'
+        ]).subscribe(labels => {
+            this.labels = labels;
+
+            const biometricEnabled = localStorage.getItem('biometricActivated') == 'save' ? true : false;
+            if (biometricEnabled) {
+                this.validateKeychainTouchId();
+            }
+        }, error => {
+            console.log(error)
+        });
     }
 
     public onLogin() {
@@ -59,8 +60,8 @@ export class LoginPage {
         this.keychainTouchId.isAvailable().then(result => {
             this.keychainTouchId.has(this.authService.keychainTouchIdKey).then(result => {
                 console.log('keychain-touch-id, has key', result);
-                
-                this.keychainTouchId.verify(this.authService.keychainTouchIdKey, ' ')
+                console.log(this.labels);
+                this.keychainTouchId.verify(this.authService.keychainTouchIdKey, this.labels['biometric.confirmYourFingerprint'])
                     .then(saveInfo => {
                         const user = JSON.parse(saveInfo);
 

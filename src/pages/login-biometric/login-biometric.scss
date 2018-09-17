@@ -1,0 +1,31 @@
+page-login-biometric {
+  ion-content {
+    text-align: center;
+  }
+
+  button {
+    width:48%;
+  }
+
+  button ion-icon {
+    margin-right: 4px;
+  }
+
+  h1 {
+    font-size: 8em;
+  }
+
+  h3 {
+    font-size: 2em;
+    padding: 1em 0;
+  }
+
+  .comment {
+    color: #666666;
+    font-size: 0.8em;
+    bottom: 0.5em;
+    width: 90%;
+    margin-left: 1em;
+    position: absolute;
+  }
+}

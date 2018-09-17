@@ -20,6 +20,14 @@
   "affectation":"Affectation",
   "approximate":"Approximatif",
   "backToBuildingList":"Retourner à la liste des batîments",
+  "biometric": {
+    "activate": "Activation de la biométrie",
+    "use": "Utiliser la biométrie",
+    "confirmYourFingerprint": "Confirmer votre empreinte digitale",
+    "loginWith": "Connexion par biométrie",
+    "useToLogin": "Utilisé votre identifiant biométrique pour accéder plus rapidement et plus facilement à votre compte",
+    "rememberIfSomeoneSaveIsFingerprint": "N'oubliez pas que si quelqu'un a enregistré ses informations biométrique sur cet appareil, il aura accès à votre compte."
+  },
   "bringToFront":"Mettre à l'avant",
   "building":"Batîment",
   "buildingAnomalies":"Anomalies du batîment",
@@ -178,6 +186,7 @@
   "new":"Nouvelle...",
   "no":"Non",
   "notes":"Notes",
+  "notNow": "Pas maintenant",
   "number":"Numéro",
   "opening":"Ouverture",
   "operator":"Opérateur",

@@ -19,6 +19,14 @@
   "affectation":"Assignment",
   "approximate":"Approximate",
   "backToBuildingList":"Return to building list",
+  "biometric": {
+    "activate": "Activation biometric",
+    "use": "Use biometric",
+    "confirmYourFingerprint": "Confirm your fingerprint",
+    "loginWith": "Login with biometric",
+    "useToLogin": "Use your biometric ID for faster, easier access to your account",
+    "rememberIfSomeoneSaveIsFingerprint": "Remember, if someone else has saved their biometric information on this device, they'll have access to your account"
+  },
   "bringToFront":"Bring to front",
   "building":"Building",
   "buildingAnomalies":"Building's anomalies",
@@ -178,6 +186,7 @@
   "new":"New...",
   "no":"No",
   "notes":"Notes",
+  "notNow": "Not now",
   "number":"Number",
   "opening":"Opening",
   "operator":"Operator",
