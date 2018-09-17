@@ -30,6 +30,8 @@ export class SurveyQuestionComponent{
         this.dataSource = value;
         if(this.dataSource.answer){
             this.answer = this.dataSource.answer;
+        }else{
+            this.answer = "";
         }
     }
     get question() {
