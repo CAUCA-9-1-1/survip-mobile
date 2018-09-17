@@ -55,8 +55,8 @@ export class SurveyQuestionComponent{
             });
     }
 
-    public validateAnswer() {
-        if(this.validateNextQuestionSequence())
+    public async validateAnswer() {
+        if(await this.validateNextQuestionSequence())
         if (this.answer) {
             this.dataSource.answer = this.answer;
             if(this.dataSource.questionType == this.questionTypeEnum.choiceAnswer){
