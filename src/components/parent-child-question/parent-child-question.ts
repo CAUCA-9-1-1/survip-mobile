@@ -107,18 +107,20 @@ export class ParentChildQuestionComponent {
         let canDelete = await this.msgTools.ShowMessageBox(this.labels['confirmation'], this.labels['surveyDeleteQuestionGroup']);
         if (canDelete) {
 
-            let Ids = [this.answer.id];
+            let ids = [this.answer.id];
             this.answeredQuestions.forEach(answer => {
                 if (answer.id) {
-                    Ids.push(answer.id);
+                    ids.push(answer.id);
                 }
             });
-            this.surveyRepo.deleteSurveyAnswers(Ids)
-                .subscribe(() => {
-                    this.answerGroupDeleted.emit(this.answer.id);
-                }, () => {
-                    this.answerGroupDeleted.emit(this.answer.id);
-                });
+            if(ids.length > 0) {
+                this.surveyRepo.deleteSurveyAnswers(ids)
+                    .subscribe(() => {
+                        this.answerGroupDeleted.emit(this.answer.id);
+                    }, () => {
+                        this.answerGroupDeleted.emit(this.answer.id);
+                    });
+            }
         }
     }
 
