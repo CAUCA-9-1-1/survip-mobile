@@ -99,7 +99,7 @@ export class ParentChildQuestionComponent {
         }
     }
 
-    public validateAnswer(answer) {
+    public validateAnswer() {
         this.validateLastQuestionAnswer();
     }
 
@@ -134,7 +134,7 @@ export class ParentChildQuestionComponent {
 
     private saveParentAnswer() {
         if (!this.answer.answer) {
-            this.answer.answer = "Group completed";
+            this.answer.answer = "Group header";
             this.surveyRepo.answerQuestion(this.answer).subscribe();
         }
     }
