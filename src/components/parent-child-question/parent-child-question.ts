@@ -44,6 +44,7 @@ export class ParentChildQuestionComponent {
     private loadAnsweredQuestion() {
         if(!this.answer.id){
             this.answer.id = UUID.UUID();
+            this.saveParentAnswer();
         }
         this.answeredQuestions = this.answer.childSurveyAnswerList.filter((answer) => answer.answer != null && answer.answer != "");
         if (this.answeredQuestions.length == 0) {
@@ -99,7 +100,6 @@ export class ParentChildQuestionComponent {
     }
 
     public validateAnswer(answer) {
-        this.saveParentAnswer();
         this.validateLastQuestionAnswer();
     }
 

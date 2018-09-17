@@ -128,6 +128,7 @@ export class InspectionSurveyAnswerPage {
         this.selectedIndex = this.findQuestion(lastQuestion);
         this.currentQuestion = this.inspectionSurveyQuestion[this.selectedIndex];
         this.initiateAnswers();
+        this.getNextQuestionFromAnswer();
         this.manageNavigationDisplay();
     }
 
@@ -135,25 +136,16 @@ export class InspectionSurveyAnswerPage {
         if (this.selectedIndex == (this.inspectionSurveyQuestion.length - 1)) {
             this.completeInspectionQuestion();
         } else {
-            if(this.currentQuestion.questionType != SurveyQuestionTypeEnum.groupedQuestion){
-            this.getNextQuestionFromAnswer();
-            }else{
-                this.nextQuestionId = this.currentQuestion.idSurveyQuestionNext;
-            }
             this.selectedIndex = this.findQuestion(this.nextQuestionId);
             this.currentQuestion = this.inspectionSurveyQuestion[this.selectedIndex];
             this.initiateAnswers();
+            this.getNextQuestionFromAnswer();
         }
         this.manageNavigationDisplay();
     }
 
     public validateQuestionAnswer(answer) {
-        if(!this.inspectionQuestionAnswer[this.selectedIndex]){
-            this.inspectionQuestionAnswer.push(answer);
-        }else{
-            this.inspectionQuestionAnswer[this.selectedIndex] = Object.assign({},answer);
-        }
-            this.getNextQuestionFromAnswer();
+        this.getNextQuestionFromAnswer();
     }
 
     private manageNavigationDisplay() {
@@ -215,14 +207,38 @@ export class InspectionSurveyAnswerPage {
         this.currentQuestionAnswerList = [];
         const answers = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
         if (answers.length > 0) {
-
-            this.currentQuestionAnswerList = answers;
+            for (let index = 0; index < answers.length; index++) {
+                this.currentQuestionAnswerList.push(this.updateChildWithAnswered(answers[index]));
+            }
         } else {
             for (let index = 0; index < this.inspectionSurveyQuestion[this.selectedIndex].minOccurrence; index++) {
-                this.inspectionQuestionAnswer.push(Object.assign({}, this.inspectionSurveyQuestion[this.selectedIndex]));
+                this.inspectionQuestionAnswer.push(JSON.parse(JSON.stringify(this.inspectionSurveyQuestion[this.selectedIndex])));
                 this.currentQuestionAnswerList = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
             }
         }
+    }
+
+    private updateChildWithAnswered(answeredQuestion):InspectionSurveyAnswer{
+
+        let mergedAnswered: InspectionSurveyAnswer = new InspectionSurveyAnswer();
+
+        mergedAnswered = JSON.parse(JSON.stringify(this.inspectionSurveyQuestion[this.selectedIndex]));
+
+        mergedAnswered.id = answeredQuestion.id;
+        mergedAnswered.answer = answeredQuestion.answer;
+
+        if(answeredQuestion.childSurveyAnswerList) {
+            answeredQuestion.childSurveyAnswerList.forEach(answer => {
+                let questionToAnswer = mergedAnswered.childSurveyAnswerList.find((question) => question.idSurveyQuestion == answer.idSurveyQuestion);
+                if (questionToAnswer) {
+                    questionToAnswer.id = answer.id;
+                    questionToAnswer.answer = answer.answer;
+                    questionToAnswer.idSurveyQuestionChoice = answer.idSurveyQuestionChoice;
+                }
+            });
+        }
+
+        return mergedAnswered;
     }
     public initiateAnswers() {
         if(this.currentQuestion.questionType == SurveyQuestionTypeEnum.groupedQuestion){
@@ -232,7 +248,7 @@ export class InspectionSurveyAnswerPage {
             if(answers.length > 0){
                 this.currentAnswer = answers[0];
             }else{
-                this.inspectionQuestionAnswer.push(Object.assign({}, this.inspectionSurveyQuestion[this.selectedIndex]));
+                this.inspectionQuestionAnswer.push(JSON.parse(JSON.stringify(this.inspectionSurveyQuestion[this.selectedIndex])));
                 this.currentAnswer = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion)[0];
             }
         }
