@@ -275,11 +275,13 @@ export class InspectionSurveyAnswerPage {
                 ids.push(this.inspectionQuestionAnswer[index].id);
             }
         }
-        this.surveyRepo.deleteSurveyAnswers(ids)
-            .subscribe(() => {
-                this.inspectionQuestionAnswer.splice(startIndex);
-            }, error => {
-                console.log("Error on delete remaining survey question",error);
-            });
+        if(ids.length > 0) {
+            this.surveyRepo.deleteSurveyAnswers(ids)
+                .subscribe(() => {
+                    this.inspectionQuestionAnswer.splice(startIndex);
+                }, error => {
+                    console.log("Error on delete remaining survey question", error);
+                });
+        }
     }
 }
