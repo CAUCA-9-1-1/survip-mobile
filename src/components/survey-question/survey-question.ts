@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {InspectionSurveyAnswer, SurveyQuestionTypeEnum} from "../../models/inspection-survey-answer";
 import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey-answer-repository-provider";
 import {NG_VALUE_ACCESSOR} from "@angular/forms";
@@ -12,17 +12,29 @@ import {TranslateService} from "@ngx-translate/core";
         {provide: NG_VALUE_ACCESSOR, useExisting: SurveyQuestionComponent, multi: true}
     ]
 })
-export class SurveyQuestionComponent {
-    @Input() question: InspectionSurveyAnswer;
+export class SurveyQuestionComponent{
     @Input() showTitle = true;
     @Output() questionAnswered = new EventEmitter<any>();
     @Output() remainingQuestionResetNeeded = new EventEmitter<any>();
     @Input() idParent = null;
 
+
     public questionTypeEnum = SurveyQuestionTypeEnum;
     private changingValueTimer = null;
-    private answer = "";
+    public answer = "";
     private labels = {};
+    private dataSource;
+
+    @Input()
+    set question(value: InspectionSurveyAnswer) {
+        this.dataSource = value;
+        if(this.dataSource.answer){
+            this.answer = this.dataSource.answer;
+        }
+    }
+    get question() {
+        return this.dataSource;
+    }
 
     constructor(private questionRepo: InspectionSurveyAnswerRepositoryProvider,
                 private msgTools: MessageToolsProvider,
@@ -44,13 +56,13 @@ export class SurveyQuestionComponent {
     public validateAnswer() {
         if(this.validateNextQuestionSequence())
         if (this.answer) {
-            this.question.answer = this.answer;
-            if(this.question.questionType == this.questionTypeEnum.choiceAnswer){
-                this.question.idSurveyQuestionChoice = this.answer;
+            this.dataSource.answer = this.answer;
+            if(this.dataSource.questionType == this.questionTypeEnum.choiceAnswer){
+                this.dataSource.idSurveyQuestionChoice = this.answer;
             }
             this.saveAnswer();
         }else{
-            this.answer = this.question.answer;
+            this.answer = this.dataSource.answer;
         }
     }
 
@@ -65,11 +77,11 @@ export class SurveyQuestionComponent {
 
     private saveAnswer() {
         if(this.idParent){
-            this.question.idParent = this.idParent;
+            this.dataSource.idParent = this.idParent;
         }
-        this.questionRepo.answerQuestion(this.question)
+        this.questionRepo.answerQuestion(this.dataSource)
             .subscribe(result => {
-                    this.question.id = result['id'];
+                    this.dataSource.id = result['id'];
                     this.questionAnswered.emit(this.question);
                 },
                 error => {
@@ -81,7 +93,7 @@ export class SurveyQuestionComponent {
         if(this.nextQuestionChanged()){
             let canDelete = await this.msgTools.ShowMessageBox(this.labels['confirmation'], this.labels['surveyChangingAnswerQuestion']);
             if (canDelete) {
-                this.remainingQuestionResetNeeded.emit(this.question.id)
+                this.remainingQuestionResetNeeded.emit(this.dataSource.id)
                 return true;
             }
             return false;
@@ -90,8 +102,8 @@ export class SurveyQuestionComponent {
     }
     private nextQuestionChanged(){
         let retValue = false;
-        if(this.question.answer) {
-            if(this.question.questionType == SurveyQuestionTypeEnum.choiceAnswer) {
+        if(this.dataSource.answer) {
+            if(this.dataSource.questionType == SurveyQuestionTypeEnum.choiceAnswer) {
                 retValue =  this.nextQuestionFromChoiceChanged();
             }
         }
@@ -99,8 +111,8 @@ export class SurveyQuestionComponent {
     }
 
     private nextQuestionFromChoiceChanged(){
-        const NewChoice = this.question.choicesList.filter((choice)=> choice.id == this.question.idSurveyQuestionChoice);
-        const originalChoice = this.question.choicesList.filter((choice)=> choice.id == this.answer);
+        const NewChoice = this.dataSource.choicesList.filter((choice)=> choice.id == this.dataSource.idSurveyQuestionChoice);
+        const originalChoice = this.dataSource.choicesList.filter((choice)=> choice.id == this.answer);
 
         if(NewChoice[0].idSurveyQuestionNext != originalChoice[0].idSurveyQuestionNext){
             return true;
