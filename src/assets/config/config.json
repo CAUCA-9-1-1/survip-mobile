@@ -1,8 +1,8 @@
 {
   "apiUrl":"YOUR_API_URL",
   "hockeyapp": {
-    "androidAppId": "YOUR_ANDROID_HOCKEYAPP_ID",
-    "iosAppId": "YOUR_IOS_HOCKEYAPP_ID",
+    "androidAppId": "bbfb228ed1114902902ed514c632a149",
+    "iosAppId": "d08a72d4d7184a28a700d12c4061386f",
     "autoSendCrashReports": true,
     "ignoreCrashDialog": true
   },
