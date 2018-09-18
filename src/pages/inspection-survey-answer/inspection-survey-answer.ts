@@ -90,6 +90,7 @@ export class InspectionSurveyAnswerPage {
             }
         }
     }
+
     public findAnswer(idSurveyQuestion: string) {
         const questionCount = this.inspectionQuestionAnswer.length;
         for (let index = 0; index < questionCount; index++) {
@@ -240,6 +241,7 @@ export class InspectionSurveyAnswerPage {
 
         return mergedAnswered;
     }
+
     public initiateAnswers() {
         if(this.currentQuestion.questionType == SurveyQuestionTypeEnum.groupedQuestion){
             this.initQuestionGroupAnswers();
@@ -257,7 +259,6 @@ export class InspectionSurveyAnswerPage {
     public async addNewQuestionGroup() {
         if ((this.currentQuestionAnswerList.length < this.inspectionSurveyQuestion[this.selectedIndex].maxOccurrence) || this.inspectionSurveyQuestion[this.selectedIndex].maxOccurrence == 0) {
             this.currentQuestionAnswerList.push(Object.assign({}, this.inspectionSurveyQuestion[this.selectedIndex]));
-
         }
     }
 
