@@ -26,17 +26,19 @@ export class LoginBiometricPage {
         private plt: Platform,
     ) { }
 
-    public ionViewDidLoad() {
+    public ngOnInit() {
         this.keychainTouchId.isAvailable().then(biometricType => {
             console.log('keychain-touch-id, type', biometricType);
         }).catch(error => {
-            this.keychainTouchId.has(this.authService.keychainTouchIdKey).then(info => {
-              console.log('keychain-touch-id, has key', info);
-            }).catch(error => {
-                localStorage.setItem(this.storingKey, 'no');
+            console.log('keychain-touch-id', error);
 
-                this.navCtrl.push('LoginPage');
-            });
+            if (error === 'plugin_not_installed') {
+                setTimeout(() => {
+                    this.ngOnInit();
+                }, 100);
+            } else {
+                this.dontUseBiometric();
+            }
         });
     }
 

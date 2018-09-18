@@ -57,7 +57,7 @@ export class LoginPage {
     }
 
     private validateKeychainTouchId() {
-        this.keychainTouchId.isAvailable().then(result => {
+        this.keychainTouchId.isAvailable().then(biometricType => {
             this.keychainTouchId.has(this.authService.keychainTouchIdKey).then(result => {
                 console.log('keychain-touch-id, has key', result);
                 console.log(this.labels);
