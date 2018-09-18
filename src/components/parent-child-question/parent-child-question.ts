@@ -23,10 +23,11 @@ export class ParentChildQuestionComponent {
     public answeredQuestions: InspectionSurveyAnswer[] = [];
     public questionIndex = 0;
     public labels = {};
-
+    public groupIcon = "md-arrow-dropdown";
 
     constructor(private surveyRepo: InspectionSurveyAnswerRepositoryProvider, private msgTools: MessageToolsProvider,
                 private translateService: TranslateService) {
+        this.groupIcon = "md-arrow-dropdown";
     }
 
     public ngOnInit() {
@@ -46,7 +47,9 @@ export class ParentChildQuestionComponent {
             this.answer.id = UUID.UUID();
             this.saveParentAnswer();
         }
+
         this.answeredQuestions = this.answer.childSurveyAnswerList.filter((answer) => answer.answer != null && answer.answer != "");
+
         if (this.answeredQuestions.length == 0) {
             this.answeredQuestions.push(this.answer.childSurveyAnswerList[0]);
         } else {
@@ -69,9 +72,9 @@ export class ParentChildQuestionComponent {
         if (!nextId) {
             nextId = this.getNextQuestionId();
         }
-        let NextQuestion = this.answer.childSurveyAnswerList.filter((question) => question.idSurveyQuestion == nextId);
-        if (NextQuestion.length > 0) {
-            this.answeredQuestions.push(NextQuestion[0]);
+        let NextQuestion = this.answer.childSurveyAnswerList.find((question) => question.idSurveyQuestion == nextId);
+        if (NextQuestion) {
+            this.answeredQuestions.push(NextQuestion);
             this.questionIndex++;
         }
     }
@@ -81,9 +84,9 @@ export class ParentChildQuestionComponent {
         if (this.answeredQuestions[this.questionIndex].answer) {
             if (this.answeredQuestions[this.questionIndex].questionType == SurveyQuestionTypeEnum.choiceAnswer) {
                 const childIndex = this.getQuestionIndex();
-                const questionChoice = this.answer.childSurveyAnswerList[childIndex].choicesList.filter(choice => choice.id == this.answeredQuestions[this.questionIndex].idSurveyQuestionChoice);
-                if (questionChoice.length > 0 && questionChoice[0].idSurveyQuestionNext) {
-                    retVal = questionChoice[0].idSurveyQuestionNext;
+                const questionChoice = this.answer.childSurveyAnswerList[childIndex].choicesList.find(choice => choice.id == this.answeredQuestions[this.questionIndex].idSurveyQuestionChoice);
+                if (questionChoice && questionChoice.idSurveyQuestionNext) {
+                    retVal = questionChoice.idSurveyQuestionNext;
                 }
             }
         }
@@ -106,7 +109,6 @@ export class ParentChildQuestionComponent {
     public async deleteQuestionGroup() {
         let canDelete = await this.msgTools.ShowMessageBox(this.labels['confirmation'], this.labels['surveyDeleteQuestionGroup']);
         if (canDelete) {
-
             let ids = [this.answer.id];
             this.answeredQuestions.forEach(answer => {
                 if (answer.id) {
@@ -127,8 +129,10 @@ export class ParentChildQuestionComponent {
     public manageQuestionGroupDisplay() {
         if (this.questionGroup.nativeElement.style.display == 'none') {
             this.questionGroup.nativeElement.style.display = 'block';
+            this.groupIcon = "md-arrow-dropdown";
         } else {
             this.questionGroup.nativeElement.style.display = 'none';
+            this.groupIcon = "md-arrow-dropup";
         }
     }
 
@@ -137,5 +141,47 @@ export class ParentChildQuestionComponent {
             this.answer.answer = "Group header";
             this.surveyRepo.answerQuestion(this.answer).subscribe();
         }
+    }
+
+    private findAnswerById(answerId: string){
+        const answerCount = this.answer.childSurveyAnswerList.length;
+        for (let index = 0; index < answerCount; index++) {
+            if (this.answer.childSurveyAnswerList[index].id == answerId) {
+                return index;
+            }
+        }
+        return 0;
+    }
+
+    public deleteRemainingAnswers(answerId: string){
+        const startIndex = this.findAnswerById(answerId) + 1;
+        let ids = [];
+
+        for (let index = startIndex; index < this.answer.childSurveyAnswerList.length; index++) {
+            if(this.answer.childSurveyAnswerList[index].id) {
+                ids.push(this.answer.childSurveyAnswerList[index].id);
+            }
+            this.resetAnswerCollection(index);
+        }
+
+        this.deleteSavedAnswers(ids);
+        this.answeredQuestions.splice(startIndex,1);
+        this.questionIndex = startIndex - 1;
+    }
+
+    private deleteSavedAnswers(ids: string[]){
+        if(ids.length > 0) {
+            this.surveyRepo.deleteSurveyAnswers(ids)
+                .subscribe(() => {
+                }, error => {
+                    console.log("Error on delete remaining survey question", error);
+                });
+        }
+    }
+
+    private resetAnswerCollection(index: number){
+        this.answer.childSurveyAnswerList[index].id = null;
+        this.answer.childSurveyAnswerList[index].idSurveyQuestionChoice = null;
+        this.answer.childSurveyAnswerList[index].answer = "";
     }
 }
