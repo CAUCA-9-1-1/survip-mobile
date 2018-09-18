@@ -22,10 +22,10 @@
   "backToBuildingList":"Retourner à la liste des batîments",
   "biometric": {
     "activate": "Activation de la biométrie",
-    "use": "Utiliser la biométrie",
-    "confirmYourFingerprint": "Confirmer votre empreinte digitale",
+    "use": "Utilisez la biométrie",
+    "confirmYourFingerprint": "Confirmez votre empreinte digitale",
     "loginWith": "Connexion par biométrie",
-    "useToLogin": "Utilisé votre identifiant biométrique pour accéder plus rapidement et plus facilement à votre compte",
+    "useToLogin": "Utilisez votre identifiant biométrique pour accéder plus rapidement et plus facilement à votre compte.",
     "rememberIfSomeoneSaveIsFingerprint": "N'oubliez pas que si quelqu'un a enregistré ses informations biométriques sur cet appareil, il aura accès à votre compte."
   },
   "bringToFront":"Mettre à l'avant",
