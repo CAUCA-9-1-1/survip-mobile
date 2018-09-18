@@ -25,18 +25,18 @@ export class MyApp {
           toast.present();
         });
 
+        translate.setDefaultLang('fr');
+        if(window.navigator.language.startsWith('en')) {
+            translate.setDefaultLang('en');
+            translate.use('en');
+        }
+
         platform.ready().then(() => {
             statusBar.styleLightContent();
             if (platform.is('android')) {
                 statusBar.styleBlackOpaque();
             }
             splashScreen.hide();
-
-            translate.setDefaultLang('fr');
-            if(window.navigator.language.startsWith('en')) {
-                translate.setDefaultLang('en');
-                translate.use('en');
-            }
         });
     }
 }
