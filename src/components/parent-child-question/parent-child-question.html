@@ -1,6 +1,6 @@
 <div class="question-container">
     <div class="parent-question-title">
-        <h4 (click)="manageQuestionGroupDisplay()" >{{answer.title}} # {{groupIndex+1}}</h4>
+        <h4 (click)="manageQuestionGroupDisplay()">{{answer.title}} #{{groupIndex+1}} <ion-icon name="{{groupIcon}}"></ion-icon></h4>
         <div>
             <ion-icon name="trash" (click)="deleteQuestionGroup(question)"></ion-icon>
         </div>
@@ -11,7 +11,8 @@
                 <survey-question [showTitle]="false"
                                  [question]="q"
                                  [idParent]="answer.id"
-                                 (questionAnswered)="validateAnswer($event)"></survey-question>
+                                 (questionAnswered)="validateAnswer($event)"
+                                 (remainingQuestionResetNeeded)="deleteRemainingAnswers($event)"></survey-question>
             </ion-card>
         </div>
     </div>
