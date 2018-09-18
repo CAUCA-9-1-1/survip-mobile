@@ -7,5 +7,5 @@ export class InspectionSurveySummary {
     sequence: number;
     isRecursive: boolean;
 
-    recursiveAnswer: InspectionSurveySummary[];
+    childSurveyAnswerList: InspectionSurveySummary[];
 }

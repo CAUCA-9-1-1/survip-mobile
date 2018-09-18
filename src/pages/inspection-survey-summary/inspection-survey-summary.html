@@ -6,29 +6,30 @@
 
 </ion-header>
 <ion-content class="outer-content">
-    <div class="list-items" style="padding-bottom: 5px;">
+    <div class="list-items">
         <div *ngFor="let category of inspectionQuestionSummaryCategory">
             <ion-list-header *ngIf="category.title != ''">
                 {{category.title | uppercase}}
             </ion-list-header>
-                <div *ngFor="let recursive of category.answerSummary; let index = index">
-                    <div *ngIf="recursive.isRecursive === true && recursive.recursiveAnswer.length > 0 ">
-                        <ion-item-divider>{{recursive.questionTitle}} #{{index + 1}}</ion-item-divider>
-                        <ion-list>
-                            <ion-item class="recursive-item" *ngFor="let answer of recursive.recursiveAnswer">
-                                <span>{{answer.questionDescription}}</span>
-                                <p>{{answer.answer}}</p>
-                            </ion-item>
-                        </ion-list>
-                    </div>
-
-                    <ion-item *ngIf="recursive.isRecursive === false">
+            <div *ngFor="let answer of category.answerSummary; let index = index">
+                <div *ngIf="answer.questionType === surveyAnswerTypeEnum.groupedQuestion && answer.childSurveyAnswerList != null &&  answer.childSurveyAnswerList.length > 0">
+                    <ion-item-divider>{{answer.questionTitle}} #{{index + 1}}</ion-item-divider>
+                    <ion-list>
+                        <ion-item class="recursive-item" *ngFor="let answerChild of answer.childSurveyAnswerList">
+                            <span>{{answerChild.questionDescription}}</span>
+                            <p>{{answerChild.answer}}</p>
+                        </ion-item>
+                    </ion-list>
+                </div>
+                <div *ngIf="answer.questionType !== surveyAnswerTypeEnum.groupedQuestion">
+                    <ion-item>
                         <div class="non-recursive-item">
-                            <span>{{recursive.questionDescription}}</span>
-                            <p>{{recursive.answer}}</p>
+                            <span>{{answer.questionDescription}}</span>
+                            <p>{{answer.answer}}</p>
                         </div>
                     </ion-item>
                 </div>
+            </div>
         </div>
     </div>
 </ion-content>
