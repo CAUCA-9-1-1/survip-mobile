@@ -5,6 +5,7 @@ import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/reposito
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {TranslateService} from "@ngx-translate/core";
 import {InspectionControllerProvider} from "../../providers/inspection-controller/inspection-controller";
+import {UUID} from "angular2-uuid";
 
 @IonicPage()
 @Component({
@@ -101,6 +102,16 @@ export class InspectionSurveyAnswerPage {
         return this.inspectionQuestionAnswer.length - 1;
     }
 
+    public findLastAnswerForQuestion(idSurveyQuestion: string) {
+        const questionCount = this.inspectionQuestionAnswer.length - 1;
+        for (let index = questionCount; index >= 0; index--) {
+            if (this.inspectionQuestionAnswer[index].idSurveyQuestion == idSurveyQuestion) {
+                return index;
+            }
+        }
+        return questionCount;
+    }
+
     public findAnswerById(id: string): number {
         const answerCount = this.inspectionQuestionAnswer.length;
         for (let index = 0; index < answerCount; index++) {
@@ -125,7 +136,7 @@ export class InspectionSurveyAnswerPage {
     }
 
     public previousQuestion() {
-        const lastQuestion = this.inspectionQuestionAnswer[this.findAnswer(this.currentQuestion.idSurveyQuestion)-1].idSurveyQuestion;
+        const lastQuestion = this.inspectionQuestionAnswer[this.findAnswer(this.currentQuestion.idSurveyQuestion) - 1].idSurveyQuestion;
         this.selectedIndex = this.findQuestion(lastQuestion);
         this.currentQuestion = this.inspectionSurveyQuestion[this.selectedIndex];
         this.initiateAnswers();
@@ -149,6 +160,18 @@ export class InspectionSurveyAnswerPage {
         this.getNextQuestionFromAnswer();
     }
 
+    public updateGroupQuestionAnswer(data) {
+        this.updateAnswerResult(data);
+        this.getNextQuestionFromAnswer();
+    }
+
+    private updateAnswerResult(answerGroup) {
+        if (answerGroup) {
+            const Index = this.findAnswerById(answerGroup.id);
+            this.inspectionQuestionAnswer[Index] = answerGroup;
+        }
+    }
+
     private manageNavigationDisplay() {
         if (this.selectedIndex > 0) {
             this.previousQuestionAvailable = true;
@@ -164,9 +187,9 @@ export class InspectionSurveyAnswerPage {
     }
 
     public getNextQuestionFromAnswer() {
-        let answer = Object.assign({},this.currentAnswer);
-        if(this.currentQuestion.questionType == SurveyQuestionTypeEnum.groupedQuestion){
-            answer = Object.assign({},this.currentQuestionAnswerList[0]);
+        let answer = Object.assign({}, this.currentAnswer);
+        if (this.currentQuestion.questionType == SurveyQuestionTypeEnum.groupedQuestion) {
+            answer = Object.assign({}, this.currentQuestionAnswerList[0]);
         }
         if (answer.answer) {
             if (answer.questionType == this.questionTypeEnum.choiceAnswer) {
@@ -204,7 +227,7 @@ export class InspectionSurveyAnswerPage {
         }
     }
 
-    public initQuestionGroupAnswers(){
+    public initQuestionGroupAnswers() {
         this.currentQuestionAnswerList = [];
         const answers = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
         if (answers.length > 0) {
@@ -213,13 +236,13 @@ export class InspectionSurveyAnswerPage {
             }
         } else {
             for (let index = 0; index < this.inspectionSurveyQuestion[this.selectedIndex].minOccurrence; index++) {
-                this.inspectionQuestionAnswer.push(JSON.parse(JSON.stringify(this.inspectionSurveyQuestion[this.selectedIndex])));
-                this.currentQuestionAnswerList = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
+                this.inspectionQuestionAnswer.push(this.createGroupAnswerParent());
             }
+            this.currentQuestionAnswerList = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
         }
     }
 
-    private updateChildWithAnswered(answeredQuestion):InspectionSurveyAnswer{
+    private updateChildWithAnswered(answeredQuestion): InspectionSurveyAnswer {
 
         let mergedAnswered: InspectionSurveyAnswer = new InspectionSurveyAnswer();
 
@@ -228,7 +251,7 @@ export class InspectionSurveyAnswerPage {
         mergedAnswered.id = answeredQuestion.id;
         mergedAnswered.answer = answeredQuestion.answer;
 
-        if(answeredQuestion.childSurveyAnswerList) {
+        if (answeredQuestion.childSurveyAnswerList) {
             answeredQuestion.childSurveyAnswerList.forEach(answer => {
                 let questionToAnswer = mergedAnswered.childSurveyAnswerList.find((question) => question.idSurveyQuestion == answer.idSurveyQuestion);
                 if (questionToAnswer) {
@@ -243,13 +266,13 @@ export class InspectionSurveyAnswerPage {
     }
 
     public initiateAnswers() {
-        if(this.currentQuestion.questionType == SurveyQuestionTypeEnum.groupedQuestion){
+        if (this.currentQuestion.questionType == SurveyQuestionTypeEnum.groupedQuestion) {
             this.initQuestionGroupAnswers();
-        }else{
+        } else {
             const answers = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
-            if(answers.length > 0){
+            if (answers.length > 0) {
                 this.currentAnswer = answers[0];
-            }else{
+            } else {
                 this.inspectionQuestionAnswer.push(JSON.parse(JSON.stringify(this.inspectionSurveyQuestion[this.selectedIndex])));
                 this.currentAnswer = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion)[0];
             }
@@ -258,25 +281,30 @@ export class InspectionSurveyAnswerPage {
 
     public async addNewQuestionGroup() {
         if ((this.currentQuestionAnswerList.length < this.inspectionSurveyQuestion[this.selectedIndex].maxOccurrence) || this.inspectionSurveyQuestion[this.selectedIndex].maxOccurrence == 0) {
-            this.currentQuestionAnswerList.push(Object.assign({}, this.inspectionSurveyQuestion[this.selectedIndex]));
+            let index = this.findLastAnswerForQuestion(this.currentQuestion.idSurveyQuestion);
+            this.inspectionQuestionAnswer.splice(index + 1, 0, this.createGroupAnswerParent());
+            this.currentQuestionAnswerList = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
         }
     }
 
     public deleteChildQuestion(answerId: string) {
         const index = this.findAnswerById(answerId);
-        this.inspectionQuestionAnswer.splice(index, 1);
+        if (this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion).length > 1) {
+            this.inspectionQuestionAnswer.splice(index, 1);
+            this.surveyRepo.deleteSurveyAnswers([answerId]).subscribe();
+        }
         this.currentQuestionAnswerList = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
     }
 
-    public deleteRemainingAnswers(answerId: string){
+    public deleteRemainingAnswers(answerId: string) {
         const startIndex = this.findAnswerById(answerId) + 1;
         let ids = [];
         for (let index = startIndex; index < this.inspectionQuestionAnswer.length; index++) {
-            if(this.inspectionQuestionAnswer[index].id) {
+            if (this.inspectionQuestionAnswer[index].id) {
                 ids.push(this.inspectionQuestionAnswer[index].id);
             }
         }
-        if(ids.length > 0) {
+        if (ids.length > 0) {
             this.surveyRepo.deleteSurveyAnswers(ids)
                 .subscribe(() => {
                     this.inspectionQuestionAnswer.splice(startIndex);
@@ -284,5 +312,14 @@ export class InspectionSurveyAnswerPage {
                     console.log("Error on delete remaining survey question", error);
                 });
         }
+    }
+
+    public createGroupAnswerParent() {
+        let newAnswerParent = JSON.parse(JSON.stringify(this.inspectionSurveyQuestion[this.selectedIndex]));
+        newAnswerParent.id = UUID.UUID();
+        newAnswerParent.answer = "Group header";
+        this.surveyRepo.answerQuestion(newAnswerParent).subscribe();
+
+        return newAnswerParent;
     }
 }

@@ -4,7 +4,6 @@ import {NG_VALUE_ACCESSOR} from "@angular/forms";
 import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey-answer-repository-provider";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {TranslateService} from "@ngx-translate/core";
-import {UUID} from "angular2-uuid";
 
 @Component({
     selector: 'parent-child-question',
@@ -17,6 +16,7 @@ export class ParentChildQuestionComponent {
     @ViewChild("questionGroup") questionGroup: ElementRef;
     @Input() answer: InspectionSurveyAnswer;
     @Output() questionAnswered = new EventEmitter<any>();
+    @Output() groupAnswersCompleted = new EventEmitter<any>();
     @Output() answerGroupDeleted = new EventEmitter<any>();
     @Input() groupIndex = 1;
 
@@ -43,11 +43,6 @@ export class ParentChildQuestionComponent {
     }
 
     private loadAnsweredQuestion() {
-        if(!this.answer.id){
-            this.answer.id = UUID.UUID();
-            this.saveParentAnswer();
-        }
-
         this.answeredQuestions = this.answer.childSurveyAnswerList.filter((answer) => answer.answer != null && answer.answer != "");
 
         if (this.answeredQuestions.length == 0) {
@@ -61,7 +56,7 @@ export class ParentChildQuestionComponent {
     private validateLastQuestionAnswer() {
         const nextId = this.getNextQuestionId();
         if (nextId == this.answer.idSurveyQuestion) {
-            this.questionAnswered.emit(this.answer);
+            this.groupAnswersCompleted.emit(this.answer);
         } else {
             this.getNextQuestion(nextId);
         }
@@ -103,13 +98,14 @@ export class ParentChildQuestionComponent {
     }
 
     public validateAnswer() {
+        this.questionAnswered.emit(this.answer);
         this.validateLastQuestionAnswer();
     }
 
     public async deleteQuestionGroup() {
         let canDelete = await this.msgTools.ShowMessageBox(this.labels['confirmation'], this.labels['surveyDeleteQuestionGroup']);
         if (canDelete) {
-            let ids = [this.answer.id];
+            let ids = [];
             this.answeredQuestions.forEach(answer => {
                 if (answer.id) {
                     ids.push(answer.id);
@@ -136,13 +132,6 @@ export class ParentChildQuestionComponent {
         }
     }
 
-    private saveParentAnswer() {
-        if (!this.answer.answer) {
-            this.answer.answer = "Group header";
-            this.surveyRepo.answerQuestion(this.answer).subscribe();
-        }
-    }
-
     private findAnswerById(answerId: string){
         const answerCount = this.answer.childSurveyAnswerList.length;
         for (let index = 0; index < answerCount; index++) {
@@ -165,7 +154,7 @@ export class ParentChildQuestionComponent {
         }
 
         this.deleteSavedAnswers(ids);
-        this.answeredQuestions.splice(startIndex,1);
+        this.answeredQuestions.splice(startIndex);
         this.questionIndex = startIndex - 1;
     }
 
