@@ -30,7 +30,10 @@ export class SurveyQuestionComponent {
         if (this.dataSource.answer) {
             this.answer = this.dataSource.answer;
         } else {
-            this.answer = "";
+            this.answer = this.dataSource.answer = "";
+        }
+        if(this.dataSource.questionType == SurveyQuestionTypeEnum.textAnswer){
+            this.saveAnswer();
         }
     }
 
