@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="ca.cauca.surviprevention" version="0.0.6" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="ca.cauca.surviprevention" version="0.0.7" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>SURVI Prevention</name>
     <description>SURVI-Prévention</description>
     <author email="dev@cauca.ca" href="http://cauca.ca/">CAUCA INC.</author>
@@ -112,5 +112,5 @@
     <plugin name="cordova-plugin-compat" spec="^1.2.0" />
     <engine name="browser" spec="5.0.3" />
     <engine name="ios" spec="4.5.5" />
-    <engine name="android" spec="~7.1.1" />
+    <engine name="android" spec="7.1.1" />
 </widget>
