@@ -3,6 +3,7 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey-answer-repository-provider";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {InspectionSurveySummaryCategory} from "../../models/inspection-survey-summary-category";
+import {SurveyQuestionTypeEnum} from "../../models/inspection-survey-answer";
 
 @IonicPage()
 @Component({
@@ -13,6 +14,7 @@ export class InspectionSurveySummaryPage {
 
     public inspectionQuestionSummaryCategory: InspectionSurveySummaryCategory[] = [];
     public idInspection: string = '';
+    public questionTypeEnum = SurveyQuestionTypeEnum;
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
