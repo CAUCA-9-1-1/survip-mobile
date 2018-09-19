@@ -4,7 +4,7 @@ import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {TranslateService} from '@ngx-translate/core';
 import {HockeyApp} from 'ionic-hockeyapp';
-import config from '../../assets/config/config.json';
+import config from '../assets/config/config.json';
 
 @Component({
     templateUrl: 'app.html'

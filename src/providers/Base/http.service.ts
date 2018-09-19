@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {catchError} from 'rxjs/operators';
+import 'rxjs/Rx';
 import {TranslateService} from "@ngx-translate/core";
 import {Events} from 'ionic-angular';
 import config from '../../assets/config/config.json';
