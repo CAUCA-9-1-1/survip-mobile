@@ -15,9 +15,9 @@ export class FireHydrant {
     idLane="";
     idIntersection="";
     idFireHydrantType = "";
-    idOperatorTypeRate = "";
+    rateOperatorType = 0;
     idUnitOfMeasureRate = "";
-    idOperatorTypePressure = "";
+    pressureOperatorType = 0;
     idUnitOfMeasurePressure = "";
     civicNumber="";
     addressLocationType="";
@@ -51,3 +51,11 @@ export enum AddressLocalisationType{
     Near,
     VisibleFrom
 };
+
+export enum OperatorType{
+    Equal,
+    Greater,
+    GreaterOrEqual,
+    Less,
+    LessOrEqual
+}

@@ -190,6 +190,13 @@
   "number":"Numéro",
   "opening":"Ouverture",
   "operator":"Opérateur",
+  "enumOperatorType": {
+    "Equal":"=",
+    "Greater":">",
+    "GreaterOrEqual":">=",
+    "Less":"<",
+    "LessOrEqual":"<="
+  },
   "otherInformation":"Autres informations",
   "otherPhone":"Autre téléphone",
   "otherUserInspection":"Cette inspection est en traitement par un autre usager",

@@ -41,13 +41,13 @@
 
         <ion-item-group>
             <ion-item-divider>{{'outflow' | translate}}</ion-item-divider>
-            <ion-item [class.invalid]="!form.controls.idOperatorTypeRate.valid">
+            <ion-item [class.invalid]="!form.controls.rateOperatorType.valid">
                 <ion-label>{{'operator' | translate}}</ion-label>
-                <ion-select formControlName="idOperatorTypeRate" placeholder="{{'operator' | translate}}" okText="Ok" cancelText="{{'cancel' | translate}}">
-                    <ion-option *ngFor="let op of operators" [value]="op.id">{{op.symbol}}</ion-option>
+                <ion-select formControlName="rateOperatorType" placeholder="{{'operator' | translate}}" okText="Ok" cancelText="{{'cancel' | translate}}">
+                    <ion-option *ngFor="let key of operatorTypesKeys" [value]="key">{{"enumOperatorType."+operatorTypes[key] | translate}}</ion-option>
                 </ion-select>
             </ion-item>
-            <div class="validation-error-text" *ngIf="!form.controls.idOperatorTypeRate.valid">{{'requiredInformation' | translate}}</div>
+            <div class="validation-error-text" *ngIf="!form.controls.rateOperatorType.valid">{{'requiredInformation' | translate}}</div>
 
             <ion-grid>
                 <ion-row>
@@ -55,7 +55,7 @@
                         <ion-item [class.invalid]="!form.controls.rateFrom.valid">
                             <ion-label>{{'from' | translate}}</ion-label>
                             <ion-input item-end formControlName="rateFrom" maxlength="10" type="number"
-                                       placeholder="{{'number' | translate}}"></ion-input>
+                                       placeholder="{{'number' | translate}}"(ionChange)="rateValueChanged()"></ion-input>
                         </ion-item>
                         <div class="validation-error-text" *ngIf="!form.controls.rateFrom.valid">{{'requiredInformation' | translate}}</div>
                     </ion-col>
@@ -63,7 +63,7 @@
                         <ion-item [class.invalid]="!form.controls.rateTo.valid">
                             <ion-label>{{'to' | translate}}</ion-label>
                             <ion-input item-end formControlName="rateTo" maxlength="10" type="number"
-                                       placeholder="{{'number' | translate}}"></ion-input>
+                                       placeholder="{{'number' | translate}}" (ionChange)="rateValueChanged()"></ion-input>
                         </ion-item>
                         <div class="validation-error-text" *ngIf="!form.controls.rateTo.valid">{{'requiredInformation' | translate}}</div>
                     </ion-col>
@@ -82,13 +82,13 @@
 
         <ion-item-group>
             <ion-item-divider>{{'pressure' | translate}}</ion-item-divider>
-            <ion-item [class.invalid]="!form.controls.idOperatorTypePressure.valid">
+            <ion-item [class.invalid]="!form.controls.pressureOperatorType.valid">
                 <ion-label>{{'operator' | translate}}</ion-label>
-                <ion-select formControlName="idOperatorTypePressure" placeholder="{{'operator' | translate}}" okText="Ok" cancelText="{{'cancel' | translate}}">
-                    <ion-option *ngFor="let op of operators" [value]="op.id">{{op.symbol}}</ion-option>
+                <ion-select formControlName="pressureOperatorType" placeholder="{{'operator' | translate}}" okText="Ok" cancelText="{{'cancel' | translate}}">
+                    <ion-option *ngFor="let key of operatorTypesKeys" [value]="key">{{"enumOperatorType."+operatorTypes[key] | translate}}</ion-option>
                 </ion-select>
             </ion-item>
-            <div class="validation-error-text" *ngIf="!form.controls.idOperatorTypePressure.valid">{{'requiredInformation' | translate}}</div>
+            <div class="validation-error-text" *ngIf="!form.controls.pressureOperatorType.valid">{{'requiredInformation' | translate}}</div>
 
             <ion-grid>
                 <ion-row>
@@ -96,7 +96,7 @@
                         <ion-item [class.invalid]="!form.controls.pressureFrom.valid">
                             <ion-label>{{'from' | translate}}</ion-label>
                             <ion-input item-end formControlName="pressureFrom" maxlength="10" type="number"
-                                       placeholder="{{'number' | translate}}"></ion-input>
+                                       placeholder="{{'number' | translate}}"(ionChange)="pressureValueChanged()"></ion-input>
                         </ion-item>
                         <div class="validation-error-text" *ngIf="!form.controls.pressureFrom.valid">{{'requiredInformation' | translate}}</div>
                     </ion-col>
@@ -104,7 +104,7 @@
                         <ion-item [class.invalid]="!form.controls.pressureTo.valid">
                             <ion-label>{{'to' | translate}}</ion-label>
                             <ion-input item-end formControlName="pressureTo" maxlength="10" type="number"
-                                       placeholder="{{'number' | translate}}"></ion-input>
+                                       placeholder="{{'number' | translate}}"(ionChange)="pressureValueChanged()"></ion-input>
                         </ion-item>
                         <div class="validation-error-text" *ngIf="!form.controls.pressureTo.valid">{{'requiredInformation' | translate}}</div>
                     </ion-col>

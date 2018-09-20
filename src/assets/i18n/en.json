@@ -190,6 +190,13 @@
   "number":"Number",
   "opening":"Opening",
   "operator":"Operator",
+  "enumOperatorType": {
+    "Equal":"=",
+    "Greater":">",
+    "GreaterOrEqual":">=",
+    "Less":"<",
+    "LessOrEqual":"<="
+  },
   "otherInformation":"Other information",
   "otherPhone":"Other phone",
   "otherUserInspection":"This inspection is in progress by another user",
