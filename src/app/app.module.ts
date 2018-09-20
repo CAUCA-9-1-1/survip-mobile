@@ -60,6 +60,8 @@ import {CityRepositoryProvider} from "../providers/repositories/city-repository-
 import {InspectionConfigurationProvider} from '../providers/inspection-configuration/inspection-configuration';
 import {KeychainTouchId} from '@ionic-native/keychain-touch-id';
 import {HockeyApp} from 'ionic-hockeyapp';
+import { RepositoriesFireHydrantValidatorProvider } from '../providers/repositories-fire-hydrant-validator/repositories-fire-hydrant-validator';
+import { FireHydrantValidatorProvider } from '../providers/repositories/fire-hydrant-validator-provider';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -151,6 +153,7 @@ export function httpServiceFactory(
         InspectionConfigurationProvider,
         KeychainTouchId,
         HockeyApp,
+        FireHydrantValidatorProvider,
     ]
 })
 export class AppModule {

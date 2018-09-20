@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
-import {AddressLocalisationType, FireHydrant, FireHydrantLocationType} from "../../models/fire-hydrant";
+import {AddressLocalisationType, FireHydrant, FireHydrantLocationType, OperatorType} from "../../models/fire-hydrant";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UUID} from "angular2-uuid";
 import {GenericType} from "../../models/generic-type";
@@ -13,6 +13,7 @@ import {MessageToolsProvider} from "../../providers/message-tools/message-tools"
 import {TranslateService} from "@ngx-translate/core";
 import {ISubscription} from "../../../node_modules/rxjs/Subscription";
 import {MapLocalizationRepositoryService} from "../../providers/repositories/map-localisation-repository-service";
+import {FireHydrantValidatorProvider} from "../../providers/repositories/fire-hydrant-validator-provider";
 
 @IonicPage()
 @Component({
@@ -27,13 +28,14 @@ export class FireHydrantPage {
 
     public fireHydrantLocationType = FireHydrantLocationType;
     public addressLocationType = AddressLocalisationType;
+    public operatorTypes = OperatorType;
+    public operatorTypesKeys = [];
     public fireHydrantLocationTypeKeys = [];
     public addressLocalizationTypeKeys = [];
     public fireHydrant: FireHydrant;
     public form: FormGroup;
     public labels = {};
     public hydrantColors = [];
-    public operators = [];
     public fireHydrantTypes: GenericType;
     public inspectionCity = "";
     public pressureMeasuringUnit: UnitOfMeasure[] = [];
@@ -51,7 +53,8 @@ export class FireHydrantPage {
                 public laneService: LaneRepositoryProvider,
                 private msgTools: MessageToolsProvider,
                 private translateService: TranslateService,
-                private mapService: MapLocalizationRepositoryService) {
+                private mapService: MapLocalizationRepositoryService,
+                private fireHydrantValidator: FireHydrantValidatorProvider) {
 
         this.inspectionCity = this.navParams.get("idCity");
         this.selectedIdFireHydrant = this.navParams.get("id");
@@ -87,7 +90,6 @@ export class FireHydrantPage {
 
         this.loadFireHydrant();
         this.loadFireHydrantTypes();
-        this.loadOperators();
         this.loadPressureMeasuringUnit();
         this.loadRateMeasuringUnit();
     }
@@ -118,18 +120,11 @@ export class FireHydrantPage {
             })
     }
 
-    private loadOperators() {
-        this.operatorsRepo.getOperatorType()
-            .subscribe(success => {
-                this.operators = success;
-            }, error => {
-                console.log("Erreur dans loadOperators " + error);
-            });
-    }
 
     private initializeEnumCollection() {
         this.fireHydrantLocationTypeKeys = this.fireHydrantRepo.getEnumsKeysCollection(this.fireHydrantLocationType);
         this.addressLocalizationTypeKeys = this.fireHydrantRepo.getEnumsKeysCollection(this.addressLocationType);
+        this.operatorTypesKeys = this.fireHydrantRepo.getEnumsKeysCollection(this.operatorTypes);
     }
 
     private loadPressureMeasuringUnit() {
@@ -151,26 +146,27 @@ export class FireHydrantPage {
     }
 
     private initiateForm() {
+
         this.form = this.formBuilder.group({
             id: (this.fireHydrant.id ? this.fireHydrant.id : UUID.UUID()),
             locationType: [this.fireHydrant.locationType ? this.fireHydrant.locationType : FireHydrantLocationType.Address, Validators.required],
             coordinates: [this.fireHydrant.coordinates ? this.fireHydrant.coordinates : null , Validators.required],
             altitude: [this.fireHydrant.altitude ? this.fireHydrant.altitude : 0, Validators.required],
             number: [this.fireHydrant.number ? this.fireHydrant.number : '', Validators.required],
-            rateFrom: [this.fireHydrant.rateFrom ? this.fireHydrant.rateFrom : 0, Validators.required],
-            rateTo: [this.fireHydrant.rateTo ? this.fireHydrant.rateTo : 0, Validators.required],
-            pressureFrom: [this.fireHydrant.pressureFrom ? this.fireHydrant.pressureFrom : 0, Validators.required],
-            pressureTo: [this.fireHydrant.pressureTo ? this.fireHydrant.pressureTo : 0, Validators.required],
+            rateFrom: [this.fireHydrant.rateFrom ? this.fireHydrant.rateFrom : 0],
+            rateTo: [this.fireHydrant.rateTo ? this.fireHydrant.rateTo : 0],
+            pressureFrom: [this.fireHydrant.pressureFrom ? this.fireHydrant.pressureFrom : 0],
+            pressureTo: [this.fireHydrant.pressureTo ? this.fireHydrant.pressureTo : 0],
             color: [this.fireHydrant.color ? this.fireHydrant.color : '#FFFFFF', Validators.required],
             comments: [this.fireHydrant.comments ? this.fireHydrant.comments : ''],
             idCity: [this.fireHydrant.idCity ? this.fireHydrant.idCity : this.inspectionCity, Validators.required],
             idLane: [this.fireHydrant.idLane ? this.fireHydrant.idLane : '', Validators.required],
             idIntersection: [this.fireHydrant.idIntersection ? this.fireHydrant.idIntersection : '', Validators.required],
             idFireHydrantType: [this.fireHydrant.idFireHydrantType ? this.fireHydrant.idFireHydrantType : '', Validators.required],
-            idOperatorTypeRate: [this.fireHydrant.idOperatorTypeRate ? this.fireHydrant.idOperatorTypeRate : '', Validators.required],
-            idUnitOfMeasureRate: [this.fireHydrant.idUnitOfMeasureRate ? this.fireHydrant.idUnitOfMeasureRate : '', Validators.required],
-            idOperatorTypePressure: [this.fireHydrant.idOperatorTypePressure ? this.fireHydrant.idOperatorTypePressure : '', Validators.required],
-            idUnitOfMeasurePressure: [this.fireHydrant.idUnitOfMeasurePressure ? this.fireHydrant.idUnitOfMeasurePressure : '', Validators.required],
+            rateOperatorType: [this.fireHydrant.rateOperatorType ? this.fireHydrant.rateOperatorType : OperatorType.Equal],
+            idUnitOfMeasureRate: [(this.fireHydrant.idUnitOfMeasureRate ? this.fireHydrant.idUnitOfMeasureRate : ''), [this.fireHydrantValidator.rateMeasuringUnitValidator(this.form)]],
+            pressureOperatorType: [this.fireHydrant.pressureOperatorType ? this.fireHydrant.pressureOperatorType : OperatorType.Equal],
+            idUnitOfMeasurePressure: [(this.fireHydrant.idUnitOfMeasurePressure ? this.fireHydrant.idUnitOfMeasurePressure : ''), [this.fireHydrantValidator.pressureMeasuringUnitValidator(this.form)]],
             physicalPosition: [this.fireHydrant.physicalPosition ? this.fireHydrant.physicalPosition : '', Validators.required],
             civicNumber: [this.fireHydrant.civicNumber ? this.fireHydrant.civicNumber : '', Validators.required],
             addressLocationType: [this.fireHydrant.addressLocationType ? this.fireHydrant.addressLocationType : AddressLocalisationType.NextTo, Validators.required]
@@ -304,5 +300,22 @@ export class FireHydrantPage {
     public cancelEdition(){
         this.isCanceled = true;
         this.viewCtrl.dismiss();
+    }
+
+    public pressureValueChanged(){
+        if((this.form.controls['pressureFrom'].value > 0) || (this.form.controls['pressureTo'].value > 0)){
+            this.form.controls['idUnitOfMeasurePressure'].setValidators(this.fireHydrantValidator.pressureMeasuringUnitValidator(this.form));
+        }else{
+            this.form.controls['idUnitOfMeasurePressure'].setValidators(null);
+        }
+        this.form.controls['idUnitOfMeasurePressure'].updateValueAndValidity();
+    }
+    public rateValueChanged(){
+        if((this.form.controls['rateFrom'].value > 0) || (this.form.controls['rateTo'].value > 0)){
+            this.form.controls['idUnitOfMeasureRate'].setValidators(this.fireHydrantValidator.rateMeasuringUnitValidator(this.form));
+        }else{
+            this.form.controls['idUnitOfMeasureRate'].setValidators(null);
+        }
+        this.form.controls['idUnitOfMeasureRate'].updateValueAndValidity();
     }
 }
