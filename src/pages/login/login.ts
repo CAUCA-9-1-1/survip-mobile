@@ -57,26 +57,28 @@ export class LoginPage {
     }
 
     private validateKeychainTouchId() {
+      if("cordova"in window) {
         this.keychainTouchId.isAvailable().then(biometricType => {
-            this.keychainTouchId.has(this.authService.keychainTouchIdKey).then(result => {
-                console.log('keychain-touch-id, has key', result);
-                console.log(this.labels);
-                this.keychainTouchId.verify(this.authService.keychainTouchIdKey, this.labels['biometric.confirmYourFingerprint'])
-                    .then(saveInfo => {
-                        const user = JSON.parse(saveInfo);
+          this.keychainTouchId.has(this.authService.keychainTouchIdKey).then(result => {
+            console.log('keychain-touch-id, has key', result);
+            console.log(this.labels);
+            this.keychainTouchId.verify(this.authService.keychainTouchIdKey, this.labels['biometric.confirmYourFingerprint'])
+              .then(saveInfo => {
+                const user = JSON.parse(saveInfo);
 
-                        this.authService.login(user.username, user.password, false)
-                            .subscribe(response => this.handleResponse(response));
-                    })
-                    .catch(error => {
-                        console.log('keychain-touch-id, can\'t verify the key', error);
-                    });
-            }).catch(error => {
-                console.log('keychain-touch-id, key doesn\'t exist', error);
-            });
+                this.authService.login(user.username, user.password, false)
+                  .subscribe(response => this.handleResponse(response));
+              })
+              .catch(error => {
+                console.log('keychain-touch-id, can\'t verify the key', error);
+              });
+          }).catch(error => {
+            console.log('keychain-touch-id, key doesn\'t exist', error);
+          });
         }).catch(error => {
-            console.log('keychain-touch-id, is not available', error);
+          console.log('keychain-touch-id, is not available', error);
         });
+      }
     }
 
     private handleResponse(response) {
