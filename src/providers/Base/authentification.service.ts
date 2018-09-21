@@ -78,7 +78,7 @@ export class AuthenticationService {
     }
 
     private saveKeychainTouchId(infoToSave) {
-        if (infoToSave) {
+        if (infoToSave && "cordova"in window) {
             this.keychainTouchId.isAvailable().then(biometricType => {
                 this.keychainTouchId.save(this.keychainTouchIdKey, JSON.stringify(infoToSave)).then(result => {
                     localStorage.setItem('biometricActivated', 'save');
