@@ -26,6 +26,9 @@ export class LoginPage {
     }
 
     public async ngOnInit() {
+        console.log("ngOnInit");
+        this.ValidVersion();
+
         if (localStorage.getItem('currentToken')) {
             let isLoggedIn = await this.authService.isStillLoggedIn();
             if (isLoggedIn) {
@@ -47,22 +50,22 @@ export class LoginPage {
         });
     }
 
-    public ionViewWillEnter(){
+    public ionViewWillEnter() {
         console.log("ionViewWillEnter");
         this.ValidVersion();
     }
 
-    public ValidVersion(){
+    public ValidVersion() {
+
         this.authService.MinimalVersionIsValid()
-            .subscribe(
-                result=>
-                {
+            .then(
+                result => {
                     this.minimalVersionValid = result;
-                },
-                error =>
-                {
-                    this.minimalVersionValid =  true;
+                })
+                .catch(error => {
+                    this.minimalVersionValid = true;
                 });
+
     }
 
     public onLogin() {
@@ -76,28 +79,28 @@ export class LoginPage {
     }
 
     private validateKeychainTouchId() {
-      if("cordova"in window) {
-        this.keychainTouchId.isAvailable().then(biometricType => {
-          this.keychainTouchId.has(this.authService.keychainTouchIdKey).then(result => {
-            console.log('keychain-touch-id, has key', result);
-            console.log(this.labels);
-            this.keychainTouchId.verify(this.authService.keychainTouchIdKey, this.labels['biometric.confirmYourFingerprint'])
-              .then(saveInfo => {
-                const user = JSON.parse(saveInfo);
+        if ("cordova" in window) {
+            this.keychainTouchId.isAvailable().then(biometricType => {
+                this.keychainTouchId.has(this.authService.keychainTouchIdKey).then(result => {
+                    console.log('keychain-touch-id, has key', result);
+                    console.log(this.labels);
+                    this.keychainTouchId.verify(this.authService.keychainTouchIdKey, this.labels['biometric.confirmYourFingerprint'])
+                        .then(saveInfo => {
+                            const user = JSON.parse(saveInfo);
 
-                this.authService.login(user.username, user.password, false)
-                  .subscribe(response => this.handleResponse(response));
-              })
-              .catch(error => {
-                console.log('keychain-touch-id, can\'t verify the key', error);
-              });
-          }).catch(error => {
-            console.log('keychain-touch-id, key doesn\'t exist', error);
-          });
-        }).catch(error => {
-          console.log('keychain-touch-id, is not available', error);
-        });
-      }
+                            this.authService.login(user.username, user.password, false)
+                                .subscribe(response => this.handleResponse(response));
+                        })
+                        .catch(error => {
+                            console.log('keychain-touch-id, can\'t verify the key', error);
+                        });
+                }).catch(error => {
+                    console.log('keychain-touch-id, key doesn\'t exist', error);
+                });
+            }).catch(error => {
+                console.log('keychain-touch-id, is not available', error);
+            });
+        }
     }
 
     private handleResponse(response) {
@@ -124,7 +127,7 @@ export class LoginPage {
         this.navCtrl.push('HomePage');
     }
 
-    public getAppVersion(){
+    public getAppVersion() {
         this.authService.getAppVersion();
     }
 }

@@ -118,15 +118,15 @@ export class AuthenticationService {
         }
     }
 
-    public MinimalVersionIsValid(){
-        const version = this.getAppVersion();
-        return this.http.get('Authentification/VersionValidator/' + version);
+    public async MinimalVersionIsValid():Promise<boolean>{
+        const version = await this.getAppVersion();
+        return this.http.get('Authentification/VersionValidator/' + version).toPromise();
     }
 
-    public getAppVersion(){
+    public async getAppVersion(){
         let version = null;
         if("cordova"in window) {
-            version = this.appVersion.getVersionNumber();
+            version = await this.appVersion.getVersionNumber();
             console.log('App version :', version);
         }else{
             version = "0.0.7";
