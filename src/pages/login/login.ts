@@ -13,6 +13,7 @@ export class LoginPage {
     public userName: string;
     public password: string;
     public labels = {};
+    public minimalVersionValid = true;
 
     constructor(
         public navCtrl: NavController,
@@ -20,7 +21,7 @@ export class LoginPage {
         private authService: AuthenticationService,
         private toastCtrl: ToastController,
         private translateService: TranslateService,
-        private keychainTouchId: KeychainTouchId,
+        private keychainTouchId: KeychainTouchId
     ) {
     }
 
@@ -44,6 +45,28 @@ export class LoginPage {
         }, error => {
             console.log(error)
         });
+    }
+
+    public ionViewWillEnter(){
+        console.log("ionViewWillEnter");
+        this.ValidVersion();
+    }
+    public ionViewDidEnter(){
+        console.log("ionViewDidEnter");
+        this.ValidVersion();
+    }
+
+    public ValidVersion(){
+        this.authService.MinimalVersionIsValid()
+            .subscribe(
+                result=>
+                {
+                    this.minimalVersionValid = result;
+                },
+                error =>
+                {
+                    this.minimalVersionValid =  false;
+                });
     }
 
     public onLogin() {
@@ -103,5 +126,9 @@ export class LoginPage {
 
     private redirectToInspectionList() {
         this.navCtrl.push('HomePage');
+    }
+
+    public getAppVersion(){
+        this.authService.getAppVersion();
     }
 }

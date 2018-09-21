@@ -5,6 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {Events, Loading, LoadingController} from 'ionic-angular';
 import {KeychainTouchId} from '@ionic-native/keychain-touch-id';
 import {HttpService} from './http.service';
+import {AppVersion} from "@ionic-native/app-version";
 
 @Injectable()
 export class AuthenticationService {
@@ -16,6 +17,7 @@ export class AuthenticationService {
         private loadingCtrl: LoadingController,
         private events: Events,
         private keychainTouchId: KeychainTouchId,
+        private appVersion: AppVersion,
     ) {
     }
 
@@ -115,4 +117,21 @@ export class AuthenticationService {
             localStorage.setItem('currentToken', response.accessToken);
         }
     }
+
+    public MinimalVersionIsValid(){
+        const version = this.getAppVersion();
+        return this.http.get('Authentification/VersionValidator/' + version);
+    }
+
+    public getAppVersion(){
+        let version = null;
+        if("cordova"in window) {
+            version = this.appVersion.getVersionNumber();
+            console.log('App version :', version);
+        }else{
+            version = "0.0.7";
+        }
+        return version;
+    }
+
 }

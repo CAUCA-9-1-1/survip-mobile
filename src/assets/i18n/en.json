@@ -274,6 +274,8 @@
   "unit":"Unit",
   "userName":"User name",
   "UserNotAllowedInspection":"You are not allowed to access this inspection",
+  "versionLabel":"Current version : ",
+  "versionInvalidWarning":"Your current version is obsolete, please update your application.",
   "visitCanceled": "Visit cancelled",
   "visitCanceledMotive":"Cancellation motive",
   "visitNewSchedule":"New visit date",

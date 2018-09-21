@@ -62,6 +62,7 @@ import {KeychainTouchId} from '@ionic-native/keychain-touch-id';
 import {HockeyApp} from 'ionic-hockeyapp';
 import { RepositoriesFireHydrantValidatorProvider } from '../providers/repositories-fire-hydrant-validator/repositories-fire-hydrant-validator';
 import { FireHydrantValidatorProvider } from '../providers/repositories/fire-hydrant-validator-provider';
+import {AppVersion} from "@ionic-native/app-version";
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -91,8 +92,7 @@ export function httpServiceFactory(
             }
         }),
         CommonModule,
-        IonicModule.forRoot(MyApp, {scrollAssist: false,
-    autoFocusAssist: false}),
+        IonicModule.forRoot(MyApp, {scrollAssist: false,autoFocusAssist: false}),
         BrowserModule,
         ComponentsModule,
     ],
@@ -154,6 +154,7 @@ export function httpServiceFactory(
         KeychainTouchId,
         HockeyApp,
         FireHydrantValidatorProvider,
+        AppVersion,
     ]
 })
 export class AppModule {
