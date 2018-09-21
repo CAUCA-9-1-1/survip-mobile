@@ -61,7 +61,7 @@ export class LoginPage {
                 },
                 error =>
                 {
-                    this.minimalVersionValid =  false;
+                    this.minimalVersionValid =  true;
                 });
     }
 
