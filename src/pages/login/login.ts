@@ -51,10 +51,6 @@ export class LoginPage {
         console.log("ionViewWillEnter");
         this.ValidVersion();
     }
-    public ionViewDidEnter(){
-        console.log("ionViewDidEnter");
-        this.ValidVersion();
-    }
 
     public ValidVersion(){
         this.authService.MinimalVersionIsValid()
