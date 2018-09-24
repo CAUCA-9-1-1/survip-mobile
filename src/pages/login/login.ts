@@ -15,6 +15,7 @@ export class LoginPage {
     public password: string;
     public labels = {};
     public minimalVersionValid = true;
+    public allowLogin = false;
     public storeLink = 'Google Play';
 
     constructor(
@@ -62,6 +63,7 @@ export class LoginPage {
 
     public async ValidVersion() {
         this.minimalVersionValid = await this.authService.MinimalVersionIsValid();
+        this.allowLogin = this.minimalVersionValid;
     }
 
     public onLogin() {
@@ -130,6 +132,6 @@ export class LoginPage {
     public goToStore(){
         //TODO : Change survi-Mbile packageName for survi-Prevention
         //this.market.open(this.authService.survipName);
-        this.market.open('ca.cauca.survi.mobile');
+        this.market.open('id1026853728');
     }
 }

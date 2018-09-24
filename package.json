@@ -94,8 +94,8 @@
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-keychain-touch-id": {},
       "cordova-plugin-hockeyapp": {},
-      "cordova-plugin-app-version": {},
-      "cordova-plugin-market": {}
+      "cordova-plugin-market": {},
+      "cordova-plugin-app-version": {}
     },
     "platforms": [
       "ios",

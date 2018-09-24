@@ -43,7 +43,7 @@ export class MyApp {
             translate.use('en');
         }
 
-        this.authService.getAppConfiguration();
+
 
         platform.ready().then(() => {
             statusBar.styleLightContent();
@@ -51,6 +51,7 @@ export class MyApp {
                 statusBar.styleBlackOpaque();
             }
             splashScreen.hide();
+          this.authService.getAppConfiguration();
             this.enableHockeyApp();
         });
     }

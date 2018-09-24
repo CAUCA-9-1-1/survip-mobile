@@ -129,12 +129,8 @@ export class AuthenticationService {
     public async getAppConfiguration(){
         if("cordova"in window) {
             this.survipVersion = await this.appVersion.getVersionNumber();
-            if(this.platform.is('ios')){
-                this.survipName = await this.appVersion.getAppName();
-            }else {
-                this.survipName = await this.appVersion.getPackageName();
-            }
-            console.log('app information',this.survipVersion + ' | '+this.survipName);
+            this.survipName = await this.appVersion.getPackageName();
+            console.log('app information',this.survipVersion + ' | ' +this.survipName);
         }else{
             this.survipVersion = '0.0.8';
             this.survipName = 'survi-prevention';
