@@ -1,9 +1,8 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, Platform, ToastController} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import {TranslateService} from '@ngx-translate/core';
 import {KeychainTouchId} from '@ionic-native/keychain-touch-id';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
-import {Market} from "@ionic-native/market";
 
 @IonicPage()
 @Component({
@@ -14,9 +13,6 @@ export class LoginPage {
     public userName: string;
     public password: string;
     public labels = {};
-    public minimalVersionValid = true;
-    public allowLogin = false;
-    public storeLink = 'Google Play';
 
     constructor(
         public navCtrl: NavController,
@@ -25,17 +21,11 @@ export class LoginPage {
         private toastCtrl: ToastController,
         private translateService: TranslateService,
         private keychainTouchId: KeychainTouchId,
-        private platform: Platform,
-        private market: Market,
     ) {
-        if(platform.is('ios')){
-            this.storeLink = 'App Store';
-        }
+
     }
 
     public async ngOnInit() {
-        this.ValidVersion();
-
         if (localStorage.getItem('currentToken')) {
             let isLoggedIn = await this.authService.isStillLoggedIn();
             if (isLoggedIn) {
@@ -55,15 +45,6 @@ export class LoginPage {
         }, error => {
             console.log(error)
         });
-    }
-
-    public async ionViewWillEnter() {
-        await this.ValidVersion();
-    }
-
-    public async ValidVersion() {
-        this.minimalVersionValid = await this.authService.MinimalVersionIsValid();
-        this.allowLogin = this.minimalVersionValid;
     }
 
     public onLogin() {
@@ -125,13 +106,7 @@ export class LoginPage {
         this.navCtrl.push('HomePage');
     }
 
-    public getAppVersion() {
-       return this.authService.survipVersion;
-    }
 
-    public goToStore(){
-        //TODO : Change survi-Mbile packageName for survi-Prevention
-        //this.market.open(this.authService.survipName);
-        this.market.open('id1026853728');
-    }
+
+
 }

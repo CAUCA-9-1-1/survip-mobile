@@ -5,5 +5,7 @@
     "iosAppId": "YOUR_IOS_HOCKEYAPP_ID",
     "autoSendCrashReports": true,
     "ignoreCrashDialog": true
-  }
+  },
+  "packageName":"ca.cause.survi.prevention",
+  "iosAppId":"1026853728"
 }

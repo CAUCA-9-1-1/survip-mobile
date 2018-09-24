@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/Observable';
-import {Events, Loading, LoadingController, Platform} from 'ionic-angular';
+import {Config, Events, Loading, LoadingController, Platform} from 'ionic-angular';
 import {KeychainTouchId} from '@ionic-native/keychain-touch-id';
 import {HttpService} from './http.service';
 import {AppVersion} from "@ionic-native/app-version";
@@ -12,7 +12,8 @@ export class AuthenticationService {
     public keychainTouchIdKey = 'survi%prevention%keychain';
     private loading: Loading;
     public survipVersion = '';
-    public survipName= '';
+    public survipName = '';
+    public survipAppId = '';
 
     constructor(
         private http: HttpService,
@@ -20,7 +21,8 @@ export class AuthenticationService {
         private events: Events,
         private keychainTouchId: KeychainTouchId,
         private appVersion: AppVersion,
-        private platform: Platform
+        private platform: Platform,
+        private config : Config
     ) {
     }
 
@@ -129,10 +131,18 @@ export class AuthenticationService {
     public async getAppConfiguration(){
         if("cordova"in window) {
             this.survipVersion = await this.appVersion.getVersionNumber();
-            this.survipName = await this.appVersion.getPackageName();
-            console.log('app information',this.survipVersion + ' | ' +this.survipName);
+            if(this.platform.is('ios')){
+                this.survipName = this.config.get('iosAppId');
+            }else {
+                this.survipName = await this.appVersion.getPackageName();
+            }
+           const packageName = await this.appVersion.getPackageName();
+            const appName = await this.appVersion.getAppName();
+            const codeVersion = await this.appVersion.getVersionCode();
+            const numberVersion = this.survipVersion;
+            console.log('app information',packageName  + ' | ' +appName+ ' | ' +codeVersion+ ' | ' +numberVersion);
         }else{
-            this.survipVersion = '0.0.8';
+            this.survipVersion = '0.0.7';
             this.survipName = 'survi-prevention';
         }
         console.log("App version : ",this.survipVersion);

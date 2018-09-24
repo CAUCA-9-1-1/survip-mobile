@@ -7,40 +7,31 @@
                 <strong>SURVI</strong> Prévention
             </h2>
         </div>
-        <div *ngIf="allowLogin">
-            <form class="list-form">
-                <ion-item>
-                    <ion-label floating>
-                        <ion-icon name="contact" item-start></ion-icon>
-                        {{'userName' | translate}}
-                    </ion-label>
-                    <ion-input type="email" [(ngModel)]="userName" [ngModelOptions]="{standalone: true}"></ion-input>
-                </ion-item>
+        <form class="list-form">
+            <ion-item>
+                <ion-label floating>
+                    <ion-icon name="contact" item-start></ion-icon>
+                    {{'userName' | translate}}
+                </ion-label>
+                <ion-input type="email" [(ngModel)]="userName" [ngModelOptions]="{standalone: true}"></ion-input>
+            </ion-item>
 
-                <ion-item>
-                    <ion-label floating>
-                        <ion-icon name="lock" item-start></ion-icon>
-                        {{'password' | translate}}
-                    </ion-label>
-                    <ion-input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"
-                               (keypress)="onKeyPress($event.keyCode)"></ion-input>
-                </ion-item>
-            </form>
+            <ion-item>
+                <ion-label floating>
+                    <ion-icon name="lock" item-start></ion-icon>
+                    {{'password' | translate}}
+                </ion-label>
+                <ion-input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"
+                           (keypress)="onKeyPress($event.keyCode)"></ion-input>
+            </ion-item>
+        </form>
 
-            <div>
-                <button ion-button icon-start block color="caucaRed" tappable (click)="onLogin()">
-                    <ion-icon name="log-in"></ion-icon>
-                    {{'login' | translate}}
-                </button>
-            </div>
+        <div>
+            <button ion-button icon-start block color="caucaRed" tappable (click)="onLogin()">
+                <ion-icon name="log-in"></ion-icon>
+                {{'login' | translate}}
+            </button>
         </div>
-    <div *ngIf="!minimalVersionValid">
-        <div class="version-warning">
-            <div class="version"><ion-icon name="alert"></ion-icon><ion-label>{{'versionLabel' | translate}} {{getAppVersion()}}</ion-label></div>
-            <h5>{{'versionInvalidWarning' | translate}}</h5>
-            <div class="store-button"><button ion-button (click)="goToStore()">{{storeLink}}</button></div>
-        </div>
-    </div>
     </div>
 
 </ion-content>

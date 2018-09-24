@@ -11,7 +11,7 @@ import {AuthenticationService} from "../providers/Base/authentification.service"
     templateUrl: 'app.html'
 })
 export class MyApp {
-    rootPage: any = (localStorage.getItem('biometricActivated') ? 'LoginPage' : 'LoginBiometricPage');
+    rootPage: any = 'VersionValidatorPage';
     @ViewChild(Nav) nav: Nav;
 
     constructor(
