@@ -54,9 +54,13 @@ export class AuthenticationService {
         ).toPromise();
     }
 
-    private showLoading() {
+    public showLoading() {
         this.loading = this.loadingCtrl.create({content: 'Please wait...'});
         this.loading.present();
+    }
+
+    public dismissLoading(){
+      this.loading.dismiss();
     }
 
     public logout() {
@@ -140,7 +144,7 @@ export class AuthenticationService {
             const appName = await this.appVersion.getAppName();
             const codeVersion = await this.appVersion.getVersionCode();
             const numberVersion = this.survipVersion;
-            console.log('app information',packageName  + ' | ' +appName+ ' | ' +codeVersion+ ' | ' +numberVersion);
+            console.log('app information',packageName  + ' | ' +appName+ ' | ' +codeVersion+ ' | ' +numberVersion+' | '+this.survipName);
         }else{
             this.survipVersion = '0.0.7';
             this.survipName = 'survi-prevention';

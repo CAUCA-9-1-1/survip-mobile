@@ -11,6 +11,7 @@ import {AuthenticationService} from "../../providers/Base/authentification.servi
 export class VersionValidatorPage {
     rootPage: any = (localStorage.getItem('biometricActivated') ? 'LoginPage' : 'LoginBiometricPage');
     public storeLink = 'Google Play';
+    public displayVersionWarning = false;
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -20,6 +21,8 @@ export class VersionValidatorPage {
         if (platform.is('ios')) {
             this.storeLink = 'App Store';
         }
+
+        this.authService.showLoading();
     }
 
     public ionViewDidEnter(){
@@ -28,8 +31,11 @@ export class VersionValidatorPage {
 
     public async validVersion() {
         let minimalVersionValid = await this.authService.MinimalVersionIsValid();
+        this.authService.dismissLoading();
         if (minimalVersionValid) {
-            this.navCtrl.push(this.rootPage);
+            this.navCtrl.setRoot(this.rootPage);
+        }else{
+          this.displayVersionWarning = true;
         }
     }
 

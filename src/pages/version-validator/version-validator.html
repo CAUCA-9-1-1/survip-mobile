@@ -1,13 +1,12 @@
 <ion-content padding class="animated fadeIn login auth-page">
     <div class="login-content">
-
         <div padding-horizontal text-center class="animated fadeInDown">
             <div class="logo"></div>
             <h2 ion-text class="text-primary">
                 <strong>SURVI</strong> Prévention
             </h2>
         </div>
-        <div class="version-warning">
+        <div class="version-warning" *ngIf="displayVersionWarning">
             <div class="version">
                 <ion-icon name="alert"></ion-icon>
                 <ion-label>{{'versionLabel' | translate}} {{getAppVersion()}}</ion-label>
