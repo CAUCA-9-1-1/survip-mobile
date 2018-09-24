@@ -5,6 +5,7 @@ import {InspectionControllerProvider} from '../../providers/inspection-controlle
 import {ISubscription} from 'rxjs/Subscription';
 import {TranslateService} from "@ngx-translate/core";
 import {InspectionConfigurationProvider} from '../../providers/inspection-configuration/inspection-configuration';
+import {InspectionDetailRepositoryProvider} from '../../providers/repositories/inspection-detail-repository-provider.service';
 
 @IonicPage({
     segment: 'inspection/:id'
@@ -27,6 +28,7 @@ export class InterventionHomePage implements OnDestroy {
                 public menuCtrl: MenuController,
                 private controller: InspectionControllerProvider,
                 private translateService: TranslateService,
+                private inspectionDetailProvider: InspectionDetailRepositoryProvider,
                 private configurationService: InspectionConfigurationProvider) {
       controller.setIdInterventionForm(this.navParams.data['id']);
       this.planSubscription = controller.planLoaded.subscribe((value) => {
@@ -52,15 +54,12 @@ export class InterventionHomePage implements OnDestroy {
                 console.log(error)
             });
 
-      if (!this.configurationService.configuration) {
-        this.configurationService.loadConfiguration(this.controller.idInspection)
-          .then(() =>
-              this.menuSubscription = this.configurationService.menuRefreshed
-                .subscribe(() => this.loadMenu())
-          )
-      } else {
-        this.menuSubscription = this.configurationService.menuRefreshed.subscribe(() => this.loadMenu());
-      }
+      this.configurationService.loadConfiguration(this.controller.idInspection)
+        .then(() => {
+            this.menuSubscription = this.configurationService.menuRefreshed
+              .subscribe(() => this.loadMenu());
+          }
+        );
     }
 
     private loadMenu(){
