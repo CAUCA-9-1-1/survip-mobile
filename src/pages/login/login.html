@@ -38,6 +38,7 @@
         <div class="version-warning">
             <div class="version"><ion-icon name="alert"></ion-icon><ion-label>{{'versionLabel' | translate}} {{getAppVersion()}}</ion-label></div>
             <h5>{{'versionInvalidWarning' | translate}}</h5>
+            <div class="store-button"><button ion-button (click)="goToStore()">{{storeLink}}</button></div>
         </div>
     </div>
     </div>

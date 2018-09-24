@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, Platform, ToastController} from 'ionic-angular';
 import {TranslateService} from '@ngx-translate/core';
 import {KeychainTouchId} from '@ionic-native/keychain-touch-id';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
+import {Market} from "@ionic-native/market";
 
 @IonicPage()
 @Component({
@@ -14,6 +15,7 @@ export class LoginPage {
     public password: string;
     public labels = {};
     public minimalVersionValid = true;
+    public storeLink = 'Google Play';
 
     constructor(
         public navCtrl: NavController,
@@ -21,12 +23,16 @@ export class LoginPage {
         private authService: AuthenticationService,
         private toastCtrl: ToastController,
         private translateService: TranslateService,
-        private keychainTouchId: KeychainTouchId
+        private keychainTouchId: KeychainTouchId,
+        private platform: Platform,
+        private market: Market,
     ) {
+        if(platform.is('ios')){
+            this.storeLink = 'App Store';
+        }
     }
 
     public async ngOnInit() {
-        console.log("ngOnInit");
         this.ValidVersion();
 
         if (localStorage.getItem('currentToken')) {
@@ -50,22 +56,12 @@ export class LoginPage {
         });
     }
 
-    public ionViewWillEnter() {
-        console.log("ionViewWillEnter");
-        this.ValidVersion();
+    public async ionViewWillEnter() {
+        await this.ValidVersion();
     }
 
-    public ValidVersion() {
-
-        this.authService.MinimalVersionIsValid()
-            .then(
-                result => {
-                    this.minimalVersionValid = result;
-                })
-                .catch(error => {
-                    this.minimalVersionValid = true;
-                });
-
+    public async ValidVersion() {
+        this.minimalVersionValid = await this.authService.MinimalVersionIsValid();
     }
 
     public onLogin() {
@@ -128,6 +124,12 @@ export class LoginPage {
     }
 
     public getAppVersion() {
-        this.authService.getAppVersion();
+       return this.authService.survipVersion;
+    }
+
+    public goToStore(){
+        //TODO : Change survi-Mbile packageName for survi-Prevention
+        //this.market.open(this.authService.survipName);
+        this.market.open('ca.cauca.survi.mobile');
     }
 }

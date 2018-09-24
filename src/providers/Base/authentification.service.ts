@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/Observable';
-import {Events, Loading, LoadingController} from 'ionic-angular';
+import {Events, Loading, LoadingController, Platform} from 'ionic-angular';
 import {KeychainTouchId} from '@ionic-native/keychain-touch-id';
 import {HttpService} from './http.service';
 import {AppVersion} from "@ionic-native/app-version";
@@ -11,6 +11,8 @@ import {AppVersion} from "@ionic-native/app-version";
 export class AuthenticationService {
     public keychainTouchIdKey = 'survi%prevention%keychain';
     private loading: Loading;
+    public survipVersion = '';
+    public survipName= '';
 
     constructor(
         private http: HttpService,
@@ -18,6 +20,7 @@ export class AuthenticationService {
         private events: Events,
         private keychainTouchId: KeychainTouchId,
         private appVersion: AppVersion,
+        private platform: Platform
     ) {
     }
 
@@ -119,19 +122,24 @@ export class AuthenticationService {
     }
 
     public async MinimalVersionIsValid():Promise<boolean>{
-        const version = await this.getAppVersion();
-        return this.http.get('Authentification/VersionValidator/' + version).toPromise();
+        console.log("MinimalVersion : ",this.survipVersion);
+        return this.http.get('Authentification/VersionValidator/' + this.survipVersion).toPromise().catch(()=>{return false;});
     }
 
-    public async getAppVersion(){
-        let version = null;
+    public async getAppConfiguration(){
         if("cordova"in window) {
-            version = await this.appVersion.getVersionNumber();
-            console.log('App version :', version);
+            this.survipVersion = await this.appVersion.getVersionNumber();
+            if(this.platform.is('ios')){
+                this.survipName = await this.appVersion.getAppName();
+            }else {
+                this.survipName = await this.appVersion.getPackageName();
+            }
+            console.log('app information',this.survipVersion + ' | '+this.survipName);
         }else{
-            version = "0.0.7";
+            this.survipVersion = '0.0.8';
+            this.survipName = 'survi-prevention';
         }
-        return version;
+        console.log("App version : ",this.survipVersion);
     }
 
 }

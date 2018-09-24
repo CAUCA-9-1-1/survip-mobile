@@ -63,6 +63,7 @@ import {HockeyApp} from 'ionic-hockeyapp';
 import { RepositoriesFireHydrantValidatorProvider } from '../providers/repositories-fire-hydrant-validator/repositories-fire-hydrant-validator';
 import { FireHydrantValidatorProvider } from '../providers/repositories/fire-hydrant-validator-provider';
 import {AppVersion} from "@ionic-native/app-version";
+import {Market} from "@ionic-native/market";
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -155,6 +156,7 @@ export function httpServiceFactory(
         HockeyApp,
         FireHydrantValidatorProvider,
         AppVersion,
+        Market
     ]
 })
 export class AppModule {

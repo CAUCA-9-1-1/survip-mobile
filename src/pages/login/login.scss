@@ -123,6 +123,7 @@ page-login {
     border:1px solid lightgrey;
     width:100%;
     font-weight: bold;
+    border-radius: 2px;
   }
 
   .version{
@@ -147,5 +148,14 @@ page-login {
     color: #B32017;
     text-align: center;
     margin: 0.8rem;
+  }
+
+  .store-button{
+    width: 100%;
+    display:flex;
+    justify-content: center;
+  }
+  .store-button button{
+    background-color: #B32017;
   }
 }
