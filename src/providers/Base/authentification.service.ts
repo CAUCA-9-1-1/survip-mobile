@@ -132,7 +132,7 @@ export class AuthenticationService {
         if("cordova"in window) {
             this.survipVersion = await this.appVersion.getVersionNumber();
             if(this.platform.is('ios')){
-                this.survipName = this.config.get('iosAppId');
+                this.survipName = 'id'+this.config.get('iosAppId');
             }else {
                 this.survipName = await this.appVersion.getPackageName();
             }

@@ -114,12 +114,13 @@ page-version-validator {
   .fadeInDown {
     animation-name: fadeInDown;
   }
+
 .version-warning{
     display: table;
     border:1px solid lightgrey;
     width:100%;
     font-weight: bold;
-    border-radius: 2px;
+    border-radius: 5px;
   }
 
   .version{
