@@ -2,10 +2,11 @@ import {Injectable} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/Observable';
-import {Config, Events, Loading, LoadingController, Platform} from 'ionic-angular';
+import { Events, Loading, LoadingController, Platform} from 'ionic-angular';
 import {KeychainTouchId} from '@ionic-native/keychain-touch-id';
 import {HttpService} from './http.service';
 import {AppVersion} from "@ionic-native/app-version";
+import config from '../../assets/config/config.json';
 
 @Injectable()
 export class AuthenticationService {
@@ -22,7 +23,6 @@ export class AuthenticationService {
         private keychainTouchId: KeychainTouchId,
         private appVersion: AppVersion,
         private platform: Platform,
-        private config : Config
     ) {
     }
 
@@ -132,7 +132,7 @@ export class AuthenticationService {
         if("cordova"in window) {
             this.survipVersion = await this.appVersion.getVersionNumber();
             if(this.platform.is('ios')){
-                this.survipName = 'id'+this.config.get('iosAppId');
+                this.survipName = 'id'+config.iosAppId;
             }else {
                 this.survipName = await this.appVersion.getPackageName();
             }
