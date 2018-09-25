@@ -4,6 +4,7 @@ import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/reposito
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {InspectionSurveySummaryCategory} from "../../models/inspection-survey-summary-category";
 import {SurveyQuestionTypeEnum} from "../../models/inspection-survey-answer";
+import {InspectionSurveyAnswerPage} from '../inspection-survey-answer/inspection-survey-answer';
 
 @IonicPage()
 @Component({
@@ -36,8 +37,9 @@ export class InspectionSurveySummaryPage {
                 });
     }
 
-    public ionViewWillLeave() {
-        this.navCtrl.setRoot('InspectionListPage');
-        this.navCtrl.popToRoot();
+    public async ionViewWillLeave() {
+      if (this.navCtrl.getPrevious().name == 'InspectionSurveyAnswerPage') {
+        await this.navCtrl.pop();
+      }
     }
 }

@@ -5,8 +5,9 @@ import {HttpService} from '../Base/http.service';
 @Injectable()
 export class InspectionConfigurationProvider {
 
-  public configuration: InspectionConfiguration;
   private initialConfiguration: InspectionConfiguration;
+
+  public configuration: InspectionConfiguration;
   public menuRefreshed : EventEmitter<any> = new EventEmitter<any>();
 
   constructor(public http: HttpService) {
@@ -19,7 +20,7 @@ export class InspectionConfigurationProvider {
 
     this.configuration = Object.assign(new InspectionConfiguration(),this.initialConfiguration);
   }
-  
+
   public disableMenu(){
 
       this.configuration.hasImplantationPlan = false;
@@ -32,6 +33,7 @@ export class InspectionConfigurationProvider {
       this.configuration.hasBuildingHazardousMaterials = false;
       this.configuration.hasBuildingParticularRisks = false;
       this.configuration.hasBuildingAnomalies = false;
+      this.configuration.hasSurvey = false;
       this.menuRefreshed.emit(null);
   }
 
