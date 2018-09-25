@@ -1,14 +1,7 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {KeychainTouchId} from '@ionic-native/keychain-touch-id';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
-
-/**
- * Generated class for the LoginBiometricPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -23,7 +16,6 @@ export class LoginBiometricPage {
         public navParams: NavParams,
         private authService: AuthenticationService,
         private keychainTouchId: KeychainTouchId,
-        private plt: Platform,
     ) { }
 
     public ngOnInit() {

@@ -62,7 +62,6 @@ export class LoginPage {
             this.keychainTouchId.isAvailable().then(biometricType => {
                 this.keychainTouchId.has(this.authService.keychainTouchIdKey).then(result => {
                     console.log('keychain-touch-id, has key', result);
-                    console.log(this.labels);
                     this.keychainTouchId.verify(this.authService.keychainTouchIdKey, this.labels['biometric.confirmYourFingerprint'])
                         .then(saveInfo => {
                             const user = JSON.parse(saveInfo);

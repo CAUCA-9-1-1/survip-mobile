@@ -93,8 +93,6 @@ export class AuthenticationService {
             this.keychainTouchId.isAvailable().then(biometricType => {
                 this.keychainTouchId.save(this.keychainTouchIdKey, JSON.stringify(infoToSave)).then(result => {
                     localStorage.setItem('biometricActivated', 'save');
-
-                    console.log('keychain-touch-id, saved information', result);
                 }).catch(error => {
                     console.log('keychain-touch-id, can\'t saved information', error);
                 });
@@ -128,8 +126,7 @@ export class AuthenticationService {
     }
 
     public async MinimalVersionIsValid():Promise<boolean>{
-        console.log("MinimalVersion : ",this.survipVersion);
-        return this.http.get('Authentification/VersionValidator/' + this.survipVersion).toPromise().catch(()=>{return false;});
+        return this.http.get('Authentification/VersionValidator/' + this.survipVersion).toPromise();
     }
 
     public async getAppConfiguration(){
@@ -144,12 +141,10 @@ export class AuthenticationService {
             const appName = await this.appVersion.getAppName();
             const codeVersion = await this.appVersion.getVersionCode();
             const numberVersion = this.survipVersion;
-            console.log('app information',packageName  + ' | ' +appName+ ' | ' +codeVersion+ ' | ' +numberVersion+' | '+this.survipName);
         }else{
             this.survipVersion = '0.0.7';
             this.survipName = 'survi-prevention';
         }
-        console.log("App version : ",this.survipVersion);
     }
 
 }

@@ -25,18 +25,28 @@ export class VersionValidatorPage {
         this.authService.showLoading();
     }
 
-    public ionViewDidEnter(){
+    public ionViewDidEnter() {
         this.validVersion();
     }
 
     public async validVersion() {
-        let minimalVersionValid = await this.authService.MinimalVersionIsValid();
-        this.authService.dismissLoading();
-        if (minimalVersionValid) {
+        this.authService.MinimalVersionIsValid()
+            .then(result => {
+                this.minimalVersionDisplay(result);
+            })
+            .catch(()=> {
+                this.minimalVersionDisplay(true);
+            });
+
+    }
+
+    private minimalVersionDisplay(redirect: boolean){
+        if (redirect) {
             this.navCtrl.setRoot(this.rootPage);
-        }else{
-          this.displayVersionWarning = true;
+        } else {
+            this.displayVersionWarning = true;
         }
+        this.authService.dismissLoading();
     }
 
     public goToStore() {
