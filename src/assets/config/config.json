@@ -1,11 +1,11 @@
 {
-  "apiUrl":"YOUR_API_URL",
+  "apiUrl":"http://10.10.33.103:5555/api/",
   "hockeyapp": {
     "androidAppId": "bbfb228ed1114902902ed514c632a149",
     "iosAppId": "d08a72d4d7184a28a700d12c4061386f",
     "autoSendCrashReports": true,
     "ignoreCrashDialog": true
   },
-  "packageName":"APP_PACKAGE_NAME",
-  "iosAppId":"IOS_APP_ID"
+  "packageName":"ca.cause.survi.mobile",
+  "iosAppId":"1026853728"
 }
