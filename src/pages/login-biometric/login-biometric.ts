@@ -19,23 +19,19 @@ export class LoginBiometricPage {
     ) { }
 
     public ngOnInit() {
-        if("cordova"in window) {
-            this.keychainTouchId.isAvailable().then(biometricType => {
-                console.log('keychain-touch-id, type', biometricType);
-            }).catch(error => {
-                console.log('keychain-touch-id', error);
+        this.keychainTouchId.isAvailable().then(biometricType => {
+            console.log('keychain-touch-id, type', biometricType);
+        }).catch(error => {
+            console.log('keychain-touch-id', error);
 
-                if (error === 'plugin_not_installed') {
-                    setTimeout(() => {
-                        this.ngOnInit();
-                    }, 100);
-                } else {
-                    this.dontUseBiometric();
-                }
-            });
-        }else{
-            this.dontUseBiometric();
-        }
+            if (error === 'plugin_not_installed') {
+                setTimeout(() => {
+                    this.ngOnInit();
+                }, 100);
+            } else {
+                this.dontUseBiometric();
+            }
+        });
     }
 
     public useBiometric() {

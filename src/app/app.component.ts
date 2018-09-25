@@ -5,18 +5,20 @@ import {SplashScreen} from '@ionic-native/splash-screen';
 import {TranslateService} from '@ngx-translate/core';
 import {HockeyApp} from 'ionic-hockeyapp';
 import config from '../assets/config/config.json';
+import {AuthenticationService} from "../providers/Base/authentification.service";
 
 @Component({
     templateUrl: 'app.html'
 })
 export class MyApp {
-    rootPage: any = (localStorage.getItem('biometricActivated') ? 'LoginPage' : 'LoginBiometricPage');
+    rootPage: any = 'VersionValidatorPage';
     @ViewChild(Nav) nav: Nav;
 
     constructor(
         private platform: Platform,
         private app: App,
         private hockeyApp: HockeyApp,
+        private authService: AuthenticationService,
         statusBar: StatusBar,
         splashScreen: SplashScreen,
         translate: TranslateService,
@@ -41,12 +43,15 @@ export class MyApp {
             translate.use('en');
         }
 
+
+
         platform.ready().then(() => {
             statusBar.styleLightContent();
             if (this.platform.is('android')) {
                 statusBar.styleBlackOpaque();
             }
             splashScreen.hide();
+          this.authService.getAppConfiguration();
             this.enableHockeyApp();
         });
     }
