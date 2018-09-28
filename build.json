@@ -5,28 +5,28 @@
   "android": {
     "debug": {},
     "release": {
-      "keystore": "YOUR_ANDROID_KEYSTORE_FILE",
+      "keystore": "./resources/android/cause.keystore",
       "keystoreType": "jks",
-      "alias": "YOUR_ALIAS",
-      "storePassword": "YOUR_STORE_PASSWORD",
-      "password" : "YOUR_KEY_PASSWORD"
+      "alias": "cause",
+      "storePassword": "DevCauca911",
+      "password" : "DevCauca911"
     }
   },
   "ios": {
     "debug": {
       "packageType": "development",
-      "provisioningProfile": "YOUR_PROVISIONING_PROFILE_UUID_FOR_DEV",
-      "developmentTeam": "YOUR_APPLE_TEAM_ID",
-      "codeSignIdentity": "YOUR_SIGN_IDENTITY_NAME_FOR_DEV",
+      "provisioningProfile": "bd285edd-8aca-45da-beed-d51a5bb176b2",
+      "developmentTeam": "3KUPN585QC",
+      "codeSignIdentity": "iPhone Developer: Mario Vallières (MDMWD5CKAE)",
       "buildFlag": [
         "-UseModernBuildSystem=0"
       ]
     },
     "release": {
-      "packageType": "ad-hoc || app-store",
-      "provisioningProfile": "YOUR_PROVISIONING_PROFILE_UUID_FOR_DISTRIBUTION",
-      "developmentTeam": "YOUR_APPLE_TEAM_ID",
-      "codeSignIdentity": "YOUR_SIGN_IDENTITY_NAME_FOR_DISTRIBUTION",
+      "packageType": "ad-hoc",
+      "provisioningProfile": "d7362519-ffa0-458b-b918-1d1695f7909b",
+      "developmentTeam": "3KUPN585QC",
+      "codeSignIdentity": "iPhone Distribution: Centrale des Appels D'Urgence Chaudiere-Appalaches (3KUPN585QC)",
       "buildFlag": [
         "-UseModernBuildSystem=0"
       ]
