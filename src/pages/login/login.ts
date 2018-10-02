@@ -49,7 +49,8 @@ export class LoginPage {
 
     public onLogin() {
         this.authService.login(this.userName, this.password, true)
-            .subscribe(response => this.handleResponse(response));
+            .subscribe(
+                response => this.handleResponse(response));
     }
 
     public onKeyPress(keyCode) {
@@ -84,10 +85,11 @@ export class LoginPage {
     private handleResponse(response) {
         if (localStorage.getItem('currentToken')) {
             this.redirectToInspectionList();
-        } else if (!response) {
-            this.showToast("Nom d'usager ou mot de passe incorrect.");
-        } else {
+        } else if (response.status !== 200) {
             this.showToast("Problème de communication avec le serveur.  Veuillez communiquer avec un adminstrateur.");
+        } else if(!response.ok) {
+            this.showToast("Nom d'usager ou mot de passe incorrect.");
+
         }
     }
 

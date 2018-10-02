@@ -36,7 +36,7 @@ export class AuthenticationService {
         }).pipe(
             catchError((error: HttpErrorResponse) => {
                 this.loading.dismiss();
-                return Observable.of(false);
+                return Observable.of(error);
             }),
             map(response => this.onResponse(response, saveKeychainTouchId ? {
                 username: username,
@@ -73,19 +73,21 @@ export class AuthenticationService {
     private onResponse(result, userInfo) {
         this.loading.dismiss();
 
-        if (result.data && result.data.accessToken) {
-            this.saveKeychainTouchId(userInfo);
+        if(result.data) {
+            if (result.data && result.data.accessToken) {
+                this.saveKeychainTouchId(userInfo);
 
-            localStorage.setItem('firstName', result.data.firstName);
-            localStorage.setItem('lastName', result.data.lastName);
+                localStorage.setItem('firstName', result.data.firstName);
+                localStorage.setItem('lastName', result.data.lastName);
 
-            localStorage.setItem('currentToken', result.data.accessToken);
-            localStorage.setItem('refreshToken', result.data.refreshToken);
+                localStorage.setItem('currentToken', result.data.accessToken);
+                localStorage.setItem('refreshToken', result.data.refreshToken);
 
-            return true;
+                return {status:200, ok:true};
+            }
+            return  {status:200, ok:false};
         }
-
-        return false;
+        return result;
     }
 
     private saveKeychainTouchId(infoToSave) {
