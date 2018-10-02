@@ -6,14 +6,17 @@
                 <strong>SURVI</strong> Prévention
             </h2>
         </div>
-        <div class="version-warning" *ngIf="displayVersionWarning">
+        <div class="version-warning" *ngIf="displayWarning">
             <div class="version">
                 <ion-icon name="alert"></ion-icon>
                 <ion-label>{{'versionLabel' | translate}} {{getAppVersion()}}</ion-label>
             </div>
-            <h5>{{'versionInvalidWarning' | translate}}</h5>
-            <div class="store-button">
+            <h5>{{warningMessage}}</h5>
+            <div class="store-button" *ngIf="displayStoreLink">
                 <button ion-button (click)="goToStore()">{{storeLink}}</button>
+            </div>
+            <div class="store-button" *ngIf="!displayStoreLink">
+                <button ion-button (click)="reTryVersionValidation()">{{'retry' | translate}}</button>
             </div>
         </div>
     </div>

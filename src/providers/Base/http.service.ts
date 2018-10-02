@@ -99,7 +99,7 @@ export class HttpService {
         }
 
         if (message) {
-            this.events.publish("http:error", message);
+            this.events.publish("http:error", this.translateService.instant('requestErrorDefault'));
             console.log(message);
         }
 

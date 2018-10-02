@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import {Market} from "@ionic-native/market";
 import {AuthenticationService} from "../../providers/Base/authentification.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
 @Component({
@@ -11,18 +12,42 @@ import {AuthenticationService} from "../../providers/Base/authentification.servi
 export class VersionValidatorPage {
     rootPage: any = (localStorage.getItem('biometricActivated') ? 'LoginPage' : 'LoginBiometricPage');
     public storeLink = 'Google Play';
-    public displayVersionWarning = false;
+    public displayWarning = false;
+    public warningMessage = "";
+    private labels = {};
+    public displayStoreLink = true;
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 private platform: Platform,
                 private market: Market,
-                private authService: AuthenticationService,) {
+                private authService: AuthenticationService,
+                private translateService: TranslateService) {
         if (platform.is('ios')) {
             this.storeLink = 'App Store';
         }
 
         this.authService.showLoading();
+
+        this.platform.ready().then(() => {
+            this.platform.resume.subscribe(() => {
+                this.validVersion();
+                console.log("resume event",this.platform.resume);
+            });
+        });
+    }
+
+    public ngOnInit(){
+
+        this.translateService.get([
+            'versionInvalidWarning','serverDownMessage'
+        ]).subscribe(labels => {
+                this.labels = labels;
+            },
+            error => {
+                console.log(error)
+            });
+        this.warningMessage = this.labels['versionInvalidWarning'];
     }
 
     public ionViewDidEnter() {
@@ -35,16 +60,22 @@ export class VersionValidatorPage {
                 this.minimalVersionDisplay(result);
             })
             .catch(()=> {
-                this.minimalVersionDisplay(true);
+                this.serverDownDisplay();
             });
 
+    }
+
+    private serverDownDisplay(){
+        this.displayStoreLink = false;
+        this.minimalVersionDisplay(false);
+        this.warningMessage = this.labels['serverDownMessage'];
     }
 
     private minimalVersionDisplay(redirect: boolean){
         if (redirect) {
             this.navCtrl.setRoot(this.rootPage);
         } else {
-            this.displayVersionWarning = true;
+            this.displayWarning = true;
         }
         this.authService.dismissLoading();
     }
@@ -55,6 +86,10 @@ export class VersionValidatorPage {
 
     public getAppVersion() {
         return this.authService.survipVersion;
+    }
+
+    public reTryVersionValidation(){
+        this.validVersion();
     }
 
 }
