@@ -31,7 +31,7 @@ export class MyApp {
 
         events.subscribe('http:error', (error) => {
           var toast = toastCtrl.create({
-            message: "Erreur: " + error,
+            message: error,
             duration: 3000
           });
           toast.present();

@@ -194,6 +194,7 @@ export class InterventionGeneralPage implements OnDestroy {
         if(canStart){
             this.inspectionDetailProvider.startInspection(this.controller.idInspection)
                 .subscribe(success => {
+                    this.manageMenuDisplay(true);
                     this.controller.loadInterventionForm();
                     this.validateSurveyNavigation();
                 },
@@ -241,10 +242,11 @@ export class InterventionGeneralPage implements OnDestroy {
     private async userAccessValidation(){
         if(!this.refreshUserPermission) {
             if (this.plan.status != this.inspectionDetailProvider.InspectionStatusEnum.Started) {
-                this.configService.disableMenu();
+                this.manageMenuDisplay(false);
                 return false;
             }
-            return await this.canUserAccessInspection();
+            const access = await this.canUserAccessInspection();
+            this.manageMenuDisplay(access);
         }
     }
 
@@ -253,15 +255,22 @@ export class InterventionGeneralPage implements OnDestroy {
             .then(
                 (result) => {
                     this.userAllowed = result;
-                    if(result){
-                        this.configService.activateMenu();
-                    }else{
-
-                        this.configService.disableMenu();
-                    }
                     this.refreshUserPermission = true;
                     return result;
                 })
-            .catch(error=>{console.log("Error in CanUserAccessInspection", error)});
+            .catch(error=>
+            {
+                console.log("Error in CanUserAccessInspection", error);
+                return false;
+            });
+    }
+
+    manageMenuDisplay(active: boolean){
+        if(active){
+            this.configService.activateMenu();
+        }else{
+
+            this.configService.disableMenu();
+        }
     }
 }
