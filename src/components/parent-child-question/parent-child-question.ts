@@ -89,9 +89,6 @@ export class ParentChildQuestionComponent {
                 retVal =  this.getNextSequencedQuestionId();
             }
         }
-        if(!retVal){
-            retVal = this.answer.childSurveyAnswerList.find(question => question.sequence > this.answeredQuestions[this.questionIndex].sequence).idSurveyQuestion;
-        }
         return retVal;
     }
 
