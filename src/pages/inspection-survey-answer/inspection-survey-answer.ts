@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, sequence} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {InspectionSurveyAnswer, SurveyQuestionTypeEnum} from "../../models/inspection-survey-answer";
 import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey-answer-repository-provider";
@@ -6,6 +6,7 @@ import {MessageToolsProvider} from "../../providers/message-tools/message-tools"
 import {TranslateService} from "@ngx-translate/core";
 import {InspectionControllerProvider} from "../../providers/inspection-controller/inspection-controller";
 import {UUID} from "angular2-uuid";
+import {objectAssign} from "@ionic/app-scripts";
 
 @IonicPage()
 @Component({
@@ -201,10 +202,22 @@ export class InspectionSurveyAnswerPage {
                 this.nextQuestionId = answer.idSurveyQuestionNext;
             }
             this.nextQuestionDisabled = false;
+            if(!this.nextQuestionId){
+                this.nextQuestionId = this.getNextSequencedQuestion();
+            }
         } else {
             this.nextQuestionDisabled = true;
             this.nextQuestionId = null;
         }
+    }
+
+    private getNextSequencedQuestion(){
+        let nextId = null;
+        const nextSequencedQuestions = this.inspectionSurveyQuestion.filter( question=> question.idParent == null && question.sequence > this.currentQuestion.sequence);
+        if(nextSequencedQuestions.length > 0) {
+            nextId = nextSequencedQuestions[0].idSurveyQuestion;
+        }
+        return nextId;
     }
 
     public getChoiceNextQuestionId(idChoiceSelected) {
@@ -292,6 +305,8 @@ export class InspectionSurveyAnswerPage {
         if (this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion).length > 1) {
             this.inspectionQuestionAnswer.splice(index, 1);
             this.surveyRepo.deleteSurveyAnswers([answerId]).subscribe();
+        }else{
+            this.inspectionQuestionAnswer[index] = Object.assign({}, this.currentQuestion);
         }
         this.currentQuestionAnswerList = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
     }
