@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, sequence} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {InspectionSurveyAnswer, SurveyQuestionTypeEnum} from "../../models/inspection-survey-answer";
 import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey-answer-repository-provider";
@@ -6,6 +6,7 @@ import {MessageToolsProvider} from "../../providers/message-tools/message-tools"
 import {TranslateService} from "@ngx-translate/core";
 import {InspectionControllerProvider} from "../../providers/inspection-controller/inspection-controller";
 import {UUID} from "angular2-uuid";
+import {objectAssign} from "@ionic/app-scripts";
 
 @IonicPage()
 @Component({
