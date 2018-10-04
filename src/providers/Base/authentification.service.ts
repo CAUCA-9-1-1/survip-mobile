@@ -139,12 +139,8 @@ export class AuthenticationService {
             }else {
                 this.survipName = await this.appVersion.getPackageName();
             }
-           const packageName = await this.appVersion.getPackageName();
-            const appName = await this.appVersion.getAppName();
-            const codeVersion = await this.appVersion.getVersionCode();
-            const numberVersion = this.survipVersion;
         }else{
-            this.survipVersion = '0.0.7';
+            this.survipVersion = '0.0.8';
             this.survipName = 'survi-prevention';
         }
     }

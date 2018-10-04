@@ -179,7 +179,7 @@ export class InspectionSurveyAnswerPage {
             this.previousQuestionAvailable = false;
         }
 
-        if (this.selectedIndex == (this.inspectionSurveyQuestion.length - 1)) {
+        if((this.selectedIndex == (this.inspectionSurveyQuestion.length - 1))||(!this.nextQuestionId)) {
             this.nextButtonTitle = this.labels['complete'];
         } else {
             this.nextButtonTitle = this.labels['surveyNextQuestion'];
