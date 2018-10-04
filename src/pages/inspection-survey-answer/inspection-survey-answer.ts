@@ -156,13 +156,8 @@ export class InspectionSurveyAnswerPage {
         this.manageNavigationDisplay();
     }
 
-    public validateQuestionAnswer() {
-        this.getNextQuestionFromAnswer();
-    }
-
     public updateGroupQuestionAnswer(data) {
         this.updateAnswerResult(data);
-        //this.getNextQuestionFromAnswer();
     }
 
     private updateAnswerResult(answerGroup) {
@@ -187,13 +182,7 @@ export class InspectionSurveyAnswerPage {
     }
 
     public getNextQuestionFromAnswer() {
-        let answer = Object.assign({}, this.currentAnswer);
-        if (this.currentQuestion.questionType == SurveyQuestionTypeEnum.groupedQuestion) {
-            answer = Object.assign({}, this.currentQuestionAnswerList[0]);
-            if(!this.isGroupQuestionComplete()){
-                answer.answer = '';
-            }
-        }
+        let answer = this.getCurrentAnswer();
         if (answer.answer) {
             if (answer.questionType == this.questionTypeEnum.choiceAnswer) {
                 this.nextQuestionId = this.getChoiceNextQuestionId(answer.idSurveyQuestionChoice);
@@ -213,15 +202,31 @@ export class InspectionSurveyAnswerPage {
         }
     }
 
+    private getCurrentAnswer(){
+        let answer = Object.assign({}, this.currentAnswer);
+        if (this.currentQuestion.questionType == SurveyQuestionTypeEnum.groupedQuestion) {
+            answer = Object.assign({}, this.currentQuestionAnswerList[0]);
+            if(!this.isGroupQuestionComplete()){
+                answer.answer = '';
+            }
+        }
+        return answer;
+    }
+
     private isGroupQuestionComplete(){
+        let complete = true;
         this.currentQuestionAnswerList.forEach( answer => {
             answer.childSurveyAnswerList.forEach(childAnswer =>{
-                if((childAnswer.idSurveyQuestionNext == answer.idSurveyQuestion) && !childAnswer.answer){
-                    return false;
+                if((childAnswer.idSurveyQuestionNext == answer.idSurveyQuestion) && childAnswer.answer == null){
+                    complete = false;
+                    return;
                 }
             });
+            if(!complete){
+                return complete;
+            }
         });
-        return true;
+        return complete;
     }
 
     private getNextSequencedQuestion(){
@@ -261,7 +266,7 @@ export class InspectionSurveyAnswerPage {
                 this.currentQuestionAnswerList.push(this.updateChildWithAnswered(answers[index]));
             }
         } else {
-            for (let index = 0; index < this.inspectionSurveyQuestion[this.selectedIndex].minOccurrence; index++) {
+            for (let index = 0; index <= this.inspectionSurveyQuestion[this.selectedIndex].minOccurrence; index++) {
                 this.inspectionQuestionAnswer.push(this.createGroupAnswerParent());
             }
             this.currentQuestionAnswerList = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
@@ -311,6 +316,7 @@ export class InspectionSurveyAnswerPage {
             this.inspectionQuestionAnswer.splice(index + 1, 0, this.createGroupAnswerParent());
             this.currentQuestionAnswerList = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
         }
+        this.getNextQuestionFromAnswer();
     }
 
     public deleteChildQuestion(answerId: string) {
@@ -322,6 +328,7 @@ export class InspectionSurveyAnswerPage {
             this.inspectionQuestionAnswer[index] = Object.assign({}, this.currentQuestion);
         }
         this.currentQuestionAnswerList = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
+        this.getNextQuestionFromAnswer();
     }
 
     public deleteRemainingAnswers(answerId: string) {
