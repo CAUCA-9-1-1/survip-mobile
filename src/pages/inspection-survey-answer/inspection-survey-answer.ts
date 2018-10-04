@@ -64,7 +64,7 @@ export class InspectionSurveyAnswerPage {
                 });
     }
 
-    public loadInspectionAnswer() {
+    private loadInspectionAnswer() {
         this.surveyRepo.getAnswerList(this.idInspection)
             .subscribe(answerResult => {
                 this.inspectionQuestionAnswer = answerResult;
@@ -83,7 +83,7 @@ export class InspectionSurveyAnswerPage {
             });
     }
 
-    public findQuestion(idSurveyQuestion: string) {
+    private findQuestion(idSurveyQuestion: string) {
         const questionCount = this.inspectionSurveyQuestion.length;
         for (let index = 0; index < questionCount; index++) {
             if (this.inspectionSurveyQuestion[index].idSurveyQuestion == idSurveyQuestion && (!this.inspectionSurveyQuestion[index].answer)) {
@@ -92,7 +92,7 @@ export class InspectionSurveyAnswerPage {
         }
     }
 
-    public findAnswer(idSurveyQuestion: string) {
+    private findAnswer(idSurveyQuestion: string) {
         const questionCount = this.inspectionQuestionAnswer.length;
         for (let index = 0; index < questionCount; index++) {
             if (this.inspectionQuestionAnswer[index].idSurveyQuestion == idSurveyQuestion) {
@@ -102,7 +102,7 @@ export class InspectionSurveyAnswerPage {
         return this.inspectionQuestionAnswer.length;
     }
 
-    public findLastAnswerForQuestion(idSurveyQuestion: string) {
+    private findLastAnswerForQuestion(idSurveyQuestion: string) {
         const questionCount = this.inspectionQuestionAnswer.length - 1;
         for (let index = questionCount; index >= 0; index--) {
             if (this.inspectionQuestionAnswer[index].idSurveyQuestion == idSurveyQuestion) {
@@ -122,7 +122,7 @@ export class InspectionSurveyAnswerPage {
         return 0;
     }
 
-    public completeInspectionQuestion() {
+    private completeInspectionQuestion() {
         this.surveyRepo.CompleteSurvey(this.idInspection)
             .subscribe(result => {
                     this.messageTools.showToast(this.labels['surveyCompletedMessage'], 3);
@@ -162,7 +162,7 @@ export class InspectionSurveyAnswerPage {
 
     public updateGroupQuestionAnswer(data) {
         this.updateAnswerResult(data);
-        this.getNextQuestionFromAnswer();
+        //this.getNextQuestionFromAnswer();
     }
 
     private updateAnswerResult(answerGroup) {
@@ -190,6 +190,9 @@ export class InspectionSurveyAnswerPage {
         let answer = Object.assign({}, this.currentAnswer);
         if (this.currentQuestion.questionType == SurveyQuestionTypeEnum.groupedQuestion) {
             answer = Object.assign({}, this.currentQuestionAnswerList[0]);
+            if(!this.isGroupQuestionComplete()){
+                answer.answer = '';
+            }
         }
         if (answer.answer) {
             if (answer.questionType == this.questionTypeEnum.choiceAnswer) {
@@ -210,6 +213,17 @@ export class InspectionSurveyAnswerPage {
         }
     }
 
+    private isGroupQuestionComplete(){
+        this.currentQuestionAnswerList.forEach( answer => {
+            answer.childSurveyAnswerList.forEach(childAnswer =>{
+                if((childAnswer.idSurveyQuestionNext == answer.idSurveyQuestion) && !childAnswer.answer){
+                    return false;
+                }
+            });
+        });
+        return true;
+    }
+
     private getNextSequencedQuestion(){
         let nextId = null;
         const nextSequencedQuestions = this.inspectionSurveyQuestion.filter( question=> question.idParent == null && question.sequence > this.currentQuestion.sequence);
@@ -219,7 +233,7 @@ export class InspectionSurveyAnswerPage {
         return nextId;
     }
 
-    public getChoiceNextQuestionId(idChoiceSelected) {
+    private getChoiceNextQuestionId(idChoiceSelected) {
         let idNext = '';
         const count = this.currentQuestion.choicesList.length;
         for (let index = 0; index < count; index++) {
@@ -239,7 +253,7 @@ export class InspectionSurveyAnswerPage {
         }
     }
 
-    public initQuestionGroupAnswers() {
+    private initQuestionGroupAnswers() {
         this.currentQuestionAnswerList = [];
         const answers = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
         if (answers.length > 0) {
