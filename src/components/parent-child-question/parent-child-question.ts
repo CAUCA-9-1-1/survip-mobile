@@ -92,7 +92,7 @@ export class ParentChildQuestionComponent {
         return retVal;
     }
 
-    getNextSequencedQuestionId(){
+    private getNextSequencedQuestionId(){
         const nextSequencedQuestion = this.answer.childSurveyAnswerList.find(question => question.sequence > this.answeredQuestions[this.questionIndex].sequence);
         return nextSequencedQuestion ? nextSequencedQuestion.idSurveyQuestion : null;
     }
