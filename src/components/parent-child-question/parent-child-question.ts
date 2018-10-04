@@ -83,9 +83,18 @@ export class ParentChildQuestionComponent {
                 if (questionChoice && questionChoice.idSurveyQuestionNext) {
                     retVal = questionChoice.idSurveyQuestionNext;
                 }
+
+            }
+            if(!retVal){
+                retVal =  this.getNextSequencedQuestionId();
             }
         }
         return retVal;
+    }
+
+    getNextSequencedQuestionId(){
+        const nextSequencedQuestion = this.answer.childSurveyAnswerList.find(question => question.sequence > this.answeredQuestions[this.questionIndex].sequence);
+        return nextSequencedQuestion ? nextSequencedQuestion.idSurveyQuestion : null;
     }
 
     private getQuestionIndex(){
@@ -154,8 +163,8 @@ export class ParentChildQuestionComponent {
         }
 
         this.deleteSavedAnswers(ids);
-        this.answeredQuestions.splice(startIndex);
-        this.questionIndex = startIndex - 1;
+        this.answeredQuestions = this.answer.childSurveyAnswerList.filter((answer) => answer.answer != null && answer.answer != "");
+        this.questionIndex = this.answeredQuestions.length - 1;
     }
 
     private deleteSavedAnswers(ids: string[]){
