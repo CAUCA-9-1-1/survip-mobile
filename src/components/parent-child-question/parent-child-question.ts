@@ -122,12 +122,9 @@ export class ParentChildQuestionComponent {
             });
             if(ids.length > 0) {
                 this.surveyRepo.deleteSurveyAnswers(ids)
-                    .subscribe(() => {
-                        this.answerGroupDeleted.emit(this.answer.id);
-                    }, () => {
-                        this.answerGroupDeleted.emit(this.answer.id);
-                    });
+                    .subscribe();
             }
+            this.answerGroupDeleted.emit(this.answer.id);
         }
     }
 

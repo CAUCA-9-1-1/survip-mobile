@@ -6,7 +6,7 @@
 
 <ion-content padding>
     <survey-question [question]="currentAnswer"
-                     (questionAnswered)="validateQuestionAnswer($event)"
+                     (questionAnswered)="getNextQuestionFromAnswer($event)"
                      (remainingQuestionResetNeeded)="deleteRemainingAnswers($event)"
                      *ngIf="currentQuestion.questionType != questionTypeEnum.groupedQuestion"></survey-question>
     <div *ngIf="currentQuestion.questionType == questionTypeEnum.groupedQuestion">
@@ -22,7 +22,7 @@
                                    [groupIndex]="i"
                                    [answer]="answer"
                                    (questionAnswered)="updateGroupQuestionAnswer($event)"
-                                   (groupAnswersCompleted)="validateQuestionAnswer($event)"
+                                   (groupAnswersCompleted)="getNextQuestionFromAnswer($event)"
                                    (answerGroupDeleted)="deleteChildQuestion($event)"></parent-child-question>
         </div>
         <div *ngIf="currentQuestionAnswerList.length == 0">{{currentQuestion.description}}</div>
