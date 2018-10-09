@@ -33,7 +33,7 @@ export class AuthenticationService {
         return this.http.rawPost('Authentification/Logon', {
             username: username,
             password: password,
-        }).pipe(
+        }, false).pipe(
             catchError((error: HttpErrorResponse) => {
                 this.loading.dismiss();
                 return Observable.of(error);
@@ -46,7 +46,7 @@ export class AuthenticationService {
     }
 
     public async isStillLoggedIn() : Promise<boolean> {
-        return this.http.get('Authentification/SessionStatus').pipe(
+        return this.http.get('Authentification/SessionStatus', false).pipe(
             catchError((error: HttpErrorResponse, xhr: any) => {
                 return Observable.of(false);
             }),
@@ -102,33 +102,15 @@ export class AuthenticationService {
         }
     }
 
-    private onFailure(result){
-        return Observable.of(false);
-    }
-
     public refreshToken() {
         return this.http.rawPost('Authentification/Refresh', {
             accessToken: localStorage.getItem('currentToken'),
             refreshToken: localStorage.getItem('refreshToken')
-        });
+        }, false);
     }
 
-    private onLogout(error) {
-        localStorage.removeItem('currentToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('firstName');
-        localStorage.removeItem('lastName');
-        this.events.publish('user:logout');
-    }
-
-    private onRefresh(response) {
-        if (response.accessToken) {
-            localStorage.setItem('currentToken', response.accessToken);
-        }
-    }
-
-    public async MinimalVersionIsValid():Promise<boolean>{
-        return this.http.get('Authentification/VersionValidator/' + this.survipVersion).toPromise();
+    public async minimalVersionIsValid():Promise<boolean>{
+        return this.http.get('Authentification/VersionValidator/' + this.survipVersion, false).toPromise();
     }
 
     public async getAppConfiguration(){
@@ -144,5 +126,4 @@ export class AuthenticationService {
             this.survipName = 'survi-prevention';
         }
     }
-
 }

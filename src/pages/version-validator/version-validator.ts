@@ -55,7 +55,7 @@ export class VersionValidatorPage {
     }
 
     public async validVersion() {
-        this.authService.MinimalVersionIsValid()
+        this.authService.minimalVersionIsValid()
             .then(result => {
                 this.minimalVersionDisplay(result);
             })
