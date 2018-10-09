@@ -61,7 +61,7 @@
     "ionic-hockeyapp": "^1.0.0",
     "ionic-img-viewer": "^2.9.0",
     "ionicons": "3.0.0",
-    "lib-sketch-tool": "^1.5.0",
+    "lib-sketch-tool": "1.6.0",
     "material-design-icons": "3.0.1",
     "ol": "^5.1.3",
     "openlayers": "^4.6.5",
