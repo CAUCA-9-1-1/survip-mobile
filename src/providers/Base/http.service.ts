@@ -9,7 +9,7 @@ import config from '../../assets/config/config.json';
 
 @Injectable()
 export class HttpService {
-    private apiUrl: string = 'http://localhost/';
+    private readonly apiUrl: string = 'http://localhost/';
 
     constructor(
         private client: HttpClient,
@@ -22,51 +22,49 @@ export class HttpService {
     }
 
     private getHeaders() {
-        const options = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('currentToken'),
-                'Language-Code': this.translateService.getDefaultLang() || 'fr'
-            })
+      return {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('currentToken'),
+            'Language-Code': this.translateService.getDefaultLang() || 'fr'
+          })
         };
-
-        return options;
     }
 
-    public get(url: string): Observable<any> {
+    public get(url: string, displayError: boolean = true): Observable<any> {
         return this.client.get(this.getFullUrl(url), this.getHeaders()).pipe(
-            catchError((error: HttpErrorResponse) => this.onError(error))
+            catchError((error: HttpErrorResponse) => this.onError(error, displayError))
         );
     }
 
-    public rawGet(url: string, retryCount: number = 3): Observable<any> {
+    public rawGet(url: string, retryCount: number = 3, displayError: boolean = true): Observable<any> {
         return this.client.get(this.getFullUrl(url), this.getHeaders())
             .retry(retryCount).pipe(
-                catchError((err: HttpErrorResponse) => this.onError(err))
+                catchError((err: HttpErrorResponse) => this.onError(err, displayError))
         );
     }
 
-    public post(url: string, body?: any): Observable<any> {
+    public post(url: string, body?: any, displayError: boolean = true): Observable<any> {
         return this.client.post(this.getFullUrl(url), body, this.getHeaders()).pipe(
-            catchError((error: HttpErrorResponse) => this.onError(error))
+            catchError((error: HttpErrorResponse) => this.onError(error, displayError))
         );
     }
 
-    public rawPost(url: string, body?: any): Observable<any> {
+    public rawPost(url: string, body?: any, displayError: boolean = true): Observable<any> {
         return this.client.post(this.getFullUrl(url), body, this.getHeaders()).pipe(
-            catchError((err: HttpErrorResponse) => this.onError(err))
+            catchError((err: HttpErrorResponse) => this.onError(err, displayError))
         );
     }
 
-    public put(url: string, body?: any): Observable<any> {
+    public put(url: string, body?: any, displayError: boolean = true): Observable<any> {
         return this.client.put(this.getFullUrl(url), body, this.getHeaders()).pipe(
-            catchError((error: HttpErrorResponse) => this.onError(error))
+            catchError((error: HttpErrorResponse) => this.onError(error, displayError))
         );
     }
 
-    public delete(url: string): Observable<any> {
+    public delete(url: string, displayError: boolean = true): Observable<any> {
         return this.client.delete(this.getFullUrl(url), this.getHeaders()).pipe(
-            catchError((error: HttpErrorResponse) => this.onError(error))
+            catchError((error: HttpErrorResponse) => this.onError(error, displayError))
         );
     }
 
@@ -77,7 +75,7 @@ export class HttpService {
         return this.apiUrl + url;
     }
 
-    private onError(error: HttpErrorResponse) {
+    private onError(error: HttpErrorResponse, displayError: boolean) {
         let message = '';
 
         switch (error.status) {
@@ -99,8 +97,10 @@ export class HttpService {
         }
 
         if (message) {
+          if (displayError) {
             this.events.publish("http:error", this.translateService.instant('requestErrorDefault'));
-            console.log(message);
+          }
+          console.log(message);
         }
 
         return Observable.throw(error);
