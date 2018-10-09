@@ -77,9 +77,9 @@ export class InspectionSurveyAnswerPage {
 
                 this.initiateAnswers();
 
-                this.manageNavigationDisplay();
-
                 this.getNextQuestionFromAnswer();
+
+                this.manageNavigationDisplay();
             });
     }
 
@@ -99,7 +99,7 @@ export class InspectionSurveyAnswerPage {
                 return index;
             }
         }
-        return this.inspectionQuestionAnswer.length - 1;
+        return this.inspectionQuestionAnswer.length;
     }
 
     public findLastAnswerForQuestion(idSurveyQuestion: string) {
@@ -179,7 +179,7 @@ export class InspectionSurveyAnswerPage {
             this.previousQuestionAvailable = false;
         }
 
-        if((this.selectedIndex == (this.inspectionSurveyQuestion.length - 1))||(!this.nextQuestionId)) {
+        if((this.selectedIndex == (this.inspectionSurveyQuestion.length - 1))) {
             this.nextButtonTitle = this.labels['complete'];
         } else {
             this.nextButtonTitle = this.labels['surveyNextQuestion'];

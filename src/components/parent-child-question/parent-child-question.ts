@@ -55,7 +55,7 @@ export class ParentChildQuestionComponent {
 
     private validateLastQuestionAnswer() {
         const nextId = this.getNextQuestionId();
-        if (!nextId  || nextId == '-1') {
+        if (!nextId  || nextId == '00000000-0000-0000-0000-000000000000') {
             this.groupAnswersCompleted.emit(this.answer);
         } else {
             this.getNextQuestion(nextId);
