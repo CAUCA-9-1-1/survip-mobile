@@ -70,7 +70,7 @@ export class InspectionSurveyAnswerPage {
                 this.inspectionQuestionAnswer = answerResult;
 
                 if (this.inspectionQuestionAnswer.length > 0) {
-                    this.selectedIndex = this.findQuestion(this.inspectionQuestionAnswer[this.inspectionQuestionAnswer.length - 1].idSurveyQuestion);
+                    this.selectedIndex = this.findQuestion(this.initAnswerStartQuestion());
                 }
 
                 this.currentQuestion = this.inspectionSurveyQuestion[this.selectedIndex];
@@ -174,7 +174,7 @@ export class InspectionSurveyAnswerPage {
             this.previousQuestionAvailable = false;
         }
 
-        if((this.selectedIndex == (this.inspectionSurveyQuestion.length - 1))) {
+        if ((this.selectedIndex == (this.inspectionSurveyQuestion.length - 1))) {
             this.nextButtonTitle = this.labels['complete'];
         } else {
             this.nextButtonTitle = this.labels['surveyNextQuestion'];
@@ -192,47 +192,44 @@ export class InspectionSurveyAnswerPage {
             } else {
                 this.nextQuestionId = answer.idSurveyQuestionNext;
             }
-            this.nextQuestionDisabled = false;
-            if(!this.nextQuestionId){
+            if (!this.nextQuestionId) {
                 this.nextQuestionId = this.getNextSequencedQuestion();
             }
+            this.nextQuestionDisabled = false;
         } else {
             this.nextQuestionDisabled = true;
             this.nextQuestionId = null;
         }
     }
 
-    private getCurrentAnswer(){
+    private getCurrentAnswer() {
         let answer = Object.assign({}, this.currentAnswer);
         if (this.currentQuestion.questionType == SurveyQuestionTypeEnum.groupedQuestion) {
             answer = Object.assign({}, this.currentQuestionAnswerList[0]);
-            if(!this.isGroupQuestionComplete()){
+            if (!this.isGroupQuestionComplete()) {
                 answer.answer = '';
             }
         }
         return answer;
     }
 
-    private isGroupQuestionComplete(){
-        let complete = true;
-        this.currentQuestionAnswerList.forEach( answer => {
-            answer.childSurveyAnswerList.forEach(childAnswer =>{
-                if((childAnswer.idSurveyQuestionNext == answer.idSurveyQuestion) && childAnswer.answer == null){
-                    complete = false;
-                    return;
-                }
-            });
-            if(!complete){
-                return complete;
+    private isGroupQuestionComplete() {
+        let retValue = false;
+        this.currentQuestionAnswerList.forEach(answer => {
+            if(answer.childSurveyAnswerList &&
+               answer.childSurveyAnswerList
+                   .filter(ca => ca.idSurveyQuestionNext == '00000000-0000-0000-0000-000000000000'
+                                        && ca.answer != null).length > 0) {
+                retValue = true;
             }
         });
-        return complete;
+        return retValue;
     }
 
-    private getNextSequencedQuestion(){
+    private getNextSequencedQuestion() {
         let nextId = null;
-        const nextSequencedQuestions = this.inspectionSurveyQuestion.filter( question=> question.idParent == null && question.sequence > this.currentQuestion.sequence);
-        if(nextSequencedQuestions.length > 0) {
+        const nextSequencedQuestions = this.inspectionSurveyQuestion.filter(question => question.idParent == null && question.sequence > this.currentQuestion.sequence);
+        if (nextSequencedQuestions.length > 0) {
             nextId = nextSequencedQuestions[0].idSurveyQuestion;
         }
         return nextId;
@@ -324,7 +321,7 @@ export class InspectionSurveyAnswerPage {
         if (this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion).length > 1) {
             this.inspectionQuestionAnswer.splice(index, 1);
             this.surveyRepo.deleteSurveyAnswers([answerId]).subscribe();
-        }else{
+        } else {
             this.inspectionQuestionAnswer[index] = Object.assign({}, this.currentQuestion);
         }
         this.currentQuestionAnswerList = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
@@ -356,5 +353,23 @@ export class InspectionSurveyAnswerPage {
         this.surveyRepo.answerQuestion(newAnswerParent).subscribe();
 
         return newAnswerParent;
+    }
+
+    private initAnswerStartQuestion() {
+        const answerCount = this.inspectionQuestionAnswer.length;
+        for (let index = 0; index < answerCount; index++) {
+            if (this.inspectionQuestionAnswer[index].questionType == SurveyQuestionTypeEnum.groupedQuestion) {
+                if(this.inspectionQuestionAnswer[index].childSurveyAnswerList && this.inspectionQuestionAnswer[index].childSurveyAnswerList.length > 0) {
+                    if (this.inspectionQuestionAnswer[index].childSurveyAnswerList
+                        .filter(ca => ca.answer != null
+                            && ca.idSurveyQuestionNext == '00000000-0000-0000-0000-000000000000').length == 0){
+                        return this.inspectionQuestionAnswer[index].idSurveyQuestion;
+                    }
+                }else{
+                    return this.inspectionQuestionAnswer[index].idSurveyQuestion;
+                }
+            }
+        }
+        return this.inspectionQuestionAnswer[this.inspectionQuestionAnswer.length - 1].idSurveyQuestion;
     }
 }
