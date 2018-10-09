@@ -23,9 +23,12 @@
       </ion-select>
     </ion-item>
   </div>
-  <ion-textarea [(ngModel)]=question.answer (ionChange)="textAnswerChanged()"
-                *ngIf="question.questionType == questionTypeEnum.textAnswer"></ion-textarea>
-  <ion-datetime displayFormat="YYYY/MM/DD" [(ngModel)]=answer
-                (ionChange)="validateAnswer()"
-                *ngIf="question.questionType == questionTypeEnum.dateAnswer"></ion-datetime>
+
+  <ion-item *ngIf="question.questionType == questionTypeEnum.textAnswer">
+    <ion-textarea [(ngModel)]=question.answer (ionChange)="textAnswerChanged()"></ion-textarea>
+  </ion-item>
+  <ion-item *ngIf="question.questionType == questionTypeEnum.dateAnswer">
+    <ion-datetime displayFormat="YYYY/MM/DD" [(ngModel)]=answer
+                  (ionChange)="validateAnswer()"></ion-datetime>
+  </ion-item>
 </div>
