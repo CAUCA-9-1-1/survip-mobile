@@ -43,12 +43,12 @@ export class ParentChildQuestionComponent {
     }
 
     private loadAnsweredQuestion() {
-        this.answeredQuestions = this.answer.childSurveyAnswerList.filter((answer) => answer.answer != null && answer.answer != "");
+        this.answeredQuestions = this.answer.childSurveyAnswerList.filter((answer) => answer.answer != null );
 
         if (this.answeredQuestions.length == 0) {
             this.answeredQuestions.push(this.answer.childSurveyAnswerList[0]);
         } else {
-            this.questionIndex = this.answer.childSurveyAnswerList.filter((answer)=> answer.answer != null && answer.answer != "").length - 1;
+            this.questionIndex = this.answer.childSurveyAnswerList.filter((answer)=> answer.answer != null).length - 1;
             this.getNextQuestion();
         }
     }
