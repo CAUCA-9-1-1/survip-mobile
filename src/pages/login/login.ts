@@ -85,11 +85,10 @@ export class LoginPage {
     private handleResponse(response) {
         if (localStorage.getItem('currentToken')) {
             this.redirectToInspectionList();
-        } else if (response.status !== 200) {
-            this.showToast("Problème de communication avec le serveur.  Veuillez communiquer avec un adminstrateur.");
-        } else if(!response.ok) {
+        }  else if(response.status == 401) {
             this.showToast("Nom d'usager ou mot de passe incorrect.");
-
+        }else if (response.status !== 200) {
+            this.showToast("Problème de communication avec le serveur.  Veuillez communiquer avec un adminstrateur.");
         }
     }
 
