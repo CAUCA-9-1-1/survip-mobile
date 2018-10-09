@@ -3,15 +3,20 @@
     <h2 *ngIf="showTitle">{{question.title}}</h2>
     <p>{{question.description}}</p>
   </div>
+
   <div *ngIf="question.questionType == questionTypeEnum.choiceAnswer">
-    <ion-list radio-group [(ngModel)]=answer *ngIf="question.choicesList.length <= 2">
+
+    <ion-list radio-group [(ngModel)]="answer" *ngIf="question.choicesList.length <= 2">
+
       <ion-item *ngFor="let choice of question.choicesList">
         <ion-label>{{choice.description}}</ion-label>
-        <ion-radio [value]=choice.id (ionSelect)="validateAnswer()"></ion-radio>
+        <ion-radio [value]="choice.id" (ionSelect)="validateAnswer()"></ion-radio>
       </ion-item>
+
     </ion-list>
+
     <ion-item *ngIf="question.choicesList.length > 2">
-      <ion-select (ionChange)="validateAnswer()" [(ngModel)]=answer>
+      <ion-select class="full-width-select" (ionChange)="validateAnswer()" [(ngModel)]=answer>
         <ion-option *ngFor="let choice of question.choicesList" value="{{choice.id}}">
           {{choice.description}}
         </ion-option>
