@@ -62,7 +62,7 @@ export class VersionValidatorPage {
             .catch(()=> {
                 this.serverDownDisplay();
             });
-
+        this.platform.resume.unsubscribe();
     }
 
     private serverDownDisplay(){
