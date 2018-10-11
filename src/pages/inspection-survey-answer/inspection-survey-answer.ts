@@ -322,7 +322,7 @@ export class InspectionSurveyAnswerPage {
             this.inspectionQuestionAnswer.splice(index, 1);
             this.surveyRepo.deleteSurveyAnswers([answerId]).subscribe();
         } else {
-            this.inspectionQuestionAnswer[index] = Object.assign({}, this.currentQuestion);
+            this.inspectionQuestionAnswer[index].childSurveyAnswerList = Object.assign([], this.currentQuestion.childSurveyAnswerList);
         }
         this.currentQuestionAnswerList = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
         this.getNextQuestionFromAnswer();
