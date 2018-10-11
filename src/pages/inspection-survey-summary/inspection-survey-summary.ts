@@ -8,7 +8,7 @@ import {InspectionSurveyAnswerPage} from '../inspection-survey-answer/inspection
 
 @IonicPage()
 @Component({
-    selector: 'page-inspection-question-summary',
+    selector: 'page-inspection-survey-summary',
     templateUrl: 'inspection-survey-summary.html',
 })
 export class InspectionSurveySummaryPage {
