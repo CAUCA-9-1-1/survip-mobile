@@ -16,4 +16,4 @@ import {TranslateModule} from "@ngx-translate/core";
       TranslateModule.forChild(),
   ],
 })
-export class InspectionQuestionSummaryPageModule {}
+export class InspectionSurveySummaryPageModule {}
