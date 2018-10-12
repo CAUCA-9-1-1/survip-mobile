@@ -110,6 +110,9 @@ export class AuthenticationService {
     }
 
     public async minimalVersionIsValid():Promise<boolean>{
+        if(!this.survipVersion) {
+            await this.getAppConfiguration();
+        }
         return this.http.get('Authentification/VersionValidator/' + this.survipVersion, false).toPromise();
     }
 
