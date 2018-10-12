@@ -124,9 +124,9 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
         this.repo.pictures.push(picture);
 
         this.slides.update();
-        if(this.saveAuto){
+        if (this.saveAuto) {
             this.repo.save(picture);
-        }else {
+        } else {
             this.repo.picturesChanged.emit(null);
         }
     }
@@ -212,15 +212,20 @@ export class BuildingChildPicturesComponent implements ControlValueAccessor {
             : this.sanitizer.bypassSecurityTrustUrl(pic);
     }
 
-    public onEditPhoto(){
+    public onEditPhoto() {
         let picture = this.repo.pictures[this.slides._activeIndex];
-        let modal = this.modalCtrl.create('BuildingChildPictureEditionPage', { picture: picture, repo: this.repo });
+        let modal = this.modalCtrl.create('BuildingChildPictureEditionPage', {picture: picture, repo: this.repo});
         modal.onDidDismiss(data => {
             this.repo.pictures[this.slides._activeIndex] = data;
-            if(data.modified) {
-                this.repo.picturesChanged.emit(null);
+            if (data.modified) {
+                if (this.saveAuto) {
+                    this.repo.save(data);
+                }
+                else {
+                    this.repo.picturesChanged.emit(null);
+                }
             }
         });
         modal.present();
-      }
+    }
 }
