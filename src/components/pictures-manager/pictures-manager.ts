@@ -11,13 +11,13 @@ import {BuildingChildPictureRepositoryProvider} from '../../interfaces/building-
 import {TranslateService} from "@ngx-translate/core";
 
 @Component({
-    selector: 'building-child-pictures',
-    templateUrl: 'building-child-pictures.html',
+    selector: 'pictures-manager',
+    templateUrl: 'pictures-manager.html',
     providers: [
-        {provide: NG_VALUE_ACCESSOR, useExisting: BuildingChildPicturesComponent, multi: true}
+        {provide: NG_VALUE_ACCESSOR, useExisting: PicturesManagerComponent, multi: true}
     ]
 })
-export class BuildingChildPicturesComponent implements ControlValueAccessor {
+export class PicturesManagerComponent implements ControlValueAccessor {
     @ViewChild('filePicker') inputRef: ElementRef;
     @ViewChild(Slides) slides: Slides;
     @Input() repo: BuildingChildPictureRepositoryProvider;
