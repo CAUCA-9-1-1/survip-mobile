@@ -7,20 +7,20 @@ import {Platform, Slides, ModalController} from 'ionic-angular';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MessageToolsProvider} from '../../providers/message-tools/message-tools';
 import {InspectionBuildingChildPictureForWeb} from '../../models/inspection-building-child-picture-for-web';
-import {BuildingChildPictureRepositoryProvider} from '../../interfaces/building-child-picture-repository-provider';
+import {PicturesRepositoryProvider} from '../../interfaces/pictures-repository-provider.interface';
 import {TranslateService} from "@ngx-translate/core";
 
 @Component({
-    selector: 'pictures-manager',
-    templateUrl: 'pictures-manager.html',
+    selector: 'pictures',
+    templateUrl: 'pictures.component.html',
     providers: [
-        {provide: NG_VALUE_ACCESSOR, useExisting: PicturesManagerComponent, multi: true}
+        {provide: NG_VALUE_ACCESSOR, useExisting: PicturesComponent, multi: true}
     ]
 })
-export class PicturesManagerComponent implements ControlValueAccessor {
+export class PicturesComponent implements ControlValueAccessor {
     @ViewChild('filePicker') inputRef: ElementRef;
     @ViewChild(Slides) slides: Slides;
-    @Input() repo: BuildingChildPictureRepositoryProvider;
+    @Input() repo: PicturesRepositoryProvider;
     @Input() saveAuto = true;
 
     private changed = new Array<(value: string) => void>();

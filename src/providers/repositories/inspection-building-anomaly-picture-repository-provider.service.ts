@@ -3,10 +3,10 @@ import {HttpService} from '../Base/http.service';
 import {InspectionBuildingAnomalyPicture} from '../../models/inspection-building-anomaly-picture';
 import {map} from 'rxjs/operators';
 import {InspectionBuildingChildPictureForWeb} from '../../models/inspection-building-child-picture-for-web';
-import {BuildingChildPictureRepositoryProvider} from '../../interfaces/building-child-picture-repository-provider'
+import {PicturesRepositoryProvider} from '../../interfaces/pictures-repository-provider.interface'
 
 @Injectable()
-export class InspectionBuildingAnomalyPictureRepositoryProvider implements BuildingChildPictureRepositoryProvider {
+export class InspectionBuildingAnomalyPictureRepositoryProvider implements PicturesRepositoryProvider {
 
     constructor(public http: HttpService) {
     }

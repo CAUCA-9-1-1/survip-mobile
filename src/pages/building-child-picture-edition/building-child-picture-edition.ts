@@ -1,15 +1,8 @@
-import {Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
-import {BuildingChildPictureRepositoryProvider} from '../../interfaces/building-child-picture-repository-provider';
+import {PicturesRepositoryProvider} from '../../interfaces/pictures-repository-provider.interface';
 import {InspectionBuildingChildPictureForWeb} from '../../models/inspection-building-child-picture-for-web';
 import { fabric } from 'fabric';
-
-/**
- * Generated class for the ImageEditionPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -18,7 +11,7 @@ import { fabric } from 'fabric';
 })
 export class BuildingChildPictureEditionPage {
   public picture: InspectionBuildingChildPictureForWeb;
-  public repo: BuildingChildPictureRepositoryProvider;
+  public repo: PicturesRepositoryProvider;
 
   private canvas;
 

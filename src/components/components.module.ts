@@ -7,7 +7,7 @@ import {PictureViewerComponent} from './picture-viewer/picture-viewer';
 import {Camera} from '@ionic-native/camera'
 import {IonicImageViewerModule} from 'ionic-img-viewer';
 import {WindowRefService} from '../providers/Base/window-ref.service';
-import {PicturesManagerComponent} from './pictures-manager/pictures-manager';
+import {PicturesComponent} from './pictures/pictures.component';
 import {InspectionBuildingParticularRiskDetailComponent} from './inspection-building-particular-risk-detail/inspection-building-particular-risk-detail';
 import {MenuProfileComponent} from './menu-profile/menu-profile';
 import {SketchToolModule} from 'lib-sketch-tool';
@@ -20,7 +20,7 @@ import { SurveyQuestionComponent } from './survey-question/survey-question';
         SearchBoxComponent,
         SearchListComponent,
         PictureViewerComponent,
-        PicturesManagerComponent,
+        PicturesComponent,
         InspectionBuildingParticularRiskDetailComponent,
         MenuProfileComponent,
     ParentChildQuestionComponent,
@@ -38,7 +38,7 @@ import { SurveyQuestionComponent } from './survey-question/survey-question';
         SearchBoxComponent,
         SearchListComponent,
         PictureViewerComponent,
-        PicturesManagerComponent,
+        PicturesComponent,
         InspectionBuildingParticularRiskDetailComponent,
         MenuProfileComponent,
     ParentChildQuestionComponent,

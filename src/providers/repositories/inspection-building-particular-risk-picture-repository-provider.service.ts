@@ -1,11 +1,11 @@
 import {EventEmitter, Injectable} from '@angular/core';
-import {BuildingChildPictureRepositoryProvider} from '../../interfaces/building-child-picture-repository-provider';
+import {PicturesRepositoryProvider} from '../../interfaces/pictures-repository-provider.interface';
 import {HttpService} from '../Base/http.service';
 import {InspectionBuildingChildPictureForWeb} from '../../models/inspection-building-child-picture-for-web';
 import {map} from 'rxjs/operators';
 
 @Injectable()
-export class InspectionBuildingParticularRiskPictureRepositoryProvider implements BuildingChildPictureRepositoryProvider {
+export class InspectionBuildingParticularRiskPictureRepositoryProvider implements PicturesRepositoryProvider {
 
     constructor(public http: HttpService) {
     }

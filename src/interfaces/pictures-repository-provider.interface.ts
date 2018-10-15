@@ -1,7 +1,7 @@
 import {InspectionBuildingChildPictureForWeb} from '../models/inspection-building-child-picture-for-web';
 import {EventEmitter} from "@angular/core";
 
-export interface BuildingChildPictureRepositoryProvider {
+export interface PicturesRepositoryProvider {
   pictures: InspectionBuildingChildPictureForWeb[];
   picturesChanged: EventEmitter<any>;
   getList(id: string): Promise<InspectionBuildingChildPictureForWeb[]>;

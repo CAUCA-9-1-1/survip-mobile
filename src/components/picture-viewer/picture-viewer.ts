@@ -1,5 +1,4 @@
-import {StatusBar} from '@ionic-native/status-bar';
-import {Component, ElementRef, OnDestroy, ViewChild, Output, EventEmitter, Input} from '@angular/core';
+import {Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {Platform, ModalController} from 'ionic-angular';
