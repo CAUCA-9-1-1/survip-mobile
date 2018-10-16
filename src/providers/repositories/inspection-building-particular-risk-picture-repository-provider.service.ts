@@ -1,7 +1,7 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {PicturesRepositoryProvider} from '../../interfaces/pictures-repository-provider.interface';
 import {HttpService} from '../Base/http.service';
-import {InspectionBuildingChildPictureForWeb} from '../../models/inspection-building-child-picture-for-web';
+import {InspectionPictureForWeb} from '../../models/inspection-picture-for-web';
 import {map} from 'rxjs/operators';
 
 @Injectable()
@@ -10,16 +10,16 @@ export class InspectionBuildingParticularRiskPictureRepositoryProvider implement
     constructor(public http: HttpService) {
     }
 
-    public pictures: InspectionBuildingChildPictureForWeb[] = [];
+    public pictures: InspectionPictureForWeb[] = [];
     public picturesChanged: EventEmitter<any> = new EventEmitter<any>();
 
-    public getList(idBuildingParticularRisk: string): Promise<InspectionBuildingChildPictureForWeb[]> {
+    public getList(idBuildingParticularRisk: string): Promise<InspectionPictureForWeb[]> {
         return this.http.get('inspection/building/particularrisk/' + idBuildingParticularRisk + '/picture')
             .pipe(map(response => response))
             .toPromise();
     }
 
-    public save(picture: InspectionBuildingChildPictureForWeb): Promise<any> {
+    public save(picture: InspectionPictureForWeb): Promise<any> {
         return this.http.post('inspection/building/particularrisk/picture/', JSON.stringify(picture))
             .pipe(map(response => response))
             .toPromise();

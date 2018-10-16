@@ -10,8 +10,8 @@ pictures{
     background: white;
   }
   ion-card{
-    height: 350px;
-    width: auto;
+    height: 96%;
+    width: 100%;
     padding-bottom: 30px;
   }
   ion-card img{
@@ -19,5 +19,8 @@ pictures{
   }
   .swiper-pagination{
     padding-bottom: 5px;
+  }
+  .slide-zoom{
+    height:100%;
   }
 }

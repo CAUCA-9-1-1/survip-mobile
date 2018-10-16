@@ -1,10 +1,10 @@
-import {InspectionBuildingChildPictureForWeb} from '../models/inspection-building-child-picture-for-web';
+import {InspectionPictureForWeb} from '../models/inspection-picture-for-web';
 import {EventEmitter} from "@angular/core";
 
 export interface PicturesRepositoryProvider {
-  pictures: InspectionBuildingChildPictureForWeb[];
+  pictures: InspectionPictureForWeb[];
   picturesChanged: EventEmitter<any>;
-  getList(id: string): Promise<InspectionBuildingChildPictureForWeb[]>;
-  save(picture: InspectionBuildingChildPictureForWeb): Promise<any>;
+  getList(id: string): Promise<InspectionPictureForWeb[]>;
+  save(picture: InspectionPictureForWeb): Promise<any>;
   delete(idBuildingAnomalyPicture: string): Promise<any>;
 }

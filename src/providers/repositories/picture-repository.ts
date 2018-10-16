@@ -1,25 +1,33 @@
 import {Observable} from 'rxjs/Observable';
 import {HttpService} from '../Base/http.service';
-import {Injectable} from '@angular/core';
-import {PictureData} from '../../models/picture-data';
+import {EventEmitter, Injectable} from '@angular/core';
 import {map} from 'rxjs/operators';
+import {InspectionPictureForWeb} from "../../models/inspection-picture-for-web";
 
 @Injectable()
 export class PictureRepositoryProvider {
     constructor(private http: HttpService) {
     }
 
-    public getPicture(idPicture: string): Observable<PictureData> {
+    public pictures: InspectionPictureForWeb[] = [];
+
+    public picturesChanged: EventEmitter<any> = new EventEmitter<any>();
+
+    public getList(idPicture: string): Promise<InspectionPictureForWeb[]> {
         if (!idPicture)
-            return Observable.of(new PictureData());
+            return Observable.of([]).toPromise();
         else {
             return this.http.get("inspectionpicture/" + idPicture)
-                .pipe(map(response => response));
+                .pipe(map(response => response)).toPromise();
         }
     }
 
-    public savePicture(picture: PictureData): Promise<string> {
+    public save(picture: InspectionPictureForWeb): Promise<any> {
         return this.http.put("inspectionpicture", JSON.stringify(picture))
-            .pipe(map(response => response)).toPromise<string>();
+            .pipe(map(response => response)).toPromise();
+    }
+
+    public delete(idPlan: string){
+
     }
 }

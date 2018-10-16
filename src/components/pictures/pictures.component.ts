@@ -6,7 +6,7 @@ import {WindowRefService} from '../../providers/Base/window-ref.service';
 import {Platform, Slides, ModalController} from 'ionic-angular';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MessageToolsProvider} from '../../providers/message-tools/message-tools';
-import {InspectionBuildingChildPictureForWeb} from '../../models/inspection-building-child-picture-for-web';
+import {InspectionPictureForWeb} from '../../models/inspection-picture-for-web';
 import {PicturesRepositoryProvider} from '../../interfaces/pictures-repository-provider.interface';
 import {TranslateService} from "@ngx-translate/core";
 
@@ -22,6 +22,8 @@ export class PicturesComponent implements ControlValueAccessor {
     @ViewChild(Slides) slides: Slides;
     @Input() repo: PicturesRepositoryProvider;
     @Input() saveAuto = true;
+    @Input() multiPictures = true;
+    @Input() height = 'auto';
 
     private changed = new Array<(value: string) => void>();
     private touched = new Array<() => void>();
@@ -34,10 +36,10 @@ export class PicturesComponent implements ControlValueAccessor {
         saveToPhotoAlbum: false,
         correctOrientation: true,
         targetWidth: 680,
-        targetHeight: 680,
+        targetHeight: 800,
     };
 
-    public isLoading: boolean = true;
+    public isLoading = false;
     public idParent: string;
     public isUsingCordova: boolean = false;
     public labels = {};
@@ -67,6 +69,7 @@ export class PicturesComponent implements ControlValueAccessor {
 
         this.loadTranslation();
         this.isUsingCordova = this.platform.is('cordova');
+
     }
 
     public loadTranslation() {
@@ -80,7 +83,11 @@ export class PicturesComponent implements ControlValueAccessor {
             });
     }
 
-    public async ionViewDidLoad() {
+    public ngOnInit() {
+        this.slides.lockSwipes(!this.multiPictures);
+        this.slides.pager = this.multiPictures;
+
+        this.slides.setElementStyle('height',this.height);
     }
 
     public async loadPictures() {
@@ -94,11 +101,11 @@ export class PicturesComponent implements ControlValueAccessor {
     }
 
     public writeValue(value: string) {
-        if (value != this.idParent && value != '') {
+        if (value != this.idParent && value) {
             this.idParent = value;
             this.loadPictures();
         }
-        else if (value == '') {
+        else if (!value) {
             this.repo.pictures = [];
             this.isLoading = false;
         }
@@ -112,16 +119,13 @@ export class PicturesComponent implements ControlValueAccessor {
         this.touched.push(fn);
     }
 
-    public addPicture(pic: string) {
-        let picture = new InspectionBuildingChildPictureForWeb();
-        picture.id = UUID.UUID();
-        picture.idParent = this.idParent;
-        picture.pictureData = pic;
-        picture.modified = true;
-        if (this.isUsingCordova) {
-            picture.pictureData = 'data:image/jpeg;base64,' + pic;
+    public managePicture(pic: string){
+        let picture = new InspectionPictureForWeb();
+        if(this.multiPictures || this.repo.pictures.length == 0){
+            picture = this.addPicture(pic);
+        }else {
+            picture = this.updatePicture(pic);
         }
-        this.repo.pictures.push(picture);
 
         this.slides.update();
         if (this.saveAuto) {
@@ -129,6 +133,29 @@ export class PicturesComponent implements ControlValueAccessor {
         } else {
             this.repo.picturesChanged.emit(null);
         }
+    }
+
+    public addPicture(pic: string) {
+        let picture = new InspectionPictureForWeb();
+        picture.id = UUID.UUID();
+        picture.idParent = this.idParent;
+        picture.pictureData = pic;
+        picture.modified = true;
+        if (this.isUsingCordova) {
+            picture.pictureData = 'data:image/jpeg;base64,' + pic;
+        }
+
+        this.repo.pictures.push(picture);
+        return picture;
+    }
+
+    public updatePicture(pic: string){
+        this.repo.pictures[0].pictureData = pic;
+        if (this.isUsingCordova) {
+            this.repo.pictures[0].pictureData = 'data:image/jpeg;base64,' + pic;
+        }
+
+        return this.repo.pictures[0];
     }
 
     private selectPictureNative() {
@@ -186,13 +213,13 @@ export class PicturesComponent implements ControlValueAccessor {
 
     private onFileLoaded(response): void {
         let imageUri: string = response.target.result;
-        this.addPicture(imageUri);
+        this.managePicture(imageUri);
     }
 
     private getPicture(options: CameraOptions) {
         try {
             this.camera.getPicture(options).then((imageData) => {
-                this.addPicture(imageData);
+                this.managePicture(imageData);
             }, (err) => {
                 alert(err);
             });

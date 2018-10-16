@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import {PicturesRepositoryProvider} from '../../interfaces/pictures-repository-provider.interface';
-import {InspectionBuildingChildPictureForWeb} from '../../models/inspection-building-child-picture-for-web';
+import {InspectionPictureForWeb} from '../../models/inspection-picture-for-web';
 import { fabric } from 'fabric';
 
 @IonicPage()
@@ -10,7 +10,7 @@ import { fabric } from 'fabric';
   templateUrl: 'building-child-picture-edition.html'
 })
 export class BuildingChildPictureEditionPage {
-  public picture: InspectionBuildingChildPictureForWeb;
+  public picture: InspectionPictureForWeb;
   public repo: PicturesRepositoryProvider;
 
   private canvas;

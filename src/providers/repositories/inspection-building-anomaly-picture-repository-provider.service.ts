@@ -2,7 +2,7 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {HttpService} from '../Base/http.service';
 import {InspectionBuildingAnomalyPicture} from '../../models/inspection-building-anomaly-picture';
 import {map} from 'rxjs/operators';
-import {InspectionBuildingChildPictureForWeb} from '../../models/inspection-building-child-picture-for-web';
+import {InspectionPictureForWeb} from '../../models/inspection-picture-for-web';
 import {PicturesRepositoryProvider} from '../../interfaces/pictures-repository-provider.interface'
 
 @Injectable()
@@ -11,17 +11,17 @@ export class InspectionBuildingAnomalyPictureRepositoryProvider implements Pictu
     constructor(public http: HttpService) {
     }
 
-    public pictures: InspectionBuildingChildPictureForWeb[] = [];
+    public pictures: InspectionPictureForWeb[] = [];
 
     public picturesChanged: EventEmitter<any> = new EventEmitter<any>();
 
-    public getList(idBuildingAnomaly: string): Promise<InspectionBuildingChildPictureForWeb[]> {
+    public getList(idBuildingAnomaly: string): Promise<InspectionPictureForWeb[]> {
         return this.http.get('inspection/building/anomaly/' + idBuildingAnomaly + '/picture')
             .pipe(map(response =>
                 {
                     let picCollection = [];
                     response.forEach(result => {
-                        picCollection.push(Object.assign(new InspectionBuildingChildPictureForWeb(),result));
+                        picCollection.push(Object.assign(new InspectionPictureForWeb(),result));
                     })
                     return picCollection;
                 }
@@ -29,7 +29,7 @@ export class InspectionBuildingAnomalyPictureRepositoryProvider implements Pictu
             .toPromise();
     }
 
-    public save(picture: InspectionBuildingChildPictureForWeb): Promise<any> {
+    public save(picture: InspectionPictureForWeb): Promise<any> {
         return this.http.post('inspection/building/anomaly/picture/', JSON.stringify(picture))
             .pipe(map(response => response))
             .toPromise();
