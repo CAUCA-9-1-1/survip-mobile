@@ -85,8 +85,6 @@ export class PicturesComponent implements ControlValueAccessor {
 
     public ngOnInit() {
         this.slides.lockSwipes(!this.multiPictures);
-        this.slides.pager = this.multiPictures;
-
         this.slides.setElementStyle('height',this.height);
     }
 

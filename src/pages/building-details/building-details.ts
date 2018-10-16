@@ -55,7 +55,6 @@ export class BuildingDetailsPage {
             'buildingLeaveMessage', 'confirmation', 'waitFormMessage'
         ]).subscribe(labels => {
                 this.labels = labels;
-                console.log('labels', this.labels);
             },
             error => {
                 console.log(error)

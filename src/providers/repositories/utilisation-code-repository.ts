@@ -16,7 +16,6 @@ export class UtilisationCodeRepositoryProvider {
         } else {
             return this.http.get('utilisationcode/localized/' + idUtilisationCode)
                 .pipe(map(response => {
-                    console.log(response);
                     return response;
                 }));
         }

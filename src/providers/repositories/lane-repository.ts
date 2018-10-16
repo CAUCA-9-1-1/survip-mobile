@@ -22,7 +22,6 @@ export class LaneRepositoryProvider implements ServiceForListInterface {
         } else {
             return this.http.get('lane/localized/' + idLane)
                 .pipe(map(response => {
-                    console.log(response);
                     return response;
                 }));
         }

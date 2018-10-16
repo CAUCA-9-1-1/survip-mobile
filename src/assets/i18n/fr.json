@@ -36,7 +36,7 @@
   "buildingHazardousMaterial":"Matières dangereuses du batîment",
   "buildingLeaveMessage":"Le détail du batîments contient des erreurs de validation et n'a pas été sauvegardé. Voulez-vous quand même retourner à la page précédente?",
   "buildingList":"Liste des batîments",
-  "buildingPNAPS":"PNAPS du batîment",
+  "buildingPnaps":"PNAPS du batîment",
   "buildings":"Batîments",
   "cancel":"Annuler",
   "capacity":"Capacité",
