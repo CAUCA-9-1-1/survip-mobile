@@ -38,7 +38,7 @@ export class InterventionImplantationPlanSketchPage {
 
   public async onOkay() {
     if (this.canvas) {
-      let json = JSON.stringify(this.canvas.toJSON());
+      let json = JSON.stringify(this.canvas.toJSON(['width', 'height']));
 
       this.canvas.zoomToPoint(new fabric.Point(0, 0), 1);
       this.canvas.absolutePan(new fabric.Point(0, 0));
