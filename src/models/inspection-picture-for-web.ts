@@ -1,4 +1,4 @@
-export class InspectionBuildingChildPictureForWeb {
+export class InspectionPictureForWeb {
   id: string;
   idParent: string;
   idPicture: string;

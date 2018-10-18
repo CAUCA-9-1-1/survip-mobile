@@ -13,7 +13,7 @@
         </button>
     </ion-item-divider>
     <ion-item>
-        <ion-slides pager>
+        <ion-slides pager="{{repo.pictures.length > 1 && multiPictures ? true : false}}">
             <ion-slide *ngFor="let picture of repo.pictures;">
                 <ion-card>
                     <button ion-button icon-only small outline class="deleteIcon" (click)="onDeletePhotos()"
@@ -26,7 +26,6 @@
                     </button>
                     <img class="selected-picture" [src]="getImageUrl(picture.pictureData)"
                          *ngIf="hasImageUrl(picture.pictureData)" imageViewer/>
-
                 </ion-card>
             </ion-slide>
         </ion-slides>

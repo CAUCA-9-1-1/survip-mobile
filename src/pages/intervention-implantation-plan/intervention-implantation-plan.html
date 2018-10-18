@@ -5,7 +5,6 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content ion-fixed>
-  <picture-viewer  [(ngModel)]="picture" (ngModelChange)="onModelChange($event)">
-  </picture-viewer>
+<ion-content [formGroup]="form" ion-fixed>
+  <pictures [repo]="picRepo" [multiPictures]="false" height="80vh" [saveAuto]="false" formControlName="id">{{'loading' | translate}}</pictures>
 </ion-content>

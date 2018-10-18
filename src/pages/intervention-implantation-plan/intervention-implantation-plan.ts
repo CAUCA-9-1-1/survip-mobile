@@ -1,11 +1,10 @@
 import {Component, OnDestroy} from '@angular/core';
-import {IonicPage, NavController, NavParams, MenuController} from 'ionic-angular';
+import {IonicPage} from 'ionic-angular';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {PictureData} from '../../models/picture-data';
 import {InterventionForm} from '../../models/intervention-form';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
-import {InspectionDetail} from '../../models/inspection-detail';
 import {ISubscription} from 'rxjs/Subscription';
+import {PictureRepositoryProvider} from "../../providers/repositories/picture-repository";
 
 @IonicPage()
 @Component({
@@ -13,72 +12,38 @@ import {ISubscription} from 'rxjs/Subscription';
     templateUrl: 'intervention-implantation-plan.html',
 })
 export class InterventionImplantationPlanPage implements OnDestroy {
-  public form: FormGroup;
+    public form: FormGroup;
+    private pictureSubscriber: ISubscription;
 
-  private planSubscription : ISubscription;
-
-  get picture(): PictureData {
-      return this.controller.picture;
-  }
-
-  get plan(): InspectionDetail {
-      return this.controller.inspectionDetail;
-  }
-
-  constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    private fb: FormBuilder,
-    private controller: InspectionControllerProvider,
-    private menu: MenuController,) {
-    this.createForm();
-    this.planSubscription = this.controller.pictureLoaded.subscribe(() => this.setValuesAndStartListening());
-  }
-
-  public ngOnDestroy(): void {
-      if (this.planSubscription)
-          this.planSubscription.unsubscribe();
-  }
-
-  public ionViewDidLoad() {
-      this.controller.loadInterventionFormPicture();
- }
-
-  private createForm() {
-    this.form = this.fb.group({id: [''], picture: [''], dataUri: [''], sketchJson: ['']});
-  }
-
-  public setValuesAndStartListening() {
-      this.setValues();
-      this.startWatchingForm();
-  }
-
-  private startWatchingForm() {
-    this.form.valueChanges
-      .debounceTime(500)
-      .subscribe(() => this.saveIfValid());
-  }
-
-  private setValues() {
-    if (this.picture != null) {
-      this.form.patchValue(this.picture);
+    constructor(
+        private fb: FormBuilder,
+        private controller: InspectionControllerProvider,
+        public picRepo: PictureRepositoryProvider,) {
+        this.createForm();
+        this.pictureSubscriber = this.picRepo.picturesChanged.subscribe(() => this.picturesUpdated());
     }
-  }
 
-  private async saveIfValid() {
-      if (this.form.valid && this.form.dirty) {
-          await this.saveForm();
-      }
-  }
+    public ngOnDestroy(): void {
+        if (this.pictureSubscriber)
+            this.pictureSubscriber.unsubscribe();
+    }
 
-  private async saveForm() {
-    const formModel  = this.form.value;
-    Object.assign(this.controller.picture, formModel);
-    await this.controller.savePicture();
-  }
+    private createForm() {
+        this.form = this.fb.group({
+            id: [this.controller.inspectionDetail.idPictureSitePlan ? this.controller.inspectionDetail.idPictureSitePlan : ''],
+            picture: [''],
+            dataUri: [''],
+            sketchJson: [''],
+            idParent: [this.controller.inspectionDetail.idPictureSitePlan ? this.controller.inspectionDetail.idPictureSitePlan : '']});
+    }
 
-  public onModelChange($event) {
-    this.form.setValue($event);
-    this.saveForm();
-  }
+
+    private async picturesUpdated() {
+        this.form.markAsDirty();
+        this.form.updateValueAndValidity();
+        if(this.picRepo.pictures.length > 0) {
+            await this.picRepo.save(this.picRepo.pictures[0]);
+            this.controller.savePlanIdPicture(this.picRepo.pictures[0].id);
+        }
+    }
 }

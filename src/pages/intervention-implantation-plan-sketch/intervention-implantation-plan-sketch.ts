@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { PictureRepositoryProvider } from './../../providers/repositories/picture-repository';
-import { PictureData } from './../../models/picture-data';
 import { InspectionControllerProvider } from '../../providers/inspection-controller/inspection-controller';
 import { fabric } from 'fabric';
+import {InspectionPictureForWeb} from "../../models/inspection-picture-for-web";
 
 @IonicPage()
 @Component({
@@ -11,7 +11,7 @@ import { fabric } from 'fabric';
   templateUrl: 'intervention-implantation-plan-sketch.html',
 })
 export class InterventionImplantationPlanSketchPage {
-  public picture: PictureData;
+  public picture: InspectionPictureForWeb;
   public repo: PictureRepositoryProvider;
 
   private canvas;
@@ -25,7 +25,7 @@ export class InterventionImplantationPlanSketchPage {
   }
 
   get pictureUri() {
-      return this.picture.dataUri;
+      return this.picture.pictureData;
   }
 
   get sketchJson() {
@@ -45,15 +45,13 @@ export class InterventionImplantationPlanSketchPage {
 
       let imageUri = this.canvas.toDataURL();
 
-      this.picture = {id: this.picture.id, picture:imageUri, dataUri: imageUri, sketchJson: json};
-      this.controller.picture = this.picture;
-      await this.repo.savePicture(this.picture);
+      this.picture = {id: this.picture.id, pictureData:imageUri, sketchJson: json, idParent: null, idPicture:this.picture.id, modified:true};
     }
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss(this.picture);
   }
 
   public onCancel() {
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss(this.picture);
   }
 }
 
