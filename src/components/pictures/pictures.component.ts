@@ -152,6 +152,7 @@ export class PicturesComponent implements ControlValueAccessor {
         if (this.isUsingCordova) {
             this.repo.pictures[0].pictureData = 'data:image/jpeg;base64,' + pic;
         }
+        this.repo.pictures[0].sketchJson = '{}';
 
         return this.repo.pictures[0];
     }
