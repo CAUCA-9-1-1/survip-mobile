@@ -25,7 +25,7 @@ export class InterventionImplantationPlanSketchPage {
   }
 
   get pictureUri() {
-      return this.picture.pictureData;
+      return this.picture.dataUri;
   }
 
   get sketchJson() {
@@ -45,7 +45,7 @@ export class InterventionImplantationPlanSketchPage {
 
       let imageUri = this.canvas.toDataURL();
 
-      this.picture = {id: this.picture.id, pictureData:imageUri, sketchJson: json, idParent: null, idPicture:this.picture.id, modified:true};
+      this.picture = {id: this.picture.id, dataUri:imageUri, sketchJson: json, idParent: null, idPicture:this.picture.id, modified:true};
     }
     this.viewCtrl.dismiss(this.picture);
   }

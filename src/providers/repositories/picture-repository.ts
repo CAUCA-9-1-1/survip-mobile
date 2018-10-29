@@ -18,7 +18,7 @@ export class PictureRepositoryProvider {
             return Observable.of([]).toPromise();
         else {
             return this.http.get("inspectionpicture/" + idPicture)
-                .pipe(map(response => response)).toPromise();
+                .pipe(map(response => [response])).toPromise();
         }
     }
 

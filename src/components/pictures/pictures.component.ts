@@ -137,10 +137,10 @@ export class PicturesComponent implements ControlValueAccessor {
         let picture = new InspectionPictureForWeb();
         picture.id = UUID.UUID();
         picture.idParent = this.idParent;
-        picture.pictureData = pic;
+        picture.dataUri = pic;
         picture.modified = true;
         if (this.isUsingCordova) {
-            picture.pictureData = 'data:image/jpeg;base64,' + pic;
+            picture.dataUri = 'data:image/jpeg;base64,' + pic;
         }
 
         this.repo.pictures.push(picture);
@@ -148,9 +148,9 @@ export class PicturesComponent implements ControlValueAccessor {
     }
 
     public updatePicture(pic: string){
-        this.repo.pictures[0].pictureData = pic;
+        this.repo.pictures[0].dataUri = pic;
         if (this.isUsingCordova) {
-            this.repo.pictures[0].pictureData = 'data:image/jpeg;base64,' + pic;
+            this.repo.pictures[0].dataUri = 'data:image/jpeg;base64,' + pic;
         }
         this.repo.pictures[0].sketchJson = '{}';
 
