@@ -21,7 +21,7 @@ export class BuildingChildPictureEditionPage {
   }
 
   get pictureUri() {
-    return this.picture.pictureData;
+    return this.picture.dataUri;
   }
 
   get sketchJson() {
@@ -41,7 +41,7 @@ export class BuildingChildPictureEditionPage {
 
        let imageUri = this.canvas.toDataURL();
 
-      this.picture = {id: this.picture.id, idParent: this.picture.idParent, idPicture: this.picture.idPicture, pictureData: imageUri, sketchJson: json, modified:true };
+      this.picture = {id: this.picture.id, idParent: this.picture.idParent, idPicture: this.picture.idPicture, dataUri: imageUri, sketchJson: json, modified:true };
     }
     this.viewCtrl.dismiss(this.picture);
   }
