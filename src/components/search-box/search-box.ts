@@ -26,6 +26,7 @@ export class SearchBoxComponent implements ControlValueAccessor, OnDestroy {
     @Input() showDescription: boolean = true;
     @Input() hasValidationError: boolean;
     @Input() isDisabled: boolean = false;
+    @Input() disabledValue: string;
 
     constructor(private modalCtrl: ModalController) {
     }
@@ -71,7 +72,8 @@ export class SearchBoxComponent implements ControlValueAccessor, OnDestroy {
         let profileModal = this.modalCtrl.create(SearchListComponent, {
             dataService: this.dataService,
             keyFieldName: this.keyFieldName,
-            displayFieldName: this.displayFieldName
+            displayFieldName: this.displayFieldName,
+            disabledValue: this.disabledValue
         });
         profileModal.onDidDismiss(data => {
             if (data != null) {

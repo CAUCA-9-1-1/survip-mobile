@@ -13,6 +13,7 @@ export class SearchListComponent {
     public dataService: ServiceForListInterface;
     public keyFieldName: string;
     public displayFieldName: string;
+    public disabledValue: string;
     public searchTerm: string = '';
     public searchControl: FormControl;
     public items: any;
@@ -22,6 +23,7 @@ export class SearchListComponent {
         this.dataService = params.get('dataService');
         this.keyFieldName = params.get('keyFieldName');
         this.displayFieldName = params.get('displayFieldName');
+        this.disabledValue = params.get('disabledValue');
         this.searchControl = new FormControl();
     }
 
@@ -39,7 +41,7 @@ export class SearchListComponent {
 
     public setFilteredItems() {
         this.dataService.getList(this.searchTerm, this.displayFieldName).subscribe(list => {
-            this.items = list
+            this.items = list;
         });
     }
 
