@@ -220,11 +220,11 @@ export class PicturesComponent implements ControlValueAccessor {
             this.camera.getPicture(options).then((imageData) => {
                 this.managePicture(imageData);
             }, (err) => {
-                alert(err);
+                console.log(err);
             });
         }
         catch (error) {
-            alert(JSON.stringify(error));
+            console.log('error', error);
         }
     }
 
