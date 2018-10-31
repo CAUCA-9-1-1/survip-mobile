@@ -122,7 +122,7 @@ export class BuildingDetailsPage {
         this.form = this.formBuilding.group({
             height: [0, [Validators.min(0), Validators.max(999999), regexChecker(this.decimalPattern)]],
             idUnitOfMeasureHeight: [0, [unitOfMeasureHeightValidator]],
-            estimatedWaterFlow: [0, [Validators.min(0), Validators.pattern(this.integerPattern)]],
+            estimatedWaterFlow: [0, [Validators.min(0), regexChecker(this.integerPattern)]],
             idUnitOfMeasureEstimatedWaterFlow: [0, [unitOfMeasureFlowValidator]],
             garageType: [0, [Validators.required]],
             idConstructionType: [0],
