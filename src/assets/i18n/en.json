@@ -59,6 +59,7 @@
   "contactDeleteQuestion":"Do you really want to delete this contact?",
   "contactDetail":"Contact details",
   "contactLeaveMessage":"The contact contains some validation errors and has not been saved. Do you still want to go to the building's contact list?",
+  "ContactPhoneFormatWarning":"The number must have at least 10 digit.",
   "container":"Container",
   "containerCapacity":"Container capacity",
   "containerCapacityValidationMessage":"*Capacity must be a valid decimal.",
