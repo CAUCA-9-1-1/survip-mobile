@@ -79,7 +79,7 @@ export class BuildingDetailsPage {
         let load = this.loadingCtrl.create({'content': this.labels['waitFormMessage']});
         try {
           await load.present();
-          this.detailRepo.get(this.idBuilding);
+          this.detail = await this.detailRepo.get(this.idBuilding).toPromise();
           this.setValuesAndStartListening();
         }
         catch(error) {
