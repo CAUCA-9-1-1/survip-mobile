@@ -60,6 +60,7 @@
   "contactDeleteButton": "Supprimer le contact",
   "contactDeleteQuestion":"Êtes-vous sûr de vouloir supprimer ce contact ?",
   "contactLeaveMessage":"Le contact contient des erreurs de validation et n'a pas été sauvegardé.  Voulez-vous quand même retourner à la page des contacts du bâtiment?",
+  "ContactPhoneFormatWarning":"Le numéro doit être composé d'au minimum 10 chiffres.",
   "container":"Contenant",
   "containerCapacity":"Capacité du contenant",
   "containerCapacityValidationMessage":"*La capacité doit être une valeur décimale de format valide.",
