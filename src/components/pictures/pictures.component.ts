@@ -131,6 +131,13 @@ export class PicturesComponent implements ControlValueAccessor {
         } else {
             this.repo.picturesChanged.emit(null);
         }
+      this.slideToLast();
+    }
+
+    private slideToLast = async() => {
+      const delay = ms => new Promise(res => setTimeout(res, ms));
+      await delay(500);
+      this.slides.slideTo(this.slides.length() - 1);
     }
 
     public addPicture(pic: string) {
