@@ -16,9 +16,11 @@
   </div>
 
   <ion-list class="list-items">
-    <button ion-item *ngFor="let item of items" (click)="onSelectItem(item[keyFieldName])">
-      {{item[displayFieldName]}}
-    </button>
+    <div *ngFor="let item of items" >
+      <button *ngIf="item[keyFieldName] !== disabledValue" ion-item (click)="onSelectItem(item[keyFieldName])">
+        {{item[displayFieldName]}}
+      </button>
+    </div>
   </ion-list>
 
 </ion-content>

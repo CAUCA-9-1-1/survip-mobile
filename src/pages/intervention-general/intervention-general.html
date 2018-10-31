@@ -44,9 +44,10 @@
                     description="{{'transversal' | translate}}"
                     formControlName="idLaneTransversal"
                     [displayFieldName]="'name'"
+                    [disabledValue]="plan?.mainBuildingIdLane"
                     [keyFieldName]="'id'"
                     [dataService]="laneService"
-                    [isDisabled]="!userAllowed"></search-box>
+                    [isDisabled]="plan?.status !== inspectionDetailProvider.InspectionVisitStatusEnum.Started"></search-box>
         </ion-list>
     </form>
     <ion-card>
