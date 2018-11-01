@@ -1,9 +1,7 @@
 <ion-header class="page-header">
-
     <ion-navbar>
         <ion-title>{{'surveySummary' | translate}}</ion-title>
     </ion-navbar>
-
 </ion-header>
 <ion-content class="outer-content">
     <div class="list-items">
@@ -35,5 +33,11 @@
 </ion-content>
 <ion-footer class="page-footer">
     <ion-toolbar>
+        <ion-buttons>
+            <button ion-button icon-start type="button" (click)="editSurvey()">
+                <ion-icon name="create"></ion-icon>
+                {{'surveyEditButton' |translate}}...
+            </button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-footer>

@@ -32,11 +32,11 @@ export class InspectionSurveyAnswerRepositoryProvider {
         return this.http.get('InspectionSurveyAnswer/Inspection/' + idInspection + '/Summary');
     }
 
-    public CompleteSurvey(idInspection: string): Observable<any> {
+    public SetSurveyStatus(idInspection: string, isSurveyCompleted: boolean = true): Observable<any> {
         if (!idInspection)
             return Observable.of('');
         else {
-            return this.http.post('InspectionSurveyAnswer/CompleteSurvey', JSON.stringify(idInspection));
+            return this.http.post('InspectionSurveyAnswer/SetSurveyStatus', {idInspection:idInspection,isCompleted:isSurveyCompleted});
         }
     }
 
