@@ -123,7 +123,7 @@ export class InspectionSurveyAnswerPage {
     }
 
     private completeInspectionQuestion() {
-        this.surveyRepo.CompleteSurvey(this.idInspection)
+        this.surveyRepo.SetSurveyStatus(this.idInspection)
             .subscribe(result => {
                     this.messageTools.showToast(this.labels['surveyCompletedMessage'], 3);
                     setTimeout(() => {
