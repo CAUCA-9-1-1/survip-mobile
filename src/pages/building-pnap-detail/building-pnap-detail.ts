@@ -103,7 +103,7 @@ export class BuildingPnapDetailPage {
             floor: ['', [Validators.maxLength(3)]],
             local: ['', [Validators.maxLength(10)]],
             contactName: ['', [Validators.maxLength(60)]],
-            contactPhoneNumberMasked: ['', [Validators.maxLength(10), Validators.pattern('[0-9]+')]],
+            contactPhoneNumberMasked: ['', [Validators.maxLength(14), Validators.minLength(14)]],
         });
     }
 
