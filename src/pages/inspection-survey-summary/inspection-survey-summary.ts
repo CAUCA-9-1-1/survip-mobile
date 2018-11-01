@@ -19,7 +19,6 @@ export class InspectionSurveySummaryPage {
     public idInspection: string = '';
     public questionTypeEnum = SurveyQuestionTypeEnum;
     private labels = {};
-    private surveyModification = false;
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -32,9 +31,9 @@ export class InspectionSurveySummaryPage {
         this.loadInspectionQuestionSummary();
     }
 
-    public ngOnInit(){
+    public ngOnInit() {
         this.translateService.get([
-            'confirmation', 'surveyEditionQuestion','surveyEditionRedirectionMessage'
+            'confirmation', 'surveyEditionQuestion', 'surveyEditionRedirectionMessage'
         ]).subscribe(labels => {
                 this.labels = labels;
             },
@@ -55,24 +54,21 @@ export class InspectionSurveySummaryPage {
     }
 
     public async ionViewWillLeave() {
-      if (this.navCtrl.getPrevious().name == 'InspectionSurveyAnswerPage') {
-          this.inspectionController.loadInterventionForm();
-          this.navCtrl.popTo('InterventionHomePage');
-      }
+        this.inspectionController.loadInterventionForm();
     }
 
-    public async editSurvey(){
+    public async editSurvey() {
         let canEdit = await this.msgTools.ShowMessageBox(this.labels['confirmation'], this.labels['surveyEditionQuestion']);
-        if(canEdit) {
+        if (canEdit) {
             this.controller.SetSurveyStatus(this.idInspection, false)
                 .subscribe(result => {
                         this.msgTools.showToast(this.labels['surveyEditionRedirectionMessage'], 3);
                         setTimeout(() => {
-                                this.navCtrl.popTo('InterventionHomePage');
-                                this.navCtrl.push('InspectionSurveyAnswerPage', {
-                                    idInspection: this.idInspection,
-                                    inspectionSurveyCompleted: false
-                                });
+                            const currentPageIndex = this.navCtrl.getActive().index;
+                            this.navCtrl.push('InspectionSurveyAnswerPage', {
+                                idInspection: this.idInspection,
+                                inspectionSurveyCompleted: false
+                            }).then(()=>{this.navCtrl.remove(currentPageIndex)});
 
                         }, 3000);
                     },
