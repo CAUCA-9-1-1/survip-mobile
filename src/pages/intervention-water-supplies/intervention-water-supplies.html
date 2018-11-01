@@ -13,12 +13,12 @@
             {{plan?.mainBuildingAddress}}
         </ion-list-header>
         <ion-item *ngFor="let hydrant of fireHydrants | orderBy:'number'">
-            <ion-icon name="icon-fire-hydrant" item-start [style.color]="hydrant.color" large (click)="goToFireHydrantDetail(hydrant.idFireHydrant)"></ion-icon>
+            <ion-icon name="icon-fire-hydrant" item-start [style.color]="hydrant.color" [style.background-color]="hydrant.color == '#FFFFFF' ? 'lightgray': null" large (click)="goToFireHydrantDetail(hydrant.idFireHydrant)"></ion-icon>
             <button class="action-list-button" (click)="onClickHydrant(hydrant.id)">
                 <ion-icon class="ion-md-trash"></ion-icon>
             </button>
             <div class="fire-hydrant-info" (click)="goToFireHydrantDetail(hydrant.idFireHydrant)">
-                <h2>{{hydrant.number}}</h2>
+                <h2>{{hydrant.color}}{{hydrant.number}}</h2>
                 <p>{{hydrant.address | formatCoordinates}}</p>
             </div>
         </ion-item>
