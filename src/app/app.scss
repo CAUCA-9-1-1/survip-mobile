@@ -219,7 +219,7 @@ ion-navbar ion-icon{
 
   &.colorselected:before {
     content: '\2713';
-    color: white;
+    color: gray;
     z-index: 999999;
     width: 100%;
     height: 100%;
