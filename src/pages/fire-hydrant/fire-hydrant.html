@@ -54,18 +54,18 @@
                     <ion-col width-50>
                         <ion-item [class.invalid]="!form.controls.rateFrom.valid">
                             <ion-label>{{'from' | translate}}</ion-label>
-                            <ion-input item-end formControlName="rateFrom" maxlength="10" type="number"
+                            <ion-input item-end formControlName="rateFrom" maxlength="10" type="number" [pattern]="decimalPattern"
                                        placeholder="{{'number' | translate}}"(ionChange)="rateValueChanged()"></ion-input>
                         </ion-item>
-                        <div class="validation-error-text" *ngIf="!form.controls.rateFrom.valid">{{'requiredInformation' | translate}}</div>
+                        <div class="validation-error-text" *ngIf="!form.controls.rateFrom.valid">{{'invalidDecimalValue' | translate}}</div>
                     </ion-col>
                     <ion-col width-50>
                         <ion-item [class.invalid]="!form.controls.rateTo.valid">
                             <ion-label>{{'to' | translate}}</ion-label>
-                            <ion-input item-end formControlName="rateTo" maxlength="10" type="number"
+                            <ion-input item-end formControlName="rateTo" maxlength="10" type="number" [pattern]="decimalPattern"
                                        placeholder="{{'number' | translate}}" (ionChange)="rateValueChanged()"></ion-input>
                         </ion-item>
-                        <div class="validation-error-text" *ngIf="!form.controls.rateTo.valid">{{'requiredInformation' | translate}}</div>
+                        <div class="validation-error-text" *ngIf="!form.controls.rateTo.valid">{{'invalidDecimalValue' | translate}}</div>
                     </ion-col>
                 </ion-row>
             </ion-grid>
@@ -95,18 +95,18 @@
                     <ion-col width-50>
                         <ion-item [class.invalid]="!form.controls.pressureFrom.valid">
                             <ion-label>{{'from' | translate}}</ion-label>
-                            <ion-input item-end formControlName="pressureFrom" maxlength="10" type="number"
+                            <ion-input item-end formControlName="pressureFrom" maxlength="10" type="number" [pattern]="decimalPattern"
                                        placeholder="{{'number' | translate}}"(ionChange)="pressureValueChanged()"></ion-input>
                         </ion-item>
-                        <div class="validation-error-text" *ngIf="!form.controls.pressureFrom.valid">{{'requiredInformation' | translate}}</div>
+                        <div class="validation-error-text" *ngIf="!form.controls.pressureFrom.valid">{{'invalidDecimalValue' | translate}}</div>
                     </ion-col>
                     <ion-col width-50>
                         <ion-item [class.invalid]="!form.controls.pressureTo.valid">
                             <ion-label>{{'to' | translate}}</ion-label>
-                            <ion-input item-end formControlName="pressureTo" maxlength="10" type="number"
+                            <ion-input item-end formControlName="pressureTo" maxlength="10" type="number" [pattern]="decimalPattern"
                                        placeholder="{{'number' | translate}}"(ionChange)="pressureValueChanged()"></ion-input>
                         </ion-item>
-                        <div class="validation-error-text" *ngIf="!form.controls.pressureTo.valid">{{'requiredInformation' | translate}}</div>
+                        <div class="validation-error-text" *ngIf="!form.controls.pressureTo.valid">{{'invalidDecimalValue' | translate}}</div>
                     </ion-col>
                 </ion-row>
             </ion-grid>

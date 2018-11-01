@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import {AddressLocalisationType, FireHydrant, FireHydrantLocationType, OperatorType} from "../../models/fire-hydrant";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {UUID} from "angular2-uuid";
 import {GenericType} from "../../models/generic-type";
 import {FireHydrantRepositoryProvider} from "../../providers/repositories/fire-hydrant-repository-provider";
@@ -26,6 +26,7 @@ export class FireHydrantPage {
     private isCanceled = false;
     private subscriber :ISubscription;
 
+    public readonly decimalPattern: string = "^[0-9]+(.[0-9]{1,2})?$";
     public fireHydrantLocationType = FireHydrantLocationType;
     public addressLocationType = AddressLocalisationType;
     public operatorTypes = OperatorType;
@@ -146,17 +147,26 @@ export class FireHydrantPage {
     }
 
     private initiateForm() {
-
+      let regexChecker = (mask: string) => {
+        return (control: FormControl) => {
+          var value = control.value + "";
+          const reg = new RegExp(mask);
+          if (reg.test(value))
+            return null;
+          else
+            return {'incorrectValue': true};
+        };
+      };
         this.form = this.formBuilder.group({
             id: (this.fireHydrant.id ? this.fireHydrant.id : UUID.UUID()),
             locationType: [this.fireHydrant.locationType ? this.fireHydrant.locationType : FireHydrantLocationType.Address, Validators.required],
             coordinates: [this.fireHydrant.coordinates ? this.fireHydrant.coordinates : null , Validators.required],
             altitude: [this.fireHydrant.altitude ? this.fireHydrant.altitude : 0, Validators.required],
             number: [this.fireHydrant.number ? this.fireHydrant.number : '', Validators.required],
-            rateFrom: [this.fireHydrant.rateFrom ? this.fireHydrant.rateFrom : 0],
-            rateTo: [this.fireHydrant.rateTo ? this.fireHydrant.rateTo : 0],
-            pressureFrom: [this.fireHydrant.pressureFrom ? this.fireHydrant.pressureFrom : 0],
-            pressureTo: [this.fireHydrant.pressureTo ? this.fireHydrant.pressureTo : 0],
+            rateFrom: [this.fireHydrant.rateFrom ? this.fireHydrant.rateFrom : 0, [Validators.min(0), Validators.max(999999), regexChecker(this.decimalPattern)]],
+            rateTo: [this.fireHydrant.rateTo ? this.fireHydrant.rateTo : 0, [Validators.min(0), Validators.max(999999), regexChecker(this.decimalPattern)]],
+            pressureFrom: [this.fireHydrant.pressureFrom ? this.fireHydrant.pressureFrom : 0, [Validators.min(0), Validators.max(999999), regexChecker(this.decimalPattern)]],
+            pressureTo: [this.fireHydrant.pressureTo ? this.fireHydrant.pressureTo : 0, [Validators.min(0), Validators.max(999999), regexChecker(this.decimalPattern)]],
             color: [this.fireHydrant.color ? this.fireHydrant.color : '#FFFFFF', Validators.required],
             comments: [this.fireHydrant.comments ? this.fireHydrant.comments : ''],
             idCity: [this.fireHydrant.idCity ? this.fireHydrant.idCity : this.inspectionCity, Validators.required],

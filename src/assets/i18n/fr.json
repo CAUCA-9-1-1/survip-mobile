@@ -169,6 +169,7 @@
   "inspectionStatusTodo":"Inspection en attente",
   "inspectionStatusWaitingForApprobation":"Inspection en attente d'approbation",
   "inspectionVisit":"Visite d'inspection",
+  "invalidDecimalValue": "La valeur doit être une valeur décimale valide (ex.: 9999.99).",
   "lane":"Voie",
   "laneDeleteButton":"Supprimer la voie",
   "laneDeleteQuestion":"Êtes-vous sûr de vouloir supprimer cette voie ?",
