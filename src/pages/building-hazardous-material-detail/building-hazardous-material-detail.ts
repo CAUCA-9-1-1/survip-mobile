@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage, LoadingController, ModalController, NavController, NavParams, ViewController} from 'ionic-angular';
 import {ISubscription} from 'rxjs/Subscription';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {InspectionBuildingHazardousMaterial} from '../../models/inspection-building-hazardous-material';
+import {InspectionBuildingHazardousMaterial, TankType} from '../../models/inspection-building-hazardous-material';
 import {MessageToolsProvider} from '../../providers/message-tools/message-tools';
 import {InspectionBuildingHazardousMaterialRepositoryProvider} from '../../providers/repositories/inspection-building-hazardous-material-repository';
 import {UUID} from 'angular2-uuid';
@@ -27,6 +27,7 @@ export class BuildingHazardousMaterialDetailPage {
     private readonly integerPattern: string = "^(0|([1-9]([0-9]*)))$";
     private readonly decimalPattern: string = "^[0-9]+(.[0-9]{1,2})?$";
 
+    public tankTypeKeys = [];
     public isNew: boolean = false;
     public selectedMaterial: HazardousMaterialForList;
     public material: InspectionBuildingHazardousMaterial;
@@ -35,6 +36,7 @@ export class BuildingHazardousMaterialDetailPage {
     public walls: string[] = [];
     public sectors: string[] = [];
     public labels = {};
+    public tankType = TankType;
 
     constructor(
         private fb: FormBuilder,
@@ -69,8 +71,12 @@ export class BuildingHazardousMaterialDetailPage {
             error => {
                 console.log(error)
             });
+        this.initializeEnumCollection();
     }
 
+  private initializeEnumCollection() {
+    this.tankTypeKeys = this.repo.getEnumsKeysCollection(this.tankType);
+  }
     public async ionViewDidLoad() {
         let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
         await load.present();

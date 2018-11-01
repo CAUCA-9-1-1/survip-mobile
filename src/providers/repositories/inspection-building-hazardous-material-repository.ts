@@ -33,4 +33,10 @@ export class InspectionBuildingHazardousMaterialRepositoryProvider {
             .pipe(map(response => response))
             .toPromise();
     }
+
+  public getEnumsKeysCollection(enumCollection: any): number[] {
+    return Object.keys(enumCollection)
+      .map(k => enumCollection[k])
+      .filter(v => typeof v === "number") as number[];
+  }
 }

@@ -96,7 +96,7 @@
         <edit-config file="*-Info.plist" mode="merge" target="NSFaceIDUsageDescription">
             <string />
         </edit-config>
-        <config-file parent="CFBundleLocalizations" target="*-Info.plist" >
+        <config-file parent="CFBundleLocalizations" target="*-Info.plist">
             <array>
                 <string>fr</string>
                 <string>en</string>
