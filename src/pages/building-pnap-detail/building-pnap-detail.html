@@ -28,11 +28,11 @@
       </ion-item>
       <ion-item>
         <ion-label>{{'floor' | translate}}</ion-label>
-        <ion-input formControlName="floor" max="3" placeholder="{{'floor' | translate}}" type="text"></ion-input>
+        <ion-input formControlName="floor" maxlength="3" placeholder="{{'floor' | translate}}" type="text"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>{{'room' | translate}}</ion-label>
-        <ion-input formControlName="local" max="10" placeholder="{{'room' | translate}}" type="text"></ion-input>
+        <ion-input formControlName="local" maxlength="10" placeholder="{{'room' | translate}}" type="text"></ion-input>
       </ion-item>
     </ion-item-group>
 
@@ -44,8 +44,11 @@
       </ion-item>
       <ion-item>
         <ion-label>{{'phone' | translate}}</ion-label>
-        <ion-input placeholder="(xxx) xxx-xxxxx" [brmasker]="{mask:'(000) 000-0000', len:14, type:'num'}" type="text" formControlName="contactPhoneNumberMasked"></ion-input>
+        <ion-input placeholder="(xxx) xxx-xxxx" [brmasker]="{mask:'(000) 000-0000', len:14, type:'num'}" type="tel" formControlName="contactPhoneNumberMasked"></ion-input>
       </ion-item>
+      <div *ngIf="!form.controls.contactPhoneNumberMasked.valid" class="validation-error-text">
+        {{'ContactPhoneFormatWarning' | translate}}
+      </div>
     </ion-item-group>
 
     <ion-item-group>
