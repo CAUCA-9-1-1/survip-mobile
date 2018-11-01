@@ -189,6 +189,8 @@
   "measurement":"Measurement",
   "measuringUnitRequired":"*The measuring unit is required.",
   "name":"Name",
+  "navigationBack":"Back",
+  "navigationSearch":"Search",
   "new":"New...",
   "no":"No",
   "notes":"Notes",

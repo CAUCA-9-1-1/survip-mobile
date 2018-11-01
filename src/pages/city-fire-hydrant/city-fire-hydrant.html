@@ -2,7 +2,7 @@
   <ion-navbar>
     <ion-title>{{'fireHydrantList' | translate}}</ion-title>
   </ion-navbar>
-  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+  <ion-searchbar (ionInput)="getItems($event)" [placeholder]="'navigationSearch' | translate"></ion-searchbar>
 </ion-header>
 <ion-content>
   <ion-list class="list-items">

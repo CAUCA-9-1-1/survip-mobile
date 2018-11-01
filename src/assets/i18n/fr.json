@@ -189,6 +189,8 @@
   "measurement":"Dimensions",
   "measuringUnitRequired":"*L'unité de mesure est requise.",
   "name":"Nom",
+  "navigationBack":"Retour",
+  "navigationSearch":"Rechercher",
   "new":"Nouvelle...",
   "no":"Non",
   "notes":"Notes",
