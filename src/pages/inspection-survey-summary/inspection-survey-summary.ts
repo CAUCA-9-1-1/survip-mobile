@@ -17,7 +17,8 @@ export class InspectionSurveySummaryPage {
     public inspectionQuestionSummaryCategory: InspectionSurveySummaryCategory[] = [];
     public idInspection: string = '';
     public questionTypeEnum = SurveyQuestionTypeEnum;
-    private labels = {}
+    private labels = {};
+    private surveyModification = false;
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -52,9 +53,10 @@ export class InspectionSurveySummaryPage {
     }
 
     public async ionViewWillLeave() {
-      if (this.navCtrl.getPrevious().name == 'InspectionSurveyAnswerPage') {
+      if ((this.navCtrl.getPrevious().name == 'InspectionSurveyAnswerPage')&& !this.surveyModification) {
         await this.navCtrl.pop();
       }
+        this.surveyModification = false;
     }
 
     public async editSurvey(){
@@ -64,11 +66,15 @@ export class InspectionSurveySummaryPage {
                 .subscribe(result => {
                         this.msgTools.showToast(this.labels['surveyEditionRedirectionMessage'], 3);
                         setTimeout(() => {
-                            this.navCtrl.pop();
-                            this.navCtrl.push('InspectionSurveyAnswerPage', {
-                                idInspection: this.idInspection,
-                                inspectionSurveyCompleted: false
-                            });
+                            if (this.navCtrl.getPrevious().name == 'InspectionSurveyAnswerPage') {
+                                this.surveyModification = true;
+                                this.navCtrl.pop();
+                            }else {
+                                this.navCtrl.push('InspectionSurveyAnswerPage', {
+                                    idInspection: this.idInspection,
+                                    inspectionSurveyCompleted: false
+                                });
+                            }
                         }, 3000);
                     },
                     error => {
