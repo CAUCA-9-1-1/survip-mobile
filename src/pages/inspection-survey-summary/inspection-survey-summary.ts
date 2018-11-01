@@ -6,6 +6,7 @@ import {InspectionSurveySummaryCategory} from "../../models/inspection-survey-su
 import {SurveyQuestionTypeEnum} from "../../models/inspection-survey-answer";
 import {InspectionSurveyAnswerPage} from '../inspection-survey-answer/inspection-survey-answer';
 import {TranslateService} from "@ngx-translate/core";
+import {InspectionControllerProvider} from "../../providers/inspection-controller/inspection-controller";
 
 @IonicPage()
 @Component({
@@ -24,7 +25,8 @@ export class InspectionSurveySummaryPage {
                 public navParams: NavParams,
                 public controller: InspectionSurveyAnswerRepositoryProvider,
                 private msgTools: MessageToolsProvider,
-                private translateService: TranslateService) {
+                private translateService: TranslateService,
+                private inspectionController: InspectionControllerProvider) {
 
         this.idInspection = this.navParams.get('idInspection');
         this.loadInspectionQuestionSummary();
@@ -53,10 +55,10 @@ export class InspectionSurveySummaryPage {
     }
 
     public async ionViewWillLeave() {
-      if ((this.navCtrl.getPrevious().name == 'InspectionSurveyAnswerPage')&& !this.surveyModification) {
-        await this.navCtrl.pop();
+      if (this.navCtrl.getPrevious().name == 'InspectionSurveyAnswerPage') {
+          this.inspectionController.loadInterventionForm();
+          this.navCtrl.popTo('InterventionHomePage');
       }
-        this.surveyModification = false;
     }
 
     public async editSurvey(){
@@ -66,15 +68,12 @@ export class InspectionSurveySummaryPage {
                 .subscribe(result => {
                         this.msgTools.showToast(this.labels['surveyEditionRedirectionMessage'], 3);
                         setTimeout(() => {
-                            if (this.navCtrl.getPrevious().name == 'InspectionSurveyAnswerPage') {
-                                this.surveyModification = true;
-                                this.navCtrl.pop();
-                            }else {
+                                this.navCtrl.popTo('InterventionHomePage');
                                 this.navCtrl.push('InspectionSurveyAnswerPage', {
                                     idInspection: this.idInspection,
                                     inspectionSurveyCompleted: false
                                 });
-                            }
+
                         }, 3000);
                     },
                     error => {
