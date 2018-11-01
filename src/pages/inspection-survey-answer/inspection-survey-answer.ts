@@ -127,8 +127,9 @@ export class InspectionSurveyAnswerPage {
             .subscribe(result => {
                     this.messageTools.showToast(this.labels['surveyCompletedMessage'], 3);
                     setTimeout(() => {
-                        this.navCtrl.popTo('InterventionHomePage');
-                        this.navCtrl.push('InspectionSurveySummaryPage', {idInspection: this.idInspection});
+                        const currentPageIndex = this.navCtrl.getActive().index;
+                        this.navCtrl.push('InspectionSurveySummaryPage', {idInspection: this.idInspection})
+                            .then(()=>{this.navCtrl.remove(currentPageIndex)});
                     }, 3000);
                 },
                 error => {
