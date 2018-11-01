@@ -249,9 +249,11 @@ export class InspectionSurveyAnswerPage {
         return idNext;
     }
 
-    public ionViewWillLeave() {
-        if (this.navCtrl.getPrevious().name == "InterventionHomePage") {
-            this.inspectionController.loadInterventionForm();
+    public async ionViewWillLeave() {
+        this.inspectionController.loadInterventionForm();
+
+        if (this.navCtrl.getPrevious().name == 'InspectionSurveySummaryPage') {
+            await this.navCtrl.pop();
         }
     }
 
