@@ -107,6 +107,11 @@
     "Yes": "Yes",
     "Detached": "Detached"
   },
+  "enumTankType": {
+    "Undetermined": "Undetermined",
+    "Underground": "Underground",
+    "Aboveground": "Aboveground"
+  },
   "editPicture": "Edit picture",
   "edition":"Edition",
   "extension":"Extension",

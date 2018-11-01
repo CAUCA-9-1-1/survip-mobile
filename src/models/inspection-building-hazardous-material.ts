@@ -15,3 +15,9 @@ export class InspectionBuildingHazardousMaterial {
   securityPerimeter: string ="";
   otherInformation: string = "";
 }
+
+export enum TankType {
+  Undetermined,
+  Underground,
+  Aboveground
+}
