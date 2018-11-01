@@ -127,6 +127,7 @@ export class InspectionSurveyAnswerPage {
             .subscribe(result => {
                     this.messageTools.showToast(this.labels['surveyCompletedMessage'], 3);
                     setTimeout(() => {
+                        this.navCtrl.popTo('InterventionHomePage');
                         this.navCtrl.push('InspectionSurveySummaryPage', {idInspection: this.idInspection});
                     }, 3000);
                 },
@@ -251,10 +252,6 @@ export class InspectionSurveyAnswerPage {
 
     public async ionViewWillLeave() {
         this.inspectionController.loadInterventionForm();
-
-        if (this.navCtrl.getPrevious().name == 'InspectionSurveySummaryPage') {
-            await this.navCtrl.pop();
-        }
     }
 
     private initQuestionGroupAnswers() {
