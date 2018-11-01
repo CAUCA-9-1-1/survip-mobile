@@ -56,6 +56,7 @@ export class BuildingFireProtectionPage {
 
     private async loadSprinklers() {
         let loader = this.load.create({content: this.labels['waitFormMessage']});
+        await loader.present();
         try {
           const result = await this.sprinklerRepo.getList(this.idBuilding);
           this.sprinklers = result;
