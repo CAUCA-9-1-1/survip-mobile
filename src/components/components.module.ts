@@ -13,6 +13,7 @@ import {SketchToolModule} from 'lib-sketch-tool';
 import {TranslateModule} from "@ngx-translate/core";
 import {ParentChildQuestionComponent} from './parent-child-question/parent-child-question';
 import {SurveyQuestionComponent} from './survey-question/survey-question';
+import {CustomSelectComponent} from './custom-select/custom-select';
 
 @NgModule({
     declarations: [
@@ -22,12 +23,14 @@ import {SurveyQuestionComponent} from './survey-question/survey-question';
         InspectionBuildingParticularRiskDetailComponent,
         MenuProfileComponent,
         ParentChildQuestionComponent,
-        SurveyQuestionComponent
+        SurveyQuestionComponent,
+        CustomSelectComponent
     ],
     imports: [
         FormsModule,
         IonicPageModule.forChild(SearchBoxComponent),
         IonicPageModule.forChild(SearchListComponent),
+        IonicPageModule.forChild(CustomSelectComponent),
         IonicImageViewerModule,
         SketchToolModule,
         TranslateModule.forChild(),
@@ -40,6 +43,7 @@ import {SurveyQuestionComponent} from './survey-question/survey-question';
         MenuProfileComponent,
         ParentChildQuestionComponent,
         SurveyQuestionComponent,
+        CustomSelectComponent,
     ],
     providers: [
         WindowRefService,
