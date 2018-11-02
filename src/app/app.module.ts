@@ -14,7 +14,6 @@ import {ComponentsModule} from '../components/components.module';
 import {FormsModule} from '@angular/forms';
 import {RouteDirectionRepositoryProvider} from '../providers/repositories/route-direction-repository';
 import {CommonModule} from '@angular/common';
-import {InspectionMapPage} from '../pages/inspection-map/inspection-map';
 import {AuthenticationService} from '../providers/Base/authentification.service';
 import {HttpClientModule, HttpClient, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
@@ -104,7 +103,6 @@ export function httpServiceFactory(
     exports: [],
     providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ExpiredTokenInterceptor, multi: true },
-        InspectionMapPage,
         StatusBar,
         SplashScreen,
         {provide: ErrorHandler, useClass: IonicErrorHandler},
