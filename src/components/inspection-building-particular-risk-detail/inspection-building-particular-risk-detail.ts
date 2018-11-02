@@ -20,6 +20,7 @@ export class InspectionBuildingParticularRiskDetailComponent implements OnChange
     public form: FormGroup;
     public walls: string[] = [];
     public sectors: string[] = [];
+    public wall: string;
 
     @Input() set idBuilding(value: string) {
         this.currentIdBuilding = value;
@@ -112,5 +113,9 @@ export class InspectionBuildingParticularRiskDetailComponent implements OnChange
             return acc;
         }, {} as { [key: string]: any; });
         return hasError ? result : null;
+    }
+
+    public ValidWallChanged(e){
+        this.form.controls['wall'].setValue(e);
     }
 }
