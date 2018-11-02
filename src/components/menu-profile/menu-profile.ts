@@ -16,6 +16,6 @@ export class MenuProfileComponent {
 
     public sessionLogout() {
         this.authentificationController.logout();
-        this.navCtrl.setRoot('LoginPage');
+        this.navCtrl.setRoot('VersionValidatorPage');
     }
 }
