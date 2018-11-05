@@ -46,7 +46,6 @@ export class MyApp {
 
         platform.ready().then(() => {
             this.translate.get('navigationBack').subscribe(backLabel => {
-              console.log('backLabel', backLabel);
               this.config.set('ios', 'backButtonText', backLabel)
             });
             statusBar.styleLightContent();
