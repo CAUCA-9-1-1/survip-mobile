@@ -63,7 +63,7 @@ export class InspectionListPage {
                 this.batches = batches;
                 this.filterList();
                 refresher.complete();
-            });
+            },() => refresher.complete());
     }
 
     public async ionViewCanEnter() {
