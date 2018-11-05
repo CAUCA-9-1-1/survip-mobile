@@ -23,7 +23,7 @@ export class HazardousMaterialSelectionPage {
     }
 
     public onSearch() {
-        this.matRepo.getFiltered(this.searchTerm.trim())
+        this.matRepo.getFiltered(encodeURIComponent(this.searchTerm.trim()))
             .subscribe(data => this.hazardousMaterials = data);
     }
 
