@@ -58,14 +58,12 @@ export class InspectionListPage {
 
 
     public refreshList(refresher) {
-        const loading = this.createLoadingControl();
-        loading.present();
         this.inspectionService.getAll()
             .subscribe(batches => {
                 this.batches = batches;
                 this.filterList();
                 refresher.complete();
-            }, () => loading.dismiss());
+            });
     }
 
     public async ionViewCanEnter() {
