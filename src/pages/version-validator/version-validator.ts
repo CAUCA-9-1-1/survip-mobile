@@ -32,7 +32,6 @@ export class VersionValidatorPage {
         this.platform.ready().then(() => {
             this.platform.resume.subscribe(() => {
                 this.validVersion();
-                console.log("resume event",this.platform.resume);
             });
         });
     }
@@ -62,7 +61,7 @@ export class VersionValidatorPage {
             .catch(()=> {
                 this.serverDownDisplay();
             });
-        this.platform.resume.unsubscribe();
+            this.platform.resume.unsubscribe();
     }
 
     private serverDownDisplay(){
