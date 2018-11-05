@@ -44,7 +44,7 @@ export class InspectionListPage {
                         this.filterList();
                         loading.dismiss();
                     }, () => loading.dismiss());
-            });
+            }, () => loading.dismiss());
     }
 
     public ngOnInit() {
@@ -58,12 +58,14 @@ export class InspectionListPage {
 
 
     public refreshList(refresher) {
+        const loading = this.createLoadingControl();
+        loading.present();
         this.inspectionService.getAll()
             .subscribe(batches => {
                 this.batches = batches;
                 this.filterList();
                 refresher.complete();
-            });
+            }, () => loading.dismiss());
     }
 
     public async ionViewCanEnter() {
