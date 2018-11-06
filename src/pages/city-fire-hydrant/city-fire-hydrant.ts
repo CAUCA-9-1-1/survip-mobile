@@ -30,7 +30,6 @@ export class CityFireHydrantPage {
         this.LoadCityFireHydrant();
     }
 
-
     private getItems(ev: any) {
         this.filteredCityFireHydrantList = [];
         let val = ev.target.value;

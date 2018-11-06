@@ -1,11 +1,11 @@
 import {Component, ViewChild} from '@angular/core';
-import {Events, Nav, Platform, App, ToastController} from 'ionic-angular';
+import {Events, Nav, Platform, App, ToastController, Config} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {TranslateService} from '@ngx-translate/core';
 import {HockeyApp} from 'ionic-hockeyapp';
-import config from '../assets/config/config.json';
 import {AuthenticationService} from "../providers/Base/authentification.service";
+import config from '../assets/config/config.json';
 
 @Component({
     templateUrl: 'app.html'
@@ -17,11 +17,12 @@ export class MyApp {
     constructor(
         private platform: Platform,
         private app: App,
+        private config: Config,
         private hockeyApp: HockeyApp,
         private authService: AuthenticationService,
         statusBar: StatusBar,
         splashScreen: SplashScreen,
-        translate: TranslateService,
+        private translate: TranslateService,
         events: Events,
         toastCtrl: ToastController,
     ) {
@@ -43,9 +44,10 @@ export class MyApp {
             translate.use('en');
         }
 
-
-
         platform.ready().then(() => {
+            this.translate.get('navigationBack').subscribe(backLabel => {
+              this.config.set('ios', 'backButtonText', backLabel)
+            });
             statusBar.styleLightContent();
             if (this.platform.is('android')) {
                 statusBar.styleBlackOpaque();
