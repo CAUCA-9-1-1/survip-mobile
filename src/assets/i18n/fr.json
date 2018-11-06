@@ -110,6 +110,11 @@
     "Yes": "Oui",
     "Detached": "Detaché"
   },
+  "enumTankType": {
+    "Undetermined": "Indéterminé",
+    "Underground": "Sous-terre",
+    "Aboveground": "Hors-terre"
+  },
   "extension":"Extension",
   "finish":"Terminer",
   "fireAlarmPanel":"Panneaux d'alarme",
@@ -142,7 +147,7 @@
   "gasInlet":"Entrée de gaz",
   "generalInformation":"Infos générales",
   "group": "Grouper",
-  "hazardousMaterial":"Hazardous materials",
+  "hazardousMaterial":"Matières dangereuses",
   "hazardousMaterialDelete":"Supprimer cette matière...",
   "hazardousMaterialDeleteQuestion":"Êtes-vous sûr de vouloir supprimer cette matière dangereuse ?",
   "hazardousMaterialDetail":"Détails de la matière dangereuse",

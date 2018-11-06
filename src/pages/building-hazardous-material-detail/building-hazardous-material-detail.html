@@ -39,9 +39,9 @@
             <ion-item>
                 <ion-label>{{'tank' | translate}}</ion-label>
                 <ion-select formControlName="tankTypeMasked" okText="Ok" cancelText="{{'cancel' | translate}}">
-                    <ion-option value="0">{{'tankTypeUndetermined' | translate}}</ion-option>
-                    <ion-option value="1">{{'tankTypeUnderground' | translate}}</ion-option>
-                    <ion-option value="2">{{'tankTypeAboveground' | translate}}</ion-option>
+                  <ion-option *ngFor="let key of tankTypeKeys" [value]="key">
+                    {{"enumTankType."+tankType[key] | translate}}
+                  </ion-option>
                 </ion-select>
             </ion-item>
             <ion-item>
@@ -92,7 +92,7 @@
             </ion-item>
             <ion-item>
                 <ion-label>{{'floor' | translate}}</ion-label>
-                <ion-input type="number" maxlength="4" formControlName="floor"></ion-input>
+                <ion-input type="text" maxlength="4" formControlName="floor"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label>{{'wall' | translate}}</ion-label>
