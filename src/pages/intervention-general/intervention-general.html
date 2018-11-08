@@ -16,6 +16,11 @@
             </ion-list-header>
 
             <ion-item>
+              <ion-label fixed>{{'owner' | translate}}</ion-label>
+              <ion-input type="text" disabled value="{{plan?.mainBuildingOwner}}"></ion-input>
+            </ion-item>
+
+            <ion-item>
                 <ion-label fixed>{{'risk' | translate}}</ion-label>
                 <ion-input type="text" disabled value="{{riskLevel?.name}}"></ion-input>
             </ion-item>

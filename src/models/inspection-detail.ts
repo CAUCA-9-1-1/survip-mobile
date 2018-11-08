@@ -19,5 +19,5 @@ export class InspectionDetail {
   status: number
   approbationRefusalReason: string;
   coordinates:{};
+  mainBuildingOwner: string;
 }
-
