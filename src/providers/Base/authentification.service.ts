@@ -113,7 +113,9 @@ export class AuthenticationService {
         if(!this.survipVersion) {
             await this.getAppConfiguration();
         }
-        return this.http.get('Authentification/VersionValidator/' + this.survipVersion, false).toPromise();
+        return this.http.get('Authentification/VersionValidator/' + this.survipVersion, false)
+            .timeout(2000)
+            .toPromise();
     }
 
     public async getAppConfiguration(){

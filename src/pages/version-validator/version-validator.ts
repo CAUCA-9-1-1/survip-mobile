@@ -3,6 +3,7 @@ import {IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import {Market} from "@ionic-native/market";
 import {AuthenticationService} from "../../providers/Base/authentification.service";
 import {TranslateService} from "@ngx-translate/core";
+import {ISubscription} from "rxjs/Subscription";
 
 @IonicPage()
 @Component({
@@ -16,6 +17,7 @@ export class VersionValidatorPage {
     public warningMessage = "";
     private labels = {};
     public displayStoreLink = true;
+    private resumeSubscription: ISubscription;
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -27,13 +29,15 @@ export class VersionValidatorPage {
             this.storeLink = 'App Store';
         }
 
-        this.authService.showLoading();
-
+        try {
         this.platform.ready().then(() => {
-            this.platform.resume.subscribe(() => {
+            this.resumeSubscription = this.platform.resume.subscribe(() => {
                 this.validVersion();
             });
         });
+        }catch(e){
+            console.log('error version validator constructor', e);
+        }
     }
 
     public ngOnInit(){
@@ -54,6 +58,8 @@ export class VersionValidatorPage {
     }
 
     public async validVersion() {
+        console.log('validversion');
+        this.authService.showLoading();
         this.authService.minimalVersionIsValid()
             .then(result => {
                 this.minimalVersionDisplay(result);
@@ -61,7 +67,9 @@ export class VersionValidatorPage {
             .catch(()=> {
                 this.serverDownDisplay();
             });
-            this.platform.resume.unsubscribe();
+        if(this.resumeSubscription) {
+            this.resumeSubscription.unsubscribe();
+        }
     }
 
     private serverDownDisplay(){
