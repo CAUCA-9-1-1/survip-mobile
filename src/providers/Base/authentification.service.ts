@@ -7,6 +7,7 @@ import {KeychainTouchId} from '@ionic-native/keychain-touch-id';
 import {HttpService} from './http.service';
 import {AppVersion} from "@ionic-native/app-version";
 import config from '../../assets/config/config.json';
+import {TranslateService} from '@ngx-translate/core';
 
 @Injectable()
 export class AuthenticationService {
@@ -23,6 +24,7 @@ export class AuthenticationService {
         private keychainTouchId: KeychainTouchId,
         private appVersion: AppVersion,
         private platform: Platform,
+        private translateService: TranslateService
     ) {
     }
 
@@ -55,8 +57,11 @@ export class AuthenticationService {
     }
 
     public showLoading() {
-        this.loading = this.loadingCtrl.create({content: 'Please wait...'});
-        this.loading.present();
+      this.translateService.get('waitFormMessage')
+        .subscribe(message => {
+          this.loading = this.loadingCtrl.create({content: message});
+          this.loading.present();
+        }, error => console.log(error));
     }
 
     public dismissLoading(){
