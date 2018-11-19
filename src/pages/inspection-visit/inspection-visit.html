@@ -40,7 +40,7 @@
             <ion-item-divider>{{'visitNewSchedule' | translate}}</ion-item-divider>
             <ion-item>
                 <ion-label>{{'date' | translate}}</ion-label>
-                <ion-datetime displayFormat="YYYY/MM/DD" placeholder="{{'date' | translate}}" [(ngModel)]=requestedDateOfVisit [pickerOptions]="customOptions"></ion-datetime>
+                <ion-datetime displayFormat="YYYY/MM/DD" placeholder="{{'date' | translate}}" [(ngModel)]=requestedDateOfVisit [pickerOptions]="customOptions" [min]="minimalNextVisitDate" [max]="maximalNextVisitDate"></ion-datetime>
             </ion-item>
         </ion-item-group>
     </ion-list>

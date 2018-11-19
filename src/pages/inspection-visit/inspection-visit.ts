@@ -6,6 +6,7 @@ import {InspectionVisit} from "../../models/inspection-visit";
 import {InterventionGeneralPage} from "../intervention-general/intervention-general";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {TranslateService} from "@ngx-translate/core";
+import {isNodeMatchingSelectorWithNegations} from '@angular/core/src/render3/node_selector_matcher';
 
 @IonicPage()
 @Component({
@@ -26,6 +27,8 @@ export class InspectionVisitPage {
     private completRefusal: boolean = false;
 
     public labels = {};
+    public minimalNextVisitDate: string = null;
+    public maximalNextVisitDate: string = null;
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -35,6 +38,9 @@ export class InspectionVisitPage {
                 private translateService: TranslateService) {
 
         this.ownerAbsent = this.navParams.get('ownerAbsent');
+        this.minimalNextVisitDate = this.getFormattedDate(new Date());
+
+        this.maximalNextVisitDate = this.getFormattedDate(this.getNextYear())
     }
 
     public ngOnInit() {
@@ -46,6 +52,29 @@ export class InspectionVisitPage {
             error => {
                 console.log(error)
             });
+    }
+
+    private getNextYear(): Date {
+      var d = new Date();
+      var year = d.getFullYear();
+      var month = d.getMonth();
+      var day = d.getDate();
+      return new Date(year + 1, month, day)
+    }
+
+    private getFormattedDate(date: Date): string {
+      var dd = date.getDate() + '';
+      var mm = (date.getMonth() + 1) + '';
+
+      var year = date.getFullYear();
+      if (date.getDate() < 10) {
+        dd = '0' + date.getDate();
+      }
+      if ((date.getMonth() + 1) < 10) {
+        mm = '0' + (date.getMonth() + 1);
+      }
+      var todayFormatted = year + '-' + mm + '-' + dd;
+      return todayFormatted;
     }
 
     public UpdateVisitRefusalReason() {
