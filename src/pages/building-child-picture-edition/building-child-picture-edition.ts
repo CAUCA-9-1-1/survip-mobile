@@ -34,19 +34,74 @@ export class BuildingChildPictureEditionPage {
 
   public async onOkay() {
     if (this.canvas) {
-       let json = JSON.stringify(this.canvas.toJSON(['width', 'height']));
+       const json = this.canvas.toJSON(['width', 'height']);
 
-       this.canvas.zoomToPoint(new fabric.Point(0, 0), 1);
-       this.canvas.absolutePan(new fabric.Point(0, 0));
-
-       let imageUri = this.canvas.toDataURL();
-
-      this.picture = {id: this.picture.id, idParent: this.picture.idParent, idPicture: this.picture.idPicture, dataUri: imageUri, sketchJson: json, modified:true };
+       this.getFullSizeImage(json).then((res) => {
+        const imageUri = res;
+        this.picture = {id: this.picture.id, idParent: this.picture.idParent, idPicture: this.picture.idPicture, dataUri: imageUri, sketchJson: JSON.stringify(json), modified:true };
+        this.viewCtrl.dismiss(this.picture);
+      });
     }
-    this.viewCtrl.dismiss(this.picture);
+    else
+      this.viewCtrl.dismiss();
   }
 
   public onCancel() {
     this.viewCtrl.dismiss(this.picture);
+  }
+
+  
+  private getFullSizeImage(json: JSON) : Promise<string> {
+    let fullSizeCanvas = new fabric.Canvas('1');
+    return new Promise(
+        (resolve): void => {
+        fullSizeCanvas = fullSizeCanvas.loadFromJSON(json, 
+            () => {
+                fullSizeCanvas.renderAll.bind(fullSizeCanvas);
+            fullSizeCanvas.renderAll();
+            const backgroundImage = json['backgroundImage'];
+
+            let scaleFactor = 1 / backgroundImage.scaleX;
+
+            this.setFullSizeCanvasSize(fullSizeCanvas, json, scaleFactor);
+            this.setFullSizeBackground(fullSizeCanvas, scaleFactor, backgroundImage);
+            const objects = fullSizeCanvas.getObjects();
+            this.setFullsizeObjects(objects, scaleFactor);
+
+        
+            fullSizeCanvas.renderAll();
+            resolve(fullSizeCanvas.toDataURL());
+        }
+      );
+    })
+}
+
+private setFullSizeCanvasSize(fullSizeCanvas: fabric.Canvas, json: JSON, scaleFactor: number) {
+    fullSizeCanvas.setWidth(json['width'] * scaleFactor);
+    fullSizeCanvas.setHeight(json['height'] * scaleFactor);
+}
+
+private setFullSizeBackground(fullSizeCanvas: fabric.Canvas, scaleFactor: number, backgroundImage: fabric.Image) {
+    const left = backgroundImage.left;
+    const top = backgroundImage.top;
+    
+    fullSizeCanvas.setBackgroundImage(fullSizeCanvas.backgroundImage, fullSizeCanvas.renderAll.bind(fullSizeCanvas), {
+        top: top * scaleFactor,
+        left: left * scaleFactor,
+        originX: 'left',
+        originY: 'top',
+        scaleX: 1,
+        scaleY: 1
+    });
+}
+
+private setFullsizeObjects(objects: Array<fabric.Object>, scaleFactor: number) {
+    for (const obj of objects) {
+        obj.left *= scaleFactor;
+        obj.scaleX *= scaleFactor;
+        obj.scaleY *= scaleFactor;
+        obj.top *= scaleFactor;
+        obj.setCoords();
+    }
   }
 }
