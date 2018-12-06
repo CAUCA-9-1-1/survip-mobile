@@ -68,6 +68,8 @@ export class BuildingChildPictureEditionPage {
             const objects = fullSizeCanvas.getObjects();
             this.setFullsizeObjects(objects, scaleFactor);
 
+            fullSizeCanvas.zoomToPoint(new fabric.Point(0, 0), 1);
+            fullSizeCanvas.absolutePan(new fabric.Point(0, 0));
         
             fullSizeCanvas.renderAll();
             resolve(fullSizeCanvas.toDataURL());
