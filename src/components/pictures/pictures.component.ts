@@ -28,15 +28,13 @@ export class PicturesComponent implements ControlValueAccessor {
     private changed = new Array<(value: string) => void>();
     private touched = new Array<() => void>();
     private options: CameraOptions = {
-        quality: 100,
+        quality: 80,
         destinationType: this.camera.DestinationType.DATA_URL,
         encodingType: this.camera.EncodingType.JPEG,
         mediaType: this.camera.MediaType.PICTURE,
         allowEdit: false,
         saveToPhotoAlbum: false,
-        correctOrientation: true,
-        targetWidth: 680,
-        targetHeight: 800,
+        correctOrientation: true
     };
 
     public isLoading = false;
@@ -125,6 +123,7 @@ export class PicturesComponent implements ControlValueAccessor {
             picture = this.updatePicture(pic);
         }
 
+        this.validatePictureSize(picture.dataUri);
         this.slides.update();
         if (this.saveAuto) {
             this.repo.save(picture);
@@ -260,5 +259,14 @@ export class PicturesComponent implements ControlValueAccessor {
             }
         });
         modal.present();
+    }
+
+    private validatePictureSize(pic: string){
+        var img = new Image();
+        img.onload = function(){
+            console.log('validatePictureSize',img.width + ' - '+ img.height );
+        };
+        img.src = pic;
+
     }
 }
