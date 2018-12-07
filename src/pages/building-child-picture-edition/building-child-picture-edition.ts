@@ -74,7 +74,7 @@ export class BuildingChildPictureEditionPage {
 
         
             fullSizeCanvas.renderAll();
-            resolve(fullSizeCanvas.toDataURL());
+            resolve(fullSizeCanvas.toDataURL({format:'jpeg', quality:0.9}));
         }
       );
     })
