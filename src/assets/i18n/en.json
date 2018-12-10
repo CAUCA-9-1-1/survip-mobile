@@ -155,6 +155,7 @@
   "height":"Height",
   "heightValidationMessage":"*Height must be a valid decimal (ex.:999.99)",
   "homePhone":"Home phone",
+  "imageSizeWarning": "The image you are trying to send is too big.",
   "implantationPlan":"Site plan",
   "inspectionBatch":"Inspection batch",
   "inspectionByMap":"By map",
