@@ -3,10 +3,11 @@ import {HttpService} from '../Base/http.service';
 import {EventEmitter, Injectable} from '@angular/core';
 import {map} from 'rxjs/operators';
 import {InspectionPictureForWeb} from "../../models/inspection-picture-for-web";
+import {Platform} from "ionic-angular";
 
 @Injectable()
 export class PictureRepositoryProvider {
-    constructor(private http: HttpService) {
+    constructor(private http: HttpService, private platform: Platform) {
     }
 
     public pictures: InspectionPictureForWeb[] = [];
@@ -28,6 +29,34 @@ export class PictureRepositoryProvider {
     }
 
     public delete(idPlan: string){
+        return this.http.delete("inspectionpicture/"+idPlan)
+            .pipe(map(response => response)).toPromise();
+    }
 
+    public async isPictureSizeValid(picUrl: string){
+        if (this.platform.is('cordova')) {
+            picUrl = 'data:image/jpeg;base64,' + picUrl;
+        }
+        console.log("getPictureSize");
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', picUrl, true);
+        xhr.responseType = 'blob';
+        const imageBlob = await new Promise((resolve) => {
+            xhr.onload = e =>{
+                if(xhr.status == 200 && xhr.response.type.startsWith('image/')){
+                    console.log("picture : ",xhr.response);
+                    if((xhr.response.size / 1000000.0) < 25.0) {
+                        resolve(true);
+                    }else {
+                        resolve(false);
+                    }
+                }else {
+                    resolve(false);
+                }
+            }
+            xhr.send();
+        });
+
+        return imageBlob;
     }
 }

@@ -155,6 +155,7 @@
   "height":"Hauteur",
   "heightValidationMessage":"*La hauteur doit être une valeur décimale de format valide (ex.: 9999.99).",
   "homePhone":"Téléphone domicile",
+  "imageSizeWarning": "L'image que vous voulez sauvegarder est trop volumineuse.",
   "implantationPlan":"Plan d'implantation",
   "inspectionBatch":"lot d'inspection",
   "inspectionByMap":"Par carte",

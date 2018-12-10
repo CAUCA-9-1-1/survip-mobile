@@ -49,5 +49,10 @@ export class InspectionBuildingAnomalyPictureRepositoryProvider implements Pictu
                 .toPromise();
         }
     }
+
+    public isPictureSizeValid(picUrl: string): Promise<any>
+    {
+        return this.isPictureSizeValid(picUrl);
+    }
 }
 

@@ -72,7 +72,7 @@ export class PicturesComponent implements ControlValueAccessor {
 
     public loadTranslation() {
         this.translateService.get([
-            'confirmation', 'photoDeleteQuestion'
+            'confirmation', 'photoDeleteQuestion','imageSizeWarning'
         ]).subscribe(labels => {
                 this.labels = labels;
             },
@@ -115,22 +115,27 @@ export class PicturesComponent implements ControlValueAccessor {
         this.touched.push(fn);
     }
 
-    public managePicture(pic: string){
-        let picture = new InspectionPictureForWeb();
-        if(this.multiPictures || this.repo.pictures.length == 0){
-            picture = this.addPicture(pic);
-        }else {
-            picture = this.updatePicture(pic);
-        }
+    public async managePicture(pic: string){
+        let picSizeValid = await this.isPictureSizeValid(pic);
+        if(picSizeValid){
 
-        this.validatePictureSize(picture.dataUri);
-        this.slides.update();
-        if (this.saveAuto) {
-            this.repo.save(picture);
-        } else {
-            this.repo.picturesChanged.emit(null);
+            let picture = new InspectionPictureForWeb();
+            if (this.multiPictures || this.repo.pictures.length == 0) {
+                picture = this.addPicture(pic);
+            } else {
+                picture = this.updatePicture(pic);
+            }
+
+            this.slides.update();
+            if (this.saveAuto) {
+                this.repo.save(picture);
+            } else {
+                this.repo.picturesChanged.emit(null);
+            }
+            this.slideToLast();
+        }else{
+            this.msg.showToast(this.labels['imageSizeWarning']);
         }
-      this.slideToLast();
     }
 
     private slideToLast = async() => {
@@ -261,12 +266,7 @@ export class PicturesComponent implements ControlValueAccessor {
         modal.present();
     }
 
-    private validatePictureSize(pic: string){
-        var img = new Image();
-        img.onload = function(){
-            console.log('validatePictureSize',img.width + ' - '+ img.height );
-        };
-        img.src = pic;
-
+    private async isPictureSizeValid(pic: string){
+        return this.repo.isPictureSizeValid(pic);
     }
 }
