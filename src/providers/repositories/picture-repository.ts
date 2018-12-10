@@ -4,10 +4,11 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {map} from 'rxjs/operators';
 import {InspectionPictureForWeb} from "../../models/inspection-picture-for-web";
 import {Platform} from "ionic-angular";
+import {InspectionConfigurationProvider} from "../inspection-configuration/inspection-configuration";
 
 @Injectable()
 export class PictureRepositoryProvider {
-    constructor(private http: HttpService, private platform: Platform) {
+    constructor(private http: HttpService, private platform: Platform, private config: InspectionConfigurationProvider) {
     }
 
     public pictures: InspectionPictureForWeb[] = [];
@@ -45,7 +46,7 @@ export class PictureRepositoryProvider {
             xhr.onload = e =>{
                 if(xhr.status == 200 && xhr.response.type.startsWith('image/')){
                     console.log("picture : ",xhr.response);
-                    if((xhr.response.size / 1000000.0) < 25.0) {
+                    if((xhr.response.size / 1000000.0) < this.config.configuration.maxUploadSize) {
                         resolve(true);
                     }else {
                         resolve(false);

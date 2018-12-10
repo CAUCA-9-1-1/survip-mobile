@@ -11,4 +11,5 @@ export class InspectionConfiguration {
   hasBuildingParticularRisks: boolean;
   hasBuildingAnomalies: boolean;
   hasSurvey: boolean;
+  maxUploadSize: number;
 }
