@@ -14,6 +14,7 @@ export class PictureRepositoryProvider {
     public pictures: InspectionPictureForWeb[] = [];
 
     public picturesChanged: EventEmitter<any> = new EventEmitter<any>();
+    public picturesDeleted: EventEmitter<any> = new EventEmitter<any>();
 
     public getList(idPicture: string): Promise<InspectionPictureForWeb[]> {
         if (!idPicture)
@@ -38,14 +39,12 @@ export class PictureRepositoryProvider {
         if (this.platform.is('cordova')) {
             picUrl = 'data:image/jpeg;base64,' + picUrl;
         }
-        console.log("getPictureSize");
         var xhr = new XMLHttpRequest();
         xhr.open('GET', picUrl, true);
         xhr.responseType = 'blob';
         const imageBlob = await new Promise((resolve) => {
             xhr.onload = e =>{
                 if(xhr.status == 200 && xhr.response.type.startsWith('image/')){
-                    console.log("picture : ",xhr.response);
                     if((xhr.response.size / 1000000.0) < this.config.configuration.maxUploadSize) {
                         resolve(true);
                     }else {

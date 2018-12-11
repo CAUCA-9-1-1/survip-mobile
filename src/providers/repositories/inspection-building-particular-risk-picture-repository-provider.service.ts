@@ -12,6 +12,7 @@ export class InspectionBuildingParticularRiskPictureRepositoryProvider implement
 
     public pictures: InspectionPictureForWeb[] = [];
     public picturesChanged: EventEmitter<any> = new EventEmitter<any>();
+    public picturesDeleted: EventEmitter<any> = new EventEmitter<any>();
 
     public getList(idBuildingParticularRisk: string): Promise<InspectionPictureForWeb[]> {
         return this.http.get('inspection/building/particularrisk/' + idBuildingParticularRisk + '/picture')

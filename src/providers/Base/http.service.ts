@@ -37,12 +37,6 @@ export class HttpService {
         );
     }
 
-    public getBlob(url: string, displayError: boolean = true): Observable<any> {
-        return this.client.get(url, {responseType: "blob", observe:"response"}).pipe(
-            catchError((error: HttpErrorResponse) => this.onError(error, displayError))
-        );
-    }
-
     public rawGet(url: string, retryCount: number = 3, displayError: boolean = true): Observable<any> {
         return this.client.get(this.getFullUrl(url), this.getHeaders())
             .retry(retryCount).pipe(
