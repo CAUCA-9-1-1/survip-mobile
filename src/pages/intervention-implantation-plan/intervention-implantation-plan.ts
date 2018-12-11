@@ -14,6 +14,7 @@ import {PictureRepositoryProvider} from "../../providers/repositories/picture-re
 export class InterventionImplantationPlanPage implements OnDestroy {
     public form: FormGroup;
     private pictureSubscriber: ISubscription;
+    private pictureDeletedSUbscriber: ISubscription;
 
     constructor(
         private fb: FormBuilder,
@@ -21,6 +22,7 @@ export class InterventionImplantationPlanPage implements OnDestroy {
         public picRepo: PictureRepositoryProvider,) {
         this.createForm();
         this.pictureSubscriber = this.picRepo.picturesChanged.subscribe(() => this.picturesUpdated());
+        this.pictureDeletedSUbscriber = this.picRepo.picturesDeleted.subscribe(() => this.pictureDeleted());
     }
 
     public ngOnDestroy(): void {
@@ -45,5 +47,9 @@ export class InterventionImplantationPlanPage implements OnDestroy {
             await this.picRepo.save(this.picRepo.pictures[0]);
             this.controller.savePlanIdPicture(this.picRepo.pictures[0].id);
         }
+    }
+
+    private pictureDeleted(){
+        this.controller.inspectionDetail.idPictureSitePlan = '';
     }
 }

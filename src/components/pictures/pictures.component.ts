@@ -190,6 +190,8 @@ export class PicturesComponent implements ControlValueAccessor {
                 } else {
                     this.slides.slideTo(0);
                 }
+
+                this.repo.picturesDeleted.emit();
             }
         });
     }

@@ -12,16 +12,15 @@ export class InspectionBuildingAnomalyPictureRepositoryProvider implements Pictu
     }
 
     public pictures: InspectionPictureForWeb[] = [];
-
     public picturesChanged: EventEmitter<any> = new EventEmitter<any>();
+    public picturesDeleted: EventEmitter<any> = new EventEmitter<any>();
 
     public getList(idBuildingAnomaly: string): Promise<InspectionPictureForWeb[]> {
         return this.http.get('inspection/building/anomaly/' + idBuildingAnomaly + '/picture')
-            .pipe(map(response =>
-                {
+            .pipe(map(response => {
                     let picCollection = [];
                     response.forEach(result => {
-                        picCollection.push(Object.assign(new InspectionPictureForWeb(),result));
+                        picCollection.push(Object.assign(new InspectionPictureForWeb(), result));
                     })
                     return picCollection;
                 }
@@ -41,17 +40,16 @@ export class InspectionBuildingAnomalyPictureRepositoryProvider implements Pictu
             .toPromise();
     }
 
-    public saveAll(){
-        let modifiedPic = this.pictures.filter(p=>p.modified == true);
-        if(modifiedPic.length > 0) {
+    public saveAll() {
+        let modifiedPic = this.pictures.filter(p => p.modified == true);
+        if (modifiedPic.length > 0) {
             return this.http.post('inspection/building/anomaly/pictures/', JSON.stringify(modifiedPic))
                 .pipe(map(response => response))
                 .toPromise();
         }
     }
 
-    public isPictureSizeValid(picUrl: string): Promise<any>
-    {
+    public isPictureSizeValid(picUrl: string): Promise<any> {
         return this.isPictureSizeValid(picUrl);
     }
 }
