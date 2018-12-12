@@ -37,9 +37,4 @@ export class InspectionBuildingParticularRiskPictureRepositoryProvider implement
             .pipe(map(response => response))
             .toPromise();
     }
-
-    public isPictureSizeValid(picUrl: string): Promise<any>
-    {
-        return this.isPictureSizeValid(picUrl);
-    }
 }

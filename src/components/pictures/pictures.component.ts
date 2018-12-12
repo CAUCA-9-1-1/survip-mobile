@@ -9,6 +9,7 @@ import {MessageToolsProvider} from '../../providers/message-tools/message-tools'
 import {InspectionPictureForWeb} from '../../models/inspection-picture-for-web';
 import {PicturesRepositoryProvider} from '../../interfaces/pictures-repository-provider.interface';
 import {TranslateService} from "@ngx-translate/core";
+import {PictureUtilitiesProvider} from "../../providers/picture-utilities/picture-utilities";
 
 @Component({
     selector: 'pictures',
@@ -63,7 +64,9 @@ export class PicturesComponent implements ControlValueAccessor {
         private platform: Platform,
         private windowRef: WindowRefService,
         private modalCtrl: ModalController,
-        private translateService: TranslateService) {
+        private translateService: TranslateService,
+        private pictureUtilities: PictureUtilitiesProvider
+    ) {
 
         this.loadTranslation();
         this.isUsingCordova = this.platform.is('cordova');
@@ -128,11 +131,11 @@ export class PicturesComponent implements ControlValueAccessor {
 
             this.slides.update();
             if (this.saveAuto) {
-                this.repo.save(picture);
+                await this.repo.save(picture);
             } else {
                 this.repo.picturesChanged.emit(null);
             }
-            this.slideToLast();
+            await this.slideToLast();
         }else{
             this.msg.showToast(this.labels['imageSizeWarning']);
         }
@@ -269,6 +272,6 @@ export class PicturesComponent implements ControlValueAccessor {
     }
 
     private async isPictureSizeValid(pic: string){
-        return this.repo.isPictureSizeValid(pic);
+        return this.pictureUtilities.pictureSizeIsValid(pic);
     }
 }
