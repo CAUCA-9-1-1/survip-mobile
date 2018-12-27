@@ -13,6 +13,10 @@ export class BuildingChildPictureEditionPage {
   public picture: InspectionPictureForWeb;
   public repo: PicturesRepositoryProvider;
 
+  public pictogramsPath = "./assets/pictograms/";
+  public pictograms =["AccesPrincipal.png", "Annonciateur.png", "BoiteClees.png", "BorneIncendie.png",
+                      "CamionPompier.png", "GazNaturel.png", "GazPropane.png", "Generatrice.png"];
+
   private canvas;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
