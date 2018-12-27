@@ -108,8 +108,8 @@ export class BuildingContactDetailPage {
 
     private createForm() {
         this.form = this.fb.group({
-            firstName: ['', [Validators.required, Validators.maxLength(30), this.noWhitespaceValidator]],
-            lastName: ['', [Validators.required, Validators.maxLength(30), this.noWhitespaceValidator]],
+            firstName: ['', [Validators.maxLength(100), this.noWhitespaceValidator]],
+            lastName: ['', [Validators.required, Validators.maxLength(100), this.noWhitespaceValidator]],
             callPriority: [0, [Validators.required, Validators.pattern('[0-9]+')]],
             phoneNumberMasked: ['', [Validators.maxLength(14), Validators.minLength(14)]],
             phoneNumberExtension: ['', [Validators.maxLength(10), Validators.pattern('[0-9]+'), Validators.min(0)]],
