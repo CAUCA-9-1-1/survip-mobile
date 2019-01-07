@@ -1,39 +1,29 @@
 import {Injectable} from '@angular/core';
-import {map} from 'rxjs/operators';
-import {HttpService} from '../Base/http.service';
 import {UnitOfMeasure} from '../../models/all-construction-types';
-import {Observable} from 'rxjs/Observable';
+import {Storage as OfflineStorage} from "@ionic/storage";
 
 @Injectable()
 export class UnitOfMeasureRepositoryProvider {
-
-    private readonly baseUrl: string = "unitofmeasure/";
-
-    constructor(public http: HttpService) {
+    constructor(private storage: OfflineStorage,) {
     }
 
-    public  getAllForRate(): Observable<UnitOfMeasure[]> {
-        return this.getAllForType('rate');
+    public  getAllForRate(): Promise<UnitOfMeasure[]> {
+      return this.storage.get('unit_of_measure_rate');
     }
 
-    public getAllForDiameter(): Observable<UnitOfMeasure[]> {
-        return this.getAllForType('diameter');
+    public getAllForDiameter(): Promise<UnitOfMeasure[]> {
+      return this.storage.get('unit_of_measure_diameter');
     }
 
-    public getAllForPressure(): Observable<UnitOfMeasure[]> {
-        return this.getAllForType('pressure');
+    public getAllForPressure(): Promise<UnitOfMeasure[]> {
+      return this.storage.get('unit_of_measure_pressure');
     }
 
-    public getAllForCapacity(): Observable<UnitOfMeasure[]> {
-        return this.getAllForType('capacity');
+    public getAllForCapacity(): Promise<UnitOfMeasure[]> {
+      return this.storage.get('unit_of_measure_capacity');
     }
 
-    public getAllForDimension(): Observable<UnitOfMeasure[]> {
-        return this.getAllForType('dimension');
-    }
-
-    private getAllForType(name: string): Observable<UnitOfMeasure[]> {
-        return this.http.get(this.baseUrl + name)
-            .pipe(map(response => response));
+    public getAllForDimension(): Promise<UnitOfMeasure[]> {
+      return this.storage.get('unit_of_measure_dimension');
     }
 }

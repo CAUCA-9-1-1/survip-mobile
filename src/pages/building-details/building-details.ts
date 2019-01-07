@@ -47,10 +47,10 @@ export class BuildingDetailsPage {
         this.idBuilding = navParams.get('idBuilding');
         this.name = navParams.get('name');
         this.createForm();
-        this.loadDataForLookups();
     }
 
-    public ngOnInit() {
+    public async ngOnInit() {
+        await this.loadDataForLookups();
         this.translateService.get([
             'buildingLeaveMessage', 'confirmation', 'waitFormMessage'
         ]).subscribe(labels => {
@@ -66,13 +66,11 @@ export class BuildingDetailsPage {
       this.garageTypeKeys = this.detailRepo.getEnumsKeysCollection(this.garageType);
     }
 
-    private loadDataForLookups() {
+    private async loadDataForLookups() {
         this.constructionRepo.getAllTypes()
             .subscribe((types: AllConstructionTypes) => this.allTypes = types);
-        this.unitOfMeasureRepo.getAllForDimension()
-            .subscribe((units: UnitOfMeasure[]) => this.dimensionUnitOfMeasure = units);
-        this.unitOfMeasureRepo.getAllForRate()
-            .subscribe((units: UnitOfMeasure[]) => this.ratesUnitOfMeasure = units);
+        this.dimensionUnitOfMeasure = await this.unitOfMeasureRepo.getAllForDimension();
+        this.ratesUnitOfMeasure = await this.unitOfMeasureRepo.getAllForRate();
     }
 
     public async ionViewDidEnter() {

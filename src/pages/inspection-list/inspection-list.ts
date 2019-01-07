@@ -9,6 +9,7 @@ import {Batch} from '../../models/batch';
 import {InspectionRepositoryProvider} from '../../providers/repositories/inspection-repository-provider.service';
 import {TranslateService} from "@ngx-translate/core";
 import {InspectionConfigurationProvider} from '../../providers/inspection-configuration/inspection-configuration';
+import {OfflineDataSynchronizerProvider} from "../../providers/offline-data-synchronizer/offline-data-synchronizer";
 
 @IonicPage()
 @Component({
@@ -26,6 +27,7 @@ export class InspectionListPage {
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
+                private synchronizer: OfflineDataSynchronizerProvider,
                 private riskLevelService: RiskLevelRepositoryProvider,
                 private loadingCtrl: LoadingController,
                 private inspectionService: InspectionRepositoryProvider,
@@ -33,22 +35,26 @@ export class InspectionListPage {
                 private menu: MenuController,
                 private configuration: InspectionConfigurationProvider,
                 private translateService: TranslateService) {
-        const loading = this.createLoadingControl();
-        loading.present();
-        riskLevelService.getAll()
-            .subscribe(risks => {
-                this.riskLevels = risks;
-                inspectionService.getAll()
-                    .subscribe(batches => {
-                        this.batches = batches;
-                        this.filterList();
-                        loading.dismiss();
-                    }, () => loading.dismiss());
-            }, () => loading.dismiss());
     }
 
-    public ngOnInit() {
-        this.translateService.get([
+    public async ngOnInit() {
+
+      const loading = this.createLoadingControl();
+      await loading.present();
+
+        this.synchronizer.synchronizeBaseEntities()
+          .then(async (value: boolean) => {
+            this.riskLevels = await this.riskLevelService.getAll();
+
+            this.inspectionService.getAll()
+              .subscribe(batches => {
+                this.batches = batches;
+                this.filterList();
+                loading.dismiss();
+              });
+          });
+
+      this.translateService.get([
             'loading', 'surveyUnassignedMessage'
         ]).subscribe(labels => {
             this.labels = labels;

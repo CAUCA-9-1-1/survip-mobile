@@ -6,6 +6,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {HockeyApp} from 'ionic-hockeyapp';
 import {AuthenticationService} from "../providers/Base/authentification.service";
 import config from '../assets/config/config.json';
+import { Storage as DataStorage } from '@ionic/storage';
 
 @Component({
     templateUrl: 'app.html'
@@ -15,6 +16,7 @@ export class MyApp {
     @ViewChild(Nav) nav: Nav;
 
     constructor(
+        private storage: DataStorage,
         private platform: Platform,
         private app: App,
         private config: Config,
@@ -45,6 +47,9 @@ export class MyApp {
         }
 
         platform.ready().then(() => {
+
+            console.log('driver: ', this.storage.driver);
+
             this.translate.get('navigationBack').subscribe(backLabel => {
               this.config.set('ios', 'backButtonText', backLabel)
             });
