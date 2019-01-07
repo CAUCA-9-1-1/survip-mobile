@@ -1,17 +1,14 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from '../Base/http.service';
-import {map} from 'rxjs/operators';
 import {AllConstructionTypes} from '../../models/all-construction-types';
-import {Observable} from 'rxjs/Observable';
+import {Storage as OfflineStorage} from "@ionic/storage";
 
 @Injectable()
 export class ConstructionTypesRepositoryProvider {
 
-    constructor(public http: HttpService) {
+    constructor(private storage: OfflineStorage) {
     }
 
-    public getAllTypes(): Observable<AllConstructionTypes> {
-        return this.http.get('construction/all')
-            .pipe(map(response => response));
+    public getAllTypes(): Promise<AllConstructionTypes> {
+        return this.storage.get('construction_types');
     }
 }

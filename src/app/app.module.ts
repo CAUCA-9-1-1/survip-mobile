@@ -68,6 +68,7 @@ import {IonicStorageModule} from "@ionic/storage";
 import { OfflineDataSynchronizerProvider } from '../providers/offline-data-synchronizer/offline-data-synchronizer';
 import { RiskLevelDataSynchronizerProvider } from '../providers/risk-level-data-synchronizer/risk-level-data-synchronizer';
 import { UnitOfMeasureDataSynchronizerProvider } from '../providers/unit-of-measure-data-synchronizer/unit-of-measure-data-synchronizer';
+import { ConstructionTypeDataSynchronizerProvider } from '../providers/construction-type-data-synchronizer/construction-type-data-synchronizer';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -167,7 +168,8 @@ export function httpServiceFactory(
     PictureUtilitiesProvider,
     OfflineDataSynchronizerProvider,
     RiskLevelDataSynchronizerProvider,
-    UnitOfMeasureDataSynchronizerProvider
+    UnitOfMeasureDataSynchronizerProvider,
+    ConstructionTypeDataSynchronizerProvider
     ]
 })
 export class AppModule {

@@ -67,8 +67,7 @@ export class BuildingDetailsPage {
     }
 
     private async loadDataForLookups() {
-        this.constructionRepo.getAllTypes()
-            .subscribe((types: AllConstructionTypes) => this.allTypes = types);
+        this.allTypes = await this.constructionRepo.getAllTypes();
         this.dimensionUnitOfMeasure = await this.unitOfMeasureRepo.getAllForDimension();
         this.ratesUnitOfMeasure = await this.unitOfMeasureRepo.getAllForRate();
     }

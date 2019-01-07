@@ -101,7 +101,7 @@ export class BuildingHazardousMaterialDetailPage {
 
     let regexChecker = (mask: string) => {
       return (control: FormControl) => {
-        var value = control.value + "";
+        const value = control.value + "";
         const reg = new RegExp(mask);
         if (reg.test(value))
           return null;
