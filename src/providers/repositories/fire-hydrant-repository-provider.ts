@@ -4,11 +4,12 @@ import {Observable} from 'rxjs/Observable';
 import {map} from 'rxjs/operators';
 import {FireHydrant} from "../../models/fire-hydrant";
 import {GenericType} from "../../models/generic-type";
+import {Storage as OfflineStorage} from "@ionic/storage";
 
 @Injectable()
 export class FireHydrantRepositoryProvider {
 
-    constructor(private http: HttpService) {
+    constructor(private http: HttpService, private storage: OfflineStorage) {
     }
 
     public getFireHydrant(idFireHydrant: string): Observable<FireHydrant>{
@@ -26,9 +27,8 @@ export class FireHydrantRepositoryProvider {
         }
     }
 
-    public getFireHydrantType():Observable<GenericType>{
-        return this.http.get('FireHydrantType/localized')
-            .pipe(map(response => response));
+    public getFireHydrantType():Promise<GenericType>{
+      return this.storage.get('fire_hydrant_type');
     }
 
     public colors = [{

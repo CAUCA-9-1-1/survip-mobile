@@ -42,9 +42,6 @@ export class BuildingWaterSprinklersPage {
         public navParams: NavParams,
         private translateService: TranslateService) {
 
-        typeRepo.getAll()
-            .subscribe(data => this.types = data);
-
         this.walls = staticRepo.getWallList();
         this.sectors = staticRepo.getSectorList();
         this.idBuilding = navParams.get("idBuilding");
@@ -53,8 +50,10 @@ export class BuildingWaterSprinklersPage {
         this.createForm();
     }
 
-    public ngOnInit() {
-        this.translateService.get([
+    public async ngOnInit() {
+      this.types = await this.typeRepo.getAll();
+
+      this.translateService.get([
             'confirmation', 'waitFormMessage', 'fireSprinklerLeaveMessage', 'fireSprinklerDeleteQuestion'
         ]).subscribe(labels => {
                 this.labels = labels;
@@ -133,19 +132,19 @@ export class BuildingWaterSprinklersPage {
     public async onDeleteSprinkler() {
         if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['fireSprinklerDeleteQuestion'])) {
             await this.repo.delete(this.idBuildingSprinkler);
-            this.viewCtrl.dismiss();
+            await this.viewCtrl.dismiss();
         }
         else if (this.isNew) {
-            this.viewCtrl.dismiss();
+            await this.viewCtrl.dismiss();
         }
     }
 
     public async onCancelEdition() {
         if (this.form.dirty || this.isNew) {
             if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['fireSprinklerLeaveMessage']))
-                this.viewCtrl.dismiss();
+                await this.viewCtrl.dismiss();
         }
         else
-            this.viewCtrl.dismiss();
+            await this.viewCtrl.dismiss();
     }
 }

@@ -44,12 +44,12 @@ export class BuildingPnapDetailPage {
         this.idBuilding = navParams.get("idBuilding");
         this.idBuildingPnap = navParams.get('idBuildingPnap');
         this.isNew = this.idBuildingPnap == null;
-        this.typeRepo.getAll()
-            .subscribe(data => this.pnapTypes = data);
         this.createForm();
     }
 
-    public ngOnInit() {
+    public async ngOnInit() {
+        this.pnapTypes = await this.typeRepo.getAll();
+
         this.translateService.get([
             'waitFormMessage', 'confirmation', 'pnapDeleteQuestion', 'pnapLeaveMessage'
         ]).subscribe(labels => {
@@ -64,8 +64,6 @@ export class BuildingPnapDetailPage {
         let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
         await load.present();
         try {
-
-
           if (this.idBuildingPnap == null)
             this.createPnap();
           else
@@ -115,7 +113,7 @@ export class BuildingPnapDetailPage {
         let area = "";
         let firstThree = "";
         let lastFour = "";
-        var result = "(";
+        let result = "(";
 
         if (phone.length == 0)
             return "";
