@@ -64,6 +64,10 @@ import { FireHydrantValidatorProvider } from '../providers/repositories/fire-hyd
 import {AppVersion} from "@ionic-native/app-version";
 import {Market} from "@ionic-native/market";
 import { PictureUtilitiesProvider } from '../providers/picture-utilities/picture-utilities';
+import {IonicStorageModule} from "@ionic/storage";
+import { OfflineDataSynchronizerProvider } from '../providers/offline-data-synchronizer/offline-data-synchronizer';
+import { RiskLevelDataSynchronizerProvider } from '../providers/risk-level-data-synchronizer/risk-level-data-synchronizer';
+import { UnitOfMeasureDataSynchronizerProvider } from '../providers/unit-of-measure-data-synchronizer/unit-of-measure-data-synchronizer';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -94,6 +98,10 @@ export function httpServiceFactory(
         }),
         CommonModule,
         IonicModule.forRoot(MyApp, {scrollAssist: false,autoFocusAssist: false}),
+        IonicStorageModule.forRoot({
+          name: '__mydb',
+          driverOrder: ['sqlite', 'indexeddb', 'websql']
+        }),
         BrowserModule,
         ComponentsModule,
     ],
@@ -156,7 +164,10 @@ export function httpServiceFactory(
         FireHydrantValidatorProvider,
         AppVersion,
         Market,
-    PictureUtilitiesProvider
+    PictureUtilitiesProvider,
+    OfflineDataSynchronizerProvider,
+    RiskLevelDataSynchronizerProvider,
+    UnitOfMeasureDataSynchronizerProvider
     ]
 })
 export class AppModule {

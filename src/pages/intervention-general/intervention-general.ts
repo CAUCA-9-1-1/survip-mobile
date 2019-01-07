@@ -82,12 +82,12 @@ export class InterventionGeneralPage implements OnDestroy {
         this.controller.loadInterventionForm();
     }
 
-    public setValuesAndStartListening() {
-        this.userAccessValidation();
+    public async setValuesAndStartListening() {
+        await this.userAccessValidation();
         this.refreshUserPermission = false;
         this.idLaneTransversal = this.plan.idLaneTransversal;
         this.setValues();
-        this.loadRiskLevel();
+        await this.loadRiskLevel();
         this.loadLaneName();
         this.loadUtilisationCode();
         this.startWatchingForm();
@@ -111,14 +111,9 @@ export class InterventionGeneralPage implements OnDestroy {
         });
     }
 
-    public loadRiskLevel() { // why am i loading this exactly?
+    public async loadRiskLevel() { // why am i loading this exactly?
         if (this.plan != null) {
-            this.riskLevelService.getById(this.plan.mainBuildingIdRiskLevel)
-                .subscribe(
-                    result =>
-                    {
-                        this.riskLevel = result;
-                    });
+            this.riskLevel = await this.riskLevelService.getById(this.plan.mainBuildingIdRiskLevel);
         }
     }
 
