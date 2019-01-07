@@ -90,7 +90,7 @@ export class FireHydrantPage {
     this.hydrantColors = this.fireHydrantRepo.colors;
 
     this.loadFireHydrant();
-    this.loadFireHydrantTypes();
+    await this.loadFireHydrantTypes();
     this.pressureMeasuringUnit = await this.unitRepo.getAllForPressure()
     this.rateMeasuringUnit = await this.unitRepo.getAllForRate();
   }
@@ -112,13 +112,8 @@ export class FireHydrantPage {
     }
   }
 
-  private loadFireHydrantTypes() {
-    this.fireHydrantRepo.getFireHydrantType()
-      .subscribe(success => {
-        this.fireHydrantTypes = success;
-      }, error => {
-        console.log("Erreur dans loadFireHydrantTypes " + error);
-      })
+  private async loadFireHydrantTypes() {
+    this.fireHydrantTypes = await this.fireHydrantRepo.getFireHydrantType()
   }
 
   private initializeEnumCollection() {

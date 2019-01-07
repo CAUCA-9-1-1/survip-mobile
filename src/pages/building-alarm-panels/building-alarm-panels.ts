@@ -42,8 +42,6 @@ export class BuildingAlarmPanelsPage {
         public navParams: NavParams,
         private translateService: TranslateService) {
 
-        typeRepo.getAll()
-            .subscribe(data => this.types = data);
         this.walls = staticRepo.getWallList();
         this.sectors = staticRepo.getSectorList();
         this.idBuilding = navParams.get("idBuilding");
@@ -52,7 +50,9 @@ export class BuildingAlarmPanelsPage {
         this.createForm();
     }
 
-    public ngOnInit() {
+    public async ngOnInit() {
+        this.types = await this.typeRepo.getAll()
+
         this.translateService.get([
             'confirmation', 'waitFormMessage', 'fireAlarmPanelDeleteQuestion', 'fireAlarmPanelLeaveMessage'
         ]).subscribe(labels => {
@@ -130,19 +130,19 @@ export class BuildingAlarmPanelsPage {
     public async onDeleteAlarmPanel() {
         if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['fireAlarmPanelDeleteQuestion'])) {
             await this.repo.delete(this.idBuildingAlarmPanel);
-            this.viewCtrl.dismiss();
+            await this.viewCtrl.dismiss();
         }
         else if (this.isNew) {
-            this.viewCtrl.dismiss();
+            await this.viewCtrl.dismiss();
         }
     }
 
     public async onCancelEdition() {
         if (this.form.dirty || this.isNew) {
             if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['fireAlarmPanelLeaveMessage']))
-                this.viewCtrl.dismiss();
+                await this.viewCtrl.dismiss();
         }
         else
-            this.viewCtrl.dismiss();
+            await this.viewCtrl.dismiss();
     }
 }

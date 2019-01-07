@@ -1,17 +1,14 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from '../Base/http.service';
 import {RouteDirection} from '../../models/route-direction';
-import {map} from 'rxjs/operators';
+import {Storage as OfflineStorage} from "@ionic/storage";
 
 @Injectable()
 export class RouteDirectionRepositoryProvider {
 
-    constructor(private http: HttpService) {
+    constructor(private storage: OfflineStorage,) {
     }
 
     public getList(): Promise<RouteDirection[]> {
-        return this.http.get('routedirection')
-            .pipe(map(response => response))
-            .toPromise();
+      return this.storage.get('route_direction');
     }
 }

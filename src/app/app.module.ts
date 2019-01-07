@@ -69,6 +69,11 @@ import { OfflineDataSynchronizerProvider } from '../providers/offline-data-synch
 import { RiskLevelDataSynchronizerProvider } from '../providers/risk-level-data-synchronizer/risk-level-data-synchronizer';
 import { UnitOfMeasureDataSynchronizerProvider } from '../providers/unit-of-measure-data-synchronizer/unit-of-measure-data-synchronizer';
 import { ConstructionTypeDataSynchronizerProvider } from '../providers/construction-type-data-synchronizer/construction-type-data-synchronizer';
+import { AlarmTypeDataSynchronizerProvider } from '../providers/alarm-type-data-synchronizer/alarm-type-data-synchronizer';
+import { FireHydrantTypeDataSynchronizerProvider } from '../providers/fire-hydrant-type-data-synchronizer/fire-hydrant-type-data-synchronizer';
+import { PersonRequiringAssistanceTypeDataSynchronizerProvider } from '../providers/person-requiring-assistance-type-data-synchronizer/person-requiring-assistance-type-data-synchronizer';
+import { SprinklerTypeDataSynchronizerProvider } from '../providers/sprinkler-type-data-synchronizer/sprinkler-type-data-synchronizer';
+import { RouteDirectionTypeDataSynchronizerProvider } from '../providers/route-direction-type-data-synchronizer/route-direction-type-data-synchronizer';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -169,7 +174,12 @@ export function httpServiceFactory(
     OfflineDataSynchronizerProvider,
     RiskLevelDataSynchronizerProvider,
     UnitOfMeasureDataSynchronizerProvider,
-    ConstructionTypeDataSynchronizerProvider
+    ConstructionTypeDataSynchronizerProvider,
+    AlarmTypeDataSynchronizerProvider,
+    FireHydrantTypeDataSynchronizerProvider,
+    PersonRequiringAssistanceTypeDataSynchronizerProvider,
+    SprinklerTypeDataSynchronizerProvider,
+    RouteDirectionTypeDataSynchronizerProvider
     ]
 })
 export class AppModule {
