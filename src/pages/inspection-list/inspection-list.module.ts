@@ -5,6 +5,7 @@ import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-lev
 import {InspectionRepositoryProvider} from '../../providers/repositories/inspection-repository-provider.service';
 import {ComponentsModule} from "../../components/components.module";
 import {TranslateModule} from "@ngx-translate/core";
+import {ProgressBarModule} from "angular-progress-bar";
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import {TranslateModule} from "@ngx-translate/core";
     IonicPageModule.forChild(InspectionListPage),
       ComponentsModule,
       TranslateModule.forChild(),
+    ProgressBarModule
   ],
   exports: [
     InspectionListPage

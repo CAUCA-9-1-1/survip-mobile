@@ -43,6 +43,7 @@
   "cartographyLocation":"Cartography positioning",
   "cellular":"Cellular",
   "circle": "Circle",
+  "checkCache": "Check cache...",
   "choose":"Choose...",
   "chooseFireStation":"Choose a fire station",
   "civicNumber":"Civic #",
