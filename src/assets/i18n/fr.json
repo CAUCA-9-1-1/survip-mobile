@@ -43,6 +43,7 @@
   "cartographyLocation":"Positionnement cartographique",
   "cellular":"Cellulaire",
   "circle": "Cercle",
+  "checkCache": "Vérification de la cache...",
   "choose":"Choisir...",
   "chooseFireStation":"Choisir une caserne",
   "civicNumber":"# civique",

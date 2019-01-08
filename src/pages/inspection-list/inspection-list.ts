@@ -25,6 +25,14 @@ export class InspectionListPage {
     public noDataMessage = "";
     public labels = {};
 
+    get isSynching(): boolean {
+      return this.synchronizer.isSynching;
+    }
+
+    get synchingPercentCompleted(): number {
+      return this.synchronizer.percentCompleted;
+    }
+
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 private synchronizer: OfflineDataSynchronizerProvider,
