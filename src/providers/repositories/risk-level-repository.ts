@@ -3,6 +3,7 @@ import 'rxjs/add/operator/map';
 import {HttpService} from '../Base/http.service';
 import {RiskLevel} from "../../models/risk-level";
 import {Storage as OfflineStorage} from '@ionic/storage';
+import {ExpiringCache} from "../expiring-cache";
 
 @Injectable()
 export class RiskLevelRepositoryProvider {
@@ -11,7 +12,8 @@ export class RiskLevelRepositoryProvider {
     }
 
     public getAll() : Promise<RiskLevel[]> {
-        return this.storage.get('risk_level');
+        return this.storage.get('risk_level')
+          .then((cache:ExpiringCache<RiskLevel[]>) => cache.data);
     }
 
     public async getById(idRiskLevel: string) : Promise<RiskLevel> {

@@ -9,7 +9,3 @@ export class AllConstructionTypes {
   buildingSidingTypes: GenericType[] [];
 }
 
-export class UnitOfMeasure {
-  id: string;
-  name: string;
-}

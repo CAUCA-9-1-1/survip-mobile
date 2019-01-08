@@ -32,7 +32,8 @@ export class HttpService {
     }
 
     public get(url: string, displayError: boolean = true): Observable<any> {
-        return this.client.get(this.getFullUrl(url), this.getHeaders()).pipe(
+        return this.client.get(this.getFullUrl(url), this.getHeaders())
+          .pipe(
             catchError((error: HttpErrorResponse) => this.onError(error, displayError))
         );
     }
