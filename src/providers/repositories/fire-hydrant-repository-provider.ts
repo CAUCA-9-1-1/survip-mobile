@@ -5,6 +5,7 @@ import {map} from 'rxjs/operators';
 import {FireHydrant} from "../../models/fire-hydrant";
 import {GenericType} from "../../models/generic-type";
 import {Storage as OfflineStorage} from "@ionic/storage";
+import {ExpiringCache} from "../expiring-cache";
 
 @Injectable()
 export class FireHydrantRepositoryProvider {
@@ -27,8 +28,9 @@ export class FireHydrantRepositoryProvider {
         }
     }
 
-    public getFireHydrantType():Promise<GenericType>{
-      return this.storage.get('fire_hydrant_type');
+    public getFireHydrantType():Promise<GenericType[]>{
+      return this.storage.get('fire_hydrant_type')
+        .then((cache:ExpiringCache<GenericType[]>) => cache.data);
     }
 
     public colors = [{

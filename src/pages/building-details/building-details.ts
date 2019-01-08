@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
-import {AllConstructionTypes, UnitOfMeasure} from '../../models/all-construction-types';
+import {AllConstructionTypes} from '../../models/all-construction-types';
 import {ConstructionTypesRepositoryProvider} from '../../providers/repositories/construction-types-repository';
 import {UnitOfMeasureRepositoryProvider} from '../../providers/repositories/unit-of-measure-repository';
 import {GarageType, InspectionBuildingDetail} from '../../models/inspection-building-detail';
@@ -9,6 +9,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MessageToolsProvider} from '../../providers/message-tools/message-tools';
 import {ISubscription} from 'rxjs/Subscription';
 import {TranslateService} from "@ngx-translate/core";
+import {UnitOfMeasure} from "../../models/unit-of-measure";
 
 @IonicPage()
 @Component({

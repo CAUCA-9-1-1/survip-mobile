@@ -7,7 +7,7 @@ import {MessageToolsProvider} from '../../providers/message-tools/message-tools'
 import {InspectionBuildingHazardousMaterialRepositoryProvider} from '../../providers/repositories/inspection-building-hazardous-material-repository';
 import {UUID} from 'angular2-uuid';
 import {HazardousMaterialRepositoryProvider} from '../../providers/repositories/hazardous-material-repository';
-import {UnitOfMeasure} from '../../models/all-construction-types';
+import {UnitOfMeasure} from '../../models/unit-of-measure';
 import {UnitOfMeasureRepositoryProvider} from '../../providers/repositories/unit-of-measure-repository';
 import {StaticListRepositoryProvider} from '../../providers/static-list-repository/static-list-repository';
 import {HazardousMaterialForList} from '../../models/hazardous-material-for-list';

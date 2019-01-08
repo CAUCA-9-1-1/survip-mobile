@@ -8,10 +8,10 @@ import {FireHydrantRepositoryProvider} from "../../providers/repositories/fire-h
 import {OperatorTypeRepositoryProvider} from "../../providers/repositories/operator-type-repository-provider";
 import {LaneRepositoryProvider} from "../../providers/repositories/lane-repository";
 import {UnitOfMeasureRepositoryProvider} from "../../providers/repositories/unit-of-measure-repository";
-import {UnitOfMeasure} from "../../models/all-construction-types";
+import {UnitOfMeasure} from "../../models/unit-of-measure";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {TranslateService} from "@ngx-translate/core";
-import {ISubscription} from "../../../node_modules/rxjs/Subscription";
+import {ISubscription} from "rxjs/Subscription";
 import {MapLocalizationRepositoryService} from "../../providers/repositories/map-localisation-repository-service";
 import {FireHydrantValidatorProvider} from "../../providers/repositories/fire-hydrant-validator-provider";
 
@@ -37,7 +37,7 @@ export class FireHydrantPage {
   public form: FormGroup;
   public labels = {};
   public hydrantColors = [];
-  public fireHydrantTypes: GenericType;
+  public fireHydrantTypes: GenericType[] = [];
   public inspectionCity = "";
   public pressureMeasuringUnit: UnitOfMeasure[] = [];
   public rateMeasuringUnit: UnitOfMeasure[] = [];

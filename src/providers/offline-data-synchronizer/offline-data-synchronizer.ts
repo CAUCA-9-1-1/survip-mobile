@@ -12,6 +12,12 @@ import {PersonRequiringAssistanceTypeDataSynchronizerProvider} from "../person-r
 @Injectable()
 export class OfflineDataSynchronizerProvider {
 
+  private totalCount: number = 8;
+  private completedCount: number = 0;
+
+  public isSynching: boolean = false;
+  public percentCompleted: number = 0;
+
   constructor(
     private storage: OfflineStorage,
     private riskLevelRepo:  RiskLevelDataSynchronizerProvider,
@@ -26,17 +32,29 @@ export class OfflineDataSynchronizerProvider {
   }
 
   public synchronizeBaseEntities() : Promise<boolean> {
+    this.isSynching = true;
     return Promise.all([
-      this.riskLevelRepo.synchAll(),
-      this.measureRepo.synchAll(),
-      this.constructionRepo.synchAll(),
-      this.alarmTypeRepo.synchAll(),
-      this.sprinklerTypeRepo.synchAll(),
-      this.fireHydrantTypeRepo.synchAll(),
-      this.routeDirectionRepo.synchAll(),
-      this.pnapTypeRepo.synchAll()
+      this.riskLevelRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
+      this.measureRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
+      this.constructionRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
+      this.alarmTypeRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
+      this.sprinklerTypeRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
+      this.fireHydrantTypeRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
+      this.routeDirectionRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
+      this.pnapTypeRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful))
     ])
-      .then(responses => responses.every(r => r));
+      .then(responses => {
+        console.log('sync all finished.');
+        this.isSynching = false;
+        return responses.every(r => r);
+      });
+  }
+
+  private setTaskAsCompleted(wasSuccessful: boolean): boolean{
+    this.completedCount++;
+    this.percentCompleted = this.completedCount * 100 / this.totalCount;
+    console.log('completed count: ' + this.completedCount + '. ' + this.percentCompleted + '%');
+    return wasSuccessful;
   }
 
   public get(key: string) : Promise<any>{
