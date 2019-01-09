@@ -116,6 +116,8 @@
     "Underground": "Sous-terre",
     "Aboveground": "Hors-terre"
   },
+  "error": "Error",
+  "dataLoadingError": "Impossible d'accéder au serveur pour charger les données.  Veuillez réessayer plus tard.",
   "extension":"Extension",
   "finish":"Terminer",
   "fireAlarmPanel":"Panneaux d'alarme",

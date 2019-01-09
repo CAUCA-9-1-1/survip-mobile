@@ -36,7 +36,7 @@ export abstract class BaseDataSynchronizerProvider<T> {
             await this.saveValueToStorage(data);
             resolve(true);
           },
-           () => this.valueIsCached()
+           async () => resolve(await this.valueIsCached())
         );
     });
   }
@@ -69,7 +69,7 @@ export abstract class BaseDataSynchronizerProvider<T> {
     }
   }
 
-  public cacheIsExpired(cache: ExpiringCache<T>): boolean {
+  protected cacheIsExpired(cache: ExpiringCache<T>): boolean {
     const date = new Date();
     return cache.expiredOn < date;
   }

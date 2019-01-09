@@ -13,16 +13,25 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="isSynching">
-    <div style="text-align: center;">{{'checkCache' | translate}}</div>
-    <div>
-      <progress-bar [progress]="synchingPercentCompleted" color="#B32017">
-      </progress-bar>
-    </div>
-  </div>
   <ion-refresher (ionRefresh)="refreshList($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+  <ion-card *ngIf="!dataIsCorrectlyLoaded || isSynching">
+    <ion-card-header>
+      <ion-icon *ngIf="!dataIsCorrectlyLoaded && !isSynching" name="eye-off" item-start style="padding-right: 16px;"></ion-icon>
+      <ion-spinner *ngIf="isSynching" name="crescent"></ion-spinner>
+      {{(isSynching ? 'checkCache' : 'error') | translate}}
+    </ion-card-header>
+    <ion-card-content>
+      <div *ngIf="isSynching">
+        <progress-bar [progress]="synchingPercentCompleted" color="#B32017">
+        </progress-bar>
+      </div>
+      <div *ngIf="!isSynching && !dataIsCorrectlyLoaded">
+      {{'dataLoadingError' | translate}}
+      </div>
+    </ion-card-content>
+  </ion-card>
   <div class="no-data-message" *ngIf="batches?.length == 0">
     <h2>{{noDataMessage}}</h2>
   </div>
