@@ -32,13 +32,15 @@ export class MyApp {
           this.nav.setRoot(this.rootPage);
         });
 
+        /* temporarily commented, we'll see later if we need to keep this code.
+
         events.subscribe('http:error', (error) => {
           var toast = toastCtrl.create({
             message: error,
             duration: 3000
           });
           toast.present();
-        });
+        });*/
 
         translate.setDefaultLang('fr');
         if(window.navigator.language.startsWith('en')) {

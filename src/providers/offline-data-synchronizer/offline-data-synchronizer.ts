@@ -33,6 +33,8 @@ export class OfflineDataSynchronizerProvider {
 
   public synchronizeBaseEntities() : Promise<boolean> {
     this.isSynching = true;
+    this.completedCount = 0;
+    this.percentCompleted = 0;
     return Promise.all([
       this.riskLevelRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
       this.measureRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
