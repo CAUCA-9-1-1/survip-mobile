@@ -16,6 +16,7 @@ import {InspectionRepositoryProvider} from '../../providers/repositories/inspect
 import {TranslateService} from "@ngx-translate/core";
 import {InspectionConfigurationProvider} from '../../providers/inspection-configuration/inspection-configuration';
 import {OfflineDataSynchronizerProvider} from "../../providers/offline-data-synchronizer/offline-data-synchronizer";
+import {InspectionDetailRepositoryProvider} from "../../providers/repositories/inspection-detail-repository-provider.service";
 
 @IonicPage()
 @Component({
@@ -44,6 +45,7 @@ export class InspectionListPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
+              private inspectionDetailRepo: InspectionDetailRepositoryProvider,
               private toastCtrl: ToastController,
               private synchronizer: OfflineDataSynchronizerProvider,
               private riskLevelService: RiskLevelRepositoryProvider,
@@ -57,6 +59,10 @@ export class InspectionListPage {
   public async ngOnInit() {
     await this.loadInitialData();
     this.loadLocalization();
+  }
+
+  public getStatusDescription(status: number): string {
+    return this.inspectionDetailRepo.getInspectionStatusText(status);
   }
 
   private loadLocalization() {
