@@ -29,6 +29,6 @@ export class UnitOfMeasureRepositoryProvider {
 
   private getAllOfType(type: number): Promise<UnitOfMeasure[]> {
     return this.storage.get('unit_of_measure')
-      .then(units => units.filter(unit => unit.type == type));
+      .then(units => units.data.filter(unit => unit.measureType == type));
   }
 }

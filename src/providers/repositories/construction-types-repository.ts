@@ -10,7 +10,7 @@ export class ConstructionTypesRepositoryProvider {
     }
 
     public getAllTypes(): Promise<AllConstructionTypes> {
-        return this.storage.get('construction_types')
+        return this.storage.get('construction_type')
           .then((cache:ExpiringCache<AllConstructionTypes>) => cache.data);
     }
 }
