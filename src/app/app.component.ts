@@ -50,8 +50,6 @@ export class MyApp {
 
         platform.ready().then(() => {
 
-            console.log('driver: ', this.storage.driver);
-
             this.translate.get('navigationBack').subscribe(backLabel => {
               this.config.set('ios', 'backButtonText', backLabel)
             });
