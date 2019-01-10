@@ -178,7 +178,8 @@ export class InspectionListPage {
   private mustBeShown(inspection: Inspection): boolean {
     let riskLevelName = this.getRiskDescription(inspection.idRiskLevel);
     let riskContainsSearchTerm = riskLevelName.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
-    let addressContainsSearchTerm = inspection.address.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
+    const address = inspection.civicNumber + inspection.civicLetter + ', ' + inspection.laneName;
+    let addressContainsSearchTerm = address.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
     let batchDescriptionContainsSearchTerm = inspection.batchDescription.toLowerCase()
       .indexOf(this.searchTerm.toLowerCase()) > -1;
     return riskContainsSearchTerm || addressContainsSearchTerm || batchDescriptionContainsSearchTerm;

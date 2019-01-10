@@ -18,7 +18,6 @@ import {AuthenticationService} from '../providers/Base/authentification.service'
 import {HttpClientModule, HttpClient, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
-import {UtilisationCodeRepositoryProvider} from '../providers/repositories/utilisation-code-repository';
 import {InspectionBuildingCourseLaneRepositoryProvider} from '../providers/repositories/inspection-building-course-lane-repository-provider.service';
 import {InspectionBuildingFireHydrantRepositoryProvider} from '../providers/repositories/inspection-building-fire-hydrant-repository-provider';
 import {InspectionBuildingCourseRepositoryProvider} from '../providers/repositories/inspection-building-course-repository';
@@ -140,7 +139,6 @@ export function httpServiceFactory(
         AlarmPanelTypeRepository,
         SprinklerTypeRepository,
         FirestationRepositoryProvider,
-        UtilisationCodeRepositoryProvider,
         RouteDirectionRepositoryProvider,
         BuildingFireHydrantRepositoryProvider,
         HttpService,
