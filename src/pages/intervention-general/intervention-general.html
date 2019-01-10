@@ -17,7 +17,7 @@
 
             <ion-item>
               <ion-label fixed>{{'owner' | translate}}</ion-label>
-              <ion-input type="text" disabled value="{{plan?.mainBuildingOwner}}"></ion-input>
+              <ion-input type="text" disabled value="{{currentInspection?.ownerName}}"></ion-input>
             </ion-item>
 
             <ion-item>
@@ -27,32 +27,36 @@
 
             <ion-item>
                 <ion-label fixed>{{'affectation' | translate}}</ion-label>
-                <ion-input type="text" disabled value="{{utilisationCodeName}}"></ion-input>
+                <ion-input type="text" disabled value="{{currentInspection?.utilisationCodeDescription}}"></ion-input>
             </ion-item>
 
             <ion-item>
                 <ion-label fixed>{{'matricule' | translate}}</ion-label>
-                <ion-input type="text" disabled value="{{plan?.mainBuildingMatricule}}"></ion-input>
+                <ion-input type="text" disabled value="{{currentInspection?.matricule}}"></ion-input>
             </ion-item>
 
             <ion-item>
                 <ion-label fixed>Alias</ion-label>
-                <ion-input type="text" disabled value="{{plan?.mainBuildingName}}"></ion-input>
+                <ion-input type="text" disabled value="{{currentInspection?.aliasName}}"></ion-input>
             </ion-item>
 
             <ion-item>
                 <ion-label fixed>{{'lane' | translate}}</ion-label>
-                <ion-input type="text" disabled value="{{laneName}}"></ion-input>
+                <ion-input type="text" disabled value="{{currentInspection?.laneName}}"></ion-input>
             </ion-item>
 
-            <search-box
+          <ion-item *ngIf="plan?.status !== inspectionDetailProvider.InspectionVisitStatusEnum.Started">
+            <ion-label fixed>{{'transversal' | translate}}</ion-label>
+            <ion-input type="text" disabled value="{{currentInspection?.transversalLaneName}}"></ion-input>
+          </ion-item>
+
+            <search-box *ngIf="plan?.status == inspectionDetailProvider.InspectionVisitStatusEnum.Started"
                     description="{{'transversal' | translate}}"
                     formControlName="idLaneTransversal"
                     [displayFieldName]="'name'"
                     [disabledValue]="plan?.mainBuildingIdLane"
                     [keyFieldName]="'id'"
-                    [dataService]="laneService"
-                    [isDisabled]="plan?.status !== inspectionDetailProvider.InspectionVisitStatusEnum.Started"></search-box>
+                    [dataService]="laneService"></search-box>
         </ion-list>
     </form>
     <ion-card>

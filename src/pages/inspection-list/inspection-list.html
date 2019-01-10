@@ -13,9 +13,11 @@
 </ion-header>
 
 <ion-content>
+
   <ion-refresher (ionRefresh)="refreshList($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+
   <ion-card *ngIf="!dataIsCorrectlyLoaded || isSynching">
     <ion-card-header>
       <ion-icon *ngIf="!dataIsCorrectlyLoaded && !isSynching" name="eye-off" item-start style="padding-right: 16px;"></ion-icon>
@@ -32,13 +34,15 @@
       </div>
     </ion-card-content>
   </ion-card>
+
   <div class="no-data-message" *ngIf="batches?.length == 0">
     <h2>{{noDataMessage}}</h2>
   </div>
+
   <ion-list class="list-items">
       <ion-item-group *ngFor="let batch of filteredBatches">
         <ion-item-divider>{{'inspectionBatch' | translate}} : {{batch.description}}</ion-item-divider>
-        <button ion-item *ngFor="let inspection of batch.inspections" (click)="itemSelected(inspection)">
+        <button ion-item *ngFor="let inspection of batch.inspections" (click)="openInspection(inspection)">
           <ion-avatar item-left style="font-size: 40px"><ion-icon name="home" [style.color]="getRiskColor(inspection.idRiskLevel)"></ion-icon></ion-avatar>
           <h2>{{inspection.civicNumber}}{{inspection.civicLetter}}, {{inspection.laneName}}</h2>
           <p>{{'riskLevel' | translate}} : {{getRiskDescription(inspection.idRiskLevel)}}</p>
@@ -46,6 +50,7 @@
         </button>
       </ion-item-group>
   </ion-list>
+
 </ion-content>
 
 <ion-footer class="page-footer">

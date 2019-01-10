@@ -17,6 +17,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {InspectionConfigurationProvider} from '../../providers/inspection-configuration/inspection-configuration';
 import {OfflineDataSynchronizerProvider} from "../../providers/offline-data-synchronizer/offline-data-synchronizer";
 import {InspectionDetailRepositoryProvider} from "../../providers/repositories/inspection-detail-repository-provider.service";
+import {InspectionControllerProvider} from "../../providers/inspection-controller/inspection-controller";
 
 @IonicPage()
 @Component({
@@ -53,6 +54,7 @@ export class InspectionListPage {
               private inspectionService: InspectionRepositoryProvider,
               private menu: MenuController,
               private configuration: InspectionConfigurationProvider,
+              private controller: InspectionControllerProvider,
               private translateService: TranslateService) {
   }
 
@@ -161,9 +163,10 @@ export class InspectionListPage {
     return "rgba(" + [r, g, b, a].join(",") + ")";
   }
 
-  public async itemSelected(inspection: Inspection) {
+  public async openInspection(inspection: Inspection) {
+    this.controller.currentInspection = inspection;
     await this.configuration.loadConfiguration(inspection.id);
-    this.navCtrl.push('InterventionHomePage', {id: inspection.id});
+    await this.navCtrl.push('InterventionHomePage', {id: inspection.id});
   }
 
   public filterList() {

@@ -177,7 +177,7 @@ export function httpServiceFactory(
     FireHydrantTypeDataSynchronizerProvider,
     PersonRequiringAssistanceTypeDataSynchronizerProvider,
     SprinklerTypeDataSynchronizerProvider,
-    RouteDirectionTypeDataSynchronizerProvider
+    RouteDirectionTypeDataSynchronizerProvider,
     ]
 })
 export class AppModule {
