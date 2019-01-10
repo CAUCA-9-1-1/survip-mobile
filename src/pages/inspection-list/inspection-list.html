@@ -40,7 +40,7 @@
         <ion-item-divider>{{'inspectionBatch' | translate}} : {{batch.description}}</ion-item-divider>
         <button ion-item *ngFor="let inspection of batch.inspections" (click)="itemSelected(inspection)">
           <ion-avatar item-left style="font-size: 40px"><ion-icon name="home" [style.color]="getRiskColor(inspection.idRiskLevel)"></ion-icon></ion-avatar>
-          <h2>{{inspection.address}}</h2>
+          <h2>{{inspection.civicNumber}}{{inspection.civicLetter}}, {{inspection.laneName}}</h2>
           <p>{{'riskLevel' | translate}} : {{getRiskDescription(inspection.idRiskLevel)}}</p>
         </button>
       </ion-item-group>

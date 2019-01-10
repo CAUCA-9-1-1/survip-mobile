@@ -1,10 +1,16 @@
 export class Inspection {
   id: string;
   idBatch: string;
+  status: number;
   batchDescription: string;
   matricule: string;
-  geojson: object;
   idRiskLevel: string;
   idBuilding: string;
-  address: string;
+  laneName: string;
+  civicNumber: string;
+  civicLetter: string;
+  aliasName: string;
+  ownerName: string;
+  utilisationCodeDescription: string;
+  transversalLaneName: string;
 }

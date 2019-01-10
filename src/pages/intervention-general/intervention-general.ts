@@ -7,7 +7,6 @@ import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-lev
 import {LaneRepositoryProvider} from '../../providers/repositories/lane-repository';
 import {ISubscription} from 'rxjs/Subscription';
 import {InterventionForm} from '../../models/intervention-form';
-import {UtilisationCodeRepositoryProvider} from '../../providers/repositories/utilisation-code-repository';
 import {InspectionDetail} from '../../models/inspection-detail';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {InspectionDetailRepositoryProvider} from "../../providers/repositories/inspection-detail-repository-provider.service";
@@ -47,7 +46,6 @@ export class InterventionGeneralPage implements OnDestroy {
                 private controller: InspectionControllerProvider,
                 private riskLevelService: RiskLevelRepositoryProvider,
                 public laneService: LaneRepositoryProvider,
-                private utilisationCodeService: UtilisationCodeRepositoryProvider,
                 public inspectionDetailProvider: InspectionDetailRepositoryProvider,
                 private messageTools: MessageToolsProvider,
                 private translateService: TranslateService,
@@ -89,7 +87,6 @@ export class InterventionGeneralPage implements OnDestroy {
         this.setValues();
         await this.loadRiskLevel();
         this.loadLaneName();
-        this.loadUtilisationCode();
         this.startWatchingForm();
 
         this.validInspectionStatus();
@@ -121,13 +118,6 @@ export class InterventionGeneralPage implements OnDestroy {
         if (this.plan != null) {
             this.laneService.getDescriptionById(this.plan.mainBuildingIdLane)
                 .subscribe(result => this.laneName = result);
-        }
-    }
-
-    public loadUtilisationCode() {
-        if (this.plan != null) {
-            this.utilisationCodeService.get(this.plan.mainBuildingIdUtilisationCode)
-                .subscribe(result => this.utilisationCodeName = result.name);
         }
     }
 
