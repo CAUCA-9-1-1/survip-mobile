@@ -14,6 +14,7 @@ import {MessageToolsProvider} from "../../providers/message-tools/message-tools"
 import {TranslateService} from "@ngx-translate/core";
 import {MapLocalizationRepositoryService} from "../../providers/repositories/map-localisation-repository-service";
 import {InspectionConfigurationProvider} from "../../providers/inspection-configuration/inspection-configuration";
+import {Inspection} from "../../interfaces/inspection.interface";
 
 @IonicPage()
 @Component({
@@ -26,8 +27,9 @@ export class InterventionGeneralPage implements OnDestroy {
     public planSubscription: ISubscription;
     public controllerPlanSubscription: ISubscription;
     public idLaneTransversal: string;
-    public laneName: string;
-    public utilisationCodeName: string;
+    public currentInspection: Inspection;
+    /*public laneName: string;
+    public utilisationCodeName: string;*/
     public statusText: string;
     public startVisible = false;
     public labels = {};
@@ -53,6 +55,7 @@ export class InterventionGeneralPage implements OnDestroy {
                 private configService: InspectionConfigurationProvider) {
         this.createForm();
         this.controllerPlanSubscription = controller.planLoaded.subscribe(() =>this.setValuesAndStartListening());
+        this.currentInspection = controller.currentInspection;
     }
 
     public ngOnInit() {
@@ -86,7 +89,6 @@ export class InterventionGeneralPage implements OnDestroy {
         this.idLaneTransversal = this.plan.idLaneTransversal;
         this.setValues();
         await this.loadRiskLevel();
-        this.loadLaneName();
         this.startWatchingForm();
 
         this.validInspectionStatus();
@@ -117,7 +119,7 @@ export class InterventionGeneralPage implements OnDestroy {
     public loadLaneName() {
         if (this.plan != null) {
             this.laneService.getDescriptionById(this.plan.mainBuildingIdLane)
-                .subscribe(result => this.laneName = result);
+                .subscribe(result => this.currentInspection.laneName = result);
         }
     }
 

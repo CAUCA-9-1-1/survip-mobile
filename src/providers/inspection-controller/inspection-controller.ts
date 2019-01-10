@@ -11,11 +11,14 @@ import {InspectionBuildingsRepositoryProvider} from '../repositories/inspection-
 import {BuildingFireHydrantRepositoryProvider} from "../repositories/building-fire-hydrant-repository";
 import {map} from "rxjs/operators";
 import {TranslateService} from "@ngx-translate/core";
+import {Inspection} from "../../interfaces/inspection.interface";
 
 @Injectable()
 export class InspectionControllerProvider{
+    public currentInspection: Inspection;
+
     public idInspection: string;
-    public mainBuildingName: string;
+    //public mainBuildingName: string;
 
     public courses: InspectionBuildingCourseForList[];
 

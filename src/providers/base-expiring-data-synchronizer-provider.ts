@@ -2,7 +2,8 @@ import {HttpService} from "./Base/http.service";
 import {Storage as OfflineStorage} from "@ionic/storage";
 import {map} from "rxjs/operators";
 
-export abstract class BaseDataSynchronizerProvider<T> {
+export abstract class BaseExpiringDataSynchronizerProvider<T>{
+
   public readonly storageKey: string;
   protected readonly baseUrl: string;
 
