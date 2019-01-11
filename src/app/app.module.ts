@@ -73,6 +73,8 @@ import { FireHydrantTypeDataSynchronizerProvider } from '../providers/fire-hydra
 import { PersonRequiringAssistanceTypeDataSynchronizerProvider } from '../providers/person-requiring-assistance-type-data-synchronizer/person-requiring-assistance-type-data-synchronizer';
 import { SprinklerTypeDataSynchronizerProvider } from '../providers/sprinkler-type-data-synchronizer/sprinkler-type-data-synchronizer';
 import { RouteDirectionTypeDataSynchronizerProvider } from '../providers/route-direction-type-data-synchronizer/route-direction-type-data-synchronizer';
+import { LaneDataSynchronizerProvider } from '../providers/lane-data-synchronizer/lane-data-synchronizer';
+import { HazardousMaterialDataSynchronizerProvider } from '../providers/hazardous-material-data-synchronizer/hazardous-material-data-synchronizer';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -178,6 +180,8 @@ export function httpServiceFactory(
     PersonRequiringAssistanceTypeDataSynchronizerProvider,
     SprinklerTypeDataSynchronizerProvider,
     RouteDirectionTypeDataSynchronizerProvider,
+    LaneDataSynchronizerProvider,
+    HazardousMaterialDataSynchronizerProvider,
     ]
 })
 export class AppModule {

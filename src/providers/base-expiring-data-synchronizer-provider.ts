@@ -1,10 +1,13 @@
 import {HttpService} from "./Base/http.service";
 import {Storage as OfflineStorage} from "@ionic/storage";
 import {map} from "rxjs/operators";
+import {ExpiringCache} from "./expiring-cache";
 
 export abstract class BaseExpiringDataSynchronizerProvider<T>{
 
   public readonly storageKey: string;
+  public dayCountBeforeCacheIsExpired: number = 7;
+
   protected readonly baseUrl: string;
 
   protected constructor(
@@ -47,15 +50,30 @@ export abstract class BaseExpiringDataSynchronizerProvider<T>{
   }
 
   protected async saveValueToStorage(value: T) {
-    await this.offlineStorage.set(this.storageKey, value);
+    const cache = new ExpiringCache<T>();
+    cache.data = value;
+    cache.expiredOn = this.addDays(new Date(), this.dayCountBeforeCacheIsExpired);
+    await this.offlineStorage.set(this.storageKey, cache);
   }
 
-  protected async valueIsCachedAndStillValid(): Promise<boolean> {
+  private addDays(date: Date, dayToAdd: number): Date {
+    date.setDate(date.getDate() + dayToAdd);
+    return date;
+  }
+
+  protected async valueIsCachedAndStillValid(): Promise<boolean>{
     const cache = await this.offlineStorage.get(this.storageKey);
     if (cache != null) {
-      return Promise.resolve(true);
-    } else {
+      const isExpired = this.cacheIsExpired(cache);
+      return Promise.resolve(!isExpired);
+    }
+    else {
       return Promise.resolve(false);
     }
+  }
+
+  protected cacheIsExpired(cache: ExpiringCache<T>): boolean {
+    const date = new Date();
+    return cache.expiredOn < date;
   }
 }

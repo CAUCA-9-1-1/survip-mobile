@@ -19,16 +19,16 @@ export class HazardousMaterialSelectionPage {
         public navParams: NavParams) {
 
         this.matRepo.getFiltered(this.searchTerm.trim())
-            .subscribe(data => this.hazardousMaterials = data);
+          .then(materials => this.hazardousMaterials = materials);
     }
 
     public onSearch() {
-        this.matRepo.getFiltered(encodeURIComponent(this.searchTerm.trim()))
-            .subscribe(data => this.hazardousMaterials = data);
+        this.matRepo.getFiltered(this.searchTerm.trim())
+          .then(materials => this.hazardousMaterials = materials);
     }
 
-    public onSelectMaterial(id: string) {
-        this.viewCtrl.dismiss({'hasSelected': true, 'selectedId': id});
+    public onSelectMaterial(material: HazardousMaterialForList) {
+        this.viewCtrl.dismiss({'hasSelected': true, 'selectedMaterial': material});
     }
 
     public onCancel() {

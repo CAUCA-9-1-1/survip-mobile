@@ -8,6 +8,8 @@ import {SprinklerTypeDataSynchronizerProvider} from "../sprinkler-type-data-sync
 import {FireHydrantTypeDataSynchronizerProvider} from "../fire-hydrant-type-data-synchronizer/fire-hydrant-type-data-synchronizer";
 import {RouteDirectionTypeDataSynchronizerProvider} from "../route-direction-type-data-synchronizer/route-direction-type-data-synchronizer";
 import {PersonRequiringAssistanceTypeDataSynchronizerProvider} from "../person-requiring-assistance-type-data-synchronizer/person-requiring-assistance-type-data-synchronizer";
+import {LaneDataSynchronizerProvider} from "../lane-data-synchronizer/lane-data-synchronizer";
+import {HazardousMaterialDataSynchronizerProvider} from "../hazardous-material-data-synchronizer/hazardous-material-data-synchronizer";
 
 @Injectable()
 export class OfflineDataSynchronizerProvider {
@@ -27,7 +29,9 @@ export class OfflineDataSynchronizerProvider {
     private sprinklerTypeRepo: SprinklerTypeDataSynchronizerProvider,
     private fireHydrantTypeRepo : FireHydrantTypeDataSynchronizerProvider,
     private routeDirectionRepo: RouteDirectionTypeDataSynchronizerProvider,
-    private pnapTypeRepo: PersonRequiringAssistanceTypeDataSynchronizerProvider
+    private pnapTypeRepo: PersonRequiringAssistanceTypeDataSynchronizerProvider,
+    private laneRepo: LaneDataSynchronizerProvider,
+    private matRepo : HazardousMaterialDataSynchronizerProvider
   ) {
   }
 
@@ -35,7 +39,8 @@ export class OfflineDataSynchronizerProvider {
     this.isSynching = true;
     this.completedCount = 0;
     this.percentCompleted = 0;
-    return Promise.all([
+    const dataToLoad = [
+      this.matRepo.synchAll().then((wasSuccessful) => this.setTaskAsCompleted(wasSuccessful)),
       this.riskLevelRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
       this.measureRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
       this.constructionRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
@@ -44,12 +49,33 @@ export class OfflineDataSynchronizerProvider {
       this.fireHydrantTypeRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
       this.routeDirectionRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
       this.pnapTypeRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful))
-    ])
+    ];
+
+    this.totalCount = dataToLoad.length;
+
+    return Promise.all(dataToLoad)
       .then(responses => {
         console.log('sync all finished.');
         this.isSynching = false;
         return responses.every(r => r);
       });
+  }
+
+  public synchronizingLanes(cityIds: string[]): Promise<boolean> {
+    this.isSynching = true;
+    this.completedCount = 0;
+    this.percentCompleted = 0;
+    this.totalCount = cityIds.length;
+    const promises = this.laneRepo
+      .synchAll(cityIds)
+      .map(m => m.then((wasSuccessful) => this.setTaskAsCompleted(wasSuccessful)));
+
+    return Promise.all(promises)
+      .then(responses => {
+        console.log('sync completed');
+        this.isSynching = false;
+        return responses.every(r => r);
+      })
   }
 
   private setTaskAsCompleted(wasSuccessful: boolean): boolean{

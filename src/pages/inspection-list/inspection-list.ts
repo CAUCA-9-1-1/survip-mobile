@@ -96,8 +96,11 @@ export class InspectionListPage {
       .subscribe(
         batches => {
           this.batches = batches;
-          this.filterList();
-          this.hideLoadingControl();
+          this.synchronizer.synchronizingLanes(this.getAllCityIds())
+            .then(() => {
+              this.filterList();
+              this.hideLoadingControl();
+            });
         },
         () => {
           this.dataIsCorrectlyLoaded = false;
@@ -106,13 +109,32 @@ export class InspectionListPage {
       );
   }
 
+  private getAllCityIds(): string[]{
+    const cityIds = [];
+    this.batches.forEach(batch => {
+      batch.inspections.forEach(inspection => {
+        if (cityIds.every(id => id != inspection.idCity)){
+          cityIds.push(inspection.idCity);
+        }
+      })
+    });
+
+    console.log('cityIds', cityIds);
+
+    return cityIds;
+  }
+
   public refreshList(refresher) {
     if (this.dataIsCorrectlyLoaded) {
       this.inspectionService.getAll()
         .subscribe(batches => {
           this.batches = batches;
           this.filterList();
-          refresher.complete();
+          this.synchronizer.synchronizingLanes(this.getAllCityIds())
+            .then(() => {
+              this.filterList();
+              refresher.complete();
+            });
         }, () => refresher.complete());
     } else {
       refresher.complete();

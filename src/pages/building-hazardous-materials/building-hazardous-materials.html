@@ -12,7 +12,7 @@
 <ion-content>
   <ion-list class="list-items">
     <ion-list-header>{{'buildingHazardousMaterial' | translate}}</ion-list-header>
-    <button ion-item icon-start *ngFor="let mat of hazardousMaterials | orderBy:'hazardousMaterialName'" (click)="onItemClick(mat.id)">
+    <button ion-item icon-start *ngFor="let mat of hazardousMaterials | orderBy:'hazardousMaterialName'" (click)="onItemClick(mat)">
       <ion-icon name="nuclear" item-start></ion-icon>
       <h2>{{mat.hazardousMaterialName}} ({{mat.hazardousMaterialNumber}})</h2>
       <p>{{mat.quantityDescription}}</p>

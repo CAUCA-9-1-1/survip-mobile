@@ -2,15 +2,12 @@ import {EventEmitter, Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {LaneRepositoryProvider} from '../repositories/lane-repository';
 import {LoadingController} from 'ionic-angular';
-import {FirestationForlist} from '../../models/firestation';
-import {InspectionBuildingCourseForList} from '../../models/inspection-building-course-for-list';
 import {InspectionBuildingForList} from '../../models/inspection-building-for-list';
 import {InspectionDetail} from '../../models/inspection-detail';
 import {InspectionDetailRepositoryProvider} from '../repositories/inspection-detail-repository-provider.service';
 import {InspectionBuildingsRepositoryProvider} from '../repositories/inspection-buildings-repository-provider.service';
 import {BuildingFireHydrantRepositoryProvider} from "../repositories/building-fire-hydrant-repository";
 import {map} from "rxjs/operators";
-import {TranslateService} from "@ngx-translate/core";
 import {Inspection} from "../../interfaces/inspection.interface";
 
 @Injectable()
@@ -18,17 +15,16 @@ export class InspectionControllerProvider{
     public currentInspection: Inspection;
 
     public idInspection: string;
-    //public mainBuildingName: string;
 
-    public courses: InspectionBuildingCourseForList[];
+    //public courses: InspectionBuildingCourseForList[];
 
     public buildings: InspectionBuildingForList[];
-    public firestations: FirestationForlist[];
+    //public firestations: FirestationForlist[];
 
     public inspectionDetail: InspectionDetail;
 
     public planLoaded: EventEmitter<any> = new EventEmitter<any>();
-    public pictureLoaded: EventEmitter<any> = new EventEmitter<any>();
+    //public pictureLoaded: EventEmitter<any> = new EventEmitter<any>();
 
     public labels = {};
 
@@ -38,35 +34,24 @@ export class InspectionControllerProvider{
         private loadingCtrl: LoadingController,
         private laneRepo: LaneRepositoryProvider,
         private buildingfirehydrantRepo: BuildingFireHydrantRepositoryProvider,
-        private translateService: TranslateService,
     ) {
-    }
-
-    public  loadTranslation() {
-        this.translateService.get([
-            'loading'
-        ]).subscribe(labels => {
-                this.labels = labels;
-            },
-            error => {
-                console.log(error)
-            });
     }
 
     public setIdInterventionForm(idInterventionForm: string) {
         this.idInspection = idInterventionForm;
     }
 
-    public loadInterventionForm() {
+    public async loadInterventionForm() {
         const loading = this.createLoadingControl();
         loading.present();
         const result = this.repoDetail.get(this.idInspection);
         result.subscribe(data => {
             const plan: InspectionDetail = data as InspectionDetail;
-            this.laneRepo.currentIdCity = plan.idCity;
-            this.inspectionDetail = plan;
-            this.planLoaded.emit(null);
-            loading.dismiss();
+            this.laneRepo.setCurrentIdCity(plan.idCity).then(() => {
+              this.inspectionDetail = plan;
+              this.planLoaded.emit(null);
+              loading.dismiss();
+            });
         },
           error => {
             this.planLoaded.emit('loadingError');

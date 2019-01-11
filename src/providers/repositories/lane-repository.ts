@@ -1,41 +1,55 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from '../Base/http.service';
 import {Lane} from '../../models/lane';
 import {Observable} from 'rxjs/Observable';
-import {map} from 'rxjs/operators';
 import {ServiceForListInterface} from '../../interfaces/service-for-list.interface';
+import {Storage as OfflineStorage} from '@ionic/storage';
+import {StringUtilities} from "./string-utilities";
 
 @Injectable()
 export class LaneRepositoryProvider implements ServiceForListInterface {
-    public currentIdCity: string;
+  private _currentIdCity: string;
+  private currentCityLanes: Lane[];
 
-    constructor(private http: HttpService) {
-    }
+  constructor(private storage: OfflineStorage) {
+  }
 
-    public getFilteredLanes(searchTerm: string): Observable<Lane> {
-        return this.http.get('lane/city/' + this.currentIdCity + '/Search/' + searchTerm);
+  public async setCurrentIdCity(cityId: string) {
+    if (this._currentIdCity != cityId) {
+      this._currentIdCity = cityId;
+      await this.loadCityLanes();
     }
+  }
 
-    public get(idLane: string): Observable<string> {
-        if (!idLane) {
-            return Observable.of("");
-        } else {
-            return this.http.get('lane/localized/' + idLane)
-                .pipe(map(response => {
-                    return response;
-                }));
-        }
-    }
+  public getFilteredLanes(searchTerm: string): Lane[] {
+    const searchTermWithoutDiacritics = StringUtilities.removeDiacritics(searchTerm).toUpperCase();
+    return this.currentCityLanes.filter((lane) => {
+      const laneName = StringUtilities.removeDiacritics(lane.name).toUpperCase();
+      return laneName.indexOf(searchTermWithoutDiacritics) !== -1;
+    }).filter((lane, index) => index < 30);
+  }
 
-    public getList(searchTerm: string, searchFieldName: string): Observable<any[]> {
-        return this.getFilteredLanes(searchTerm) as Observable<any>;
+  public get(idLane: string): Observable<string> {
+    if (!idLane) {
+      return Observable.of("");
+    } else {
+      const lane = this.currentCityLanes.filter(lane => lane.id === idLane)[0];
+      if (lane != null) {
+        return Observable.of(lane.name);
+      } else{
+        return Observable.of('');
+      }
     }
+  }
 
-    public getDescriptionById(id: string): Observable<string> {
-        return this.get(id);
-    }
+  public getList(searchTerm: string, searchFieldName: string): Observable<any[]> {
+    return Observable.of(this.getFilteredLanes(searchTerm));
+  }
 
-    public getCityLanes(): Observable<Lane[]> {
-        return this.http.get('lane/city/' + this.currentIdCity);
-    }
+  public getDescriptionById(id: string): Observable<string> {
+    return this.get(id);
+  }
+
+  private async loadCityLanes() {
+    this.currentCityLanes = (await this.storage.get("lane_by_city_" + this._currentIdCity)).data;
+  }
 }

@@ -10,7 +10,6 @@ import {HazardousMaterialRepositoryProvider} from '../../providers/repositories/
 import {UnitOfMeasure} from '../../models/unit-of-measure';
 import {UnitOfMeasureRepositoryProvider} from '../../providers/repositories/unit-of-measure-repository';
 import {StaticListRepositoryProvider} from '../../providers/static-list-repository/static-list-repository';
-import {HazardousMaterialForList} from '../../models/hazardous-material-for-list';
 import {TranslateService} from "@ngx-translate/core";
 
 @IonicPage()
@@ -28,7 +27,7 @@ export class BuildingHazardousMaterialDetailPage {
 
   public tankTypeKeys = [];
   public isNew: boolean = false;
-  public selectedMaterial: HazardousMaterialForList;
+  public selectedMaterialDescription: string = '';
   public material: InspectionBuildingHazardousMaterial;
   public form: FormGroup;
   public unitOfMeasures: UnitOfMeasure[] = [];
@@ -52,7 +51,14 @@ export class BuildingHazardousMaterialDetailPage {
     private translateService: TranslateService) {
 
     this.idBuilding = navParams.get("idBuilding");
-    this.idBuildingHazardousMaterial = navParams.get('idBuildingHazardousMaterial');
+    const material = navParams.get('material');
+    if (material != null){
+      this.selectedMaterialDescription = material.name + " (" + material.number + ")";
+    }
+    else {
+      this.selectedMaterialDescription = '';
+    }
+
     this.isNew = this.idBuildingHazardousMaterial == null;
     this.walls = this.staticRepo.getWallList();
     this.sectors = this.staticRepo.getSectorList();
@@ -85,7 +91,6 @@ export class BuildingHazardousMaterialDetailPage {
       else
         this.material = await this.repo.get(this.idBuildingHazardousMaterial);
 
-      await this.loadHazardousMaterialName();
       this.setValuesAndStartListening();
     } finally {
       await load.dismiss();
@@ -190,14 +195,6 @@ export class BuildingHazardousMaterialDetailPage {
     this.material = data;
   }
 
-  private async loadHazardousMaterialName() {
-    if (this.material && this.material.idHazardousMaterial != "" && this.material.idHazardousMaterial != null) {
-      let data = await this.matRepo.getSelectedMaterial(this.material.idHazardousMaterial);
-      this.selectedMaterial = data;
-    } else
-      this.selectedMaterial = null;
-  }
-
   public async onDeleteHazardousMaterial() {
     if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['hazardousMaterialDeleteQuestion'])) {
       await this.repo.delete(this.idBuildingHazardousMaterial);
@@ -212,10 +209,10 @@ export class BuildingHazardousMaterialDetailPage {
     matModal.onDidDismiss(data => {
       if (data.hasSelected) {
         this.form.markAsDirty();
-        this.form.controls['idHazardousMaterial'].setValue(data.selectedId);
-        this.material.idHazardousMaterial = data.selectedId;
+        this.form.controls['idHazardousMaterial'].setValue(data.selectedMaterial.id);
+        this.selectedMaterialDescription = data.selectedMaterial.name + " (" + data.selectedMaterial.number + ")";
+        this.material.idHazardousMaterial = data.selectedMaterial.id;
         this.saveIfValid();
-        this.loadHazardousMaterialName();
       }
     });
     matModal.present();
@@ -227,13 +224,6 @@ export class BuildingHazardousMaterialDetailPage {
         await this.viewCtrl.dismiss();
     } else
       await this.viewCtrl.dismiss();
-  }
-
-  public getSelectedMaterialDescription() {
-    if (this.selectedMaterial != null)
-      return this.selectedMaterial.name + " (" + this.selectedMaterial.number + ")";
-    else
-      return '';
   }
 
   public onCapacityChanged() {
