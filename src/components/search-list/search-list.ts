@@ -40,7 +40,7 @@ export class SearchListComponent {
     }
 
     public setFilteredItems() {
-        this.dataService.getList(encodeURIComponent(this.searchTerm.trim()), this.displayFieldName).subscribe(list => {
+        this.dataService.getList(this.searchTerm.trim(), this.displayFieldName).subscribe(list => {
             this.items = list;
         });
     }

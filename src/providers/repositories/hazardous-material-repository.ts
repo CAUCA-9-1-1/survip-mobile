@@ -1,22 +1,25 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from '../Base/http.service';
-import {Observable} from 'rxjs/Observable';
 import {HazardousMaterialForList} from '../../models/hazardous-material-for-list';
-import {map} from 'rxjs/operators';
+import {Storage as OfflineStorage} from "@ionic/storage";
+import {StringUtilities} from "./string-utilities";
 
 @Injectable()
 export class HazardousMaterialRepositoryProvider {
 
-    constructor(public http: HttpService) {
-    }
+  constructor(private storage: OfflineStorage) {
+  }
 
-    public getFiltered(searchTerm: string): Observable<HazardousMaterialForList[]> {
-        return this.http.get("hazardousmaterial/search/" + searchTerm)
-    }
+  public async getFiltered(searchTerm: string): Promise<HazardousMaterialForList[]> {
+    const searchTermWithoutDiacritics = StringUtilities.removeDiacritics(searchTerm).toUpperCase();
+    const materials = await this.getAll();
 
-    public getSelectedMaterial(idHazardousMaterial: string): Promise<HazardousMaterialForList> {
-        return this.http.get("hazardousMaterial/" + idHazardousMaterial + "/name")
-            .pipe(map(response => response))
-            .toPromise();
-    }
+    return materials.filter((material) => {
+      const laneName = StringUtilities.removeDiacritics(material.name).toUpperCase();
+      return laneName.indexOf(searchTermWithoutDiacritics) !== -1 || material.number.indexOf(searchTermWithoutDiacritics) != -1;
+    }).filter((lane, index) => index < 30);
+  }
+
+  private async getAll(): Promise<HazardousMaterialForList[]> {
+    return (await this.storage.get("hazardous_material")).data;
+  }
 }

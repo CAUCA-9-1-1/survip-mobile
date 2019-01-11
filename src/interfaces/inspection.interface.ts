@@ -6,6 +6,7 @@ export class Inspection {
   matricule: string;
   idRiskLevel: string;
   idBuilding: string;
+  idCity: string;
   laneName: string;
   civicNumber: string;
   civicLetter: string;

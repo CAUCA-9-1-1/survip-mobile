@@ -47,16 +47,15 @@ export class BuildingHazardousMaterialsPage {
     private async loadMaterialList() {
         let loader = this.load.create({content: this.labels['waitFormMessage']});
         try {
-          const result = await this.matRepo.getList(this.idBuilding);
-          this.hazardousMaterials = result;
+          this.hazardousMaterials = await this.matRepo.getList(this.idBuilding);
         } finally {
           await loader.dismiss();
         }
     }
 
-    public onItemClick(idBuildingHazardousMaterial: string): void {
+    public onItemClick(material: InspectionBuildingHazardousMaterialForList): void {
         let modal = this.modalCtrl.create('BuildingHazardousMaterialDetailPage', {
-            idBuildingHazardousMaterial: idBuildingHazardousMaterial,
+            material: material,
             idBuilding: this.idBuilding
         });
         modal.onDidDismiss(() => this.loadMaterialList());

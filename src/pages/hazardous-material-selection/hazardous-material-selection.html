@@ -12,7 +12,7 @@
 
 <ion-content>
   <ion-list class="list-items">
-    <button ion-item *ngFor="let mat of hazardousMaterials | orderBy: 'name'" (click)="onSelectMaterial(mat.id)">
+    <button ion-item *ngFor="let mat of hazardousMaterials | orderBy: 'name'" (click)="onSelectMaterial(mat)">
       <h2>{{mat.name}}</h2>
       <p>{{mat.number}}</p>
     </button>

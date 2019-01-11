@@ -16,7 +16,7 @@
             <ion-item-divider>{{'product' | translate}}</ion-item-divider>
             <button ion-item icon-end (click)="onChangeMaterial()"
                     [class.invalid]="!form.controls.idHazardousMaterial.valid">
-                {{getSelectedMaterialDescription()}}
+                {{selectedMaterialDescription}}
             </button>
             <div *ngIf="!form.controls.idHazardousMaterial.valid" class="validation-error-text">
                 {{'productRequired' | translate}}
