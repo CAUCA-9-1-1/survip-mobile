@@ -53,7 +53,8 @@ export class BuildingHazardousMaterialDetailPage {
     this.idBuilding = navParams.get("idBuilding");
     const material = navParams.get('material');
     if (material != null){
-      this.selectedMaterialDescription = material.name + " (" + material.number + ")";
+      this.idBuildingHazardousMaterial = material.id;
+      this.selectedMaterialDescription = material.hazardousMaterialName + " (" + material.hazardousMaterialNumber + ")";
     }
     else {
       this.selectedMaterialDescription = '';
