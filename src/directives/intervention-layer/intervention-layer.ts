@@ -25,7 +25,7 @@ export class InterventionLayerDirective implements OnInit, OnDestroy {
     textBaseline: 'Center'
   };
 
-  /*get map(): IgoMap {
+  /*getResumedInspection map(): IgoMap {
     return this.component.map;
   }*/
 

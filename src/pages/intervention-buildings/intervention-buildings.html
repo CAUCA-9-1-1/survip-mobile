@@ -11,7 +11,7 @@
 <ion-content>
   <ion-list class="list-items">
     <ion-list-header>
-      {{plan?.mainBuildingAddress}}
+      {{currentInspection?.civicNumber}}{{currentInspection?.civicLetter}}, {{currentInspection?.laneName}}
     </ion-list-header>
     <button ion-item *ngFor="let building of buildings" (click)="onClickBuilding(building.id, building.name)" detail-push>
       <ion-thumbnail item-start *ngIf="building.picture != null">

@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {App, IonicPage, MenuController, NavController, NavParams, ViewController} from 'ionic-angular';
 import {InspectionBuildingForList} from '../../models/inspection-building-for-list';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
-import {InspectionDetail} from '../../models/inspection-detail';
+import {Inspection} from "../../interfaces/inspection.interface";
 
 @IonicPage()
 @Component({
@@ -10,11 +10,11 @@ import {InspectionDetail} from '../../models/inspection-detail';
     templateUrl: 'intervention-buildings.html',
 })
 export class InterventionBuildingsPage {
-    get plan(): InspectionDetail {
-        return this.controller.inspectionDetail
-    }
+  public get currentInspection(): Inspection {
+    return this.controller.currentInspection;
+  }
 
-    get buildings(): InspectionBuildingForList[] {
+  get buildings(): InspectionBuildingForList[] {
         return this.controller.buildings;
     }
 

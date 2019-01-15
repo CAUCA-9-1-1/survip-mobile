@@ -3,8 +3,9 @@ import {BaseDataSynchronizerProvider} from "../base-data-synchronizer-provider";
 import {Batch} from "../../models/batch";
 import {HttpService} from "../Base/http.service";
 import {Storage as OfflineStorage} from "@ionic/storage";
-import {InspectionBuildingsList} from "../../models/inspection-buildings-list";
+import {InspectionWithBuildingsList} from "../../models/inspection-with-buildings-list";
 import {map} from "rxjs/operators";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProvider<Batch[]> {
@@ -17,10 +18,9 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
 
   public downloadInspection(idInspection: string): Promise<boolean> {
     return new Promise((resolve) => {
-      this.service.get('inspection/' + idInspection + '/buildinglist')
-        .pipe(map(response => response))
+      this.getInspection(idInspection)
         .subscribe(
-          async (data: InspectionBuildingsList) => {
+          async (data: InspectionWithBuildingsList) => {
             await this.saveInspection(data);
             resolve(true);
           },
@@ -29,7 +29,12 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
     });
   }
 
-  private saveInspection(inspection: InspectionBuildingsList) : Promise<boolean>{
+  public getInspection(idInspection: string): Observable<InspectionWithBuildingsList>{
+    return this.service.get('inspection/' + idInspection + '/buildinglist')
+      .pipe(map(response => response));
+  }
+
+  private saveInspection(inspection: InspectionWithBuildingsList) : Promise<boolean>{
     return this.storage.set('inspection_buildings_' + inspection.id, inspection);
   }
 }

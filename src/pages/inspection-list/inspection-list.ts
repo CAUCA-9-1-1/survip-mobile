@@ -181,7 +181,7 @@ export class InspectionListPage {
   }
 
   public async openInspection(idInspection: string) {
-    await this.configuration.loadConfiguration(idInspection);
+    await this.controller.setIdInspection(idInspection);
     await this.navCtrl.push('InterventionHomePage', {id: idInspection});
   }
 

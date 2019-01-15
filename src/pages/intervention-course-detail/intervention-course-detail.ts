@@ -111,13 +111,13 @@ export class InterventionCourseDetailPage {
         let course = new InspectionBuildingCourse();
         course.id = UUID.UUID();
         this.idInspectionFormCourse = course.id;
-        course.idBuilding = this.controller.inspectionDetail.idBuilding;
+        course.idBuilding = this.controller.currentInspection.idBuilding;
         this.course = course;
         this.courseLanes = [];
     }
 
     private async loadFirestations() {
-        const result = await this.firestationRepo.getList(this.controller.inspectionDetail.idCity);
+        const result = await this.firestationRepo.getList(this.controller.currentInspection.idCity);
         this.firestations = result;
     }
 

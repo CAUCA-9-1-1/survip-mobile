@@ -31,12 +31,12 @@ export class InterventionImplantationPlanPage implements OnDestroy {
     }
 
     private createForm() {
-        this.form = this.fb.group({
+        /*this.form = this.fb.group({
             id: [this.controller.inspectionDetail.idPictureSitePlan ? this.controller.inspectionDetail.idPictureSitePlan : ''],
             picture: [''],
             dataUri: [''],
             sketchJson: [''],
-            idParent: [this.controller.inspectionDetail.idPictureSitePlan ? this.controller.inspectionDetail.idPictureSitePlan : '']});
+            idParent: [this.controller.inspectionDetail.idPictureSitePlan ? this.controller.inspectionDetail.idPictureSitePlan : '']});*/
     }
 
 
@@ -50,6 +50,6 @@ export class InterventionImplantationPlanPage implements OnDestroy {
     }
 
     private pictureDeleted(){
-        this.controller.inspectionDetail.idPictureSitePlan = '';
+        //this.controller.inspectionDetail.idPictureSitePlan = '';
     }
 }

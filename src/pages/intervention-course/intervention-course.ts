@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
 import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {InterventionForm} from '../../models/intervention-form';
-import {InspectionDetail} from '../../models/inspection-detail';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {InspectionBuildingCourseForList} from '../../models/inspection-building-course-for-list';
 import {InspectionBuildingCourseRepositoryProvider} from '../../providers/repositories/inspection-building-course-repository';
 import {TranslateService} from "@ngx-translate/core";
+import {Inspection} from "../../interfaces/inspection.interface";
 
 @IonicPage()
 @Component({
@@ -19,9 +19,9 @@ export class InterventionCoursePage {
     public courses: InspectionBuildingCourseForList[] = [];
     public labels = {};
 
-    get plan(): InspectionDetail {
-        return this.controller.inspectionDetail
-    }
+  public get currentInspection(): Inspection {
+    return this.controller.currentInspection;
+  }
 
     constructor(
         public navCtrl: NavController,

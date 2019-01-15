@@ -10,7 +10,7 @@
 
     <ion-list class="list-items">
         <ion-list-header>
-            {{plan?.mainBuildingAddress}}
+          {{currentInspection?.civicNumber}}{{currentInspection?.civicLetter}}, {{currentInspection?.laneName}}
         </ion-list-header>
         <ion-item *ngFor="let hydrant of fireHydrants | orderBy:'number'">
             <ion-icon name="icon-fire-hydrant" item-start [style.color]="hydrant.color" [style.background-color]="hydrant.color == '#FFFFFF' ? 'lightgray': null" large (click)="goToFireHydrantDetail(hydrant.idFireHydrant)"></ion-icon>

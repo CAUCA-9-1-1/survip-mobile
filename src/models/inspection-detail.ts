@@ -1,4 +1,4 @@
-export class InspectionDetail {
+/*export class InspectionDetail {
   id: string; // this is actually a idBuilding
   idLaneTransversal: string;
   idPictureSitePlan: string;
@@ -21,3 +21,4 @@ export class InspectionDetail {
   coordinates:{};
   mainBuildingOwner: string;
 }
+*/

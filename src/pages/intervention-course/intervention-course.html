@@ -8,7 +8,7 @@
 <ion-content>
   <ion-list class="list-items">
     <ion-list-header>
-      {{plan?.mainBuildingAddress}}
+      {{currentInspection?.civicNumber}}{{currentInspection?.civicLetter}}, {{currentInspection?.laneName}}
     </ion-list-header>
     <button ion-item *ngFor="let item of courses | orderBy:'description'" (click)="onItemClick(item.id)" detail-push>{{item.description}}</button>
   </ion-list>

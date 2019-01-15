@@ -7,7 +7,6 @@ import {RiskLevelRepositoryProvider} from '../../providers/repositories/risk-lev
 import {LaneRepositoryProvider} from '../../providers/repositories/lane-repository';
 import {ISubscription} from 'rxjs/Subscription';
 import {InterventionForm} from '../../models/intervention-form';
-import {InspectionDetail} from '../../models/inspection-detail';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {InspectionDetailRepositoryProvider} from "../../providers/repositories/inspection-detail-repository-provider.service";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
@@ -37,10 +36,6 @@ export class InterventionGeneralPage implements OnDestroy {
     return this.controller.currentInspection;
   }
 
-  get plan(): InspectionDetail {
-    return this.controller.inspectionDetail
-  }
-
   public riskLevel: RiskLevel;
 
   constructor(public navCtrl: NavController,
@@ -55,7 +50,8 @@ export class InterventionGeneralPage implements OnDestroy {
               private mapService: MapLocalizationRepositoryService,
               private configService: InspectionConfigurationProvider) {
     this.createForm();
-    this.controllerPlanSubscription = controller.planLoaded.subscribe(() => this.setValuesAndStartListening());
+    //this.controllerPlanSubscription = controller.planLoaded.subscribe(() => this.setValuesAndStartListening());
+    this.setValuesAndStartListening();
   }
 
   public ngOnInit() {
@@ -86,7 +82,7 @@ export class InterventionGeneralPage implements OnDestroy {
   public async setValuesAndStartListening() {
     await this.userAccessValidation();
     this.refreshUserPermission = false;
-    this.idLaneTransversal = this.plan.idLaneTransversal;
+    this.idLaneTransversal = this.controller.inspection.idLaneTransversal;
     this.setValues();
     await this.loadRiskLevel();
     this.startWatchingForm();
@@ -98,11 +94,11 @@ export class InterventionGeneralPage implements OnDestroy {
   }
 
   private setBuildingPosition() {
-    this.mapService.setBuildingPosition(this.plan.coordinates);
+    this.mapService.setBuildingPosition(this.controller.inspection.coordinates);
   }
 
   private setCityPosition() {
-    this.mapService.setInspectionCity(this.plan.idCity);
+    this.mapService.setInspectionCity(this.controller.currentInspection.idCity);
   }
 
   public createForm() {
@@ -112,15 +108,8 @@ export class InterventionGeneralPage implements OnDestroy {
   }
 
   public async loadRiskLevel() { // why am i loading this exactly?
-    if (this.plan != null) {
-      this.riskLevel = await this.riskLevelService.getById(this.plan.mainBuildingIdRiskLevel);
-    }
-  }
-
-  public loadLaneName() {
-    if (this.plan != null) {
-      this.laneService.getDescriptionById(this.plan.mainBuildingIdLane)
-        .subscribe(result => this.currentInspection.laneName = result);
+    if (this.currentInspection != null) {
+      this.riskLevel = await this.riskLevelService.getById(this.currentInspection.idRiskLevel);
     }
   }
 
@@ -131,8 +120,8 @@ export class InterventionGeneralPage implements OnDestroy {
   }
 
   private setValues() {
-    if (this.plan != null) {
-      this.planForm.patchValue(this.plan);
+    if (this.controller.inspection != null) {
+      this.planForm.patchValue(this.controller.inspection);
     }
   }
 
@@ -144,12 +133,13 @@ export class InterventionGeneralPage implements OnDestroy {
 
   private saveForm() {
     const formModel = this.planForm.value;
-    Object.assign(this.controller.inspectionDetail, formModel);
+    this.controller.inspection.idLaneTransversal = formModel.idLaneTransversal;
+    this.controller.inspection.hasBeenModified = true;
     this.controller.savePlanTransversal();
   }
 
   private validInspectionStatus() {
-    if (this.plan.status == this.inspectionDetailProvider.InspectionStatusEnum.Refused) {
+    if (this.currentInspection.status == this.inspectionDetailProvider.InspectionStatusEnum.Refused) {
       this.startVisible = true;
     } else {
       if (this.currentInspection.status == this.inspectionDetailProvider.InspectionStatusEnum.Todo) {
@@ -160,17 +150,19 @@ export class InterventionGeneralPage implements OnDestroy {
         this.startVisible = false;
       }
     }
-    this.statusText = this.inspectionDetailProvider.getInspectionStatusText(this.plan.status);
+    console.log('status', this.controller.inspection);
+
+    this.statusText = this.inspectionDetailProvider.getInspectionStatusText(this.controller.inspection.status);
   }
 
   private validateSurveyNavigation() {
-    if (this.controller.inspectionDetail.idSurvey) {
-      if (this.controller.inspectionDetail.isSurveyCompleted) {
+    if (this.controller.inspection.idSurvey) {
+      if (this.controller.inspection.isSurveyCompleted) {
         this.navCtrl.push('InspectionSurveySummaryPage', {idInspection: this.controller.idInspection});
       } else {
         this.navCtrl.push('InspectionSurveyAnswerPage', {
           idInspection: this.controller.idInspection,
-          inspectionSurveyCompleted: this.controller.inspectionDetail.isSurveyCompleted
+          inspectionSurveyCompleted: this.controller.inspection.isSurveyCompleted
         });
       }
     }
@@ -207,8 +199,8 @@ export class InterventionGeneralPage implements OnDestroy {
 
   public completeInspection() {
     let canComplete = true;
-    if (this.controller.inspectionDetail.idSurvey) {
-      if (!this.controller.inspectionDetail.isSurveyCompleted) {
+    if (this.controller.inspection.idSurvey) {
+      if (!this.controller.inspection.isSurveyCompleted) {
         canComplete = false;
         this.messageTools.showToast(this.labels['surveyRequired']);
       }
@@ -228,7 +220,7 @@ export class InterventionGeneralPage implements OnDestroy {
 
   private async userAccessValidation() {
     if (!this.refreshUserPermission) {
-      if (this.plan.status != this.inspectionDetailProvider.InspectionStatusEnum.Started) {
+      if (this.controller.inspection.status != this.inspectionDetailProvider.InspectionStatusEnum.Started) {
         this.manageMenuDisplay(false);
         return false;
       }

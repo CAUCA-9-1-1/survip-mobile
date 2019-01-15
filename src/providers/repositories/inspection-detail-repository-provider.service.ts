@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from '../Base/http.service';
 import {Observable} from 'rxjs/Observable';
-import {InspectionDetail} from '../../models/inspection-detail';
+//import {InspectionDetail} from '../../models/inspection-detail';
 import {InspectionVisit} from "../../models/inspection-visit";
 import {TranslateService} from "@ngx-translate/core";
 
@@ -31,10 +31,6 @@ export class InspectionDetailRepositoryProvider {
             error => {
                 console.log(error)
             });
-    }
-
-    public get(idInspection: string): Observable<InspectionDetail> {
-        return this.http.get('inspection/' + idInspection + '/detail');
     }
 
     public savePlanLane(idBuilding: string, idTransversal: string): Observable<boolean> {

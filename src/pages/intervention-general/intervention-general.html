@@ -64,7 +64,7 @@
         <div *ngIf="userAllowed">
         <div class="refuse_reason" *ngIf="currentInspection?.approbationRefusalReason">
             <ion-label>{{'reason' | translate}} :</ion-label>
-            <ion-label>{{plan.approbationRefusalReason}}</ion-label>
+            <ion-label>{{currentInspection?.approbationRefusalReason}}</ion-label>
         </div>
 
             <button *ngIf="startVisible" ion-button block color="caucaRed" class="large-button"
