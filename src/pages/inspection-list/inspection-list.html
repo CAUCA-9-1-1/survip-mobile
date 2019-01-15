@@ -42,12 +42,19 @@
   <ion-list class="list-items">
       <ion-item-group *ngFor="let batch of filteredBatches">
         <ion-item-divider>{{'inspectionBatch' | translate}} : {{batch.description}}</ion-item-divider>
-        <button ion-item *ngFor="let inspection of batch.inspections" (click)="openInspection(inspection)">
+
+        <button ion-item (click)="openInspection(inspection.id)" *ngFor="let inspection of batch.inspections">
+
           <ion-avatar item-left style="font-size: 40px"><ion-icon name="home" [style.color]="getRiskColor(inspection.idRiskLevel)"></ion-icon></ion-avatar>
           <h2>{{inspection.civicNumber}}{{inspection.civicLetter}}, {{inspection.laneName}}</h2>
           <p>{{'riskLevel' | translate}} : {{getRiskDescription(inspection.idRiskLevel)}}</p>
           <p ion-text>{{getStatusDescription(inspection.status)}}</p>
+
+          <ion-icon name="cloud-done" item-end style="font-size: xx-large;" *ngIf="inspection.hasBeenDownloaded"></ion-icon>
+          <ion-icon name="cloud-download" *ngIf="!inspection.hasBeenDownloaded" item-end (click)="downloadInspection($event, inspection)" ></ion-icon>
+
         </button>
+
       </ion-item-group>
   </ion-list>
 

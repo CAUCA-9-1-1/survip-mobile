@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
-import {HttpService} from '../Base/http.service';
 import {RiskLevel} from "../../models/risk-level";
 import {Storage as OfflineStorage} from '@ionic/storage';
 import {ExpiringCache} from "../expiring-cache";
@@ -8,7 +7,7 @@ import {ExpiringCache} from "../expiring-cache";
 @Injectable()
 export class RiskLevelRepositoryProvider {
 
-    constructor(public http: HttpService, private storage: OfflineStorage) {
+    constructor(private storage: OfflineStorage) {
     }
 
     public getAll() : Promise<RiskLevel[]> {

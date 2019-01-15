@@ -252,7 +252,7 @@ export class InspectionSurveyAnswerPage {
     }
 
     public async ionViewWillLeave() {
-        this.inspectionController.loadInterventionForm();
+        //this.inspectionController.loadInterventionForm();
     }
 
     private initQuestionGroupAnswers() {

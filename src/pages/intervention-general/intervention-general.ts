@@ -23,241 +23,240 @@ import {Inspection} from "../../interfaces/inspection.interface";
 })
 export class InterventionGeneralPage implements OnDestroy {
 
-    public planForm: FormGroup;
-    public planSubscription: ISubscription;
-    public controllerPlanSubscription: ISubscription;
-    public idLaneTransversal: string;
-    public currentInspection: Inspection;
-    /*public laneName: string;
-    public utilisationCodeName: string;*/
-    public statusText: string;
-    public startVisible = false;
-    public labels = {};
-    public userAllowed = true;
-    public refreshUserPermission = false;
+  public planForm: FormGroup;
+  public planSubscription: ISubscription;
+  public controllerPlanSubscription: ISubscription;
+  public idLaneTransversal: string;
+  public statusText: string;
+  public startVisible = false;
+  public labels = {};
+  public userAllowed = true;
+  public refreshUserPermission = false;
 
-    get plan(): InspectionDetail {
-        return this.controller.inspectionDetail
+  public get currentInspection(): Inspection {
+    return this.controller.currentInspection;
+  }
+
+  get plan(): InspectionDetail {
+    return this.controller.inspectionDetail
+  }
+
+  public riskLevel: RiskLevel;
+
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private fb: FormBuilder,
+              private controller: InspectionControllerProvider,
+              private riskLevelService: RiskLevelRepositoryProvider,
+              public laneService: LaneRepositoryProvider,
+              public inspectionDetailProvider: InspectionDetailRepositoryProvider,
+              private messageTools: MessageToolsProvider,
+              private translateService: TranslateService,
+              private mapService: MapLocalizationRepositoryService,
+              private configService: InspectionConfigurationProvider) {
+    this.createForm();
+    this.controllerPlanSubscription = controller.planLoaded.subscribe(() => this.setValuesAndStartListening());
+  }
+
+  public ngOnInit() {
+    this.translateService.get([
+      'surveyRequired', 'otherUserInspection'
+    ]).subscribe(labels => {
+        this.labels = labels;
+      },
+      error => {
+        console.log(error)
+      });
+  }
+
+  public ngOnDestroy(): void {
+    if (this.planSubscription) {
+      this.planSubscription.unsubscribe();
     }
 
-    public riskLevel: RiskLevel;
-
-    constructor(public navCtrl: NavController,
-                public navParams: NavParams,
-                private fb: FormBuilder,
-                private controller: InspectionControllerProvider,
-                private riskLevelService: RiskLevelRepositoryProvider,
-                public laneService: LaneRepositoryProvider,
-                public inspectionDetailProvider: InspectionDetailRepositoryProvider,
-                private messageTools: MessageToolsProvider,
-                private translateService: TranslateService,
-                private mapService: MapLocalizationRepositoryService,
-                private configService: InspectionConfigurationProvider) {
-        this.createForm();
-        this.controllerPlanSubscription = controller.planLoaded.subscribe(() =>this.setValuesAndStartListening());
-        this.currentInspection = controller.currentInspection;
+    if (this.controllerPlanSubscription) {
+      this.controllerPlanSubscription.unsubscribe();
     }
+  }
 
-    public ngOnInit() {
-        this.translateService.get([
-            'surveyRequired','otherUserInspection'
-        ]).subscribe(labels => {
-                this.labels = labels;
-            },
-            error => {
-                console.log(error)
-            });
+  public ionViewDidLoad() {
+    //this.controller();
+  }
+
+  public async setValuesAndStartListening() {
+    await this.userAccessValidation();
+    this.refreshUserPermission = false;
+    this.idLaneTransversal = this.plan.idLaneTransversal;
+    this.setValues();
+    await this.loadRiskLevel();
+    this.startWatchingForm();
+
+    this.validInspectionStatus();
+
+    this.setBuildingPosition();
+    this.setCityPosition();
+  }
+
+  private setBuildingPosition() {
+    this.mapService.setBuildingPosition(this.plan.coordinates);
+  }
+
+  private setCityPosition() {
+    this.mapService.setInspectionCity(this.plan.idCity);
+  }
+
+  public createForm() {
+    this.planForm = this.fb.group({
+      idLaneTransversal: ['']
+    });
+  }
+
+  public async loadRiskLevel() { // why am i loading this exactly?
+    if (this.plan != null) {
+      this.riskLevel = await this.riskLevelService.getById(this.plan.mainBuildingIdRiskLevel);
     }
+  }
 
-    public ngOnDestroy(): void {
-        if (this.planSubscription) {
-            this.planSubscription.unsubscribe();
-        }
-
-        if (this.controllerPlanSubscription) {
-            this.controllerPlanSubscription.unsubscribe();
-        }
+  public loadLaneName() {
+    if (this.plan != null) {
+      this.laneService.getDescriptionById(this.plan.mainBuildingIdLane)
+        .subscribe(result => this.currentInspection.laneName = result);
     }
+  }
 
-    public ionViewDidLoad() {
-        this.controller.loadInterventionForm();
+  private startWatchingForm() {
+    this.planSubscription = this.planForm.valueChanges
+      .debounceTime(500)
+      .subscribe(() => this.saveIfValid());
+  }
+
+  private setValues() {
+    if (this.plan != null) {
+      this.planForm.patchValue(this.plan);
     }
+  }
 
-    public async setValuesAndStartListening() {
-        await this.userAccessValidation();
-        this.refreshUserPermission = false;
-        this.idLaneTransversal = this.plan.idLaneTransversal;
-        this.setValues();
-        await this.loadRiskLevel();
-        this.startWatchingForm();
-
-        this.validInspectionStatus();
-
-        this.setBuildingPosition();
-        this.setCityPosition();
+  private saveIfValid() {
+    if (this.planForm.valid && this.planForm.dirty) {
+      this.saveForm();
     }
+  }
 
-    private setBuildingPosition(){
-        this.mapService.setBuildingPosition(this.plan.coordinates);
-    }
-    private setCityPosition(){
-        this.mapService.setInspectionCity(this.plan.idCity);
-    }
+  private saveForm() {
+    const formModel = this.planForm.value;
+    Object.assign(this.controller.inspectionDetail, formModel);
+    this.controller.savePlanTransversal();
+  }
 
-    public createForm() {
-        this.planForm = this.fb.group({
-            idLaneTransversal: ['']
+  private validInspectionStatus() {
+    if (this.plan.status == this.inspectionDetailProvider.InspectionStatusEnum.Refused) {
+      this.startVisible = true;
+    } else {
+      if (this.currentInspection.status == this.inspectionDetailProvider.InspectionStatusEnum.Todo) {
+        this.startVisible = true;
+      } else if (this.currentInspection.status == this.inspectionDetailProvider.InspectionStatusEnum.Started) {
+        this.startVisible = false;
+      } else if (this.currentInspection.status == this.inspectionDetailProvider.InspectionStatusEnum.WaitingForApprobation) {
+        this.startVisible = false;
+      }
+    }
+    this.statusText = this.inspectionDetailProvider.getInspectionStatusText(this.plan.status);
+  }
+
+  private validateSurveyNavigation() {
+    if (this.controller.inspectionDetail.idSurvey) {
+      if (this.controller.inspectionDetail.isSurveyCompleted) {
+        this.navCtrl.push('InspectionSurveySummaryPage', {idInspection: this.controller.idInspection});
+      } else {
+        this.navCtrl.push('InspectionSurveyAnswerPage', {
+          idInspection: this.controller.idInspection,
+          inspectionSurveyCompleted: this.controller.inspectionDetail.isSurveyCompleted
         });
+      }
     }
+  }
 
-    public async loadRiskLevel() { // why am i loading this exactly?
-        if (this.plan != null) {
-            this.riskLevel = await this.riskLevelService.getById(this.plan.mainBuildingIdRiskLevel);
-        }
+  public async startInspection() {
+    let canStart = await this.canUserAccessInspection();
+    if (canStart) {
+      this.inspectionDetailProvider.startInspection(this.controller.idInspection)
+        .subscribe(success => {
+            this.manageMenuDisplay(true);
+            //this.controller.loadInterventionForm();
+            this.validateSurveyNavigation();
+          },
+          error => {
+            console.log("Error in startInspection", error);
+          });
     }
+  }
 
-    public loadLaneName() {
-        if (this.plan != null) {
-            this.laneService.getDescriptionById(this.plan.mainBuildingIdLane)
-                .subscribe(result => this.currentInspection.laneName = result);
-        }
+  public async absentVisit() {
+    let canCancel = await this.canUserAccessInspection();
+    if (canCancel) {
+      await this.navCtrl.push('InspectionVisitPage', {ownerAbsent: true});
     }
+  }
 
-    private startWatchingForm() {
-        this.planSubscription = this.planForm.valueChanges
-            .debounceTime(500)
-            .subscribe(() => this.saveIfValid());
+  public async refuseVisit() {
+    let canRefuse = await this.canUserAccessInspection();
+    if (canRefuse) {
+      await this.navCtrl.push('InspectionVisitPage', {ownerAbsent: false});
     }
+  }
 
-    private setValues() {
-        if (this.plan != null) {
-            this.planForm.patchValue(this.plan);
-        }
+  public completeInspection() {
+    let canComplete = true;
+    if (this.controller.inspectionDetail.idSurvey) {
+      if (!this.controller.inspectionDetail.isSurveyCompleted) {
+        canComplete = false;
+        this.messageTools.showToast(this.labels['surveyRequired']);
+      }
     }
-
-    private saveIfValid() {
-        if (this.planForm.valid && this.planForm.dirty) {
-            this.saveForm();
-        }
+    if (canComplete) {
+      this.inspectionDetailProvider.completeInspection(this.controller.idInspection)
+        .subscribe(
+          () => {
+            this.navCtrl.setRoot('InspectionListPage');
+            this.navCtrl.popToRoot();
+          },
+          () => {
+            this.messageTools.showToast('Une erreur est survenue dans le processus de finalisation de l\'inspection, veuillez réessayer ultérieurement.');
+          });
     }
+  }
 
-    private saveForm() {
-        const formModel = this.planForm.value;
-        Object.assign(this.controller.inspectionDetail, formModel);
-        this.controller.savePlanTransversal();
+  private async userAccessValidation() {
+    if (!this.refreshUserPermission) {
+      if (this.plan.status != this.inspectionDetailProvider.InspectionStatusEnum.Started) {
+        this.manageMenuDisplay(false);
+        return false;
+      }
+      const access = await this.canUserAccessInspection();
+      this.manageMenuDisplay(access);
     }
+  }
 
-    private validInspectionStatus() {
-        if (this.plan.status == this.inspectionDetailProvider.InspectionStatusEnum.Refused) {
-            this.startVisible = true;
-        } else {
-            if (this.plan.status == this.inspectionDetailProvider.InspectionStatusEnum.Todo) {
-                this.startVisible = true;
-            } else if (this.plan.status == this.inspectionDetailProvider.InspectionStatusEnum.Started) {
-                this.startVisible = false;
-            } else if (this.plan.status == this.inspectionDetailProvider.InspectionStatusEnum.WaitingForApprobation) {
-                this.startVisible = false;
-            }
-        }
-        this.statusText = this.inspectionDetailProvider.getInspectionStatusText(this.plan.status);
+  private async canUserAccessInspection() {
+    return await this.inspectionDetailProvider.CanUserAccessInspection(this.controller.idInspection)
+      .then(
+        (result) => {
+          this.userAllowed = result;
+          this.refreshUserPermission = true;
+          return result;
+        })
+      .catch(error => {
+        console.log("Error in CanUserAccessInspection", error);
+        return false;
+      });
+  }
+
+  manageMenuDisplay(active: boolean) {
+    if (active) {
+      this.configService.activateMenu();
+    } else {
+
+      this.configService.disableMenu();
     }
-
-    private validateSurveyNavigation(){
-        if (this.controller.inspectionDetail.idSurvey) {
-            if (this.controller.inspectionDetail.isSurveyCompleted) {
-                this.navCtrl.push('InspectionSurveySummaryPage', {idInspection: this.controller.idInspection});
-            }
-            else {
-                this.navCtrl.push('InspectionSurveyAnswerPage', {
-                    idInspection: this.controller.idInspection,
-                    inspectionSurveyCompleted: this.controller.inspectionDetail.isSurveyCompleted
-                });
-            }
-        }
-    }
-
-    public async startInspection() {
-        let canStart =  await this.canUserAccessInspection();
-        if(canStart){
-            this.inspectionDetailProvider.startInspection(this.controller.idInspection)
-                .subscribe(success => {
-                    this.manageMenuDisplay(true);
-                    this.controller.loadInterventionForm();
-                    this.validateSurveyNavigation();
-                },
-                    error=>{
-                    console.log("Error in startInspection",error);
-                    });
-        }
-    }
-
-    public async absentVisit() {
-       let canCancel =  await this.canUserAccessInspection();
-       if(canCancel){
-           this.navCtrl.push('InspectionVisitPage', {ownerAbsent: true});
-        }
-    }
-
-    public async refuseVisit() {
-        let canRefuse =  await this.canUserAccessInspection();
-        if(canRefuse){
-            this.navCtrl.push('InspectionVisitPage', {ownerAbsent: false});
-        }
-    }
-
-    public completeInspection() {
-        let canComplete = true;
-        if (this.controller.inspectionDetail.idSurvey) {
-            if (!this.controller.inspectionDetail.isSurveyCompleted) {
-                canComplete = false;
-                this.messageTools.showToast(this.labels['surveyRequired']);
-            }
-        }
-        if (canComplete) {
-            this.inspectionDetailProvider.completeInspection(this.controller.idInspection)
-                .subscribe(
-                    success => {
-                        this.navCtrl.setRoot('InspectionListPage');
-                        this.navCtrl.popToRoot();
-                    },
-                    error => {
-                        this.messageTools.showToast('Une erreur est survenue dans le processus de finalisation de l\'inspection, veuillez réessayer ultérieurement.');
-                    });
-        }
-    }
-
-    private async userAccessValidation(){
-        if(!this.refreshUserPermission) {
-            if (this.plan.status != this.inspectionDetailProvider.InspectionStatusEnum.Started) {
-                this.manageMenuDisplay(false);
-                return false;
-            }
-            const access = await this.canUserAccessInspection();
-            this.manageMenuDisplay(access);
-        }
-    }
-
-    private async canUserAccessInspection(){
-     return await this.inspectionDetailProvider.CanUserAccessInspection(this.controller.idInspection)
-            .then(
-                (result) => {
-                    this.userAllowed = result;
-                    this.refreshUserPermission = true;
-                    return result;
-                })
-            .catch(error=>
-            {
-                console.log("Error in CanUserAccessInspection", error);
-                return false;
-            });
-    }
-
-    manageMenuDisplay(active: boolean){
-        if(active){
-            this.configService.activateMenu();
-        }else{
-
-            this.configService.disableMenu();
-        }
-    }
+  }
 }

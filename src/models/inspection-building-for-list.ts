@@ -1,6 +1,5 @@
 export class InspectionBuildingForList{
-  id: string;
-  idInspection: string;
+  idBuilding: string;
   name: string;
-  picture: string;
+  isMainBuilding: boolean;
 }

@@ -6,3 +6,4 @@ export class InspectionBuildingAlarmPanel {
   wall: string;
   sector: string;
 }
+
