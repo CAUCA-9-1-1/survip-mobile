@@ -38,10 +38,8 @@ export class OfflineDataSynchronizerProvider {
   }
 
   public synchronizeBaseEntities() : Promise<boolean> {
-    this.isSynching = true;
-    this.completedCount = 0;
-    this.percentCompleted = 0;
-    const dataToLoad = [
+    this.startNewSynchronization();
+    const tasks = [
       this.matRepo.synchAll().then((wasSuccessful) => this.setTaskAsCompleted(wasSuccessful)),
       this.riskLevelRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
       this.measureRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
@@ -54,26 +52,39 @@ export class OfflineDataSynchronizerProvider {
       this.inspectionRepo.synchAll().then(wasSuccessful => this.setTaskAsCompleted(wasSuccessful))
     ];
 
-    this.totalCount = dataToLoad.length;
-
-    return Promise.all(dataToLoad)
-      .then(responses => {
-        console.log('sync all finished.');
-        this.isSynching = false;
-        return responses.every(r => r);
-      });
+    return this.runSynchronization(tasks);
   }
 
   public synchronizingLanes(cityIds: string[]): Promise<boolean> {
-    this.isSynching = true;
-    this.completedCount = 0;
-    this.percentCompleted = 0;
-    this.totalCount = cityIds.length;
+    this.startNewSynchronization();
     const promises = this.laneRepo
       .synchAll(cityIds)
       .map(m => m.then((wasSuccessful) => this.setTaskAsCompleted(wasSuccessful)));
 
-    return Promise.all(promises)
+    return this.runSynchronization(promises);
+  }
+
+  public get(key: string) : Promise<any>{
+    return this.storage.get(key);
+  }
+
+  public downloadInspections(inspectionIds: string[]): Promise<boolean>{
+    this.startNewSynchronization();
+    const tasks = inspectionIds
+      .map(inspectionId => this.inspectionRepo.downloadInspection(inspectionId).then(wasSuccess => this.setTaskAsCompleted(wasSuccess)));
+
+    return this.runSynchronization(tasks)
+  }
+
+  private startNewSynchronization() {
+    this.isSynching = true;
+    this.completedCount = 0;
+    this.percentCompleted = 0;
+  }
+
+  private runSynchronization(tasks: Promise<boolean>[]): Promise<boolean>{
+    this.totalCount = tasks.length;
+    return Promise.all(tasks)
       .then(responses => {
         console.log('sync completed');
         this.isSynching = false;
@@ -86,13 +97,5 @@ export class OfflineDataSynchronizerProvider {
     this.percentCompleted = this.completedCount * 100 / this.totalCount;
     console.log('completed count: ' + this.completedCount + '. ' + this.percentCompleted + '%');
     return wasSuccessful;
-  }
-
-  public get(key: string) : Promise<any>{
-    return this.storage.get(key);
-  }
-
-  public downloadInspections(inspectionIds: string[]){
-
   }
 }
