@@ -10,6 +10,7 @@ import {RouteDirectionTypeDataSynchronizerProvider} from "../route-direction-typ
 import {PersonRequiringAssistanceTypeDataSynchronizerProvider} from "../person-requiring-assistance-type-data-synchronizer/person-requiring-assistance-type-data-synchronizer";
 import {LaneDataSynchronizerProvider} from "../lane-data-synchronizer/lane-data-synchronizer";
 import {HazardousMaterialDataSynchronizerProvider} from "../hazardous-material-data-synchronizer/hazardous-material-data-synchronizer";
+import {InspectionDataSynchronizerProvider} from "../inspection-data-synchronizer/inspection-data-synchronizer";
 
 @Injectable()
 export class OfflineDataSynchronizerProvider {
@@ -31,7 +32,8 @@ export class OfflineDataSynchronizerProvider {
     private routeDirectionRepo: RouteDirectionTypeDataSynchronizerProvider,
     private pnapTypeRepo: PersonRequiringAssistanceTypeDataSynchronizerProvider,
     private laneRepo: LaneDataSynchronizerProvider,
-    private matRepo : HazardousMaterialDataSynchronizerProvider
+    private matRepo : HazardousMaterialDataSynchronizerProvider,
+    private inspectionRepo: InspectionDataSynchronizerProvider
   ) {
   }
 
@@ -48,7 +50,8 @@ export class OfflineDataSynchronizerProvider {
       this.sprinklerTypeRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
       this.fireHydrantTypeRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
       this.routeDirectionRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
-      this.pnapTypeRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful))
+      this.pnapTypeRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
+      this.inspectionRepo.synchAll().then(wasSuccessful => this.setTaskAsCompleted(wasSuccessful))
     ];
 
     this.totalCount = dataToLoad.length;
@@ -87,5 +90,9 @@ export class OfflineDataSynchronizerProvider {
 
   public get(key: string) : Promise<any>{
     return this.storage.get(key);
+  }
+
+  public downloadInspections(inspectionIds: string[]){
+
   }
 }

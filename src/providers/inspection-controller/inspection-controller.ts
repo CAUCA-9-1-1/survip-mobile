@@ -1,5 +1,4 @@
 import {EventEmitter, Injectable} from '@angular/core';
-import 'rxjs/add/operator/map';
 import {LaneRepositoryProvider} from '../repositories/lane-repository';
 import {LoadingController} from 'ionic-angular';
 import {InspectionBuildingForList} from '../../models/inspection-building-for-list';
@@ -9,55 +8,43 @@ import {InspectionBuildingsRepositoryProvider} from '../repositories/inspection-
 import {BuildingFireHydrantRepositoryProvider} from "../repositories/building-fire-hydrant-repository";
 import {map} from "rxjs/operators";
 import {Inspection} from "../../interfaces/inspection.interface";
+import {InspectionRepositoryProvider} from "../repositories/inspection-repository-provider.service";
 
 @Injectable()
 export class InspectionControllerProvider{
+
     public currentInspection: Inspection;
-
     public idInspection: string;
-
-    //public courses: InspectionBuildingCourseForList[];
-
     public buildings: InspectionBuildingForList[];
-    //public firestations: FirestationForlist[];
-
     public inspectionDetail: InspectionDetail;
-
     public planLoaded: EventEmitter<any> = new EventEmitter<any>();
-    //public pictureLoaded: EventEmitter<any> = new EventEmitter<any>();
-
     public labels = {};
 
     constructor(
+        private repoInspection: InspectionRepositoryProvider,
         private repoDetail: InspectionDetailRepositoryProvider,
         private repoBuildings: InspectionBuildingsRepositoryProvider,
         private loadingCtrl: LoadingController,
         private laneRepo: LaneRepositoryProvider,
-        private buildingfirehydrantRepo: BuildingFireHydrantRepositoryProvider,
-    ) {
+        private buildingFireHydrantRepo: BuildingFireHydrantRepositoryProvider) {
     }
 
-    public setIdInterventionForm(idInterventionForm: string) {
-        this.idInspection = idInterventionForm;
+    public async setIdInspection(idInspection: string) {
+      if (this.idInspection != idInspection) {
+        console.log('change inspection');
+        this.idInspection = idInspection;
+        await this.loadInspection();
+      }
     }
 
-    public async loadInterventionForm() {
+    private async loadInspection() {
+        this.currentInspection = null;
         const loading = this.createLoadingControl();
-        loading.present();
-        const result = this.repoDetail.get(this.idInspection);
-        result.subscribe(data => {
-            const plan: InspectionDetail = data as InspectionDetail;
-            this.laneRepo.setCurrentIdCity(plan.idCity).then(() => {
-              this.inspectionDetail = plan;
-              this.planLoaded.emit(null);
-              loading.dismiss();
-            });
-        },
-          error => {
-            this.planLoaded.emit('loadingError');
-            loading.dismiss();
-          }
-        );
+        await loading.present();
+        this.currentInspection = await this.repoInspection.get(this.idInspection);
+        console.log('inspection', this.currentInspection);
+        await this.laneRepo.setCurrentIdCity(this.currentInspection.idCity);
+        await loading.dismiss();
     }
 
     public loadBuildingList() {
@@ -91,7 +78,7 @@ export class InspectionControllerProvider{
     }
 
     public deleteBuildingFireHydrant(idBuildingFireHydrant: string) {
-        return this.buildingfirehydrantRepo.deleteBuildingFireHydrant(idBuildingFireHydrant)
+        return this.buildingFireHydrantRepo.deleteBuildingFireHydrant(idBuildingFireHydrant)
             .pipe(map(response => response));
     }
 }

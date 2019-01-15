@@ -6,7 +6,6 @@ import {
   MenuController,
   NavController,
   NavParams,
-  ToastController
 } from 'ionic-angular';
 import {RiskLevel} from '../../models/risk-level';
 import {Inspection} from '../../interfaces/inspection.interface';
@@ -47,7 +46,6 @@ export class InspectionListPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private inspectionDetailRepo: InspectionDetailRepositoryProvider,
-              private toastCtrl: ToastController,
               private synchronizer: OfflineDataSynchronizerProvider,
               private riskLevelService: RiskLevelRepositoryProvider,
               private loadingCtrl: LoadingController,
@@ -93,8 +91,7 @@ export class InspectionListPage {
 
   private loadInspectionList() {
     this.inspectionService.getAll()
-      .subscribe(
-        batches => {
+      .then(batches => {
           this.batches = batches;
           this.synchronizer.synchronizingLanes(this.getAllCityIds())
             .then(() => {
@@ -119,15 +116,13 @@ export class InspectionListPage {
       })
     });
 
-    console.log('cityIds', cityIds);
-
     return cityIds;
   }
 
   public refreshList(refresher) {
     if (this.dataIsCorrectlyLoaded) {
       this.inspectionService.getAll()
-        .subscribe(batches => {
+        .then(batches => {
           this.batches = batches;
           this.filterList();
           this.synchronizer.synchronizingLanes(this.getAllCityIds())
@@ -185,10 +180,15 @@ export class InspectionListPage {
     return "rgba(" + [r, g, b, a].join(",") + ")";
   }
 
-  public async openInspection(inspection: Inspection) {
-    this.controller.currentInspection = inspection;
-    await this.configuration.loadConfiguration(inspection.id);
-    await this.navCtrl.push('InterventionHomePage', {id: inspection.id});
+  public async openInspection(idInspection: string) {
+    await this.configuration.loadConfiguration(idInspection);
+    await this.navCtrl.push('InterventionHomePage', {id: idInspection});
+  }
+
+  public async downloadInspection(event, inspection: Inspection) {
+    event.stopPropagation();
+    await this.synchronizer.downloadInspections([inspection.id]);
+    inspection.hasBeenDownloaded = true;
   }
 
   public filterList() {

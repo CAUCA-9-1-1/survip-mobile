@@ -54,7 +54,7 @@ export class InspectionSurveySummaryPage {
     }
 
     public async ionViewWillLeave() {
-        this.inspectionController.loadInterventionForm();
+//        this.inspectionController.loadInterventionForm();
     }
 
     public async editSurvey() {

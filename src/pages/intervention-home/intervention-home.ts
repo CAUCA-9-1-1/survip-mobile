@@ -30,7 +30,6 @@ export class InterventionHomePage implements OnDestroy {
                 private translateService: TranslateService,
                 private inspectionDetailProvider: InspectionDetailRepositoryProvider,
                 private configurationService: InspectionConfigurationProvider) {
-      controller.setIdInterventionForm(this.navParams.data['id']);
       this.planSubscription = controller.planLoaded.subscribe((value) => {
           if (value == 'loadingError') {
             this.goBackToInspectionList();
@@ -44,7 +43,8 @@ export class InterventionHomePage implements OnDestroy {
       );
     }
 
-    public ngOnInit() {
+    public async ngOnInit() {
+        await this.controller.setIdInspection(this.navParams.data['id']);
         this.translateService.get([
             'generalInformation', 'buildings', 'waterSupplies', 'implantationPlan', 'course', 'survey'
         ]).subscribe(labels => {

@@ -14,4 +14,7 @@ export class Inspection {
   ownerName: string;
   utilisationCodeDescription: string;
   transversalLaneName: string;
+  approbationRefusalReason: string;
+
+  hasBeenDownloaded: boolean;
 }

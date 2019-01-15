@@ -12,7 +12,7 @@
         <ion-list class="list-items">
 
             <ion-list-header>
-                {{plan?.mainBuildingAddress}}
+                {{currentInspection?.civicNumber}}{{currentInspection?.civicLetter}}, {{currentInspection?.laneName}}
             </ion-list-header>
 
             <ion-item>
@@ -45,12 +45,12 @@
                 <ion-input type="text" disabled value="{{currentInspection?.laneName}}"></ion-input>
             </ion-item>
 
-          <ion-item *ngIf="plan?.status !== inspectionDetailProvider.InspectionVisitStatusEnum.Started">
+          <ion-item *ngIf="currentInspection?.status !== inspectionDetailProvider.InspectionVisitStatusEnum.Started">
             <ion-label fixed>{{'transversal' | translate}}</ion-label>
             <ion-input type="text" disabled value="{{currentInspection?.transversalLaneName}}"></ion-input>
           </ion-item>
 
-            <search-box *ngIf="plan?.status == inspectionDetailProvider.InspectionVisitStatusEnum.Started"
+            <search-box *ngIf="currentInspection?.status == inspectionDetailProvider.InspectionVisitStatusEnum.Started"
                     description="{{'transversal' | translate}}"
                     formControlName="idLaneTransversal"
                     [displayFieldName]="'name'"
@@ -62,7 +62,7 @@
     <ion-card>
         <ion-card-header>{{statusText}}</ion-card-header>
         <div *ngIf="userAllowed">
-        <div class="refuse_reason" *ngIf="plan?.approbationRefusalReason">
+        <div class="refuse_reason" *ngIf="currentInspection?.approbationRefusalReason">
             <ion-label>{{'reason' | translate}} :</ion-label>
             <ion-label>{{plan.approbationRefusalReason}}</ion-label>
         </div>
@@ -76,7 +76,7 @@
                 <button ion-button color="caucaRed" (click)="absentVisit()">{{'absence' | translate}}</button>
             </div>
 
-            <button *ngIf="plan?.status == inspectionDetailProvider.InspectionVisitStatusEnum.Started" ion-button block
+            <button *ngIf="currentInspection?.status == inspectionDetailProvider.InspectionVisitStatusEnum.Started" ion-button block
                     color="caucaRed" class="large-button" (click)="completeInspection()">{{'complete' | translate}}
             </button>
         </div>

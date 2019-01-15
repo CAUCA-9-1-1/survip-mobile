@@ -75,6 +75,7 @@ import { SprinklerTypeDataSynchronizerProvider } from '../providers/sprinkler-ty
 import { RouteDirectionTypeDataSynchronizerProvider } from '../providers/route-direction-type-data-synchronizer/route-direction-type-data-synchronizer';
 import { LaneDataSynchronizerProvider } from '../providers/lane-data-synchronizer/lane-data-synchronizer';
 import { HazardousMaterialDataSynchronizerProvider } from '../providers/hazardous-material-data-synchronizer/hazardous-material-data-synchronizer';
+import { InspectionDataSynchronizerProvider } from '../providers/inspection-data-synchronizer/inspection-data-synchronizer';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -182,6 +183,7 @@ export function httpServiceFactory(
     RouteDirectionTypeDataSynchronizerProvider,
     LaneDataSynchronizerProvider,
     HazardousMaterialDataSynchronizerProvider,
+    InspectionDataSynchronizerProvider,
     ]
 })
 export class AppModule {
