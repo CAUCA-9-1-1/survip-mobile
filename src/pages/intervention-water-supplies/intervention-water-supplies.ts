@@ -4,13 +4,13 @@ import {InterventionFormFireHydrantRepositoryProvider} from '../../providers/rep
 import {InspectionBuildingFireHydrantForLIst} from '../../models/intervention-form-fire-hydrant-for-list';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
 import {InterventionForm} from '../../models/intervention-form';
-import {InspectionDetail} from '../../models/inspection-detail';
 import {InspectionBuildingFireHydrantForList} from '../../models/inspection-building-fire-hydrant-for-list';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
 import {InspectionBuildingFireHydrantRepositoryProvider} from '../../providers/repositories/inspection-building-fire-hydrant-repository-provider';
 import {CityFireHydrantPage} from "../city-fire-hydrant/city-fire-hydrant";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {TranslateService} from "@ngx-translate/core";
+import {Inspection} from "../../interfaces/inspection.interface";
 
 @IonicPage()
 @Component({
@@ -19,9 +19,10 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class InterventionWaterSuppliesPage {
 
-    get plan(): InspectionDetail {
-        return this.controller.inspectionDetail
-    }
+  public get currentInspection(): Inspection {
+    return this.controller.currentInspection;
+  }
+
 
     public fireHydrants: InspectionBuildingFireHydrantForList[] = [];
     public labels = {};
@@ -69,11 +70,11 @@ export class InterventionWaterSuppliesPage {
     }
 
     public onItemClick(idCity: string) {
-        this.navCtrl.push('CityFireHydrantPage', {idCity: idCity, idBuilding: this.controller.inspectionDetail.id});
+        this.navCtrl.push('CityFireHydrantPage', {idCity: idCity, idBuilding: this.controller.idInspection});
     }
 
     public goToFireHydrantDetail(idFireHydrant: string){
-        this.navCtrl.push('FireHydrantPage', {idCity: this.plan.idCity, id: idFireHydrant});
+        this.navCtrl.push('FireHydrantPage', {idCity: this.currentInspection.idCity, id: idFireHydrant});
     }
 
 }

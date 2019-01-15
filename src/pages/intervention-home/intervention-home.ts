@@ -30,11 +30,13 @@ export class InterventionHomePage implements OnDestroy {
                 private translateService: TranslateService,
                 private inspectionDetailProvider: InspectionDetailRepositoryProvider,
                 private configurationService: InspectionConfigurationProvider) {
+      this.menuSubscription = this.configurationService.menuRefreshed
+        .subscribe(() => this.loadMenu());
+
       this.planSubscription = controller.planLoaded.subscribe((value) => {
           if (value == 'loadingError') {
             this.goBackToInspectionList();
-          }
-          else if (controller.inspectionDetail.idSurvey) {
+          } else if (controller.inspection.idSurvey) {
             this.mustShowPlanMenu = true;
           } else {
             this.mustShowPlanMenu = false;
@@ -44,25 +46,20 @@ export class InterventionHomePage implements OnDestroy {
     }
 
     public async ngOnInit() {
-        await this.controller.setIdInspection(this.navParams.data['id']);
-        this.translateService.get([
-            'generalInformation', 'buildings', 'waterSupplies', 'implantationPlan', 'course', 'survey'
-        ]).subscribe(labels => {
-                this.labels = labels;
-            },
-            error => {
-                console.log(error)
-            });
-
-      this.configurationService.loadConfiguration(this.controller.idInspection)
-        .then(() => {
-            this.menuSubscription = this.configurationService.menuRefreshed
-              .subscribe(() => this.loadMenu());
-          }
-        );
+      await this.controller.setIdInspection(this.navParams.data['id']);
+      this.translateService.get([
+        'generalInformation', 'buildings', 'waterSupplies', 'implantationPlan', 'course', 'survey'
+      ]).subscribe(labels => {
+          this.labels = labels;
+          this.loadMenu();
+        },
+        error => {
+          console.log(error)
+        });
     }
 
     private loadMenu(){
+      console.log('menu refreshed, tsé.', this.configurationService.configuration);
         const configuration = this.configurationService.configuration;
         this.menuItems = [
             {title: this.labels['generalInformation'], page: 'InterventionGeneralPage', icon: 'information-circle', enabled: true, customAction: this.openPage},
@@ -105,13 +102,13 @@ export class InterventionHomePage implements OnDestroy {
     }
 
     public goToInspectionQuestions = () => {
-        if (this.controller.inspectionDetail.isSurveyCompleted) {
+        if (this.controller.inspection.isSurveyCompleted) {
             this.navCtrl.push('InspectionSurveySummaryPage', {idInspection: this.controller.idInspection});
         }
         else {
             this.navCtrl.push('InspectionSurveyAnswerPage', {
                 idInspection: this.controller.idInspection,
-                inspectionSurveyCompleted: this.controller.inspectionDetail.isSurveyCompleted
+                inspectionSurveyCompleted: this.controller.inspection.isSurveyCompleted
             });
         }
     }

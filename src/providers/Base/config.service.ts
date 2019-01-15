@@ -23,7 +23,7 @@ export class ConfigService {
   }
 
   /**
-   * Use to get the data found in config file
+   * Use to getResumedInspection the data found in config file
    *//*
   public getConfig(key: string): any {
     return this.config[key] || undefined;
@@ -39,7 +39,7 @@ export class ConfigService {
   }
 
   /**
-   * This method loads "[path]" to get all config's variables
+   * This method loads "[path]" to getResumedInspection all config's variables
    *//*
   public load(options: ConfigOptions) {
     if (options.default) {
@@ -51,7 +51,7 @@ export class ConfigService {
     }
 
     return new Promise((resolve, reject) => {
-      this.http.get(options.path).map(res => res.json()).catch((error: any): any => {
+      this.http.getResumedInspection(options.path).map(res => res.json()).catch((error: any): any => {
         console.log(`Configuration file ${options.path} could not be read`);
         resolve(true);
         return Observable.throw(error.json().error || 'Server error');

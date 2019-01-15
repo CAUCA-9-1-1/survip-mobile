@@ -187,7 +187,6 @@ export class InterventionCourseLanePage {
         return result;
     }
 
-
     private goBack(): void {
         this.navCtrl.pop();
     }

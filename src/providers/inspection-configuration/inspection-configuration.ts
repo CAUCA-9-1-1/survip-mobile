@@ -6,19 +6,17 @@ import {HttpService} from '../Base/http.service';
 export class InspectionConfigurationProvider {
 
   private initialConfiguration: InspectionConfiguration;
-
   public configuration: InspectionConfiguration;
   public menuRefreshed : EventEmitter<any> = new EventEmitter<any>();
 
   constructor(public http: HttpService) {
   }
 
-  public async loadConfiguration(idInspection: string){
-    this.initialConfiguration = await this.http
-      .get('inspection/' + idInspection + '/configuration')
-      .toPromise<InspectionConfiguration>();
-
+  public async setConfiguration(configuration: InspectionConfiguration){
+    console.log('Configuration set', configuration);
+    this.initialConfiguration = configuration;
     this.configuration = Object.assign(new InspectionConfiguration(),this.initialConfiguration);
+    this.menuRefreshed.emit(null);
   }
 
   public disableMenu(){
