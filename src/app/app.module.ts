@@ -21,7 +21,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {InspectionBuildingCourseLaneRepositoryProvider} from '../providers/repositories/inspection-building-course-lane-repository-provider.service';
 import {InspectionBuildingFireHydrantRepositoryProvider} from '../providers/repositories/inspection-building-fire-hydrant-repository-provider';
 import {InspectionBuildingCourseRepositoryProvider} from '../providers/repositories/inspection-building-course-repository';
-import {InspectionBuildingsRepositoryProvider} from '../providers/repositories/inspection-buildings-repository-provider.service';
 import {InspectionDetailRepositoryProvider} from '../providers/repositories/inspection-detail-repository-provider.service';
 import {InspectionControllerProvider} from '../providers/inspection-controller/inspection-controller';
 import {InspectionRepositoryProvider} from '../providers/repositories/inspection-repository-provider.service';
@@ -130,7 +129,6 @@ export function httpServiceFactory(
         LaneRepositoryProvider,
         InspectionRepositoryProvider,
         InspectionDetailRepositoryProvider,
-        InspectionBuildingsRepositoryProvider,
         InspectionBuildingCourseRepositoryProvider,
         InspectionBuildingCourseLaneRepositoryProvider,
         InspectionBuildingFireHydrantRepositoryProvider,

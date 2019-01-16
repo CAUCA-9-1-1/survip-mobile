@@ -51,7 +51,7 @@ export class BuildingAlarmPanelsPage {
     }
 
     public async ngOnInit() {
-        this.types = await this.typeRepo.getAll()
+        this.types = await this.typeRepo.getAll();
 
         this.translateService.get([
             'confirmation', 'waitFormMessage', 'fireAlarmPanelDeleteQuestion', 'fireAlarmPanelLeaveMessage'
@@ -71,8 +71,7 @@ export class BuildingAlarmPanelsPage {
             this.createAlarmPanel();
           }
           else {
-            const data = await this.repo.get(this.idBuildingAlarmPanel);
-            this.panel = data;
+            this.panel = await this.repo.get(this.idBuilding, this.idBuildingAlarmPanel);
           }
           this.setValuesAndStartListening();
         } finally {
@@ -129,7 +128,7 @@ export class BuildingAlarmPanelsPage {
 
     public async onDeleteAlarmPanel() {
         if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['fireAlarmPanelDeleteQuestion'])) {
-            await this.repo.delete(this.idBuildingAlarmPanel);
+            await this.repo.delete(this.panel);
             await this.viewCtrl.dismiss();
         }
         else if (this.isNew) {

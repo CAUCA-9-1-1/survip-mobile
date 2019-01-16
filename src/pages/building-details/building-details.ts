@@ -77,7 +77,7 @@ export class BuildingDetailsPage {
         let load = this.loadingCtrl.create({'content': this.labels['waitFormMessage']});
         try {
           await load.present();
-          this.detail = await this.detailRepo.get(this.idBuilding).toPromise();
+          this.detail = await this.detailRepo.get(this.idBuilding);
           this.setValuesAndStartListening();
         }
         catch(error) {
@@ -96,7 +96,7 @@ export class BuildingDetailsPage {
     private createForm() {
         let regexChecker = (mask: string) => {
             return (control: FormControl) => {
-                var value = control.value + "";
+                const value = control.value + "";
                 const reg = new RegExp(mask);
                 if (reg.test(value))
                     return null;

@@ -3,7 +3,6 @@ import {LaneRepositoryProvider} from '../repositories/lane-repository';
 import {LoadingController} from 'ionic-angular';
 import {InspectionBuildingForList} from '../../models/inspection-building-for-list';
 import {InspectionDetailRepositoryProvider} from '../repositories/inspection-detail-repository-provider.service';
-import {InspectionBuildingsRepositoryProvider} from '../repositories/inspection-buildings-repository-provider.service';
 import {BuildingFireHydrantRepositoryProvider} from "../repositories/building-fire-hydrant-repository";
 import {map} from "rxjs/operators";
 import {Inspection} from "../../interfaces/inspection.interface";
@@ -26,7 +25,6 @@ export class InspectionControllerProvider {
     private configController: InspectionConfigurationProvider,
     private repoInspection: InspectionRepositoryProvider,
     private repoDetail: InspectionDetailRepositoryProvider,
-    private repoBuildings: InspectionBuildingsRepositoryProvider,
     private loadingCtrl: LoadingController,
     private laneRepo: LaneRepositoryProvider,
     private dataRepoInspection: InspectionDataSynchronizerProvider,
@@ -78,17 +76,6 @@ export class InspectionControllerProvider {
     await this.configController.setConfiguration(this.inspection.configuration);
     await this.laneRepo.setCurrentIdCity(this.currentInspection.idCity);
     await loading.dismiss();
-  }
-
-  public loadBuildingList() {
-    const loading = this.createLoadingControl();
-    loading.present();
-    const result = this.repoBuildings.get(this.idInspection);
-    result.subscribe(data => {
-        this.buildings = data as InspectionBuildingForList[];
-        loading.dismiss();
-      },
-      () => loading.dismiss());
   }
 
   private createLoadingControl() {

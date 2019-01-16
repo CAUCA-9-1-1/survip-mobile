@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from '../Base/http.service';
 import {Observable} from 'rxjs/Observable';
 import {CourseLanes} from '../../models/course_lanes';
 import {map} from 'rxjs/operators';
 import {InspectionBuildingCourseForList} from '../../models/inspection-building-course-for-list';
 import {InspectionBuildingCourse} from '../../models/inspection-building-course';
+import {Storage as OfflineStorage} from "@ionic/storage";
 
 @Injectable()
 export class InspectionBuildingCourseRepositoryProvider {
 
-    constructor(private http: HttpService) {
+  constructor(private storage: OfflineStorage) {
     }
 
     public  getList(idInspection: string): Observable<InspectionBuildingCourseForList[]> {

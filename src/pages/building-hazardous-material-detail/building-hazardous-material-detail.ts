@@ -90,7 +90,7 @@ export class BuildingHazardousMaterialDetailPage {
       if (this.idBuildingHazardousMaterial == null)
         this.createBuildingHazardousMaterial();
       else
-        this.material = await this.repo.get(this.idBuildingHazardousMaterial);
+        this.material = await this.repo.get(this.idBuilding, this.idBuildingHazardousMaterial);
 
       this.setValuesAndStartListening();
     } finally {
@@ -198,7 +198,7 @@ export class BuildingHazardousMaterialDetailPage {
 
   public async onDeleteHazardousMaterial() {
     if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['hazardousMaterialDeleteQuestion'])) {
-      await this.repo.delete(this.idBuildingHazardousMaterial);
+      await this.repo.delete(this.material);
       await this.viewCtrl.dismiss();
     } else if (this.isNew) {
       await this.viewCtrl.dismiss();

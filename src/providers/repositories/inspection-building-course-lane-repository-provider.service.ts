@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from '../Base/http.service';
 import {map} from 'rxjs/operators';
 import {InspectionBuildingCourseLane} from '../../models/inspection-building-course-lane';
+import {Storage as OfflineStorage} from "@ionic/storage";
 
 @Injectable()
 export class InspectionBuildingCourseLaneRepositoryProvider {
-    constructor(private http: HttpService) {
+  constructor(private storage: OfflineStorage) {
     }
 
     public getLane(idInspectionCourseLane: string): Promise<InspectionBuildingCourseLane> {

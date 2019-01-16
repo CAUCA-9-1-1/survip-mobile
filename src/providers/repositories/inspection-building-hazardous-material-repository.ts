@@ -1,38 +1,53 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from '../Base/http.service';
-import {map} from 'rxjs/operators';
 import {InspectionBuildingHazardousMaterialForList} from '../../models/inspection-building-hazardous-material-for-list';
 import {InspectionBuildingHazardousMaterial} from '../../models/inspection-building-hazardous-material';
+import {Storage as OfflineStorage} from "@ionic/storage";
 
 @Injectable()
 export class InspectionBuildingHazardousMaterialRepositoryProvider {
 
-    constructor(public http: HttpService) {
-    }
+  private baseKey: string = 'building_hazardous_materials_';
 
-    public getList(idBuilding: string): Promise<InspectionBuildingHazardousMaterialForList[]> {
-        return this.http.get('inspection/building/' + idBuilding + '/hazardousmaterial')
-            .pipe(map(response => response))
-            .toPromise();
-    }
+  constructor(private storage: OfflineStorage) {
+  }
 
-    public get(idBuildingHazardousMaterial: string): Promise<InspectionBuildingHazardousMaterial> {
-        return this.http.get('inspection/building/hazardousmaterial/' + idBuildingHazardousMaterial)
-            .pipe(map(response => response))
-            .toPromise();
-    }
+  public getList(idBuilding: string): Promise<InspectionBuildingHazardousMaterialForList[]> {
+    return this.storage.get(this.baseKey + idBuilding)
+      .then(items =>items.map(item => this.getForList(item)));
+  }
 
-    public save(contact: InspectionBuildingHazardousMaterial): Promise<any> {
-        return this.http.post('inspection/building/hazardousmaterial/', JSON.stringify(contact))
-            .pipe(map(response => response))
-            .toPromise();
-    }
+  private getForList(material: InspectionBuildingHazardousMaterial):InspectionBuildingHazardousMaterialForList {
+    const item = new InspectionBuildingHazardousMaterialForList();
+    item.id = material.id;
+    item.hazardousMaterialName = material.idHazardousMaterial;
+    item.quantityDescription = material.quantity + ' x ' + material.idUnitOfMeasure;
+    return item;
+  }
 
-    public delete(idBuildingHazardousMaterial: string): Promise<any> {
-        return this.http.delete('inspection/building/hazardousmaterial/' + idBuildingHazardousMaterial)
-            .pipe(map(response => response))
-            .toPromise();
-    }
+  public async get(idBuilding: string, idBuildingContact: string): Promise<InspectionBuildingHazardousMaterial> {
+    return (await this.storage.get(this.baseKey  + idBuilding)).filter(c => c.id == idBuildingContact)[0];
+  }
+
+  public async save(modifiedItem: InspectionBuildingHazardousMaterial): Promise<any> {
+
+    const list = await this.storage.get(this.baseKey  + modifiedItem.idBuilding);
+    const currentItem = list.filter(s => s.id == modifiedItem.id)[0];
+    Object.assign(currentItem, modifiedItem);
+    currentItem.hasBeenModified = true;
+
+    return this.storage.set(this.baseKey  + modifiedItem.idBuilding, list);
+  }
+
+  public async delete(modifiedItem: InspectionBuildingHazardousMaterial): Promise<any> {
+
+    const list = await this.storage.get(this.baseKey  + modifiedItem.idBuilding);
+    const currentItem = list.filter(s => s.id == modifiedItem.id)[0];
+    Object.assign(currentItem, modifiedItem);
+    currentItem.isActive = false;
+    currentItem.hasBeenModified = true;
+
+    return this.storage.set(this.baseKey  + modifiedItem.idBuilding, list);
+  }
 
   public getEnumsKeysCollection(enumCollection: any): number[] {
     return Object.keys(enumCollection)

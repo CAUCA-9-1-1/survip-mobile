@@ -1,24 +1,26 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from '../Base/http.service';
-import {map} from 'rxjs/operators';
 import {InspectionBuildingDetail} from '../../models/inspection-building-detail';
-import {Observable} from 'rxjs/Observable';
+import {Storage as OfflineStorage} from "@ionic/storage";
 
 @Injectable()
 export class BuildingDetailRepositoryProvider {
 
-  constructor(public http: HttpService) {
+  private baseKey: string = 'building_detail_';
+
+  constructor(private storage: OfflineStorage) {
   }
 
-  public get(idBuilding: string): Observable<InspectionBuildingDetail> {
-    return this.http.get('inspection/building/' + idBuilding + "/detail")
-      .pipe(map(response => response));
+  public get(idBuilding: string): Promise<InspectionBuildingDetail> {
+    return this.storage.get(this.baseKey  + idBuilding);
   }
 
-  public save(detail: InspectionBuildingDetail): Promise<any> {
-    return this.http.post('inspection/building/detail/', JSON.stringify(detail))
-      .pipe(map(response => response))
-      .toPromise();
+  public async save(modifiedItem: InspectionBuildingDetail): Promise<any> {
+
+    const item = await this.storage.get(this.baseKey  + modifiedItem.idBuilding);
+    Object.assign(item, modifiedItem);
+    item.hasBeenModified = true;
+
+    return this.storage.set(this.baseKey  + modifiedItem.idBuilding, item);
   }
 
   public getEnumsKeysCollection(enumCollection: any): number[] {

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {IonicPage, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
 import {BuildingContactRepositoryProvider} from '../../providers/repositories/building-contact-repository';
-import {InspectionBuildingContactForList} from '../../models/inspection-building-contact-for-list';
+import {InspectionBuildingContact} from "../../models/inspection-building-contact";
 
 @IonicPage()
 @Component({
@@ -12,7 +12,7 @@ export class BuildingContactsPage {
 
     private readonly idBuilding: string;
     private readonly name: string;
-    public contacts: InspectionBuildingContactForList[] = [];
+    public contacts: InspectionBuildingContact[] = [];
 
     constructor(
         private load: LoadingController,
@@ -32,8 +32,7 @@ export class BuildingContactsPage {
     private async loadContactList() {
         let loader = this.load.create({content: 'Patientez...'});
         try {
-          const result = await this.contactRepo.getList(this.idBuilding);
-          this.contacts = result;
+          this.contacts = await this.contactRepo.getList(this.idBuilding);
         } finally {
           await loader.dismiss();
         }
