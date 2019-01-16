@@ -7,4 +7,6 @@ export class InspectionBuildingSprinkler {
   sector: string;
   pipeLocation: string;
   collectorLocation: string;
+
+  hasBeenModified: boolean = false;
 }

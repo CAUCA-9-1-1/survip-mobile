@@ -1,37 +1,62 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from '../Base/http.service';
 import {InspectionBuildingFireProtectionForList} from '../../models/inspection-building-fire-protection-for-list';
-import {map} from 'rxjs/operators';
 import {InspectionBuildingSprinkler} from '../../models/inspection-building-sprinkler';
+import {Storage as OfflineStorage} from "@ionic/storage";
+import {GenericType} from "../../models/generic-type";
 
 @Injectable()
 export class InspectionBuildingSprinklerRepositoryProvider {
 
-    constructor(public http: HttpService) {
+  private types: GenericType[] = [];
+
+  constructor(private storage: OfflineStorage) {
     }
 
-    public getList(idBuilding: string): Promise<InspectionBuildingFireProtectionForList[]> {
-        return this.http.get('inspection/building/' + idBuilding + '/sprinkler')
-            .pipe(map(response => response))
-            .toPromise();
+    public async getList(idBuilding: string): Promise<InspectionBuildingFireProtectionForList[]> {
+        this.types = (await this.storage.get('sprinkler_type')).data;
+        return this.storage.get('building_sprinklers_' + idBuilding)
+          .then(sprinklers =>sprinklers.map(m => this.getForList(m)));
     }
 
-    public get(idBuildingSprinkler: string): Promise<InspectionBuildingSprinkler> {
-        return this.http.get('inspection/building/sprinkler/' + idBuildingSprinkler)
-            .pipe(map(response => response))
-            .toPromise();
+    private getForList(sprinkler: InspectionBuildingSprinkler): InspectionBuildingFireProtectionForList{
+      const item = new InspectionBuildingFireProtectionForList();
+      item.id = sprinkler.id;
+      let wall = '';
+      let sector = '';
+      let floor = '';
+
+      if (sprinkler.wall != '')
+        wall = 'Mur: ' + sprinkler.wall + '.';
+      if (sprinkler.sector != '')
+        sector = 'Secteur: ' + sprinkler.sector + '.';
+      if (sprinkler.floor != '')
+        floor = 'Étage: ' + sprinkler.floor + '.';
+
+      item.locationDescription = wall + sector + floor;
+      item.typeDescription = this.types.filter(type => type.id == sprinkler.idSprinklerType)[0].name;
+      return item;
     }
 
-    public save(sprinkler: InspectionBuildingSprinkler): Promise<any> {
-        return this.http.post('inspection/building/sprinkler/', JSON.stringify(sprinkler))
-            .pipe(map(response => response))
-            .toPromise();
+    public async get(idBuilding: string, idBuildingSprinkler: string): Promise<InspectionBuildingSprinkler> {
+        return (await this.storage.get('building_sprinklers_' + idBuilding)).data.filter(sprinkler => sprinkler.id == idBuildingSprinkler)[0];
     }
 
-    public delete(idBuildingSprinkler: string): Promise<any> {
-        return this.http.delete('inspection/building/sprinkler/' + idBuildingSprinkler)
-            .pipe(map(response => response))
-            .toPromise();
+    public async save(sprinkler: InspectionBuildingSprinkler): Promise<any> {
+        const currentSprinklers = await this.storage.get('building_sprinklers_' + sprinkler.idBuilding);
+        const currentSprinkler = currentSprinklers.filter(s => s.id == sprinkler.id)[0];
+        Object.assign(currentSprinkler, sprinkler);
+        currentSprinkler.hasBeenModified = true;
+
+        return this.storage.set('building_sprinklers_' + currentSprinkler.idBuilding, currentSprinklers);
+    }
+
+    public async delete(sprinkler: InspectionBuildingSprinkler): Promise<any> {
+      const currentSprinklers = await this.storage.get('building_sprinklers_' + sprinkler.idBuilding);
+      const currentSprinkler = currentSprinklers.filter(s => s.id == sprinkler.id)[0];
+      currentSprinkler.hasBeenModified = true;
+      currentSprinkler.isActive = false;
+
+      return this.storage.set('building_sprinklers_' + currentSprinkler.idBuilding, currentSprinklers);
     }
 }
 

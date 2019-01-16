@@ -24,8 +24,7 @@ export class InterventionBuildingsPage {
                 public navParams: NavParams,
                 private controller: InspectionControllerProvider,
                 private menuCtrl: MenuController) {
-        this.controller.loadBuildingList();
-    }
+            }
 
     public async ionViewCanEnter() {
         this.menuCtrl.enable(true, 'inspectionMenu');

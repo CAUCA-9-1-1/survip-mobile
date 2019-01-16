@@ -1,36 +1,41 @@
 import {Injectable} from '@angular/core';
-import {InspectionBuildingContactForList} from '../../models/inspection-building-contact-for-list';
-import {map} from 'rxjs/operators';
 import {InspectionBuildingContact} from '../../models/inspection-building-contact';
-import {HttpService} from '../Base/http.service';
+import {Storage as OfflineStorage} from "@ionic/storage";
 
 @Injectable()
 export class BuildingContactRepositoryProvider {
 
-    constructor(public http: HttpService) {
+    private baseKey: string = 'building_contacts_';
+
+    constructor(private storage: OfflineStorage) {
     }
 
-    public getList(idBuilding: string): Promise<InspectionBuildingContactForList[]> {
-        return this.http.get('inspection/building/' + idBuilding + '/contact')
-            .pipe(map(response => response))
-            .toPromise();
+    public getList(idBuilding: string): Promise<InspectionBuildingContact[]> {
+      return this.storage.get(this.baseKey + idBuilding);
     }
 
-    public get(idBuildingContact: string): Promise<InspectionBuildingContact> {
-        return this.http.get('inspection/building/contact/' + idBuildingContact)
-            .pipe(map(response => response))
-            .toPromise();
+    public async get(idBuilding: string, idBuildingContact: string): Promise<InspectionBuildingContact> {
+        return (await this.storage.get(this.baseKey  + idBuilding)).filter(c => c.id == idBuildingContact)[0];
     }
 
-    public save(contact: InspectionBuildingContact): Promise<any> {
-        return this.http.post('inspection/building/contact/', JSON.stringify(contact))
-            .pipe(map(response => response))
-            .toPromise();
+    public async save(modifiedItem: InspectionBuildingContact): Promise<any> {
+
+      const list = await this.storage.get(this.baseKey  + modifiedItem.idBuilding);
+      const currentItem = list.filter(s => s.id == modifiedItem.id)[0];
+      Object.assign(currentItem, modifiedItem);
+      currentItem.hasBeenModified = true;
+
+      return this.storage.set(this.baseKey  + modifiedItem.idBuilding, list);
     }
 
-    public delete(idBuildingContact: string): Promise<any> {
-        return this.http.delete('inspection/building/contact/' + idBuildingContact)
-            .pipe(map(response => response))
-            .toPromise();
+    public async delete(modifiedItem: InspectionBuildingContact): Promise<any> {
+
+      const list = await this.storage.get(this.baseKey  + modifiedItem.idBuilding);
+      const currentItem = list.filter(s => s.id == modifiedItem.id)[0];
+      Object.assign(currentItem, modifiedItem);
+      currentItem.isActive = false;
+      currentItem.hasBeenModified = true;
+
+      return this.storage.set(this.baseKey  + modifiedItem.idBuilding, list);
     }
 }

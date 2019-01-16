@@ -71,8 +71,7 @@ export class BuildingWaterSprinklersPage {
             this.createSprinkler();
           }
           else {
-            const data = await this.repo.get(this.idBuildingSprinkler);
-            this.sprinkler = data;
+            this.sprinkler = await this.repo.get(this.idBuilding, this.idBuildingSprinkler);
           }
           this.setValuesAndStartListening();
         } finally {
@@ -131,7 +130,7 @@ export class BuildingWaterSprinklersPage {
 
     public async onDeleteSprinkler() {
         if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['fireSprinklerDeleteQuestion'])) {
-            await this.repo.delete(this.idBuildingSprinkler);
+            await this.repo.delete(this.sprinkler);
             await this.viewCtrl.dismiss();
         }
         else if (this.isNew) {

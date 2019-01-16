@@ -22,7 +22,7 @@ export class BuildingPnapDetailPage {
     private readonly idBuilding: string;
     private subscription: ISubscription;
     private readonly integerPattern: string = "^(0|([1-9]([0-9]*)))$";
-    private readonly decimalPattern: string = "^[0-9]+(.[0-9]{1,2})?$";
+    //private readonly decimalPattern: string = "^[0-9]+(.[0-9]{1,2})?$";
 
     public pnap: InspectionBuildingPersonRequiringAssistance;
     public form: FormGroup;
@@ -67,7 +67,7 @@ export class BuildingPnapDetailPage {
           if (this.idBuildingPnap == null)
             this.createPnap();
           else
-            this.pnap = await this.repo.get(this.idBuildingPnap);
+            this.pnap = await this.repo.get(this.idBuilding, this.idBuildingPnap);
 
           this.setValuesAndStartListening();
         } finally {
@@ -78,7 +78,7 @@ export class BuildingPnapDetailPage {
     private createForm() {
         let regexChecker = (mask: string) => {
             return (control: FormControl) => {
-                var value = control.value + "";
+                const value = control.value + "";
                 const reg = new RegExp(mask);
                 if (reg.test(value))
                     return null;
@@ -168,7 +168,7 @@ export class BuildingPnapDetailPage {
 
     private async saveForm() {
         Object.assign(this.pnap, this.form.value);
-        this.pnap.contactPhoneNumber = this.form.value.contactPhoneNumberMasked.replace(/\D+/g, "")
+        this.pnap.contactPhoneNumber = this.form.value.contactPhoneNumberMasked.replace(/\D+/g, "");
         await this.repo.save(this.pnap);
         this.form.markAsPristine();
         this.isNew = false;
@@ -184,7 +184,7 @@ export class BuildingPnapDetailPage {
 
     public async onDeletePnap() {
         if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['pnapDeleteQuestion'])) {
-            await this.repo.delete(this.idBuildingPnap);
+            await this.repo.delete(this.pnap);
             await this.viewCtrl.dismiss();
         }
         else if (this.isNew) {

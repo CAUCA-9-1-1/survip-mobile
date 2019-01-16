@@ -58,7 +58,7 @@ export class BuildingContactDetailPage {
         let area = "";
         let firstThree = "";
         let lastFour = "";
-        var result = "(";
+        let result = "(";
 
         if (phone.length == 0)
             return "";
@@ -97,8 +97,7 @@ export class BuildingContactDetailPage {
             this.createContact();
           }
           else {
-            const data = await this.repo.get(this.idBuildingContact);
-            this.contact = data;
+            this.contact = await this.repo.get(this.idBuilding, this.idBuildingContact);
           }
           this.setValuesAndStartListening();
         } finally {
@@ -157,10 +156,10 @@ export class BuildingContactDetailPage {
     private async saveForm() {
         const formModel = this.form.value;
         Object.assign(this.contact, formModel);
-        this.contact.phoneNumber = this.form.value.phoneNumberMasked.replace(/\D+/g, "")
-        this.contact.cellphoneNumber = this.form.value.cellphoneNumberMasked.replace(/\D+/g, "")
-        this.contact.otherNumber = this.form.value.otherNumberMasked.replace(/\D+/g, "")
-        this.contact.pagerNumber = this.form.value.pagerNumberMasked.replace(/\D+/g, "")
+        this.contact.phoneNumber = this.form.value.phoneNumberMasked.replace(/\D+/g, "");
+        this.contact.cellphoneNumber = this.form.value.cellphoneNumberMasked.replace(/\D+/g, "");
+        this.contact.otherNumber = this.form.value.otherNumberMasked.replace(/\D+/g, "");
+        this.contact.pagerNumber = this.form.value.pagerNumberMasked.replace(/\D+/g, "");
         await this.repo.save(this.contact);
         this.form.markAsPristine();
         this.isNew = false;
@@ -176,20 +175,20 @@ export class BuildingContactDetailPage {
 
     public async onDeleteContact() {
         if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['contactDeleteQuestion'])) {
-            await this.repo.delete(this.idBuildingContact);
-            this.viewCtrl.dismiss();
+            await this.repo.delete(this.contact);
+            await this.viewCtrl.dismiss();
         }
         else if (this.isNew) {
-            this.viewCtrl.dismiss();
+            await this.viewCtrl.dismiss();
         }
     }
 
     public async onCancelEdition() {
         if (this.form.dirty || this.isNew) {
             if (await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['contactLeaveMessage']))
-                this.viewCtrl.dismiss();
+                await this.viewCtrl.dismiss();
         }
         else
-            this.viewCtrl.dismiss();
+            await this.viewCtrl.dismiss();
     }
 }

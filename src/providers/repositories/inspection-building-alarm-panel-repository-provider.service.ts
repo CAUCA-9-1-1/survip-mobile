@@ -1,36 +1,58 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from '../Base/http.service';
 import {InspectionBuildingFireProtectionForList} from '../../models/inspection-building-fire-protection-for-list';
-import {map} from 'rxjs/operators';
 import {InspectionBuildingAlarmPanel} from '../../models/inspection-building-alarm-panel';
+import {Storage as OfflineStorage} from "@ionic/storage";
+import {GenericType} from "../../models/generic-type";
 
 @Injectable()
 export class InspectionBuildingAlarmPanelRepositoryProvider {
 
-    constructor(public http: HttpService) {
+  private types: GenericType[] = [];
+
+  constructor(private storage: OfflineStorage) {
     }
 
-    public getList(idBuilding: string): Promise<InspectionBuildingFireProtectionForList[]> {
-        return this.http.get('inspection/building/' + idBuilding + '/alarmpanel')
-            .pipe(map(response => response))
-            .toPromise();
-    }
+  public async getList(idBuilding: string): Promise<InspectionBuildingFireProtectionForList[]> {
+    this.types = (await this.storage.get('alarm_panel_type')).data;
+    return this.storage.get('building_alarm_panels_' + idBuilding)
+      .then(sprinklers =>sprinklers.map(m => this.getForList(m)));
+  }
 
-    public get(idBuildingAlarmPanel: string): Promise<InspectionBuildingAlarmPanel> {
-        return this.http.get('inspection/building/alarmpanel/' + idBuildingAlarmPanel)
-            .pipe(map(response => response))
-            .toPromise();
-    }
+  private getForList(panel: InspectionBuildingAlarmPanel): InspectionBuildingFireProtectionForList{
+    const item = new InspectionBuildingFireProtectionForList();
+    item.id = panel.id;
+    let sector = '';
+    let floor = '';
 
-    public save(panel: InspectionBuildingAlarmPanel): Promise<any> {
-        return this.http.post('inspection/building/alarmpanel/', JSON.stringify(panel))
-            .pipe(map(response => response))
-            .toPromise();
-    }
+    if (panel.sector != '')
+      sector = 'Secteur: ' + panel.sector + '.';
+    if (panel.floor != '')
+      floor = 'Étage: ' + panel.floor + '.';
 
-    public delete(idBuildingAlarmPanel: string): Promise<any> {
-        return this.http.delete('inspection/building/alarmpanel/' + idBuildingAlarmPanel)
-            .pipe(map(response => response))
-            .toPromise();
-    }
+    item.locationDescription = sector + floor;
+    item.typeDescription = this.types.filter(type => type.id == panel.idAlarmPanelType)[0].name;
+    return item;
+  }
+
+  public async get(idBuilding: string, idBuildingSprinkler: string): Promise<InspectionBuildingAlarmPanel> {
+    return (await this.storage.get('building_alarm_panels_' + idBuilding)).data.filter(sprinkler => sprinkler.id == idBuildingSprinkler)[0];
+  }
+
+  public async save(panel: InspectionBuildingAlarmPanel): Promise<any> {
+    const currentPanels = await this.storage.get('building_alarm_panels_' + panel.idBuilding);
+    const currentPanel = currentPanels.filter(s => s.id == panel.id)[0];
+    Object.assign(currentPanel, panel);
+    currentPanel.hasBeenModified = true;
+
+    return this.storage.set('building_alarm_panels_' + currentPanel.idBuilding, currentPanels);
+  }
+
+  public async delete(panel: InspectionBuildingAlarmPanel): Promise<any> {
+    const currentPanels = await this.storage.get('building_alarm_panels_' + panel.idBuilding);
+    const currentPanel = currentPanels.filter(s => s.id == panel.id)[0];
+    currentPanel.hasBeenModified = true;
+    currentPanel.isActive = false;
+
+    return this.storage.set('building_alarm_panels_' + currentPanel.idBuilding, currentPanel);
+  }
 }
