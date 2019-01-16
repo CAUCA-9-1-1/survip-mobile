@@ -94,7 +94,7 @@ export class InspectionListPage {
     this.inspectionService.getAll()
       .then(batches => {
           this.batches = batches;
-          this.synchronizer.synchronizingLanes(this.getAllCityIds())
+          this.synchronizer.synchronizingCities(this.getAllCityIds())
             .then(() => {
               this.filterList();
               this.hideLoadingControl();
@@ -126,7 +126,7 @@ export class InspectionListPage {
         .then(batches => {
           this.batches = batches;
           this.filterList();
-          this.synchronizer.synchronizingLanes(this.getAllCityIds())
+          this.synchronizer.synchronizingCities(this.getAllCityIds())
             .then(() => {
               this.filterList();
               refresher.complete();
