@@ -1,15 +1,14 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from '../Base/http.service';
-import {Observable} from 'rxjs/Observable';
 import {CityWithRegion} from "../../models/city-with-region";
+import {Storage as OfflineStorage} from "@ionic/storage";
 
 @Injectable()
 export class CityRepositoryProvider {
 
-    constructor(private http: HttpService) {
+    constructor(private storage: OfflineStorage) {
     }
 
-    public getCity(idCity: string): Observable<CityWithRegion> {
-        return this.http.get('city/' + idCity+'/localized');
+    public getCity(idCity: string): Promise<CityWithRegion> {
+      return this.storage.get('city_' + idCity);
     }
 }

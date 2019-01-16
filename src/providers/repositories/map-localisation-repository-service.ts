@@ -21,8 +21,7 @@ export class MapLocalizationRepositoryService {
     public targetPosition: ol.geom.Geometry;
 
     public buildingPosition: ol.geom.Geometry;
-    public selectedCity: CityWithRegion;
-    public cityPosition: ol.geom.Geometry;
+        public cityPosition: ol.geom.Geometry;
 
     constructor(public http: HttpService,
                 private msgTool: MessageToolsProvider,
@@ -63,16 +62,14 @@ export class MapLocalizationRepositoryService {
 
     public setInspectionCity(idCity: string){
         this.cityService.getCity(idCity)
-            .subscribe(
-                success => {
-                this.selectedCity = success;
-                this.setCityPosition(this.selectedCity);
+            .then(
+                city => {
+                this.setCityPosition(city);
             }, error => {
                 console.log('Error in setInspectionCity', error);
             })
     }
     public async setCityPosition(city : CityWithRegion) {
-        this.selectedCity = city;
         if (this.plt.is('mobileweb') || this.plt.is('core')) {
             this.cityPosition = new ol.geom.Point(ol.proj.transform([-70.6771584, 46.1214952], 'EPSG:3857', 'EPSG:4326'));
             return;
@@ -169,7 +166,5 @@ export class MapLocalizationRepositoryService {
                 console.log("Error in isLocationAuthorized", error);
                 return false;
             });
-
     }
-
 }
