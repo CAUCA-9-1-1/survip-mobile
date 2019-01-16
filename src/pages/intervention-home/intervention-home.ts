@@ -59,7 +59,6 @@ export class InterventionHomePage implements OnDestroy {
     }
 
     private loadMenu(){
-      console.log('menu refreshed, tsé.', this.configurationService.configuration);
         const configuration = this.configurationService.configuration;
         this.menuItems = [
             {title: this.labels['generalInformation'], page: 'InterventionGeneralPage', icon: 'information-circle', enabled: true, customAction: this.openPage},

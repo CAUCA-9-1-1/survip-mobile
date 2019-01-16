@@ -6,9 +6,6 @@ export class InspectionWithBuildingsList {
   idSurvey: string;
   isSurveyCompleted: string;
   status: number;
-  coordinates: string;
-  idLaneTransversal: string;
-  hasBeenModified: boolean = false;
 
   buildings: InspectionBuildingForList[];
   configuration: InspectionConfiguration;

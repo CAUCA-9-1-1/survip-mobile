@@ -5,7 +5,7 @@ import {
   LoadingController,
   MenuController,
   NavController,
-  NavParams,
+  NavParams, ToastController,
 } from 'ionic-angular';
 import {RiskLevel} from '../../models/risk-level';
 import {Inspection} from '../../interfaces/inspection.interface';
@@ -51,6 +51,7 @@ export class InspectionListPage {
               private loadingCtrl: LoadingController,
               private inspectionService: InspectionRepositoryProvider,
               private menu: MenuController,
+              private toast: ToastController,
               private configuration: InspectionConfigurationProvider,
               private controller: InspectionControllerProvider,
               private translateService: TranslateService) {
@@ -181,8 +182,25 @@ export class InspectionListPage {
   }
 
   public async openInspection(idInspection: string) {
-    await this.controller.setIdInspection(idInspection);
-    await this.navCtrl.push('InterventionHomePage', {id: idInspection});
+    this.controller.setIdInspection(idInspection)
+      .then(async (success) => {
+          if (success) {
+            return await this.navCtrl.push('InterventionHomePage', {id: idInspection});
+          }else{
+            this.displayLoadingError();
+          }
+        },
+        ()=> this.displayLoadingError());
+  }
+
+  private displayLoadingError(){
+    const toast = this.toast.create({
+      message: 'Impossible d\'ouvrir cette inspection, car elle n\'a pas été téléchargée et le serveur est inaccessible.',
+      duration: 3000,
+      position: 'middle'
+    });
+
+    toast.present();
   }
 
   public async downloadInspection(event, inspection: Inspection) {

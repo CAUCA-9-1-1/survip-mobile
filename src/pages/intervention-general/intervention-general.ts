@@ -25,7 +25,6 @@ export class InterventionGeneralPage implements OnDestroy {
   public planForm: FormGroup;
   public planSubscription: ISubscription;
   public controllerPlanSubscription: ISubscription;
-  public idLaneTransversal: string;
   public statusText: string;
   public startVisible = false;
   public labels = {};
@@ -50,12 +49,10 @@ export class InterventionGeneralPage implements OnDestroy {
               private mapService: MapLocalizationRepositoryService,
               private configService: InspectionConfigurationProvider) {
     this.createForm();
-    //this.controllerPlanSubscription = controller.planLoaded.subscribe(() => this.setValuesAndStartListening());
-    this.setValuesAndStartListening();
   }
 
   public ngOnInit() {
-    this.translateService.get([
+        this.translateService.get([
       'surveyRequired', 'otherUserInspection'
     ]).subscribe(labels => {
         this.labels = labels;
@@ -75,14 +72,13 @@ export class InterventionGeneralPage implements OnDestroy {
     }
   }
 
-  public ionViewDidLoad() {
-    //this.controller();
+  public async ionViewDidLoad() {
+    await this.setValuesAndStartListening();
   }
 
   public async setValuesAndStartListening() {
     await this.userAccessValidation();
     this.refreshUserPermission = false;
-    this.idLaneTransversal = this.controller.inspection.idLaneTransversal;
     this.setValues();
     await this.loadRiskLevel();
     this.startWatchingForm();
@@ -94,7 +90,7 @@ export class InterventionGeneralPage implements OnDestroy {
   }
 
   private setBuildingPosition() {
-    this.mapService.setBuildingPosition(this.controller.inspection.coordinates);
+    this.mapService.setBuildingPosition(this.controller.getMainBuilding().coordinates);
   }
 
   private setCityPosition() {
@@ -121,7 +117,7 @@ export class InterventionGeneralPage implements OnDestroy {
 
   private setValues() {
     if (this.controller.inspection != null) {
-      this.planForm.patchValue(this.controller.inspection);
+      this.planForm.controls['idLaneTransversal'].patchValue(this.controller.getMainBuilding().idLaneTransversal);
     }
   }
 
@@ -133,9 +129,10 @@ export class InterventionGeneralPage implements OnDestroy {
 
   private saveForm() {
     const formModel = this.planForm.value;
-    this.controller.inspection.idLaneTransversal = formModel.idLaneTransversal;
-    this.controller.inspection.hasBeenModified = true;
-    this.controller.savePlanTransversal();
+    const inspection = this.controller.getMainBuilding();
+    inspection.idLaneTransversal = formModel.idLaneTransversal;
+    inspection.hasBeenModified = true;
+    this.controller.saveBuildings();
   }
 
   private validInspectionStatus() {
@@ -150,8 +147,6 @@ export class InterventionGeneralPage implements OnDestroy {
         this.startVisible = false;
       }
     }
-    console.log('status', this.controller.inspection);
-
     this.statusText = this.inspectionDetailProvider.getInspectionStatusText(this.controller.inspection.status);
   }
 
@@ -174,7 +169,6 @@ export class InterventionGeneralPage implements OnDestroy {
       this.inspectionDetailProvider.startInspection(this.controller.idInspection)
         .subscribe(success => {
             this.manageMenuDisplay(true);
-            //this.controller.loadInterventionForm();
             this.validateSurveyNavigation();
           },
           error => {

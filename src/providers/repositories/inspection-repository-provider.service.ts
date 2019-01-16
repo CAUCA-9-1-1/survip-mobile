@@ -44,9 +44,7 @@ export class InspectionRepositoryProvider {
     return (await this.storage.get('inspection_buildings_' + idInspection)) != null;
   }
 
-
-  /*public getResumedInspection(id: string): Promise<Inspection> {
-      return this.http.getResumedInspection('api/inspection/' + id)
-          .pipe(map(response => response));
-  }*/
+  public save(inspection: InspectionWithBuildingsList): Promise<boolean> {
+    return this.storage.set('inspection_buildings_' + inspection.id, inspection);
+  }
 }
