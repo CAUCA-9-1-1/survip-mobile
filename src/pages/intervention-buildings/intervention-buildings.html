@@ -13,11 +13,13 @@
     <ion-list-header>
       {{currentInspection?.civicNumber}}{{currentInspection?.civicLetter}}, {{currentInspection?.laneName}}
     </ion-list-header>
-    <button ion-item *ngFor="let building of buildings" (click)="onClickBuilding(building.id, building.name)" detail-push>
-      <ion-thumbnail item-start *ngIf="building.picture != null">
+    <button ion-item *ngFor="let building of controller.inspection.buildings" (click)="onClickBuilding(building.idBuilding, building.name)" detail-push>
+      <!--<ion-thumbnail item-start *ngIf="building.picture != null">
         <img src="data:image/jpeg;base64,{{building.picture}}">
-      </ion-thumbnail>
+      </ion-thumbnail>-->
+
       <h2>{{building.name}}</h2>
+      <ion-icon name="home" item-start></ion-icon>
     </button>
   </ion-list>
 </ion-content>
