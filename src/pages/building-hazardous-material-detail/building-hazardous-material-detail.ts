@@ -89,8 +89,9 @@ export class BuildingHazardousMaterialDetailPage {
     try {
       if (this.idBuildingHazardousMaterial == null)
         this.createBuildingHazardousMaterial();
-      else
+      else {
         this.material = await this.repo.get(this.idBuilding, this.idBuildingHazardousMaterial);
+      }
 
       this.setValuesAndStartListening();
     } finally {

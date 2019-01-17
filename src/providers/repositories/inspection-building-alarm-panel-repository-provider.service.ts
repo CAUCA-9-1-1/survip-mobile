@@ -30,7 +30,7 @@ export class InspectionBuildingAlarmPanelRepositoryProvider {
       floor = 'Étage: ' + panel.floor + '.';
 
     item.locationDescription = sector + floor;
-    item.typeDescription = this.types.filter(type => type.id == panel.idAlarmPanelType)[0].name;
+    item.typeDescription = this.types.find(type => type.id == panel.idAlarmPanelType).name;
     return item;
   }
 

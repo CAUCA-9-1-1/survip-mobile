@@ -2,30 +2,54 @@ import {Injectable} from '@angular/core';
 import {InspectionBuildingHazardousMaterialForList} from '../../models/inspection-building-hazardous-material-for-list';
 import {InspectionBuildingHazardousMaterial} from '../../models/inspection-building-hazardous-material';
 import {Storage as OfflineStorage} from "@ionic/storage";
+import {UnitOfMeasureRepositoryProvider} from "./unit-of-measure-repository";
+import {HazardousMaterialRepositoryProvider} from "./hazardous-material-repository";
+import {UnitOfMeasure} from "../../models/unit-of-measure";
+import {HazardousMaterialForList} from "../../models/hazardous-material-for-list";
 
 @Injectable()
 export class InspectionBuildingHazardousMaterialRepositoryProvider {
 
   private baseKey: string = 'building_hazardous_materials_';
 
-  constructor(private storage: OfflineStorage) {
+  constructor(
+    private storage: OfflineStorage,
+    private unitRepo: UnitOfMeasureRepositoryProvider,
+    private materialRepo: HazardousMaterialRepositoryProvider
+  ) {
   }
 
-  public getList(idBuilding: string): Promise<InspectionBuildingHazardousMaterialForList[]> {
+  public async getList(idBuilding: string): Promise<InspectionBuildingHazardousMaterialForList[]> {
+    const units = await this.unitRepo.getAllForCapacity();
+    const materials = await this.materialRepo.getAll();
+
     return this.storage.get(this.baseKey + idBuilding)
-      .then(items =>items.filter(item => item.isActive).map(item => this.getForList(item)));
+      .then(items =>items.filter(item => item.isActive).map(item => this.getForList(item, units, materials)));
   }
 
-  private getForList(material: InspectionBuildingHazardousMaterial):InspectionBuildingHazardousMaterialForList {
+  private getForList(material: InspectionBuildingHazardousMaterial, units: UnitOfMeasure[], materials: HazardousMaterialForList[]):InspectionBuildingHazardousMaterialForList {
     const item = new InspectionBuildingHazardousMaterialForList();
     item.id = material.id;
-    item.hazardousMaterialName = material.idHazardousMaterial;
-    item.quantityDescription = material.quantity + ' x ' + material.idUnitOfMeasure;
+
+    if (material.capacityContainer > 0){
+      item.quantityDescription = material.capacityContainer.toString();
+      let unit = units.find(u => u.id == material.idUnitOfMeasure);
+      if (unit != null){
+        item.quantityDescription += ' ' + unit.name;
+      }
+      if (material.quantity > 0){
+        item.quantityDescription = material.quantity + ' x ' + item.quantityDescription;
+      }
+    }
+
+    const mat = materials.find(mat => mat.id == material.idHazardousMaterial);
+    item.hazardousMaterialName = mat.name;
+    item.hazardousMaterialNumber = mat.number;
     return item;
   }
 
   public async get(idBuilding: string, idBuildingContact: string): Promise<InspectionBuildingHazardousMaterial> {
-    return (await this.storage.get(this.baseKey  + idBuilding)).filter(c => c.id == idBuildingContact)[0];
+    return (await this.storage.get(this.baseKey  + idBuilding)).find(c => c.id == idBuildingContact);
   }
 
   public async save(modifiedItem: InspectionBuildingHazardousMaterial): Promise<any> {
