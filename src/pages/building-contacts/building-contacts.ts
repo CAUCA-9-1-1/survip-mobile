@@ -33,7 +33,6 @@ export class BuildingContactsPage {
         let loader = this.load.create({content: 'Patientez...'});
         try {
           const contact = await this.contactRepo.getList(this.idBuilding);
-          console.log('euhbhh', contact);
           this.contacts = contact;
         } finally {
           await loader.dismiss();

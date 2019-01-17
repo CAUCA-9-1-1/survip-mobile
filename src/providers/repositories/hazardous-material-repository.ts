@@ -19,7 +19,7 @@ export class HazardousMaterialRepositoryProvider {
     }).filter((lane, index) => index < 30);
   }
 
-  private async getAll(): Promise<HazardousMaterialForList[]> {
+  public async getAll(): Promise<HazardousMaterialForList[]> {
     return (await this.storage.get("hazardous_material")).data;
   }
 }
