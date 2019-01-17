@@ -17,6 +17,9 @@ export class InspectionSurveyAnswer {
 
     childSurveyAnswerList: InspectionSurveyAnswer[];
     choicesList: InspectionSurveyAnswerChoice[];
+
+  isActive: boolean = true;
+  hasBeenModified: boolean = false;
 };
 
 export enum SurveyQuestionTypeEnum {

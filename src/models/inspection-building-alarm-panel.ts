@@ -5,5 +5,8 @@ export class InspectionBuildingAlarmPanel {
   floor: string;
   wall: string;
   sector: string;
+
+  isActive: boolean = true;
+  hasBeenModified: boolean = false;
 }
 

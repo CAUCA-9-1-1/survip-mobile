@@ -71,6 +71,7 @@ export class InterventionCourseLanePage {
         lane.idBuildingCourse = this.idInspectionBuildingCourse;
         lane.direction = 2;
         lane.sequence = this.nextSequence;
+        lane.isActive = true;
         this.courseLane = lane;
     }
 

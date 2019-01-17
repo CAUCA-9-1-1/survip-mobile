@@ -14,4 +14,7 @@ export class InspectionBuildingPersonRequiringAssistance {
   local: string = '';
   contactName: string = '';
   contactPhoneNumber: string = '';
+
+  isActive: boolean = true;
+  hasBeenModified: boolean = false;
 }

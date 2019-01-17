@@ -13,7 +13,7 @@ export class InspectionBuildingHazardousMaterialRepositoryProvider {
 
   public getList(idBuilding: string): Promise<InspectionBuildingHazardousMaterialForList[]> {
     return this.storage.get(this.baseKey + idBuilding)
-      .then(items =>items.map(item => this.getForList(item)));
+      .then(items =>items.filter(item => item.isActive).map(item => this.getForList(item)));
   }
 
   private getForList(material: InspectionBuildingHazardousMaterial):InspectionBuildingHazardousMaterialForList {
@@ -31,8 +31,7 @@ export class InspectionBuildingHazardousMaterialRepositoryProvider {
   public async save(modifiedItem: InspectionBuildingHazardousMaterial): Promise<any> {
 
     const list = await this.storage.get(this.baseKey  + modifiedItem.idBuilding);
-    const currentItem = list.filter(s => s.id == modifiedItem.id)[0];
-    Object.assign(currentItem, modifiedItem);
+    const currentItem = this.getCurrentItem(list, modifiedItem);
     currentItem.hasBeenModified = true;
 
     return this.storage.set(this.baseKey  + modifiedItem.idBuilding, list);
@@ -53,5 +52,16 @@ export class InspectionBuildingHazardousMaterialRepositoryProvider {
     return Object.keys(enumCollection)
       .map(k => enumCollection[k])
       .filter(v => typeof v === "number") as number[];
+  }
+
+
+  private getCurrentItem(list: InspectionBuildingHazardousMaterial[], modifiedItem: InspectionBuildingHazardousMaterial): InspectionBuildingHazardousMaterial{
+    let currentItem = list.filter(s => s.id == modifiedItem.id)[0];
+    if (currentItem == null) {
+      list.push(modifiedItem);
+    }else{
+      Object.assign(currentItem, modifiedItem);
+    }
+    return currentItem || modifiedItem;
   }
 }

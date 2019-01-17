@@ -122,6 +122,7 @@ export class BuildingAlarmPanelsPage {
         let data = new InspectionBuildingAlarmPanel();
         data.id = UUID.UUID();
         data.idBuilding = this.idBuilding;
+        data.isActive = true;
         this.idBuildingAlarmPanel = data.id;
         this.panel = data;
     }

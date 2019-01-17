@@ -4,4 +4,7 @@ export class InspectionBuildingCourseLane {
   direction: number;
   sequence: number;
   idLane: string;
+
+  isActive: boolean = true;
+  hasBeenModified: boolean = false;
 }

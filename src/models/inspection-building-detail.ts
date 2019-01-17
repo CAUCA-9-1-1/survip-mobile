@@ -12,6 +12,9 @@ export class InspectionBuildingDetail {
   idRoofMaterialType: string;
   idBuildingType: string;
   idBuildingSidingType: string;
+
+  isActive: boolean = true;
+  hasBeenModified: boolean = false;
 }
 
 export enum GarageType {

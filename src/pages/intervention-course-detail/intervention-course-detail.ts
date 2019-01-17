@@ -112,6 +112,7 @@ export class InterventionCourseDetailPage {
         course.id = UUID.UUID();
         this.idInspectionFormCourse = course.id;
         course.idBuilding = this.controller.currentInspection.idBuilding;
+        course.isActive = true;
         this.course = course;
         this.courseLanes = [];
     }

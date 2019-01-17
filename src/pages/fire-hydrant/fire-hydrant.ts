@@ -108,6 +108,7 @@ export class FireHydrantPage {
         });
     } else {
       this.fireHydrant = new FireHydrant();
+      this.fireHydrant.isActive = true;
       this.initiateForm();
     }
   }

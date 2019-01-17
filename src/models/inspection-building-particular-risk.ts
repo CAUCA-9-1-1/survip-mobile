@@ -7,4 +7,7 @@ export class InspectionBuildingParticularRisk {
   wall: string;
   sector: string;
   dimension: string = '';
+
+  isActive: boolean = true;
+  hasBeenModified: boolean = false;
 }

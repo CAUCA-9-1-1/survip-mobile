@@ -178,6 +178,7 @@ export class BuildingPnapDetailPage {
         let data = new InspectionBuildingPersonRequiringAssistance();
         data.id = UUID.UUID();
         data.idBuilding = this.idBuilding;
+        data.isActive = true;
         this.idBuildingPnap = data.id;
         this.pnap = data;
     }

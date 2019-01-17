@@ -192,6 +192,7 @@ export class BuildingHazardousMaterialDetailPage {
     data.quantity = 0;
     data.capacityContainer = 0;
     data.idBuilding = this.idBuilding;
+    data.isActive = true;
     this.idBuildingHazardousMaterial = data.id;
     this.material = data;
   }
