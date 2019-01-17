@@ -15,7 +15,7 @@ export class InspectionBuildingAlarmPanelRepositoryProvider {
   public async getList(idBuilding: string): Promise<InspectionBuildingFireProtectionForList[]> {
     this.types = (await this.storage.get('alarm_panel_type')).data;
     return this.storage.get('building_alarm_panels_' + idBuilding)
-      .then(sprinklers =>sprinklers.map(m => this.getForList(m)));
+      .then(sprinklers => sprinklers.filter(m => m.isActive).map(m => this.getForList(m)));
   }
 
   private getForList(panel: InspectionBuildingAlarmPanel): InspectionBuildingFireProtectionForList{
@@ -35,13 +35,12 @@ export class InspectionBuildingAlarmPanelRepositoryProvider {
   }
 
   public async get(idBuilding: string, idBuildingSprinkler: string): Promise<InspectionBuildingAlarmPanel> {
-    return (await this.storage.get('building_alarm_panels_' + idBuilding)).data.filter(sprinkler => sprinkler.id == idBuildingSprinkler)[0];
+    return (await this.storage.get('building_alarm_panels_' + idBuilding)).filter(sprinkler => sprinkler.id == idBuildingSprinkler)[0];
   }
 
   public async save(panel: InspectionBuildingAlarmPanel): Promise<any> {
     const currentPanels = await this.storage.get('building_alarm_panels_' + panel.idBuilding);
-    const currentPanel = currentPanels.filter(s => s.id == panel.id)[0];
-    Object.assign(currentPanel, panel);
+    const currentPanel = this.getCurrentItem(currentPanels, panel);
     currentPanel.hasBeenModified = true;
 
     return this.storage.set('building_alarm_panels_' + currentPanel.idBuilding, currentPanels);
@@ -54,5 +53,15 @@ export class InspectionBuildingAlarmPanelRepositoryProvider {
     currentPanel.isActive = false;
 
     return this.storage.set('building_alarm_panels_' + currentPanel.idBuilding, currentPanel);
+  }
+
+  private getCurrentItem(list: InspectionBuildingAlarmPanel[], modifiedItem: InspectionBuildingAlarmPanel): InspectionBuildingAlarmPanel{
+    let currentItem = list.filter(s => s.id == modifiedItem.id)[0];
+    if (currentItem == null) {
+      list.push(modifiedItem);
+    }else{
+      Object.assign(currentItem, modifiedItem);
+    }
+    return currentItem || modifiedItem;
   }
 }

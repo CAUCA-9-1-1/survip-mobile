@@ -32,7 +32,9 @@ export class BuildingContactsPage {
     private async loadContactList() {
         let loader = this.load.create({content: 'Patientez...'});
         try {
-          this.contacts = await this.contactRepo.getList(this.idBuilding);
+          const contact = await this.contactRepo.getList(this.idBuilding);
+          console.log('euhbhh', contact);
+          this.contacts = contact;
         } finally {
           await loader.dismiss();
         }

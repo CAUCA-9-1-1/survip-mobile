@@ -169,6 +169,7 @@ export class BuildingContactDetailPage {
         let data = new InspectionBuildingContact();
         data.id = UUID.UUID();
         data.idBuilding = this.idBuilding;
+        data.isActive = true;
         this.idBuildingContact = data.id;
         this.contact = data;
     }

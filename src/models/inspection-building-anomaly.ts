@@ -3,5 +3,8 @@ export class InspectionBuildingAnomaly {
   idBuilding = '';
   theme = '';
   notes = '';
+
+  isActive: boolean = true;
+  hasBeenModified: boolean = false;
 }
 

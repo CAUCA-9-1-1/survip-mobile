@@ -35,6 +35,7 @@ export class InterventionWaterSuppliesPage {
                 private translateService: TranslateService,
     ) {
 
+
     }
 
     public ionViewDidEnter(){

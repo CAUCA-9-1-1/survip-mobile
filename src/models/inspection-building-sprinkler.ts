@@ -8,5 +8,6 @@ export class InspectionBuildingSprinkler {
   pipeLocation: string;
   collectorLocation: string;
 
+  isActive: boolean = true;
   hasBeenModified: boolean = false;
 }

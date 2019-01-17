@@ -11,4 +11,5 @@ export class InspectionVisit {
     isSeasonal: boolean;
     isActive: boolean;
 
+  hasBeenModified: boolean = false;
 }

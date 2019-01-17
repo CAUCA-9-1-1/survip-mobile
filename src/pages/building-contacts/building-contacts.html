@@ -12,9 +12,9 @@
 <ion-content>
   <ion-list class="list-items">
     <ion-list-header>{{'buildingContact' | translate}}</ion-list-header>
-    <button ion-item icon-start *ngFor="let contact of contacts | orderBy:'name'" (click)="onItemClick(contact.id)">
+    <button ion-item icon-start *ngFor="let contact of contacts | orderBy:'firstName'" (click)="onItemClick(contact.id)">
       <ion-icon [name]="contact.isOwner ? 'key' : 'contact'" small></ion-icon>
-      {{contact.name}}
+      {{contact.firstName}}{{(contact.lastName || '') != '' ? ' ' : ''}}{{contact.lastName}}
     </button>
   </ion-list>
 </ion-content>

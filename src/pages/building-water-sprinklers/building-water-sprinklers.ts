@@ -124,6 +124,7 @@ export class BuildingWaterSprinklersPage {
         let data = new InspectionBuildingSprinkler();
         data.id = UUID.UUID();
         data.idBuilding = this.idBuilding;
+        data.isActive = true;
         this.idBuildingSprinkler = data.id;
         this.sprinkler = data;
     }

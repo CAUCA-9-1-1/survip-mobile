@@ -14,6 +14,9 @@ export class InspectionBuildingHazardousMaterial {
   gasInlet: string = "";
   securityPerimeter: string ="";
   otherInformation: string = "";
+
+  isActive: boolean = true;
+  hasBeenModified: boolean = false;
 }
 
 export enum TankType {

@@ -12,5 +12,8 @@ export class InspectionBuildingContact {
   otherNumber: string = "";
   otherNumberExtension: string = "";
   isOwner: boolean = false;
+
+  isActive: boolean = true;
+  hasBeenModified: boolean = false;
 }
 

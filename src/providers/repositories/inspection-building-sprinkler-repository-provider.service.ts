@@ -15,7 +15,7 @@ export class InspectionBuildingSprinklerRepositoryProvider {
     public async getList(idBuilding: string): Promise<InspectionBuildingFireProtectionForList[]> {
         this.types = (await this.storage.get('sprinkler_type')).data;
         return this.storage.get('building_sprinklers_' + idBuilding)
-          .then(sprinklers =>sprinklers.map(m => this.getForList(m)));
+          .then(sprinklers =>sprinklers.filter(m => m.isActive).map(m => this.getForList(m)));
     }
 
     private getForList(sprinkler: InspectionBuildingSprinkler): InspectionBuildingFireProtectionForList{
@@ -38,13 +38,12 @@ export class InspectionBuildingSprinklerRepositoryProvider {
     }
 
     public async get(idBuilding: string, idBuildingSprinkler: string): Promise<InspectionBuildingSprinkler> {
-        return (await this.storage.get('building_sprinklers_' + idBuilding)).data.filter(sprinkler => sprinkler.id == idBuildingSprinkler)[0];
+        return (await this.storage.get('building_sprinklers_' + idBuilding)).filter(sprinkler => sprinkler.id == idBuildingSprinkler)[0];
     }
 
     public async save(sprinkler: InspectionBuildingSprinkler): Promise<any> {
         const currentSprinklers = await this.storage.get('building_sprinklers_' + sprinkler.idBuilding);
-        const currentSprinkler = currentSprinklers.filter(s => s.id == sprinkler.id)[0];
-        Object.assign(currentSprinkler, sprinkler);
+        const currentSprinkler = this.getCurrentItem(currentSprinklers, sprinkler);
         currentSprinkler.hasBeenModified = true;
 
         return this.storage.set('building_sprinklers_' + currentSprinkler.idBuilding, currentSprinklers);
@@ -58,6 +57,16 @@ export class InspectionBuildingSprinklerRepositoryProvider {
 
       return this.storage.set('building_sprinklers_' + currentSprinkler.idBuilding, currentSprinklers);
     }
+
+  private getCurrentItem(list: InspectionBuildingSprinkler[], modifiedItem: InspectionBuildingSprinkler): InspectionBuildingSprinkler{
+    let currentItem = list.filter(s => s.id == modifiedItem.id)[0];
+    if (currentItem == null) {
+      list.push(modifiedItem);
+    }else{
+      Object.assign(currentItem, modifiedItem);
+    }
+    return currentItem || modifiedItem;
+  }
 }
 
 

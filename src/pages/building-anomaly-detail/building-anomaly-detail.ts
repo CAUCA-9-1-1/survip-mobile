@@ -41,6 +41,7 @@ export class BuildingAnomalyDetailPage {
         this.anomaly.id = navParams.get('idBuildingAnomaly') ? navParams.get('idBuildingAnomaly') :UUID.UUID();
         this.anomaly.theme = navParams.get('theme');
         this.anomaly.idBuilding = navParams.get("idBuilding");
+        this.anomaly.isActive = true;
         this.initiateForm();
 
         this.pictureSubscriber = this.picRepo.picturesChanged.subscribe(() => this.picturesUpdated());
