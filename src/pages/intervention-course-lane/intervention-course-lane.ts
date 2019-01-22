@@ -58,8 +58,7 @@ export class InterventionCourseLanePage {
         if (idInspectionBuildingCourseLane == null) {
             this.createPlanCourseLane();
         } else {
-            const result = await this.courseLaneRepo.getLane(idInspectionBuildingCourseLane);
-            this.courseLane = result;
+            this.courseLane = this.courseLaneRepo.getLane(idInspectionBuildingCourseLane);
         }
         this.setValuesAndStartListening();
     }
@@ -77,18 +76,18 @@ export class InterventionCourseLanePage {
 
     public async ionViewDidLoad() {
         let loader = this.load.create({content: this.labels['waitFormMessage']});
-        loader.present();
+        await loader.present();
         try {
           this.directions = await this.directionRepo.getList();
           await this.loadSpecificCourseLane(this.idInspectionBuildingCourseLane);
         } finally {
-          loader.dismiss();
+          await loader.dismiss();
         }
     }
 
     public ionViewCanLeave() {
         if (this.form.dirty || !this.form.valid) {
-            return new Promise((resolve, rejeect) => {
+            return new Promise((resolve) => {
                 let alert = this.alertCtrl.create({
                     title: this.labels['confirmation'],
                     message: this.labels['laneLeaveMessage'],
@@ -172,19 +171,20 @@ export class InterventionCourseLanePage {
 
     public async saveCourseLane() {
         let loader = this.load.create({content: this.labels['waitFormMessage']});
-        loader.present();
+        await loader.present();
         try {
           await this.courseLaneRepo.save(this.courseLane);
         } finally {
-          loader.dismiss();
+          await loader.dismiss();
+          await loader.dismiss();
         }
     }
 
     public async deleteCourseLane(): Promise<any> {
         let loader = this.load.create({content: this.labels['waitFormMessage']});
-        loader.present();
+        await loader.present();
         let result = await this.courseLaneRepo.delete(this.courseLane);
-        loader.dismiss();
+        await loader.dismiss();
         return result;
     }
 

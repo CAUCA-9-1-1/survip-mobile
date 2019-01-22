@@ -1,3 +1,5 @@
+import {InspectionBuildingCourseLane} from "./inspection-building-course-lane";
+
 export class InspectionBuildingCourse {
   id : string;
   idBuilding : string;
@@ -5,4 +7,6 @@ export class InspectionBuildingCourse {
 
   isActive: boolean = true;
   hasBeenModified: boolean = false;
+
+  lanes: InspectionBuildingCourseLane[];
 }

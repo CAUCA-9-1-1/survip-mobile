@@ -12,6 +12,7 @@ import {LaneDataSynchronizerProvider} from "../lane-data-synchronizer/lane-data-
 import {HazardousMaterialDataSynchronizerProvider} from "../hazardous-material-data-synchronizer/hazardous-material-data-synchronizer";
 import {InspectionDataSynchronizerProvider} from "../inspection-data-synchronizer/inspection-data-synchronizer";
 import {CityDataSynchronizerProvider} from "../city-data-synchronizer/city-data-synchronizer";
+import {FirestationDataSynchronizerProvider} from "../firestation-data-synchronizer/firestation-data-synchronizer";
 
 @Injectable()
 export class OfflineDataSynchronizerProvider {
@@ -35,7 +36,8 @@ export class OfflineDataSynchronizerProvider {
     private laneRepo: LaneDataSynchronizerProvider,
     private matRepo : HazardousMaterialDataSynchronizerProvider,
     private cityRepo: CityDataSynchronizerProvider,
-    private inspectionRepo: InspectionDataSynchronizerProvider
+    private inspectionRepo: InspectionDataSynchronizerProvider,
+    private firestationRepo: FirestationDataSynchronizerProvider
   ) {
   }
 
@@ -66,7 +68,11 @@ export class OfflineDataSynchronizerProvider {
 
     promises = promises.concat( this.cityRepo
       .synchAll(cityIds)
-      .map(m => m.then((wasSuccessful) => this.setTaskAsCompleted(wasSuccessful))) );
+      .map(m => m.then((wasSuccessful) => this.setTaskAsCompleted(wasSuccessful))));
+
+    promises = promises.concat( this.firestationRepo
+      .synchAll(cityIds)
+      .map(m => m.then((wasSuccessful) => this.setTaskAsCompleted(wasSuccessful))));
 
     return this.runSynchronization(promises);
   }
