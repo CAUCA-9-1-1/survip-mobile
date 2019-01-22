@@ -82,17 +82,10 @@ export class InspectionControllerProvider {
     return this.loadingCtrl.create({content: this.labels['loading']});
   }
 
-  public savePlanIdPicture(idPicture: string) {
-    /*        this.inspectionDetail.idPictureSitePlan = idPicture;
-            this.repoDetail.savePicture(this.inspectionDetail.idDetail, this.inspectionDetail.idPictureSitePlan)
-                .subscribe(ok => {
-                    console.log("Picture saved", ok);
-                });*/
-  }
-
   public getMainBuilding(): InspectionBuildingForList{
       return this.inspection.buildings.filter(building => building.isMainBuilding)[0];
   }
+
 
   public saveBuildings() {
       this.repoInspection.save(this.inspection);

@@ -13,6 +13,7 @@ import {InspectionBuildingSprinkler} from "../../models/inspection-building-spri
 import {InspectionBuildingAlarmPanel} from "../../models/inspection-building-alarm-panel";
 import {InspectionBuildingCourse} from "../../models/inspection-building-course";
 import {map} from "rxjs/operators";
+import {InspectionPictureForWeb} from "../../models/inspection-picture-for-web";
 
 @Injectable()
 export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProvider<Batch[]> {
@@ -55,6 +56,7 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
       promises.push(this.downloadData<InspectionBuildingDetail>(idBuilding, 'inspection/building/' + idBuilding + '/detail', 'building_detail_'));
       promises.push(this.downloadData<InspectionBuildingContact[]>(idBuilding, 'inspection/building/' + idBuilding + '/contactList', 'building_contacts_'));
       promises.push(this.downloadData<InspectionBuildingHazardousMaterial[]>(idBuilding, 'inspection/building/' + idBuilding + '/hazardousMaterialList', 'building_hazardous_materials_'));
+      promises.push(this.downloadDataAndSaveAsArray<InspectionPictureForWeb>(idBuilding, 'inspection/building' + idBuilding + '/detail_picture', 'building_plan_picture_'))
       promises.push(this.downloadData<InspectionBuildingPersonRequiringAssistance[]>(idBuilding, 'inspection/building/' + idBuilding + '/pnapsList', 'building_pnaps_'));
       promises.push(this.downloadData<InspectionBuildingSprinkler[]>(idBuilding, 'inspection/building/' + idBuilding + '/sprinklerList', 'building_sprinklers_'));
       promises.push(this.downloadData<InspectionBuildingAlarmPanel[]>(idBuilding, 'inspection/building/' + idBuilding + '/alarmPanelList', 'building_alarm_panels_'));
@@ -69,6 +71,21 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
         .subscribe(
           async (data: T) => {
             await this.saveData<T>(data, idBuilding, key);
+            resolve(true);
+          },
+          async () => resolve(false)
+        );
+    });
+  }
+
+  private downloadDataAndSaveAsArray<T>(idBuilding: string, url: string, key: string): Promise<boolean>{
+    return new Promise((resolve) => {
+      this.getDataFromApi<T>(url)
+        .subscribe(
+          async (data: T) => {
+            if (data != null) {
+              await this.saveData<T[]>([data], idBuilding, key);
+            }
             resolve(true);
           },
           async () => resolve(false)
