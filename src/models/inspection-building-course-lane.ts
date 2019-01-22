@@ -7,4 +7,7 @@ export class InspectionBuildingCourseLane {
 
   isActive: boolean = true;
   hasBeenModified: boolean = false;
+
+
+  description: string;
 }
