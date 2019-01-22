@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 //import {InspectionDetail} from '../../models/inspection-detail';
 import {InspectionVisit} from "../../models/inspection-visit";
 import {TranslateService} from "@ngx-translate/core";
+import {BuildingDetailRepositoryProvider} from "./building-detail-repository";
 
 @Injectable()
 export class InspectionDetailRepositoryProvider {
@@ -19,7 +20,10 @@ export class InspectionDetailRepositoryProvider {
     };
     public InspectionVisitStatusEnum = {'Todo': 0, 'Started': 1, 'Completed': 2};
 
-    constructor(private http: HttpService, private translateService: TranslateService) {
+    constructor(
+      private http: HttpService,
+      private detailRepo: BuildingDetailRepositoryProvider,
+      private translateService: TranslateService) {
         this.translateService.get([
             'generalInformation', 'Buildings', 'waterSupplies', 'implantationPlan', 'course',
             'inspectionStatusTodo', 'inspectionStatusStarted', 'inspectionStatusWaitingForApprobation', 'inspectionStatusApproved',
@@ -33,12 +37,10 @@ export class InspectionDetailRepositoryProvider {
             });
     }
 
-    public savePlanLane(idBuilding: string, idTransversal: string): Observable<boolean> {
-        return this.http.post('inspection/building/' + idBuilding + '/idLaneIntersection/' + idTransversal);
-    }
-
-    public savePicture(idBuildingDetail: string, idPicture: string): Observable<boolean> {
-        return this.http.post('inspection/buildingdetail/' + idBuildingDetail + '/idPicture/' + idPicture);
+    public async savePicture(idBuilding: string, idPicture: string): Promise<boolean> {
+      const detail = await this.detailRepo.get(idBuilding);
+      detail.idPicturePlan = idPicture;
+      return this.detailRepo.save(detail);
     }
 
     public startInspection(idInspection: string): Observable<any> {

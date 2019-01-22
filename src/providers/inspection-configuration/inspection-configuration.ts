@@ -13,7 +13,6 @@ export class InspectionConfigurationProvider {
   }
 
   public async setConfiguration(configuration: InspectionConfiguration){
-    console.log('Configuration set', configuration);
     this.initialConfiguration = configuration;
     this.configuration = Object.assign(new InspectionConfiguration(),this.initialConfiguration);
     this.menuRefreshed.emit(null);

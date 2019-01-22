@@ -131,7 +131,7 @@ export class PicturesComponent implements ControlValueAccessor {
 
             this.slides.update();
             if (this.saveAuto) {
-                await this.repo.save(picture);
+                await this.repo.save(this.idParent, this.repo.pictures);
             } else {
                 this.repo.picturesChanged.emit(null);
             }
@@ -177,13 +177,10 @@ export class PicturesComponent implements ControlValueAccessor {
         this.getPicture(options);
     }
 
-    public onDeletePhotos() {
+    public onDeletePhotos(idPicture: string) {
         this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['photoDeleteQuestion']).then(canDelete => {
             if (canDelete) {
-
-                let picture = this.repo.pictures[this.slides._activeIndex];
-
-                this.repo.delete(picture.id);
+                this.repo.delete(this.idParent, idPicture);
 
                 this.repo.pictures.splice(this.slides._activeIndex, 1);
                 this.slides.update();
@@ -261,7 +258,7 @@ export class PicturesComponent implements ControlValueAccessor {
             this.repo.pictures[this.slides._activeIndex] = data;
             if (data.modified) {
                 if (this.saveAuto) {
-                    this.repo.save(data);
+                    this.repo.save(this.idParent, this.repo.pictures);
                 }
                 else {
                     this.repo.picturesChanged.emit(null);

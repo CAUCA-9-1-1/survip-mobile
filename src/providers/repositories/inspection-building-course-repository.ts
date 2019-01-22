@@ -54,11 +54,9 @@ export class InspectionBuildingCourseRepositoryProvider {
 
   private getLaneName(lane: InspectionBuildingCourseLane, directions: RouteDirection[]): string {
     let name = this.laneRepo.getName(lane.idLane);
-    console.log('lane name', name);
     if (lane.direction != 2){
       name += ' (' + directions.find(d => d.id == lane.direction).description + ')';
     }
-    console.log('final lane name', name);
     return name;
   }
 

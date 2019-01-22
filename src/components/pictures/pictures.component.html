@@ -16,7 +16,7 @@
         <ion-slides pager="{{repo.pictures.length > 1 && multiPictures ? true : false}}">
             <ion-slide *ngFor="let picture of repo.pictures;">
                 <ion-card>
-                    <button ion-button icon-only small outline class="deleteIcon" (click)="onDeletePhotos()"
+                    <button ion-button icon-only small outline class="deleteIcon" (click)="onDeletePhotos(picture.id)"
                             color="caucaRed">
                         <ion-icon name="trash" class="deleteIcon"></ion-icon>
                     </button>

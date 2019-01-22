@@ -13,6 +13,8 @@ export class InspectionBuildingDetail {
   idBuildingType: string;
   idBuildingSidingType: string;
 
+  idPicturePlan: string;
+
   isActive: boolean = true;
   hasBeenModified: boolean = false;
 }

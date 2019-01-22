@@ -8,7 +8,7 @@ export interface PicturesRepositoryProvider {
 
     getList(id: string): Promise<InspectionPictureForWeb[]>;
 
-    save(picture: InspectionPictureForWeb): Promise<any>;
+    save(idParent: string, pictures: InspectionPictureForWeb[]): Promise<boolean>;
 
-    delete(idBuildingAnomalyPicture: string): Promise<any>;
+    delete(idParent: string, idPicture: string): Promise<boolean>;
 }
