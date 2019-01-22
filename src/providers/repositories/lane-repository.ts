@@ -29,14 +29,18 @@ export class LaneRepositoryProvider implements ServiceForListInterface {
   }
 
   public get(idLane: string): Observable<string> {
+    return Observable.of(this.getName(idLane));
+  }
+
+  public getName(idLane: string): string {
     if (!idLane) {
-      return Observable.of("");
+      return '';
     } else {
       const lane = this.currentCityLanes.filter(lane => lane.id === idLane)[0];
       if (lane != null) {
-        return Observable.of(lane.name);
+        return lane.name;
       } else{
-        return Observable.of('');
+        return '';
       }
     }
   }

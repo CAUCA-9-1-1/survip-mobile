@@ -4,6 +4,10 @@ import {Storage as OfflineStorage} from "@ionic/storage";
 import {FirestationRepositoryProvider} from "./firestation-repository-provider.service";
 import {InspectionBuildingCourseForList} from "../../models/inspection-building-course-for-list";
 import {FirestationForlist} from "../../models/firestation";
+import {InspectionBuildingCourseLane} from "../../models/inspection-building-course-lane";
+import {RouteDirection} from "../../models/route-direction";
+import {RouteDirectionRepositoryProvider} from "./route-direction-repository";
+import {LaneRepositoryProvider} from "./lane-repository";
 
 @Injectable()
 export class InspectionBuildingCourseRepositoryProvider {
@@ -14,6 +18,8 @@ export class InspectionBuildingCourseRepositoryProvider {
 
   constructor(
     private storage: OfflineStorage,
+    private directionRepo: RouteDirectionRepositoryProvider,
+    private laneRepo: LaneRepositoryProvider,
     private firestationRepo: FirestationRepositoryProvider,
   ) {
     }
@@ -34,7 +40,26 @@ export class InspectionBuildingCourseRepositoryProvider {
       this.currentCourse.isActive = true;
       this.currentCourse.lanes = [];
       this.currentCourse.idBuilding = idBuilding;
+    } else {
+      await this.setLanesDescription(this.currentCourse.lanes);
+      console.log('ouh', this.currentCourse.lanes);
     }
+  }
+
+  private async setLanesDescription(lanes: InspectionBuildingCourseLane[]): Promise<any> {
+    const directions = await this.directionRepo.getList();
+    lanes.forEach(lane => lane.description = this.getLaneName(lane, directions));
+
+  }
+
+  private getLaneName(lane: InspectionBuildingCourseLane, directions: RouteDirection[]): string {
+    let name = this.laneRepo.getName(lane.idLane);
+    console.log('lane name', name);
+    if (lane.direction != 2){
+      name += ' (' + directions.find(d => d.id == lane.direction).description + ')';
+    }
+    console.log('final lane name', name);
+    return name;
   }
 
   private getForList(fireStations: FirestationForlist[], course: InspectionBuildingCourse): InspectionBuildingCourseForList {

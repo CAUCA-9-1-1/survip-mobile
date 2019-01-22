@@ -23,7 +23,7 @@
       <button item-end ion-button (click)="onChangeOrder()" color="caucaRed">{{changeCourseAction}}</button>
     </ion-item-divider>
     <ion-item-group [reorder]="changeOrder" (ionItemReorder)="onReorderLane($event)" side="start">
-      <button ion-item *ngFor="let lane of lanes | orderBy:'sequence'" (click)="onClickLane(lane.id)">{{lane.idLane}}</button>
+      <button ion-item *ngFor="let lane of lanes | orderBy:'sequence'" (click)="onClickLane(lane.id)">{{lane.description}}</button>
     </ion-item-group>
   </ion-list>
 

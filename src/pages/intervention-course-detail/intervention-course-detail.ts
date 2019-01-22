@@ -108,7 +108,7 @@ export class InterventionCourseDetailPage {
         }
         else {
             this.courseRepo.load(this.controller.getMainBuilding().idBuilding, this.idInspectionFormCourse)
-              .then(success => {
+              .then(() => {
                 this.setValuesAndStartListening();
               });
         }
