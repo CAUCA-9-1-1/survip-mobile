@@ -5,11 +5,11 @@ import {InspectionControllerProvider} from '../../providers/inspection-controlle
 import {FirestationForlist} from '../../models/firestation';
 import {FirestationRepositoryProvider} from '../../providers/repositories/firestation-repository-provider.service';
 import {InspectionBuildingCourse} from '../../models/inspection-building-course';
-import {InspectionBuildingCourseLaneForList} from '../../models/inspection-building-course-lane-for-list';
 import {InspectionBuildingCourseRepositoryProvider} from '../../providers/repositories/inspection-building-course-repository';
 import {InspectionBuildingCourseLaneRepositoryProvider} from '../../providers/repositories/inspection-building-course-lane-repository-provider.service';
 import {UUID} from 'angular2-uuid';
 import {TranslateService} from "@ngx-translate/core";
+import {InspectionBuildingCourseLane} from "../../models/inspection-building-course-lane";
 
 @IonicPage()
 @Component({
@@ -19,14 +19,23 @@ import {TranslateService} from "@ngx-translate/core";
 export class InterventionCourseDetailPage {
     private hasNavigated: boolean = true;
     private idInspectionFormCourse: string;
-
-    public course: InspectionBuildingCourse;
-    public courseLanes: InspectionBuildingCourseLaneForList[] = [];
     public firestations: FirestationForlist[] = [];
     public form: FormGroup;
     public changeOrder = false;
     public labels = {};
     public changeCourseAction: string;
+
+    public get course(){
+      return this.courseRepo.currentCourse;
+    }
+
+    public get lanes():InspectionBuildingCourseLane[]{
+      if (this.courseRepo.currentCourse != null){
+        return this.courseRepo.currentCourse.lanes.filter(lane => lane.isActive != false)
+      } else {
+        return [];
+      }
+    }
 
     constructor(
         public navCtrl: NavController,
@@ -60,7 +69,7 @@ export class InterventionCourseDetailPage {
     public async ionViewDidEnter() {
         if (this.hasNavigated) {
             let loader = this.load.create({content: this.labels['waitFormMessage']});
-            loader.present();
+            await loader.present();
             await this.loadFirestations();
             await this.loadSpecificCourse(this.idInspectionFormCourse);
             await loader.dismiss();
@@ -69,7 +78,7 @@ export class InterventionCourseDetailPage {
 
     public ionViewCanLeave() {
         if (this.form.dirty || !this.form.valid) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 let alert = this.alertCtrl.create({
                     title: this.labels['confirmation'],
                     message: this.labels['courseDetailLeaveMessage'],
@@ -92,34 +101,31 @@ export class InterventionCourseDetailPage {
         }
     }
 
-    private loadSpecificCourse(idInterventionFormCourse: string) {
-        if (idInterventionFormCourse == null) {
+    private loadSpecificCourse(idBuildingCourse: string) {
+        if (idBuildingCourse == null) {
             this.createPlanCourse();
             this.setValuesAndStartListening();
         }
         else {
-            const result = this.courseRepo.get(idInterventionFormCourse);
-            result.subscribe(data => {
-                this.course = data.course as InspectionBuildingCourse;
-                this.courseLanes = data.lanes;
+            this.courseRepo.load(this.controller.getMainBuilding().idBuilding, this.idInspectionFormCourse)
+              .then(success => {
                 this.setValuesAndStartListening();
-            });
+              });
         }
     }
 
     public createPlanCourse() {
-        let course = new InspectionBuildingCourse();
-        course.id = UUID.UUID();
-        this.idInspectionFormCourse = course.id;
-        course.idBuilding = this.controller.currentInspection.idBuilding;
-        course.isActive = true;
-        this.course = course;
-        this.courseLanes = [];
+      let course = new InspectionBuildingCourse();
+      course.id = UUID.UUID();
+      this.idInspectionFormCourse = course.id;
+      course.idBuilding = this.controller.currentInspection.idBuilding;
+      course.isActive = true;
+      course.lanes = [];
+      this.courseRepo.currentCourse = course;
     }
 
     private async loadFirestations() {
-        const result = await this.firestationRepo.getList(this.controller.currentInspection.idCity);
-        this.firestations = result;
+      this.firestations = await this.firestationRepo.getList(this.controller.currentInspection.idCity);
     }
 
     private createForm() {
@@ -162,18 +168,18 @@ export class InterventionCourseDetailPage {
     }
 
     public async onReorderLane(indexes) {
-        this.courseLanes = reorderArray(this.courseLanes, indexes);
+        this.course.lanes = reorderArray(this.course.lanes, indexes);
         await this.setLanesSequenceAndSave();
     }
 
     public async setLanesSequenceAndSave() {
-        for (let i = 0; i < this.courseLanes.length; i++) {
-            let item = this.courseLanes[i];
+        for (let i = 0; i < this.course.lanes.length; i++) {
+            let item = this.course.lanes[i];
             if (item.sequence != i + 1) {
                 item.sequence = i + 1;
-                await this.courseLaneRepo.saveCourseLaneSequence(item.id, item.sequence);
             }
         }
+        this.saveCourse();
     }
 
     public onClickLane(idInspectionBuildingCourseLane: string): void {
@@ -194,7 +200,7 @@ export class InterventionCourseDetailPage {
         this.navCtrl.push("InterventionCourseLanePage", {
             idInspectionBuildingCourseLane: idInspectionBuildingCourseLane,
             idInspectionBuildingCourse: this.idInspectionFormCourse,
-            nextSequence: this.courseLanes.length + 1
+            nextSequence: this.course.lanes.length + 1
         });
     }
 
@@ -206,7 +212,7 @@ export class InterventionCourseDetailPage {
                 {text: this.labels['no'], role: this.labels['cancel']},
                 {
                     text: this.labels['yes'], handler: () => {
-                        this.deleteCourse().subscribe(() => this.goBack());
+                        this.deleteCourse().then(() => this.goBack());
                     }
                 }
             ]
@@ -217,8 +223,8 @@ export class InterventionCourseDetailPage {
     private saveCourse() {
         let loader = this.load.create({content: this.labels['waitFormMessage']});
         loader.present();
-        this.courseRepo.save(this.course)
-            .subscribe(ok => {
+        this.courseRepo.save()
+            .then(ok => {
                 loader.dismiss();
             }, () => loader.dismiss())
     }
@@ -227,7 +233,7 @@ export class InterventionCourseDetailPage {
         let loader = this.load.create({content: this.labels['waitFormMessage']});
         loader.present();
         try {
-          let result = this.courseRepo.delete(this.course);
+          let result = this.courseRepo.delete();
           return result;
         } finally {
           loader.dismiss();

@@ -38,7 +38,6 @@ export class InspectionBuildingPersonRequiringAssistanceTypeRepositoryProvider {
     const list = await this.storage.get(this.baseKey  + modifiedItem.idBuilding);
     const currentItem = this.getCurrentItem(list, modifiedItem);
     currentItem.hasBeenModified = true;
-    console.log('ouh ouh.', currentItem, list);
 
     return this.storage.set(this.baseKey  + modifiedItem.idBuilding, list);
   }

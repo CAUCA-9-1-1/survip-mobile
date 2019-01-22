@@ -1,16 +1,15 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from '../Base/http.service';
 import {FirestationForlist} from '../../models/firestation';
-import {map} from 'rxjs/operators';
+import {Storage as OfflineStorage} from "@ionic/storage";
+import {ExpiringCache} from "../expiring-cache";
 
 @Injectable()
 export class FirestationRepositoryProvider {
-    constructor(private http: HttpService) {
+    constructor(private storage: OfflineStorage) {
     }
 
     public getList(idCity: string): Promise<FirestationForlist[]> {
-        return this.http.get('city/' + idCity + '/firestations')
-            .pipe(map(response => response))
-            .toPromise();
+        return this.storage.get('firestations_by_city_' + idCity)
+          .then((cache: ExpiringCache<FirestationForlist[]>) => cache.data);
     }
 }

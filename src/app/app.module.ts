@@ -76,6 +76,7 @@ import { LaneDataSynchronizerProvider } from '../providers/lane-data-synchronize
 import { HazardousMaterialDataSynchronizerProvider } from '../providers/hazardous-material-data-synchronizer/hazardous-material-data-synchronizer';
 import { InspectionDataSynchronizerProvider } from '../providers/inspection-data-synchronizer/inspection-data-synchronizer';
 import { CityDataSynchronizerProvider } from '../providers/city-data-synchronizer/city-data-synchronizer';
+import { FirestationDataSynchronizerProvider } from '../providers/firestation-data-synchronizer/firestation-data-synchronizer';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -184,6 +185,7 @@ export function httpServiceFactory(
     HazardousMaterialDataSynchronizerProvider,
     InspectionDataSynchronizerProvider,
     CityDataSynchronizerProvider,
+    FirestationDataSynchronizerProvider,
     ]
 })
 export class AppModule {

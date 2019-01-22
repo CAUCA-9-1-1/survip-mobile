@@ -52,11 +52,11 @@ export class InterventionCoursePage {
 
     public loadCourseList() {
         let loader = this.load.create({content: this.labels['waitFromMessage']});
-        const result = this.courseRepo.getList(this.controller.idInspection);
-        result.subscribe(data => {
-            this.courses = data as InspectionBuildingCourseForList[];
+        this.courseRepo.getList(this.controller.getMainBuilding().idBuilding, this.controller.currentInspection.idCity)
+          .then(data => {
+            this.courses = data;
             loader.dismiss();
-        }, () => loader.dismiss());
+          })
     }
 
     public onItemClick(idInspectionBuildingCourse: string) {
