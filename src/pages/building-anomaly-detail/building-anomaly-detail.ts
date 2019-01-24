@@ -18,6 +18,7 @@ export class BuildingAnomalyDetailPage {
 
     private subscription: ISubscription;
     private pictureSubscriber: ISubscription;
+    private readonly idBuilding: string;
 
     public isNew: boolean = false;
     public anomaly: InspectionBuildingAnomaly = new InspectionBuildingAnomaly();
@@ -36,11 +37,13 @@ export class BuildingAnomalyDetailPage {
         public navParams: NavParams,
         private translateService: TranslateService) {
 
+        this.idBuilding = navParams.get("idBuilding");
+
         this.anomaly = new InspectionBuildingAnomaly();
         this.isNew = navParams.get('idBuildingAnomaly') == null;
         this.anomaly.id = navParams.get('idBuildingAnomaly') ? navParams.get('idBuildingAnomaly') :UUID.UUID();
         this.anomaly.theme = navParams.get('theme');
-        this.anomaly.idBuilding = navParams.get("idBuilding");
+        this.anomaly.idBuilding = this.idBuilding;
         this.anomaly.isActive = true;
         this.initiateForm();
 
@@ -70,7 +73,7 @@ export class BuildingAnomalyDetailPage {
 
     private async loadBuildingAnomaly(){
         if (!this.isNew) {
-            this.anomaly = await this.repo.get(this.anomaly.id);
+            this.anomaly = await this.repo.get(this.idBuilding, this.anomaly.id);
             this.initiateForm();
         }
         this.startWatchingForm();
@@ -106,7 +109,7 @@ export class BuildingAnomalyDetailPage {
             .then(()=>{
                 this.form.markAsPristine();
                 this.isNew = false;
-                this.picRepo.saveAll();
+                this.picRepo.save(this.anomaly.id, this.picRepo.pictures);
         })
             .catch(error =>{
                 console.log("Error in saveForm", error);
@@ -116,7 +119,7 @@ export class BuildingAnomalyDetailPage {
 
     public async onDeleteAnomaly() {
         if (!this.isNew && await this.msg.ShowMessageBox(this.labels['confirmation'], this.labels['anomalyDeleteQuestion'])) {
-            await this.repo.delete(this.anomaly.id);
+            await this.repo.delete(this.anomaly);
             this.viewCtrl.dismiss();
             this.unSubscribeEvent();
         }

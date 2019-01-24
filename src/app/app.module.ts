@@ -77,6 +77,7 @@ import { HazardousMaterialDataSynchronizerProvider } from '../providers/hazardou
 import { InspectionDataSynchronizerProvider } from '../providers/inspection-data-synchronizer/inspection-data-synchronizer';
 import { CityDataSynchronizerProvider } from '../providers/city-data-synchronizer/city-data-synchronizer';
 import { FirestationDataSynchronizerProvider } from '../providers/firestation-data-synchronizer/firestation-data-synchronizer';
+import { AnomalyThemeDataSynchronizerProvider } from '../providers/anomaly-theme-data-synchronizer/anomaly-theme-data-synchronizer';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -186,6 +187,8 @@ export function httpServiceFactory(
     InspectionDataSynchronizerProvider,
     CityDataSynchronizerProvider,
     FirestationDataSynchronizerProvider,
+    AnomalyThemeDataSynchronizerProvider,
+    AnomalyThemeDataSynchronizerProvider,
     ]
 })
 export class AppModule {

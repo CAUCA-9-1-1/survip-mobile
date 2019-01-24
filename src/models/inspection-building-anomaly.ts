@@ -1,3 +1,5 @@
+import {InspectionPictureForWeb} from "./inspection-picture-for-web";
+
 export class InspectionBuildingAnomaly {
   id = '';
   idBuilding = '';
@@ -8,3 +10,7 @@ export class InspectionBuildingAnomaly {
   hasBeenModified: boolean = false;
 }
 
+export class InspectionBuildingAnomalyPictures {
+  id: string;
+  pictures: InspectionPictureForWeb[];
+}

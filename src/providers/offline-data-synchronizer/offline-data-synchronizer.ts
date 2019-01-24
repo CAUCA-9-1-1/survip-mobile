@@ -13,6 +13,7 @@ import {HazardousMaterialDataSynchronizerProvider} from "../hazardous-material-d
 import {InspectionDataSynchronizerProvider} from "../inspection-data-synchronizer/inspection-data-synchronizer";
 import {CityDataSynchronizerProvider} from "../city-data-synchronizer/city-data-synchronizer";
 import {FirestationDataSynchronizerProvider} from "../firestation-data-synchronizer/firestation-data-synchronizer";
+import {AnomalyThemeDataSynchronizerProvider} from "../anomaly-theme-data-synchronizer/anomaly-theme-data-synchronizer";
 
 @Injectable()
 export class OfflineDataSynchronizerProvider {
@@ -37,13 +38,15 @@ export class OfflineDataSynchronizerProvider {
     private matRepo : HazardousMaterialDataSynchronizerProvider,
     private cityRepo: CityDataSynchronizerProvider,
     private inspectionRepo: InspectionDataSynchronizerProvider,
-    private firestationRepo: FirestationDataSynchronizerProvider
+    private firestationRepo: FirestationDataSynchronizerProvider,
+    private themeRepo: AnomalyThemeDataSynchronizerProvider
   ) {
   }
 
   public synchronizeBaseEntities() : Promise<boolean> {
     this.startNewSynchronization();
     const tasks = [
+      this.themeRepo.synchAll().then(wasSuccessful => this.setTaskAsCompleted(wasSuccessful)),
       this.matRepo.synchAll().then((wasSuccessful) => this.setTaskAsCompleted(wasSuccessful)),
       this.riskLevelRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
       this.measureRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
