@@ -91,6 +91,7 @@ export class PicturesComponent implements ControlValueAccessor {
 
     public async loadPictures() {
         this.isLoading = true;
+        console.log('load pictah', this.idParent);
         this.repo.pictures = await this.repo.getList(this.idParent);
         this.isLoading = false;
     }
