@@ -42,7 +42,9 @@ export class BuildingChildPictureEditionPage {
 
        this.getFullSizeImage(json).then((res) => {
         const imageUri = res;
-        this.picture = {id: this.picture.id, idParent: this.picture.idParent, idPicture: this.picture.idPicture, dataUri: imageUri, sketchJson: JSON.stringify(json), modified:true };
+        this.picture.dataUri = imageUri;
+        this.picture.sketchJson = JSON.stringify(json);
+        this.picture.modified = true;
         this.viewCtrl.dismiss(this.picture);
       });
     }

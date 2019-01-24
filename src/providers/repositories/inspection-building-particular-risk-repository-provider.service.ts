@@ -1,29 +1,28 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from '../Base/http.service';
-import {map} from 'rxjs/operators';
 import {InspectionBuildingParticularRisk} from '../../models/inspection-building-particular-risk';
+import {Storage as OfflineStorage} from "@ionic/storage";
 
 @Injectable()
 export class InspectionBuildingParticularRiskRepositoryProvider {
 
-    constructor(public http: HttpService) {
-    }
+  constructor(private storage: OfflineStorage) {
+  }
 
-    public get(riskType: string, idBuilding: string): Promise<InspectionBuildingParticularRisk> {
-        return this.http.get('inspection/building/' + idBuilding + '/particularrisk/' + riskType)
-            .pipe(map(response => response))
-            .toPromise();
-    }
+  public async get(riskType: string, idBuilding: string): Promise<InspectionBuildingParticularRisk> {
+    const key = 'building_particular_risk_' + riskType + '_' + idBuilding;
+    console.log('key', riskType, idBuilding, key);;
+    return await this.storage.get(key);
+  }
 
-    public save(riskType: string, risk: InspectionBuildingParticularRisk): Promise<any> {
-        return this.http.post('inspection/building/particularrisk/' + riskType, JSON.stringify(risk))
-            .pipe(map(response => response))
-            .toPromise();
-    }
+  public save(riskType: string, risk: InspectionBuildingParticularRisk): Promise<any> {
+    risk.isActive = true;
+    risk.hasBeenModified = true;
+    return this.storage.set('building_particular_risk_' + riskType + '_' + risk.idBuilding, risk);
+  }
 
-    public delete(riskType: string, id: string): Promise<any> {
-        return this.http.delete('inspection/building/anomaly/' + riskType + '/' + id)
-            .pipe(map(response => response))
-            .toPromise();
-    }
+  public delete(riskType: string, risk: InspectionBuildingParticularRisk): Promise<any> {
+    risk.isActive = false;
+    risk.hasBeenModified = true;
+    return this.storage.set('building_particular_risk_' + riskType + '_' + risk.idBuilding, risk);
+  }
 }

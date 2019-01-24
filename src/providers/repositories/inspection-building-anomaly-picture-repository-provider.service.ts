@@ -8,7 +8,6 @@ export class InspectionBuildingAnomalyPictureRepositoryProvider implements Pictu
   constructor(private offlineStorage: Storage) {
   }
 
-
   public pictures: InspectionPictureForWeb[] = [];
   public picturesChanged: EventEmitter<any> = new EventEmitter<any>();
   public picturesDeleted: EventEmitter<any> = new EventEmitter<any>();
@@ -37,34 +36,5 @@ export class InspectionBuildingAnomalyPictureRepositoryProvider implements Pictu
 
     return this.save(idParent, this.pictures);
   }
-
-
-  /*public getList(idBuildingAnomaly: string): Promise<InspectionPictureForWeb[]> {
-      return this.http.get('inspection/building/anomaly/' + idBuildingAnomaly + '/picture')
-          .pipe(map(response => {
-                  let picCollection = [];
-                  response.forEach(result => {
-                      picCollection.push(Object.assign(new InspectionPictureForWeb(), result));
-                  })
-                  return picCollection;
-              }
-          ))
-          .toPromise();
-  }
-
-  public save(picture: InspectionPictureForWeb): Promise<any> {
-      return this.http.post('inspection/building/anomaly/picture/', JSON.stringify(picture))
-          .pipe(map(response => response))
-          .toPromise();
-  }
-
-  public delete(idBuildingAnomalyPicture: string): Promise<any> {
-      return this.http.delete('inspection/building/anomaly/picture/' + idBuildingAnomalyPicture)
-          .pipe(map(response => response))
-          .toPromise();
-
-  }*/
-
-
 }
 
