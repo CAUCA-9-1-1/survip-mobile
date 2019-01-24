@@ -1,6 +1,6 @@
-import {InspectionBuildingAnomalyForList} from './inspection-building-anomaly-for-list';
+import {InspectionBuildingAnomaly} from "./inspection-building-anomaly";
 
 export class InspectionBuildingAnomalyThemeForList {
-  name: string;
-  anomalies: InspectionBuildingAnomalyForList[];
+  theme: string;
+  anomalies: InspectionBuildingAnomaly[];
 }

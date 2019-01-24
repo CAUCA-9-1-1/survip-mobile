@@ -52,7 +52,7 @@ export class InspectionBuildingAlarmPanelRepositoryProvider {
     currentPanel.hasBeenModified = true;
     currentPanel.isActive = false;
 
-    return this.storage.set('building_alarm_panels_' + currentPanel.idBuilding, currentPanel);
+    return this.storage.set('building_alarm_panels_' + currentPanel.idBuilding, currentPanels);
   }
 
   private getCurrentItem(list: InspectionBuildingAlarmPanel[], modifiedItem: InspectionBuildingAlarmPanel): InspectionBuildingAlarmPanel{

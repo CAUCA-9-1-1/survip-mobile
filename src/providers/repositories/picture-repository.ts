@@ -1,4 +1,3 @@
-import {HttpService} from '../Base/http.service';
 import {EventEmitter, Injectable} from '@angular/core';
 import {InspectionPictureForWeb} from "../../models/inspection-picture-for-web";
 import {Storage} from '@ionic/storage';
@@ -6,10 +5,7 @@ import {PicturesRepositoryProvider} from "../../interfaces/pictures-repository-p
 
 @Injectable()
 export class PictureRepositoryProvider implements PicturesRepositoryProvider{
-  constructor(
-    private http: HttpService,
-    private offlineStorage: Storage
-  ) {
+  constructor(private offlineStorage: Storage) {
   }
 
   public pictures: InspectionPictureForWeb[] = [];

@@ -39,23 +39,19 @@ export class InterventionImplantationPlanPage implements OnDestroy {
     }
 
     private async picturesUpdated() {
-      console.log('picture updated?');
-
         if(this.picRepo.pictures.length > 0) {
             await this.picRepo.save(this.detail.idBuilding, this.picRepo.pictures);
             this.detail.idPicturePlan = this.picRepo.pictures[0].id;
         } else {
-          await this.picRepo.delete(this.detail.idBuilding, this.picRepo.pictures);
+          //await this.picRepo.delete(this.detail.idBuilding, this.picRepo.pictures);
           this.detail.idPicturePlan = null;
         }
         await this.detailRepo.save(this.detail);
     }
 
     private async pictureDeleted(){
-      console.log('picture deleted?');
-
       if (this.picRepo.pictures.length > 0){
-        await this.picRepo.delete(this.detail.idBuilding, this.picRepo.pictures);
+        await this.picRepo.delete(this.detail.idBuilding, this.picRepo.pictures[0].id);
       }
       this.detail.idPicturePlan = null;
       await this.detailRepo.save(this.detail);
