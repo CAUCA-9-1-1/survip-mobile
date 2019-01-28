@@ -4,4 +4,8 @@ export class InspectionBuildingFireHydrantForList {
   number: string;
   address: string;
   idFireHydrant: string;
+  color: string;
+
+  isActive: boolean = true;
+  hasBeenModified: boolean = false;
 }

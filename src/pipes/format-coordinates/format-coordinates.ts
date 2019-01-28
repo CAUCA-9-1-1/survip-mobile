@@ -7,7 +7,6 @@ import ol from "openlayers";
 export class FormatCoordinatesPipe implements PipeTransform {
 
   transform(value: string) {
-      console.log("Format coordinates : "+value);
       if(value) {
           if (value.startsWith('POINT')) {
               if (value) {

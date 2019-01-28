@@ -26,7 +26,6 @@ import {InspectionControllerProvider} from '../providers/inspection-controller/i
 import {InspectionRepositoryProvider} from '../providers/repositories/inspection-repository-provider.service';
 import {FirestationRepositoryProvider} from '../providers/repositories/firestation-repository-provider.service';
 import {MessageToolsProvider} from '../providers/message-tools/message-tools';
-import {BuildingFireHydrantRepositoryProvider} from "../providers/repositories/building-fire-hydrant-repository";
 import {BuildingContactRepositoryProvider} from '../providers/repositories/building-contact-repository';
 import {ConstructionTypesRepositoryProvider} from '../providers/repositories/construction-types-repository';
 import {UnitOfMeasureRepositoryProvider} from '../providers/repositories/unit-of-measure-repository';
@@ -144,7 +143,6 @@ export function httpServiceFactory(
         SprinklerTypeRepository,
         FirestationRepositoryProvider,
         RouteDirectionRepositoryProvider,
-        BuildingFireHydrantRepositoryProvider,
         HttpService,
         RequestLoaderService,
         AuthenticationService,
