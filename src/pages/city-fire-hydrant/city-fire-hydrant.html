@@ -8,10 +8,10 @@
   <ion-list class="list-items">
     <ion-list-header>
       {{'fireHydrants' | translate}}
-      <ion-icon item-end (click)="onEditModeChanged()" name="create" [style.color]="editModeColor"></ion-icon>
+      <!--<ion-icon item-end (click)="onEditModeChanged()" name="create" [style.color]="editModeColor"></ion-icon>-->
     </ion-list-header>
 
-    <button ion-item detail-none *ngFor="let hydrant of filteredCityFireHydrantList | orderBy:'number'" (click)="AddBuildingFireHydrant(hydrant.id)">
+    <button ion-item detail-none *ngFor="let hydrant of filteredCityFireHydrantList | orderBy:'number'" (click)="addBuildingFireHydrant(hydrant)">
       <ion-icon name="icon-fire-hydrant" item-start [style.color]="hydrant.color" [style.background-color]="hydrant.color == '#FFFFFF' ? 'lightgray': null" large></ion-icon>
       <ion-icon class="custom-icon-select" *ngIf="editMode" name="arrow-forward" item-end large></ion-icon>
         <div class="fire-hydrant-info">
@@ -24,11 +24,11 @@
 
 <ion-footer class="page-footer">
   <ion-toolbar>
-    <ion-buttons>
+    <!--<ion-buttons>
       <button ion-button icon-left (click)="createFireHydrant()">
         <ion-icon name="add-circle"></ion-icon>
         {{'createFireHydrantButton' | translate}}
       </button>
-    </ion-buttons>
+    </ion-buttons>-->
   </ion-toolbar>
 </ion-footer>

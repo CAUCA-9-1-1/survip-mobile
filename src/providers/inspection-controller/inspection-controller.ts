@@ -3,8 +3,6 @@ import {LaneRepositoryProvider} from '../repositories/lane-repository';
 import {LoadingController} from 'ionic-angular';
 import {InspectionBuildingForList} from '../../models/inspection-building-for-list';
 import {InspectionDetailRepositoryProvider} from '../repositories/inspection-detail-repository-provider.service';
-import {BuildingFireHydrantRepositoryProvider} from "../repositories/building-fire-hydrant-repository";
-import {map} from "rxjs/operators";
 import {Inspection} from "../../interfaces/inspection.interface";
 import {InspectionRepositoryProvider} from "../repositories/inspection-repository-provider.service";
 import {InspectionWithBuildingsList} from "../../models/inspection-with-buildings-list";
@@ -27,8 +25,7 @@ export class InspectionControllerProvider {
     private repoDetail: InspectionDetailRepositoryProvider,
     private loadingCtrl: LoadingController,
     private laneRepo: LaneRepositoryProvider,
-    private dataRepoInspection: InspectionDataSynchronizerProvider,
-    private buildingFireHydrantRepo: BuildingFireHydrantRepositoryProvider) {
+    private dataRepoInspection: InspectionDataSynchronizerProvider) {
   }
 
   public async setIdInspection(idInspection: string): Promise<boolean> {
@@ -89,10 +86,5 @@ export class InspectionControllerProvider {
 
   public saveBuildings() {
       this.repoInspection.save(this.inspection);
-  }
-
-  public deleteBuildingFireHydrant(idBuildingFireHydrant: string) {
-    return this.buildingFireHydrantRepo.deleteBuildingFireHydrant(idBuildingFireHydrant)
-      .pipe(map(response => response));
   }
 }

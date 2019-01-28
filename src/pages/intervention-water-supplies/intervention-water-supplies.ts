@@ -30,14 +30,14 @@ export class InterventionWaterSuppliesPage {
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 private controller: InspectionControllerProvider,
-                private fireHydrantService: InspectionBuildingFireHydrantRepositoryProvider,
+                private hydrantRepo: InspectionBuildingFireHydrantRepositoryProvider,
                 private messageTools: MessageToolsProvider,
                 private translateService: TranslateService,
     ) {
     }
 
     public ionViewDidEnter(){
-        this.LoadBuildingFireHydrant();
+        this.loadBuildingFireHydrant();
     }
 
     public ngOnInit() {
@@ -51,29 +51,24 @@ export class InterventionWaterSuppliesPage {
             });
     }
 
-    private LoadBuildingFireHydrant() {
-        this.fireHydrantService.get(this.controller.idInspection)
-            .subscribe(result => this.fireHydrants = result);
+    private loadBuildingFireHydrant() {
+      this.hydrantRepo.getList(this.controller.getMainBuilding().idBuilding)
+        .then(hydrants => this.fireHydrants = hydrants);
     }
 
-    public async onClickHydrant(idInspectionBuildingFireHydrant: string) {
+    public async onDeleteFireHydrant(idFireHydrant: string) {
         let canDelete = await this.messageTools.ShowMessageBox(this.labels['fireHydrantDelete'], this.labels['fireHydrantDeleteQuestion']);
         if (canDelete) {
-            this.controller.deleteBuildingFireHydrant(idInspectionBuildingFireHydrant)
-                .subscribe(() => {
-                    this.LoadBuildingFireHydrant();
-                }, () => {
-                    this.messageTools.showToast("Erreur lors de la suppression de borne");
-                });
+            await this.hydrantRepo.deleteFireHydrant(this.controller.getMainBuilding().idBuilding, idFireHydrant);
+            this.loadBuildingFireHydrant();
         }
     }
 
     public onItemClick(idCity: string) {
-        this.navCtrl.push('CityFireHydrantPage', {idCity: idCity, idBuilding: this.controller.idInspection});
+        this.navCtrl.push('CityFireHydrantPage', {idCity: idCity, idBuilding: this.controller.getMainBuilding().idBuilding});
     }
 
-    public goToFireHydrantDetail(idFireHydrant: string){
+    /*public goToFireHydrantDetail(idFireHydrant: string){
         this.navCtrl.push('FireHydrantPage', {idCity: this.currentInspection.idCity, id: idFireHydrant});
-    }
-
+    }*/
 }
