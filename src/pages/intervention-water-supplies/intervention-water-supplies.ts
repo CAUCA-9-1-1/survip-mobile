@@ -34,8 +34,6 @@ export class InterventionWaterSuppliesPage {
                 private messageTools: MessageToolsProvider,
                 private translateService: TranslateService,
     ) {
-
-
     }
 
     public ionViewDidEnter(){
@@ -62,9 +60,9 @@ export class InterventionWaterSuppliesPage {
         let canDelete = await this.messageTools.ShowMessageBox(this.labels['fireHydrantDelete'], this.labels['fireHydrantDeleteQuestion']);
         if (canDelete) {
             this.controller.deleteBuildingFireHydrant(idInspectionBuildingFireHydrant)
-                .subscribe(result => {
+                .subscribe(() => {
                     this.LoadBuildingFireHydrant();
-                }, error => {
+                }, () => {
                     this.messageTools.showToast("Erreur lors de la suppression de borne");
                 });
         }
