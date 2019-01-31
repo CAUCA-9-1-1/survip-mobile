@@ -91,6 +91,7 @@ export class InspectionListPage {
   }
 
   private loadInspectionList() {
+    console.log('loading inspection list');
     this.inspectionService.getAll()
       .then(batches => {
           this.batches = batches;

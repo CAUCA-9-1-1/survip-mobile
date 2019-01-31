@@ -29,17 +29,24 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
   }
 
   public downloadInspection(idInspection: string): Promise<boolean> {
-    return new Promise((resolve) => {
-      this.getInspection(idInspection)
-        .subscribe(
-          async (data: InspectionWithBuildingsList) => {
-            await this.saveInspection(data);
-            const idBuildings: string[] = data.buildings.map(building => building.idBuilding);
-            resolve(await Promise.all(this.downloadBuildingsData(idBuildings))
-              .then(responses => responses.every(r => r)));
-          },
-          async () => resolve(false)
-        );
+
+    return new Promise(async(resolve) => {
+      const visitCreated = await this.createVisit(idInspection);
+
+      if (visitCreated) {
+        this.getInspection(idInspection)
+          .subscribe(
+            async (data: InspectionWithBuildingsList) => {
+              await this.saveInspection(data);
+              const idBuildings: string[] = data.buildings.map(building => building.idBuilding);
+              resolve(await Promise.all(this.downloadBuildingsData(idBuildings))
+                .then(responses => responses.every(r => r)));
+            },
+            async () => resolve(false)
+          );
+      } else {
+        resolve(false);
+      }
     });
   }
 
@@ -117,6 +124,18 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
               await this.saveData<T[]>([data], idBuilding, key);
             }
             resolve(true);
+          },
+          async () => resolve(false)
+        );
+    });
+  }
+
+  private createVisit(idInspection: string): Promise<boolean> {
+    return new Promise((resolve) => {
+      this.service.post('Inspection/CreateVisit', JSON.stringify(idInspection))
+        .subscribe(
+          (success: boolean) => {
+            resolve(success);
           },
           async () => resolve(false)
         );
