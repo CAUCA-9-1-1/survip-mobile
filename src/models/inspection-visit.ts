@@ -1,15 +1,15 @@
 export class InspectionVisit {
     idInspection: string;
-    status: number;
+    status: number; // 0 = todo, 1 = started, 2 = completed.
     reasonForInspectionRefusal: string;
     hasBeenRefused: boolean;
-    OwnerWasAbsent: boolean;
-    DoorHangerHasBeenLeft: boolean;
+    ownerWasAbsent: boolean;
+    doorHangerHasBeenLeft: boolean;
     endedOn: Date;
-    RequestedDateOfVisit: Date;
+    startedOn: Date;
+    requestedDateOfVisit: Date;
     isVacant: boolean;
     isSeasonal: boolean;
     isActive: boolean;
-
-  hasBeenModified: boolean = false;
+    hasBeenModified: boolean = false;
 }

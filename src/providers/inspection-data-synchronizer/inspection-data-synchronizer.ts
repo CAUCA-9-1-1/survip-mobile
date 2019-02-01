@@ -32,7 +32,6 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
 
     return new Promise(async(resolve) => {
       const visitCreated = await this.createVisit(idInspection);
-
       if (visitCreated) {
         this.getInspection(idInspection)
           .subscribe(
@@ -104,7 +103,6 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
       this.getDataFromApi<InspectionBuildingAnomalyPictures[]>(url)
         .subscribe(
           async (data: InspectionBuildingAnomalyPictures[]) => {
-            console.log('url', data);
             data.forEach(async(anomaly) => {
               await this.saveData<InspectionPictureForWeb[]>(anomaly.pictures, anomaly.id, key);
             });
@@ -135,9 +133,9 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
       this.service.post('Inspection/CreateVisit', JSON.stringify(idInspection))
         .subscribe(
           (success: boolean) => {
-            resolve(success);
+            resolve(true);
           },
-          async () => resolve(false)
+          () => resolve(false)
         );
     });
   }

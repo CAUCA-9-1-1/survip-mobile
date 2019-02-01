@@ -14,6 +14,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {MapLocalizationRepositoryService} from "../../providers/repositories/map-localisation-repository-service";
 import {InspectionConfigurationProvider} from "../../providers/inspection-configuration/inspection-configuration";
 import {Inspection} from "../../interfaces/inspection.interface";
+import {InspectionRepositoryProvider} from "../../providers/repositories/inspection-repository-provider.service";
 
 @IonicPage()
 @Component({
@@ -44,6 +45,7 @@ export class InterventionGeneralPage implements OnDestroy {
               private riskLevelService: RiskLevelRepositoryProvider,
               public laneService: LaneRepositoryProvider,
               public inspectionDetailProvider: InspectionDetailRepositoryProvider,
+              private inspectionRepo: InspectionRepositoryProvider,
               private messageTools: MessageToolsProvider,
               private translateService: TranslateService,
               private mapService: MapLocalizationRepositoryService,
@@ -79,14 +81,20 @@ export class InterventionGeneralPage implements OnDestroy {
   public async setValuesAndStartListening() {
     await this.userAccessValidation();
     this.refreshUserPermission = false;
-    this.setValues();
     await this.loadRiskLevel();
     this.startWatchingForm();
+    this.refreshInspection();
 
+    this.setCityPosition();
+  }
+
+  private refreshInspection() {
     this.validInspectionStatus();
 
-    this.setBuildingPosition();
-    this.setCityPosition();
+    if (this.controller.getMainBuilding() != null) {
+      this.setValues();
+      this.setBuildingPosition();
+    }
   }
 
   private setBuildingPosition() {
@@ -165,15 +173,24 @@ export class InterventionGeneralPage implements OnDestroy {
 
   public async startInspection() {
     let canStart = await this.canUserAccessInspection();
+
     if (canStart) {
-      this.inspectionDetailProvider.startInspection(this.controller.idInspection)
-        .subscribe(success => {
-            this.manageMenuDisplay(true);
-            this.validateSurveyNavigation();
-          },
-          error => {
-            console.log("Error in startInspection", error);
-          });
+      const hasAlreadyBeenDownloaded = await this.inspectionRepo.hasBeenDownloaded(this.controller.idInspection);
+      if (!hasAlreadyBeenDownloaded) {
+
+        const hasBeenDownloaded = await this.controller.downloadCurrentInspection();
+
+        if (hasBeenDownloaded) {
+
+          const inspection = await this.inspectionRepo.startInspection(this.controller.idInspection);
+          await this.controller.updateCurrentInspection(inspection);
+          this.refreshInspection();
+          this.manageMenuDisplay(true);
+          this.validateSurveyNavigation();
+        } else {
+          this.messageTools.showToast('Cette inspection n\'a pas été téléchargée et il est impossible de rejoindre le serveur pour le faire.  Il est donc impossible de débuter l\'inspection.');
+        }
+      }
     }
   }
 
@@ -241,7 +258,6 @@ export class InterventionGeneralPage implements OnDestroy {
     if (active) {
       this.configService.activateMenu();
     } else {
-
       this.configService.disableMenu();
     }
   }

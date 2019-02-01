@@ -55,25 +55,25 @@ export class InspectionVisitPage {
     }
 
     private getNextYear(): Date {
-      var d = new Date();
-      var year = d.getFullYear();
-      var month = d.getMonth();
-      var day = d.getDate();
+      let d = new Date();
+      let year = d.getFullYear();
+      let month = d.getMonth();
+      let day = d.getDate();
       return new Date(year + 1, month, day)
     }
 
     private getFormattedDate(date: Date): string {
-      var dd = date.getDate() + '';
-      var mm = (date.getMonth() + 1) + '';
+      let dd = date.getDate() + '';
+      let mm = (date.getMonth() + 1) + '';
 
-      var year = date.getFullYear();
+      let year = date.getFullYear();
       if (date.getDate() < 10) {
         dd = '0' + date.getDate();
       }
       if ((date.getMonth() + 1) < 10) {
         mm = '0' + (date.getMonth() + 1);
       }
-      var todayFormatted = year + '-' + mm + '-' + dd;
+      let todayFormatted = year + '-' + mm + '-' + dd;
       return todayFormatted;
     }
 
@@ -87,11 +87,11 @@ export class InspectionVisitPage {
 
         const visit = new InspectionVisit();
         visit.idInspection = this.inspectionController.idInspection;
-        visit.DoorHangerHasBeenLeft = this.doorHangerHasBeenLeft;
+        visit.doorHangerHasBeenLeft = this.doorHangerHasBeenLeft;
         visit.hasBeenRefused = !this.ownerAbsent;
-        visit.OwnerWasAbsent = this.ownerAbsent;
+        visit.ownerWasAbsent = this.ownerAbsent;
         visit.reasonForInspectionRefusal = this.refusalReason;
-        visit.RequestedDateOfVisit = this.requestedDateOfVisit;
+        visit.requestedDateOfVisit = this.requestedDateOfVisit;
         visit.isVacant = false;
         visit.isSeasonal = false;
         visit.isActive = true;
@@ -101,7 +101,7 @@ export class InspectionVisitPage {
         this.inspectionDetailProvider.RefuseInspectionVisit(visit)
             .subscribe(success => {
                 this.navCtrl.pop()
-            }, error => {
+            }, () => {
             });
     }
 

@@ -20,6 +20,7 @@ export class InspectionControllerProvider {
   public labels = {};
 
   constructor(
+    private repoSynchro: InspectionDataSynchronizerProvider,
     private configController: InspectionConfigurationProvider,
     private repoInspection: InspectionRepositoryProvider,
     private repoDetail: InspectionDetailRepositoryProvider,
@@ -30,7 +31,6 @@ export class InspectionControllerProvider {
 
   public async setIdInspection(idInspection: string): Promise<boolean> {
     if (this.idInspection != idInspection) {
-      console.log('change inspection');
       const successfullyLoaded: boolean = await this.loadInspection(idInspection);
       if (successfullyLoaded){
         this.idInspection = idInspection;
@@ -83,8 +83,21 @@ export class InspectionControllerProvider {
       return this.inspection.buildings.filter(building => building.isMainBuilding)[0];
   }
 
-
   public saveBuildings() {
       this.repoInspection.save(this.inspection);
+  }
+
+  public downloadCurrentInspection(): Promise<boolean> {
+    return this.repoSynchro.downloadInspection(this.inspection.id)
+      .then(
+        wasSuccessful => wasSuccessful,
+        () => false);
+  }
+
+  public async updateCurrentInspection(inspection: InspectionWithBuildingsList) {
+    this.inspection = inspection;
+    this.currentInspection.hasBeenDownloaded = true;
+    this.currentInspection.status = inspection.status;
+    await this.repoInspection.saveCurrentInspection(inspection);
   }
 }
