@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from '../Base/http.service';
 import {Observable} from 'rxjs/Observable';
-//import {InspectionDetail} from '../../models/inspection-detail';
 import {InspectionVisit} from "../../models/inspection-visit";
 import {TranslateService} from "@ngx-translate/core";
 import {BuildingDetailRepositoryProvider} from "./building-detail-repository";
+import {Storage as OfflineStorage} from "@ionic/storage";
 
 @Injectable()
 export class InspectionDetailRepositoryProvider {
@@ -21,6 +21,7 @@ export class InspectionDetailRepositoryProvider {
     public InspectionVisitStatusEnum = {'Todo': 0, 'Started': 1, 'Completed': 2};
 
     constructor(
+      private storage: OfflineStorage,
       private http: HttpService,
       private detailRepo: BuildingDetailRepositoryProvider,
       private translateService: TranslateService) {
@@ -43,10 +44,6 @@ export class InspectionDetailRepositoryProvider {
       return this.detailRepo.save(detail);
     }
 
-    public startInspection(idInspection: string): Observable<any> {
-        return this.http.post('Inspection/StartInspection', JSON.stringify(idInspection));
-    }
-
     public completeInspection(idInspection: string): Observable<any> {
         return this.http.post('Inspection/CompleteInspection', JSON.stringify(idInspection));
     }
@@ -64,6 +61,15 @@ export class InspectionDetailRepositoryProvider {
     }
 
     public CanUserAccessInspection(idInspection: string):Promise<boolean>{
-        return this.http.get('inspection/' + idInspection + '/userAllowed').toPromise();
+        return this.http.get('inspection/' + idInspection + '/userAllowed')
+          .toPromise()
+          .then(result =>{
+            // if we can access the api, we will and use the answer to decide if the user can start the inspection.
+            return result;
+          },
+          () => {
+            // If we can't access the api, we consider that the user can start the inspection no matter what.
+            return true;
+          });
     }
 }
