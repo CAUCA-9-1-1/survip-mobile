@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content>
-    <form novalidate [formGroup]="planForm" style="padding:0px; margin-top:-3px">
+    <form novalidate [formGroup]="planForm" style="padding:0; margin-top:-3px">
 
         <ion-list class="list-items">
 
@@ -45,12 +45,12 @@
                 <ion-input type="text" disabled value="{{currentInspection?.laneName}}"></ion-input>
             </ion-item>
 
-          <ion-item *ngIf="currentInspection?.status !== inspectionDetailProvider.InspectionVisitStatusEnum.Started">
+          <ion-item *ngIf="currentInspection?.status !== inspectionRepo.inspectionVisitStatusEnum.Started">
             <ion-label fixed>{{'transversal' | translate}}</ion-label>
             <ion-input type="text" disabled value="{{currentInspection?.transversalLaneName}}"></ion-input>
           </ion-item>
 
-            <search-box *ngIf="currentInspection?.status == inspectionDetailProvider.InspectionVisitStatusEnum.Started"
+            <search-box *ngIf="currentInspection?.status == inspectionRepo.inspectionVisitStatusEnum.Started"
                     description="{{'transversal' | translate}}"
                     formControlName="idLaneTransversal"
                     [displayFieldName]="'name'"
@@ -76,7 +76,7 @@
                 <button ion-button color="caucaRed" (click)="absentVisit()">{{'absence' | translate}}</button>
             </div>
 
-            <button *ngIf="currentInspection?.status == inspectionDetailProvider.InspectionVisitStatusEnum.Started" ion-button block
+            <button *ngIf="currentInspection?.status == inspectionRepo.inspectionVisitStatusEnum.Started" ion-button block
                     color="caucaRed" class="large-button" (click)="completeInspection()">{{'complete' | translate}}
             </button>
         </div>

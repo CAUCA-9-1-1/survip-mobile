@@ -1,12 +1,10 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {InspectionDetailRepositoryProvider} from "../../providers/repositories/inspection-detail-repository-provider.service";
 import {InspectionControllerProvider} from "../../providers/inspection-controller/inspection-controller";
-import {InspectionVisit} from "../../models/inspection-visit";
 import {InterventionGeneralPage} from "../intervention-general/intervention-general";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {TranslateService} from "@ngx-translate/core";
-import {isNodeMatchingSelectorWithNegations} from '@angular/core/src/render3/node_selector_matcher';
+import {InspectionRepositoryProvider} from "../../providers/repositories/inspection-repository-provider.service";
 
 @IonicPage()
 @Component({
@@ -15,7 +13,8 @@ import {isNodeMatchingSelectorWithNegations} from '@angular/core/src/render3/nod
 })
 export class InspectionVisitPage {
 
-    private ownerAbsent: boolean = false;
+    private readonly ownerAbsent: boolean = false;
+
     private refusalReason: string = '';
     private requestedDateOfVisit: Date;
     private doorHangerHasBeenLeft: boolean = false;
@@ -32,7 +31,7 @@ export class InspectionVisitPage {
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
-                private inspectionDetailProvider: InspectionDetailRepositoryProvider,
+                private inspectionRepo: InspectionRepositoryProvider,
                 private inspectionController: InspectionControllerProvider,
                 private messageTools: MessageToolsProvider,
                 private translateService: TranslateService) {
@@ -77,7 +76,7 @@ export class InspectionVisitPage {
       return todayFormatted;
     }
 
-    public UpdateVisitRefusalReason() {
+    public async updateVisitRefusalReason() {
         if ((!this.ownerAbsent) && (this.refusalReason == '')) {
             this.messageTools.showToast(this.labels['visitRefusedValidationMessage'], 3);
             return;
@@ -85,24 +84,8 @@ export class InspectionVisitPage {
 
         this.completRefusal = true;
 
-        const visit = new InspectionVisit();
-        visit.idInspection = this.inspectionController.idInspection;
-        visit.doorHangerHasBeenLeft = this.doorHangerHasBeenLeft;
-        visit.hasBeenRefused = !this.ownerAbsent;
-        visit.ownerWasAbsent = this.ownerAbsent;
-        visit.reasonForInspectionRefusal = this.refusalReason;
-        visit.requestedDateOfVisit = this.requestedDateOfVisit;
-        visit.isVacant = false;
-        visit.isSeasonal = false;
-        visit.isActive = true;
-        visit.endedOn = new Date();
-        visit.status = this.inspectionDetailProvider.InspectionVisitStatusEnum.Completed;
-
-        this.inspectionDetailProvider.RefuseInspectionVisit(visit)
-            .subscribe(success => {
-                this.navCtrl.pop()
-            }, () => {
-            });
+        await this.inspectionRepo.refuseInspection(this.inspectionController.idInspection, this.ownerAbsent, this.doorHangerHasBeenLeft, this.refusalReason, this.requestedDateOfVisit);
+        await this.navCtrl.pop()
     }
 
     public ionViewWillLeave() {

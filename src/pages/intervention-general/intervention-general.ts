@@ -8,7 +8,6 @@ import {LaneRepositoryProvider} from '../../providers/repositories/lane-reposito
 import {ISubscription} from 'rxjs/Subscription';
 import {InterventionForm} from '../../models/intervention-form';
 import {InspectionControllerProvider} from '../../providers/inspection-controller/inspection-controller';
-import {InspectionDetailRepositoryProvider} from "../../providers/repositories/inspection-detail-repository-provider.service";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {TranslateService} from "@ngx-translate/core";
 import {MapLocalizationRepositoryService} from "../../providers/repositories/map-localisation-repository-service";
@@ -44,7 +43,6 @@ export class InterventionGeneralPage implements OnDestroy {
               private controller: InspectionControllerProvider,
               private riskLevelService: RiskLevelRepositoryProvider,
               public laneService: LaneRepositoryProvider,
-              public inspectionDetailProvider: InspectionDetailRepositoryProvider,
               private inspectionRepo: InspectionRepositoryProvider,
               private messageTools: MessageToolsProvider,
               private translateService: TranslateService,
@@ -144,18 +142,18 @@ export class InterventionGeneralPage implements OnDestroy {
   }
 
   private validInspectionStatus() {
-    if (this.currentInspection.status == this.inspectionDetailProvider.InspectionStatusEnum.Refused) {
+    if (this.currentInspection.status == this.inspectionRepo.inspectionStatusEnum.Refused) {
       this.startVisible = true;
     } else {
-      if (this.currentInspection.status == this.inspectionDetailProvider.InspectionStatusEnum.Todo) {
+      if (this.currentInspection.status == this.inspectionRepo.inspectionStatusEnum.Todo) {
         this.startVisible = true;
-      } else if (this.currentInspection.status == this.inspectionDetailProvider.InspectionStatusEnum.Started) {
+      } else if (this.currentInspection.status == this.inspectionRepo.inspectionStatusEnum.Started) {
         this.startVisible = false;
-      } else if (this.currentInspection.status == this.inspectionDetailProvider.InspectionStatusEnum.WaitingForApprobation) {
+      } else if (this.currentInspection.status == this.inspectionRepo.inspectionStatusEnum.WaitingForApprobation) {
         this.startVisible = false;
       }
     }
-    this.statusText = this.inspectionDetailProvider.getInspectionStatusText(this.controller.inspection.status);
+    this.statusText = this.inspectionRepo.getInspectionStatusText(this.controller.inspection.status);
   }
 
   private validateSurveyNavigation() {
@@ -217,21 +215,22 @@ export class InterventionGeneralPage implements OnDestroy {
       }
     }
     if (canComplete) {
-      this.inspectionDetailProvider.completeInspection(this.controller.idInspection)
-        .subscribe(
-          () => {
+      this.inspectionRepo.completeInspection(this.controller.idInspection)
+        .then(
+          () =>{
             this.navCtrl.setRoot('InspectionListPage');
             this.navCtrl.popToRoot();
           },
-          () => {
+          () =>{
             this.messageTools.showToast('Une erreur est survenue dans le processus de finalisation de l\'inspection, veuillez réessayer ultérieurement.');
-          });
+          }
+        )
     }
   }
 
   private async userAccessValidation() {
     if (!this.refreshUserPermission) {
-      if (this.controller.inspection.status != this.inspectionDetailProvider.InspectionStatusEnum.Started) {
+      if (this.controller.inspection.status != this.inspectionRepo.inspectionStatusEnum.Started) {
         this.manageMenuDisplay(false);
         return false;
       }
@@ -241,7 +240,7 @@ export class InterventionGeneralPage implements OnDestroy {
   }
 
   private async canUserAccessInspection() {
-    return await this.inspectionDetailProvider.CanUserAccessInspection(this.controller.idInspection)
+    return await this.inspectionRepo.CanUserAccessInspection(this.controller.idInspection)
       .then(
         (result) => {
           this.userAllowed = result;

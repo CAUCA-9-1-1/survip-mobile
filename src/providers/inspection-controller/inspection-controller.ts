@@ -2,7 +2,6 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {LaneRepositoryProvider} from '../repositories/lane-repository';
 import {LoadingController} from 'ionic-angular';
 import {InspectionBuildingForList} from '../../models/inspection-building-for-list';
-import {InspectionDetailRepositoryProvider} from '../repositories/inspection-detail-repository-provider.service';
 import {Inspection} from "../../interfaces/inspection.interface";
 import {InspectionRepositoryProvider} from "../repositories/inspection-repository-provider.service";
 import {InspectionWithBuildingsList} from "../../models/inspection-with-buildings-list";
@@ -23,7 +22,6 @@ export class InspectionControllerProvider {
     private repoSynchro: InspectionDataSynchronizerProvider,
     private configController: InspectionConfigurationProvider,
     private repoInspection: InspectionRepositoryProvider,
-    private repoDetail: InspectionDetailRepositoryProvider,
     private loadingCtrl: LoadingController,
     private laneRepo: LaneRepositoryProvider,
     private dataRepoInspection: InspectionDataSynchronizerProvider) {
