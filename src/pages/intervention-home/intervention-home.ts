@@ -5,7 +5,6 @@ import {InspectionControllerProvider} from '../../providers/inspection-controlle
 import {ISubscription} from 'rxjs/Subscription';
 import {TranslateService} from "@ngx-translate/core";
 import {InspectionConfigurationProvider} from '../../providers/inspection-configuration/inspection-configuration';
-import {InspectionDetailRepositoryProvider} from '../../providers/repositories/inspection-detail-repository-provider.service';
 
 @IonicPage({
     segment: 'inspection/:id'
@@ -17,7 +16,7 @@ import {InspectionDetailRepositoryProvider} from '../../providers/repositories/i
 export class InterventionHomePage implements OnDestroy {
     private rootPage = 'InterventionGeneralPage';
     private readonly planSubscription: ISubscription;
-    private menuSubscription: ISubscription;
+    private readonly menuSubscription: ISubscription;
 
     public menuItems: MenuItem[];
     public mustShowPlanMenu: boolean = false;
@@ -28,7 +27,6 @@ export class InterventionHomePage implements OnDestroy {
                 public menuCtrl: MenuController,
                 private controller: InspectionControllerProvider,
                 private translateService: TranslateService,
-                private inspectionDetailProvider: InspectionDetailRepositoryProvider,
                 private configurationService: InspectionConfigurationProvider) {
       this.menuSubscription = this.configurationService.menuRefreshed
         .subscribe(() => this.loadMenu());
@@ -98,7 +96,7 @@ export class InterventionHomePage implements OnDestroy {
 
     public openPage = (page) => {
         this.rootPage = page;
-    }
+    };
 
     public goToInspectionQuestions = () => {
         if (this.controller.inspection.isSurveyCompleted) {

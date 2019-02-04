@@ -21,7 +21,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {InspectionBuildingCourseLaneRepositoryProvider} from '../providers/repositories/inspection-building-course-lane-repository-provider.service';
 import {InspectionBuildingFireHydrantRepositoryProvider} from '../providers/repositories/inspection-building-fire-hydrant-repository-provider';
 import {InspectionBuildingCourseRepositoryProvider} from '../providers/repositories/inspection-building-course-repository';
-import {InspectionDetailRepositoryProvider} from '../providers/repositories/inspection-detail-repository-provider.service';
 import {InspectionControllerProvider} from '../providers/inspection-controller/inspection-controller';
 import {InspectionRepositoryProvider} from '../providers/repositories/inspection-repository-provider.service';
 import {FirestationRepositoryProvider} from '../providers/repositories/firestation-repository-provider.service';
@@ -91,85 +90,84 @@ export function httpServiceFactory(
 }
 
 @NgModule({
-    declarations: [
-        MyApp,
-    ],
-    imports: [
-        FormsModule,
-        HttpModule,
-        HttpClientModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            }
-        }),
-        CommonModule,
-        IonicModule.forRoot(MyApp, {scrollAssist: false,autoFocusAssist: false}),
-        IonicStorageModule.forRoot({
-          name: '__mydb',
-          driverOrder: ['sqlite', 'indexeddb', 'websql']
-        }),
-        BrowserModule,
-        ComponentsModule,
-    ],
-    bootstrap: [IonicApp],
-    entryComponents: [
-        MyApp,
-    ],
-    exports: [],
-    providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ExpiredTokenInterceptor, multi: true },
-        StatusBar,
-        SplashScreen,
-        {provide: ErrorHandler, useClass: IonicErrorHandler},
-        PictureRepositoryProvider,
-        RiskLevelRepositoryProvider,
-        InspectionControllerProvider,
-        LaneRepositoryProvider,
-        InspectionRepositoryProvider,
-        InspectionDetailRepositoryProvider,
-        InspectionBuildingCourseRepositoryProvider,
-        InspectionBuildingCourseLaneRepositoryProvider,
-        InspectionBuildingFireHydrantRepositoryProvider,
-        InspectionBuildingSprinklerRepositoryProvider,
-        InspectionBuildingAlarmPanelRepositoryProvider,
-        InspectionBuildingAnomalyRepositoryProvider,
-        InspectionBuildingAnomalyPictureRepositoryProvider,
-        InspectionBuildingParticularRiskPictureRepositoryProvider,
-        InspectionBuildingParticularRiskRepositoryProvider,
-        AlarmPanelTypeRepository,
-        SprinklerTypeRepository,
-        FirestationRepositoryProvider,
-        RouteDirectionRepositoryProvider,
-        HttpService,
-        RequestLoaderService,
-        AuthenticationService,
-        MessageToolsProvider,
-        BuildingContactRepositoryProvider,
-        ConstructionTypesRepositoryProvider,
-        UnitOfMeasureRepositoryProvider,
-        BuildingDetailRepositoryProvider,
-        InspectionBuildingHazardousMaterialRepositoryProvider,
-        HazardousMaterialRepositoryProvider,
-        PersonRequiringAssistanceTypeRepositoryProvider,
-        InspectionBuildingPersonRequiringAssistanceTypeRepositoryProvider,
-        StaticListRepositoryProvider,
-        InspectionSurveyAnswerRepositoryProvider,
-        FireHydrantRepositoryProvider,
-        OperatorTypeRepositoryProvider,
-        MapLocalizationRepositoryService,
-        Geolocation,
-        Diagnostic,
-        NativeGeocoder,
-        CityRepositoryProvider,
-        InspectionConfigurationProvider,
-        KeychainTouchId,
-        HockeyApp,
-        FireHydrantValidatorProvider,
-        AppVersion,
-        Market,
+  declarations: [
+    MyApp,
+  ],
+  imports: [
+    FormsModule,
+    HttpModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    CommonModule,
+    IonicModule.forRoot(MyApp, {scrollAssist: false, autoFocusAssist: false}),
+    IonicStorageModule.forRoot({
+      name: '__mydb',
+      driverOrder: ['sqlite', 'indexeddb', 'websql']
+    }),
+    BrowserModule,
+    ComponentsModule,
+  ],
+  bootstrap: [IonicApp],
+  entryComponents: [
+    MyApp,
+  ],
+  exports: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: ExpiredTokenInterceptor, multi: true},
+    StatusBar,
+    SplashScreen,
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    PictureRepositoryProvider,
+    RiskLevelRepositoryProvider,
+    InspectionControllerProvider,
+    LaneRepositoryProvider,
+    InspectionRepositoryProvider,
+    InspectionBuildingCourseRepositoryProvider,
+    InspectionBuildingCourseLaneRepositoryProvider,
+    InspectionBuildingFireHydrantRepositoryProvider,
+    InspectionBuildingSprinklerRepositoryProvider,
+    InspectionBuildingAlarmPanelRepositoryProvider,
+    InspectionBuildingAnomalyRepositoryProvider,
+    InspectionBuildingAnomalyPictureRepositoryProvider,
+    InspectionBuildingParticularRiskPictureRepositoryProvider,
+    InspectionBuildingParticularRiskRepositoryProvider,
+    AlarmPanelTypeRepository,
+    SprinklerTypeRepository,
+    FirestationRepositoryProvider,
+    RouteDirectionRepositoryProvider,
+    HttpService,
+    RequestLoaderService,
+    AuthenticationService,
+    MessageToolsProvider,
+    BuildingContactRepositoryProvider,
+    ConstructionTypesRepositoryProvider,
+    UnitOfMeasureRepositoryProvider,
+    BuildingDetailRepositoryProvider,
+    InspectionBuildingHazardousMaterialRepositoryProvider,
+    HazardousMaterialRepositoryProvider,
+    PersonRequiringAssistanceTypeRepositoryProvider,
+    InspectionBuildingPersonRequiringAssistanceTypeRepositoryProvider,
+    StaticListRepositoryProvider,
+    InspectionSurveyAnswerRepositoryProvider,
+    FireHydrantRepositoryProvider,
+    OperatorTypeRepositoryProvider,
+    MapLocalizationRepositoryService,
+    Geolocation,
+    Diagnostic,
+    NativeGeocoder,
+    CityRepositoryProvider,
+    InspectionConfigurationProvider,
+    KeychainTouchId,
+    HockeyApp,
+    FireHydrantValidatorProvider,
+    AppVersion,
+    Market,
     PictureUtilitiesProvider,
     OfflineDataSynchronizerProvider,
     RiskLevelDataSynchronizerProvider,
@@ -187,7 +185,7 @@ export function httpServiceFactory(
     FirestationDataSynchronizerProvider,
     AnomalyThemeDataSynchronizerProvider,
     AnomalyThemeDataSynchronizerProvider,
-    ]
+  ]
 })
 export class AppModule {
 }
