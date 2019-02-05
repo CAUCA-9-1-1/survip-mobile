@@ -56,7 +56,7 @@ export class InspectionListPage {
   }
 
   public async ngOnInit() {
-    await this.loadInitialData();
+    await this.loadData();
     this.loadLocalization();
   }
 
@@ -73,7 +73,7 @@ export class InspectionListPage {
     this.noDataMessage = this.labels['surveyUnassignedMessage'];
   }
 
-  private async loadInitialData() {
+  private async loadData() {
     await this.showLoadingControl();
     this.synchronizer.synchronizeBaseEntities()
       .then((wasSuccessful: boolean) => {
@@ -89,7 +89,6 @@ export class InspectionListPage {
   }
 
   private loadInspectionList() {
-    console.log('loading inspection list');
     this.inspectionService.getAll()
       .then(batches => {
           this.batches = batches;
@@ -119,22 +118,9 @@ export class InspectionListPage {
     return cityIds;
   }
 
-  public refreshList(refresher) {
-    if (this.dataIsCorrectlyLoaded) {
-      this.inspectionService.getAll()
-        .then(batches => {
-          this.batches = batches;
-          this.filterList();
-          this.synchronizer.synchronizingCities(this.getAllCityIds())
-            .then(() => {
-              this.filterList();
-              refresher.complete();
-            });
-        }, () => refresher.complete());
-    } else {
-      refresher.complete();
-      this.loadInitialData();
-    }
+  public async refreshList(refresher) {
+    await this.loadData();
+    refresher.complete();
   }
 
   public async ionViewCanEnter() {

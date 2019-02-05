@@ -26,13 +26,19 @@ export class InterventionGeneralPage implements OnDestroy {
   public planSubscription: ISubscription;
   public controllerPlanSubscription: ISubscription;
   public statusText: string;
-  public startVisible = false;
+  public canStartInspection: boolean = false;
+  public canTransmitInspectionToServer: boolean = false;
+  public canRefuseInspection: boolean = false;
   public labels = {};
   public userAllowed = true;
   public refreshUserPermission = false;
 
   public get currentInspection(): Inspection {
     return this.controller.currentInspection;
+  }
+
+  public get canBeEdited(): boolean  {
+    return this.controller.currentInspection.status == this.inspectionRepo.inspectionStatusEnum.Started && !this.canTransmitInspectionToServer;
   }
 
   public riskLevel: RiskLevel;
@@ -53,7 +59,7 @@ export class InterventionGeneralPage implements OnDestroy {
 
   public ngOnInit() {
         this.translateService.get([
-      'surveyRequired', 'otherUserInspection'
+      'surveyRequired', 'otherUserInspection', 'cantStartBecauseNotDownloadedAndApiUnavailable'
     ]).subscribe(labels => {
         this.labels = labels;
       },
@@ -142,18 +148,24 @@ export class InterventionGeneralPage implements OnDestroy {
   }
 
   private validInspectionStatus() {
-    if (this.currentInspection.status == this.inspectionRepo.inspectionStatusEnum.Refused) {
-      this.startVisible = true;
-    } else {
-      if (this.currentInspection.status == this.inspectionRepo.inspectionStatusEnum.Todo) {
-        this.startVisible = true;
-      } else if (this.currentInspection.status == this.inspectionRepo.inspectionStatusEnum.Started) {
-        this.startVisible = false;
-      } else if (this.currentInspection.status == this.inspectionRepo.inspectionStatusEnum.WaitingForApprobation) {
-        this.startVisible = false;
-      }
+    this.statusText = this.inspectionRepo.getInspectionStatusText(this.controller.currentInspection.status);
+    this.canTransmitInspectionToServer = this.visitIsCompletedAndNotTransmitted();
+    this.canStartInspection = this.visitCanBeStarted();
+    this.canRefuseInspection = this.controller.currentInspection.hasBeenDownloaded && !this.canTransmitInspectionToServer;
+    if (this.canTransmitInspectionToServer) {
+      this.statusText = this.inspectionRepo.getInspectionStatusText(-1);
     }
-    this.statusText = this.inspectionRepo.getInspectionStatusText(this.controller.inspection.status);
+  }
+
+  private visitIsCompletedAndNotTransmitted() {
+    // the visit is necessarily not transferred if we can enter in the inspection.
+    return this.controller.inspection != null && this.controller.inspection.currentVisit != null
+      && this.controller.inspection.currentVisit.status == this.inspectionRepo.inspectionVisitStatusEnum.Completed;
+  }
+
+  private visitCanBeStarted(){
+    return this.currentInspection.status == this.inspectionRepo.inspectionStatusEnum.Refused
+      || (!this.canTransmitInspectionToServer && this.currentInspection.status == this.inspectionRepo.inspectionStatusEnum.Todo);
   }
 
   private validateSurveyNavigation() {
@@ -171,7 +183,6 @@ export class InterventionGeneralPage implements OnDestroy {
 
   public async startInspection() {
     let canStart = await this.canUserAccessInspection();
-
     if (canStart) {
       const hasAlreadyBeenDownloaded = await this.inspectionRepo.hasBeenDownloaded(this.controller.idInspection);
       if (!hasAlreadyBeenDownloaded) {
@@ -186,10 +197,14 @@ export class InterventionGeneralPage implements OnDestroy {
           this.manageMenuDisplay(true);
           this.validateSurveyNavigation();
         } else {
-          this.messageTools.showToast('Cette inspection n\'a pas été téléchargée et il est impossible de rejoindre le serveur pour le faire.  Il est donc impossible de débuter l\'inspection.');
+          await this.messageTools.showToast(this.labels['cantStartBecauseNotDownloadedAndApiUnavailable']);
         }
       }
     }
+  }
+
+  public async uploadInspectionToServer(){
+    await this.messageTools.showToast('Pseudo-envoi de l\'inspection au serveur.');
   }
 
   public async absentVisit() {

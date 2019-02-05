@@ -96,5 +96,4 @@ export class InspectionVisitPage {
         this.navCtrl.setRoot(goToPage);
         this.navCtrl.popToRoot();
     }
-
 }
