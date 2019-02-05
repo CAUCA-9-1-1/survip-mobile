@@ -6,11 +6,13 @@ import {Inspection} from "../../interfaces/inspection.interface";
 import {InspectionWithBuildingsList} from "../../models/inspection-with-buildings-list";
 import {HttpService} from "../Base/http.service";
 import {TranslateService} from "@ngx-translate/core";
+import {InspectionVisit} from "../../models/inspection-visit";
 
 @Injectable()
 export class InspectionRepositoryProvider {
   public labels = {};
   public inspectionStatusEnum = {
+    'ToTransmit': -1,
     'Todo': 0,
     'Started': 1,
     'WaitingForApprobation': 2,
@@ -27,7 +29,7 @@ export class InspectionRepositoryProvider {
     this.translateService.get([
       'generalInformation', 'Buildings', 'waterSupplies', 'implantationPlan', 'course',
       'inspectionStatusTodo', 'inspectionStatusStarted', 'inspectionStatusWaitingForApprobation', 'inspectionStatusApproved',
-      'inspectionStatusRefused', 'inspectionStatusCanceled', 'visitStatusTodo', 'visitStatusStarted',
+      'inspectionStatusRefused', 'inspectionStatusCanceled', 'visitStatusTodo', 'visitStatusStarted', 'inspectionStatusToTransmit',
       'visitStatusCompleted'
     ]).subscribe(labels => {
         this.labels = labels;
@@ -46,7 +48,14 @@ export class InspectionRepositoryProvider {
 
     for (let batch of batches){
       for (let inspection of batch.inspections){
-        inspection.hasBeenDownloaded = await this.hasBeenDownloaded(inspection.id);
+        const currentInspection = await this.getInspection(inspection.id);
+        inspection.hasBeenDownloaded = currentInspection != null;
+        if (currentInspection != null) {
+          inspection.status = currentInspection.status;
+          if (currentInspection.currentVisit.status == 2) {
+            inspection.status = -1;
+          }
+        }
       }
     }
 
@@ -81,16 +90,22 @@ export class InspectionRepositoryProvider {
   }
 
   public async refuseInspection(idInspection: string, ownerAbsent: boolean, doorHangerHasBeenLeft: boolean, refusalReason: string, requestedDateOfVisit: Date): Promise<InspectionWithBuildingsList> {
-    const inspection = await this.getInspection(idInspection)
+    const inspection = await this.getInspection(idInspection);
+
+    if (inspection.currentVisit == null){
+      inspection.currentVisit = new InspectionVisit();
+      inspection.currentVisit.idInspection = idInspection;
+      inspection.startedOn = new Date();
+    }
     inspection.currentVisit.hasBeenModified = true;
-    inspection.currentVisit.status = this.inspectionVisitStatusEnum.Todo;
+    inspection.currentVisit.status = this.inspectionVisitStatusEnum.Completed;
     inspection.currentVisit.doorHangerHasBeenLeft = doorHangerHasBeenLeft;
     inspection.currentVisit.hasBeenRefused = !ownerAbsent;
     inspection.currentVisit.ownerWasAbsent = ownerAbsent;
     inspection.currentVisit.reasonForInspectionRefusal = refusalReason;
     inspection.currentVisit.requestedDateOfVisit = requestedDateOfVisit;
     inspection.currentVisit.endedOn = new Date();
-    inspection.status = this.inspectionStatusEnum.WaitingForApprobation;
+    inspection.status = this.inspectionStatusEnum.Todo;
 
     return await this.saveInspectionAndVisit(inspection);
   }

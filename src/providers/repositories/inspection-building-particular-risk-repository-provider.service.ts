@@ -10,7 +10,6 @@ export class InspectionBuildingParticularRiskRepositoryProvider {
 
   public async get(riskType: string, idBuilding: string): Promise<InspectionBuildingParticularRisk> {
     const key = 'building_particular_risk_' + riskType + '_' + idBuilding;
-    console.log('key', riskType, idBuilding, key);;
     return await this.storage.get(key);
   }
 
