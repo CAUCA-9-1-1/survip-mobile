@@ -42,7 +42,6 @@ export class InspectionBuildingCourseRepositoryProvider {
       this.currentCourse.idBuilding = idBuilding;
     } else {
       await this.setLanesDescription(this.currentCourse.lanes);
-      console.log('ouh', this.currentCourse.lanes);
     }
   }
 
