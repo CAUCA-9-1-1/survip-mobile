@@ -48,13 +48,13 @@ export class MessageToolsProvider {
         });
     }
 
-    public showToast(message: string, second_delay: number = 3) {
+    public showToast(message: string, second_delay: number = 3): Promise<any> {
         let toast = this.toastCtrl.create({
             message: message,
             duration: (second_delay * 1000),
             position: 'bottom'
         });
 
-        toast.present();
+        return toast.present();
     }
 }
