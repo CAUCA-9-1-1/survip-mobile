@@ -47,34 +47,26 @@ export class InspectionSurveySummaryPage {
             .subscribe(result => {
                     this.inspectionQuestionSummaryCategory = result;
                 },
-                error => {
+                () => {
                     this.msgTools.showToast('Une erreur est survenue lors du chargement du résumé du questionnaire, veuillez réessayer ultérieurement.', 5);
                     this.navCtrl.pop();
                 });
     }
 
-    public async ionViewWillLeave() {
-//        this.inspectionController.loadInterventionForm();
-    }
-
     public async editSurvey() {
-        let canEdit = await this.msgTools.ShowMessageBox(this.labels['confirmation'], this.labels['surveyEditionQuestion']);
-        if (canEdit) {
-            this.controller.SetSurveyStatus(this.idInspection, false)
-                .subscribe(result => {
-                        this.msgTools.showToast(this.labels['surveyEditionRedirectionMessage'], 3);
-                        setTimeout(() => {
-                            const currentPageIndex = this.navCtrl.getActive().index;
-                            this.navCtrl.push('InspectionSurveyAnswerPage', {
-                                idInspection: this.idInspection,
-                                inspectionSurveyCompleted: false
-                            }).then(()=>{this.navCtrl.remove(currentPageIndex)});
-
-                        }, 3000);
-                    },
-                    error => {
-                        console.log('Reedit survey error :', error);
-                    });
-        }
+      let canEdit = await this.msgTools.ShowMessageBox(this.labels['confirmation'], this.labels['surveyEditionQuestion']);
+      if (canEdit) {
+        await this.inspectionController.setSurveyCompletionStatus(false);
+        await this.msgTools.showToast(this.labels['surveyEditionRedirectionMessage'], 3);
+        setTimeout(() => {
+          const currentPageIndex = this.navCtrl.getActive().index;
+          this.navCtrl.push('InspectionSurveyAnswerPage', {
+            idInspection: this.idInspection,
+            inspectionSurveyCompleted: false
+          }).then(async () => {
+            await this.navCtrl.remove(currentPageIndex)
+          });
+        }, 3000);
+      }
     }
 }
