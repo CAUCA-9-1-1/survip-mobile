@@ -185,22 +185,30 @@ export class InterventionGeneralPage implements OnDestroy {
     let canStart = await this.canUserAccessInspection();
     if (canStart) {
       const hasAlreadyBeenDownloaded = await this.inspectionRepo.hasBeenDownloaded(this.controller.idInspection);
-      if (!hasAlreadyBeenDownloaded) {
+      console.log('has already been downloaded', hasAlreadyBeenDownloaded);
+      if (hasAlreadyBeenDownloaded) {
+        await this.startInspectionAndRefreshForm();
+      } else {
 
         const hasBeenDownloaded = await this.controller.downloadCurrentInspection();
 
+        console.log('has been downloaded', hasBeenDownloaded);
         if (hasBeenDownloaded) {
-
-          const inspection = await this.inspectionRepo.startInspection(this.controller.idInspection);
-          await this.controller.updateCurrentInspection(inspection);
-          this.refreshInspection();
-          this.manageMenuDisplay(true);
-          this.validateSurveyNavigation();
+          await this.startInspectionAndRefreshForm();
         } else {
+          console.log('label', this.labels['cantStartBecauseNotDownloadedAndApiUnavailable']);
           await this.messageTools.showToast(this.labels['cantStartBecauseNotDownloadedAndApiUnavailable']);
         }
       }
     }
+  }
+
+  private async startInspectionAndRefreshForm() {
+    const inspection = await this.inspectionRepo.startInspection(this.controller.idInspection);
+    await this.controller.updateCurrentInspection(inspection);
+    this.refreshInspection();
+    this.manageMenuDisplay(true);
+    this.validateSurveyNavigation();
   }
 
   public async uploadInspectionToServer(){

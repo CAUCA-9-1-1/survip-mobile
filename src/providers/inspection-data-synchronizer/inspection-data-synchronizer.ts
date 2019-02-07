@@ -18,6 +18,7 @@ import {InspectionBuildingAnomaly, InspectionBuildingAnomalyPictures} from "../.
 import {InspectionBuildingParticularRisk} from "../../models/inspection-building-particular-risk";
 import {InspectionBuildingFireHydrantForList} from "../../models/inspection-building-fire-hydrant-for-list";
 import {CityFireHydrantForList} from "../../models/city-fire-hydrant-for-list";
+import {InspectionSurveyAnswer} from "../../models/inspection-survey-answer";
 
 @Injectable()
 export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProvider<Batch[]> {
@@ -38,7 +39,10 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
             async (data: InspectionWithBuildingsList) => {
               await this.saveInspection(data);
               const idBuildings: string[] = data.buildings.map(building => building.idBuilding);
-              resolve(await Promise.all(this.downloadBuildingsData(idBuildings))
+              const downloads = this.downloadBuildingsData(idBuildings);
+              downloads.push(this.downloadInspectionSurvey(idInspection, 'question'));
+              downloads.push(this.downloadInspectionSurvey(idInspection, 'answer'));
+              resolve(await Promise.all(downloads)
                 .then(responses => responses.every(r => r)));
             },
             async () => resolve(false)
@@ -46,6 +50,19 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
       } else {
         resolve(false);
       }
+    });
+  }
+
+  public downloadInspectionSurvey(idInspection: string, entityName: string): Promise<boolean>{
+    return new Promise((resolve) => {
+      this.service.get('InspectionSurveyAnswer/Inspection/' + idInspection + '/' + entityName)
+        .subscribe(
+          async (data: InspectionSurveyAnswer[]) => {
+            await this.storage.set('inspection_survey_'+ entityName + 's_' + idInspection, data);
+            resolve(true);
+          },
+          async () => resolve(false)
+        );
     });
   }
 
@@ -132,7 +149,7 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
     return new Promise((resolve) => {
       this.service.post('Inspection/CreateVisit', JSON.stringify(idInspection))
         .subscribe(
-          (success: boolean) => {
+          () => {
             resolve(true);
           },
           () => resolve(false)

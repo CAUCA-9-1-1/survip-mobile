@@ -1,9 +1,10 @@
-import {Component, EventEmitter, Input, NgZone, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {InspectionSurveyAnswer, SurveyQuestionTypeEnum} from "../../models/inspection-survey-answer";
 import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey-answer-repository-provider";
 import {NG_VALUE_ACCESSOR} from "@angular/forms";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {TranslateService} from "@ngx-translate/core";
+import {UUID} from "angular2-uuid";
 
 @Component({
     selector: 'survey-question',
@@ -80,17 +81,13 @@ export class SurveyQuestionComponent {
     }
 
     private saveAnswer() {
-        if (this.idParent) {
-            this.dataSource.idParent = this.idParent;
-        }
-        this.questionRepo.answerQuestion(this.dataSource)
-            .subscribe(result => {
-                    this.dataSource.id = result['id'];
-                    this.questionAnswered.emit(this.question);
-                },
-                error => {
-                    console.log("Erreur lors de la sauvegarde de la réponse.");
-                });
+      if (this.idParent) {
+        this.dataSource.idParent = this.idParent;
+      }
+      if (this.dataSource.id != null) {
+        this.dataSource.id = UUID.UUID(); //result['id'];
+      }
+      this.questionAnswered.emit(this.question);
     }
 
     private async validateNextQuestionSequence() {
@@ -118,12 +115,9 @@ export class SurveyQuestionComponent {
     }
 
     private nextQuestionFromChoiceChanged() {
-        const NewChoice = this.dataSource.choicesList.filter((choice) => choice.id == this.dataSource.idSurveyQuestionChoice);
+        const newChoice = this.dataSource.choicesList.filter((choice) => choice.id == this.dataSource.idSurveyQuestionChoice);
         const originalChoice = this.dataSource.choicesList.filter((choice) => choice.id == this.answer);
 
-        if (NewChoice[0].idSurveyQuestionNext != originalChoice[0].idSurveyQuestionNext) {
-            return true;
-        }
-        return false
+        return (newChoice[0].idSurveyQuestionNext != originalChoice[0].idSurveyQuestionNext);
     }
 }

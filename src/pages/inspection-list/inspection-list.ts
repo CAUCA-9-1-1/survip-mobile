@@ -190,8 +190,10 @@ export class InspectionListPage {
 
   public async downloadInspection(event, inspection: Inspection) {
     event.stopPropagation();
-    await this.synchronizer.downloadInspections([inspection.id]);
-    inspection.hasBeenDownloaded = true;
+    this.synchronizer.downloadInspections([inspection.id])
+      .then(wasSuccessful => {
+        inspection.hasBeenDownloaded = wasSuccessful;
+      })
   }
 
   public filterList() {

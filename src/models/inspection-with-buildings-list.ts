@@ -5,7 +5,7 @@ import {InspectionVisit} from "./inspection-visit";
 export class InspectionWithBuildingsList {
   id: string;
   idSurvey: string;
-  isSurveyCompleted: string;
+  isSurveyCompleted: boolean;
   status: number;
   startedOn: Date;
 

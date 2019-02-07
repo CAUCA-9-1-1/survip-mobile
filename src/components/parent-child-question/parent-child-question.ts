@@ -83,7 +83,6 @@ export class ParentChildQuestionComponent {
                 if (questionChoice && questionChoice.idSurveyQuestionNext) {
                     retVal = questionChoice.idSurveyQuestionNext;
                 }
-
             }
             if(!retVal){
                 retVal =  this.getNextSequencedQuestionId();
@@ -120,10 +119,10 @@ export class ParentChildQuestionComponent {
                     ids.push(answer.id);
                 }
             });
-            if(ids.length > 0) {
+            /*if(ids.length > 0) {
                 this.surveyRepo.deleteSurveyAnswers(ids)
                     .subscribe();
-            }
+            }*/
             this.answerGroupDeleted.emit(this.answer.id);
         }
     }
@@ -159,12 +158,12 @@ export class ParentChildQuestionComponent {
             this.resetAnswerCollection(index);
         }
 
-        this.deleteSavedAnswers(ids);
+        //this.deleteSavedAnswers(ids);
         this.answeredQuestions = this.answer.childSurveyAnswerList.filter((answer) => answer.answer != null && answer.answer != "");
         this.questionIndex = this.answeredQuestions.length - 1;
     }
 
-    private deleteSavedAnswers(ids: string[]){
+    /*private deleteSavedAnswers(ids: string[]){
         if(ids.length > 0) {
             this.surveyRepo.deleteSurveyAnswers(ids)
                 .subscribe(() => {
@@ -172,7 +171,7 @@ export class ParentChildQuestionComponent {
                     console.log("Error on delete remaining survey question", error);
                 });
         }
-    }
+    }*/
 
     private resetAnswerCollection(index: number){
         this.answer.childSurveyAnswerList[index].id = null;

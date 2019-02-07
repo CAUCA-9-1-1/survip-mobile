@@ -38,6 +38,11 @@ export class InspectionControllerProvider {
     return true;
   }
 
+  public setSurveyCompletionStatus(isCompleted: boolean): Promise<boolean> {
+    this.inspection.isSurveyCompleted = isCompleted;
+    return this.repoInspection.save(this.inspection);
+  }
+
   private loadInspection(idInspection: string): Promise<boolean> {
     return new Promise(async (resolve) => {
       this.currentInspection = null;

@@ -4,8 +4,8 @@ import {InspectionSurveyAnswer, SurveyQuestionTypeEnum} from "../../models/inspe
 import {InspectionSurveyAnswerRepositoryProvider} from "../../providers/repositories/inspection-survey-answer-repository-provider";
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {TranslateService} from "@ngx-translate/core";
-import {InspectionControllerProvider} from "../../providers/inspection-controller/inspection-controller";
 import {UUID} from "angular2-uuid";
+import {InspectionControllerProvider} from "../../providers/inspection-controller/inspection-controller";
 
 @IonicPage()
 @Component({
@@ -31,9 +31,9 @@ export class InspectionSurveyAnswerPage {
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 public surveyRepo: InspectionSurveyAnswerRepositoryProvider,
+                private controller: InspectionControllerProvider,
                 private messageTools: MessageToolsProvider,
-                private translateService: TranslateService,
-                private inspectionController: InspectionControllerProvider) {
+                private translateService: TranslateService) {
 
         this.idInspection = this.navParams.get('idInspection');
         this.inspectionSurveyCompleted = this.navParams.get('inspectionSurveyCompleted');
@@ -53,34 +53,30 @@ export class InspectionSurveyAnswerPage {
     }
 
     public loadInspectionQuestion() {
-        this.surveyRepo.getQuestionList(this.idInspection)
-            .subscribe(result => {
-                    this.inspectionSurveyQuestion = result;
-                    this.loadInspectionAnswer();
-                },
-                error => {
-                    this.messageTools.showToast('Une erreur est survenue lors du chargement du questionnaire veuillez réessayer ultérieurement.', 5);
-                    this.navCtrl.pop();
-                });
+      this.surveyRepo.getQuestionList(this.idInspection)
+        .then(
+          data => {
+            this.inspectionSurveyQuestion = data;
+            this.loadInspectionAnswer();
+          },
+          async () => {
+            await this.messageTools.showToast('Une erreur est survenue lors du chargement du questionnaire veuillez réessayer ultérieurement.', 5);
+            await this.navCtrl.pop();
+          });
     }
 
     private loadInspectionAnswer() {
-        this.surveyRepo.getAnswerList(this.idInspection)
-            .subscribe(answerResult => {
-                this.inspectionQuestionAnswer = answerResult;
-
-                if (this.inspectionQuestionAnswer.length > 0) {
-                    this.selectedIndex = this.findQuestion(this.initAnswerStartQuestion());
-                }
-
-                this.currentQuestion = this.inspectionSurveyQuestion[this.selectedIndex];
-
-                this.initiateAnswers();
-
-                this.getNextQuestionFromAnswer();
-
-                this.manageNavigationDisplay();
-            });
+      this.surveyRepo.getAnswerList(this.idInspection)
+        .then(async (data) => {
+          this.inspectionQuestionAnswer = data;
+          if (this.inspectionQuestionAnswer.length > 0) {
+            this.selectedIndex = this.findQuestion(this.initAnswerStartQuestion());
+          }
+          this.currentQuestion = this.inspectionSurveyQuestion[this.selectedIndex];
+          await this.initiateAnswers();
+          this.getNextQuestionFromAnswer();
+          this.manageNavigationDisplay();
+        });
     }
 
     private findQuestion(idSurveyQuestion: string) {
@@ -122,65 +118,57 @@ export class InspectionSurveyAnswerPage {
         return 0;
     }
 
-    private completeInspectionQuestion() {
-        this.surveyRepo.SetSurveyStatus(this.idInspection)
-            .subscribe(result => {
-                    this.messageTools.showToast(this.labels['surveyCompletedMessage'], 3);
-                    setTimeout(() => {
-                        const currentPageIndex = this.navCtrl.getActive().index;
-                        this.navCtrl.push('InspectionSurveySummaryPage', {idInspection: this.idInspection})
-                            .then(()=>{this.navCtrl.remove(currentPageIndex)});
-                    }, 3000);
-                },
-                error => {
-                    this.messageTools.showToast('Une erreur est survenue lors de la finalisation du questionnaire, veuillez réessayer ultérieurement.', 3);
-                });
+    private async completeInspectionQuestion() {
+      await this.controller.setSurveyCompletionStatus(true);
+      await this.messageTools.showToast(this.labels['surveyCompletedMessage'], 3);
+      setTimeout(() => {
+          const currentPageIndex = this.navCtrl.getActive().index;
+          this.navCtrl.push('InspectionSurveySummaryPage', {idInspection: this.idInspection})
+              .then(async ()=>{await this.navCtrl.remove(currentPageIndex)});
+      }, 3000);
     }
 
-    public previousQuestion() {
+    public async previousQuestion() {
         const lastQuestion = this.inspectionQuestionAnswer[this.findAnswer(this.currentQuestion.idSurveyQuestion) - 1].idSurveyQuestion;
         this.selectedIndex = this.findQuestion(lastQuestion);
         this.currentQuestion = this.inspectionSurveyQuestion[this.selectedIndex];
-        this.initiateAnswers();
+        await this.initiateAnswers();
         this.getNextQuestionFromAnswer();
         this.manageNavigationDisplay();
     }
 
-    public nextQuestion() {
+    public async nextQuestion() {
         if (this.selectedIndex == (this.inspectionSurveyQuestion.length - 1)) {
-            this.completeInspectionQuestion();
+            await this.completeInspectionQuestion();
         } else {
             this.selectedIndex = this.findQuestion(this.nextQuestionId);
             this.currentQuestion = this.inspectionSurveyQuestion[this.selectedIndex];
-            this.initiateAnswers();
+            await this.initiateAnswers();
             this.getNextQuestionFromAnswer();
         }
         this.manageNavigationDisplay();
     }
 
-    public updateGroupQuestionAnswer(data) {
-        this.updateAnswerResult(data);
+    public async updateGroupQuestionAnswer(data) {
+        await this.updateAnswerResult(data);
     }
 
-    private updateAnswerResult(answerGroup) {
-        if (answerGroup) {
-            const Index = this.findAnswerById(answerGroup.id);
-            this.inspectionQuestionAnswer[Index] = answerGroup;
-        }
+    private async updateAnswerResult(answerGroup) {
+      if (answerGroup) {
+        const Index = this.findAnswerById(answerGroup.id);
+        this.inspectionQuestionAnswer[Index] = answerGroup;
+        await this.surveyRepo.saveAnswers(this.idInspection, this.inspectionQuestionAnswer);
+      }
     }
 
     private manageNavigationDisplay() {
-        if (this.selectedIndex > 0) {
-            this.previousQuestionAvailable = true;
-        } else {
-            this.previousQuestionAvailable = false;
-        }
+      this.previousQuestionAvailable = this.selectedIndex > 0;
 
-        if ((this.selectedIndex == (this.inspectionSurveyQuestion.length - 1))) {
-            this.nextButtonTitle = this.labels['complete'];
-        } else {
-            this.nextButtonTitle = this.labels['surveyNextQuestion'];
-        }
+      if ((this.selectedIndex == (this.inspectionSurveyQuestion.length - 1))) {
+        this.nextButtonTitle = this.labels['complete'];
+      } else {
+        this.nextButtonTitle = this.labels['surveyNextQuestion'];
+      }
     }
 
     public getNextQuestionFromAnswer() {
@@ -251,11 +239,7 @@ export class InspectionSurveyAnswerPage {
         return idNext;
     }
 
-    public async ionViewWillLeave() {
-        //this.inspectionController.loadInterventionForm();
-    }
-
-    private initQuestionGroupAnswers() {
+    private async initQuestionGroupAnswers() {
         this.currentQuestionAnswerList = [];
         const answers = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
         if (answers.length > 0) {
@@ -265,6 +249,7 @@ export class InspectionSurveyAnswerPage {
         } else {
             for (let index = 0; index <= this.inspectionSurveyQuestion[this.selectedIndex].minOccurrence; index++) {
                 this.inspectionQuestionAnswer.push(this.createGroupAnswerParent());
+                await this.surveyRepo.saveAnswers(this.idInspection, this.inspectionQuestionAnswer);
             }
             this.currentQuestionAnswerList = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
         }
@@ -273,9 +258,7 @@ export class InspectionSurveyAnswerPage {
     private updateChildWithAnswered(answeredQuestion): InspectionSurveyAnswer {
 
         let mergedAnswered: InspectionSurveyAnswer = new InspectionSurveyAnswer();
-
         mergedAnswered = JSON.parse(JSON.stringify(this.inspectionSurveyQuestion[this.selectedIndex]));
-
         mergedAnswered.id = answeredQuestion.id;
         mergedAnswered.answer = answeredQuestion.answer;
 
@@ -293,15 +276,20 @@ export class InspectionSurveyAnswerPage {
         return mergedAnswered;
     }
 
-    public initiateAnswers() {
+    public async initiateAnswers() {
         if (this.currentQuestion.questionType == SurveyQuestionTypeEnum.groupedQuestion) {
-            this.initQuestionGroupAnswers();
+            await this.initQuestionGroupAnswers();
         } else {
             const answers = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
             if (answers.length > 0) {
                 this.currentAnswer = answers[0];
             } else {
-                this.inspectionQuestionAnswer.push(JSON.parse(JSON.stringify(this.inspectionSurveyQuestion[this.selectedIndex])));
+                const newAnswer: InspectionSurveyAnswer = JSON.parse(JSON.stringify(this.inspectionSurveyQuestion[this.selectedIndex]));
+                newAnswer.id = UUID.UUID();
+                if (newAnswer.childSurveyAnswerList != null) {
+                  newAnswer.childSurveyAnswerList.forEach(answer => answer.id = UUID.UUID());
+                }
+                this.inspectionQuestionAnswer.push(newAnswer);
                 this.currentAnswer = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion)[0];
             }
         }
@@ -311,16 +299,17 @@ export class InspectionSurveyAnswerPage {
         if ((this.currentQuestionAnswerList.length < this.inspectionSurveyQuestion[this.selectedIndex].maxOccurrence) || this.inspectionSurveyQuestion[this.selectedIndex].maxOccurrence == 0) {
             let index = this.findLastAnswerForQuestion(this.currentQuestion.idSurveyQuestion);
             this.inspectionQuestionAnswer.splice(index + 1, 0, this.createGroupAnswerParent());
+            await this.surveyRepo.saveAnswers(this.idInspection, this.inspectionQuestionAnswer);
             this.currentQuestionAnswerList = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion);
         }
         this.getNextQuestionFromAnswer();
     }
 
-    public deleteChildQuestion(answerId: string) {
+    public async deleteChildQuestion(answerId: string) {
         const index = this.findAnswerById(answerId);
         if (this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion == this.currentQuestion.idSurveyQuestion).length > 1) {
             this.inspectionQuestionAnswer.splice(index, 1);
-            this.surveyRepo.deleteSurveyAnswers([answerId]).subscribe();
+            await this.surveyRepo.saveAnswers(this.idInspection, this.inspectionQuestionAnswer);
         } else {
             this.inspectionQuestionAnswer[index].childSurveyAnswerList = Object.assign([], this.currentQuestion.childSurveyAnswerList);
         }
@@ -328,7 +317,7 @@ export class InspectionSurveyAnswerPage {
         this.getNextQuestionFromAnswer();
     }
 
-    public deleteRemainingAnswers(answerId: string) {
+    public async deleteRemainingAnswers(answerId: string) {
         const startIndex = this.findAnswerById(answerId) + 1;
         let ids = [];
         for (let index = startIndex; index < this.inspectionQuestionAnswer.length; index++) {
@@ -337,39 +326,36 @@ export class InspectionSurveyAnswerPage {
             }
         }
         if (ids.length > 0) {
-            this.surveyRepo.deleteSurveyAnswers(ids)
-                .subscribe(() => {
-                    this.inspectionQuestionAnswer.splice(startIndex);
-                }, error => {
-                    console.log("Error on delete remaining survey question", error);
-                });
+          this.inspectionQuestionAnswer.splice(startIndex);
+          await this.surveyRepo.saveAnswers(this.idInspection, this.inspectionQuestionAnswer);
         }
     }
 
     public createGroupAnswerParent() {
-        let newAnswerParent = JSON.parse(JSON.stringify(this.inspectionSurveyQuestion[this.selectedIndex]));
-        newAnswerParent.id = UUID.UUID();
-        newAnswerParent.answer = "Group header";
-        this.surveyRepo.answerQuestion(newAnswerParent).subscribe();
-
-        return newAnswerParent;
+      let newAnswerParent = JSON.parse(JSON.stringify(this.inspectionSurveyQuestion[this.selectedIndex]));
+      newAnswerParent.id = UUID.UUID();
+      if (newAnswerParent.childSurveyAnswerList != null) {
+        newAnswerParent.childSurveyAnswerList.forEach(answer => answer.id = UUID.UUID());
+      }
+      newAnswerParent.answer = "Group header";
+      return newAnswerParent;
     }
 
     private initAnswerStartQuestion() {
-        const answerCount = this.inspectionQuestionAnswer.length;
-        for (let index = 0; index < answerCount; index++) {
-            if (this.inspectionQuestionAnswer[index].questionType == SurveyQuestionTypeEnum.groupedQuestion) {
-                if(this.inspectionQuestionAnswer[index].childSurveyAnswerList && this.inspectionQuestionAnswer[index].childSurveyAnswerList.length > 0) {
-                    if (this.inspectionQuestionAnswer[index].childSurveyAnswerList
-                        .filter(ca => ca.answer != null
-                            && ca.idSurveyQuestionNext == '00000000-0000-0000-0000-000000000000').length == 0){
-                        return this.inspectionQuestionAnswer[index].idSurveyQuestion;
-                    }
-                }else{
-                    return this.inspectionQuestionAnswer[index].idSurveyQuestion;
-                }
+      const answerCount = this.inspectionQuestionAnswer.length;
+      for (let index = 0; index < answerCount; index++) {
+        if (this.inspectionQuestionAnswer[index].questionType == SurveyQuestionTypeEnum.groupedQuestion) {
+          if (this.inspectionQuestionAnswer[index].childSurveyAnswerList && this.inspectionQuestionAnswer[index].childSurveyAnswerList.length > 0) {
+            if (this.inspectionQuestionAnswer[index].childSurveyAnswerList
+              .filter(ca => ca.answer != null
+                && ca.idSurveyQuestionNext == '00000000-0000-0000-0000-000000000000').length == 0) {
+              return this.inspectionQuestionAnswer[index].idSurveyQuestion;
             }
+          } else {
+            return this.inspectionQuestionAnswer[index].idSurveyQuestion;
+          }
         }
-        return this.inspectionQuestionAnswer[this.inspectionQuestionAnswer.length - 1].idSurveyQuestion;
+      }
+      return this.inspectionQuestionAnswer[this.inspectionQuestionAnswer.length - 1].idSurveyQuestion;
     }
 }
