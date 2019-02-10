@@ -317,5 +317,6 @@
   "warning":"Warning",
   "waterSupplies":"Water supplies",
   "weakened":"Weakened",
-  "yes":"Yes"
+  "yes":"Yes",
+  "version": "Version"
 }

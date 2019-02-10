@@ -316,5 +316,6 @@
   "warning":"Avertissement",
   "waterSupplies":"Alimentation en eau",
   "weakened":"Affaibli",
-  "yes":"Oui"
+  "yes":"Oui",
+  "version": "Version"
 }

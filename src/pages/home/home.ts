@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage, MenuController, NavController} from 'ionic-angular';
 import {MenuItem} from "../../interfaces/menu-item.interface";
 import {TranslateService} from "@ngx-translate/core";
+import * as info from '../../../package.json';
 
 @IonicPage()
 @Component({
@@ -12,6 +13,7 @@ export class HomePage {
     private rootPage = 'InspectionListPage';
     public menuItems: MenuItem[];
     public labels = {};
+    public version = (<any>info).version;
 
     constructor(public navCtrl: NavController, public menuCtrl: MenuController, private translateService: TranslateService) {
     }
