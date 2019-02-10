@@ -3,6 +3,7 @@ import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angula
 import {TranslateService} from '@ngx-translate/core';
 import {KeychainTouchId} from '@ionic-native/keychain-touch-id';
 import {AuthenticationService} from '../../providers/Base/authentification.service';
+import * as info from '../../../package.json';
 
 @IonicPage()
 @Component({
@@ -13,6 +14,7 @@ export class LoginPage {
     public userName: string;
     public password: string;
     public labels = {};
+    public version = (<any>info).version;
 
     constructor(
         public navCtrl: NavController,
