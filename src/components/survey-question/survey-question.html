@@ -5,7 +5,6 @@
   </div>
 
   <div *ngIf="question.questionType == questionTypeEnum.choiceAnswer">
-
     <ion-list radio-group [(ngModel)]="answer" *ngIf="question.choicesList.length <= 2">
 
       <ion-item *ngFor="let choice of question.choicesList">
