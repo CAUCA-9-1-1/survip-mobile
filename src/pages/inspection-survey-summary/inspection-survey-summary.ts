@@ -42,15 +42,17 @@ export class InspectionSurveySummaryPage {
             });
     }
 
-    public loadInspectionQuestionSummary() {
-        this.controller.getAnswerSummaryList(this.idInspection)
-            .subscribe(result => {
+    public async loadInspectionQuestionSummary() {
+        this.inspectionQuestionSummaryCategory = await this.controller.getAnswerSummaryList(this.idInspection);
+
+
+            /*.subscribe(result => {
                     this.inspectionQuestionSummaryCategory = result;
                 },
                 () => {
                     this.msgTools.showToast('Une erreur est survenue lors du chargement du résumé du questionnaire, veuillez réessayer ultérieurement.', 5);
                     this.navCtrl.pop();
-                });
+                });*/
     }
 
     public async editSurvey() {

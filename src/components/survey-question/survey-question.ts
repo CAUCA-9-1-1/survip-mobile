@@ -68,6 +68,8 @@ export class SurveyQuestionComponent {
                 }
                 this.saveAnswer();
             }
+        } else {
+          console.log('not validate&?');
         }
     }
 

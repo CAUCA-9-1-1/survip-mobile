@@ -171,7 +171,7 @@ export class InspectionSurveyAnswerPage {
       }
     }
 
-    public getNextQuestionFromAnswer() {
+    public async getNextQuestionFromAnswer() {
         let answer = this.getCurrentAnswer();
         if (answer.answer) {
             if (answer.questionType == this.questionTypeEnum.choiceAnswer) {
@@ -190,6 +190,7 @@ export class InspectionSurveyAnswerPage {
             this.nextQuestionDisabled = true;
             this.nextQuestionId = null;
         }
+        await this.surveyRepo.saveAnswers(this.idInspection, this.inspectionQuestionAnswer);
     }
 
     private getCurrentAnswer() {
@@ -320,7 +321,7 @@ export class InspectionSurveyAnswerPage {
     public async deleteRemainingAnswers(answerId: string) {
         const startIndex = this.findAnswerById(answerId) + 1;
         let ids = [];
-        for (let index = startIndex; index < this.inspectionQuestionAnswer.length; index++) {
+        for (let index = startIndex; index < this.inspectionQuestionAnswer.length; index    ++) {
             if (this.inspectionQuestionAnswer[index].id) {
                 ids.push(this.inspectionQuestionAnswer[index].id);
             }
