@@ -29,8 +29,41 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
     super(service, storage, 'batches', 'inspection')
   }
 
-  public downloadInspection(idInspection: string): Promise<boolean> {
+  public synchronizeAll(): Promise<boolean> {
 
+    return new Promise((resolve) => {
+      this.service.get(this.baseUrl)
+        .pipe(map(response => response))
+        .subscribe(
+          async (data: Batch[]) => {
+            await this.removeCacheForRemovedInspections(data);
+            await this.saveValueToStorage(data);
+            resolve(true);
+          },
+          async () => resolve(await this.valueIsCached())
+        );
+    });
+  }
+
+  private async removeCacheForRemovedInspections(updatedBatches: Batch[]) {
+    const oldBatches = await this.storage.get(this.storageKey);
+    if (oldBatches != null) {
+      oldBatches.forEach(oldBatch => {
+        const newBatch = updatedBatches.find(batch => batch.id == oldBatch.id);
+        if (newBatch == null) {
+          oldBatch.inspections.forEach(inspection => this.deleteInspectionFromCache(inspection.id));
+        } else {
+          oldBatch.inspections.forEach(inspection => {
+            if (newBatch.inspections.every(newInspection => newInspection.id != inspection.id)) {
+              this.deleteInspectionFromCache(inspection.id);
+            }
+          })
+        }
+      });
+    }
+  }
+
+  public downloadInspection(idInspection: string): Promise<boolean> {
     return new Promise(async(resolve) => {
       const visitCreated = await this.createVisit(idInspection);
       if (visitCreated) {
@@ -55,10 +88,14 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
 
   public async deleteInspectionFromCache(idInspection: string) {
     const inspection: InspectionWithBuildingsList = await this.storage.get('inspection_buildings_' + idInspection);
-    inspection.buildings.forEach(async (building) => {
-      await this.deleteBuildingData(building);
-    });
-    await this.storage.remove('inspection_buildings_' + idInspection);
+    if (inspection != null) {
+      inspection.buildings.forEach(async (building) => {
+        await this.deleteBuildingData(building);
+      });
+      await this.storage.remove('inspection_buildings_' + idInspection);
+      await this.storage.remove('inspection_survey_answers_' + idInspection);
+      await this.storage.remove('inspection_survey_questions_' + idInspection);
+    }
   }
 
   private async deleteBuildingData(building) {
@@ -72,13 +109,15 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
     await this.storage.remove('building_courses_' + building.idBuilding);
     await this.deleteAnomaliesData(building);
     await this.deleteParticularRisksData(building);
-    await this.storage.remove('building_fire_hydrants_for_building_' + building.idBuilding);
+    await this.storage.remove('fire_hydrant_for_building_' + building.idBuilding);
     await this.storage.remove('building_fire_hydrants_' + building.idBuilding);
   }
 
   private async deleteAnomaliesData(building) {
     const anomalies = await this.storage.get('building_anomalies_' + building.idBuilding);
-    anomalies.foreach(async (anomaly) => await this.storage.remove('building_anomaly_pictures_' + anomaly.id));
+    if (anomalies != null) {
+      anomalies.forEach(async (anomaly) => await this.storage.remove('building_anomaly_pictures_' + anomaly.id));
+    }
     await this.storage.remove('building_anomalies_' + building.idBuilding);
   }
 
@@ -94,8 +133,10 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
   }
 
   private async deleteRiskPictures(idBuilding: string, riskType: string) {
-    const risks = await this.storage.get('building_particular_risk_'+ riskType + '_' + idBuilding);
-    risks.foreach(async (risk) => await this.storage.remove('building_particular_risk_pictures_' + risk.id));
+    const risk = await this.storage.get('building_particular_risk_'+ riskType + '_' + idBuilding);
+    if (risk != null) {
+      await this.storage.remove('building_particular_risk_pictures_' + risk.id);
+    }
   }
 
   public downloadInspectionSurvey(idInspection: string, entityName: string): Promise<boolean>{

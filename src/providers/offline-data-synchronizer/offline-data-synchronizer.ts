@@ -46,17 +46,17 @@ export class OfflineDataSynchronizerProvider {
   public synchronizeBaseEntities() : Promise<boolean> {
     this.startNewSynchronization();
     const tasks = [
-      this.themeRepo.synchAll().then(wasSuccessful => this.setTaskAsCompleted(wasSuccessful)),
-      this.matRepo.synchAll().then((wasSuccessful) => this.setTaskAsCompleted(wasSuccessful)),
-      this.riskLevelRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
-      this.measureRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
-      this.constructionRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
-      this.alarmTypeRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
-      this.sprinklerTypeRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
-      this.fireHydrantTypeRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
-      this.routeDirectionRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
-      this.pnapTypeRepo.synchAll().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
-      this.inspectionRepo.synchAll().then(wasSuccessful => this.setTaskAsCompleted(wasSuccessful))
+      this.themeRepo.synchronizeAllWhenNecessary().then(wasSuccessful => this.setTaskAsCompleted(wasSuccessful)),
+      this.matRepo.synchronizeAllWhenNecessary().then((wasSuccessful) => this.setTaskAsCompleted(wasSuccessful)),
+      this.riskLevelRepo.synchronizeAllWhenNecessary().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
+      this.measureRepo.synchronizeAllWhenNecessary().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
+      this.constructionRepo.synchronizeAllWhenNecessary().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
+      this.alarmTypeRepo.synchronizeAllWhenNecessary().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
+      this.sprinklerTypeRepo.synchronizeAllWhenNecessary().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
+      this.fireHydrantTypeRepo.synchronizeAllWhenNecessary().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
+      this.routeDirectionRepo.synchronizeAllWhenNecessary().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
+      this.pnapTypeRepo.synchronizeAllWhenNecessary().then((wasSuccessful)=> this.setTaskAsCompleted(wasSuccessful)),
+      this.inspectionRepo.synchronizeAll().then(wasSuccessful => this.setTaskAsCompleted(wasSuccessful))
     ];
 
     return this.runSynchronization(tasks);

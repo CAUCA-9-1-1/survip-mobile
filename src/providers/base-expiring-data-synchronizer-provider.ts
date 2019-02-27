@@ -19,7 +19,7 @@ export abstract class BaseExpiringDataSynchronizerProvider<T>{
     this.baseUrl = url;
   }
 
-  public synchAll(): Promise<boolean> {
+  public synchronizeAllWhenNecessary(): Promise<boolean> {
     return this.valueIsCachedAndStillValid()
       .then(isValid => {
         if (isValid) {
