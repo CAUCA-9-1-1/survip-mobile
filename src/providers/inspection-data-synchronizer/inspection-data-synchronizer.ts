@@ -53,6 +53,51 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
     });
   }
 
+  public async deleteInspectionFromCache(idInspection: string) {
+    const inspection: InspectionWithBuildingsList = await this.storage.get('inspection_buildings_' + idInspection);
+    inspection.buildings.forEach(async (building) => {
+      await this.deleteBuildingData(building);
+    });
+    await this.storage.remove('inspection_buildings_' + idInspection);
+  }
+
+  private async deleteBuildingData(building) {
+    await this.storage.remove('building_detail_' + building.idBuilding);
+    await this.storage.remove('building_contacts_' + building.idBuilding);
+    await this.storage.remove('building_hazardous_materials_' + building.idBuilding);
+    await this.storage.remove('building_plan_pictures_' + building.idBuilding);
+    await this.storage.remove('building_pnaps_' + building.idBuilding);
+    await this.storage.remove('building_sprinklers_' + building.idBuilding);
+    await this.storage.remove('building_alarm_panels_' + building.idBuilding);
+    await this.storage.remove('building_courses_' + building.idBuilding);
+    await this.deleteAnomaliesData(building);
+    await this.deleteParticularRisksData(building);
+    await this.storage.remove('building_fire_hydrants_for_building_' + building.idBuilding);
+    await this.storage.remove('building_fire_hydrants_' + building.idBuilding);
+  }
+
+  private async deleteAnomaliesData(building) {
+    const anomalies = await this.storage.get('building_anomalies_' + building.idBuilding);
+    anomalies.foreach(async (anomaly) => await this.storage.remove('building_anomaly_pictures_' + anomaly.id));
+    await this.storage.remove('building_anomalies_' + building.idBuilding);
+  }
+
+  private async deleteParticularRisksData(building) {
+    await this.deleteRiskPictures(building.idBuilding, 'floor');
+    await this.deleteRiskPictures(building.idBuilding, 'foundation');
+    await this.deleteRiskPictures(building.idBuilding, 'wall');
+    await this.deleteRiskPictures(building.idBuilding, 'roof');
+    await this.storage.remove('building_particular_risk_floor_' + building.idBuilding);
+    await this.storage.remove('building_particular_risk_foundation_' + building.idBuilding);
+    await this.storage.remove('building_particular_risk_wall_' + building.idBuilding);
+    await this.storage.remove('building_particular_risk_roof_' + building.idBuilding);
+  }
+
+  private async deleteRiskPictures(idBuilding: string, riskType: string) {
+    const risks = await this.storage.get('building_particular_risk_'+ riskType + '_' + idBuilding);
+    risks.foreach(async (risk) => await this.storage.remove('building_particular_risk_pictures_' + risk.id));
+  }
+
   public downloadInspectionSurvey(idInspection: string, entityName: string): Promise<boolean>{
     return new Promise((resolve) => {
       this.service.get('InspectionSurveyAnswer/Inspection/' + idInspection + '/' + entityName)
