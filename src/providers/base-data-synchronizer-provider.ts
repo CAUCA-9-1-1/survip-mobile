@@ -15,7 +15,7 @@ export abstract class BaseDataSynchronizerProvider<T> {
     this.baseUrl = url;
   }
 
-  public synchAll(): Promise<boolean> {
+  public synchronizeAll(): Promise<boolean> {
     return this.valueIsCachedAndStillValid()
       .then(isValid => {
         if (isValid) {
