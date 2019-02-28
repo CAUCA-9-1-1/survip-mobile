@@ -68,7 +68,8 @@ export class InterventionWaterSuppliesPage {
         this.navCtrl.push('CityFireHydrantPage', {idCity: idCity, idBuilding: this.controller.getMainBuilding().idBuilding});
     }
 
-    /*public goToFireHydrantDetail(idFireHydrant: string){
+    /* Do not delete, this will be used once we make the fire hydrant's page work in offline mode.
+    public goToFireHydrantDetail(idFireHydrant: string){
         this.navCtrl.push('FireHydrantPage', {idCity: this.currentInspection.idCity, id: idFireHydrant});
     }*/
 }

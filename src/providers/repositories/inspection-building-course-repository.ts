@@ -48,7 +48,6 @@ export class InspectionBuildingCourseRepositoryProvider {
   private async setLanesDescription(lanes: InspectionBuildingCourseLane[]): Promise<any> {
     const directions = await this.directionRepo.getList();
     lanes.forEach(lane => lane.description = this.getLaneName(lane, directions));
-
   }
 
   private getLaneName(lane: InspectionBuildingCourseLane, directions: RouteDirection[]): string {
@@ -100,7 +99,6 @@ export class InspectionBuildingCourseRepositoryProvider {
 
     return this.storage.set(this.baseKey  + this.currentCourse.idBuilding, list);
   }
-
 
   private getCurrentItem(list: InspectionBuildingCourse[], modifiedItem: InspectionBuildingCourse): InspectionBuildingCourse{
     let currentItem = list.filter(s => s.id == modifiedItem.id)[0];

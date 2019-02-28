@@ -44,7 +44,6 @@
         <ion-item-divider>{{'inspectionBatch' | translate}} : {{batch.description}}</ion-item-divider>
 
         <button ion-item (click)="openInspection(inspection.id)" *ngFor="let inspection of batch.inspections">
-
           <ion-avatar item-left style="font-size: 40px"><ion-icon name="home" [style.color]="getRiskColor(inspection.idRiskLevel)"></ion-icon></ion-avatar>
           <h2>{{inspection.civicNumber}}{{inspection.civicLetter}}, {{inspection.laneName}}</h2>
           <p>{{'riskLevel' | translate}} : {{getRiskDescription(inspection.idRiskLevel)}}</p>
