@@ -30,7 +30,6 @@ export class InterventionImplantationPlanPage implements OnDestroy {
 
     public async ionViewDidEnter() {
       this.detail = await this.detailRepo.get(this.controller.currentInspection.idBuilding);
-      //this.pictures = await this.picRepo.getList(this.controller.currentInspection.idBuilding);
     }
 
     public ngOnDestroy(): void {
@@ -43,7 +42,6 @@ export class InterventionImplantationPlanPage implements OnDestroy {
             await this.picRepo.save(this.detail.idBuilding, this.picRepo.pictures);
             this.detail.idPicturePlan = this.picRepo.pictures[0].id;
         } else {
-          //await this.picRepo.delete(this.detail.idBuilding, this.picRepo.pictures);
           this.detail.idPicturePlan = null;
         }
         await this.detailRepo.save(this.detail);
