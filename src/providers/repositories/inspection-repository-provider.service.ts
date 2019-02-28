@@ -7,6 +7,7 @@ import {InspectionWithBuildingsList} from "../../models/inspection-with-building
 import {HttpService} from "../Base/http.service";
 import {TranslateService} from "@ngx-translate/core";
 import {InspectionVisit} from "../../models/inspection-visit";
+import {InspectionUploaderProvider} from "../inspection-uploader/inspection-uploader";
 
 @Injectable()
 export class InspectionRepositoryProvider {
@@ -25,6 +26,7 @@ export class InspectionRepositoryProvider {
   constructor(
     private http: HttpService,
     private storage: OfflineStorage,
+    private uploader: InspectionUploaderProvider,
     private translateService: TranslateService) {
     this.translateService.get([
       'generalInformation', 'Buildings', 'waterSupplies', 'implantationPlan', 'course',
@@ -112,6 +114,10 @@ export class InspectionRepositoryProvider {
 
   public async completeInspection(idInspection: string): Promise<InspectionWithBuildingsList> {
     const inspection = await this.getInspection(idInspection)
+
+    const result = await this.uploader.uploadInspection(idInspection);
+    console.log('uploaded', result);
+
     inspection.currentVisit.status = this.inspectionVisitStatusEnum.Completed;
     inspection.currentVisit.endedOn = new Date();
     inspection.status = this.inspectionStatusEnum.WaitingForApprobation;

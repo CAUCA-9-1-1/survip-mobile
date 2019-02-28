@@ -80,16 +80,19 @@ export class OfflineDataSynchronizerProvider {
     return this.runSynchronization(promises);
   }
 
-  public get(key: string) : Promise<any>{
-    return this.storage.get(key);
-  }
-
   public downloadInspections(inspectionIds: string[]): Promise<boolean>{
     this.startNewSynchronization();
     const tasks = inspectionIds
       .map(inspectionId => this.inspectionRepo.downloadInspection(inspectionId).then(wasSuccess => this.setTaskAsCompleted(wasSuccess)));
 
     return this.runSynchronization(tasks)
+  }
+
+  public uploadInspection(inspectionId: string) : Promise<boolean>{
+
+
+
+    return Promise.resolve(true);
   }
 
   private startNewSynchronization() {
