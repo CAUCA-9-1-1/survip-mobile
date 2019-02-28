@@ -181,7 +181,6 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
       promises.push(this.downloadData<InspectionBuildingParticularRisk>(idBuilding, 'inspection/building/' + idBuilding + '/ParticularRisk/wall', 'building_particular_risk_wall_'));
       promises.push(this.downloadData<InspectionBuildingParticularRisk>(idBuilding, 'inspection/building/' + idBuilding + '/ParticularRisk/roof', 'building_particular_risk_roof_'));
       promises.push(this.downloadData<CityFireHydrantForList>(idBuilding, 'fireHydrant/forBuilding/' + idBuilding + '/withinDistance/200', 'fire_hydrant_for_building_'));
-      promises.push(this.downloadData<InspectionBuildingFireHydrantForList>(idBuilding, 'inspection/building/' + idBuilding + '/fireHydrant', 'building_fire_hydrants_'));
       promises.push(this.downloadDataAndSavePicturesByParent('inspection/building/' + idBuilding + '/anomaly/pictures', 'building_anomaly_pictures_'));
       promises.push(this.downloadDataAndSavePicturesByParent('inspection/building/' + idBuilding + '/ParticularRisk/pictures', 'building_particular_risk_pictures_'));
     }
