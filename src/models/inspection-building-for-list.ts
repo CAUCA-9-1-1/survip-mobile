@@ -1,6 +1,7 @@
 export class InspectionBuildingForList{
   idBuilding: string;
-  name: string;
+  aliasName: string;
+  corporateName: string;
   isMainBuilding: boolean;
   coordinates: string;
   idLaneTransversal: string;

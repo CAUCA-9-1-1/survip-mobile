@@ -13,8 +13,8 @@
     <ion-list-header>
       {{currentInspection?.civicNumber}}{{currentInspection?.civicLetter}}, {{currentInspection?.laneName}}
     </ion-list-header>
-    <button ion-item *ngFor="let building of controller.inspection.buildings" (click)="onClickBuilding(building.idBuilding, building.name)" detail-push>
-      <h2>{{building.name}}</h2>
+    <button ion-item *ngFor="let building of controller.inspection.buildings" (click)="onClickBuilding(building.idBuilding, building.aliasName)" detail-push>
+      <h2>{{building.aliasName}}</h2>
       <ion-icon name="home" item-start></ion-icon>
     </button>
   </ion-list>

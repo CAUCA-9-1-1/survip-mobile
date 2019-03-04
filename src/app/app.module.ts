@@ -45,7 +45,6 @@ import {InspectionBuildingParticularRiskPictureRepositoryProvider} from '../prov
 import {InspectionBuildingParticularRiskRepositoryProvider} from '../providers/repositories/inspection-building-particular-risk-repository-provider.service';
 import {TranslateService} from "@ngx-translate/core";
 import {FireHydrantRepositoryProvider} from "../providers/repositories/fire-hydrant-repository-provider";
-import {OperatorTypeRepositoryProvider} from "../providers/repositories/operator-type-repository-provider";
 import {MapLocalizationRepositoryService} from "../providers/repositories/map-localisation-repository-service";
 import {ExpiredTokenInterceptor} from '../providers/Base/expired-token.interceptor';
 import {Geolocation} from "@ionic-native/geolocation";
@@ -157,7 +156,6 @@ export function httpServiceFactory(
     StaticListRepositoryProvider,
     InspectionSurveyAnswerRepositoryProvider,
     FireHydrantRepositoryProvider,
-    OperatorTypeRepositoryProvider,
     MapLocalizationRepositoryService,
     Geolocation,
     Diagnostic,

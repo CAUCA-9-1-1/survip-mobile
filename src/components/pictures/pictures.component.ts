@@ -153,6 +153,7 @@ export class PicturesComponent implements ControlValueAccessor {
         picture.idParent = this.idParent;
         picture.dataUri = pic;
         picture.modified = true;
+        picture.hasBeenModified = true;
         if (this.isUsingCordova) {
             picture.dataUri = 'data:image/jpeg;base64,' + pic;
         }

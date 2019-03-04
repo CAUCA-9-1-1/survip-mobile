@@ -117,11 +117,12 @@ export class InspectionRepositoryProvider {
 
     const result = await this.uploader.uploadInspection(idInspection);
     console.log('uploaded', result);
-
+    return;
+/*
     inspection.currentVisit.status = this.inspectionVisitStatusEnum.Completed;
     inspection.currentVisit.endedOn = new Date();
     inspection.status = this.inspectionStatusEnum.WaitingForApprobation;
-    return await this.saveInspectionAndVisit(inspection);
+    return await this.saveInspectionAndVisit(inspection);*/
   }
 
   private async saveInspectionAndVisit(inspection) {
