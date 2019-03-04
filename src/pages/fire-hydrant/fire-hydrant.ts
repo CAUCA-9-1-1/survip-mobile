@@ -5,7 +5,6 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {UUID} from "angular2-uuid";
 import {GenericType} from "../../models/generic-type";
 import {FireHydrantRepositoryProvider} from "../../providers/repositories/fire-hydrant-repository-provider";
-import {OperatorTypeRepositoryProvider} from "../../providers/repositories/operator-type-repository-provider";
 import {LaneRepositoryProvider} from "../../providers/repositories/lane-repository";
 import {UnitOfMeasureRepositoryProvider} from "../../providers/repositories/unit-of-measure-repository";
 import {UnitOfMeasure} from "../../models/unit-of-measure";
@@ -48,7 +47,7 @@ export class FireHydrantPage {
               private viewCtrl: ViewController,
               private formBuilder: FormBuilder,
               private fireHydrantRepo: FireHydrantRepositoryProvider,
-              private operatorsRepo: OperatorTypeRepositoryProvider,
+              //private operatorsRepo: OperatorTypeRepositoryProvider,
               private laneRepo: LaneRepositoryProvider,
               private unitRepo: UnitOfMeasureRepositoryProvider,
               public laneService: LaneRepositoryProvider,
@@ -91,7 +90,7 @@ export class FireHydrantPage {
 
     this.loadFireHydrant();
     await this.loadFireHydrantTypes();
-    this.pressureMeasuringUnit = await this.unitRepo.getAllForPressure()
+    this.pressureMeasuringUnit = await this.unitRepo.getAllForPressure();
     this.rateMeasuringUnit = await this.unitRepo.getAllForRate();
   }
 
@@ -126,7 +125,7 @@ export class FireHydrantPage {
   private initiateForm() {
     let regexChecker = (mask: string) => {
       return (control: FormControl) => {
-        var value = control.value + "";
+        const value = control.value + "";
         const reg = new RegExp(mask);
         if (reg.test(value))
           return null;
