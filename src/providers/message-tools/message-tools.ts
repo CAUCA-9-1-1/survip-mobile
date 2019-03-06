@@ -26,7 +26,7 @@ export class MessageToolsProvider {
 
 
     public ShowMessageBox(title: string, message: string): Promise<Boolean> {
-        return new Promise((resolve, rejeect) => {
+        return new Promise((resolve) => {
             let alert = this.alertCtrl.create({
                 title: title,
                 message: message,

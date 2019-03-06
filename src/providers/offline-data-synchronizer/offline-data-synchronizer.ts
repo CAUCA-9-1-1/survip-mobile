@@ -88,13 +88,6 @@ export class OfflineDataSynchronizerProvider {
     return this.runSynchronization(tasks)
   }
 
-  public uploadInspection(inspectionId: string) : Promise<boolean>{
-
-
-
-    return Promise.resolve(true);
-  }
-
   private startNewSynchronization() {
     this.isSynching = true;
     this.completedCount = 0;
