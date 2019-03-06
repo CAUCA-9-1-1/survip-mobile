@@ -37,12 +37,7 @@ export class InspectionUploaderProvider {
       const success = await Promise.all(promises)
         .then(responses => responses.every(r => r));
 
-      if (success) {
-        return this.storage.set('inspection_buildings_' + idInspection, inspection);
-      } else {
-        return false;
-      }
-
+      return success;
     } else {
       return false;
     }
@@ -51,12 +46,19 @@ export class InspectionUploaderProvider {
   private async saveBuildingHydrants(idBuilding: string): Promise<boolean>{
     const entities = await this.storage.get('building_fire_hydrants_' + idBuilding);
     if (entities != null && entities.length > 0) {
-      const ids = entities.map(hydrant => hydrant.idFireHydrant);
-      if (await this.sendToApi(ids, idBuilding + '/firehydrants')) {
-        entities.forEach(hydrant => hydrant.hasBeenModified = false);
-        return await this.storage.set('building_fire_hydrants_' + idBuilding, entities);
+      const ids = entities
+        .filter(hydrant => hydrant.hasBeenModified)
+        .map(hydrant => hydrant.idFireHydrant);
+
+      if (ids.length > 0) {
+        if (await this.sendToApi(ids, idBuilding + '/firehydrants')) {
+          entities.forEach(hydrant => hydrant.hasBeenModified = false);
+          return await this.storage.set('building_fire_hydrants_' + idBuilding, entities);
+        } else {
+          return false;
+        }
       } else {
-        return false;
+        return true;
       }
     } else {
       return true;
@@ -85,7 +87,6 @@ export class InspectionUploaderProvider {
         }
       });
 
-      console.log('answers to save', answersToSave);
       return await this.sendAnswersToApi(idInspection, answersToSave);
     } else {
       return true;
@@ -104,14 +105,12 @@ export class InspectionUploaderProvider {
 
   private async saveEntities(idBuilding: string, key: string, url: string, pictureKey?: string, pictureUrl?: string): Promise<boolean> {
     const entities = await this.storage.get(key + idBuilding);
-    console.log('about to save', key, url, entities);
     if (entities != null) {
       const promises: Promise<boolean>[] = [];
       entities.forEach(entity => promises.push(this.saveSingleEntity(entity, url, pictureKey, pictureUrl)));
       if (await Promise.all(promises)
         .then(responses => responses.every(r => r))) {
         await this.storage.set(key + idBuilding, entities);
-        console.log('saved', key, url);
         return true;
       } else {
         return false;
@@ -121,17 +120,13 @@ export class InspectionUploaderProvider {
   }
 
   private async savePictures(idParent: string, key: string, url: string): Promise<boolean> {
-    console.log('saved pictures', key, url);
     const entities = await this.storage.get(key + idParent);
-    console.log('pictures', entities.length, entities);
     if (entities != null && entities.length > 0) {
       const modifiedEntities = entities.filter(entity => entity.hasBeenModified);
-      console.log('modified pictures', modifiedEntities.length, modifiedEntities);
       if (modifiedEntities.length > 0) {
         if (await this.sendToApi(modifiedEntities, url)) {
           modifiedEntities.forEach(entity => entity.hasBeenModified = false);
           await this.storage.set(key + idParent, entities);
-          console.log('saved pictures', key, url);
           return true;
         } else {
           return false;
@@ -144,7 +139,6 @@ export class InspectionUploaderProvider {
   }
 
   private async saveSingleEntity(entity, url: string, pictureKey?: string, pictureUrl?: string): Promise<boolean> {
-    console.log('has been modified', url, entity);
     if (entity.hasBeenModified) {
       const hasBeenSaved = await this.sendToApi(entity, url);
       if (hasBeenSaved) {
@@ -179,8 +173,6 @@ export class InspectionUploaderProvider {
       if (hasBeenSaved) {
         entity.hasBeenModified = false;
         await this.storage.set(key + idBuilding, entity);
-        console.log('saved entity', key, url);
-
         if (pictureKey != null) {
           return this.savePictures(entity.id, pictureKey, pictureUrl);
         } else {
@@ -204,7 +196,6 @@ export class InspectionUploaderProvider {
     if (url != null && url != '') {
       completeUrl += url + '/';
     }
-    console.log('final url', completeUrl, url);
 
     return new Promise((resolve) => {
       this.httpService.post(completeUrl, JSON.stringify(entity))

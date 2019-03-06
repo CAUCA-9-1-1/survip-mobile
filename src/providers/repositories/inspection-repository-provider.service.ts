@@ -8,6 +8,7 @@ import {HttpService} from "../Base/http.service";
 import {TranslateService} from "@ngx-translate/core";
 import {InspectionVisit} from "../../models/inspection-visit";
 import {InspectionUploaderProvider} from "../inspection-uploader/inspection-uploader";
+import {InspectionDataSynchronizerProvider} from "../inspection-data-synchronizer/inspection-data-synchronizer";
 
 @Injectable()
 export class InspectionRepositoryProvider {
@@ -26,6 +27,7 @@ export class InspectionRepositoryProvider {
   constructor(
     private http: HttpService,
     private storage: OfflineStorage,
+    private synchronizer: InspectionDataSynchronizerProvider,
     private uploader: InspectionUploaderProvider,
     private translateService: TranslateService) {
     this.translateService.get([
@@ -81,17 +83,17 @@ export class InspectionRepositoryProvider {
     return await this.storage.get('inspection_buildings_' + inspectionId);
   }
 
-  public async startInspection(idInspection: string): Promise<InspectionWithBuildingsList> {
-    const inspection = await this.getInspection(idInspection)
+  public async startInspection(idInspection: string): Promise<boolean> {
+    const inspection = await this.getInspection(idInspection);
     inspection.currentVisit.hasBeenModified = true;
     inspection.currentVisit.status = this.inspectionVisitStatusEnum.Started;
     inspection.currentVisit.startedOn = new Date();
     inspection.status = this.inspectionStatusEnum.Started;
     inspection.startedOn = new Date();
-    return await this.saveInspectionAndVisit(inspection);
+    return await this.saveInspectionAndVisit(inspection, true);
   }
 
-  public async refuseInspection(idInspection: string, ownerAbsent: boolean, doorHangerHasBeenLeft: boolean, refusalReason: string, requestedDateOfVisit: Date): Promise<InspectionWithBuildingsList> {
+  public async refuseInspection(idInspection: string, ownerAbsent: boolean, doorHangerHasBeenLeft: boolean, refusalReason: string, requestedDateOfVisit: Date): Promise<boolean> {
     const inspection = await this.getInspection(idInspection);
 
     if (inspection.currentVisit == null){
@@ -109,37 +111,60 @@ export class InspectionRepositoryProvider {
     inspection.currentVisit.endedOn = new Date();
     inspection.status = this.inspectionStatusEnum.Todo;
 
-    return await this.saveInspectionAndVisit(inspection);
+    return await this.saveInspectionAndVisit(inspection, true);
   }
 
-  public async completeInspection(idInspection: string): Promise<InspectionWithBuildingsList> {
-    const inspection = await this.getInspection(idInspection)
-
-    const result = await this.uploader.uploadInspection(idInspection);
-    console.log('uploaded', result);
-    return;
-/*
+  public async completeInspection(idInspection: string): Promise<boolean> {
+    const uploadWasSuccessful = await this.uploader.uploadInspection(idInspection);
+    const inspection = await this.getInspection(idInspection);
     inspection.currentVisit.status = this.inspectionVisitStatusEnum.Completed;
     inspection.currentVisit.endedOn = new Date();
     inspection.status = this.inspectionStatusEnum.WaitingForApprobation;
-    return await this.saveInspectionAndVisit(inspection);*/
+
+    const savingWasSuccessful = await this.saveInspectionAndVisit(inspection, uploadWasSuccessful);
+    if (savingWasSuccessful && uploadWasSuccessful) {
+      await this.synchronizer.deleteInspectionFromCache(idInspection);
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  private async saveInspectionAndVisit(inspection) {
-    return this.http.post('Inspection', inspection).toPromise<boolean>().then(
-      async (success) => {
-        inspection.hasBeenModified = !success;
-        inspection.currentVisit.hasBeenModified = !success;
-        await this.save(inspection);
-        return inspection;
-      },
-      async () => {
-        inspection.currentVisit.hasBeenModified = false;
-        inspection.hasBeenModified = false;
-        await this.save(inspection);
-        return inspection
-      }
-    );
+  public async uploadInspection(idInspection: string): Promise<boolean>{
+    const uploadWasSuccessful = await this.uploader.uploadInspection(idInspection);
+    const inspection = await this.getInspection(idInspection);
+    const savingWasSuccessful = await this.saveInspectionAndVisit(inspection, uploadWasSuccessful);
+    if (savingWasSuccessful && uploadWasSuccessful) {
+      await this.synchronizer.deleteInspectionFromCache(idInspection);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  private async saveInspectionAndVisit(inspection, sendToApi: boolean): Promise<boolean> {
+    if (sendToApi) {
+      return this.http.post('Inspection', inspection).toPromise<boolean>().then(
+        async (success) => {
+          inspection.hasBeenModified = !success;
+          inspection.currentVisit.hasBeenModified = !success;
+          await this.save(inspection);
+          return success;
+        },
+        async () => {
+          await this.saveInspectionToCache(inspection);
+          return false;
+        }
+      );
+    } else {
+      return this.saveInspectionToCache(inspection);
+    }
+  }
+
+  private async saveInspectionToCache(inspection): Promise<boolean> {
+    inspection.hasBeenModified = true;
+    inspection.currentVisit.hasBeenModified = true;
+    return this.save(inspection);
   }
 
   public async hasBeenDownloaded(idInspection: string): Promise<boolean>{

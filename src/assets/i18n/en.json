@@ -40,6 +40,7 @@
   "buildings":"Buildings",
   "cancel":"Cancel",
   "cantStartBecauseCantDownloadAndApiUnavailable": "This inspection hadn't been downloaded and it was impossible to reach the API to download it, which means you can't start it.",
+  "cantUploadAndCompleteInspection": "An error has occured while trying to complete the inspection. You will have to manually transmit it when you're back online again.",
   "capacity":"Capacity",
   "cartographyLocation":"Cartography positioning",
   "cellular":"Cellular",

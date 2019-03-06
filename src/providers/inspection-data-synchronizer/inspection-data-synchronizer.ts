@@ -102,7 +102,7 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
     await this.storage.remove('building_detail_' + building.idBuilding);
     await this.storage.remove('building_contacts_' + building.idBuilding);
     await this.storage.remove('building_hazardous_materials_' + building.idBuilding);
-    await this.storage.remove('building_plan_pictures_' + building.idBuilding);
+    await this.storage.remove('building_plan_picture_' + building.idBuilding);
     await this.storage.remove('building_pnaps_' + building.idBuilding);
     await this.storage.remove('building_sprinklers_' + building.idBuilding);
     await this.storage.remove('building_alarm_panels_' + building.idBuilding);
@@ -173,7 +173,7 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
       promises.push(this.downloadData<InspectionBuildingPersonRequiringAssistance[]>(idBuilding, 'inspection/building/' + idBuilding + '/pnapsList', 'building_pnaps_'));
       promises.push(this.downloadData<InspectionBuildingSprinkler[]>(idBuilding, 'inspection/building/' + idBuilding + '/sprinklerList', 'building_sprinklers_'));
       promises.push(this.downloadData<InspectionBuildingAlarmPanel[]>(idBuilding, 'inspection/building/' + idBuilding + '/alarmPanelList', 'building_alarm_panels_'));
-      promises.push(this.downloadData<InspectionBuildingCourse[]>(idBuilding, 'inspection/' + idBuilding + '/listCourse', 'building_courses_'));
+      promises.push(this.downloadData<InspectionBuildingCourse[]>(idBuilding, 'inspection/building/' + idBuilding + '/listCourse', 'building_courses_'));
       promises.push(this.downloadData<InspectionBuildingAnomaly[]>(idBuilding, 'inspection/building/' + idBuilding + '/anomalyWithoutPicture', 'building_anomalies_'));
       promises.push(this.downloadData<InspectionBuildingFireHydrantForList[]>(idBuilding, 'inspection/building/' + idBuilding + '/fireHydrant', 'building_fire_hydrants_'));
       promises.push(this.downloadData<InspectionBuildingParticularRisk>(idBuilding, 'inspection/building/' + idBuilding + '/ParticularRisk/floor', 'building_particular_risk_floor_'));

@@ -59,7 +59,7 @@ export class InterventionGeneralPage implements OnDestroy {
 
   public ngOnInit() {
         this.translateService.get([
-      'surveyRequired', 'otherUserInspection', 'cantStartBecauseNotDownloadedAndApiUnavailable'
+      'surveyRequired', 'otherUserInspection', 'cantStartBecauseNotDownloadedAndApiUnavailable', 'cantUploadAndCompleteInspection'
     ]).subscribe(labels => {
         this.labels = labels;
       },
@@ -168,12 +168,12 @@ export class InterventionGeneralPage implements OnDestroy {
       || (!this.canTransmitInspectionToServer && this.currentInspection.status == this.inspectionRepo.inspectionStatusEnum.Todo);
   }
 
-  private validateSurveyNavigation() {
+  private async validateSurveyNavigation() {
     if (this.controller.inspection.idSurvey) {
       if (this.controller.inspection.isSurveyCompleted) {
-        this.navCtrl.push('InspectionSurveySummaryPage', {idInspection: this.controller.idInspection});
+        await this.navCtrl.push('InspectionSurveySummaryPage', {idInspection: this.controller.idInspection});
       } else {
-        this.navCtrl.push('InspectionSurveyAnswerPage', {
+        await this.navCtrl.push('InspectionSurveyAnswerPage', {
           idInspection: this.controller.idInspection,
           inspectionSurveyCompleted: this.controller.inspection.isSurveyCompleted
         });
@@ -185,18 +185,13 @@ export class InterventionGeneralPage implements OnDestroy {
     let canStart = await this.canUserAccessInspection();
     if (canStart) {
       const hasAlreadyBeenDownloaded = await this.inspectionRepo.hasBeenDownloaded(this.controller.idInspection);
-      console.log('has already been downloaded', hasAlreadyBeenDownloaded);
       if (hasAlreadyBeenDownloaded) {
         await this.startInspectionAndRefreshForm();
       } else {
-
         const hasBeenDownloaded = await this.controller.downloadCurrentInspection();
-
-        console.log('has been downloaded', hasBeenDownloaded);
         if (hasBeenDownloaded) {
           await this.startInspectionAndRefreshForm();
         } else {
-          console.log('label', this.labels['cantStartBecauseNotDownloadedAndApiUnavailable']);
           await this.messageTools.showToast(this.labels['cantStartBecauseNotDownloadedAndApiUnavailable']);
         }
       }
@@ -204,15 +199,16 @@ export class InterventionGeneralPage implements OnDestroy {
   }
 
   private async startInspectionAndRefreshForm() {
-    const inspection = await this.inspectionRepo.startInspection(this.controller.idInspection);
+    await this.inspectionRepo.startInspection(this.controller.idInspection);
+    const inspection = await this.inspectionRepo.getInspection(this.controller.idInspection);
     await this.controller.updateCurrentInspection(inspection);
     this.refreshInspection();
     this.manageMenuDisplay(true);
-    this.validateSurveyNavigation();
+    await this.validateSurveyNavigation();
   }
 
   public async uploadInspectionToServer(){
-    await this.messageTools.showToast('Pseudo-envoi de l\'inspection au serveur.');
+    this.completeAndUploadInspection();
   }
 
   public async absentVisit() {
@@ -229,26 +225,33 @@ export class InterventionGeneralPage implements OnDestroy {
     }
   }
 
-  public completeInspection() {
+  public async completeInspection() {
     let canComplete = true;
     if (this.controller.inspection.idSurvey) {
       if (!this.controller.inspection.isSurveyCompleted) {
         canComplete = false;
-        this.messageTools.showToast(this.labels['surveyRequired']);
+        await this.messageTools.showToast(this.labels['surveyRequired']);
       }
     }
     if (canComplete) {
-      this.inspectionRepo.completeInspection(this.controller.idInspection)
-        .then(
-          () =>{
-            this.navCtrl.setRoot('InspectionListPage');
-            this.navCtrl.popToRoot();
-          },
-          () =>{
-            this.messageTools.showToast('Une erreur est survenue dans le processus de finalisation de l\'inspection, veuillez réessayer ultérieurement.');
-          }
-        )
+      this.completeAndUploadInspection();
     }
+  }
+
+  private completeAndUploadInspection() {
+    this.inspectionRepo.completeInspection(this.controller.idInspection)
+      .then(
+        async (wasFullyCompleted) => {
+          if (!wasFullyCompleted) {
+            await this.messageTools.showToast(this.labels['cantUploadAndCompleteInspection']);
+          }
+          await this.navCtrl.setRoot('InspectionListPage');
+          await this.navCtrl.popToRoot();
+        },
+        async () => {
+          await this.messageTools.showToast(this.labels['cantUploadAndCompleteInspection']);
+        }
+      );
   }
 
   private async userAccessValidation() {
