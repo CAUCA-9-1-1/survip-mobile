@@ -66,11 +66,6 @@ export class InspectionBuildingCourseRepositoryProvider {
     return item;
   }
 
-    /*public save(course: InspectionBuildingCourse): Observable<any> {
-        return this.http.post('inspection/course', JSON.stringify(course))
-            .pipe(map(response => response));
-    }*/
-
   public async save(): Promise<any> {
 
     const list = await this.storage.get(this.baseKey  + this.currentCourse.idBuilding);
@@ -79,15 +74,6 @@ export class InspectionBuildingCourseRepositoryProvider {
 
     return this.storage.set(this.baseKey  + this.currentCourse.idBuilding, list);
   }
-
-    /*public delete(course: InspectionBuildingCourse): Observable<any> {
-        if (course.id == null)
-            return Observable.of('');
-        else {
-            return this.http.delete('inspection/course/' + course.id)
-                .pipe(map(response => response));
-        }
-    }*/
 
   public async delete(): Promise<any> {
 
