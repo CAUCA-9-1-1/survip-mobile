@@ -98,7 +98,6 @@ export class OfflineDataSynchronizerProvider {
     this.totalCount = tasks.length;
     return Promise.all(tasks)
       .then(responses => {
-        console.log('sync completed');
         this.isSynching = false;
         return responses.every(r => r);
       })
@@ -107,7 +106,6 @@ export class OfflineDataSynchronizerProvider {
   private setTaskAsCompleted(wasSuccessful: boolean): boolean{
     this.completedCount++;
     this.percentCompleted = this.completedCount * 100 / this.totalCount;
-    console.log('completed count: ' + this.completedCount + '. ' + this.percentCompleted + '%');
     return wasSuccessful;
   }
 }

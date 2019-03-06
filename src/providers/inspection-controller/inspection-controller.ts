@@ -27,8 +27,8 @@ export class InspectionControllerProvider {
     private dataRepoInspection: InspectionDataSynchronizerProvider) {
   }
 
-  public async setIdInspection(idInspection: string): Promise<boolean> {
-    if (this.idInspection != idInspection) {
+  public async setIdInspection(idInspection: string, forceRefresh: boolean): Promise<boolean> {
+    if (this.idInspection != idInspection || forceRefresh) {
       const successfullyLoaded: boolean = await this.loadInspection(idInspection);
       if (successfullyLoaded){
         this.idInspection = idInspection;

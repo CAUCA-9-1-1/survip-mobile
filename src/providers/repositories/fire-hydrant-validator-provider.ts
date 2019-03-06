@@ -6,26 +6,23 @@ import {FormGroup} from "@angular/forms";
 export class FireHydrantValidatorProvider {
 
     constructor(public http: HttpClient) {
-        console.log('Hello FireHydrantValidatorProvider Provider');
     }
 
     rateMeasuringUnitValidator(fireHydrant: FormGroup) {
-        let retvalue = (control: FormGroup) => {
+        return (control: FormGroup) => {
             if (fireHydrant != null && (fireHydrant.controls['rateTo'].value> 0 || fireHydrant.controls['rateFrom'].value > 0)  && (control.value == null || control.value == "")) {
                 return {'missingUnitOfMeasure': true};
             }
             return null;
         };
-        return retvalue;
     }
 
     pressureMeasuringUnitValidator(fireHydrant: FormGroup) {
-        let retvalue = (control: FormGroup) => {
+        return (control: FormGroup) => {
             if (fireHydrant != null && (fireHydrant.controls['pressureFrom'].value > 0 || fireHydrant.controls['pressureTo'].value > 0) && (control.value == null || control.value == "")) {
                 return {'missingUnitOfMeasure': true};
             }
             return null;
         };
-        return retvalue;
     }
 }

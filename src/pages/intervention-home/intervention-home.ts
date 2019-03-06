@@ -44,7 +44,7 @@ export class InterventionHomePage implements OnDestroy {
     }
 
     public async ngOnInit() {
-      await this.controller.setIdInspection(this.navParams.data['id']);
+      await this.controller.setIdInspection(this.navParams.data['id'], false);
       this.translateService.get([
         'generalInformation', 'buildings', 'waterSupplies', 'implantationPlan', 'course', 'survey'
       ]).subscribe(labels => {

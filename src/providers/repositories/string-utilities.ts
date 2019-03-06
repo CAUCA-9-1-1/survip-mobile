@@ -168,7 +168,6 @@ export class StringUtilities {
   public static diacriticsMap = {};
 
   static initialize() {
-    console.log('initialized');
     for (let i = 0; i < this.defaultDiacriticsRemovalMap.length; i++) {
       let letters = this.defaultDiacriticsRemovalMap [i].letters;
       for (let j = 0; j < letters.length; j++) {

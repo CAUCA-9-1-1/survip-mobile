@@ -40,6 +40,7 @@
   "buildings":"Bâtiments",
   "cancel":"Annuler",
   "cantStartBecauseCantDownloadAndApiUnavailable": "Cette inspection n'a pas été téléchargée et il est impossible de rejoindre le serveur pour le faire.  Il est donc impossible de débuter l'inspection.",
+  "cantUploadAndCompleteInspection": "Une erreur est survenue dans le processus de complétion de l'inspection.  Vous devrez la transmettre manuellement lorsque vous aurez de nouveau accès à internet.",
   "capacity":"Capacité",
   "cartographyLocation":"Positionnement cartographique",
   "cellular":"Cellulaire",
