@@ -7,6 +7,7 @@ import {InspectionRepositoryProvider} from "../repositories/inspection-repositor
 import {InspectionWithBuildingsList} from "../../models/inspection-with-buildings-list";
 import {InspectionConfigurationProvider} from "../inspection-configuration/inspection-configuration";
 import {InspectionDataSynchronizerProvider} from "../inspection-data-synchronizer/inspection-data-synchronizer";
+import {BuildingContactRepositoryProvider} from "../repositories/building-contact-repository";
 
 @Injectable()
 export class InspectionControllerProvider {
@@ -21,6 +22,7 @@ export class InspectionControllerProvider {
   constructor(
     private repoSynchro: InspectionDataSynchronizerProvider,
     private configController: InspectionConfigurationProvider,
+    private contactRepository: BuildingContactRepositoryProvider,
     private repoInspection: InspectionRepositoryProvider,
     private loadingCtrl: LoadingController,
     private laneRepo: LaneRepositoryProvider,
@@ -40,6 +42,7 @@ export class InspectionControllerProvider {
 
   public setSurveyCompletionStatus(isCompleted: boolean): Promise<boolean> {
     this.inspection.isSurveyCompleted = isCompleted;
+    this.inspection.surveyCompletedOn = isCompleted ? new Date() : null;
     return this.repoInspection.save(this.inspection);
   }
 
@@ -50,6 +53,8 @@ export class InspectionControllerProvider {
       await loading.present();
       this.currentInspection = await this.repoInspection.getResumedInspection(idInspection);
       this.inspection = await this.repoInspection.getInspection(idInspection);
+      this.currentInspection.hasBeenDownloaded = this.inspection != null;
+      await this.refreshBuildingInformations();
 
       if (this.inspection == null) {
         return this.dataRepoInspection.getInspection(idInspection).subscribe(
@@ -70,6 +75,13 @@ export class InspectionControllerProvider {
         resolve(true);
       }
     });
+  }
+
+  public async refreshBuildingInformations() {
+    // this is where the corporateName and alias will also be updated later on.
+    if (this.currentInspection.hasBeenDownloaded) {
+      this.currentInspection.ownerName = await this.contactRepository.getOwnerName(this.getMainBuilding().idBuilding);
+    }
   }
 
   private async loadLanesAndSetConfiguration(loading) {

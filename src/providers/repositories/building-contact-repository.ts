@@ -47,4 +47,14 @@ export class BuildingContactRepositoryProvider {
 
       return currentItem || modifiedItem;
     }
+
+    public async getOwnerName(idBuilding: string): Promise<string> {
+      const contacts = await this.getList(idBuilding);
+      const ownerContact = contacts.find(contact => contact.isOwner);
+      if (ownerContact != null) {
+        return ownerContact.firstName + ' ' + ownerContact.lastName;
+      } else {
+        return '';
+      }
+  }
 }

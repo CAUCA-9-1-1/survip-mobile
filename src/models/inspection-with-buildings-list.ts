@@ -8,6 +8,7 @@ export class InspectionWithBuildingsList {
   isSurveyCompleted: boolean;
   status: number;
   startedOn: Date;
+  surveyCompletedOn: Date;
 
   buildings: InspectionBuildingForList[];
   configuration: InspectionConfiguration;
