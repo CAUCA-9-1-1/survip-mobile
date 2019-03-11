@@ -123,6 +123,13 @@ export class AuthenticationService {
             .toPromise();
     }
 
+    public async getVersion(): Promise<string>{
+      if(!this.survipVersion) {
+        await this.getAppConfiguration();
+      }
+      return this.survipVersion;
+    }
+
     public async getAppConfiguration(){
         if("cordova"in window) {
             this.survipVersion = await this.appVersion.getVersionNumber();
