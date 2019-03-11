@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {AuthenticationService} from "../../providers/Base/authentification.service";
 import {NavController} from "ionic-angular";
-import * as info from '../../../package.json';
 
 @Component({
     selector: 'menu-profile',
@@ -10,9 +9,13 @@ import * as info from '../../../package.json';
 export class MenuProfileComponent {
 
     public fullName: string = '';
-    public version = (<any>info).version;
+    public version: any = '';
+    //public version = (<any>info).version;
 
-  constructor(private authentificationController : AuthenticationService, private navCtrl: NavController) {
+  constructor(
+    private authentificationController : AuthenticationService,
+    private navCtrl: NavController) {
+    this.version = authentificationController.survipVersion;
     this.fullName = localStorage.getItem('firstName') + ' ' + localStorage.getItem('lastName');
   }
 
