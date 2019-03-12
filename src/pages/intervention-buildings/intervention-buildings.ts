@@ -43,7 +43,7 @@ export class InterventionBuildingsPage {
       } else if (building.isMainBuilding) {
         return 'Bâtiment principal';
       } else {
-        return 'Bâtiment #' + index;
+        return 'Bâtiment enfant #' + index;
       }
     }
 

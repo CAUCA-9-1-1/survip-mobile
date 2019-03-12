@@ -169,7 +169,7 @@ export class BuildingDetailsPage {
         Object.assign(this.detail, formModel);
         this.building.aliasName = formModel['aliasName'];
         this.building.corporateName = formModel['corporateName'];
-        console.log('building changed', this.building);
+        this.building.hasBeenModified = true;
         await this.detailRepo.save(this.detail);
         await this.controller.saveBuildings();
         await this.controller.refreshBuildingInformations();
