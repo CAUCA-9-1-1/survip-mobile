@@ -11,6 +11,7 @@ export class Inspection {
   civicNumber: string;
   civicLetter: string;
   aliasName: string;
+  corporateName: string;
   ownerName: string;
   utilisationCodeDescription: string;
   transversalLaneName: string;

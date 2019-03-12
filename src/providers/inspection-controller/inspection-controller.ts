@@ -81,6 +81,8 @@ export class InspectionControllerProvider {
     // this is where the corporateName and alias will also be updated later on.
     if (this.currentInspection.hasBeenDownloaded) {
       this.currentInspection.ownerName = await this.contactRepository.getOwnerName(this.getMainBuilding().idBuilding);
+      this.currentInspection.aliasName = this.getMainBuilding().aliasName;
+      this.currentInspection.corporateName = this.getMainBuilding().corporateName;
     }
   }
 
