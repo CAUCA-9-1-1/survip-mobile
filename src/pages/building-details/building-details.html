@@ -13,6 +13,14 @@
 
     <ion-item-group>
       <ion-item-divider>{{'building' | translate}}</ion-item-divider>
+      <ion-item>
+        <ion-label>Alias</ion-label>
+        <ion-input placeholder="alias..." type="text" maxlength="50" formControlName="aliasName"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>{{'corporateName' | translate }}</ion-label>
+        <ion-input placeholder="{{'corporateName' | translate }}" maxlength="50" type="text" formControlName="corporateName"></ion-input>
+      </ion-item>
       <ion-item *ngIf="allTypes && allTypes.buildingTypes" >
         <ion-label>{{'type' | translate}}</ion-label>
         <ion-select formControlName="idBuildingType" okText="Ok" cancelText="{{'cancel' | translate}}">

@@ -71,6 +71,7 @@
   "containerCapacity":"Container capacity",
   "containerCapacityValidationMessage":"*Capacity must be a valid decimal.",
   "containerUnitRequired":"*The measuring unit is required when capacity is superior than 0.",
+  "corporateName": "Corporate name",
   "course":"Course",
   "courseDetail":"Course detail",
   "courseDetailDeleteButton":"Delete the course",

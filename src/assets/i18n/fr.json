@@ -71,6 +71,7 @@
   "containerCapacity":"Capacité du contenant",
   "containerCapacityValidationMessage":"*La capacité doit être une valeur décimale de format valide.",
   "containerUnitRequired":"*L'unité de mesure est requise si la capacité est supérieure à 0.",
+  "corporateName": "Raison sociale",
   "course":"Parcours",
   "courseDetail":"Détail du parcours",
   "courseDetailDeleteButton":"Supprimer le parcours",
