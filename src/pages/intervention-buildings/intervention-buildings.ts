@@ -34,4 +34,37 @@ export class InterventionBuildingsPage {
     public async onClickBuilding(idBuilding: string, name: string) {
         this.navCtrl.push("BuildingMainPage", {idBuilding: idBuilding, name: name});
     }
+
+    public getBuildingName(building: InspectionBuildingForList, index) {
+      if (building.aliasName != null && building.aliasName != '') {
+        return building.aliasName;
+      } else if (building.corporateName != null && building.corporateName != '') {
+        return building.corporateName;
+      } else if (building.isMainBuilding) {
+        return 'Bâtiment principal';
+      } else {
+        return 'Bâtiment #' + index;
+      }
+    }
+
+    public getBuildingDescription(building: InspectionBuildingForList, index) {
+      if (building.isMainBuilding) {
+        if (this.buildingHasNameOrAlias(building)) {
+          return 'Bâtiment principal';
+        } else {
+          return '';
+        }
+      } else {
+        if (this.buildingHasNameOrAlias(building)) {
+          return 'Bâtiment enfant #' + (index);
+        } else {
+          return '';
+        }
+      }
+    }
+
+  private buildingHasNameOrAlias(building: InspectionBuildingForList) {
+    return (building.aliasName != null && building.aliasName != '')
+      || (building.corporateName != null && building.corporateName != '');
+  }
 }
