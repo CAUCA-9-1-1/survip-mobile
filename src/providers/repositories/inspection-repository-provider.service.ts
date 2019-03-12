@@ -51,9 +51,16 @@ export class InspectionRepositoryProvider {
     const batches = await this.storage.get('batches');
 
     for (let batch of batches){
+      batch.hasBeenFullyDownloaded = false;
+      batch.notDownloadedInspectionIds = [];
       for (let inspection of batch.inspections){
         const currentInspection = await this.getInspection(inspection.id);
         inspection.hasBeenDownloaded = currentInspection != null;
+
+        if (!inspection.hasBeenDownloaded) {
+          batch.notDownloadedInspectionIds.push(inspection.id);
+        }
+
         if (currentInspection != null) {
           inspection.status = currentInspection.status;
           if (currentInspection.currentVisit.status == 2) {
@@ -61,6 +68,7 @@ export class InspectionRepositoryProvider {
           }
         }
       }
+      batch.hasBeenFullyDownloaded = batch.notDownloadedInspectionIds.length == 0;
     }
 
     return batches;

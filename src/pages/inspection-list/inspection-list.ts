@@ -66,7 +66,7 @@ export class InspectionListPage {
 
   private loadLocalization() {
     this.translateService.get([
-      'loading', 'surveyUnassignedMessage'
+      'loading', 'surveyUnassignedMessage', 'cantDownloadBatch', 'cantOpenInspection', 'cantDownloadInspection'
     ]).subscribe(labels => {
       this.labels = labels;
     });
@@ -163,28 +163,55 @@ export class InspectionListPage {
           if (success) {
             return await this.navCtrl.push('InterventionHomePage', {id: idInspection});
           }else{
-            this.displayLoadingError();
+            await this.displayLoadingError(this.labels['cantOpenInspection']);
           }
         },
-        ()=> this.displayLoadingError());
+        ()=> this.displayLoadingError(this.labels['cantOpenInspection']));
   }
 
-  private displayLoadingError(){
+  private displayLoadingError(message: string){
     const toast = this.toast.create({
-      message: 'Impossible d\'ouvrir cette inspection, car elle n\'a pas été téléchargée et le serveur est inaccessible.',
+      message: message,
       duration: 3000,
       position: 'middle'
     });
 
-    toast.present();
+    return toast.present();
   }
 
-  public async downloadInspection(event, inspection: Inspection) {
+  public async downloadBatch(event, batch: Batch) {
+    event.stopPropagation();
+    if (batch.notDownloadedInspectionIds != null && batch.notDownloadedInspectionIds.length > 0) {
+      await this.synchronizer.downloadInspections(batch.notDownloadedInspectionIds)
+        .then(async (hasBeenDownloaded) => {
+          if (hasBeenDownloaded) {
+            batch.notDownloadedInspectionIds.forEach(id => {
+              const foundInspection = batch.inspections.find(inspection => inspection.id == id);
+              if (foundInspection) {
+                foundInspection.hasBeenDownloaded = true;
+              }
+            });
+            batch.notDownloadedInspectionIds = [];
+            batch.hasBeenFullyDownloaded = true;
+          } else {
+            await this.displayLoadingError(this.labels['cantDownloadBatch']);
+          }
+        });
+    }
+  }
+
+  public async downloadInspection(event, inspection: Inspection, batch: Batch) {
     event.stopPropagation();
     this.synchronizer.downloadInspections([inspection.id])
-      .then(wasSuccessful => {
-        inspection.hasBeenDownloaded = wasSuccessful;
-      })
+      .then(async(wasSuccessful) => {
+        if (wasSuccessful) {
+          inspection.hasBeenDownloaded = true;
+          batch.notDownloadedInspectionIds = batch.notDownloadedInspectionIds.filter(id => id != inspection.id);
+          batch.hasBeenFullyDownloaded = batch.notDownloadedInspectionIds.length == 0;
+        } else {
+          await this.displayLoadingError(this.labels['cantDownloadInspection']);
+        }
+      });
   }
 
   public filterList() {
