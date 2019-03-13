@@ -47,19 +47,15 @@ export class InspectionUploaderProvider {
     const entities = await this.storage.get('building_fire_hydrants_' + idBuilding);
     if (entities != null && entities.length > 0) {
       const ids = entities
-        .filter(hydrant => hydrant.hasBeenModified)
+        .filter(hydrant => hydrant.isActive)
         .map(hydrant => hydrant.idFireHydrant);
 
-      if (ids.length > 0) {
         if (await this.sendToApi(ids, idBuilding + '/firehydrants')) {
           entities.forEach(hydrant => hydrant.hasBeenModified = false);
           return await this.storage.set('building_fire_hydrants_' + idBuilding, entities);
         } else {
           return false;
         }
-      } else {
-        return true;
-      }
     } else {
       return true;
     }
