@@ -15,7 +15,7 @@
                 {{currentInspection?.civicNumber}}{{currentInspection?.civicLetter}}, {{currentInspection?.laneName}}
             </ion-list-header>
 
-            <ion-item *ngIf="currentInspection?.ownerName != null">
+            <ion-item *ngIf="currentInspection?.ownerName">
               <ion-label fixed>{{'owner' | translate}}</ion-label>
               <ion-input type="text" disabled value="{{currentInspection?.ownerName}}"></ion-input>
             </ion-item>
@@ -35,12 +35,12 @@
                 <ion-input type="text" disabled value="{{currentInspection?.matricule}}"></ion-input>
             </ion-item>
 
-            <ion-item *ngIf="currentInspection?.aliasName != null">
+            <ion-item *ngIf="currentInspection?.aliasName">
                 <ion-label fixed>Alias</ion-label>
                 <ion-input type="text" disabled value="{{currentInspection?.aliasName}}"></ion-input>
             </ion-item>
 
-          <ion-item *ngIf="currentInspection?.corporateName != null">
+          <ion-item *ngIf="currentInspection?.corporateName">
             <ion-label fixed>{{'corporateName' | translate}}</ion-label>
             <ion-input type="text" disabled value="{{currentInspection?.corporateName}}"></ion-input>
           </ion-item>
