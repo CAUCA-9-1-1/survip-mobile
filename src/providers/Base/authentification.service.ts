@@ -42,8 +42,8 @@ export class AuthenticationService {
 
   public login(username: string, password: string, saveKeychainTouchId = false): Promise<LoginResult> {
 
-    return new Promise((resolve) => {
-      this.showLoading();
+    return new Promise(async (resolve) => {
+      await this.showLoading();
 
       this.http.rawPost('Authentification/Logon', {
         username: username,
@@ -60,10 +60,10 @@ export class AuthenticationService {
           },
           async (error) => {
             await this.dismissLoading();
-            if (await this.userIsLoggedIn()) {
-              resolve(LoginResult.Ok);
-            } else if (error.status === 401) {
+            if (error.status === 401) {
               resolve(LoginResult.WrongPasswordOrUserName);
+            } else if (await this.userIsLoggedIn()) {
+              resolve(LoginResult.Ok);
             } else {
               resolve(LoginResult.ApiUnreachable);
             }
@@ -95,12 +95,10 @@ export class AuthenticationService {
     });
   }
 
-  public showLoading() {
-    this.translateService.get('waitFormMessage')
-      .subscribe(async (message) => {
-        this.loading = this.loadingCtrl.create({content: message});
-        await this.loading.present();
-      }, error => console.log(error));
+  public async showLoading() {
+    const message = await this.translateService.get('waitFormMessage').toPromise();
+    this.loading = this.loadingCtrl.create({content: message});
+    await this.loading.present();
   }
 
   public async dismissLoading() {
@@ -155,7 +153,7 @@ export class AuthenticationService {
   }
 
   private getRefreshedTokenFromApi(user) {
-        return this.http.rawPost('Authentification/Refresh', {
+    return this.http.rawPost('Authentification/Refresh', {
       accessToken: user['accessToken'],
       refreshToken: user['refreshToken']
     }, false);
