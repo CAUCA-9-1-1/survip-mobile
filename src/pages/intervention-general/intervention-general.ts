@@ -1,5 +1,5 @@
 import {Component, OnDestroy} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, Loading, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {RiskLevel} from '../../models/risk-level';
 import {InterventionControllerProvider} from '../../providers/intervention-controller/intervention-controller';
@@ -50,6 +50,7 @@ export class InterventionGeneralPage implements OnDestroy {
               private riskLevelService: RiskLevelRepositoryProvider,
               public laneService: LaneRepositoryProvider,
               private inspectionRepo: InspectionRepositoryProvider,
+              private loadingController: LoadingController,
               private messageTools: MessageToolsProvider,
               private translateService: TranslateService,
               private mapService: MapLocalizationRepositoryService,
@@ -59,7 +60,7 @@ export class InterventionGeneralPage implements OnDestroy {
 
   public ngOnInit() {
         this.translateService.get([
-      'surveyRequired', 'otherUserInspection', 'cantStartBecauseNotDownloadedAndApiUnavailable', 'cantUploadAndCompleteInspection'
+      'surveyRequired', 'otherUserInspection', 'cantStartBecauseNotDownloadedAndApiUnavailable', 'cantUploadAndCompleteInspection', 'loading'
     ]).subscribe(labels => {
         this.labels = labels;
       },
@@ -181,17 +182,27 @@ export class InterventionGeneralPage implements OnDestroy {
     }
   }
 
+  private async showLoadingControl(): Promise<Loading> {
+    const loading = this.loadingController.create({content: this.labels['loading']});
+    await loading.present();
+    return loading;
+  }
+
   public async startInspection() {
     let canStart = await this.canUserAccessInspection();
     if (canStart) {
+      const loading = await this.showLoadingControl();
       const hasAlreadyBeenDownloaded = await this.inspectionRepo.hasBeenDownloaded(this.controller.idInspection);
       if (hasAlreadyBeenDownloaded) {
         await this.startInspectionAndRefreshForm();
+        loading.dismissAll();
       } else {
         const hasBeenDownloaded = await this.controller.downloadCurrentInspection();
         if (hasBeenDownloaded) {
           await this.startInspectionAndRefreshForm();
+          loading.dismissAll();
         } else {
+          loading.dismissAll();
           await this.messageTools.showToast(this.labels['cantStartBecauseNotDownloadedAndApiUnavailable']);
         }
       }
@@ -208,7 +219,7 @@ export class InterventionGeneralPage implements OnDestroy {
   }
 
   public async uploadInspectionToServer(){
-    this.completeAndUploadInspection();
+    await this.completeAndUploadInspection();
   }
 
   public async absentVisit() {
@@ -234,14 +245,16 @@ export class InterventionGeneralPage implements OnDestroy {
       }
     }
     if (canComplete) {
-      this.completeAndUploadInspection();
+      await this.completeAndUploadInspection();
     }
   }
 
-  private completeAndUploadInspection() {
+  private async completeAndUploadInspection() {
+    const loading = await this.showLoadingControl();
     this.inspectionRepo.completeInspection(this.controller.idInspection)
       .then(
         async (wasFullyCompleted) => {
+          loading.dismissAll();
           if (!wasFullyCompleted) {
             await this.messageTools.showToast(this.labels['cantUploadAndCompleteInspection']);
           }
@@ -249,6 +262,7 @@ export class InterventionGeneralPage implements OnDestroy {
           await this.navCtrl.popToRoot();
         },
         async () => {
+          loading.dismissAll();
           await this.messageTools.showToast(this.labels['cantUploadAndCompleteInspection']);
         }
       );
