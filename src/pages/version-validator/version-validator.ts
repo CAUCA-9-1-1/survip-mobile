@@ -5,6 +5,7 @@ import {AuthenticationService} from "../../providers/Base/authentification.servi
 import {TranslateService} from "@ngx-translate/core";
 import {ISubscription} from "rxjs/Subscription";
 import {TimeoutError} from "rxjs";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @IonicPage()
 @Component({
@@ -26,69 +27,71 @@ export class VersionValidatorPage {
                 private market: Market,
                 private authService: AuthenticationService,
                 private translateService: TranslateService) {
-        if (platform.is('ios')) {
-            this.storeLink = 'App Store';
-        }
+      if (platform.is('ios')) {
+        this.storeLink = 'App Store';
+      }
 
-        try {
-        this.platform.ready().then(() => {
-            this.resumeSubscription = this.platform.resume.subscribe(() => {
+      try {
+
+        this.translateService.get([
+          'versionInvalidWarning', 'serverDownMessage'
+        ]).subscribe(labels => {
+          this.labels = labels;
+          this.warningMessage = this.labels['versionInvalidWarning'];
+          this.platform.ready().then(() => {
+              this.resumeSubscription = this.platform.resume.subscribe(() => {
                 this.validVersion();
+              });
+
+            },
+            error => {
+              console.log(error)
             });
+
         });
-        }catch(e){
-            console.log('error version validator constructor', e);
-        }
+      } catch (e) {
+        console.log('error version validator constructor', e);
+      }
     }
 
     public ngOnInit(){
-
-        this.translateService.get([
-            'versionInvalidWarning','serverDownMessage'
-        ]).subscribe(labels => {
-                this.labels = labels;
-            },
-            error => {
-                console.log(error)
-            });
-        this.warningMessage = this.labels['versionInvalidWarning'];
     }
 
-    public ionViewDidEnter() {
-        this.validVersion();
+    public async ionViewDidEnter() {
+        await this.validVersion();
     }
 
     public async validVersion() {
-        this.authService.showLoading();
-        this.authService.minimalVersionIsValid()
-            .then(result => {
-                this.minimalVersionDisplay(result);
-            })
-            .catch((error)=> {
-              if (error instanceof TimeoutError) {
-                this.minimalVersionDisplay(true);
-              } else {
-                this.serverDownDisplay();
-              }
-            });
-        if(this.resumeSubscription) {
-            this.resumeSubscription.unsubscribe();
-        }
+      await this.authService.showLoading();
+      this.authService.minimalVersionIsValid()
+        .then(async(result) => {
+          await this.minimalVersionDisplay(result);
+        })
+        .catch(async (error) => {
+          if (error instanceof TimeoutError || (error instanceof HttpErrorResponse && error.status === 0)) {
+            await this.minimalVersionDisplay(true);
+          } else {
+            await this.serverDownDisplay();
+          }
+        });
+      if (this.resumeSubscription) {
+        this.resumeSubscription.unsubscribe();
+      }
     }
 
-    private serverDownDisplay(){
-        this.displayStoreLink = false;
-        this.minimalVersionDisplay(false);
-        this.warningMessage = this.labels['serverDownMessage'];
+    private async serverDownDisplay() {
+      this.displayStoreLink = false;
+      await this.minimalVersionDisplay(false);
+      this.warningMessage = this.labels['serverDownMessage'];
     }
 
-    private minimalVersionDisplay(redirect: boolean){
-        if (redirect) {
-            this.navCtrl.setRoot(this.rootPage);
-        } else {
-            this.displayWarning = true;
-        }
-        this.authService.dismissLoading();
+    private async minimalVersionDisplay(redirect: boolean) {
+      await this.authService.dismissLoading();
+      if (redirect) {
+        await this.navCtrl.setRoot(this.rootPage);
+      } else {
+        this.displayWarning = true;
+      }
     }
 
     public goToStore() {
