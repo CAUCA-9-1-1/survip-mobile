@@ -1,6 +1,4 @@
 import {Injectable} from '@angular/core';
-import {HttpErrorResponse} from '@angular/common/http';
-import {catchError, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/Observable';
 import { Events, Loading, LoadingController, Platform} from 'ionic-angular';
 import {KeychainTouchId} from '@ionic-native/keychain-touch-id';
@@ -8,139 +6,188 @@ import {HttpService} from './http.service';
 import {AppVersion} from "@ionic-native/app-version";
 import config from '../../assets/config/config.json';
 import {TranslateService} from '@ngx-translate/core';
+import {Storage as OfflineStorage} from "@ionic/storage";
+import {from} from "rxjs/observable/from";
+import {switchMap} from "rxjs/operators";
+
+export enum LoginResult {
+  Ok,
+  WrongPasswordOrUserName,
+  ApiUnreachable
+}
 
 @Injectable()
 export class AuthenticationService {
-    public keychainTouchIdKey = 'survi%prevention%keychain';
-    private loading: Loading;
-    public survipVersion = '';
-    public survipName = '';
-    public survipAppId = '';
+  public keychainTouchIdKey = 'survi%prevention%keychain';
+  private loading: Loading;
+  public survipVersion = '';
+  public survipName = '';
 
-    constructor(
-        private http: HttpService,
-        private loadingCtrl: LoadingController,
-        private events: Events,
-        private keychainTouchId: KeychainTouchId,
-        private appVersion: AppVersion,
-        private platform: Platform,
-        private translateService: TranslateService
-    ) {
-    }
+  constructor(
+    private storage: OfflineStorage,
+    private http: HttpService,
+    private loadingCtrl: LoadingController,
+    private events: Events,
+    private keychainTouchId: KeychainTouchId,
+    private appVersion: AppVersion,
+    private platform: Platform,
+    private translateService: TranslateService
+  ) {
+  }
 
-    public login(username: string, password: string, saveKeychainTouchId = false) {
-        localStorage.removeItem('currentToken');
+  public async userIsLoggedIn() {
+    const user = await this.storage.get('auth');
+    return (user != null && user.accessToken) ? true : false;
+  }
 
-        this.showLoading();
-        return this.http.rawPost('Authentification/Logon', {
-            username: username,
-            password: password,
-        }, false).pipe(
-            catchError((error: HttpErrorResponse) => {
-                this.loading.dismiss();
-                return Observable.of(error);
-            }),
-            map(response => this.onResponse(response, saveKeychainTouchId ? {
-                username: username,
-                password: password,
-            } : null))
+  public login(username: string, password: string, saveKeychainTouchId = false): Promise<LoginResult> {
+
+    return new Promise((resolve) => {
+      this.showLoading();
+
+      this.http.rawPost('Authentification/Logon', {
+        username: username,
+        password: password,
+      }, false)
+        .subscribe(
+          async (response) => {
+            await this.saveResponse(response, saveKeychainTouchId ? {
+              username: username,
+              password: password,
+            } : null);
+            await this.dismissLoading();
+            resolve(LoginResult.Ok);
+          },
+          async (error) => {
+            await this.dismissLoading();
+            if (await this.userIsLoggedIn()) {
+              resolve(LoginResult.Ok);
+            } else if (error.status === 401) {
+              resolve(LoginResult.WrongPasswordOrUserName);
+            } else {
+              resolve(LoginResult.ApiUnreachable);
+            }
+          }
         );
-    }
+    });
+  }
 
-    public async isStillLoggedIn() : Promise<boolean> {
-        return this.http.get('Authentification/SessionStatus', false).pipe(
-            catchError((error: HttpErrorResponse, xhr: any) => {
-                return Observable.of(false);
-            }),
-            map(response => response === true)
-        ).toPromise();
-    }
+  public isStillLoggedIn(): Promise<boolean> {
+    return new Promise((resolve) => {
 
-    public showLoading() {
-      this.translateService.get('waitFormMessage')
-        .subscribe(message => {
-          this.loading = this.loadingCtrl.create({content: message});
-          this.loading.present();
-        }, error => console.log(error));
-    }
-
-    public dismissLoading(){
-      this.loading.dismiss();
-    }
-
-    public logout() {
-        localStorage.removeItem('currentToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('firstName');
-        localStorage.removeItem('lastName');
-    }
-
-    private onResponse(result, userInfo) {
-        this.loading.dismiss();
-
-        if(result.data) {
-            if (result.data && result.data.accessToken) {
-                this.saveKeychainTouchId(userInfo);
-
-                localStorage.setItem('firstName', result.data.firstName);
-                localStorage.setItem('lastName', result.data.lastName);
-
-                localStorage.setItem('currentToken', result.data.accessToken);
-                localStorage.setItem('refreshToken', result.data.refreshToken);
-
-                return {status:200, ok:true};
+      this.http.rawGet('Authentification/SessionStatus')
+        .subscribe(
+          () => {
+            resolve(true);
+            console.log('Still logged in!');
+          },
+          async (error) => {
+            const userWasLoggedIn = await this.userIsLoggedIn();
+            if (error.status === 0 && userWasLoggedIn) {
+              console.log('No API, but logged in.');
+              resolve(true);
+            } else {
+              console.log('Not logged in.', error.status);
+              resolve(false);
             }
-            return  {status:200, ok:false};
-        }
-        return result;
-    }
+          },
+        );
+    });
+  }
 
-    private saveKeychainTouchId(infoToSave) {
-        if (infoToSave && "cordova"in window) {
-            this.keychainTouchId.isAvailable().then(() => {
-                this.keychainTouchId.save(this.keychainTouchIdKey, JSON.stringify(infoToSave)).then(() => {
-                    localStorage.setItem('biometricActivated', 'save');
-                }).catch(error => {
-                    console.log('keychain-touch-id, can\'t saved information', error);
-                });
-            });
-        }
-    }
+  public showLoading() {
+    this.translateService.get('waitFormMessage')
+      .subscribe(async (message) => {
+        this.loading = this.loadingCtrl.create({content: message});
+        await this.loading.present();
+      }, error => console.log(error));
+  }
 
-    public refreshToken() {
-        return this.http.rawPost('Authentification/Refresh', {
-            accessToken: localStorage.getItem('currentToken'),
-            refreshToken: localStorage.getItem('refreshToken')
-        }, false);
+  public async dismissLoading() {
+    if (this.loading != null) {
+      await this.loading.dismiss();
+      this.loading = null;
     }
+  }
 
-    public async minimalVersionIsValid():Promise<boolean>{
-        if(!this.survipVersion) {
-            await this.getAppConfiguration();
-        }
-        return this.http.get('Authentification/VersionValidator/' + this.survipVersion, false)
-            .timeout(2000)
-            .toPromise();
-    }
+  public async logout() {
+    await this.storage.remove('auth');
+  }
 
-    public async getVersion(): Promise<string>{
-      if(!this.survipVersion) {
-        await this.getAppConfiguration();
+  private async saveResponse(result, userInfo) {
+    await this.loading.dismiss();
+
+    if (result.data) {
+      if (result.data && result.data.accessToken) {
+        await this.storage.set('auth', {
+          'accessToken': result.data.accessToken,
+          'refreshToken': result.data.refreshToken,
+          'firstName': result.data.firstName,
+          'lastName': result.data.lastName
+        });
+        this.saveKeychainTouchId(userInfo);
       }
-      return this.survipVersion;
     }
+  }
 
-    public async getAppConfiguration(){
-        if("cordova"in window) {
-            this.survipVersion = await this.appVersion.getVersionNumber();
-            if(this.platform.is('ios')){
-                this.survipName = 'id'+config.iosAppId;
-            }else {
-                this.survipName = await this.appVersion.getPackageName();
-            }
-        }else{
-            this.survipVersion = '1.3.0';
-            this.survipName = 'survi-prevention';
-        }
+  private saveKeychainTouchId(infoToSave) {
+    if (infoToSave && "cordova" in window) {
+      this.keychainTouchId.isAvailable().then(() => {
+        this.keychainTouchId.save(this.keychainTouchIdKey, JSON.stringify(infoToSave)).then(() => {
+          localStorage.setItem('biometricActivated', 'save');
+        }).catch(error => {
+          console.log('keychain-touch-id, can\'t saved information', error);
+        });
+      });
     }
+  }
+
+  public refreshTokenObservable(): Observable<any> {
+    return from(this.storage.get('auth'))
+      .pipe(
+        switchMap(user => this.getRefreshedTokenFromApi(user))
+      );
+  }
+
+  public async refreshToken(): Promise<Observable<any>> {
+    const user = await this.storage.get('auth');
+    return this.getRefreshedTokenFromApi(user);
+  }
+
+  private getRefreshedTokenFromApi(user) {
+        return this.http.rawPost('Authentification/Refresh', {
+      accessToken: user['accessToken'],
+      refreshToken: user['refreshToken']
+    }, false);
+  }
+
+  public async minimalVersionIsValid(): Promise<boolean> {
+    if (!this.survipVersion) {
+      await this.getAppConfiguration();
+    }
+    return this.http.get('Authentification/VersionValidator/' + this.survipVersion, false)
+      .timeout(2000)
+      .toPromise();
+  }
+
+  public async getVersion(): Promise<string> {
+    if (!this.survipVersion) {
+      await this.getAppConfiguration();
+    }
+    return this.survipVersion;
+  }
+
+  public async getAppConfiguration() {
+    if ("cordova" in window) {
+      this.survipVersion = await this.appVersion.getVersionNumber();
+      if (this.platform.is('ios')) {
+        this.survipName = 'id' + config.iosAppId;
+      } else {
+        this.survipName = await this.appVersion.getPackageName();
+      }
+    } else {
+      this.survipVersion = '1.3.0';
+      this.survipName = 'survi-prevention';
+    }
+  }
 }

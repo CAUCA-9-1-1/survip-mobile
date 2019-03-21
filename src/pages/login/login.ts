@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import {TranslateService} from '@ngx-translate/core';
 import {KeychainTouchId} from '@ionic-native/keychain-touch-id';
-import {AuthenticationService} from '../../providers/Base/authentification.service';
+import {AuthenticationService, LoginResult} from '../../providers/Base/authentification.service';
 
 @IonicPage()
 @Component({
@@ -23,43 +23,38 @@ export class LoginPage {
         private translateService: TranslateService,
         private keychainTouchId: KeychainTouchId,
     ) {
-
     }
 
     public async ngOnInit() {
 
-        this.version = await this.authService.getVersion();
+      this.version = await this.authService.getVersion();
 
-        if (localStorage.getItem('currentToken')) {
-            let isLoggedIn = await this.authService.isStillLoggedIn();
-            if (isLoggedIn) {
-                return this.redirectToInspectionList();
-            }
+      if (await this.authService.isStillLoggedIn()) {
+        return this.redirectToInspectionList();
+      }
+
+      this.translateService.get([
+        'loginError', 'biometric.confirmYourFingerprint'
+      ]).subscribe(labels => {
+        this.labels = labels;
+
+        const biometricEnabled = localStorage.getItem('biometricActivated') == 'save' ? true : false;
+        if (biometricEnabled) {
+          this.validateKeychainTouchId();
         }
-
-        this.translateService.get([
-            'loginError', 'biometric.confirmYourFingerprint'
-        ]).subscribe(labels => {
-            this.labels = labels;
-
-            const biometricEnabled = localStorage.getItem('biometricActivated') == 'save' ? true : false;
-            if (biometricEnabled) {
-                this.validateKeychainTouchId();
-            }
-        }, error => {
-            console.log(error)
-        });
+      }, error => {
+        console.log(error)
+      });
     }
 
-    public onLogin() {
-        this.authService.login(this.userName, this.password, true)
-            .subscribe(
-                response => this.handleResponse(response));
+    public async onLogin() {
+        const result = await this.authService.login(this.userName, this.password, true);
+        this.handleLoginResult(result);
     }
 
-    public onKeyPress(keyCode) {
+    public async onKeyPress(keyCode) {
         if (keyCode == 13)
-            this.onLogin();
+            await this.onLogin();
     }
 
     private validateKeychainTouchId() {
@@ -68,11 +63,10 @@ export class LoginPage {
                 this.keychainTouchId.has(this.authService.keychainTouchIdKey).then(result => {
                     console.log('keychain-touch-id, has key', result);
                     this.keychainTouchId.verify(this.authService.keychainTouchIdKey, this.labels['biometric.confirmYourFingerprint'])
-                        .then(saveInfo => {
+                        .then(async (saveInfo) => {
                             const user = JSON.parse(saveInfo);
-
-                            this.authService.login(user.username, user.password, false)
-                                .subscribe(response => this.handleResponse(response));
+                            const result = await this.authService.login(user.userName, user.password, false);
+                            this.handleLoginResult(result);
                         })
                         .catch(error => {
                             console.log('keychain-touch-id, can\'t verify the key', error);
@@ -86,14 +80,14 @@ export class LoginPage {
         }
     }
 
-    private handleResponse(response) {
-        if (localStorage.getItem('currentToken')) {
-            this.redirectToInspectionList();
-        }  else if(response.status == 401) {
-            this.showToast("Nom d'usager ou mot de passe incorrect.");
-        }else if (response.status !== 200) {
-            this.showToast("Problème de communication avec le serveur.  Veuillez communiquer avec un adminstrateur.");
-        }
+    private handleLoginResult(result: LoginResult) {
+      if (result === LoginResult.Ok) {
+        this.redirectToInspectionList();
+      } else if (result == LoginResult.WrongPasswordOrUserName) {
+        this.showToast("Nom d'usager ou mot de passe incorrect.");
+      } else {
+        this.showToast("Problème de communication avec le serveur.  Veuillez communiquer avec un adminstrateur.");
+      }
     }
 
     private showToast(message: string) {

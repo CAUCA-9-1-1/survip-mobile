@@ -40,9 +40,7 @@ export class HttpService {
 
     public rawGet(url: string, retryCount: number = 3, displayError: boolean = true): Observable<any> {
         return this.client.get(this.getFullUrl(url), this.getHeaders())
-            .retry(retryCount).pipe(
-                catchError((err: HttpErrorResponse) => this.onError(err, displayError))
-        );
+        ;
     }
 
     public post(url: string, body?: any, displayError: boolean = true): Observable<any> {
