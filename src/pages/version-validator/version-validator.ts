@@ -4,6 +4,7 @@ import {Market} from "@ionic-native/market";
 import {AuthenticationService} from "../../providers/Base/authentification.service";
 import {TranslateService} from "@ngx-translate/core";
 import {ISubscription} from "rxjs/Subscription";
+import {TimeoutError} from "rxjs";
 
 @IonicPage()
 @Component({
@@ -58,14 +59,17 @@ export class VersionValidatorPage {
     }
 
     public async validVersion() {
-        console.log('validversion');
         this.authService.showLoading();
         this.authService.minimalVersionIsValid()
             .then(result => {
                 this.minimalVersionDisplay(result);
             })
-            .catch(()=> {
+            .catch((error)=> {
+              if (error instanceof TimeoutError) {
+                this.minimalVersionDisplay(true);
+              } else {
                 this.serverDownDisplay();
+              }
             });
         if(this.resumeSubscription) {
             this.resumeSubscription.unsubscribe();
