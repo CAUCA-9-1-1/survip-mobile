@@ -1,37 +1,42 @@
-<ion-menu [content]="mycontent" [persistent]="true" id="inspectionMenu">
-  <ion-header>
-    <menu-profile></menu-profile>
-  </ion-header>
+<ion-split-pane when="md">
 
-  <ion-content color="caucaRed">
-    <ion-list class="menu-items">
 
-      <div *ngFor="let menuItem of menuItems">
-        <button ion-item menuClose class="text-menu" *ngIf="menuItem.enabled" (click)="menuItem.customAction(menuItem.page)">
-          <ion-icon item-left [name]="menuItem.icon"></ion-icon>
-          <span ion-text>{{menuItem.title}}</span>
-        </button>
-      </div>
+  <ion-menu [content]="mycontent" [persistent]="true" id="inspectionMenu">
+    <ion-header>
+      <menu-profile></menu-profile>
+    </ion-header>
 
-    </ion-list>
-  </ion-content>
+    <ion-content color="caucaRed">
+      <ion-list class="menu-items">
 
-  <ion-footer>
-    <ion-toolbar class="user-profile">
-      <ion-grid>
-        <ion-row no-padding class="other-data">
-          <ion-col no-padding class="column">
-            <button ion-button icon-left small full color="light" menuClose (click)="goBackToInspectionList()">
-              <ion-icon name="close-circle"></ion-icon>
-              {{'inspectionQuit' | translate}}
-            </button>
-          </ion-col>
-        </ion-row>
+        <div *ngFor="let menuItem of menuItems">
+          <button ion-item menuClose class="text-menu" *ngIf="menuItem.enabled" (click)="menuItem.customAction(menuItem.page)">
+            <ion-icon item-left [name]="menuItem.icon"></ion-icon>
+            <span ion-text>{{menuItem.title}}</span>
+          </button>
+        </div>
 
-      </ion-grid>
-    </ion-toolbar>
+      </ion-list>
+    </ion-content>
 
-  </ion-footer>
-</ion-menu>
+    <ion-footer>
+      <ion-toolbar class="user-profile">
+        <ion-grid>
+          <ion-row no-padding class="other-data">
+            <ion-col no-padding class="column">
+              <button ion-button icon-left small full color="light" menuClose (click)="goBackToInspectionList()">
+                <ion-icon name="close-circle"></ion-icon>
+                {{'inspectionQuit' | translate}}
+              </button>
+            </ion-col>
+          </ion-row>
 
-<ion-nav #mycontent [root]="rootPage"></ion-nav>
+        </ion-grid>
+      </ion-toolbar>
+
+    </ion-footer>
+  </ion-menu>
+
+  <ion-nav #mycontent [root]="rootPage" main></ion-nav>
+
+</ion-split-pane>

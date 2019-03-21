@@ -1,37 +1,41 @@
-<ion-menu [content]="buildingContent" [persistent]="true" id="buildingMenu">
+<ion-split-pane>
 
-  <ion-header>
-    <menu-profile></menu-profile>
-  </ion-header>
+  <ion-menu [content]="buildingContent" [persistent]="true" id="buildingMenu">
 
-  <ion-content color="caucaRed">
-    <ion-list class="menu-items">
+    <ion-header>
+      <menu-profile></menu-profile>
+    </ion-header>
 
-      <div *ngFor="let menuItem of menuItems">
-        <button ion-item menuClose class="text-menu" (click)="openPage(menuItem.page)" *ngIf="menuItem.enabled">
-          <ion-icon item-left [name]="menuItem.icon"></ion-icon>
-          <span ion-text>{{menuItem.title}}</span>
-        </button>
-      </div>
-    </ion-list>
-  </ion-content>
+    <ion-content color="caucaRed">
+      <ion-list class="menu-items">
 
-  <ion-footer>
-    <ion-toolbar class="user-profile">
-      <ion-grid>
-        <ion-row no-padding class="other-data">
-          <ion-col no-padding class="column">
-            <button ion-button icon-left small full color="light" menuClose (click)="goBackToBuildingList()">
-              <ion-icon name="undo"></ion-icon>
-              {{'backToBuildingList' | translate}}
-            </button>
-          </ion-col>
-        </ion-row>
+        <div *ngFor="let menuItem of menuItems">
+          <button ion-item menuClose class="text-menu" (click)="openPage(menuItem.page)" *ngIf="menuItem.enabled">
+            <ion-icon item-left [name]="menuItem.icon"></ion-icon>
+            <span ion-text>{{menuItem.title}}</span>
+          </button>
+        </div>
+      </ion-list>
+    </ion-content>
 
-      </ion-grid>
-    </ion-toolbar>
+    <ion-footer>
+      <ion-toolbar class="user-profile">
+        <ion-grid>
+          <ion-row no-padding class="other-data">
+            <ion-col no-padding class="column">
+              <button ion-button icon-left small full color="light" menuClose (click)="goBackToBuildingList()">
+                <ion-icon name="undo"></ion-icon>
+                {{'backToBuildingList' | translate}}
+              </button>
+            </ion-col>
+          </ion-row>
 
-  </ion-footer>
-</ion-menu>
+        </ion-grid>
+      </ion-toolbar>
 
-<ion-nav #buildingContent [root]="rootPage" [rootParams]="getParams()"></ion-nav>
+    </ion-footer>
+  </ion-menu>
+
+  <ion-nav #buildingContent [root]="rootPage" [rootParams]="getParams()" main></ion-nav>
+
+</ion-split-pane>
