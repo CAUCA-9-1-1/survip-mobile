@@ -197,6 +197,7 @@
   "location":"Location",
   "login":"LOG IN",
   "loginError":"Username or password invalid",
+  "loginCommunicationError": "Server connection problem.  Please contact an administrator.",
   "logout":"LOG OUT",
   "material":"Material",
   "matricule":"Matricule",

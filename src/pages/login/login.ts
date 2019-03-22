@@ -34,7 +34,7 @@ export class LoginPage {
       }
 
       this.translateService.get([
-        'loginError', 'biometric.confirmYourFingerprint'
+        'loginError', 'biometric.confirmYourFingerprint','loginCommunicationError'
       ]).subscribe(labels => {
         this.labels = labels;
 
@@ -84,9 +84,9 @@ export class LoginPage {
       if (result === LoginResult.Ok) {
         this.redirectToInspectionList();
       } else if (result == LoginResult.WrongPasswordOrUserName) {
-        this.showToast("Nom d'usager ou mot de passe incorrect.");
+        this.showToast(this.labels['loginError']);
       } else {
-        this.showToast("Problème de communication avec le serveur.  Veuillez communiquer avec un adminstrateur.");
+        this.showToast(this.labels['loginCommunicationError']);
       }
     }
 
