@@ -196,6 +196,7 @@
   "location":"Emplacement",
   "login":"CONNEXION",
   "loginError":"Nom d'usager ou mot de passe incorrect.",
+  "loginCommunicationError": "Problème de communication avec le serveur.  Veuillez communiquer avec un adminstrateur.",
   "logout":"Quitter",
   "material":"Matériel",
   "matricule":"Matricule",
