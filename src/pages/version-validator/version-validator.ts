@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import {Market} from "@ionic-native/market";
 import {AuthenticationService} from "../../providers/Base/authentification.service";
-import {TranslateService} from "@ngx-translate/core";
 import {ISubscription} from "rxjs/Subscription";
 import {TimeoutError} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -17,7 +16,6 @@ export class VersionValidatorPage {
     public storeLink = 'Google Play';
     public displayWarning = false;
     public warningMessage = "";
-    private labels = {};
     public displayStoreLink = true;
     private resumeSubscription: ISubscription;
 
@@ -25,30 +23,23 @@ export class VersionValidatorPage {
                 public navParams: NavParams,
                 private platform: Platform,
                 private market: Market,
-                private authService: AuthenticationService,
-                private translateService: TranslateService) {
+                private authService: AuthenticationService) {
       if (platform.is('ios')) {
         this.storeLink = 'App Store';
       }
 
       try {
 
-        this.translateService.get([
-          'versionInvalidWarning', 'serverDownMessage'
-        ]).subscribe(labels => {
-          this.labels = labels;
-          this.warningMessage = this.labels['versionInvalidWarning'];
+          this.warningMessage = 'versionInvalidWarning';
           this.platform.ready().then(() => {
-              this.resumeSubscription = this.platform.resume.subscribe(() => {
-                this.validVersion();
+                  this.resumeSubscription = this.platform.resume.subscribe(() => {
+                      this.validVersion();
+                  });
+
+              },
+              error => {
+                  console.log(error)
               });
-
-            },
-            error => {
-              console.log(error)
-            });
-
-        });
       } catch (e) {
         console.log('error version validator constructor', e);
       }
@@ -82,7 +73,7 @@ export class VersionValidatorPage {
     private async serverDownDisplay() {
       this.displayStoreLink = false;
       await this.minimalVersionDisplay(false);
-      this.warningMessage = this.labels['serverDownMessage'];
+      this.warningMessage = 'serverDownMessage';
     }
 
     private async minimalVersionDisplay(redirect: boolean) {
