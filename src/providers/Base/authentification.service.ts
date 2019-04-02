@@ -184,7 +184,7 @@ export class AuthenticationService {
                 this.survipName = await this.appVersion.getPackageName();
             }
         } else {
-            this.survipVersion = '1.5.0';
+            this.survipVersion = '1.6.0';
             this.survipName = 'survi-prevention';
         }
     }
