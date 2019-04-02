@@ -11,7 +11,7 @@
                 <ion-icon name="alert"></ion-icon>
                 <ion-label>{{'versionLabel' | translate}} {{getAppVersion()}}</ion-label>
             </div>
-            <h5>{{warningMessage}}</h5>
+            <h5>{{warningMessage | translate}}</h5>
             <div class="store-button" *ngIf="displayStoreLink">
                 <button ion-button (click)="goToStore()">{{storeLink}}</button>
             </div>
