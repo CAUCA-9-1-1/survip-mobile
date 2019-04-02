@@ -6,6 +6,6 @@
     "autoSendCrashReports": true,
     "ignoreCrashDialog": true
   },
-  "packageName":"APP_PACKAGE_NAME",
-  "iosAppId":"IOS_APP_ID"
+  "packageName":"ca.cause911.surviprevention",
+  "iosAppId":"1458514120"
 }
