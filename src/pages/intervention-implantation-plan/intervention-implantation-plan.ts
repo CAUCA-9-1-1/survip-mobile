@@ -39,6 +39,7 @@ export class InterventionImplantationPlanPage implements OnDestroy {
 
     private async picturesUpdated() {
         if(this.picRepo.pictures.length > 0) {
+            this.picRepo.pictures[0].hasBeenModified = true;
             await this.picRepo.save(this.detail.idBuilding, this.picRepo.pictures);
             this.detail.idPicturePlan = this.picRepo.pictures[0].id;
         } else {
