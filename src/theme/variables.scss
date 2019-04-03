@@ -1,6 +1,7 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/v2/theming/
 $font-path: "../assets/fonts";
+$fa-font-path: "../assets/webfonts";
 
 @import "ionic.globals";
 
@@ -91,7 +92,9 @@ $colors: (
 @import "noto-sans";
 
 // Font Awesome
-$fa-font-path: "../assets/fonts/fontawesome/webfonts";
-@import '../assets/fonts/fontawesome/css/fontawesome.css';
-@import '../assets/fonts/fontawesome/css/regular.css';
-@import '../assets/fonts/fontawesome/css/solid.css';
+//$fa-font-path: "../assets/fonts/fontawesome/webfonts";
+
+
+
+
+

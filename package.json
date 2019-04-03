@@ -67,7 +67,8 @@
     "openlayers": "^4.6.5",
     "rxjs": "5.5.11",
     "sw-toolbox": "3.6.0",
-    "zone.js": "0.8.26"
+    "zone.js": "0.8.26",
+    "cordova-sqlite-storage": "~2.6.0"
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.2.1",

@@ -20,6 +20,19 @@
 @import "../../node_modules/openlayers/css/ol";
 @import "../theme/action-sheets.scss";
 
+@import "../assets/scss/fontawesome.scss";
+@import "../assets/scss/solid.scss";
+@import "../assets/scss/brands.scss";
+
+.user {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-user);
+  }
+}
+
 .validation-error-control {
   border-left: red 4px solid;
   border-bottom: red dotted thin;
