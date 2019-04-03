@@ -33,6 +33,7 @@ export class PictureRepositoryProvider implements PicturesRepositoryProvider{
       pic.isActive = false;
       pic.dataUri = null;
       pic.sketchJson = null;
+      pic.hasBeenModified = true;
     }
 
     return this.offlineStorage.set('building_plan_picture_' + idParent, this.pictures);
