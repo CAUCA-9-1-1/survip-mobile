@@ -1,166 +1,171 @@
 page-login {
-  .text-primary {
-    color: color($colors, caucaRed);
-  }
-
-  // style for auth pages
-  .auth-page {
-    background-color: #fff;
-    &::after {
-      content: "";
-      background: url("../assets/img/bg.jpg") no-repeat;
-      background-size: cover;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      position: absolute;
-      z-index: 0;
+    .text-primary {
+        color: color($colors, caucaRed);
     }
 
-    .scroll-content {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      //background: rgba(50, 10, 92, .4);
+    // style for auth pages
+    .auth-page {
+        background-color: #fff;
 
-      .login-content {
-        width: 86%;
-
-        .logo {
-          width: 150px;
-          height: 150px;
-          margin: 20px auto 0;
-          border-radius: 10%;
-          background: url("../assets/img/logocauca-vertical.png") no-repeat;
-          background-size: 100%;
+        &::after {
+            content: "";
+            background: url("../assets/img/bg2.png") no-repeat;
+            background-size: cover;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            position: absolute;
+            z-index: 0;
         }
 
-        .list-form {
-
-          padding: 0;
-          margin-bottom: 0;
-
-          ion-item {
-            background: none;
-            padding: 0;
-
-            &:first-child {
-              border-top: none;
-            }
-
-            &:after {
-              display: none;
-            }
-
-            ion-label {
-              font-size: 1em;
-              color: color($colors, caucaRed);
-            }
-
-            input {
-              color: color($colors, dark);
-            }
-          }
+        .login-page-box {
+            /*background-color: rgba(255,255,255, 0.2);*/
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
         }
-      }
-    }
-  }
 
-  // Animate CSS
-  .animated {
-    animation-duration: 1s;
-    animation-fill-mode: both;
-  }
+        .login-form {
+            max-width: 500px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-  .animated.infinite {
-    animation-iteration-count: infinite;
-  }
+        .login-editors {
+            height: 250px;
+            width: 100%
+        }
 
-  .animated.hinge {
-    animation-duration: 2s;
-  }
+        .app-logo-img {
+            max-height: 700px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-  .animated.flipOutX,
-  .animated.flipOutY,
-  .animated.bounceIn,
-  .animated.bounceOut {
-    animation-duration: .75s;
-  }
+        .logo-parent {
+            flex: 1 1 auto;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            width: 100%;
+        }
 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
+        .logo-centerer {
+            height: 0;
+            width: 70%;
+            margin: auto;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+        }
 
-    to {
-      opacity: 1;
-    }
-  }
-
-  .fadeIn {
-    animation-name: fadeIn;
-  }
-
-  @keyframes fadeInDown {
-    from {
-      opacity: 0;
-      transform: translate3d(0, -100%, 0);
+        .card-login {
+            width: 100%;
+        }
     }
 
-    to {
-      opacity: 1;
-      transform: none;
+    // Animate CSS
+    .animated {
+        animation-duration: 1s;
+        animation-fill-mode: both;
     }
-  }
 
-  .fadeInDown {
-    animation-name: fadeInDown;
-  }
+    .animated.infinite {
+        animation-iteration-count: infinite;
+    }
 
-  .version-warning{
-    display: table;
-    border:1px solid lightgrey;
-    width:100%;
-    font-weight: bold;
-    border-radius: 2px;
-  }
+    .animated.hinge {
+        animation-duration: 2s;
+    }
 
-  .version{
-    display: inline-flex;
-    width:100%;
-    border-bottom:1px solid lightgrey;
-    background-color: lightgrey;
-  }
-  .version-warning .version ion-icon{
-    display: table-cell;
-    font-size: 2.5em;
-    padding-left: 5px;
-    width:15%;
-  }
-  .version-warning .version ion-label{
-    text-align: left;
-    width: 85%;
-  }
+    .animated.flipOutX,
+    .animated.flipOutY,
+    .animated.bounceIn,
+    .animated.bounceOut {
+        animation-duration: .75s;
+    }
 
-  .version-warning h5{
-    font-weight: bold;
-    color: #B32017;
-    text-align: center;
-    margin: 0.8rem;
-  }
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
 
-  .store-button{
-    width: 100%;
-    display:flex;
-    justify-content: center;
-  }
-  .store-button button{
-    background-color: #B32017;
-  }
+        to {
+            opacity: 1;
+        }
+    }
 
-  #version {
-    margin-top: 10%;
-    text-align: center;
-  }
+    .fadeIn {
+        animation-name: fadeIn;
+    }
+
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translate3d(0, -100%, 0);
+        }
+
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    .fadeInDown {
+        animation-name: fadeInDown;
+    }
+
+    .version-warning {
+        display: table;
+        border: 1px solid lightgrey;
+        width: 100%;
+        font-weight: bold;
+        border-radius: 2px;
+    }
+
+    .version {
+        display: inline-flex;
+        width: 100%;
+        border-bottom: 1px solid lightgrey;
+        background-color: lightgrey;
+    }
+
+    .version-warning .version ion-icon {
+        display: table-cell;
+        font-size: 2.5em;
+        padding-left: 5px;
+        width: 15%;
+    }
+
+    .version-warning .version ion-label {
+        text-align: left;
+        width: 85%;
+    }
+
+    .version-warning h5 {
+        font-weight: bold;
+        color: #B32017;
+        text-align: center;
+        margin: 0.8rem;
+    }
+
+    .store-button {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .store-button button {
+        background-color: #B32017;
+    }
+
+    #version {
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.5)
+    }
 }

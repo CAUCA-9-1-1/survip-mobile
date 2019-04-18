@@ -1,39 +1,95 @@
 <ion-content padding class="animated fadeIn login auth-page">
-    <div class="login-content">
 
-        <div padding-horizontal text-center class="animated fadeInDown">
-            <div class="logo"></div>
-            <h2 ion-text class="text-primary">
-                <strong>SURVI</strong> Prévention
-            </h2>
+    <div class="login-page-box">
+
+        <div class="animated fadeInDown logo-parent">
+
+            <div class="logo-centerer">
+                <img class="app-logo-img" src="../assets/img/logo-transparent.png">
+            </div>
         </div>
-        <form class="list-form">
-            <ion-item>
-                <ion-label floating>
-                    <ion-icon name="contact" item-start></ion-icon>
-                    {{'userName' | translate}}
-                </ion-label>
-                <ion-input type="email" [(ngModel)]="userName" [ngModelOptions]="{standalone: true}"></ion-input>
-            </ion-item>
 
-            <ion-item>
-                <ion-label floating>
-                    <ion-icon name="lock" item-start></ion-icon>
-                    {{'password' | translate}}
-                </ion-label>
-                <ion-input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"
-                           (keypress)="onKeyPress($event.keyCode)"></ion-input>
-            </ion-item>
-        </form>
+        <div class="login-editors">
 
-        <div>
-            <button ion-button icon-start block color="caucaRed" tappable (click)="onLogin()">
-                <ion-icon name="log-in"></ion-icon>
-                {{'login' | translate}}
-            </button>
+            <div class="login-form">
+                <form>
+                    <ion-item>
+                        <ion-label floating>
+                            <ion-icon name="contact" item-start></ion-icon>
+                            {{'userName' | translate}}
+                        </ion-label>
+                        <ion-input type="email" [(ngModel)]="userName" [ngModelOptions]="{standalone: true}"></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label floating>
+                            <ion-icon name="lock" item-start></ion-icon>
+                            {{'password' | translate}}
+                        </ion-label>
+                        <ion-input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"
+                                   (keypress)="onKeyPress($event.keyCode)"></ion-input>
+                    </ion-item>
+                </form>
+
+                <div>
+                    <button ion-button icon-start block color="caucaRed" tappable (click)="onLogin()">
+                        <ion-icon name="log-in"></ion-icon>
+                        {{'login' | translate}}
+                    </button>
+                </div>
+                <p id="version" style="">{{'version' | translate}} : {{version}}</p>
+
+            </div>
+
         </div>
-        <p id="version">{{'version' | translate}} : {{version}}</p>
     </div>
+
+    <!--
+    <div class="box">
+
+        <div class="row header"></div>
+
+        <div class="animated fadeInDown">
+            <div style="height:0;width:60%;padding-bottom:60%;margin:auto;">
+                <img class="app-logo-img" src="../assets/img/logo-transparent.png">
+            </div>
+        </div>
+
+        <div style="width:100%" class="row footer">
+
+         <div style="max-width:500px; width:100%; margin-left: auto; margin-right: auto;">
+                <form class="">
+                    <ion-item>
+                        <ion-label floating>
+                            <ion-icon name="contact" item-start></ion-icon>
+                            {{'userName' | translate}}
+                        </ion-label>
+                        <ion-input type="email" [(ngModel)]="userName" [ngModelOptions]="{standalone: true}"></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label floating>
+                            <ion-icon name="lock" item-start></ion-icon>
+                            {{'password' | translate}}
+                        </ion-label>
+                        <ion-input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"
+                                   (keypress)="onKeyPress($event.keyCode)"></ion-input>
+                    </ion-item>
+                </form>
+
+                <div>
+                    <button ion-button icon-start block color="caucaRed" tappable (click)="onLogin()">
+                        <ion-icon name="log-in"></ion-icon>
+                        {{'login' | translate}}
+                    </button>
+                </div>
+                <p id="version" style="background-color: rgba(255,255,255,0.5)">{{'version' | translate}} : {{version}}</p>
+
+          </div>
+
+        </div>
+
+    </div>-->
 
 </ion-content>
 

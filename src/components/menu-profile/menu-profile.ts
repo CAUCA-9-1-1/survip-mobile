@@ -16,7 +16,7 @@ export class MenuProfileComponent {
     private authentificationController : AuthenticationService,
     private navCtrl: NavController) {
     this.version = authentificationController.survipVersion;
-    this.fullName = localStorage.getItem('firstName') + ' ' + localStorage.getItem('lastName');
+    this.fullName = authentificationController.firstName + ' ' + authentificationController.lastName;
   }
 
     public sessionLogout() {

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {Events, Loading, LoadingController, Platform} from 'ionic-angular';
+import {Loading, LoadingController, Platform} from 'ionic-angular';
 import {KeychainTouchId} from '@ionic-native/keychain-touch-id';
 import {HttpService} from './http.service';
 import {AppVersion} from "@ionic-native/app-version";
@@ -22,12 +22,13 @@ export class AuthenticationService {
     private loading: Loading;
     public survipVersion = '';
     public survipName = '';
+    public firstName = '';
+    public lastName = '';
 
     constructor(
         private storage: OfflineStorage,
         private http: HttpService,
         private loadingCtrl: LoadingController,
-        private events: Events,
         private keychainTouchId: KeychainTouchId,
         private appVersion: AppVersion,
         private platform: Platform,
@@ -109,6 +110,8 @@ export class AuthenticationService {
     }
 
     public async logout() {
+        this.firstName = '';
+        this.lastName = '';
         await this.storage.remove('auth');
     }
 
@@ -123,6 +126,8 @@ export class AuthenticationService {
                     'firstName': result.data.firstName,
                     'lastName': result.data.lastName
                 });
+                this.firstName = result.data.firstName;
+                this.lastName = result.data.lastName;
                 this.saveKeychainTouchId(userInfo);
             }
         }
