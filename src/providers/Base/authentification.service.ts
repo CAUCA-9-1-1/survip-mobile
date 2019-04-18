@@ -145,6 +145,17 @@ export class AuthenticationService {
         }
     }
 
+    public clearKeychainTouchId() {
+        if ("cordova" in window) {
+            this.keychainTouchId.isAvailable().then(() => {
+                this.keychainTouchId.delete(this.keychainTouchIdKey)
+                    .then(() => {
+                    localStorage.removeItem('biometricActivated');
+                });
+            });
+        }
+    }
+
     public refreshTokenObservable(): Observable<any> {
         return from(this.storage.get('auth'))
             .pipe(

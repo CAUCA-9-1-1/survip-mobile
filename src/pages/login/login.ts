@@ -66,7 +66,7 @@ export class LoginPage {
                         .then(async (saveInfo) => {
                             const user = JSON.parse(saveInfo);
                             const result = await this.authService.login(user.userName, user.password, false);
-                            this.handleLoginResult(result);
+                            this.handleLoginResult(result, true);
                         })
                         .catch(error => {
                             console.log('keychain-touch-id, can\'t verify the key', error);
@@ -80,14 +80,17 @@ export class LoginPage {
         }
     }
 
-    private handleLoginResult(result: LoginResult) {
-      if (result === LoginResult.Ok) {
-        this.redirectToInspectionList();
-      } else if (result == LoginResult.WrongPasswordOrUserName) {
-        this.showToast(this.labels['loginError']);
-      } else {
-        this.showToast(this.labels['loginCommunicationError']);
-      }
+    private handleLoginResult(result: LoginResult, inBiometricLogin: boolean = false) {
+        if (result === LoginResult.Ok) {
+            this.redirectToInspectionList();
+        } else if (result == LoginResult.WrongPasswordOrUserName) {
+            if (inBiometricLogin) {
+                this.authService.clearKeychainTouchId();
+            }
+            this.showToast(this.labels['loginError']);
+        } else {
+            this.showToast(this.labels['loginCommunicationError']);
+        }
     }
 
     private showToast(message: string) {
@@ -103,5 +106,4 @@ export class LoginPage {
     private redirectToInspectionList() {
         this.navCtrl.push('HomePage');
     }
-
 }
