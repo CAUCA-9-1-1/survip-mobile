@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="ca.cause911.surviprevention" version="1.6.2" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="ca.cause911.surviprevention" version="1.6.3" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>SURVI-Prevention</name>
     <description>SURVI-Prévention</description>
     <author email="dev@cause911.ca" href="http://cause911.ca/">CAUSE 9-1-1 INC.</author>
