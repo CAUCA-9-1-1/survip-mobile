@@ -65,7 +65,7 @@ export class LoginPage {
                     this.keychainTouchId.verify(this.authService.keychainTouchIdKey, this.labels['biometric.confirmYourFingerprint'])
                         .then(async (saveInfo) => {
                             const user = JSON.parse(saveInfo);
-                            const result = await this.authService.login(user.userName, user.password, false);
+                            const result = await this.authService.login(user.username, user.password, false);
                             this.handleLoginResult(result, true);
                         })
                         .catch(error => {
