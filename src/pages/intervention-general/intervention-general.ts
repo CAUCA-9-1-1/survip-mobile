@@ -60,7 +60,7 @@ export class InterventionGeneralPage implements OnDestroy {
 
   public ngOnInit() {
         this.translateService.get([
-      'surveyRequired', 'otherUserInspection', 'cantStartBecauseNotDownloadedAndApiUnavailable', 'cantUploadAndCompleteInspection', 'loading'
+      'surveyRequired', 'otherUserInspection', 'cantStartBecauseCantDownloadAndApiUnavailable', 'cantUploadAndCompleteInspection', 'loading'
     ]).subscribe(labels => {
         this.labels = labels;
       },
@@ -203,7 +203,7 @@ export class InterventionGeneralPage implements OnDestroy {
           loading.dismissAll();
         } else {
           loading.dismissAll();
-          await this.messageTools.showToast(this.labels['cantStartBecauseNotDownloadedAndApiUnavailable']);
+          await this.messageTools.showToast(this.labels['cantStartBecauseCantDownloadAndApiUnavailable']);
         }
       }
     }
