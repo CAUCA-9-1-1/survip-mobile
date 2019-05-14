@@ -45,15 +45,12 @@ import {InspectionBuildingParticularRiskPictureRepositoryProvider} from '../prov
 import {InspectionBuildingParticularRiskRepositoryProvider} from '../providers/repositories/inspection-building-particular-risk-repository-provider.service';
 import {TranslateService} from "@ngx-translate/core";
 import {FireHydrantRepositoryProvider} from "../providers/repositories/fire-hydrant-repository-provider";
-import {MapLocalizationRepositoryService} from "../providers/repositories/map-localisation-repository-service";
 import {ExpiredTokenInterceptor} from '../providers/Base/expired-token.interceptor';
 import {Geolocation} from "@ionic-native/geolocation";
-import {Diagnostic} from "@ionic-native/diagnostic";
 import {NativeGeocoder} from "@ionic-native/native-geocoder";
 import {CityRepositoryProvider} from "../providers/repositories/city-repository-provider";
 import {InspectionConfigurationProvider} from '../providers/inspection-configuration/inspection-configuration';
 import {KeychainTouchId} from '@ionic-native/keychain-touch-id';
-import {HockeyApp} from 'ionic-hockeyapp';
 import { RepositoriesFireHydrantValidatorProvider } from '../providers/repositories-fire-hydrant-validator/repositories-fire-hydrant-validator';
 import { FireHydrantValidatorProvider } from '../providers/repositories/fire-hydrant-validator-provider';
 import {AppVersion} from "@ionic-native/app-version";
@@ -156,14 +153,9 @@ export function httpServiceFactory(
     StaticListRepositoryProvider,
     InspectionSurveyAnswerRepositoryProvider,
     FireHydrantRepositoryProvider,
-    MapLocalizationRepositoryService,
-    Geolocation,
-    Diagnostic,
-    NativeGeocoder,
     CityRepositoryProvider,
     InspectionConfigurationProvider,
     KeychainTouchId,
-    HockeyApp,
     FireHydrantValidatorProvider,
     AppVersion,
     Market,

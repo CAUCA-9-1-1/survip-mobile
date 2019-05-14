@@ -1,12 +1,9 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {HttpService} from "../Base/http.service";
 import {MessageToolsProvider} from "../message-tools/message-tools";
-import {Geolocation} from '@ionic-native/geolocation';
-import ol from "openlayers";
-import {Diagnostic} from "@ionic-native/diagnostic";
+//import {Diagnostic} from "@ionic-native/diagnostic";
 import {Platform} from "ionic-angular";
 import {CityWithRegion} from "../../models/city-with-region";
-import {NativeGeocoder, NativeGeocoderReverseResult} from "@ionic-native/native-geocoder";
 import {CityRepositoryProvider} from "./city-repository-provider";
 
 
@@ -17,23 +14,23 @@ export class MapLocalizationRepositoryService {
     public mapCenterChanged: EventEmitter<any> = new EventEmitter<any>();
     public addressFromCoordinatesUpdated: EventEmitter<any> = new EventEmitter<any>();
 
-    public mapCenterPosition: ol.geom.Geometry;
+    /*public mapCenterPosition: ol.geom.Geometry;
     public targetPosition: ol.geom.Geometry;
 
     public buildingPosition: ol.geom.Geometry;
-        public cityPosition: ol.geom.Geometry;
+        public cityPosition: ol.geom.Geometry;*/
 
     constructor(public http: HttpService,
                 private msgTool: MessageToolsProvider,
-                private geoLocation: Geolocation,
-                private diagnostic: Diagnostic,
+                //private geoLocation: Geolocation,
+                //private diagnostic: Diagnostic,
                 private plt: Platform,
-                private nativeGeocoder: NativeGeocoder,
+                //private nativeGeocoder: NativeGeocoder,
                 private cityService: CityRepositoryProvider) {
     }
 
     public getUserPosition() {
-        this.geoLocation.getCurrentPosition()
+        /*this.geoLocation.getCurrentPosition()
             .then((resp) => {
                 this.mapCenterPosition = new ol.geom.Point(ol.proj.transform([resp.coords.longitude, resp.coords.latitude], 'EPSG:4326', 'EPSG:3857'));
                 this.mapCenterChanged.emit(this.mapCenterPosition);
@@ -42,22 +39,22 @@ export class MapLocalizationRepositoryService {
                 console.log("Error in getUserGeoLocation", error);
                 this.getCenterFromBuildingOrCity();
             });
-
+*/
     }
 
     public getCenterFromBuildingOrCity() {
-        if (this.buildingPosition) {
+/*        if (this.buildingPosition) {
             this.mapCenterPosition = this.buildingPosition;
         } else if (this.cityPosition) {
             this.mapCenterPosition = this.cityPosition;
         }
-        this.mapCenterChanged.emit(this.mapCenterPosition);
+        this.mapCenterChanged.emit(this.mapCenterPosition);*/
     }
 
     public setBuildingPosition(coordinates) {
-      if(coordinates) {
+      /*if(coordinates) {
         this.buildingPosition = new ol.format.WKT().readGeometry(coordinates).transform('EPSG:4326', 'EPSG:3857');
-      }
+      }*/
     }
 
     public setInspectionCity(idCity: string){
@@ -70,7 +67,7 @@ export class MapLocalizationRepositoryService {
             })
     }
     public async setCityPosition(city : CityWithRegion) {
-        if (this.plt.is('mobileweb') || this.plt.is('core')) {
+        /*if (this.plt.is('mobileweb') || this.plt.is('core')) {
             this.cityPosition = new ol.geom.Point(ol.proj.transform([-70.6771584, 46.1214952], 'EPSG:3857', 'EPSG:4326'));
             return;
         }
@@ -85,7 +82,7 @@ export class MapLocalizationRepositoryService {
                 this.cityPosition = null;
                 console.log('Error in geocoder location from city name',error);
             });
-
+*/
     }
 
     public getMapCenter() {
@@ -93,18 +90,18 @@ export class MapLocalizationRepositoryService {
     }
 
     public setTargetPosition(geometry) {
-        this.targetPosition = geometry;
+        /*this.targetPosition = geometry;
         this.positionChanged.emit(new ol.format.WKT().writeGeometry(geometry));
-        this.getAddressFromGeometry(geometry);
+        this.getAddressFromGeometry(geometry);*/
     }
 
     private getAddressFromGeometry(geometry){
-
+/*
         this.nativeGeocoder.reverseGeocode(geometry['A'][1], geometry['A'][0])
             .then((success: NativeGeocoderReverseResult[]) => {
                 this.formatAddressFromLocation(JSON.stringify(success[0]));
             })
-            .catch((error: any) => console.log(error));
+            .catch((error: any) => console.log(error));*/
     }
 
     private formatAddressFromLocation(locationDetail: string) {
@@ -142,14 +139,14 @@ export class MapLocalizationRepositoryService {
     }
 
     public getGeometry(geometry) {
-        if(geometry){
+        /*if(geometry){
             return  new ol.format.WKT().readGeometry(geometry).transform('EPSG:4326', 'EPSG:3857');
-        }
+        }*/
         return null;
     }
 
     public isLocationAuthorized() {
-        if (this.plt.is('mobileweb') || this.plt.is('core')) {
+        /*if (this.plt.is('mobileweb') || this.plt.is('core')) {
             return true;
         }
         this.diagnostic.isLocationAuthorized()
@@ -165,6 +162,6 @@ export class MapLocalizationRepositoryService {
             .catch((error) => {
                 console.log("Error in isLocationAuthorized", error);
                 return false;
-            });
+            });*/
     }
 }

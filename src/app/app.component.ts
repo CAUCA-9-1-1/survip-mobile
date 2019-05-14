@@ -3,9 +3,7 @@ import {Events, Nav, Platform, App, ToastController, Config} from 'ionic-angular
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {TranslateService} from '@ngx-translate/core';
-import {HockeyApp} from 'ionic-hockeyapp';
 import {AuthenticationService} from "../providers/Base/authentification.service";
-import config from '../assets/config/config.json';
 import { Storage as DataStorage } from '@ionic/storage';
 
 @Component({
@@ -20,7 +18,6 @@ export class MyApp {
         private platform: Platform,
         private app: App,
         private config: Config,
-        private hockeyApp: HockeyApp,
         private authService: AuthenticationService,
         statusBar: StatusBar,
         splashScreen: SplashScreen,
@@ -49,33 +46,16 @@ export class MyApp {
         }
 
         platform.ready().then(() => {
-
             this.translate.get('navigationBack').subscribe(backLabel => {
-              this.config.set('ios', 'backButtonText', backLabel)
+                this.config.set('ios', 'backButtonText', backLabel)
             });
             statusBar.styleLightContent();
             if (this.platform.is('android')) {
                 statusBar.styleBlackOpaque();
             }
             splashScreen.hide();
-          this.authService.getAppConfiguration();
-            this.enableHockeyApp();
+            this.authService.getAppConfiguration();
         });
-    }
-
-    private enableHockeyApp() {
-        const androidAppId = config.hockeyapp.androidAppId === 'YOUR_ANDROID_HOCKEYAPP_ID' ? null : config.hockeyapp.androidAppId;
-        const iosAppId = config.hockeyapp.iosAppId === 'YOUR_IOS_HOCKEYAPP_ID' ? null : config.hockeyapp.iosAppId;
-
-        if (androidAppId || iosAppId) {
-            this.hockeyApp.start(
-                androidAppId,
-                iosAppId,
-                config.hockeyapp.autoSendCrashReports,
-                config.hockeyapp.ignoreCrashDialog
-            );
-            this.hockeyApp.trackEvent('SURVI-Prevention start');
-        }
     }
 }
 
