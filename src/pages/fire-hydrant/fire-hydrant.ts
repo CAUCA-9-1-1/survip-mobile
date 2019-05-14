@@ -53,14 +53,14 @@ export class FireHydrantPage {
               public laneService: LaneRepositoryProvider,
               private msgTools: MessageToolsProvider,
               private translateService: TranslateService,
-              private mapService: MapLocalizationRepositoryService,
+              //private mapService: MapLocalizationRepositoryService,
               private fireHydrantValidator: FireHydrantValidatorProvider) {
 
     this.inspectionCity = this.navParams.get("idCity");
     this.selectedIdFireHydrant = this.navParams.get("id");
     this.fireHydrant = new FireHydrant();
-    this.subscriber = this.mapService.positionChanged.subscribe((position) => this.updateFireHydrantCoordinates(position));
-    this.subscriber = this.mapService.addressFromCoordinatesUpdated.subscribe((position) => this.updatePhysicalPositionFromCoordinates(position));
+    //this.subscriber = this.mapService.positionChanged.subscribe((position) => this.updateFireHydrantCoordinates(position));
+    //this.subscriber = this.mapService.addressFromCoordinatesUpdated.subscribe((position) => this.updatePhysicalPositionFromCoordinates(position));
     this.initiateForm();
   }
 

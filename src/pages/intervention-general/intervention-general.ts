@@ -53,7 +53,7 @@ export class InterventionGeneralPage implements OnDestroy {
               private loadingController: LoadingController,
               private messageTools: MessageToolsProvider,
               private translateService: TranslateService,
-              private mapService: MapLocalizationRepositoryService,
+              //private mapService: MapLocalizationRepositoryService,
               private configService: InspectionConfigurationProvider) {
     this.createForm();
   }
@@ -103,11 +103,11 @@ export class InterventionGeneralPage implements OnDestroy {
   }
 
   private setBuildingPosition() {
-    this.mapService.setBuildingPosition(this.controller.getMainBuilding().coordinates);
+//    this.mapService.setBuildingPosition(this.controller.getMainBuilding().coordinates);
   }
 
   private setCityPosition() {
-    this.mapService.setInspectionCity(this.controller.currentInspection.idCity);
+  //  this.mapService.setInspectionCity(this.controller.currentInspection.idCity);
   }
 
   public createForm() {

@@ -1,6 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
 import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
-import ol from "openlayers";
 import {MapLocalizationRepositoryService} from "../../providers/repositories/map-localisation-repository-service";
 import {ISubscription} from "../../../node_modules/rxjs/Subscription";
 
@@ -12,9 +11,9 @@ import {ISubscription} from "../../../node_modules/rxjs/Subscription";
 export class MapLocalizationPage {
     @ViewChild('map') map;
 
-    public mapLayer: ol.Map;
+    /*public mapLayer: ol.Map;
     public vectorSource: ol.source.Vector;
-    public fireHydrantLocation: ol.geom.Geometry = null;
+    public fireHydrantLocation: ol.geom.Geometry = null;*/
     public getLocation = false;
     private subscriber :ISubscription;
     private setPinpoint = false;
@@ -26,36 +25,36 @@ export class MapLocalizationPage {
         this.getLocation = this.navParams.get('getLocation') as boolean;
         this.subscriber = this.mapService.mapCenterChanged.subscribe((geometry) => this.mapCenterChanged(geometry));
         if (this.navParams.get('position')) {
-            this.fireHydrantLocation = this.navParams.get('position');
+            //this.fireHydrantLocation = this.navParams.get('position');
             this.setPinpoint = true;
-            this.fireHydrantLocation = this.mapService.getGeometry(this.fireHydrantLocation);
+            //this.fireHydrantLocation = this.mapService.getGeometry(this.fireHydrantLocation);
         }
     }
 
     public ionViewDidLoad() {
-        this.loadMap();
+        /*this.loadMap();
         if(this.fireHydrantLocation) {
             this.centerMap();
         }else{
             this.mapService.getMapCenter();
-        }
+        }*/
     }
 
     private mapCenterChanged(geometry){
-        this.fireHydrantLocation = geometry;
-        this.centerMap();
+        /*this.fireHydrantLocation = geometry;
+        this.centerMap();*/
     }
 
     private centerMap() {
-        if (this.fireHydrantLocation) {
+        /*if (this.fireHydrantLocation) {
             this.mapLayer.getView().fit(this.fireHydrantLocation.getExtent());
         }
 
-        this.refreshMap();
+        this.refreshMap();*/
     }
 
     private loadMap() {
-        this.vectorSource = new ol.source.Vector({});
+        /*this.vectorSource = new ol.source.Vector({});
 
         const iconStyle = new ol.style.Style({
             image: new ol.style.Icon(({
@@ -80,36 +79,36 @@ export class MapLocalizationPage {
                 minZoom: 6,
                 extent: [-8700000, 5600000, -7600000, 6600000]
             })
-        });
+        });*/
     }
 
     private addMapCentroidTarget() {
-        const custom_element = document.createElement('div');
+        /*const custom_element = document.createElement('div');
         custom_element.id = 'center';
 
         this.mapLayer.addControl(new ol.control.Control({
             element: custom_element,
             target: document.querySelector('.ol-viewport')
-        }));
+        }));*/
     }
 
     private refreshMap() {
-        if(this.getLocation) {
+        /*if(this.getLocation) {
             this.addMapCentroidTarget();
         }
         if(this.setPinpoint){
             this.pinPointFireHydrant();
         }
-        this.mapLayer.updateSize();
+        this.mapLayer.updateSize();*/
     }
 
     public getLocalization() {
-        this.mapService.setTargetPosition(new ol.geom.Point(ol.proj.transform(this.mapLayer.getView().getCenter(), 'EPSG:3857', 'EPSG:4326')));
-        this.viewCtrl.dismiss();
+        /*this.mapService.setTargetPosition(new ol.geom.Point(ol.proj.transform(this.mapLayer.getView().getCenter(), 'EPSG:3857', 'EPSG:4326')));
+        this.viewCtrl.dismiss();*/
     }
 
     private pinPointFireHydrant() {
-
+        /*
         this.vectorSource.clear();
 
             const iconFeature = new ol.Feature({
@@ -117,6 +116,6 @@ export class MapLocalizationPage {
                 name: 'fireHydrant ' + 0
             });
             this.vectorSource.addFeature(iconFeature);
-
+            */
     }
 }
