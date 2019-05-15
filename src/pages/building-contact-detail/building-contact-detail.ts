@@ -3,7 +3,7 @@ import {IonicPage, LoadingController, NavController, NavParams, ViewController} 
 import {BuildingContactRepositoryProvider} from '../../providers/repositories/building-contact-repository';
 import {InspectionBuildingContact} from '../../models/inspection-building-contact';
 import {UUID} from 'angular2-uuid';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {ISubscription} from 'rxjs/Subscription';
 import {MessageToolsProvider} from '../../providers/message-tools/message-tools';
 import {TranslateService} from "@ngx-translate/core";
@@ -93,8 +93,6 @@ export class BuildingContactDetailPage {
     let load = this.loadCtrl.create({'content': this.labels['waitFormMessage']});
     await load.present();
     try {
-
-
       if (this.idBuildingContact == null) {
         this.createContact();
       } else {
@@ -124,7 +122,7 @@ export class BuildingContactDetailPage {
 
   public noWhitespaceValidator(control: FormControl) {
     let isWhitespace = (control.value || '').trim().length === 0;
-    let isValid = !isWhitespace;
+    let isValid = !isWhitespace || control.value === '';
     return isValid ? null : {'whitespace': true}
   }
 
@@ -173,6 +171,7 @@ export class BuildingContactDetailPage {
   private createContact() {
     let data = new InspectionBuildingContact();
     data.id = UUID.UUID();
+    data.firstName = '';
     data.idBuilding = this.idBuilding;
     data.isActive = true;
     this.idBuildingContact = data.id;

@@ -29,7 +29,7 @@
                 <ion-input type="text" formControlName="lastName" placeholder="{{'name' | translate}}"
                            maxlength="30"></ion-input>
             </ion-item>
-            <div *ngIf="!form.controls.lastName.valid" class="validation-error-text">{{'nameRequired' | translate}}
+            <div *ngIf="!form.controls.lastName.valid" class="validation-error-text">{{'lastNameRequired' | translate}}
             </div>
             <ion-item>
                 <ion-label fixed>{{'owner' | translate}}</ion-label>
@@ -111,6 +111,7 @@
         </ion-item-group>
 
     </ion-list>
+
 </ion-content>
 
 <ion-footer class="page-footer">
