@@ -5,6 +5,7 @@ import {InterventionGeneralPage} from "../intervention-general/intervention-gene
 import {MessageToolsProvider} from "../../providers/message-tools/message-tools";
 import {TranslateService} from "@ngx-translate/core";
 import {InspectionRepositoryProvider} from "../../providers/repositories/inspection-repository-provider.service";
+import { getLocaleWeekEndRange } from '@angular/common';
 
 @IonicPage()
 @Component({
@@ -38,13 +39,12 @@ export class InspectionVisitPage {
 
         this.ownerAbsent = this.navParams.get('ownerAbsent');
         this.minimalNextVisitDate = this.getFormattedDate(new Date());
-
         this.maximalNextVisitDate = this.getFormattedDate(this.getNextYear())
     }
 
     public ngOnInit() {
         this.translateService.get([
-            'visitRefusedValidationMessage'
+            'visitRefusedValidationMessage', 'cantUploadAndCompleteInspection'
         ]).subscribe(labels => {
                 this.labels = labels;
             },
@@ -84,7 +84,15 @@ export class InspectionVisitPage {
 
         this.completRefusal = true;
 
-        await this.inspectionRepo.refuseInspection(this.inspectionController.idInspection, this.ownerAbsent, this.doorHangerHasBeenLeft, this.refusalReason, this.requestedDateOfVisit);
+        const successfullySentToServer = await this.inspectionRepo
+            .refuseInspection(this.inspectionController.idInspection, this.ownerAbsent, this.doorHangerHasBeenLeft, this.refusalReason, this.requestedDateOfVisit);
+        if (successfullySentToServer){
+            if (!await this.inspectionRepo.uploadInspection(this.inspectionController.idInspection)){
+                await this.messageTools.showToast(this.labels['cantUploadAndCompleteInspection']);
+            }
+        } else {
+            await this.messageTools.showToast(this.labels['cantUploadAndCompleteInspection']);
+        }
         await this.navCtrl.pop()
     }
 

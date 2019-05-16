@@ -96,6 +96,7 @@ export class InspectionRepositoryProvider {
     inspection.currentVisit.hasBeenModified = true;
     inspection.currentVisit.status = this.inspectionVisitStatusEnum.Started;
     inspection.currentVisit.startedOn = new Date();
+    inspection.currentVisit.requestedDateOfVisit = null;
     inspection.status = this.inspectionStatusEnum.Started;
     inspection.startedOn = new Date();
     return await this.saveInspectionAndVisit(inspection, true);
@@ -139,10 +140,7 @@ export class InspectionRepositoryProvider {
   }
 
   public async uploadInspection(idInspection: string): Promise<boolean>{
-    const uploadWasSuccessful = await this.uploader.uploadInspection(idInspection);
-    const inspection = await this.getInspection(idInspection);
-    const savingWasSuccessful = await this.saveInspectionAndVisit(inspection, uploadWasSuccessful);
-    if (savingWasSuccessful && uploadWasSuccessful) {
+    if (this.uploader.uploadInspection(idInspection)) {
       await this.synchronizer.deleteInspectionFromCache(idInspection);
       return true;
     } else {
