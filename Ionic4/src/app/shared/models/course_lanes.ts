@@ -3,5 +3,5 @@ import {InspectionBuildingCourseLaneForList} from './inspection-building-course-
 
 export class CourseLanes {
   course: InspectionBuildingCourse;
-  lanes: InspectionBuildingCourseLaneForList[]
+  lanes: InspectionBuildingCourseLaneForList[];
 }

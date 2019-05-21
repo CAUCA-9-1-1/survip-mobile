@@ -6,7 +6,7 @@ import { HttpService } from '../../base/http.service';
 
 @Injectable()
 export class AlarmTypeDataSynchronizerProvider extends BaseExpiringDataSynchronizerProvider<RiskLevel[]> {
-  constructor(private http: HttpService, private storage: OfflineStorage){
+  constructor(private http: HttpService, private storage: OfflineStorage) {
     super(http, storage, 'alarm_panel_type', 'alarmpaneltype');
   }
 }

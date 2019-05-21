@@ -3,7 +3,7 @@ import {ExpiringCache} from './expiring-cache';
 import { HttpService } from './http.service';
 import {Storage as OfflineStorage} from '@ionic/storage';
 
-export abstract class BaseExpiringDataSynchronizerProvider<T>{
+export abstract class BaseExpiringDataSynchronizerProvider<T> {
 
   public readonly storageKey: string;
   public dayCountBeforeCacheIsExpired: number = 7;
@@ -61,13 +61,12 @@ export abstract class BaseExpiringDataSynchronizerProvider<T>{
     return date;
   }
 
-  protected async valueIsCachedAndStillValid(): Promise<boolean>{
+  protected async valueIsCachedAndStillValid(): Promise<boolean> {
     const cache = await this.offlineStorage.get(this.storageKey);
     if (cache != null) {
       const isExpired = this.cacheIsExpired(cache);
       return Promise.resolve(!isExpired);
-    }
-    else {
+    } else {
       return Promise.resolve(false);
     }
   }

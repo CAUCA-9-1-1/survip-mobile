@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {AllConstructionTypes} from '../../models/all-construction-types';
-import {Storage as OfflineStorage} from "@ionic/storage";
-import {ExpiringCache} from "../expiring-cache";
+import {Storage as OfflineStorage} from '@ionic/storage';
+import { AllConstructionTypes } from 'src/app/shared/models/all-construction-types';
+import { ExpiringCache } from '../base/expiring-cache';
 
 @Injectable()
 export class ConstructionTypesRepositoryProvider {
@@ -11,6 +11,6 @@ export class ConstructionTypesRepositoryProvider {
 
     public getAllTypes(): Promise<AllConstructionTypes> {
         return this.storage.get('construction_type')
-          .then((cache:ExpiringCache<AllConstructionTypes>) => cache.data);
+          .then((cache: ExpiringCache<AllConstructionTypes>) => cache.data);
     }
 }

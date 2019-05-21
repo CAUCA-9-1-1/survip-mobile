@@ -1,12 +1,13 @@
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {BehaviorSubject, Observable, from} from 'rxjs';
-import {Injectable, Injector} from '@angular/core';
-import {Storage as OfflineStorage} from '@ionic/storage';
-import {switchMap} from 'rxjs/operators';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpSentEvent, HttpHeaderResponse, HttpProgressEvent, HttpResponse, HttpUserEvent } from '@angular/common/http';
+import { BehaviorSubject, Observable, from, throwError } from 'rxjs';
+import { Injectable, Injector } from '@angular/core';
+import { Storage as OfflineStorage } from '@ionic/storage';
+import { switchMap, catchError, finalize, take, filter } from 'rxjs/operators';
 import { Events } from '@ionic/angular';
+import { AuthenticationService } from '../services/http/authentification.service';
 
 @Injectable()
-export class ExpiredTokenInterceptor implements HttpInterceptor {
+export class AuthenticationInterceptor implements HttpInterceptor {
 
   private isRefreshingToken: boolean = false;
   private tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
@@ -14,7 +15,8 @@ export class ExpiredTokenInterceptor implements HttpInterceptor {
   constructor(private injector: Injector, private storage: OfflineStorage) {
   }
 
-  public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  public intercept(req: HttpRequest<any>, next: HttpHandler):
+    Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any>> {
 
     return from(this.getToken())
       .pipe(
@@ -24,14 +26,19 @@ export class ExpiredTokenInterceptor implements HttpInterceptor {
               return next.handle(this.setToken(req, token));
             } else {
               return next.handle(this.setToken(req, token))
-                .catch(error => {
-                  if (error instanceof HttpErrorResponse && !this.requestIsForAuthentication(req) && (<HttpErrorResponse>error).status == 401) {
-                    console.log('Expired access token intercepted.');
-                    return this.refreshToken(req, next);
-                  } else {
-                    return Observable.throw(error);
-                  }
-                });
+                .pipe(
+                  catchError(error => {
+                    if (error instanceof HttpErrorResponse
+                      && !this.requestIsForAuthentication(req)
+                      && (error as HttpErrorResponse).status === 401) {
+                      console.log('Expired access token intercepted.');
+                      return this.refreshToken(req, next);
+                    } else {
+                      return throwError(error);
+                    }
+                    return throwError(error);
+                  })
+                );
             }
           }
         )
@@ -50,16 +57,17 @@ export class ExpiredTokenInterceptor implements HttpInterceptor {
       const authService = this.injector.get(AuthenticationService);
 
       return authService.refreshTokenObservable()
-        .switchMap((response) => this.onTokenRefreshed(response, req, next))
-        .catch((error) => {
-          // If there is an exception calling 'refreshToken', bad news so logout.
-          console.log('an error has occured while refreshing the token.', error);
-          this.isRefreshingToken = false;
-          return this.onLogout();
-        })
-        .finally(() => {
-          this.isRefreshingToken = false;
-        });
+        .pipe(
+          switchMap((response) => this.onTokenRefreshed(response, req, next)),
+          catchError((error) => {
+            // If there is an exception calling 'refreshToken', bad news so logout.
+            console.log('an error has occured while refreshing the token.', error);
+            this.isRefreshingToken = false;
+            return this.onLogout();
+          }),
+          finalize(() => {
+            this.isRefreshingToken = false;
+          }));
     } else {
       return this.getRequestWithToken(req, next);
     }
@@ -67,17 +75,19 @@ export class ExpiredTokenInterceptor implements HttpInterceptor {
 
   private getRequestWithToken(req: HttpRequest<any>, next: HttpHandler) {
     return this.tokenSubject
-      .filter(token => token != null)
-      .take(1)
-      .switchMap((token) => {
-        const request = this.setToken(req, token);
-        return next.handle(request);
-      });
+      .pipe(
+        filter(token => token !== null),
+        take(1),
+        switchMap((token) => {
+          const request = this.setToken(req, token);
+          return next.handle(request);
+        })
+      );
   }
 
   private onLogout() {
     return from(this.clearLoginInfos())
-      .pipe(switchMap(() => Observable.throw('')));
+      .pipe(switchMap(() => throwError('')));
   }
 
   private async clearLoginInfos() {
@@ -102,7 +112,7 @@ export class ExpiredTokenInterceptor implements HttpInterceptor {
             this.tokenSubject.next(response.accessToken);
             return this.getRequestWithToken(req, next);
           })
-        )
+        );
     }
   }
 
@@ -114,6 +124,6 @@ export class ExpiredTokenInterceptor implements HttpInterceptor {
   }
 
   private setToken(req: HttpRequest<any>, token: string): HttpRequest<any> {
-    return req.clone({ setHeaders: { Authorization: 'Bearer ' + token }});
+    return req.clone({ setHeaders: { Authorization: 'Bearer ' + token } });
   }
 }

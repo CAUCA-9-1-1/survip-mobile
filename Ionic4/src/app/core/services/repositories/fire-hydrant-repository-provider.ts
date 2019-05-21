@@ -1,36 +1,16 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from '../Base/http.service';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {FireHydrant} from "../../models/fire-hydrant";
-import {GenericType} from "../../models/generic-type";
-import {Storage as OfflineStorage} from "@ionic/storage";
-import {ExpiringCache} from "../expiring-cache";
+import {Storage as OfflineStorage} from '@ionic/storage';
+import { FireHydrant } from 'src/app/shared/models/fire-hydrant';
+import { GenericType } from 'src/app/shared/models/generic-type';
+import { ExpiringCache } from '../base/expiring-cache';
 
 @Injectable()
 export class FireHydrantRepositoryProvider {
 
     constructor(private http: HttpService, private storage: OfflineStorage) {
-    }
-
-    public getFireHydrant(idFireHydrant: string): Observable<FireHydrant>{
-        return this.http.get('FireHydrant/' + idFireHydrant);
-    }
-    public deleteFireHydrant(idFireHydrant: string): Observable<any> {
-        return this.http.delete('fireHydrant/' + idFireHydrant)
-            .pipe(map(response => response));
-    }
-
-    public saveFireHydrant(fireHydrant: FireHydrant): Observable<any> {
-        if (fireHydrant) {
-            return this.http.post('FireHydrant/', fireHydrant)
-                .pipe(map(response => response));
-        }
-    }
-
-    public getFireHydrantType():Promise<GenericType[]>{
-      return this.storage.get('fire_hydrant_type')
-        .then((cache:ExpiringCache<GenericType[]>) => cache.data);
     }
 
     public colors = [{
@@ -59,10 +39,30 @@ export class FireHydrantRepositoryProvider {
         color: '#CB42F4',
     }];
 
-    getEnumsKeysCollection(enumCollection: any): number[]{
+    public getFireHydrant(idFireHydrant: string): Observable<FireHydrant> {
+        return this.http.get('FireHydrant/' + idFireHydrant);
+    }
+    public deleteFireHydrant(idFireHydrant: string): Observable<any> {
+        return this.http.delete('fireHydrant/' + idFireHydrant)
+            .pipe(map(response => response));
+    }
+
+    public saveFireHydrant(fireHydrant: FireHydrant): Observable<any> {
+        if (fireHydrant) {
+            return this.http.post('FireHydrant/', fireHydrant)
+                .pipe(map(response => response));
+        }
+    }
+
+    public getFireHydrantType(): Promise<GenericType[]> {
+      return this.storage.get('fire_hydrant_type')
+        .then((cache: ExpiringCache<GenericType[]>) => cache.data);
+    }
+
+    getEnumsKeysCollection(enumCollection: any): number[] {
         return Object.keys(enumCollection)
             .map(k => enumCollection[k])
-            .filter(v => typeof v === "number") as number[];
+            .filter(v => typeof v === 'number') as number[];
     }
 
 }

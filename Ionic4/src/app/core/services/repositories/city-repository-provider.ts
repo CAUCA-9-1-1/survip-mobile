@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
-import {CityWithRegion} from "../../models/city-with-region";
+// tslint:disable-next-line: quotemark
 import {Storage as OfflineStorage} from "@ionic/storage";
+import { CityWithRegion } from 'src/app/shared/models/city-with-region';
 
 @Injectable()
 export class CityRepositoryProvider {

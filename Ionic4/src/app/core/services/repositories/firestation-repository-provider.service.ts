@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {FirestationForlist} from '../../models/firestation';
-import {Storage as OfflineStorage} from "@ionic/storage";
-import {ExpiringCache} from "../expiring-cache";
+import {Storage as OfflineStorage} from '@ionic/storage';
+import { FirestationForlist } from 'src/app/shared/models/firestation';
+import { ExpiringCache } from '../base/expiring-cache';
 
 @Injectable()
 export class FirestationRepositoryProvider {

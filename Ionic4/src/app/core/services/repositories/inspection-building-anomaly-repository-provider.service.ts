@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {InspectionBuildingAnomaly} from '../../models/inspection-building-anomaly';
-import {InspectionBuildingAnomalyThemeForList} from '../../models/inspection-building-anomaly-theme-for-list';
-import {Storage as OfflineStorage} from "@ionic/storage";
-import {ExpiringCache} from "../expiring-cache";
+import {Storage as OfflineStorage} from '@ionic/storage';
+import { InspectionBuildingAnomalyThemeForList } from 'src/app/shared/models/inspection-building-anomaly-theme-for-list';
+import { InspectionBuildingAnomaly } from 'src/app/shared/models/inspection-building-anomaly';
+import { ExpiringCache } from '../base/expiring-cache';
 
 @Injectable()
 export class InspectionBuildingAnomalyRepositoryProvider {
@@ -17,14 +17,14 @@ export class InspectionBuildingAnomalyRepositoryProvider {
     const groups: InspectionBuildingAnomalyThemeForList[] = [];
 
     anomalies.forEach((anomaly) => {
-      let group = groups.find(group => group.theme == anomaly.theme);
-      if (group == null) {
-        group = new InspectionBuildingAnomalyThemeForList();
-        group.theme = anomaly.theme;
-        group.anomalies = [];
-        groups.push(group);
+      let foundGroup = groups.find(group => group.theme === anomaly.theme);
+      if (foundGroup == null) {
+        foundGroup = new InspectionBuildingAnomalyThemeForList();
+        foundGroup.theme = anomaly.theme;
+        foundGroup.anomalies = [];
+        groups.push(foundGroup);
       }
-      group.anomalies.push(anomaly);
+      foundGroup.anomalies.push(anomaly);
     });
     return groups;
   }
@@ -35,7 +35,7 @@ export class InspectionBuildingAnomalyRepositoryProvider {
 
   public async get(idBuilding, idBuildingAnomaly: string): Promise<InspectionBuildingAnomaly> {
     return (await this.storage.get('building_anomalies_' + idBuilding))
-      .find(anomaly => anomaly.id == idBuildingAnomaly);
+      .find(anomaly => anomaly.id === idBuildingAnomaly);
   }
 
   public async save(anomaly: InspectionBuildingAnomaly): Promise<any> {
@@ -50,7 +50,7 @@ export class InspectionBuildingAnomalyRepositoryProvider {
 
   private async addThemeWhenNew(anomaly: InspectionBuildingAnomaly) {
     const themes: ExpiringCache<string[]> = await this.storage.get('anomaly_themes');
-    if (!themes.data.some(theme => theme == anomaly.theme)) {
+    if (!themes.data.some(theme => theme === anomaly.theme)) {
       themes.data.push(anomaly.theme);
       await this.storage.set('anomaly_themes', themes);
     }
@@ -58,7 +58,7 @@ export class InspectionBuildingAnomalyRepositoryProvider {
 
   public async delete(anomaly: InspectionBuildingAnomaly): Promise<any> {
     const currentItems = await this.storage.get('building_anomalies_' + anomaly.idBuilding);
-    const currentItem = currentItems.filter(s => s.id == anomaly.id)[0];
+    const currentItem = currentItems.filter(s => s.id === anomaly.id)[0];
     currentItem.hasBeenModified = true;
     currentItem.isActive = false;
 
@@ -66,7 +66,7 @@ export class InspectionBuildingAnomalyRepositoryProvider {
   }
 
   private getCurrentItem(list: InspectionBuildingAnomaly[], modifiedItem: InspectionBuildingAnomaly): InspectionBuildingAnomaly {
-    let currentItem = list.filter(s => s.id == modifiedItem.id)[0];
+    const currentItem = list.filter(s => s.id === modifiedItem.id)[0];
     if (currentItem == null) {
       list.push(modifiedItem);
     } else {

@@ -6,7 +6,7 @@ import { UnitOfMeasure } from 'src/app/shared/models/unit-of-measure';
 
 @Injectable()
 export class UnitOfMeasureDataSynchronizerProvider extends BaseExpiringDataSynchronizerProvider<UnitOfMeasure[]> {
-  constructor(private http: HttpService, private storage: OfflineStorage){
+  constructor(private http: HttpService, private storage: OfflineStorage) {
     super(http, storage, 'unit_of_measure', 'unitofmeasure/all');
   }
 }

@@ -166,6 +166,7 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
     const promises: Promise<boolean>[] = [];
 
     for (const idBuilding of idBuildings) {
+      /* tslint:disable:max-line-length*/
       promises.push(this.downloadData<InspectionBuildingDetail>(idBuilding, 'inspection/building/' + idBuilding + '/detail', 'building_detail_'));
       promises.push(this.downloadData<InspectionBuildingContact[]>(idBuilding, 'inspection/building/' + idBuilding + '/contactList', 'building_contacts_'));
       promises.push(this.downloadData<InspectionBuildingHazardousMaterial[]>(idBuilding, 'inspection/building/' + idBuilding + '/hazardousMaterialList', 'building_hazardous_materials_'));
@@ -183,6 +184,7 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
       promises.push(this.downloadData<CityFireHydrantForList>(idBuilding, 'fireHydrant/forBuilding/' + idBuilding + '/withinDistance/200', 'fire_hydrant_for_building_'));
       promises.push(this.downloadDataAndSavePicturesByParent('inspection/building/' + idBuilding + '/anomaly/pictures', 'building_anomaly_pictures_'));
       promises.push(this.downloadDataAndSavePicturesByParent('inspection/building/' + idBuilding + '/ParticularRisk/pictures', 'building_particular_risk_pictures_'));
+      /* tslint:enable:max-line-length*/
     }
     return promises;
   }
@@ -242,12 +244,12 @@ export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProv
     });
   }
 
-  private getDataFromApi<T>(url: string): Observable<T>{
+  private getDataFromApi<T>(url: string): Observable<T> {
     return this.service.get(url)
       .pipe(map(response => response));
   }
 
-  private saveData<T>(data: T, id: string, key: string) : Promise<boolean>{
+  private saveData<T>(data: T, id: string, key: string): Promise<boolean> {
     return this.storage.set(key + id, data);
   }
 }

@@ -6,7 +6,7 @@ import { HttpService } from '../../base/http.service';
 
 @Injectable()
 export class AnomalyThemeDataSynchronizerProvider extends BaseExpiringDataSynchronizerProvider<GenericType[]> {
-  constructor(private http: HttpService, private storage: OfflineStorage){
+  constructor(private http: HttpService, private storage: OfflineStorage) {
     super(http, storage, 'anomaly_themes', 'inspection/anomalythemes');
   }
 }

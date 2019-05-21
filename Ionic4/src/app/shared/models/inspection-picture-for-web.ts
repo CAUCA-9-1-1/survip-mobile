@@ -4,7 +4,7 @@ export class InspectionPictureForWeb {
   idPicture: string;
   dataUri: string;
   sketchJson: string;
-  modified=false;
+  modified: boolean = false;
 
   isActive: boolean = true;
   hasBeenModified: boolean = false;

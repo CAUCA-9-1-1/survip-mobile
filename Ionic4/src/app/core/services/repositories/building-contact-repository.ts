@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {InspectionBuildingContact} from '../../models/inspection-building-contact';
-import {Storage as OfflineStorage} from "@ionic/storage";
+import {Storage as OfflineStorage} from '@ionic/storage';
+import { InspectionBuildingContact } from 'src/app/shared/models/inspection-building-contact';
 
 @Injectable()
 export class BuildingContactRepositoryProvider {
@@ -16,7 +16,7 @@ export class BuildingContactRepositoryProvider {
     }
 
     public async get(idBuilding: string, idBuildingContact: string): Promise<InspectionBuildingContact> {
-        return (await this.storage.get(this.baseKey  + idBuilding)).filter(c => c.id == idBuildingContact)[0];
+        return (await this.storage.get(this.baseKey  + idBuilding)).filter(c => c.id === idBuildingContact)[0];
     }
 
     public async save(modifiedItem: InspectionBuildingContact): Promise<any> {
@@ -37,14 +37,13 @@ export class BuildingContactRepositoryProvider {
       return this.storage.set(this.baseKey  + modifiedItem.idBuilding, list);
     }
 
-    private getCurrentItem(list: InspectionBuildingContact[], modifiedItem: InspectionBuildingContact): InspectionBuildingContact{
-      let currentItem = list.filter(s => s.id == modifiedItem.id)[0];
+    private getCurrentItem(list: InspectionBuildingContact[], modifiedItem: InspectionBuildingContact): InspectionBuildingContact {
+      const currentItem = list.filter(s => s.id === modifiedItem.id)[0];
       if (currentItem == null) {
         list.push(modifiedItem);
-      }else{
+      } else {
         Object.assign(currentItem, modifiedItem);
       }
-
       return currentItem || modifiedItem;
     }
 

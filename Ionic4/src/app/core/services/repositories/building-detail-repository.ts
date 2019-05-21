@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {InspectionBuildingDetail} from '../../models/inspection-building-detail';
-import {Storage as OfflineStorage} from "@ionic/storage";
+import {Storage as OfflineStorage} from '@ionic/storage';
+import { InspectionBuildingDetail } from 'src/app/shared/models/inspection-building-detail';
 
 @Injectable()
 export class BuildingDetailRepositoryProvider {
@@ -26,6 +26,6 @@ export class BuildingDetailRepositoryProvider {
   public getEnumsKeysCollection(enumCollection: any): number[] {
     return Object.keys(enumCollection)
       .map(k => enumCollection[k])
-      .filter(v => typeof v === "number") as number[];
+      .filter(v => typeof v === 'number') as number[];
   }
 }

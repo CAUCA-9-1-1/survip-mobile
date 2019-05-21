@@ -1,16 +1,16 @@
 import {Injectable} from '@angular/core';
-import {GenericType} from '../../models/generic-type';
-import {Storage as OfflineStorage} from "@ionic/storage";
-import {ExpiringCache} from "../expiring-cache";
+import {Storage as OfflineStorage} from '@ionic/storage';
+import { GenericType } from 'src/app/shared/models/generic-type';
+import { ExpiringCache } from '../base/expiring-cache';
 
 @Injectable()
 export class AlarmPanelTypeRepository {
 
-  constructor(private storage: OfflineStorage,) {
+  constructor(private storage: OfflineStorage) {
     }
 
     public getAll(): Promise<GenericType[]> {
       return this.storage.get('alarm_panel_type')
-        .then((cache:ExpiringCache<GenericType[]>) => cache.data);
+        .then((cache: ExpiringCache<GenericType[]>) => cache.data);
     }
 }

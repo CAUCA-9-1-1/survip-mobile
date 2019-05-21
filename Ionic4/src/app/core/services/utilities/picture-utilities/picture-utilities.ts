@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import {Platform} from "ionic-angular";
-import {InspectionConfigurationProvider} from "../inspection-configuration/inspection-configuration";
+import { Platform } from '@ionic/angular';
+import { InspectionConfigurationProvider } from '../../controllers/inspection-configuration/inspection-configuration';
+
 
 @Injectable()
 export class PictureUtilitiesProvider {
@@ -10,7 +11,7 @@ export class PictureUtilitiesProvider {
     private config: InspectionConfigurationProvider) {
   }
 
-  public async pictureSizeIsValid(picUrl: string){
+  public async pictureSizeIsValid(picUrl: string) {
     if (this.platform.is('cordova')) {
       picUrl = 'data:image/jpeg;base64,' + picUrl;
     }
@@ -18,14 +19,14 @@ export class PictureUtilitiesProvider {
     xhr.open('GET', picUrl, true);
     xhr.responseType = 'blob';
     const imageBlob = await new Promise((resolve) => {
-      xhr.onload = () =>{
-        if(xhr.status == 200 && xhr.response.type.startsWith('image/')){
-          if((xhr.response.size / 1000000.0) < this.config.configuration.maxUploadSize) {
+      xhr.onload = () => {
+        if (xhr.status === 200 && xhr.response.type.startsWith('image/')) {
+          if ((xhr.response.size / 1000000.0) < this.config.configuration.maxUploadSize) {
             resolve(true);
-          }else {
+          } else {
             resolve(false);
           }
-        }else {
+        } else {
           resolve(false);
         }
       };

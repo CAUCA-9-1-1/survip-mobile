@@ -1,7 +1,7 @@
 import {EventEmitter, Injectable} from '@angular/core';
-import {InspectionPictureForWeb} from '../../models/inspection-picture-for-web';
-import {PicturesRepositoryProvider} from '../../interfaces/pictures-repository-provider.interface'
-import {Storage} from "@ionic/storage";
+import {Storage} from '@ionic/storage';
+import { PicturesRepositoryProvider } from 'src/app/shared/interfaces/pictures-repository-provider.interface';
+import { InspectionPictureForWeb } from 'src/app/shared/models/inspection-picture-for-web';
 
 @Injectable()
 export class InspectionBuildingAnomalyPictureRepositoryProvider implements PicturesRepositoryProvider {
@@ -26,7 +26,7 @@ export class InspectionBuildingAnomalyPictureRepositoryProvider implements Pictu
   }
 
   public delete(idParent: string, idPicture: string): Promise<boolean> {
-    const pic = this.pictures.find(p => p.id == idPicture);
+    const pic = this.pictures.find(p => p.id === idPicture);
 
     if (pic != null) {
       pic.isActive = false;

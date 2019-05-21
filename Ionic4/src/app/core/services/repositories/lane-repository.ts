@@ -1,21 +1,21 @@
 import {Injectable} from '@angular/core';
-import {Lane} from '../../models/lane';
-import {Observable} from 'rxjs/Observable';
-import {ServiceForListInterface} from '../../interfaces/service-for-list.interface';
+import {Observable, of} from 'rxjs';
 import {Storage as OfflineStorage} from '@ionic/storage';
-import {StringUtilities} from "./string-utilities";
+import { ServiceForListInterface } from 'src/app/shared/interfaces/service-for-list.interface';
+import { Lane } from 'src/app/shared/models/lane';
+import { StringUtilities } from '../utilities/string-utilities';
 
 @Injectable()
 export class LaneRepositoryProvider implements ServiceForListInterface {
-  private _currentIdCity: string;
+  private currentIdCity: string;
   private currentCityLanes: Lane[];
 
   constructor(private storage: OfflineStorage) {
   }
 
   public async setCurrentIdCity(cityId: string) {
-    if (this._currentIdCity != cityId) {
-      this._currentIdCity = cityId;
+    if (this.currentIdCity !== cityId) {
+      this.currentIdCity = cityId;
       await this.loadCityLanes();
     }
   }
@@ -29,24 +29,24 @@ export class LaneRepositoryProvider implements ServiceForListInterface {
   }
 
   public get(idLane: string): Observable<string> {
-    return Observable.of(this.getName(idLane));
+    return of(this.getName(idLane));
   }
 
   public getName(idLane: string): string {
     if (!idLane) {
       return '';
     } else {
-      const lane = this.currentCityLanes.filter(lane => lane.id === idLane)[0];
-      if (lane != null) {
-        return lane.name;
-      } else{
+      const foundLane = this.currentCityLanes.filter(lane => lane.id === idLane)[0];
+      if (foundLane != null) {
+        return foundLane.name;
+      } else {
         return '';
       }
     }
   }
 
   public getList(searchTerm: string, searchFieldName: string): Observable<any[]> {
-    return Observable.of(this.getFilteredLanes(searchTerm));
+    return of(this.getFilteredLanes(searchTerm));
   }
 
   public getDescriptionById(id: string): Observable<string> {
@@ -54,6 +54,6 @@ export class LaneRepositoryProvider implements ServiceForListInterface {
   }
 
   private async loadCityLanes() {
-    this.currentCityLanes = (await this.storage.get("lane_by_city_" + this._currentIdCity)).data;
+    this.currentCityLanes = (await this.storage.get('lane_by_city_' + this.currentIdCity)).data;
   }
 }
