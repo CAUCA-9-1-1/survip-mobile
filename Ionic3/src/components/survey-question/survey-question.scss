@@ -1,0 +1,29 @@
+survey-question {
+
+  .question-title h2
+  {
+    text-align: left;
+    font-size: 20px;
+    font-weight: bold;
+
+  }
+  .question-title p
+  {
+    text-align: left;
+    font-size: 16px;
+    margin:5px;
+  }
+
+  textarea.text-input{
+    height: 20vh;
+    border: 1px solid black;
+    font-size: 15px;
+    width: 96%;
+    margin: 5px;
+  }
+
+  .full-width-select {
+    width: 100%;
+    max-width: 100%;
+  }
+}

@@ -1,0 +1,43 @@
+<ion-header class="page-header">
+    <ion-navbar>
+        <ion-title>{{'surveySummary' | translate}}</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="outer-content">
+    <div class="list-items">
+        <div *ngFor="let category of inspectionQuestionSummaryCategory">
+            <ion-list-header *ngIf="category.title != ''">
+                {{category.title | uppercase}}
+            </ion-list-header>
+            <div *ngFor="let answer of category.answerSummary; let index = index">
+                <div *ngIf="answer.questionType === questionTypeEnum.groupedQuestion && answer.recursiveAnswer != null &&  answer.recursiveAnswer.length > 0">
+                    <ion-item-divider>{{answer.questionTitle}} #{{index + 1}}</ion-item-divider>
+                    <ion-list>
+                        <ion-item class="recursive-item" *ngFor="let answerChild of answer.recursiveAnswer">
+                            <span>{{answerChild.questionDescription}}</span>
+                            <p>{{answerChild.answer}}</p>
+                        </ion-item>
+                    </ion-list>
+                </div>
+                <div *ngIf="answer.questionType !== questionTypeEnum.groupedQuestion">
+                    <ion-item>
+                        <div class="non-recursive-item">
+                            <span>{{answer.questionDescription}}</span>
+                            <p>{{answer.answer}}</p>
+                        </div>
+                    </ion-item>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>
+<ion-footer class="page-footer">
+    <ion-toolbar>
+        <ion-buttons>
+            <button ion-button icon-start type="button" (click)="editSurvey()">
+                <ion-icon name="create"></ion-icon>
+                {{'surveyEditButton' |translate}}...
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>

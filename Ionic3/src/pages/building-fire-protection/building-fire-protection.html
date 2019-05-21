@@ -1,0 +1,56 @@
+
+<ion-header class="page-header">
+
+  <ion-navbar>
+    <ion-icon name="menu" menuToggle left></ion-icon>
+    <ion-title>
+      {{name}}
+    </ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+
+  <div class="fire-protection-header">
+    <ion-list-header>{{'fireSafety' | translate}}</ion-list-header>
+
+    <ion-segment [(ngModel)]="currentSegment" class="segment-themed segment-fire-protection">
+      <ion-segment-button value="panel" class="segment-fire">
+        {{'fireAlarmPanel' | translate}}
+      </ion-segment-button>
+
+      <ion-segment-button value="sprinkler" class="segment-fire">
+        {{'fireSprinkler' | translate}}
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <ion-list class="list-items">
+    <ion-item-group *ngIf="currentSegment=='panel'">
+      <button ion-item icon-start *ngFor="let panel of panels" (click)="onPanelClick(panel.id)">
+        <ion-icon name="notifications" item-start></ion-icon>
+        <h2>{{panel.typeDescription}}</h2>
+        <p>{{panel.locationDescription}}</p>
+      </button>
+    </ion-item-group>
+    <ion-item-group *ngIf="currentSegment=='sprinkler'">
+      <button ion-item icon-start *ngFor="let sprinkler of sprinklers" (click)="onSprinklerClick(sprinkler.id)">
+        <ion-icon name="water" item-start></ion-icon>
+        <h2>{{sprinkler.typeDescription}}</h2>
+        <p>{{sprinkler.locationDescription}}</p>
+      </button>
+    </ion-item-group>
+  </ion-list>
+</ion-content>
+
+<ion-footer class="page-footer">
+  <ion-toolbar>
+    <ion-buttons>
+      <button ion-button icon-start full type="button" (click)="onCreateNewRecord()">
+        <ion-icon name="add-circle"></ion-icon>
+        {{entityName}}
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

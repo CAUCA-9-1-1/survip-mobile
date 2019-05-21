@@ -1,0 +1,218 @@
+<ion-header class="page-header">
+    <ion-navbar>
+        <ion-title>{{'fireHydrantDetail' | translate}}</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+
+
+    <ion-list [formGroup]="form" class="list-items">
+        <ion-item-group>
+            <ion-item-divider>{{'generalInformation' | translate}}</ion-item-divider>
+            <ion-item [class.invalid]="!form.controls.idFireHydrantType.valid">
+                <ion-label>{{'type' | translate}}</ion-label>
+                <ion-select formControlName="idFireHydrantType" okText="Ok" cancelText="{{'cancel' | translate}}">
+                    <ion-option *ngFor="let ftype of fireHydrantTypes" [value]="ftype.id">{{ftype.name}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <div class="validation-error-text" *ngIf="!form.controls.idFireHydrantType.valid">{{'requiredInformation' | translate}}</div>
+
+            <ion-item [class.invalid]="!form.controls.number.valid">
+                <ion-label>{{'number' | translate}}</ion-label>
+                <ion-input item-end formControlName="number" maxlength="10" type="text"
+                           placeholder="{{'number' | translate}}"></ion-input>
+            </ion-item>
+            <div class="validation-error-text" *ngIf="!form.controls.number.valid">{{'requiredInformation' | translate}}</div>
+
+            <ion-row class="colorselect color_{{form.value.color.slice(1,7)}}">
+                <ion-item [class.invalid]="!form.controls.color.valid">
+                    <ion-label>{{'color' | translate}}</ion-label>
+                    <ion-select formControlName="color" (click)="prepareColorSelector()" okText="Ok" cancelText="{{'cancel' | translate}}">
+                        <ion-option (ionSelect)="selectColor(color.color)" *ngFor="let color of hydrantColors" [value]="color.color">
+                            {{color.color}}
+                        </ion-option>
+                    </ion-select>
+                </ion-item>
+                <div class="validation-error-text" *ngIf="!form.controls.color.valid">{{'requiredInformation' | translate}}</div>
+            </ion-row>
+        </ion-item-group>
+
+        <ion-item-group>
+            <ion-item-divider>{{'outflow' | translate}}</ion-item-divider>
+            <ion-item [class.invalid]="!form.controls.rateOperatorType.valid">
+                <ion-label>{{'operator' | translate}}</ion-label>
+                <ion-select formControlName="rateOperatorType" placeholder="{{'operator' | translate}}" okText="Ok" cancelText="{{'cancel' | translate}}">
+                    <ion-option *ngFor="let key of operatorTypesKeys" [value]="key">{{"enumOperatorType."+operatorTypes[key] | translate}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <div class="validation-error-text" *ngIf="!form.controls.rateOperatorType.valid">{{'requiredInformation' | translate}}</div>
+
+            <ion-grid>
+                <ion-row>
+                    <ion-col width-50>
+                        <ion-item [class.invalid]="!form.controls.rateFrom.valid">
+                            <ion-label>{{'from' | translate}}</ion-label>
+                            <ion-input item-end formControlName="rateFrom" maxlength="10" type="number" [pattern]="decimalPattern"
+                                       placeholder="{{'number' | translate}}"(ionChange)="rateValueChanged()"></ion-input>
+                        </ion-item>
+                        <div class="validation-error-text" *ngIf="!form.controls.rateFrom.valid">{{'invalidDecimalValue' | translate}}</div>
+                    </ion-col>
+                    <ion-col width-50>
+                        <ion-item [class.invalid]="!form.controls.rateTo.valid">
+                            <ion-label>{{'to' | translate}}</ion-label>
+                            <ion-input item-end formControlName="rateTo" maxlength="10" type="number" [pattern]="decimalPattern"
+                                       placeholder="{{'number' | translate}}" (ionChange)="rateValueChanged()"></ion-input>
+                        </ion-item>
+                        <div class="validation-error-text" *ngIf="!form.controls.rateTo.valid">{{'invalidDecimalValue' | translate}}</div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+
+            <ion-item [class.invalid]="!form.controls.idUnitOfMeasureRate.valid">
+                <ion-label>{{'unit' | translate}}</ion-label>
+                <ion-select formControlName="idUnitOfMeasureRate" placeholder="{{'unit' | translate}}" okText="Ok" cancelText="{{'cancel' | translate}}">
+                    <ion-option *ngFor="let unit of rateMeasuringUnit" [value]="unit.id">{{unit.name}}
+                    </ion-option>
+                </ion-select>
+            </ion-item>
+            <div class="validation-error-text" *ngIf="!form.controls.idUnitOfMeasureRate.valid">{{'requiredInformation' | translate}}</div>
+        </ion-item-group>
+
+        <ion-item-group>
+            <ion-item-divider>{{'pressure' | translate}}</ion-item-divider>
+            <ion-item [class.invalid]="!form.controls.pressureOperatorType.valid">
+                <ion-label>{{'operator' | translate}}</ion-label>
+                <ion-select formControlName="pressureOperatorType" placeholder="{{'operator' | translate}}" okText="Ok" cancelText="{{'cancel' | translate}}">
+                    <ion-option *ngFor="let key of operatorTypesKeys" [value]="key">{{"enumOperatorType."+operatorTypes[key] | translate}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <div class="validation-error-text" *ngIf="!form.controls.pressureOperatorType.valid">{{'requiredInformation' | translate}}</div>
+
+            <ion-grid>
+                <ion-row>
+                    <ion-col width-50>
+                        <ion-item [class.invalid]="!form.controls.pressureFrom.valid">
+                            <ion-label>{{'from' | translate}}</ion-label>
+                            <ion-input item-end formControlName="pressureFrom" maxlength="10" type="number" [pattern]="decimalPattern"
+                                       placeholder="{{'number' | translate}}"(ionChange)="pressureValueChanged()"></ion-input>
+                        </ion-item>
+                        <div class="validation-error-text" *ngIf="!form.controls.pressureFrom.valid">{{'invalidDecimalValue' | translate}}</div>
+                    </ion-col>
+                    <ion-col width-50>
+                        <ion-item [class.invalid]="!form.controls.pressureTo.valid">
+                            <ion-label>{{'to' | translate}}</ion-label>
+                            <ion-input item-end formControlName="pressureTo" maxlength="10" type="number" [pattern]="decimalPattern"
+                                       placeholder="{{'number' | translate}}"(ionChange)="pressureValueChanged()"></ion-input>
+                        </ion-item>
+                        <div class="validation-error-text" *ngIf="!form.controls.pressureTo.valid">{{'invalidDecimalValue' | translate}}</div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+
+            <ion-item [class.invalid]="!form.controls.idUnitOfMeasurePressure.valid">
+                <ion-label>{{'unit' | translate}}</ion-label>
+                <ion-select formControlName="idUnitOfMeasurePressure" placeholder="{{'unit' | translate}}" okText="Ok" cancelText="{{'cancel' | translate}}">
+                    <ion-option *ngFor="let unit of pressureMeasuringUnit" [value]="unit.id">{{unit.name}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <div class="validation-error-text" *ngIf="!form.controls.idUnitOfMeasurePressure.valid">{{'requiredInformation' | translate}}</div>
+
+        </ion-item-group>
+
+        <ion-item-group>
+            <ion-item-divider>{{'localization' | translate}}</ion-item-divider>
+            <ion-item [class.invalid]="!form.controls.locationType.valid">
+                <ion-label>{{'type' | translate}}</ion-label>
+                <ion-select formControlName="locationType" (ionChange)="changeLocationType()" okText="Ok" cancelText="{{'cancel' | translate}}">
+                    <ion-option *ngFor="let key of fireHydrantLocationTypeKeys" [value]="key">
+                        {{"enumFireHydrantLocationType."+fireHydrantLocationType[key] | translate}}
+                    </ion-option>
+                </ion-select>
+            </ion-item>
+            <div class="validation-error-text" *ngIf="!form.controls.locationType.valid">{{'requiredInformation' | translate}}</div>
+
+            <div *ngIf="form.value.locationType == fireHydrantLocationType.Address || form.value.locationType ==  fireHydrantLocationType.LaneAndIntersection">
+
+                <search-box [class.invalid]="!form.controls.idLane.valid && (form.value.locationType == fireHydrantLocationType.LaneAndIntersection || form.value.locationType ==  fireHydrantLocationType.LaneAndIntersection)"
+                            description="{{'lane' | translate}}"
+                            formControlName="idLane"
+                            [displayFieldName]="'name'"
+                            [keyFieldName]="'id'"
+                            [disabledValue]="form.controls.idIntersection.value"
+                            [dataService]="laneService"></search-box>
+                <div class="validation-error-text"
+                     *ngIf="!form.controls.idLane.valid &&
+                            (form.value.locationType == fireHydrantLocationType.Address ||
+                             form.value.locationType ==  fireHydrantLocationType.LaneAndIntersection)">
+                    {{'requiredInformation' | translate}}
+                </div>
+            </div>
+
+            <div *ngIf="form.value.locationType == fireHydrantLocationType.Address">
+                <ion-item [class.invalid]="!form.controls.addressLocationType.valid && form.value.locationType == fireHydrantLocationType.Address">
+                    <ion-label>{{'type' | translate}}</ion-label>
+                    <ion-select formControlName="addressLocationType" okText="Ok" cancelText="{{'cancel' | translate}}">
+                        <ion-option *ngFor="let key of addressLocalizationTypeKeys" [value]="key">
+                            {{"enumAddressLocalisationType."+addressLocationType[key] | translate}}
+                        </ion-option>
+                    </ion-select>
+                </ion-item>
+                <div class="validation-error-text" *ngIf="!form.controls.addressLocationType.valid">{{'requiredInformation' | translate}}</div>
+
+                <ion-item [class.invalid]="!form.controls.civicNumber.valid && form.value.locationType == fireHydrantLocationType.Address">
+                    <ion-label>{{'civicNumber' | translate}}</ion-label>
+                    <ion-input item-end formControlName="civicNumber" maxlength="10" type="text"
+                               placeholder="{{'civicNumber' | translate}}"></ion-input>
+                </ion-item>
+                <div class="validation-error-text" *ngIf="!form.controls.civicNumber.valid">{{'requiredInformation' | translate}}</div>
+            </div>
+            <div *ngIf="form.value.locationType == fireHydrantLocationType.LaneAndIntersection">
+
+                <search-box [class.invalid]="!form.controls.idIntersection.valid && form.value.locationType == fireHydrantLocationType.LaneAndIntersection"
+                        description="{{'transversal' | translate}}"
+                        formControlName="idIntersection"
+                        [displayFieldName]="'name'"
+                        [keyFieldName]="'id'"
+                            [disabledValue]="form.controls.idLane.value"
+                        [dataService]="laneService"></search-box>
+                <div class="validation-error-text" *ngIf="!form.controls.idIntersection.valid">{{'requiredInformation' | translate}}</div>
+
+            </div>
+            <div *ngIf="form.value.locationType == fireHydrantLocationType.Coordinates">
+                <div class="map-label" (click)="getMapLocalization()">
+                    <span class="custom-item-label">{{'localization' | translate}}</span>
+                    <ion-icon name="icon-map" large></ion-icon>
+                </div>
+                <ion-item [class.invalid]="!form.controls.coordinates.valid && form.value.locationType == fireHydrantLocationType.Coordinates">
+                    <ion-input class="left-align-input" formControlName="coordinates" hidden></ion-input>
+                    <ion-input type="text" class="left-align-input" [disabled]="true"
+                               placeholder="{{'fireHydrantGeoPositionHolder' | translate}}" value="{{form.controls.coordinates.value | formatCoordinates}}"></ion-input>
+                </ion-item>
+                <div class="validation-error-text" *ngIf="!form.controls.coordinates.valid">{{'requiredInformation' | translate}}</div>
+            </div>
+            <div *ngIf="form.value.locationType == fireHydrantLocationType.Text">
+                <div>
+                    <ion-label class="custom-item-label">{{'location' | translate}}</ion-label>
+                </div>
+                <ion-item [class.invalid]="!form.controls.physicalPosition.valid && form.value.locationType == fireHydrantLocationType.Text">
+                    <ion-textarea class="left-align-input" formControlName="physicalPosition" type="text"
+                                  placeholder="{{'location' | translate}}"></ion-textarea>
+                </ion-item>
+                <div class="validation-error-text" *ngIf="!form.controls.physicalPosition.valid">{{'requiredInformation' | translate}}</div>
+            </div>
+
+        </ion-item-group>
+    </ion-list>
+</ion-content>
+<ion-footer class="page-footer" *ngIf="!selectedIdFireHydrant">
+    <ion-navbar>
+        <ion-buttons left>
+            <button ion-button  icon-start (click)="cancelEdition()">
+                <ion-icon name="undo"></ion-icon>
+                {{'cancel' | translate}}
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-footer>

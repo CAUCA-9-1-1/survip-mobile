@@ -1,0 +1,21 @@
+<ion-split-pane when="md">
+
+  <ion-menu [content]="myhomecontent" id="inspectionListMenu">
+      <ion-header>
+          <menu-profile></menu-profile>
+      </ion-header>
+
+      <ion-content color="caucaRed">
+          <ion-list class="menu-items">
+              <button ion-item menuClose class="text-menu" *ngFor="let menuItem of menuItems"
+                      (click)="openPage(menuItem.page)">
+                  <ion-icon item-left [name]="menuItem.icon"></ion-icon>
+                  <span ion-text>{{menuItem.title}}</span>
+              </button>
+          </ion-list>
+      </ion-content>
+  </ion-menu>
+
+<ion-nav #myhomecontent [root]="rootPage" main></ion-nav>
+
+</ion-split-pane>

@@ -1,0 +1,32 @@
+
+<ion-header class="page-header">
+  <ion-navbar>
+    <ion-icon name="menu" menuToggle left></ion-icon>
+    <ion-title>
+      {{name}}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-list class="list-items">
+    <ion-list-header>{{'buildingContact' | translate}}</ion-list-header>
+    <button ion-item icon-start *ngFor="let contact of contacts | orderBy:'firstName'" (click)="onItemClick(contact.id)">
+      <ion-icon [name]="contact.isOwner ? 'key' : 'contact'" small></ion-icon>
+      {{contact.firstName}}{{(contact.lastName || '') != '' ? ' ' : ''}}{{contact.lastName}}
+    </button>
+  </ion-list>
+</ion-content>
+
+<ion-footer class="page-footer">
+  <ion-toolbar>
+    <ion-buttons>
+      <button ion-button icon-start full type="button" (click)="onItemClick(null)">
+        <ion-icon name="add-circle"></ion-icon>
+        {{'addContactButton' | translate}}
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+

@@ -1,0 +1,26 @@
+<ion-header class="page-header">
+  <ion-navbar>
+    <button ion-button icon-left small (click)="onCancelSelection()" color="caucaGold">
+      <ion-icon name="arrow-back"></ion-icon>{{'cancel' | translate}}
+    </button>
+    <ion-title>{{'search' | translate}}</ion-title>
+  </ion-navbar>
+  <ion-searchbar placeholder="{{'searchHolder' | translate}}" [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()"></ion-searchbar>
+</ion-header>
+
+<ion-content>
+
+
+  <div *ngIf="searching" class="spinner-container">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <ion-list class="list-items">
+    <div *ngFor="let item of items" >
+      <button *ngIf="item[keyFieldName] !== disabledValue" ion-item (click)="onSelectItem(item[keyFieldName])">
+        {{item[displayFieldName]}}
+      </button>
+    </div>
+  </ion-list>
+
+</ion-content>

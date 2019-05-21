@@ -1,0 +1,71 @@
+<ion-header class="page-header">
+
+  <ion-navbar>
+    <ion-icon name="menu" menuToggle left></ion-icon>
+    <ion-title>{{'inspectionList' | translate}}</ion-title>
+  </ion-navbar>
+
+  <ion-searchbar
+    [(ngModel)]="searchTerm"
+    (ionInput)="filterList($event)"
+    placeholder="{{'inspectionListSearchText' | translate}}">
+  </ion-searchbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-refresher (ionRefresh)="refreshList($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card *ngIf="!dataIsCorrectlyLoaded || isSynching">
+    <ion-card-header>
+      <ion-icon *ngIf="!dataIsCorrectlyLoaded && !isSynching" name="eye-off" item-start style="padding-right: 16px;"></ion-icon>
+      <ion-spinner *ngIf="isSynching" name="crescent"></ion-spinner>
+      {{(isSynching ? 'checkCache' : 'error') | translate}}
+    </ion-card-header>
+    <ion-card-content>
+      <div *ngIf="isSynching">
+        <progress-bar [progress]="synchingPercentCompleted" color="#B32017">
+        </progress-bar>
+      </div>
+      <div *ngIf="!isSynching && !dataIsCorrectlyLoaded">
+      {{'dataLoadingError' | translate}}
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <div class="no-data-message" *ngIf="batches?.length == 0">
+    <h2>{{noDataMessage}}</h2>
+  </div>
+
+  <ion-list class="list-items">
+      <ion-item-group *ngFor="let batch of filteredBatches">
+        <ion-item-divider>
+          {{'inspectionBatch' | translate}} : {{batch.description}}
+          <button ion-button item-end (click)="downloadBatch($event, batch)" icon-only clear style="font-size: large; color: black">
+            <ion-icon [name]="batch.hasBeenFullyDownloaded ? 'cloud' : 'cloud-download'" item-end></ion-icon>
+          </button>
+
+        </ion-item-divider>
+
+        <button ion-item (click)="openInspection(inspection.id)" *ngFor="let inspection of batch.inspections" [style.background-color]="inspection.status == -1 ? 'lightgrey' : ''" >
+          <ion-avatar item-left style="font-size: 40px"><ion-icon name="home" [style.color]="getRiskColor(inspection.idRiskLevel)"></ion-icon></ion-avatar>
+          <h2>{{inspection.civicNumber}}{{inspection.civicLetter}}, {{inspection.laneName}}</h2>
+          <p>{{'riskLevel' | translate}} : {{getRiskDescription(inspection.idRiskLevel)}}</p>
+          <p ion-text>{{getStatusDescription(inspection.status)}}</p>
+
+          <ion-icon [name]="inspection.status == -1 ? 'cloud-done' : 'cloud'" item-end style="font-size: xx-large;" *ngIf="inspection.hasBeenDownloaded"></ion-icon>
+          <ion-icon name="cloud-download" *ngIf="!inspection.hasBeenDownloaded" item-end (click)="downloadInspection($event, inspection, batch)" ></ion-icon>
+
+        </button>
+
+      </ion-item-group>
+  </ion-list>
+
+</ion-content>
+
+<ion-footer class="page-footer">
+  <ion-toolbar>
+  </ion-toolbar>
+</ion-footer>

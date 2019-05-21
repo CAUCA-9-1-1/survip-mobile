@@ -1,0 +1,26 @@
+pictures{
+  button.deleteIcon{
+    position: absolute;
+    right: 14px;
+    background: white;
+  }
+  button.brushIcon{
+    position: absolute;
+    right: 60px;
+    background: white;
+  }
+  ion-card{
+    height: 96%;
+    width: 100%;
+    padding-bottom: 30px;
+  }
+  ion-card img{
+    display:inline-block;
+  }
+  .swiper-pagination{
+    padding-bottom: 5px;
+  }
+  .slide-zoom{
+    height:100%;
+  }
+}

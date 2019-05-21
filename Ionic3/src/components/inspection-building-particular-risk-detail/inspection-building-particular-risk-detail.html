@@ -1,0 +1,32 @@
+<ion-list [formGroup]="form" class="list-items">
+
+  <ion-item-group>
+    <ion-item>
+      <ion-label>{{'weakened' | translate}}</ion-label>
+      <ion-toggle formControlName="isWeakened"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{'opening' | translate}}</ion-label>
+      <ion-toggle formControlName="hasOpening"></ion-toggle>
+    </ion-item>
+    <ion-item *ngIf="currentRiskType=='foundation'">
+      <ion-label>{{'measurement' | translate}}</ion-label>
+      <ion-input type="text" maxlength="100" placeholder="{{'measurement' | translate}}" formControlName="dimension"></ion-input>
+    </ion-item>
+  </ion-item-group>
+
+  <ion-item-group>
+    <ion-item-divider color="light">{{'localization' | translate}}</ion-item-divider>
+    <custom-select formControlName="wall" [dataSource]="walls" title="{{'wall' | translate}}"></custom-select>
+    <custom-select formControlName="sector" [dataSource]="sectors" title="{{'division' | translate}}"></custom-select>
+  </ion-item-group>
+
+  <ion-item-group>
+    <ion-item-divider>{{'comment' | translate}}</ion-item-divider>
+    <ion-textarea maxlength="500" rows="10" formControlName="comments" placeholder="{{'commentHolder' | translate}}"  ></ion-textarea>
+  </ion-item-group>
+
+  <ion-item-group>
+    <pictures [repo]="picRepo" height="350px" formControlName="id"></pictures>
+  </ion-item-group>
+</ion-list>
