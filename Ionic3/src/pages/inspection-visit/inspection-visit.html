@@ -1,0 +1,57 @@
+<ion-header class="page-header">
+    <ion-navbar>
+        <ion-title>{{'inspectionVisit' | translate}}</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-list class="list-items">
+        <ion-list-header>{{'visitCanceled' | translate}}</ion-list-header>
+        <ion-item-group>
+            <ion-item-divider>{{'visitCanceledMotive' | translate}}</ion-item-divider>
+            <div *ngIf="ownerAbsent">
+                <ion-item>
+                    <ion-label>{{'ownerAbsent' | translate}}</ion-label>
+                    <ion-toggle [checked]="true" [disabled]="true"></ion-toggle>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{'doorHangerLeft' | translate}}</ion-label>
+                    <ion-toggle [(ngModel)]=doorHangerHasBeenLeft></ion-toggle>
+                </ion-item>
+            </div>
+
+            <div *ngIf="!ownerAbsent">
+                <ion-item>
+                    <ion-label>{{'ownerRefused' | translate}}</ion-label>
+                    <ion-toggle [checked]="true" [disabled]="true"></ion-toggle>
+                </ion-item>
+                <ion-item class="align-row">
+                    <ion-label>{{'visitRefusedMotive' | translate}}</ion-label><br>
+                    <ion-textarea [(ngModel)]=refusalReason></ion-textarea>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{'doorHangerLeft' | translate}}</ion-label>
+                    <ion-toggle [(ngModel)]=doorHangerHasBeenLeft></ion-toggle>
+                </ion-item>
+            </div>
+
+        </ion-item-group>
+        <ion-item-group>
+            <ion-item-divider>{{'visitNewSchedule' | translate}}</ion-item-divider>
+            <ion-item>
+                <ion-label>{{'date' | translate}}</ion-label>
+                <ion-datetime displayFormat="YYYY/MM/DD" placeholder="{{'date' | translate}}" [(ngModel)]=requestedDateOfVisit [pickerOptions]="customOptions" [min]="minimalNextVisitDate" [max]="maximalNextVisitDate"></ion-datetime>
+            </ion-item>
+        </ion-item-group>
+    </ion-list>
+</ion-content>
+<ion-footer class="page-footer">
+    <ion-toolbar>
+        <ion-buttons>
+            <button ion-button icon-start full type="button" (click)="updateVisitRefusalReason()">
+                <ion-icon name="icon-save"></ion-icon>
+                {{'save' | translate}}
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,34 @@
+<ion-header class="page-header">
+  <ion-navbar>
+    <ion-title>{{'availableFireHydrantList' | translate}}</ion-title>
+  </ion-navbar>
+  <ion-searchbar (ionInput)="getItems($event)" [placeholder]="'navigationSearch' | translate"></ion-searchbar>
+</ion-header>
+<ion-content>
+  <ion-list class="list-items">
+    <ion-list-header>
+      {{'fireHydrants' | translate}}
+      <!--<ion-icon item-end (click)="onEditModeChanged()" name="create" [style.color]="editModeColor"></ion-icon>-->
+    </ion-list-header>
+
+    <button ion-item detail-none *ngFor="let hydrant of filteredCityFireHydrantList | orderBy:'number'" (click)="addBuildingFireHydrant(hydrant)">
+      <ion-icon name="icon-fire-hydrant" item-start [style.color]="hydrant.color" [style.background-color]="hydrant.color == '#FFFFFF' ? 'lightgray': null" large></ion-icon>
+      <ion-icon class="custom-icon-select" *ngIf="editMode" name="arrow-forward" item-end large></ion-icon>
+        <div class="fire-hydrant-info">
+          <h2>{{hydrant.number}}</h2>
+          <p>{{hydrant.address | formatCoordinates}}</p>
+        </div>
+    </button>
+  </ion-list>
+</ion-content>
+
+<ion-footer class="page-footer">
+  <ion-toolbar>
+    <!--<ion-buttons>
+      <button ion-button icon-left (click)="createFireHydrant()">
+        <ion-icon name="add-circle"></ion-icon>
+        {{'createFireHydrantButton' | translate}}
+      </button>
+    </ion-buttons>-->
+  </ion-toolbar>
+</ion-footer>

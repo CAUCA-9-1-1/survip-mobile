@@ -1,0 +1,35 @@
+page-inspection-survey-summary {
+
+  ion-label {
+    white-space: normal;
+  }
+  ion-list-header {
+    margin-bottom: 0px !important;
+  }
+
+  .label{
+    margin:0px;
+  }
+  ion-item-divider{
+    margin-bottom: 5px;
+  }
+  .list{
+    margin: -1px 0 10px;
+  }
+  .item-inner{
+    border-bottom: 0 !important;
+  }
+
+  .recursive-item{
+    margin-left: 16px !important;
+  }
+
+  .recursive-item-title {
+    margin-left: 16px !important;
+    background-color: #cbb677;
+  }
+
+  .non-recursive-item{
+    padding-left: 16px !important;
+  }
+}

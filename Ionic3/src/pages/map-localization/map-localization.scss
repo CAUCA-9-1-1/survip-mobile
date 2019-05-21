@@ -1,0 +1,18 @@
+page-map-localization {
+  #map{
+    height:100%;
+    width:100%;
+  }
+  #center {
+    top: calc(50% - (32px / 2));
+    left: calc(50% - (32px / 2));
+    width: 32px;
+    height: 32px;
+    background-image: url('../assets/icon/target.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100%;
+    z-index: 10000;
+    position: fixed;
+  }
+}

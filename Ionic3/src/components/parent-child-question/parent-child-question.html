@@ -1,0 +1,19 @@
+<div class="question-container">
+    <div class="parent-question-title">
+        <h4 (click)="manageQuestionGroupDisplay()">{{answer.title}} #{{groupIndex+1}} <ion-icon name="{{groupIcon}}"></ion-icon></h4>
+        <div>
+            <ion-icon name="trash" (click)="deleteQuestionGroup(question)"></ion-icon>
+        </div>
+    </div>
+    <div #questionGroup>
+        <div *ngFor="let q of answeredQuestions">
+            <ion-card>
+                <survey-question [showTitle]="false"
+                                 [question]="q"
+                                 [idParent]="answer.id"
+                                 (questionAnswered)="validateAnswer($event)"
+                                 (remainingQuestionResetNeeded)="deleteRemainingAnswers($event)"></survey-question>
+            </ion-card>
+        </div>
+    </div>
+</div>

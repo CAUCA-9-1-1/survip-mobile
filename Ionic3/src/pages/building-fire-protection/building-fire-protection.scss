@@ -1,0 +1,24 @@
+page-building-fire-protection {
+  .segment-fire {
+    max-width: 45% !important;
+  }
+
+  .fire-protection-header {
+    .list-header {
+      background-color: #737373;
+      color: whitesmoke;
+    }
+    .segment-button {
+      color: black;
+      border-color: black;
+    }
+    .segment-button.segment-activated {
+      background-color: color($colors, caucaGold);
+      border-color: black;
+      color: black;
+    }
+    .segment-fire-protection {
+      margin-bottom: 1px;
+    }
+  }
+}

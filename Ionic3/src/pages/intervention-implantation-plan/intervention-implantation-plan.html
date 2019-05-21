@@ -1,0 +1,10 @@
+<ion-header class="page-header">
+  <ion-navbar>
+    <ion-icon name="menu" menuToggle left></ion-icon>
+    <ion-title>{{'implantationPlan' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content ion-fixed>
+  <pictures [repo]="picRepo" [multiPictures]="false" height="80vh" [saveAuto]="false" [(ngModel)]="IdBuilding">{{'loading' | translate}}</pictures>
+</ion-content>
