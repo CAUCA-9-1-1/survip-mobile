@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HazardousMaterialForList} from '../../models/hazardous-material-for-list';
-import {Storage as OfflineStorage} from "@ionic/storage";
-import {StringUtilities} from "./string-utilities";
+import {Storage as OfflineStorage} from '@ionic/storage';
+import { HazardousMaterialForList } from 'src/app/shared/models/hazardous-material-for-list';
+import { StringUtilities } from '../utilities/string-utilities';
 
 @Injectable()
 export class HazardousMaterialRepositoryProvider {
@@ -15,11 +15,11 @@ export class HazardousMaterialRepositoryProvider {
 
     return materials.filter((material) => {
       const laneName = StringUtilities.removeDiacritics(material.name).toUpperCase();
-      return laneName.indexOf(searchTermWithoutDiacritics) !== -1 || material.number.indexOf(searchTermWithoutDiacritics) != -1;
+      return laneName.indexOf(searchTermWithoutDiacritics) !== -1 || material.number.indexOf(searchTermWithoutDiacritics) !== -1;
     }).filter((lane, index) => index < 30);
   }
 
   public async getAll(): Promise<HazardousMaterialForList[]> {
-    return (await this.storage.get("hazardous_material")).data;
+    return (await this.storage.get('hazardous_material')).data;
   }
 }

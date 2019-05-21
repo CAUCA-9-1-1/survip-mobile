@@ -1,6 +1,6 @@
 export class CityWithRegion {
-    id= '';
-    name= '';
-    countyName= '';
-    regionName = ''
+    id = '';
+    name = '';
+    countyName = '';
+    regionName = '';
 }

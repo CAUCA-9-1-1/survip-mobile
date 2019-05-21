@@ -17,7 +17,7 @@
     "max-classes-per-file": false,
     "max-line-length": [
       true,
-      140
+      {"limit": 140,"ignore-pattern": "^import |^export {(.*?)}"}
     ],
     "member-access": false,
     "member-ordering": [
@@ -41,10 +41,12 @@
       "trace"
     ],
     "no-empty": false,
-    "no-inferrable-types": [
+    "no-inferrable-types": [      
       true,
-      "ignore-params"
+      "ignore-params",
+      "ignore-properties"
     ],
+    "no-string-literal": false,
     "no-non-null-assertion": true,
     "no-redundant-jsdoc": true,
     "no-switch-case-fall-through": true,

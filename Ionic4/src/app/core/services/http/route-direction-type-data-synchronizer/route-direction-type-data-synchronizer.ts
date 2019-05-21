@@ -6,7 +6,7 @@ import { RouteDirection } from 'src/app/shared/models/route-direction';
 
 @Injectable()
 export class RouteDirectionTypeDataSynchronizerProvider extends BaseExpiringDataSynchronizerProvider<RouteDirection[]> {
-  constructor(private http: HttpService, private storage: OfflineStorage){
+  constructor(private http: HttpService, private storage: OfflineStorage) {
     super(http, storage, 'route_direction', 'routedirection');
   }
 }

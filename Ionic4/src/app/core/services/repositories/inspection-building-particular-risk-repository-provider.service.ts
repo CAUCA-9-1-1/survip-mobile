@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {InspectionBuildingParticularRisk} from '../../models/inspection-building-particular-risk';
-import {Storage as OfflineStorage} from "@ionic/storage";
+import {Storage as OfflineStorage} from '@ionic/storage';
+import { InspectionBuildingParticularRisk } from 'src/app/shared/models/inspection-building-particular-risk';
 
 @Injectable()
 export class InspectionBuildingParticularRiskRepositoryProvider {

@@ -1,4 +1,4 @@
-import {InspectionPictureForWeb} from "./inspection-picture-for-web";
+import {InspectionPictureForWeb} from './inspection-picture-for-web';
 
 export class InspectionBuildingAnomaly {
   id = '';

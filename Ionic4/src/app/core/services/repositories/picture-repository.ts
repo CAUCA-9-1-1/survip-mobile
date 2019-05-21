@@ -1,10 +1,10 @@
 import {EventEmitter, Injectable} from '@angular/core';
-import {InspectionPictureForWeb} from "../../models/inspection-picture-for-web";
 import {Storage} from '@ionic/storage';
-import {PicturesRepositoryProvider} from "../../interfaces/pictures-repository-provider.interface";
+import { PicturesRepositoryProvider } from 'src/app/shared/interfaces/pictures-repository-provider.interface';
+import { InspectionPictureForWeb } from 'src/app/shared/models/inspection-picture-for-web';
 
 @Injectable()
-export class PictureRepositoryProvider implements PicturesRepositoryProvider{
+export class PictureRepositoryProvider implements PicturesRepositoryProvider {
   constructor(private offlineStorage: Storage) {
   }
 
@@ -27,9 +27,9 @@ export class PictureRepositoryProvider implements PicturesRepositoryProvider{
   }
 
   public delete(idParent: string, idPicture: string): Promise<boolean> {
-    const pic = this.pictures.find(p => p.id == idPicture);
+    const pic = this.pictures.find(p => p.id === idPicture);
 
-    if (pic!= null) {
+    if (pic != null) {
       pic.isActive = false;
       pic.dataUri = null;
       pic.sketchJson = null;

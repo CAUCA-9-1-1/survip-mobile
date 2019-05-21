@@ -28,8 +28,8 @@ export class MessageToolsProvider {
     public ShowMessageBox(title: string, message: string): Promise<boolean> {
         return new Promise(async (resolve) => {
             const alert = await this.alertCtrl.create({
-                title: title,
-                message: message,
+                header: title,
+                message,
                 buttons: [
                     {
                         text: this.labels['yes'], handler: () => {
@@ -50,7 +50,7 @@ export class MessageToolsProvider {
 
     public async showToast(message: string, secondDelay: number = 3): Promise<any> {
         const toast = await this.toastCtrl.create({
-            message: message,
+            message,
             duration: (secondDelay * 1000),
             position: 'bottom'
         });

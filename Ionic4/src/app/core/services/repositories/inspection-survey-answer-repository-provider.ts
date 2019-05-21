@@ -1,9 +1,9 @@
-import {HttpService} from "../Base/http.service";
-import {EventEmitter, Injectable} from "@angular/core";
-import {InspectionSurveyAnswer, SurveyQuestionTypeEnum} from "../../models/inspection-survey-answer";
-import {InspectionSurveySummaryCategory} from "../../models/inspection-survey-summary-category";
-import {Storage as OfflineStorage} from "@ionic/storage";
-import {InspectionSurveySummary} from "../../models/inspection-survey-summary";
+import {HttpService} from '../Base/http.service';
+import {EventEmitter, Injectable} from '@angular/core';
+import {Storage as OfflineStorage} from '@ionic/storage';
+import { InspectionSurveyAnswer, SurveyQuestionTypeEnum } from 'src/app/shared/models/inspection-survey-answer';
+import { InspectionSurveySummaryCategory } from 'src/app/shared/models/inspection-survey-summary-category';
+import { InspectionSurveySummary } from 'src/app/shared/models/inspection-survey-summary';
 
 @Injectable()
 export class InspectionSurveyAnswerRepositoryProvider {
@@ -11,7 +11,6 @@ export class InspectionSurveyAnswerRepositoryProvider {
     public questionAnswered: EventEmitter<any> = new EventEmitter<any>();
 
     constructor(
-      private http: HttpService,
       private storage: OfflineStorage) {
     }
 
@@ -20,7 +19,7 @@ export class InspectionSurveyAnswerRepositoryProvider {
     }
 
     public async getAnswerList(idInspection: string): Promise<InspectionSurveyAnswer[]> {
-        let answers = await this.storage.get('inspection_survey_answers_' + idInspection);
+        const answers = await this.storage.get('inspection_survey_answers_' + idInspection);
         return answers || [];
     }
 
@@ -35,22 +34,22 @@ export class InspectionSurveyAnswerRepositoryProvider {
 
       answers.forEach(answer => {
 
-        let item = this.getSummaryGroup(answer, summary);
+        const item = this.getSummaryGroup(answer, summary);
         const newSum = this.generateSurveySummary(answer);
         item.answerSummary.push(newSum);
       });
 
-      return summary
+      return summary;
     }
 
   private generateSurveySummary(answer) {
     const newSum: InspectionSurveySummary = new InspectionSurveySummary();
 
     newSum.answer = answer.answer;
-    if (answer.questionType == SurveyQuestionTypeEnum.choiceAnswer) {
-      const choice = answer.choicesList.find(choice => choice.id == answer.idSurveyQuestionChoice);
-      if (choice != null) {
-        newSum.answer = choice.description;
+    if (answer.questionType === SurveyQuestionTypeEnum.choiceAnswer) {
+      const foundChoice = answer.choicesList.find(choice => choice.id === answer.idSurveyQuestionChoice);
+      if (foundChoice != null) {
+        newSum.answer = foundChoice.description;
       }
     }
 
@@ -76,7 +75,7 @@ export class InspectionSurveyAnswerRepositoryProvider {
   }
 
   private getSummaryGroup(answer, summary: InspectionSurveySummaryCategory[]) {
-    let item = summary.find(i => i.title == answer.title);
+    let item = summary.find(i => i.title === answer.title);
     if (item == null) {
       item = new InspectionSurveySummaryCategory();
       item.title = answer.title;

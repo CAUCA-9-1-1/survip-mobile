@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {catchError} from 'rxjs/operators';
 import {TranslateService} from '@ngx-translate/core';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {Events} from '@ionic/angular';
 import config from '../../../../assets/config/config.json';
 
@@ -24,7 +24,7 @@ export class HttpService {
       return {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('currentToken'),
+            Authorization: 'Bearer ' + localStorage.getItem('currentToken'),
             'Language-Code': this.translateService.getDefaultLang() || 'fr'
           })
         };
@@ -83,7 +83,7 @@ export class HttpService {
                 message = this.translateService.instant(error.error);
                 break;
             case 401:
-                console.log("401 in http.service.");
+                console.log('401 in http.service.');
                 break;
             case 404:
                 message = this.translateService.instant('requestServer404', {url: error.url});
@@ -95,12 +95,12 @@ export class HttpService {
 
         if (message) {
           if (displayError) {
-            this.events.publish("http:error", this.translateService.instant('requestErrorDefault'));
+            this.events.publish('http:error', this.translateService.instant('requestErrorDefault'));
           }
           console.log(message);
         }
 
-        return Observable.throw(error);
+        return throwError(error);
     }
 }
 

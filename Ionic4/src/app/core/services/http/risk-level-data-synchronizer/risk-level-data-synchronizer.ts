@@ -6,7 +6,7 @@ import { RiskLevel } from 'src/app/shared/models/risk-level';
 
 @Injectable()
 export class RiskLevelDataSynchronizerProvider extends BaseExpiringDataSynchronizerProvider<RiskLevel[]> {
-  constructor(private http: HttpService, private storage: OfflineStorage){
+  constructor(private http: HttpService, private storage: OfflineStorage) {
     super(http, storage, 'risk_level', 'risklevel/localized');
   }
 }

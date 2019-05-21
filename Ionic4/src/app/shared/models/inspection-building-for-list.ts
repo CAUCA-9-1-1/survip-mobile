@@ -1,4 +1,4 @@
-export class InspectionBuildingForList{
+export class InspectionBuildingForList {
   idBuilding: string;
   aliasName: string;
   corporateName: string;

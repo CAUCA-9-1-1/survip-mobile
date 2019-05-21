@@ -1,15 +1,15 @@
 import {Storage as OfflineStorage} from '@ionic/storage';
 import {map} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
-import {HttpService} from '../../base/http.service';
-import { Lane } from 'src/app/shared/models/lane';
+import { HttpService } from '../../base/http.service';
+import { CityWithRegion } from 'src/app/shared/models/city-with-region';
 import { ExpiringCache } from '../../base/expiring-cache';
 
 @Injectable()
-export class LaneDataSynchronizerProvider {
+export class CityDataSynchronizerProvider {
 
-  protected readonly baseUrl: string = 'lane/city/';
-  public readonly baseStorageKey: string = 'lane_by_city_';
+  protected readonly baseUrl: string = 'city/';
+  public readonly baseStorageKey: string = 'city_';
 
   constructor(
     private httpService: HttpService,
@@ -33,10 +33,10 @@ export class LaneDataSynchronizerProvider {
 
   protected retrieveFromApi(cityId: string): Promise<boolean> {
     return new Promise((resolve) => {
-      this.httpService.get(this.baseUrl + cityId)
+      this.httpService.get(this.baseUrl + cityId + '/localized')
         .pipe(map(response => response))
         .subscribe(
-          async (data: Lane[]) => {
+          async (data: CityWithRegion[]) => {
             await this.saveValueToStorage(data, cityId);
             resolve(true);
           },
@@ -45,8 +45,8 @@ export class LaneDataSynchronizerProvider {
     });
   }
 
-  protected async saveValueToStorage(value: Lane[], cityId: string) {
-    const cache = new ExpiringCache<Lane[]>();
+  protected async saveValueToStorage(value: CityWithRegion[], cityId: string) {
+    const cache = new ExpiringCache<CityWithRegion[]>();
     cache.data = value;
     cache.expiredOn = this.addDays(new Date(), 7);
     await this.offlineStorage.set(this.baseStorageKey + cityId, cache);
@@ -72,7 +72,7 @@ export class LaneDataSynchronizerProvider {
     }
   }
 
-  protected cacheIsExpired(cache: ExpiringCache<Lane[]>): boolean {
+  protected cacheIsExpired(cache: ExpiringCache<CityWithRegion[]>): boolean {
     const date = new Date();
     return cache.expiredOn < date;
   }

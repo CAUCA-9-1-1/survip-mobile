@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {InspectionBuildingHazardousMaterialForList} from '../../models/inspection-building-hazardous-material-for-list';
-import {InspectionBuildingHazardousMaterial} from '../../models/inspection-building-hazardous-material';
-import {Storage as OfflineStorage} from "@ionic/storage";
-import {UnitOfMeasureRepositoryProvider} from "./unit-of-measure-repository";
-import {HazardousMaterialRepositoryProvider} from "./hazardous-material-repository";
-import {UnitOfMeasure} from "../../models/unit-of-measure";
-import {HazardousMaterialForList} from "../../models/hazardous-material-for-list";
+import {Storage as OfflineStorage} from '@ionic/storage';
+import {UnitOfMeasureRepositoryProvider} from './unit-of-measure-repository';
+import {HazardousMaterialRepositoryProvider} from './hazardous-material-repository';
+import { InspectionBuildingHazardousMaterialForList } from 'src/app/shared/models/inspection-building-hazardous-material-for-list';
+import { InspectionBuildingHazardousMaterial } from 'src/app/shared/models/inspection-building-hazardous-material';
+import { UnitOfMeasure } from 'src/app/shared/models/unit-of-measure';
+import { HazardousMaterialForList } from 'src/app/shared/models/hazardous-material-for-list';
 
 @Injectable()
 export class InspectionBuildingHazardousMaterialRepositoryProvider {
@@ -24,32 +24,35 @@ export class InspectionBuildingHazardousMaterialRepositoryProvider {
     const materials = await this.materialRepo.getAll();
 
     return this.storage.get(this.baseKey + idBuilding)
-      .then(items =>items.filter(item => item.isActive).map(item => this.getForList(item, units, materials)));
+      .then(items => items.filter(item => item.isActive).map(item => this.getForList(item, units, materials)));
   }
 
-  private getForList(material: InspectionBuildingHazardousMaterial, units: UnitOfMeasure[], materials: HazardousMaterialForList[]):InspectionBuildingHazardousMaterialForList {
+  private getForList(
+    material: InspectionBuildingHazardousMaterial,
+    units: UnitOfMeasure[],
+    materials: HazardousMaterialForList[]): InspectionBuildingHazardousMaterialForList {
     const item = new InspectionBuildingHazardousMaterialForList();
     item.id = material.id;
 
-    if (material.capacityContainer > 0){
+    if (material.capacityContainer > 0) {
       item.quantityDescription = material.capacityContainer.toString();
-      let unit = units.find(u => u.id == material.idUnitOfMeasure);
-      if (unit != null){
+      const unit = units.find(u => u.id === material.idUnitOfMeasure);
+      if (unit != null) {
         item.quantityDescription += ' ' + unit.name;
       }
-      if (material.quantity > 0){
+      if (material.quantity > 0) {
         item.quantityDescription = material.quantity + ' x ' + item.quantityDescription;
       }
     }
 
-    const mat = materials.find(mat => mat.id == material.idHazardousMaterial);
-    item.hazardousMaterialName = mat.name;
-    item.hazardousMaterialNumber = mat.number;
+    const foundMaterial = materials.find(mat => mat.id === material.idHazardousMaterial);
+    item.hazardousMaterialName = foundMaterial.name;
+    item.hazardousMaterialNumber = foundMaterial.number;
     return item;
   }
 
   public async get(idBuilding: string, idBuildingContact: string): Promise<InspectionBuildingHazardousMaterial> {
-    return (await this.storage.get(this.baseKey  + idBuilding)).find(c => c.id == idBuildingContact);
+    return (await this.storage.get(this.baseKey  + idBuilding)).find(c => c.id === idBuildingContact);
   }
 
   public async save(modifiedItem: InspectionBuildingHazardousMaterial): Promise<any> {
@@ -64,7 +67,7 @@ export class InspectionBuildingHazardousMaterialRepositoryProvider {
   public async delete(modifiedItem: InspectionBuildingHazardousMaterial): Promise<any> {
 
     const list = await this.storage.get(this.baseKey  + modifiedItem.idBuilding);
-    const currentItem = list.filter(s => s.id == modifiedItem.id)[0];
+    const currentItem = list.filter(s => s.id === modifiedItem.id)[0];
     Object.assign(currentItem, modifiedItem);
     currentItem.isActive = false;
     currentItem.hasBeenModified = true;
@@ -75,15 +78,17 @@ export class InspectionBuildingHazardousMaterialRepositoryProvider {
   public getEnumsKeysCollection(enumCollection: any): number[] {
     return Object.keys(enumCollection)
       .map(k => enumCollection[k])
-      .filter(v => typeof v === "number") as number[];
+      .filter(v => typeof v === 'number') as number[];
   }
 
 
-  private getCurrentItem(list: InspectionBuildingHazardousMaterial[], modifiedItem: InspectionBuildingHazardousMaterial): InspectionBuildingHazardousMaterial{
-    let currentItem = list.filter(s => s.id == modifiedItem.id)[0];
+  private getCurrentItem(
+    list: InspectionBuildingHazardousMaterial[],
+    modifiedItem: InspectionBuildingHazardousMaterial): InspectionBuildingHazardousMaterial {
+    const currentItem = list.filter(s => s.id === modifiedItem.id)[0];
     if (currentItem == null) {
       list.push(modifiedItem);
-    }else{
+    } else {
       Object.assign(currentItem, modifiedItem);
     }
     return currentItem || modifiedItem;

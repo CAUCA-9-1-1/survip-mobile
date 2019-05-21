@@ -6,7 +6,7 @@ import { GenericType } from 'src/app/shared/models/generic-type';
 
 @Injectable()
 export class PersonRequiringAssistanceTypeDataSynchronizerProvider extends BaseExpiringDataSynchronizerProvider<GenericType[]> {
-  constructor(private http: HttpService, private storage: OfflineStorage){
+  constructor(private http: HttpService, private storage: OfflineStorage) {
     super(http, storage, 'person_requiring_assistance_type', 'personrequiringassistancetype/localized');
   }
 }
