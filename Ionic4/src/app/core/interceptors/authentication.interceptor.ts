@@ -1,8 +1,8 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpSentEvent, HttpHeaderResponse, HttpProgressEvent, HttpResponse, HttpUserEvent } from '@angular/common/http';
+import { HttpErrorResponse, HttpHandler, HttpInterceptor, HttpRequest, HttpSentEvent, HttpHeaderResponse, HttpProgressEvent, HttpResponse, HttpUserEvent } from '@angular/common/http';
 import { BehaviorSubject, Observable, from, throwError } from 'rxjs';
 import { Injectable, Injector } from '@angular/core';
 import { Storage as OfflineStorage } from '@ionic/storage';
-import { switchMap, catchError, finalize, take, filter } from 'rxjs/operators';
+import { switchMap, catchError, take, filter } from 'rxjs/operators';
 import { Events } from '@ionic/angular';
 import { AuthenticationService } from '../services/authentication/authentification.service';
 
@@ -20,31 +20,25 @@ export class AuthenticationInterceptor implements HttpInterceptor {
   public intercept(req: HttpRequest<any>, next: HttpHandler):
     Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any>> {
 
-    return from(this.getToken())
-      .pipe(
-        switchMap(
-          token => {
-            if (this.requestIsForAuthentication(req)) {
-              return next.handle(this.setToken(req, token));
+    const token = this.authService.userAccessToken;
+
+    if (this.requestIsForAuthentication(req)) {
+      return next.handle(this.setToken(req, token));
+    } else {
+      return next.handle(this.setToken(req, token))
+        .pipe(
+          catchError(error => {
+            if (error instanceof HttpErrorResponse
+              && !this.requestIsForAuthentication(req)
+              && (error as HttpErrorResponse).status === 401) {
+              console.log('Expired access token intercepted.');
+              return this.refreshToken(req, next);
             } else {
-              return next.handle(this.setToken(req, token))
-                .pipe(
-                  catchError(error => {
-                    if (error instanceof HttpErrorResponse
-                      && !this.requestIsForAuthentication(req)
-                      && (error as HttpErrorResponse).status === 401) {
-                      console.log('Expired access token intercepted.');
-                      return this.refreshToken(req, next);
-                    } else {
-                      return throwError(error);
-                    }
-                    return throwError(error);
-                  })
-                );
+              return throwError(error);
             }
-          }
-        )
-      );
+          })
+        );
+    }
   }
 
   private requestIsForAuthentication(authRequest) {
@@ -96,21 +90,9 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     events.publish('user:logout');
   }
 
-  private async getToken(): Promise<string> {
-    const auth = await this.storage.get('auth');
-    return auth ? auth.accessToken : '';
-  }
-
   private onTokenRefreshed(newAccessToken, req, next) {
     this.tokenSubject.next(newAccessToken);
     return this.getRequestWithToken(req, next);
-  }
-
-  private async saveToken(accessToken: string): Promise<boolean> {
-    const auth = await this.storage.get('auth');
-    auth.accessToken = accessToken;
-    await this.storage.set('auth', auth);
-    return true;
   }
 
   private setToken(req: HttpRequest<any>, token: string): HttpRequest<any> {
