@@ -1,14 +1,14 @@
-import {Injectable} from '@angular/core';
-import {Observable, from } from 'rxjs';
-import {TranslateService} from '@ngx-translate/core';
-import {Storage as OfflineStorage} from '@ionic/storage';
-import {switchMap} from 'rxjs/operators';
-import { LoadingController } from '@ionic/angular/dist/providers/loading-controller';
-import { HttpService } from '../base/http.service';
+import { Injectable } from '@angular/core';
+import { AppVersion } from '@ionic-native/app-version/ngx';
+import { KeychainTouchId } from '@ionic-native/keychain-touch-id/ngx';
 import { Platform } from '@ionic/angular';
-import {AppVersion} from '@ionic-native/app-version/ngx';
-import {KeychainTouchId} from '@ionic-native/keychain-touch-id/ngx';
+import { LoadingController } from '@ionic/angular/dist/providers/loading-controller';
+import { Storage as OfflineStorage } from '@ionic/storage';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable, of, from, defer } from 'rxjs';
+import { catchError, switchMap, map, finalize, flatMap } from 'rxjs/operators';
 import config from '../../../../assets/config/config.json';
+import { HttpService } from '../base/http.service';
 
 export enum LoginResult {
     Ok,
@@ -22,8 +22,11 @@ export class AuthenticationService {
     private loading: HTMLIonLoadingElement;
     public survipVersion = '';
     public survipName = '';
-    public firstName = '';
-    public lastName = '';
+
+    public userFirstName: string = '';
+    public userLastName: string = '';
+    public userRefreshToken: string;
+    public userAccessToken: string;
 
     constructor(
         private storage: OfflineStorage,
@@ -96,7 +99,7 @@ export class AuthenticationService {
 
     public async showLoading() {
         const message = await this.translateService.get('waitFormMessage').toPromise();
-        this.loading = await this.loadingCtrl.create({message});
+        this.loading = await this.loadingCtrl.create({ message });
         await this.loading.present();
     }
 
@@ -108,8 +111,10 @@ export class AuthenticationService {
     }
 
     public async logout() {
-        this.firstName = '';
-        this.lastName = '';
+        this.userFirstName = '';
+        this.userLastName = '';
+        this.userAccessToken = null;
+        this.userRefreshToken = null;
         await this.storage.remove('auth');
     }
 
@@ -124,8 +129,10 @@ export class AuthenticationService {
                     firstName: result.data.firstName,
                     lastName: result.data.lastName
                 });
-                this.firstName = result.data.firstName;
-                this.lastName = result.data.lastName;
+                this.userFirstName = result.data.firstName;
+                this.userLastName = result.data.lastName;
+                this.userAccessToken = result.data.accessToken;
+                this.userRefreshToken = result.data.refreshToken;
                 this.saveKeychainTouchId(userInfo);
             }
         }
@@ -148,28 +155,32 @@ export class AuthenticationService {
             this.keychainTouchId.isAvailable().then(() => {
                 this.keychainTouchId.delete(this.keychainTouchIdKey)
                     .then(() => {
-                    localStorage.removeItem('biometricActivated');
-                });
+                        localStorage.removeItem('biometricActivated');
+                    });
             });
         }
     }
 
-    public refreshTokenObservable(): Observable<any> {
-        return from(this.storage.get('auth'))
+    public refreshToken(): Observable<boolean> {
+        return this.getRefreshedTokenFromApi()
             .pipe(
-                switchMap(user => this.getRefreshedTokenFromApi(user))
+                flatMap(response => from(this.saveToken(response.accessToken).then(() => true))),
+                catchError(error => of(false))
             );
     }
 
-    public async refreshToken(): Promise<Observable<any>> {
-        const user = await this.storage.get('auth');
-        return this.getRefreshedTokenFromApi(user);
+    private async saveToken(accessToken: string): Promise<boolean> {
+        const auth = await this.storage.get('auth');
+        auth.accessToken = accessToken;
+        this.userAccessToken = accessToken;
+        await this.storage.set('auth', auth);
+        return true;
     }
 
-    private getRefreshedTokenFromApi(user) {
+    private getRefreshedTokenFromApi(): Observable<any> {
         return this.http.rawPost('Authentification/Refresh', {
-            accessToken: user.accessToken,
-            refreshToken: user.refreshToken
+            accessToken: this.userAccessToken,
+            refreshToken: this.userRefreshToken
         }, false);
     }
 
@@ -202,3 +213,4 @@ export class AuthenticationService {
         }
     }
 }
+

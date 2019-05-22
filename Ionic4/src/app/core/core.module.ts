@@ -23,7 +23,6 @@ import { SprinklerTypeRepository } from './services/repositories/sprinkler-type-
 import { FirestationRepositoryProvider } from './services/repositories/firestation-repository-provider.service';
 import { RouteDirectionRepositoryProvider } from './services/repositories/route-direction-repository';
 import { HttpService } from './services/base/http.service';
-import { AuthenticationService } from './services/http/authentification.service';
 import { MessageToolsProvider } from './services/utilities/message-tools/message-tools';
 import { BuildingContactRepositoryProvider } from './services/repositories/building-contact-repository';
 import { ConstructionTypesRepositoryProvider } from './services/repositories/construction-types-repository';
@@ -56,6 +55,7 @@ import { CityDataSynchronizerProvider } from './services/http/city-data-synchron
 import { FirestationDataSynchronizerProvider } from './services/http/firestation-data-synchronizer/firestation-data-synchronizer';
 import { AnomalyThemeDataSynchronizerProvider } from './services/http/anomaly-theme-data-synchronizer/anomaly-theme-data-synchronizer';
 import { InspectionUploaderProvider } from './services/controllers/inspection-uploader/inspection-uploader';
+import { AuthenticationService } from './services/authentication/authentification.service';
 
 @NgModule({
   declarations: [
