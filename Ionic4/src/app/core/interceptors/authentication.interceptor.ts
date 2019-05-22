@@ -4,15 +4,17 @@ import { Injectable, Injector } from '@angular/core';
 import { Storage as OfflineStorage } from '@ionic/storage';
 import { switchMap, catchError, finalize, take, filter } from 'rxjs/operators';
 import { Events } from '@ionic/angular';
-import { AuthenticationService } from '../services/http/authentification.service';
+import { AuthenticationService } from '../services/authentication/authentification.service';
 
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
 
   private isRefreshingToken: boolean = false;
   private tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  private authService: AuthenticationService;
 
   constructor(private injector: Injector, private storage: OfflineStorage) {
+    this.authService = this.injector.get(AuthenticationService);
   }
 
   public intercept(req: HttpRequest<any>, next: HttpHandler):
@@ -54,20 +56,18 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     if (!this.isRefreshingToken) {
       this.isRefreshingToken = true;
       this.tokenSubject.next(null);
-      const authService = this.injector.get(AuthenticationService);
 
-      return authService.refreshTokenObservable()
+      return this.authService.refreshToken()
         .pipe(
-          switchMap((response) => this.onTokenRefreshed(response, req, next)),
-          catchError((error) => {
-            // If there is an exception calling 'refreshToken', bad news so logout.
-            console.log('an error has occured while refreshing the token.', error);
+          switchMap((hasBeenRefreshed) => {
             this.isRefreshingToken = false;
-            return this.onLogout();
-          }),
-          finalize(() => {
-            this.isRefreshingToken = false;
-          }));
+            if (hasBeenRefreshed) {
+              return this.onTokenRefreshed(this.authService.userAccessToken, req, next);
+            } else {
+              return this.onLogout();
+            }
+          })
+        );
     } else {
       return this.getRequestWithToken(req, next);
     }
@@ -101,19 +101,9 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     return auth ? auth.accessToken : '';
   }
 
-  private onTokenRefreshed(response, req, next) {
-    if (!response.accessToken) {
-      this.isRefreshingToken = false;
-      return this.onLogout();
-    } else {
-      return from(this.saveToken(response.accessToken))
-        .pipe(
-          switchMap(() => {
-            this.tokenSubject.next(response.accessToken);
-            return this.getRequestWithToken(req, next);
-          })
-        );
-    }
+  private onTokenRefreshed(newAccessToken, req, next) {
+    this.tokenSubject.next(newAccessToken);
+    return this.getRequestWithToken(req, next);
   }
 
   private async saveToken(accessToken: string): Promise<boolean> {
