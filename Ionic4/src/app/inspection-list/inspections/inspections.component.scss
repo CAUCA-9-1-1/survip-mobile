@@ -1,0 +1,17 @@
+.menu-items {
+    height: 100%;
+}
+
+.menu-items {
+    .item {
+      &:last-child {
+        --border-style: hidden;
+      }
+      .item-inner {
+        border-color: rgba(86, 61, 124, .1);
+        &:last-child {
+            --border-style: hidden;
+          }
+      }
+    }  
+  }

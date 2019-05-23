@@ -2,11 +2,10 @@
 
   <ion-menu contentId="inspection-list-content" menuId="inspection-list-menu" id="inspectionListMenu" type="push">
     <ion-header color="primary">
-      <!--<menu-profile></menu-profile>-->
-      El menu
+      <menu-profile></menu-profile>
     </ion-header>
 
-    <ion-content color="primary">
+    <ion-content no-padding  class="toolbar-gradient">
       <ion-list class="menu-items">
         <ion-item menuClose class="text-menu" *ngFor="let menuItem of menuItems" (click)="openPage(menuItem.page)">
           <ion-icon slot="left" [name]="menuItem.icon"></ion-icon>

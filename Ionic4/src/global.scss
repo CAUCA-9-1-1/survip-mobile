@@ -18,6 +18,9 @@
       content: fa-content($fa-var-user);
     }
   }*/
+  .toolbar-gradient {    
+    --background: linear-gradient(135deg, var(--ion-color-dark), var(--ion-color-primary));
+  }
   
   .validation-error-control {
     border-left: red 4px solid;
@@ -53,33 +56,6 @@
     color: var(--ion-color-dark);
   }
   
-  .user-profile {
-    padding-top: calc(20px + 4px);
-    padding-top: calc(constant(safe-area-inset-top) + 4px);
-    padding-top: calc(env(safe-area-inset-top) + 4px);
-  
-    .user-avatar {
-      background-color: white;
-      width: 55px;
-      height: 55px;
-      display: inline-block;
-      border-radius: 20%;
-      img {
-        border-radius: 20%;
-      }
-    }
-    .toolbar-background {
-      background-image: linear-gradient(135deg, var(--ion-color-dark), var(--ion-color-primary));
-    }
-  
-    .other-data {
-      .column {
-        &:first-child {
-          border-right: 1px solid rgba(36, 50, 157, .25);
-        }
-      }
-    }
-  }
   
   .menu-items {
     .item {
