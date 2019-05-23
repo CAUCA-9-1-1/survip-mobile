@@ -15,6 +15,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
 
   constructor(private injector: Injector, private storage: OfflineStorage) {
     this.authService = this.injector.get(AuthenticationService);
+    console.log('Euhhh', this.authService.userAccessToken);
   }
 
   public intercept(req: HttpRequest<any>, next: HttpHandler):

@@ -55,7 +55,6 @@ import { CityDataSynchronizerProvider } from './services/http/city-data-synchron
 import { FirestationDataSynchronizerProvider } from './services/http/firestation-data-synchronizer/firestation-data-synchronizer';
 import { AnomalyThemeDataSynchronizerProvider } from './services/http/anomaly-theme-data-synchronizer/anomaly-theme-data-synchronizer';
 import { InspectionUploaderProvider } from './services/controllers/inspection-uploader/inspection-uploader';
-import { AuthenticationService } from './services/authentication/authentification.service';
 import { LoginActivate } from './guards/login.activate';
 
 @NgModule({
@@ -86,7 +85,6 @@ import { LoginActivate } from './guards/login.activate';
     FirestationRepositoryProvider,
     RouteDirectionRepositoryProvider,
     HttpService,
-    AuthenticationService,
     MessageToolsProvider,
     BuildingContactRepositoryProvider,
     ConstructionTypesRepositoryProvider,

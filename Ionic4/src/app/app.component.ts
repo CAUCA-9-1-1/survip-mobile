@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, Events } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
@@ -14,13 +14,13 @@ import { Config } from '@ionic/angular';
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
-  // public rootPage: any = '';
 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private router: Router,
+    private events: Events,
     private config: Config,
     private translate: TranslateService,
     public authenticationService: AuthenticationService
@@ -29,6 +29,10 @@ export class AppComponent {
   }
 
   async initializeApp() {
+
+    this.events.subscribe('user:logout', () => {
+      this.router.navigate(['login']);
+    });
 
     this.translate.setDefaultLang('fr');
     if (window.navigator.language.startsWith('en')) {
