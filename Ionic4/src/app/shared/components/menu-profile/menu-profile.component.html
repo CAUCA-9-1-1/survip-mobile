@@ -1,0 +1,34 @@
+<ion-toolbar class="toolbar-gradient">
+  <ion-grid>
+
+    <ion-row>
+
+      <ion-col col-2>       
+        <div class="user-avatar">
+          <img src="assets/img/logocauca-vertical.png">
+        </div>
+      </ion-col>
+
+      <ion-col>
+        <span ion-text class="text-white"><strong>SURVI</strong>-Prévention <br> <strong>v{{version}}</strong> </span>        
+      </ion-col>
+
+      <ion-col col-2>
+        <ion-button full margin-right="2" color="light" (click)="sessionLogout()">
+          <div>
+            <ion-icon name="log-out"></ion-icon>
+            <br>
+            <label class="log-out-button">{{'logout' | translate}}</label>
+          </div>
+        </ion-button>
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+        <h3 ion-text class="no-margin bold text-white">{{fullName}}</h3>
+    </ion-row>
+
+
+  </ion-grid>
+</ion-toolbar>

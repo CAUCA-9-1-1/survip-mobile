@@ -8,6 +8,7 @@ import { CustomSelectComponent } from './components/custom-select/custom-select.
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MenuProfileComponent } from './components/menu-profile/menu-profile.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -18,6 +19,7 @@ export function createTranslateLoader(http: HttpClient) {
     OrderByPipe,
     FormatCoordinatesPipe,
     CustomSelectComponent,
+    MenuProfileComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +40,8 @@ export function createTranslateLoader(http: HttpClient) {
   exports: [
     CommonModule,
     HttpClientModule,
-    TranslateModule
+    TranslateModule,
+    MenuProfileComponent
   ]
 })
 export class SharedModule {
