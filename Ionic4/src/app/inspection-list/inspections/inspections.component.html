@@ -1,0 +1,21 @@
+<ion-split-pane when="md" contentId="inspection-list-content">
+
+  <ion-menu contentId="inspection-list-content" menuId="inspection-list-menu" id="inspectionListMenu" type="push">
+    <ion-header color="primary">
+      <!--<menu-profile></menu-profile>-->
+      El menu
+    </ion-header>
+
+    <ion-content color="primary">
+      <ion-list class="menu-items">
+        <ion-item menuClose class="text-menu" *ngFor="let menuItem of menuItems" (click)="openPage(menuItem.page)">
+          <ion-icon slot="left" [name]="menuItem.icon"></ion-icon>
+          <span ion-text>{{menuItem.title}}</span>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet id="inspection-list-content"></ion-router-outlet>
+
+</ion-split-pane>

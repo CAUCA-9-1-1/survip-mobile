@@ -3,6 +3,7 @@ import { AuthenticationService, LoginResult } from '../core/services/authenticat
 import { ToastController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { KeychainTouchId } from '@ionic-native/keychain-touch-id/ngx';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,7 @@ export class LoginPage implements OnInit {
   public version = '';
 
   constructor(
+    private router: Router,
     private authService: AuthenticationService,
     private toastCtrl: ToastController,
     private translateService: TranslateService,
@@ -107,6 +109,6 @@ export class LoginPage implements OnInit {
   }
 
   private async redirectToInspectionList() {
-    await this.showToast('Logged in motherfucka!');
+    this.router.navigate(['inspections']);
   }
 }

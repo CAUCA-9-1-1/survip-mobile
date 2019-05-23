@@ -15,7 +15,7 @@ export enum LoginResult {
     ApiUnreachable
 }
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AuthenticationService {
     public keychainTouchIdKey = 'survi%prevention%keychain';
     private loading: HTMLIonLoadingElement;
@@ -221,7 +221,7 @@ export class AuthenticationService {
                 this.survipName = await this.appVersion.getPackageName();
             }
         } else {
-            this.survipVersion = '1.6.0';
+            this.survipVersion = '1.8.0';
             this.survipName = 'survi-prevention';
         }
     }
