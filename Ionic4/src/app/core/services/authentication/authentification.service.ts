@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { KeychainTouchId } from '@ionic-native/keychain-touch-id/ngx';
-import { Platform } from '@ionic/angular';
-import { LoadingController } from '@ionic/angular/dist/providers/loading-controller';
+import { Platform, LoadingController } from '@ionic/angular';
 import { Storage as OfflineStorage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, of, from, defer } from 'rxjs';
-import { catchError, switchMap, map, finalize, flatMap } from 'rxjs/operators';
+import { Observable, of, from } from 'rxjs';
+import { catchError, flatMap } from 'rxjs/operators';
 import config from '../../../../assets/config/config.json';
 import { HttpService } from '../base/http.service';
 
@@ -39,9 +38,18 @@ export class AuthenticationService {
     ) {
     }
 
-    public async userIsLoggedIn() {
+    public async initialize() {
         const user = await this.storage.get('auth');
-        return (user != null && user.accessToken) ? true : false;
+        if (user != null) {
+            this.userFirstName = user.firstName;
+            this.userLastName = user.lastName;
+            this.userAccessToken = user.accessToken;
+            this.userRefreshToken = user.refreshToken;
+        }
+    }
+
+    private async userIsLoggedIn() {
+        return (this.userAccessToken) ? true : false;
     }
 
     public login(username: string, password: string, saveKeychainTouchId = false): Promise<LoginResult> {
@@ -72,6 +80,11 @@ export class AuthenticationService {
                     }
                 );
         });
+    }
+
+    public async isLoggedIn(): Promise<boolean> {
+        await this.initialize();
+        return this.isStillLoggedIn();
     }
 
     public isStillLoggedIn(): Promise<boolean> {

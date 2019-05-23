@@ -56,6 +56,7 @@ import { FirestationDataSynchronizerProvider } from './services/http/firestation
 import { AnomalyThemeDataSynchronizerProvider } from './services/http/anomaly-theme-data-synchronizer/anomaly-theme-data-synchronizer';
 import { InspectionUploaderProvider } from './services/controllers/inspection-uploader/inspection-uploader';
 import { AuthenticationService } from './services/authentication/authentification.service';
+import { LoginActivate } from './guards/login.activate';
 
 @NgModule({
   declarations: [
@@ -120,13 +121,10 @@ import { AuthenticationService } from './services/authentication/authentificatio
     FirestationDataSynchronizerProvider,
     AnomalyThemeDataSynchronizerProvider,
     AnomalyThemeDataSynchronizerProvider,
-    InspectionUploaderProvider
+    InspectionUploaderProvider,
+    LoginActivate
   ],
   imports: [
-    IonicStorageModule.forRoot({
-      name: '__mydb',
-      driverOrder: ['sqlite', 'indexeddb', 'websql']
-    }),
   ],
   entryComponents: [
   ],

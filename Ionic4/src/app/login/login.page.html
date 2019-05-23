@@ -5,7 +5,7 @@
         <div class="animated fadeInDown logo-parent">
 
             <div class="logo-centerer">
-                <img class="app-logo-img" src="../assets/img/logo-transparent.png">
+                <img class="app-logo-img" src="../assets/img/logo-transparent.png" onclick="test()">
             </div>
         </div>
 
@@ -32,12 +32,12 @@
                 </form>
 
                 <div>
-                    <button ion-button icon-start block color="caucaRed" tappable (click)="onLogin()">
-                        <ion-icon name="log-in"></ion-icon>
+                    <ion-button expand="block" color="primary" tappable (click)="onLogin()">
+                        <ion-icon slot="start" name="log-in"></ion-icon>
                         {{'login' | translate}}
-                    </button>
+                    </ion-button>
                 </div>
-                <p id="version" style="">{{'version' | translate}} : {{version}}</p>
+                <p id="version">{{'version' | translate}} : {{version}}</p>
 
             </div>
 

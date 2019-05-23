@@ -1,13 +1,16 @@
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { IonicRouteStrategy } from '@ionic/angular';
-
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicStorageModule } from '@ionic/storage';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SharedModule } from './shared/shared.module';
+import { CoreModule } from './core/core.module';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { createTranslateLoader, SharedModule } from './shared/shared.module';
 
 
 @NgModule({
@@ -18,9 +21,24 @@ import { SharedModule } from './shared/shared.module';
 
   ],
   imports: [
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient],
+      },
+      isolate: false
+    }),
     BrowserModule,
     AppRoutingModule,
-    SharedModule,
+    IonicModule.forRoot(),
+    CoreModule,
+    SharedModule.forRoot(),
+    IonicStorageModule.forRoot({
+      name: '__mydb',
+      driverOrder: ['sqlite', 'indexeddb', 'websql']
+    })
   ],
   providers: [
     StatusBar,
@@ -30,4 +48,5 @@ import { SharedModule } from './shared/shared.module';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
 

@@ -1,4 +1,3 @@
-import {HttpService} from '../Base/http.service';
 import {EventEmitter, Injectable} from '@angular/core';
 import {Storage as OfflineStorage} from '@ionic/storage';
 import { InspectionSurveyAnswer, SurveyQuestionTypeEnum } from 'src/app/shared/models/inspection-survey-answer';
