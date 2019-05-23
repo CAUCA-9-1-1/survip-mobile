@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { OrderByPipe } from './pipes/order-by.pipe';
 import { FormatCoordinatesPipe } from './pipes/format-coordinates.pipe';
 import { CustomSelectComponent } from './components/custom-select/custom-select.component';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -23,14 +23,14 @@ export function createTranslateLoader(http: HttpClient) {
     CommonModule,
     FormsModule,
     HttpClientModule,
-    IonicModule.forRoot(),
-    TranslateModule.forRoot({
+    IonicModule,
+    TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
+        useFactory: createTranslateLoader,
         deps: [HttpClient]
       },
-      isolate: true
+      isolate: false
     })
   ],
   entryComponents: [
@@ -38,8 +38,14 @@ export function createTranslateLoader(http: HttpClient) {
   exports: [
     CommonModule,
     HttpClientModule,
-    TranslateModule,
+    TranslateModule
   ]
 })
 export class SharedModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SharedModule,
+      providers: []
+    };
+  }
 }

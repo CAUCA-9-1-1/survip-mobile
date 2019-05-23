@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
-import 'rxjs/add/operator/map';
 import {Storage as OfflineStorage} from '@ionic/storage';
-import {HttpService} from '../Base/http.service';
 import {TranslateService} from '@ngx-translate/core';
 import { InspectionDataSynchronizerProvider } from '../http/inspection-data-synchronizer/inspection-data-synchronizer';
 import { Batch } from 'src/app/shared/models/batch';
@@ -9,6 +7,7 @@ import { Inspection } from 'src/app/shared/interfaces/inspection.interface';
 import { InspectionWithBuildingsList } from 'src/app/shared/models/inspection-with-buildings-list';
 import { InspectionVisit } from 'src/app/shared/models/inspection-visit';
 import { InspectionUploaderProvider } from '../controllers/inspection-uploader/inspection-uploader';
+import { HttpService } from '../base/http.service';
 
 @Injectable()
 export class InspectionRepositoryProvider {

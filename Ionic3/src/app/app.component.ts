@@ -4,7 +4,6 @@ import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {TranslateService} from '@ngx-translate/core';
 import {AuthenticationService} from "../providers/Base/authentification.service";
-import { Storage as DataStorage } from '@ionic/storage';
 
 @Component({
     templateUrl: 'app.html'
@@ -14,7 +13,6 @@ export class MyApp {
     @ViewChild(Nav) nav: Nav;
 
     constructor(
-        private storage: DataStorage,
         private platform: Platform,
         private app: App,
         private config: Config,

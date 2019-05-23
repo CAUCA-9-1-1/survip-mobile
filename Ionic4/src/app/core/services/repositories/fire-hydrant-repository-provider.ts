@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from '../Base/http.service';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Storage as OfflineStorage} from '@ionic/storage';
 import { FireHydrant } from 'src/app/shared/models/fire-hydrant';
 import { GenericType } from 'src/app/shared/models/generic-type';
 import { ExpiringCache } from '../base/expiring-cache';
+import { HttpService } from '../base/http.service';
 
 @Injectable()
 export class FireHydrantRepositoryProvider {
