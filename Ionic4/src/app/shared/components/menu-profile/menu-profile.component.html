@@ -3,18 +3,18 @@
 
     <ion-row>
 
-      <ion-col col-2>       
+      <ion-col size="2" no-padding>       
         <div class="user-avatar">
           <img src="assets/img/logocauca-vertical.png">
         </div>
       </ion-col>
 
-      <ion-col>
+      <ion-col size="6">
         <span ion-text class="text-white"><strong>SURVI</strong>-Prévention <br> <strong>v{{version}}</strong> </span>        
       </ion-col>
 
-      <ion-col col-2>
-        <ion-button full margin-right="2" color="light" (click)="sessionLogout()">
+      <ion-col size="4" no-padding>
+        <ion-button expand="full" color="light" (click)="sessionLogout()">
           <div>
             <ion-icon name="log-out"></ion-icon>
             <br>
@@ -25,8 +25,13 @@
 
     </ion-row>
 
-    <ion-row>
-        <h3 ion-text class="no-margin bold text-white">{{fullName}}</h3>
+    <ion-row align-items-center>
+        <ion-text color="light">
+          <p>
+            <ion-icon name="contact" slot="start" color="light"></ion-icon>
+          {{fullName}}
+          </p>
+        </ion-text>
     </ion-row>
 
 

@@ -1,8 +1,10 @@
 .log-out-button{
     font-size:0.9rem;
+    padding-left: 4px;
+    padding-right: 4px;
   }
 
-   .user-profile {
+.user-profile {
     padding-top: calc(20px + 4px);
     padding-top: calc(constant(safe-area-inset-top) + 4px);
     padding-top: calc(env(safe-area-inset-top) + 4px);
