@@ -9,15 +9,18 @@ import { Router } from '@angular/router';
 })
 export class MenuProfileComponent implements OnInit {
 
-  public fullName: string = '';
-  public version: any = '';
+  public get fullName(): string {
+    return this.authService.userFirstName + ' ' + this.authService.userLastName;
+  }
+
+  public get version(): any {
+    return this.authService.survipVersion || '';
+  }
 
   constructor(
     private authService: AuthenticationService,
     private router: Router) {
-      this.version = authService.survipVersion;
-      this.fullName = authService.userFirstName + ' ' + authService.userLastName;
-    }
+  }
 
   ngOnInit() {}
 

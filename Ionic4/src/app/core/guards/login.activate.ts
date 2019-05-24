@@ -9,7 +9,7 @@ export class LoginActivate implements CanActivate {
 
     public async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
         if (await this.authService.isLoggedIn()) {
-            this.router.navigate(['inspections']);
+            this.router.navigate(['inspections-list']);
         } else {
             return true;
         }

@@ -30,7 +30,6 @@ export class InspectionsComponent implements OnInit {
   }
 
   public openPage(page) {
-    // this.rootPage = page;
     console.log('navigating to', page);
   }
 }
