@@ -14,10 +14,10 @@ export class InspectionControllerProvider {
 
   public currentInspection: Inspection;
   public idInspection: string;
-  public buildings: InspectionBuildingForList[];
   public inspection: InspectionWithBuildingsList;
-  public planLoaded: EventEmitter<any> = new EventEmitter<any>();
   public labels = {};
+  public inspectionIsLoaded: boolean = false;
+  public inspectionLoaded: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(
     private repoSynchro: InspectionDataSynchronizerProvider,
@@ -31,9 +31,13 @@ export class InspectionControllerProvider {
 
   public async setIdInspection(idInspection: string, forceRefresh: boolean): Promise<boolean> {
     if (this.idInspection !== idInspection || forceRefresh) {
+      this.inspectionIsLoaded = false;
       const successfullyLoaded: boolean = await this.loadInspection(idInspection);
       if (successfullyLoaded) {
+        console.log('inspection loaded', this.currentInspection);
         this.idInspection = idInspection;
+        this.inspectionIsLoaded = true;
+        this.inspectionLoaded.emit(true);
       }
       return successfullyLoaded;
     }

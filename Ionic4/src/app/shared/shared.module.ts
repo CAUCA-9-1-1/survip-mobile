@@ -6,7 +6,7 @@ import { OrderByPipe } from './pipes/order-by.pipe';
 import { FormatCoordinatesPipe } from './pipes/format-coordinates.pipe';
 import { CustomSelectComponent } from './components/custom-select/custom-select.component';
 import { IonicModule } from '@ionic/angular';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MenuProfileComponent } from './components/menu-profile/menu-profile.component';
 
@@ -24,6 +24,7 @@ export function createTranslateLoader(http: HttpClient) {
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     IonicModule,
     TranslateModule.forChild({
@@ -41,6 +42,7 @@ export function createTranslateLoader(http: HttpClient) {
     CommonModule,
     HttpClientModule,
     TranslateModule,
+    ReactiveFormsModule,
     MenuProfileComponent
   ]
 })

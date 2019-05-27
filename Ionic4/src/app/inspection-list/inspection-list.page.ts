@@ -27,7 +27,6 @@ export class InspectionListPage implements OnInit {
   public labels = {};
   public dataIsCorrectlyLoaded: boolean = false;
 
-
   get isSynching(): boolean {
     return this.synchronizer.isSynching;
   }

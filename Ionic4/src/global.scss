@@ -18,6 +18,11 @@
       content: fa-content($fa-var-user);
     }
   }*/
+  ion-list-header {
+    --background: var(--ion-color-tertiary);
+    --color: white;
+  }
+
   .toolbar-gradient {    
     --background: linear-gradient(135deg, var(--ion-color-dark), var(--ion-color-primary));
   }
