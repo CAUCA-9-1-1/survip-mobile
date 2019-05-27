@@ -109,6 +109,6 @@ export class LoginPage implements OnInit {
   }
 
   private async redirectToInspectionList() {
-    this.router.navigate(['inspections']);
+    this.router.navigate(['inspections-list']);
   }
 }

@@ -47,16 +47,16 @@
           </ion-button>  
       </ion-item-divider>
 
-      <ion-item (click)="openInspection(inspection.id)" *ngFor="let inspection of batch.inspections"
+      <ion-item *ngFor="let inspection of batch.inspections" routerLink='/inspection'
         [style.background-color]="inspection.status == -1 ? 'lightgrey' : ''">
         <ion-avatar slot="start" style="font-size: 40px">
           <ion-icon name="home" [style.color]="getRiskColor(inspection.idRiskLevel)"></ion-icon>
         </ion-avatar>
         <ion-label>
-        <h2>{{inspection.civicNumber}}{{inspection.civicLetter}}, {{inspection.laneName}}</h2>
-        <p>{{'riskLevel' | translate}} : {{getRiskDescription(inspection.idRiskLevel)}}</p>
-        <p ion-text>{{getStatusDescription(inspection.status)}}</p>
-</ion-label>
+          <h2>{{inspection.civicNumber}}{{inspection.civicLetter}}, {{inspection.laneName}}</h2>
+          <p>{{'riskLevel' | translate}} : {{getRiskDescription(inspection.idRiskLevel)}}</p>
+          <p ion-text>{{getStatusDescription(inspection.status)}}</p>
+        </ion-label>
         <ion-icon [name]="inspection.status == -1 ? 'cloud-done' : 'cloud'"  color="dark" slot="end"
           *ngIf="inspection.hasBeenDownloaded"></ion-icon>
         <ion-icon name="cloud-download" *ngIf="!inspection.hasBeenDownloaded" color="dark" slot="end"
