@@ -8,7 +8,6 @@ import { IonicModule } from '@ionic/angular';
 import { InspectionListPage } from './inspection-list.page';
 import { CoreModule } from '../core/core.module';
 import { SharedModule } from '../shared/shared.module';
-import { Inspection } from '../shared/interfaces/inspection.interface';
 import { InspectionsComponent } from './inspections/inspections.component';
 
 const routes: Routes = [
