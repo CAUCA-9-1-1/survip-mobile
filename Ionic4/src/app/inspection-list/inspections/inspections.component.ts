@@ -24,8 +24,7 @@ export class InspectionsComponent implements OnInit {
       title: this.labels['inspectionList'],
       page: 'InspectionListPage',
       icon: 'clipboard',
-      enabled: true,
-      customAction: null
+      enabled: true
     }];
   }
 

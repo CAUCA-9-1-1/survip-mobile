@@ -1,5 +1,30 @@
-<p>
-  inspection-home works!
-  <ion-router-outlet>    
-  </ion-router-outlet>
-</p>
+<ion-split-pane when="md" contentId="inspection-content">
+
+  <ion-menu contentId="inspection-content" menuId="inspection-menu" id="inspectionMenu" type="push">
+    <ion-header color="primary">
+      <menu-profile></menu-profile>
+    </ion-header>
+
+    <ion-content no-padding  class="toolbar-gradient">
+      <ion-list class="menu-items">
+        <ion-item menuClose class="text-menu" routerLink="/inspections-list" *ngFor="let menuItem of menuItems" [routerLink]="menuItem.page" routerLinkActive="active-item">
+          <ion-icon slot="left" [name]="menuItem.icon"></ion-icon>
+          <span ion-text>{{menuItem.title}}</span>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+
+    <ion-footer>
+      <ion-toolbar color="primary" class="user-profile">
+        <ion-button size="small" expand="full" color="light" menuClose routerLink="/inspections-list">
+          <ion-icon name="close-circle" slot="left"></ion-icon>
+          {{'inspectionQuit' | translate}}
+        </ion-button>
+      </ion-toolbar>
+    </ion-footer>
+
+  </ion-menu>
+
+  <ion-router-outlet id="inspection-content"></ion-router-outlet>
+
+</ion-split-pane>
