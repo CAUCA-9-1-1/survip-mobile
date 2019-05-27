@@ -1,5 +1,5 @@
 <ion-header class="page-header">
-    <ion-menu-toggle menu="inspection-list-menu"></ion-menu-toggle>
+  <ion-menu-toggle menu="inspection-list-menu"></ion-menu-toggle>
   <ion-toolbar class="page-header" color="primary">
     <ion-menu-button menu="inspection-list-menu" slot="start"></ion-menu-button>
     <ion-title>{{'inspectionList' | translate}}</ion-title>
@@ -43,11 +43,12 @@
       <ion-item-divider>
         {{'inspectionBatch' | translate}} : {{batch.description}}
         <ion-button slot="end" fill="clear" color="dark" (click)="downloadBatch($event, batch)">
-            <ion-icon slot="icon-only" [name]="batch.hasBeenFullyDownloaded ? 'cloud' : 'cloud-download'"></ion-icon>
-          </ion-button>  
+          <ion-icon slot="icon-only" [name]="batch.hasBeenFullyDownloaded ? 'cloud' : 'cloud-download'"></ion-icon>
+        </ion-button>
       </ion-item-divider>
 
       <ion-item *ngFor="let inspection of batch.inspections" routerLink='/inspection'
+        [routerLink]="['/inspection', inspection.id]"
         [style.background-color]="inspection.status == -1 ? 'lightgrey' : ''">
         <ion-avatar slot="start" style="font-size: 40px">
           <ion-icon name="home" [style.color]="getRiskColor(inspection.idRiskLevel)"></ion-icon>
@@ -57,7 +58,7 @@
           <p>{{'riskLevel' | translate}} : {{getRiskDescription(inspection.idRiskLevel)}}</p>
           <p ion-text>{{getStatusDescription(inspection.status)}}</p>
         </ion-label>
-        <ion-icon [name]="inspection.status == -1 ? 'cloud-done' : 'cloud'"  color="dark" slot="end"
+        <ion-icon [name]="inspection.status == -1 ? 'cloud-done' : 'cloud'" color="dark" slot="end"
           *ngIf="inspection.hasBeenDownloaded"></ion-icon>
         <ion-icon name="cloud-download" *ngIf="!inspection.hasBeenDownloaded" color="dark" slot="end"
           (click)="downloadInspection($event, inspection, batch)"></ion-icon>

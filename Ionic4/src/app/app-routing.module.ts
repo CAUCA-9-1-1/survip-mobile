@@ -7,12 +7,12 @@ const routes: Routes = [
   { path: 'home', loadChildren: './home/home.module#HomePageModule' },
   { path: 'login', loadChildren: './login/login.module#LoginPageModule', canActivate: [LoginActivate] },
   { path: 'inspections-list', loadChildren: './inspection-list/inspection-list.module#InspectionListPageModule' },
-  { path: 'inspection', loadChildren: './inspection/inspection.module#InspectionModule' }
+  { path: 'inspection/:id', loadChildren: './inspection/inspection.module#InspectionModule' }
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, enableTracing: true })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules/*, enableTracing: true*/ })
   ],
   exports: [RouterModule]
 })

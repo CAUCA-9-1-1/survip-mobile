@@ -4,6 +4,7 @@ import { MenuItem } from 'src/app/shared/interfaces/menu-item.interface';
 import { InspectionControllerProvider } from 'src/app/core/services/controllers/inspection-controller/inspection-controller';
 import { TranslateService } from '@ngx-translate/core';
 import { InspectionConfigurationProvider } from 'src/app/core/services/controllers/inspection-configuration/inspection-configuration';
+import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 
 @Component({
   selector: 'app-inspection-home',
@@ -20,12 +21,16 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
   public labels = {};
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private controller: InspectionControllerProvider,
     private translateService: TranslateService,
     private configurationService: InspectionConfigurationProvider
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    console.log('initializing home');
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    await this.controller.setIdInspection(id, false);
     this.translateService.get([
       'generalInformation', 'buildings', 'waterSupplies', 'implantationPlan', 'course', 'survey'
     ]).subscribe(labels => {
@@ -33,7 +38,7 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
         this.loadMenu();
       },
       error => {
-        console.log(error)
+        console.log(error);
       });
   }
 
