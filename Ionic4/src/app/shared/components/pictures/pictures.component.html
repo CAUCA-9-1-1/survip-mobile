@@ -1,0 +1,36 @@
+<ion-spinner [style.display]="isLoading ? 'block' : 'none'" item-start></ion-spinner>
+
+<ion-list class="list-items">
+    <ion-item-divider>
+        Photo(s)
+        <ion-button slot="end" (click)="selectPicture()" color="primary">
+            <ion-icon class="footer-button-camera" name="albums" slot="start"></ion-icon>
+            {{'choose' | translate}}
+        </ion-button>
+        <ion-button slot="end" (click)="takeNewPicture()" *ngIf="isUsingCordova" color="primary">
+            <ion-icon class="footer-button-camera" name="camera" slot="start"></ion-icon>
+            {{'new' | translate}}
+        </ion-button>
+    </ion-item-divider>
+    <ion-item *ngIf="repo.pictures != null">
+        <ion-slides pager="{{repo.pictures.length > 1 && multiPictures ? true : false}}">
+            <ion-slide *ngFor="let picture of repo.pictures;">
+                <ion-card>
+                    <ion-button size="small" fill="outline" class="deleteIcon" (click)="onDeletePhotos(picture.id)"
+                            color="caucaRed">
+                        <ion-icon name="trash" slot="icon-only" class="deleteIcon"></ion-icon>
+                    </ion-button>
+                    <ion-button size="small" fill="outline" class="brushIcon" (click)="onEditPhoto()"
+                            color="caucaRed">
+                        <ion-icon name="brush" class="brushIcon" slot="icon-only"></ion-icon>
+                    </ion-button>
+                    <img class="selected-picture" [src]="getImageUrl(picture.dataUri)"
+                         *ngIf="hasImageUrl(picture.dataUri)" imageViewer/>
+                </ion-card>
+            </ion-slide>
+        </ion-slides>
+    </ion-item>
+</ion-list>
+
+<input type="file" id="fileElem" #filePicker accept="image/*" style="display:none" (change)="onFileSelected($event);"/>
+
