@@ -1,3 +1,34 @@
-<p>
-  inspection-courses works!
-</p>
+<ion-header class="page-header" no-padding no-margin>
+  <ion-menu-toggle menu="inspection-menu"></ion-menu-toggle>
+  <ion-toolbar color="primary">
+    <ion-menu-button menu="inspection-menu" slot="start"></ion-menu-button>
+    <ion-title>{{'course' | translate}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list class="list-items">
+    <ion-list-header>
+      {{currentInspection?.civicNumber}}{{currentInspection?.civicLetter}}, {{currentInspection?.laneName}}
+    </ion-list-header>
+    <button ion-item *ngFor="let item of courses | orderBy:'description'" (click)="onItemClick(item.id)"
+      detail-push>{{item.description}}</button>
+  </ion-list>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="primary">
+
+    <ion-buttons>
+      <ion-button (click)="onItemClick(null)" slot="start">
+        <ion-icon slot="start" name="add-circle">
+        </ion-icon>
+        {{'addButton' | translate}}
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-footer>

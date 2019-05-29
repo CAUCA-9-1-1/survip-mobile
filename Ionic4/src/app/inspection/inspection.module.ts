@@ -11,6 +11,9 @@ import { InspectionFireHydrantsComponent } from './inspection-fire-hydrants/insp
 import { InspectionCoursesComponent } from './inspection-courses/inspection-courses.component';
 import { InspectionImplantationPlanComponent } from './inspection-implantation-plan/inspection-implantation-plan.component';
 import { InspectionBuildingsComponent } from './inspection-buildings/inspection-buildings.component';
+import { CityFireHydrantsComponent } from './components/city-fire-hydrants/city-fire-hydrants.component';
+import { CourseDetailComponent } from './components/course-detail/course-detail.component';
+import { CourseDetailLaneComponent } from './components/course-detail-lane/course-detail-lane.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,10 @@ import { InspectionBuildingsComponent } from './inspection-buildings/inspection-
     InspectionFireHydrantsComponent,
     InspectionCoursesComponent,
     InspectionImplantationPlanComponent,
-    InspectionBuildingsComponent
+    InspectionBuildingsComponent,
+    CityFireHydrantsComponent,
+    CourseDetailComponent,
+    CourseDetailLaneComponent
   ],
   imports: [
     CoreModule,
@@ -27,6 +33,11 @@ import { InspectionBuildingsComponent } from './inspection-buildings/inspection-
     CommonModule,
     IonicModule,
     InspectionRoutingModule
+  ],
+  entryComponents: [
+    CityFireHydrantsComponent,
+    CourseDetailComponent,
+    CourseDetailLaneComponent,
   ]
 })
 export class InspectionModule { }

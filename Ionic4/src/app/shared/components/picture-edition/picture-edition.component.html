@@ -1,0 +1,30 @@
+<ion-header>
+  
+  <ion-toolbar color="primary">
+    <ion-title>{{'editPicture' | translate}}</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content padding>
+
+  <div ion-fixed class="div-sketch-tool">
+<!--    <lib-mobile-sketch-tool [imageData]="pictureUri" [loadedJson]="sketchJson" [pictogramsPath]="pictogramsPath" [pictograms]="pictograms" (canvas)="onCanvasChange($event)">
+    </lib-mobile-sketch-tool>
+-->    
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="primary">
+      <ion-buttons>
+          <ion-button class="loginnavbtn" (click)="onOkay()">
+              {{'done' | translate}}
+          </ion-button>
+          <ion-button class="loginnavbtn" (click)="onCancel()">
+              {{'cancel' | translate}}
+          </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

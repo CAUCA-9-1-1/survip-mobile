@@ -9,6 +9,12 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MenuProfileComponent } from './components/menu-profile/menu-profile.component';
+import { SearchListComponent } from './components/search-list/search-list.component';
+import { SearchBoxComponent } from './components/search-box/search-box.component';
+import { PicturesComponent } from './components/pictures/pictures.component';
+import {Camera} from '@ionic-native/camera/ngx';
+import { PictureEditionComponent } from './components/picture-edition/picture-edition.component';
+//import { SketchToolModule } from 'lib-sketch-tool';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -19,9 +25,14 @@ export function createTranslateLoader(http: HttpClient) {
     OrderByPipe,
     FormatCoordinatesPipe,
     CustomSelectComponent,
-    MenuProfileComponent
+    MenuProfileComponent,
+    SearchListComponent,
+    SearchBoxComponent,
+    PicturesComponent,
+    PictureEditionComponent
   ],
   imports: [
+    // SketchToolModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -38,12 +49,26 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   entryComponents: [
   ],
+  providers: [
+    Camera,
+    SearchBoxComponent,
+    SearchListComponent,
+  ],
   exports: [
     CommonModule,
     HttpClientModule,
     TranslateModule,
+    IonicModule,
+    FormsModule,
     ReactiveFormsModule,
-    MenuProfileComponent
+    MenuProfileComponent,
+    OrderByPipe,
+    FormatCoordinatesPipe,
+    CustomSelectComponent,
+    SearchBoxComponent,
+    SearchListComponent,
+    PicturesComponent,
+    PictureEditionComponent
   ]
 })
 export class SharedModule {

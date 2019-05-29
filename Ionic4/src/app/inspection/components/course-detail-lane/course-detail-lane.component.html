@@ -1,0 +1,46 @@
+<ion-header class="page-header">
+
+  <ion-toolbar color="primary">
+    <ion-title>{{'courseLaneDetail' | translate}}</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+  
+  <ion-content [formGroup]="form">
+  
+    <ion-list class="list-items">
+      <ion-item-divider>{{'lane' | translate}}</ion-item-divider>
+      <app-search-box
+        [hasValidationError]="form.get('idLane').hasError('required') ? 'validation-error-control' : null"
+        [description]=""
+        formControlName="idLane"
+        [displayFieldName]="'name'"
+        [keyFieldName]="'id'"
+        [showDescription]="false"
+        [dataService]="laneRepo"></app-search-box>
+      <div *ngIf="form.get('idLane').hasError('required')" class="validation-error-text">{{'laneRequired' | translate}}</div>
+    </ion-list>
+  
+    <ion-list class="list-items">
+      <ion-item-divider>{{'direction' | translate}}</ion-item-divider>
+      <ion-item>
+        <ion-label [hidden]="true">{{'direction' | translate}}</ion-label>
+        <ion-select class="selected-direction" formControlName="direction" placeholder="{{'direction' | translate}}" okText="Ok" cancelText="{{'cancel' | translate}}">
+          <ion-select-option *ngFor="let dir of directions" [value]="dir.id">{{dir.description | uppercase}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+  
+  </ion-content>
+  
+  <ion-footer class="page-footer">
+    <ion-toolbar>
+      <ion-buttons>
+        <ion-button type="button" (click)="onDeleteLane()">
+          <ion-icon slot="start" name="trash"></ion-icon>
+          {{'laneDeleteButton' | translate}}
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
+  

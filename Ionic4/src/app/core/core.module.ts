@@ -56,6 +56,7 @@ import { FirestationDataSynchronizerProvider } from './services/http/firestation
 import { AnomalyThemeDataSynchronizerProvider } from './services/http/anomaly-theme-data-synchronizer/anomaly-theme-data-synchronizer';
 import { InspectionUploaderProvider } from './services/controllers/inspection-uploader/inspection-uploader';
 import { LoginActivate } from './guards/login.activate';
+import { WindowRefService } from './services/utilities/window-ref.service';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { LoginActivate } from './guards/login.activate';
       useClass: AuthenticationInterceptor,
       multi: true
     },
+    WindowRefService,
     PictureRepositoryProvider,
     RiskLevelRepositoryProvider,
     InspectionControllerProvider,
