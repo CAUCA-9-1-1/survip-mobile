@@ -68,14 +68,48 @@ export class CourseDetailComponent implements OnInit {
       });
     this.changeCourseOrderAction();
     if (this.hasNavigated) {
-      const loader = await this.load.create({ message: this.labels['waitFormMessage'] });
-      await loader.present();
-      await this.loadFirestations();
-      await this.loadSpecificCourse(this.idInspectionFormCourse);
-      await loader.dismiss();
+      await this.refreshData();
     }
   }
 
+  public ionViewCanLeave() {
+    return this.canLeave();
+  }
+
+  private async refreshData() {
+    const loader = await this.load.create({ message: this.labels['waitFormMessage'] });
+    await loader.present();
+    await this.loadFirestations();
+    await this.loadSpecificCourse(this.idInspectionFormCourse);
+    await loader.dismiss();
+  }
+
+  private canLeave(): Promise<boolean> {
+    if (this.form.dirty || !this.form.valid) {
+      return new Promise(async (resolve) => {
+          const alert = await this.alertCtrl.create({
+              header: this.labels['confirmation'],
+              message: this.labels['courseDetailLeaveMessage'],
+              buttons: [
+                  {
+                      text: this.labels['no'], handler: () => {
+                          resolve(false);
+                      }
+                  },
+                  {
+                      text: this.labels['yes'], handler: () => {
+                          resolve(true);
+                      }
+                  }
+              ]
+          });
+
+          return await alert.present();
+        });
+    } else {
+      return Promise.resolve(true);
+    }
+  }
 
   private loadSpecificCourse(idBuildingCourse: string) {
     if (idBuildingCourse == null) {
@@ -182,7 +216,9 @@ export class CourseDetailComponent implements OnInit {
       }
     });
 
-    await modal.present();
+    modal.present();
+    await modal.onDidDismiss();
+    await this.refreshData();
   }
 
   private async onDeleteCourse() {
@@ -221,12 +257,14 @@ export class CourseDetailComponent implements OnInit {
     }
   }
 
-  private goBack(): void {
-    this.modalController.dismiss();
+  private async goBack() {
+    if (await this.canLeave()) {
+      this.modalController.dismiss();
+    }
   }
 
   public changeCourseOrderAction() {
-    this.changeCourseAction = this.labels['finish']
+    this.changeCourseAction = this.labels['finish'];
     if (!this.changeOrder) {
       this.changeCourseAction = this.labels['courseOrderChange'];
     }

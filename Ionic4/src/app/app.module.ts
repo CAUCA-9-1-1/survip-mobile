@@ -18,7 +18,6 @@ import { createTranslateLoader, SharedModule } from './shared/shared.module';
     AppComponent,
   ],
   entryComponents: [
-
   ],
   imports: [
     HttpClientModule,

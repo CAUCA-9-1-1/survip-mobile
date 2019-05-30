@@ -1,5 +1,8 @@
 <ion-header class="page-header">
   <ion-toolbar color="primary">
+    <ion-button fill="clear" (click)="goBack()" slot="start">
+      <ion-icon name="arrow-back" slot="start" size="large" color="light"></ion-icon>
+    </ion-button>
     <ion-title>{{'courseDetail' | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -20,7 +23,7 @@
   <ion-list class="list-items">
     <ion-item-divider>
       {{'course' | translate}}
-      <ion-button slot="end" (click)="onChangeOrder()" color="caucaRed">{{changeCourseAction}}</ion-button>
+      <ion-button slot="end" (click)="onChangeOrder()" color="primary">{{changeCourseAction}}</ion-button>
     </ion-item-divider>
     <ion-reorder-group [disabled]="!changeOrder" (ionItemReorder)="onReorderLane($event)">
       <ion-item *ngFor="let lane of lanes | orderBy:'sequence'" (click)="onClickLane(lane.id)">

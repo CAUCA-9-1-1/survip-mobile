@@ -13,12 +13,13 @@ import { SearchListComponent } from '../search-list/search-list.component';
   ]
 })
 export class SearchBoxComponent implements ControlValueAccessor, OnDestroy {
-  private isLoading: boolean;
   private isDisposed: boolean = false;
   private innerValue: string;
   private changed = new Array<(value: string) => void>();
   private touched = new Array<() => void>();
-  private selectedItemDescription: string;
+
+  public selectedItemDescription: string;
+  public isLoading: boolean;
 
   @Input() dataService: ServiceForListInterface;
   @Input() keyFieldName: string;
@@ -103,6 +104,7 @@ export class SearchBoxComponent implements ControlValueAccessor, OnDestroy {
   }
 
   public clearSelectedValue() {
+    event.stopPropagation();
     this.value = '';
   }
 }

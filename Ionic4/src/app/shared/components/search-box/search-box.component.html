@@ -1,6 +1,10 @@
 <ion-item type="button" (click)="onPopSearch()" [class.validation-error-control]="hasValidationError" [disabled]="isDisabled">
-    <ion-label slot="start"*ngIf="showDescription" fixed>{{description}}</ion-label>
-    <ion-label slot="end"[class]="description != '' ? null : 'label-full-width'"><ion-spinner [style.display]="isLoading ? 'block' : 'none'" item-start></ion-spinner>{{selectedItemDescription}}</ion-label>
-</ion-item>
-  <ion-button *ngIf="!isDisabled" class="action-list-button"(click)="clearSelectedValue()"><ion-icon slot="left" class="ion-md-close"></ion-icon></ion-button>
-  
+    <ion-label slot="start" *ngIf="showDescription" fixed>{{description}}</ion-label>
+    <ion-label [class]="description != '' ? null : 'label-full-width'">
+      <ion-spinner [style.display]="isLoading ? 'block' : 'none'"></ion-spinner>
+      {{selectedItemDescription}}
+    </ion-label>
+    <ion-button *ngIf="!isDisabled" (click)="clearSelectedValue()" slot="end" color="clear">
+        <ion-icon slot="icon-only" name="close" color="dark"></ion-icon>
+      </ion-button>
+</ion-item>  
