@@ -62,6 +62,8 @@ export class InspectionCoursesComponent implements OnInit {
         componentProps: { idInspectionBuildingCourse }
     });
 
-    await modal.present();
+    modal.present();
+    await modal.onWillDismiss();
+    await this.loadCourseList();
   }
 }

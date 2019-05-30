@@ -26,6 +26,7 @@ export class CourseDetailLaneComponent implements OnInit {
   public directions: RouteDirection[];
   public courseLane: InspectionBuildingCourseLane;
   public labels = {};
+  public isNewRecord: boolean = false;
 
   constructor(
     public navParams: NavParams,
@@ -45,7 +46,16 @@ export class CourseDetailLaneComponent implements OnInit {
     this.createForm();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const loader = await this.load.create({ message: this.labels['waitFormMessage'] });
+    await loader.present();
+    try {
+      this.directions = await this.directionRepo.getList();
+      await this.loadSpecificCourseLane(this.idInspectionBuildingCourseLane);
+    } finally {
+      await loader.dismiss();
+    }
+
     this.translateService.get([
       'yes', 'no', 'confirmation', 'laneLeaveMessage', 'waitFormMessage', 'cancel', 'laneDeleteQuestion'
     ]).subscribe(labels => {
@@ -74,20 +84,10 @@ export class CourseDetailLaneComponent implements OnInit {
     lane.sequence = this.nextSequence;
     lane.isActive = true;
     this.courseLane = lane;
+    this.isNewRecord = true;
   }
 
-  public async ionViewDidLoad() {
-    const loader = await this.load.create({ message: this.labels['waitFormMessage'] });
-    await loader.present();
-    try {
-      this.directions = await this.directionRepo.getList();
-      await this.loadSpecificCourseLane(this.idInspectionBuildingCourseLane);
-    } finally {
-      await loader.dismiss();
-    }
-  }
-
-  public ionViewCanLeave() {
+  public canLeave(): Promise<boolean> {
     if (this.form.dirty || !this.form.valid) {
       return new Promise(async (resolve) => {
         const alert = await this.alertCtrl.create({
@@ -107,8 +107,10 @@ export class CourseDetailLaneComponent implements OnInit {
           ]
         });
 
-        return alert.present();
+        return await alert.present();
       });
+    } else {
+      return Promise.resolve(true);
     }
   }
 
@@ -176,6 +178,7 @@ export class CourseDetailLaneComponent implements OnInit {
     await loader.present();
     try {
       await this.courseLaneRepo.save(this.courseLane);
+      this.isNewRecord = false;
     } finally {
       await loader.dismiss();
     }
@@ -189,7 +192,9 @@ export class CourseDetailLaneComponent implements OnInit {
     return result;
   }
 
-  private goBack(): void {
-    this.modalController.dismiss();
+  private async goBack() {
+    if (await this.canLeave()) {
+      this.modalController.dismiss();
+    }
   }
 }

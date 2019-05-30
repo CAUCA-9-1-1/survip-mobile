@@ -1,6 +1,9 @@
 <ion-header class="page-header">
 
   <ion-toolbar color="primary">
+    <ion-button fill="clear" (click)="goBack()" slot="start">
+      <ion-icon name="arrow-back" slot="start" size="large" color="light"></ion-icon>
+    </ion-button>
     <ion-title>{{'courseLaneDetail' | translate}}</ion-title>
   </ion-toolbar>
 
@@ -34,9 +37,9 @@
   </ion-content>
   
   <ion-footer class="page-footer">
-    <ion-toolbar>
+    <ion-toolbar color="primary">
       <ion-buttons>
-        <ion-button type="button" (click)="onDeleteLane()">
+        <ion-button (click)="onDeleteLane()" *ngIf="!isNewRecord">
           <ion-icon slot="start" name="trash"></ion-icon>
           {{'laneDeleteButton' | translate}}
         </ion-button>

@@ -13,8 +13,7 @@
     <ion-list-header>
       {{currentInspection?.civicNumber}}{{currentInspection?.civicLetter}}, {{currentInspection?.laneName}}
     </ion-list-header>
-    <button ion-item *ngFor="let item of courses | orderBy:'description'" (click)="onItemClick(item.id)"
-      detail-push>{{item.description}}</button>
+    <ion-item *ngFor="let item of courses | orderBy:'description'" (click)="onItemClick(item.id)" detail="true">{{item.description}}</ion-item>
   </ion-list>
 
 </ion-content>
