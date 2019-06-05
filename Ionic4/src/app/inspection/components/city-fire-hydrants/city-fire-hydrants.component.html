@@ -11,18 +11,19 @@
       {{'fireHydrants' | translate}}
     </ion-list-header>
 
-    <ion-item detail-none *ngFor="let hydrant of filteredCityFireHydrantList | orderBy:'number'" (click)="addBuildingFireHydrant(hydrant)">
-      <ion-icon name="icon-fire-hydrant" slot="start" [style.color]="hydrant.color" [style.background-color]="hydrant.color == '#FFFFFF' ? 'lightgray': null" large></ion-icon>
-      <ion-icon class="custom-icon-select" *ngIf="editMode" name="arrow-forward" slot="end" size="large"></ion-icon>
+    <ion-item detail-none *ngFor="let hydrant of filteredCityFireHydrantList | orderBy:'number'" (click)="addBuildingFireHydrant(hydrant)" detail="true">
+      <ion-icon name="icon-fire-hydrant" slot="start" [style.color]="hydrant.color" [style.background-color]="hydrant.color == '#FFFFFF' ? 'lightgray': null" large></ion-icon>      
         <div class="fire-hydrant-info">
-          <h2>{{hydrant.number}}</h2>
-          <p>{{hydrant.address | formatCoordinates}}</p>
+          <ion-label>
+            <h2>{{hydrant.number}}</h2>
+            <p>{{hydrant.address | formatCoordinates}}</p>
+          </ion-label>
         </div>
     </ion-item>
   </ion-list>
 </ion-content>
 
-<ion-footer class="page-footer" color="primary">
-  <ion-toolbar>
+<ion-footer class="page-footer">
+  <ion-toolbar color="primary">
   </ion-toolbar>
 </ion-footer>

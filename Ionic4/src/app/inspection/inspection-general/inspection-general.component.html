@@ -56,13 +56,13 @@
           <ion-input type="text" disabled value="{{currentInspection?.transversalLaneName}}"></ion-input>
         </ion-item>
 
-          <!--<search-box *ngIf="canBeEdited"
+        <app-search-box *ngIf="canBeEdited"
                   description="{{'transversal' | translate}}"
                   formControlName="idLaneTransversal"
                   [displayFieldName]="'name'"
-                  [disabledValue]="controller.getMainBuilding()?.idLaneTransversal"
+                  [disabledValue]="controller?.getMainBuilding()?.idLaneTransversal"
                   [keyFieldName]="'id'"
-                  [dataService]="laneService"></search-box> -->
+                  [dataService]="laneService"></app-search-box>
       </ion-list>
   </form>
   <ion-card>

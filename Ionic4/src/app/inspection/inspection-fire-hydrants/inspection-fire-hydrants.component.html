@@ -16,12 +16,14 @@
           <ion-item *ngFor="let hydrant of fireHydrants | orderBy:'number'">
             <ion-icon name="icon-fire-hydrant" item-start [style.color]="hydrant.color" [style.background-color]="hydrant.color == '#FFFFFF' ? 'lightgray': null" large>
               </ion-icon>
-              <button class="action-list-button" (click)="onDeleteFireHydrant(hydrant.idFireHydrant)">
-                  <ion-icon class="ion-md-trash"></ion-icon>
-              </button>
+              <ion-button (click)="onDeleteFireHydrant(hydrant.idFireHydrant)" slot="end" fill="clear" color="dark">
+                  <ion-icon name="trash" slot="icon-only"></ion-icon>
+              </ion-button>
               <div class="fire-hydrant-info">
+                <ion-label>                  
                   <h2>{{hydrant.number}}</h2>
                   <p>{{hydrant.address | formatCoordinates}}</p>
+                </ion-label>                  
               </div>
           </ion-item>
       </ion-list>
