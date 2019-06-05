@@ -25,7 +25,7 @@ import { CourseDetailLaneComponent } from './components/course-detail-lane/cours
     InspectionBuildingsComponent,
     CityFireHydrantsComponent,
     CourseDetailComponent,
-    CourseDetailLaneComponent
+    CourseDetailLaneComponent,
   ],
   imports: [
     CoreModule,

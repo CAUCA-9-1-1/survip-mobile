@@ -66,6 +66,10 @@ export class CourseDetailLaneComponent implements OnInit {
       });
   }
 
+  ionViewCanLeave() {
+    return this.canLeave();
+  }
+
   public async loadSpecificCourseLane(idInspectionBuildingCourseLane: string) {
     if (idInspectionBuildingCourseLane == null) {
       this.createPlanCourseLane();

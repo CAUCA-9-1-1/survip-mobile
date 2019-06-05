@@ -32,6 +32,20 @@ export class CityFireHydrantsComponent implements OnInit {
     this.loadCityFireHydrant();
   }
 
+  public getItems(ev: any) {
+    this.filteredCityFireHydrantList = [];
+    const val = ev.target.value;
+
+    if (val && val.trim() !== '') {
+      this.filteredCityFireHydrantList = this.cityFireHydrants.filter((item) => {
+        return ((item.address.toLowerCase().indexOf(val.toLowerCase()) > -1)
+        || (item.number.toLowerCase().indexOf(val.toLowerCase()) > -1));
+      });
+    } else {
+      this.filteredCityFireHydrantList = this.cityFireHydrants;
+    }
+  }
+
   private loadCityFireHydrant() {
     this.repo.getListAvailableForBuilding(this.idBuilding)
       .then(hydrants => this.cityFireHydrants = this.filteredCityFireHydrantList = hydrants);

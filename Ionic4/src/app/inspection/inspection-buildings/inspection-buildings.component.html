@@ -8,12 +8,12 @@
 </ion-header>
 
 <ion-content>
-  <ion-list class="list-items">
+  <ion-list class="list-items" *ngIf="buildings != null">
     <ion-list-header>
       {{currentInspection?.civicNumber}}{{currentInspection?.civicLetter}}, {{currentInspection?.laneName}}
     </ion-list-header>
     <ion-item ion-item *ngFor="let building of buildings; let i = index" detail="true"
-      [routerLink]="['/inspection-building', building.idBuilding]">
+      [routerLink]="[building.idBuilding]">
       <ion-icon name="home" slot="start" [style.color]="!building.isMainBuilding ? 'grey' : ''"></ion-icon>
       <ion-label>
         <h2>{{getBuildingName(building, i)}}</h2>

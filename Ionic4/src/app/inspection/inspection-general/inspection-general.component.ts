@@ -48,7 +48,7 @@ export class InspectionGeneralComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private controller: InspectionControllerProvider,
+    public controller: InspectionControllerProvider,
     private riskLevelService: RiskLevelRepositoryProvider,
     public laneService: LaneRepositoryProvider,
     private inspectionRepo: InspectionRepositoryProvider,

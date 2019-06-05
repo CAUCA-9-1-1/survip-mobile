@@ -7,6 +7,7 @@ import { MessageToolsProvider } from 'src/app/core/services/utilities/message-to
 import { TranslateService } from '@ngx-translate/core';
 import { ModalController } from '@ionic/angular';
 import { CityFireHydrantsComponent } from '../components/city-fire-hydrants/city-fire-hydrants.component';
+import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group';
 
 @Component({
   selector: 'app-inspection-fire-hydrants',
@@ -68,6 +69,8 @@ export class InspectionFireHydrantsComponent implements OnInit {
         idBuilding: this.controller.getMainBuilding().idBuilding
       }
     });
-    await modal.present();
+    modal.present();
+    await modal.onDidDismiss();
+    await this.loadBuildingFireHydrant();
   }
 }
