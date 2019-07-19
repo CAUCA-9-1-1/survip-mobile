@@ -48,7 +48,8 @@ export function createTranslateLoader(http: HttpClient) {
     })
   ],
   entryComponents: [
-    SearchListComponent
+    SearchListComponent,
+    PictureEditionComponent
   ],
   providers: [
     Camera,
