@@ -3,7 +3,7 @@ import {Storage as OfflineStorage} from '@ionic/storage';
 import { AllConstructionTypes } from 'src/app/shared/models/all-construction-types';
 import { ExpiringCache } from '../base/expiring-cache';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class ConstructionTypesRepositoryProvider {
 
     constructor(private storage: OfflineStorage) {

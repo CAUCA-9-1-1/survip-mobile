@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Storage as OfflineStorage} from '@ionic/storage';
 import { InspectionBuildingDetail } from 'src/app/shared/models/inspection-building-detail';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class BuildingDetailRepositoryProvider {
 
   private baseKey: string = 'building_detail_';

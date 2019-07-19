@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Storage as OfflineStorage} from "@ionic/storage";
 import { CityWithRegion } from 'src/app/shared/models/city-with-region';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class CityRepositoryProvider {
 
     constructor(private storage: OfflineStorage) {

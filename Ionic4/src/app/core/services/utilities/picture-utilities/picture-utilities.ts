@@ -3,7 +3,7 @@ import { Platform } from '@ionic/angular';
 import { InspectionConfigurationProvider } from '../../controllers/inspection-configuration/inspection-configuration';
 
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class PictureUtilitiesProvider {
 
   constructor(

@@ -4,7 +4,7 @@ import { InspectionBuildingFireHydrantForList } from 'src/app/shared/models/insp
 import { CityFireHydrantForList } from 'src/app/shared/models/city-fire-hydrant-for-list';
 import {UUID} from 'angular2-UUID';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class InspectionBuildingFireHydrantRepositoryProvider {
   private baseKey = 'building_fire_hydrants_';
 

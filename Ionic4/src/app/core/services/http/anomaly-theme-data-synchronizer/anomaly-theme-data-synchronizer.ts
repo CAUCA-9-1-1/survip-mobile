@@ -4,7 +4,7 @@ import { BaseExpiringDataSynchronizerProvider } from '../../base/base-expiring-d
 import { GenericType } from 'src/app/shared/models/generic-type';
 import { HttpService } from '../../base/http.service';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AnomalyThemeDataSynchronizerProvider extends BaseExpiringDataSynchronizerProvider<GenericType[]> {
   constructor(private http: HttpService, private storage: OfflineStorage) {
     super(http, storage, 'anomaly_themes', 'inspection/anomalythemes');

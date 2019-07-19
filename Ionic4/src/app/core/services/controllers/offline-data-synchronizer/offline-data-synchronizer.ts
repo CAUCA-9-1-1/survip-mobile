@@ -20,7 +20,7 @@ import { InspectionDataSynchronizerProvider } from '../../http/inspection-data-s
 import { FirestationDataSynchronizerProvider } from '../../http/firestation-data-synchronizer/firestation-data-synchronizer';
 import { AnomalyThemeDataSynchronizerProvider } from '../../http/anomaly-theme-data-synchronizer/anomaly-theme-data-synchronizer';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class OfflineDataSynchronizerProvider {
 
   private totalCount: number = 8;

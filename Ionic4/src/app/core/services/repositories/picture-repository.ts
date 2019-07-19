@@ -3,7 +3,7 @@ import {Storage} from '@ionic/storage';
 import { PicturesRepositoryProvider } from 'src/app/shared/interfaces/pictures-repository-provider.interface';
 import { InspectionPictureForWeb } from 'src/app/shared/models/inspection-picture-for-web';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class PictureRepositoryProvider implements PicturesRepositoryProvider {
   constructor(private offlineStorage: Storage) {
   }

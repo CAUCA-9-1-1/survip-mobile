@@ -4,7 +4,7 @@ import { GenericType } from 'src/app/shared/models/generic-type';
 import { InspectionBuildingFireProtectionForList } from 'src/app/shared/models/inspection-building-fire-protection-for-list';
 import { InspectionBuildingSprinkler } from 'src/app/shared/models/inspection-building-sprinkler';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class InspectionBuildingSprinklerRepositoryProvider {
 
   private types: GenericType[] = [];

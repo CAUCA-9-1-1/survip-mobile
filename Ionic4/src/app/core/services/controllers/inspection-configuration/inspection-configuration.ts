@@ -2,7 +2,7 @@ import {EventEmitter, Injectable} from '@angular/core';
 import { InspectionConfiguration } from 'src/app/shared/models/inspection-configuration';
 import { HttpService } from '../../base/http.service';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class InspectionConfigurationProvider {
 
   private initialConfiguration: InspectionConfiguration;

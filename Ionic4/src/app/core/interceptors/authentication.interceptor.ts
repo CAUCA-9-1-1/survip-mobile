@@ -6,7 +6,9 @@ import { switchMap, catchError, take, filter } from 'rxjs/operators';
 import { Events } from '@ionic/angular';
 import { AuthenticationService } from '../services/authentication/authentification.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthenticationInterceptor implements HttpInterceptor {
 
   private isRefreshingToken: boolean = false;

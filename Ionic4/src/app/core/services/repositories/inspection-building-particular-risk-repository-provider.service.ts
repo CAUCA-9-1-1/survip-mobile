@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Storage as OfflineStorage} from '@ionic/storage';
 import { InspectionBuildingParticularRisk } from 'src/app/shared/models/inspection-building-particular-risk';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class InspectionBuildingParticularRiskRepositoryProvider {
 
   constructor(private storage: OfflineStorage) {

@@ -7,7 +7,7 @@ import { GenericType } from 'src/app/shared/models/generic-type';
 import { ExpiringCache } from '../base/expiring-cache';
 import { HttpService } from '../base/http.service';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class FireHydrantRepositoryProvider {
 
     constructor(private http: HttpService, private storage: OfflineStorage) {

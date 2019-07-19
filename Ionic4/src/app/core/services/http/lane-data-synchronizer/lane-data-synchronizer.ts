@@ -5,7 +5,7 @@ import {HttpService} from '../../base/http.service';
 import { Lane } from 'src/app/shared/models/lane';
 import { ExpiringCache } from '../../base/expiring-cache';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class LaneDataSynchronizerProvider {
 
   protected readonly baseUrl: string = 'lane/city/';

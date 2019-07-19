@@ -9,7 +9,7 @@ import { InspectionVisit } from 'src/app/shared/models/inspection-visit';
 import { InspectionUploaderProvider } from '../controllers/inspection-uploader/inspection-uploader';
 import { HttpService } from '../base/http.service';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class InspectionRepositoryProvider {
   public labels = {};
   public inspectionStatusEnum = {

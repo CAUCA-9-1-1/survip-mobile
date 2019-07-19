@@ -5,7 +5,7 @@ import {RouteDirectionRepositoryProvider} from './route-direction-repository';
 import {LaneRepositoryProvider} from './lane-repository';
 import { InspectionBuildingCourseLane } from 'src/app/shared/models/inspection-building-course-lane';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class InspectionBuildingCourseLaneRepositoryProvider {
   constructor(
     private storage: OfflineStorage,

@@ -6,7 +6,7 @@ import {Observable, throwError} from 'rxjs';
 import {Events} from '@ionic/angular';
 import config from '../../../../assets/config/config.json';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class HttpService {
     private readonly apiUrl: string = 'http://localhost/';
 

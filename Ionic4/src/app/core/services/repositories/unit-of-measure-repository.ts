@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Storage as OfflineStorage} from '@ionic/storage';
 import { UnitOfMeasure } from 'src/app/shared/models/unit-of-measure';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class UnitOfMeasureRepositoryProvider {
   constructor(private storage: OfflineStorage) {
   }
