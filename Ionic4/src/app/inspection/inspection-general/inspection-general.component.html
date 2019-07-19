@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <form novalidate [formGroup]="planForm" style="padding:0; margin-top:-3px" *ngIf="inspectionIsLoaded">
+  <div novalidate [formGroup]="planForm" *ngIf="inspectionIsLoaded">
 
       <ion-list class="list-items ion-no-padding">
 
@@ -64,7 +64,7 @@
                   [keyFieldName]="'id'"
                   [dataService]="laneService"></app-search-box>
       </ion-list>
-  </form>
+  </div>
   <ion-card>
       <ion-card-header color="secondary">{{statusText}}</ion-card-header>
       <div *ngIf="userAllowed">

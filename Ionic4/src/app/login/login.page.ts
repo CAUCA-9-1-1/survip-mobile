@@ -51,7 +51,7 @@ export class LoginPage implements OnInit {
   }
 
   public async onLogin() {
-    this.test();
+    /*this.test();*/
     const result = await this.authService.login(this.userName, this.password, true);
     this.handleLoginResult(result);
   }

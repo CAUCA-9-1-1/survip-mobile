@@ -9,7 +9,7 @@
 
 <ion-content>
 
-  <ion-list [formGroup]="form" class="list-items">
+  <ion-list [formGroup]="form" class="list-items ion-no-padding">
     <ion-item-divider>{{'fireStation' | translate}}</ion-item-divider>
     <ion-item [class.validation-error-control]="form.get('idFirestation').hasError('required')">
       <ion-label [hidden]="true">{{'fireStation' | translate}}</ion-label>
