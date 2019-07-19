@@ -4,7 +4,7 @@ import { InspectionBuildingAnomalyThemeForList } from 'src/app/shared/models/ins
 import { InspectionBuildingAnomaly } from 'src/app/shared/models/inspection-building-anomaly';
 import { ExpiringCache } from '../base/expiring-cache';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class InspectionBuildingAnomalyRepositoryProvider {
 
   constructor(private storage: OfflineStorage) {

@@ -5,7 +5,7 @@ import {map} from 'rxjs/operators';
 import { FirestationForlist } from 'src/app/shared/models/firestation';
 import { ExpiringCache } from '../../base/expiring-cache';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class FirestationDataSynchronizerProvider {
 
   protected readonly baseUrl: string = 'city/';

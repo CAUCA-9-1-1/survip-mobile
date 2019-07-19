@@ -5,7 +5,7 @@ import { HttpService } from '../../base/http.service';
 import { CityWithRegion } from 'src/app/shared/models/city-with-region';
 import { ExpiringCache } from '../../base/expiring-cache';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class CityDataSynchronizerProvider {
 
   protected readonly baseUrl: string = 'city/';

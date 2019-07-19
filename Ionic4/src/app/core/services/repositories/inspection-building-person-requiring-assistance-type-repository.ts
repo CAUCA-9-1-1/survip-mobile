@@ -7,7 +7,7 @@ import {
 import { GenericType } from 'src/app/shared/models/generic-type';
 import { InspectionBuildingPersonRequiringAssistance } from 'src/app/shared/models/inspection-building-person-requiring-assistance';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class InspectionBuildingPersonRequiringAssistanceTypeRepositoryProvider {
 
   private baseKey: string = 'building_pnaps_';

@@ -5,7 +5,7 @@ import { ServiceForListInterface } from 'src/app/shared/interfaces/service-for-l
 import { Lane } from 'src/app/shared/models/lane';
 import { StringUtilities } from '../utilities/string-utilities';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class LaneRepositoryProvider implements ServiceForListInterface {
   private currentIdCity: string;
   private currentCityLanes: Lane[];

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Storage as OfflineStorage} from '@ionic/storage';
 import { InspectionBuildingContact } from 'src/app/shared/models/inspection-building-contact';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class BuildingContactRepositoryProvider {
 
     private baseKey: string = 'building_contacts_';

@@ -20,7 +20,7 @@ import { Injectable } from '@angular/core';
 import {Storage as OfflineStorage} from '@ionic/storage';
 import { BaseDataSynchronizerProvider } from '../../base/base-data-synchronizer-provider';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class InspectionDataSynchronizerProvider extends BaseDataSynchronizerProvider<Batch[]> {
 
   constructor(

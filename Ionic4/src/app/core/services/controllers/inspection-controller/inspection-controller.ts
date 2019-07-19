@@ -9,7 +9,7 @@ import { InspectionRepositoryProvider } from '../../repositories/inspection-repo
 import { LoadingController } from '@ionic/angular';
 import { LaneRepositoryProvider } from '../../repositories/lane-repository';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class InspectionControllerProvider {
 
   public currentInspection: Inspection;
@@ -91,6 +91,7 @@ export class InspectionControllerProvider {
   }
 
   private async loadLanesAndSetConfiguration(loading) {
+    console.log('My configuration...', this.inspection, this.inspection.configuration);
     await this.configController.setConfiguration(this.inspection.configuration);
     await this.laneRepo.setCurrentIdCity(this.currentInspection.idCity);
     await loading.dismiss();

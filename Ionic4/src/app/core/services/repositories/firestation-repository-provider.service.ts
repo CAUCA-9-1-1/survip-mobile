@@ -3,7 +3,7 @@ import {Storage as OfflineStorage} from '@ionic/storage';
 import { FirestationForlist } from 'src/app/shared/models/firestation';
 import { ExpiringCache } from '../base/expiring-cache';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class FirestationRepositoryProvider {
     constructor(private storage: OfflineStorage) {
     }

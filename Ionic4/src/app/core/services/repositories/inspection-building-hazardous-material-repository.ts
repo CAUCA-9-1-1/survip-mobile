@@ -7,7 +7,7 @@ import { InspectionBuildingHazardousMaterial } from 'src/app/shared/models/inspe
 import { UnitOfMeasure } from 'src/app/shared/models/unit-of-measure';
 import { HazardousMaterialForList } from 'src/app/shared/models/hazardous-material-for-list';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class InspectionBuildingHazardousMaterialRepositoryProvider {
 
   private baseKey: string = 'building_hazardous_materials_';

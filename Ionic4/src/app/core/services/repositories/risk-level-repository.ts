@@ -3,7 +3,7 @@ import {Storage as OfflineStorage} from '@ionic/storage';
 import { RiskLevel } from 'src/app/shared/models/risk-level';
 import { ExpiringCache } from '../base/expiring-cache';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class RiskLevelRepositoryProvider {
 
     constructor(private storage: OfflineStorage) {

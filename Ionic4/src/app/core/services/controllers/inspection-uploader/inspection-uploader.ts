@@ -3,7 +3,7 @@ import {Storage as OfflineStorage} from '@ionic/storage';
 import { HttpService } from '../../base/http.service';
 import { InspectionWithBuildingsList } from 'src/app/shared/models/inspection-with-buildings-list';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class InspectionUploaderProvider {
 
   constructor(

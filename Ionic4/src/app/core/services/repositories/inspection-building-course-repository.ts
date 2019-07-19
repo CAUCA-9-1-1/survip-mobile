@@ -9,7 +9,7 @@ import { InspectionBuildingCourseLane } from 'src/app/shared/models/inspection-b
 import { RouteDirection } from 'src/app/shared/models/route-direction';
 import { FirestationForlist } from 'src/app/shared/models/firestation';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class InspectionBuildingCourseRepositoryProvider {
 
   private baseKey: string = 'building_courses_';

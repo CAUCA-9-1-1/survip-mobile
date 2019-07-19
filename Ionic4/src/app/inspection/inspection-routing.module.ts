@@ -14,7 +14,7 @@ const routes: Routes = [
       children: [
         { path: '', redirectTo: 'general' },
         { path: 'general', component: InspectionGeneralComponent },
-        { path: 'buildings', component: InspectionBuildingsComponent, },
+        { path: 'buildings', component: InspectionBuildingsComponent },
         { path: 'fire-hydrants', component: InspectionFireHydrantsComponent },
         { path: 'implantation-plan', component: InspectionImplantationPlanComponent },
         { path: 'courses', component: InspectionCoursesComponent }

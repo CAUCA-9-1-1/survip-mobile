@@ -3,8 +3,7 @@ import {Injectable} from '@angular/core';
 import { AlertController, ToastController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 
-@Injectable()
-
+@Injectable({providedIn: 'root'})
 export class MessageToolsProvider {
 
     public labels = {};

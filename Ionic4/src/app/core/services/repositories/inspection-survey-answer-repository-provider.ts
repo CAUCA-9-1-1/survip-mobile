@@ -4,7 +4,7 @@ import { InspectionSurveyAnswer, SurveyQuestionTypeEnum } from 'src/app/shared/m
 import { InspectionSurveySummaryCategory } from 'src/app/shared/models/inspection-survey-summary-category';
 import { InspectionSurveySummary } from 'src/app/shared/models/inspection-survey-summary';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class InspectionSurveyAnswerRepositoryProvider {
 
     public questionAnswered: EventEmitter<any> = new EventEmitter<any>();

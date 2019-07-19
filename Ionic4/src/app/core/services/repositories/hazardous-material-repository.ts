@@ -3,7 +3,7 @@ import {Storage as OfflineStorage} from '@ionic/storage';
 import { HazardousMaterialForList } from 'src/app/shared/models/hazardous-material-for-list';
 import { StringUtilities } from '../utilities/string-utilities';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class HazardousMaterialRepositoryProvider {
 
   constructor(private storage: OfflineStorage) {
