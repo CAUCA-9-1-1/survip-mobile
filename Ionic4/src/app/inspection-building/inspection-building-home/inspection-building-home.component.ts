@@ -12,8 +12,9 @@ import { MenuItem } from 'src/app/shared/interfaces/menu-item.interface';
 })
 export class InspectionBuildingHomeComponent implements OnInit {
 
-  private readonly idBuilding: string;
-  private readonly name: string;
+  public get name(): string {
+    return this.controller.currentBuildingName;
+  }
 
   public menuItems: MenuItem[] = [];
   public labels = {};
@@ -25,14 +26,19 @@ export class InspectionBuildingHomeComponent implements OnInit {
     private translateService: TranslateService,
     private configurationService: InspectionConfigurationProvider
   ) {
-    this.idBuilding = this.activatedRoute.snapshot.paramMap.get('idBuilding');
+    const idBuilding = this.activatedRoute.snapshot.paramMap.get('idBuilding');
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+
+    console.log('idBuilding', id, idBuilding);
+    this.controller.setIdInspection(id, false)
+      .then(() => {
+        this.controller.setIdBuilding(idBuilding);
+        this.loadMenuConfiguration();
+      });
   }
 
   async ngOnInit() {
     this.loadTranslation();
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    await this.controller.setIdInspection(id, false);
-    this.loadMenuConfiguration();
   }
 
   private loadMenuConfiguration() {
@@ -88,6 +94,6 @@ export class InspectionBuildingHomeComponent implements OnInit {
   }
 
   public getFullUrl(pageName: string): string {
-    return '/inspection/' + this.controller.idInspection + '/buildings/' + this.idBuilding + '/' + pageName;
+    return '/inspection/' + this.controller.idInspection + '/buildings/' + this.controller.currentIdBuilding + '/' + pageName;
   }
 }
