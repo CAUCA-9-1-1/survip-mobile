@@ -1,3 +1,29 @@
-<p>
-  hazardous-material-selection works!
-</p>
+<ion-header class="page-header">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="onCancel()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Sélection d'une matière dangereuse</ion-title>
+  </ion-toolbar>
+  <ion-searchbar placeholder="Recherche..." debounce="500" (ionInput)="onSearch()" [(ngModel)]="searchTerm" ></ion-searchbar>
+</ion-header>
+
+<ion-content>
+  <ion-list class="list-items ion-no-padding">
+    <ion-item *ngFor="let mat of hazardousMaterials | orderBy: 'name'" (click)="onSelectMaterial(mat)">
+      <ion-label>
+        <h2>{{mat.name}}</h2>
+        <p>{{mat.number}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer class="page-footer">
+  <ion-toolbar color="primary">
+    <ion-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

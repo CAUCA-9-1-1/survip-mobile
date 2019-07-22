@@ -1,3 +1,27 @@
-<p>
-  anomaly-theme-selection works!
-</p>
+<ion-header class="page-header">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="onCancel()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{'themeSelection' | translate}}</ion-title>
+  </ion-toolbar>
+  <ion-searchbar [(ngModel)]="currentSearch" (ionInput)="onSearch($event)" placeholder="{{'searchHolder' | translate}}"></ion-searchbar>
+</ion-header>
+
+<ion-content>
+  <ion-list class="list-items ion-no-padding">
+    <ion-item-group>
+      <button ion-item (click)="onCreateTheme()" color="caucaGold">{{'addThemeButton' | translate}}</button>
+      <button ion-item *ngFor="let theme of filteredThemes" (click)="onSelectExistingTheme(theme)">
+        {{theme}}
+      </button>
+    </ion-item-group>
+  </ion-list>
+</ion-content>
+
+<ion-footer class="page-footer">
+  <ion-toolbar>
+  </ion-toolbar>
+</ion-footer>
