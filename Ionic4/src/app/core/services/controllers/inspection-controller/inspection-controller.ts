@@ -19,6 +19,9 @@ export class InspectionControllerProvider {
   public inspectionIsLoaded: boolean = false;
   public inspectionLoaded: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+  public currentIdBuilding: string;
+  public currentBuildingName: string;
+
   constructor(
     private repoSynchro: InspectionDataSynchronizerProvider,
     private configController: InspectionConfigurationProvider,
@@ -27,6 +30,15 @@ export class InspectionControllerProvider {
     private loadingCtrl: LoadingController,
     private laneRepo: LaneRepositoryProvider,
     private dataRepoInspection: InspectionDataSynchronizerProvider) {
+      console.log('CONSTRUCTIONNNNNN');
+  }
+
+  public setIdBuilding(idBuilding: string): void {
+    if (this.currentIdBuilding !== idBuilding) {
+      this.currentIdBuilding = idBuilding;
+      const building = this.getBuilding(idBuilding);
+      this.currentBuildingName = this.getBuildingName(building);
+    }
   }
 
   public async setIdInspection(idInspection: string, forceRefresh: boolean): Promise<boolean> {
@@ -82,7 +94,6 @@ export class InspectionControllerProvider {
   }
 
   public async refreshBuildingInformations() {
-    // this is where the corporateName and alias will also be updated later on.
     if (this.currentInspection.hasBeenDownloaded) {
       this.currentInspection.ownerName = await this.contactRepository.getOwnerName(this.getMainBuilding().idBuilding);
       this.currentInspection.aliasName = this.getMainBuilding().aliasName;
@@ -103,6 +114,23 @@ export class InspectionControllerProvider {
 
   public getMainBuilding(): InspectionBuildingForList {
       return this.inspection.buildings.filter(building => building.isMainBuilding)[0];
+  }
+
+  public getBuilding(idBuilding: string): InspectionBuildingForList {
+    console.log('getting building', idBuilding, this.inspection.buildings);
+    return this.inspection.buildings.find(building => building.idBuilding === idBuilding);
+  }
+
+  public getBuildingName(building: InspectionBuildingForList) {
+    if (building.aliasName) {
+      return building.aliasName;
+    } else if (building.corporateName) {
+      return building.corporateName;
+    } else if (building.isMainBuilding) {
+      return 'Bâtiment principal';
+    } else {
+      return 'Bâtiment enfant';
+    }
   }
 
   public saveBuildings() {
