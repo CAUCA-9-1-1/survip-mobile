@@ -5,12 +5,15 @@
       <menu-profile></menu-profile>
     </ion-header>
 
-    <ion-content no-padding  class="toolbar-gradient">
+    <ion-content no-padding class="toolbar-gradient">
       <ion-list class="menu-items">
-        <ion-item menuClose class="text-menu" *ngFor="let menuItem of menuItems" [routerLink]="['/' + getFullUrl(menuItem.page)]" routerLinkActive="active-item">
-          <ion-icon slot="start" [name]="menuItem.icon" class="menu-icon"></ion-icon>
-          <ion-label>{{menuItem.title}}</ion-label>
-        </ion-item>
+        <ion-menu-toggle auto-hide="true">
+          <ion-item class="text-menu" *ngFor="let menuItem of menuItems"
+            [routerLink]="['/' + getFullUrl(menuItem.page)]" routerLinkActive="active-item">
+            <ion-icon slot="start" [name]="menuItem.icon" class="menu-icon"></ion-icon>
+            <ion-label>{{menuItem.title}}</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
       </ion-list>
     </ion-content>
 

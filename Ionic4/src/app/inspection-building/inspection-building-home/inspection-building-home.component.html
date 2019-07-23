@@ -10,9 +10,13 @@
       <ion-list class="menu-items ion-no-padding">
 
         <div *ngFor="let menuItem of menuItems">
-          <ion-item menuClose class="text-menu" *ngIf="menuItem.enabled" [routerLink]="[getFullUrl(menuItem.page)]" routerLinkActive="active-item">            
-            <ion-label><ion-icon [name]="menuItem.icon" slot="start" size="big"></ion-icon>{{menuItem.title}}</ion-label>
-          </ion-item>
+          <ion-menu-toggle auto-hide="true">
+            <ion-item class="text-menu" *ngIf="menuItem.enabled" [routerLink]="[getFullUrl(menuItem.page)]"
+              routerLinkActive="active-item">
+              <ion-icon [name]="menuItem.icon" slot="start" size="big"></ion-icon>
+              <ion-label>{{menuItem.title}}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
         </div>
       </ion-list>
     </ion-content>
