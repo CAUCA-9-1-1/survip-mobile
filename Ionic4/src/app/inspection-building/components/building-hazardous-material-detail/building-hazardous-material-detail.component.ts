@@ -44,10 +44,11 @@ export class BuildingHazardousMaterialDetailComponent implements OnInit {
     private unitRepo: UnitOfMeasureRepositoryProvider,
     private msg: MessageToolsProvider,
     private modalCtrl: ModalController,
-    public navParams: NavParams,
+    private navParams: NavParams,
     private translateService: TranslateService) {
-    this.idBuilding = navParams.get('idBuilding');
-    const material = navParams.get('material');
+      
+    this.idBuilding = this.navParams.get('idBuilding');
+    const material = this.navParams.get('material');
     if (material != null) {
       this.idBuildingHazardousMaterial = material.id;
       this.selectedMaterialDescription = material.hazardousMaterialName + ' (' + material.hazardousMaterialNumber + ')';

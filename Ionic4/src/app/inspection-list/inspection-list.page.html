@@ -38,7 +38,7 @@
     <h2>{{noDataMessage}}</h2>
   </div>
 
-  <ion-list class="list-items" no-margin>
+  <ion-list class="list-items ion-no-padding" no-margin>
     <ion-item-group *ngFor="let batch of filteredBatches">
       <ion-item-divider>
         {{'inspectionBatch' | translate}} : {{batch.description}}

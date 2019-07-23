@@ -12,7 +12,14 @@ export class InspectionBuildingParticularRisksComponent implements OnInit {
     return this.controller.currentBuildingName;
   }
 
-  constructor(private controller: InspectionControllerProvider,) { }
+  public get idBuilding(): string {
+    return this.controller.currentIdBuilding;
+  }
+
+  public currentSegment: string = 'foundation';
+
+  constructor(
+    private controller: InspectionControllerProvider) { }
 
   ngOnInit() {}
 

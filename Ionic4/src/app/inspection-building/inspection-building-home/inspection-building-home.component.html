@@ -7,7 +7,7 @@
     </ion-header>
 
     <ion-content class="toolbar-gradient">
-      <ion-list class="menu-items">
+      <ion-list class="menu-items ion-no-padding">
 
         <div *ngFor="let menuItem of menuItems">
           <ion-item menuClose class="text-menu" *ngIf="menuItem.enabled" [routerLink]="[getFullUrl(menuItem.page)]" routerLinkActive="active-item">            

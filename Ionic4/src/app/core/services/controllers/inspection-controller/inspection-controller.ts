@@ -30,7 +30,6 @@ export class InspectionControllerProvider {
     private loadingCtrl: LoadingController,
     private laneRepo: LaneRepositoryProvider,
     private dataRepoInspection: InspectionDataSynchronizerProvider) {
-      console.log('CONSTRUCTIONNNNNN');
   }
 
   public setIdBuilding(idBuilding: string): void {
@@ -46,7 +45,6 @@ export class InspectionControllerProvider {
       this.inspectionIsLoaded = false;
       const successfullyLoaded: boolean = await this.loadInspection(idInspection);
       if (successfullyLoaded) {
-        console.log('inspection loaded', this.currentInspection);
         this.idInspection = idInspection;
         this.inspectionIsLoaded = true;
         this.inspectionLoaded.emit(true);
@@ -102,7 +100,6 @@ export class InspectionControllerProvider {
   }
 
   private async loadLanesAndSetConfiguration(loading) {
-    console.log('My configuration...', this.inspection, this.inspection.configuration);
     await this.configController.setConfiguration(this.inspection.configuration);
     await this.laneRepo.setCurrentIdCity(this.currentInspection.idCity);
     await loading.dismiss();
@@ -113,11 +110,14 @@ export class InspectionControllerProvider {
   }
 
   public getMainBuilding(): InspectionBuildingForList {
+    if (this.inspection != null) {
       return this.inspection.buildings.filter(building => building.isMainBuilding)[0];
+    } else {
+      return null;
+    }
   }
 
   public getBuilding(idBuilding: string): InspectionBuildingForList {
-    console.log('getting building', idBuilding, this.inspection.buildings);
     return this.inspection.buildings.find(building => building.idBuilding === idBuilding);
   }
 

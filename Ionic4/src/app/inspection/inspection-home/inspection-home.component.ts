@@ -91,7 +91,6 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
 
   public async openPage(pageName: string) {
     const route = this.getFullUrl(pageName);
-    console.log('router', route);
     await this.router.navigate([route]);
     this.menuController.close();
   }
@@ -107,5 +106,3 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
       || configuration.hasBuildingPnaps);
   }
 }
-
-

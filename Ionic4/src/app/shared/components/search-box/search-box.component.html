@@ -1,6 +1,6 @@
 <ion-item type="button" (click)="onPopSearch()" [class.validation-error-control]="hasValidationError" [disabled]="isDisabled">
     <ion-label slot="start" *ngIf="showDescription" fixed>{{description}}</ion-label>
-    <ion-label [class]="description != '' ? null : 'label-full-width'">
+    <ion-label [class]="'label-full-width'">
       <ion-spinner [style.display]="isLoading ? 'block' : 'none'"></ion-spinner>
       {{selectedItemDescription}}
     </ion-label>

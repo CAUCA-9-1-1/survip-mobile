@@ -1,139 +1,140 @@
 <ion-toolbar color="primary">
-  <ion-buttons slot="start">
-      <ion-button slot="icon-only" (click)="onCancelEdition()">
-          <ion-icon name="arrow-back"></ion-icon>
-      </ion-button>
-  </ion-buttons>
-  <ion-title>{{'hazardousMaterialDetail' | translate}}</ion-title>
+    <ion-buttons slot="start">
+        <ion-button slot="icon-only" (click)="onCancelEdition()">
+            <ion-icon name="arrow-back"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+    <ion-title>{{'hazardousMaterialDetail' | translate}}</ion-title>
 </ion-toolbar>
 
 <ion-content>
 
-  <ion-list [formGroup]="form" class="list-items ion-no-padding">
-      <ion-item-group>
-          <ion-item-divider>{{'product' | translate}}</ion-item-divider>
-          <button ion-item icon-end (click)="onChangeMaterial()"
-                  [class.invalid]="!form.controls.idHazardousMaterial.valid">
-              {{selectedMaterialDescription}}
-          </button>
-          <div *ngIf="!form.controls.idHazardousMaterial.valid" class="validation-error-text">
-              {{'productRequired' | translate}}
-          </div>
-      </ion-item-group>
+    <ion-list [formGroup]="form" class="list-items ion-no-padding">
+        <ion-item-group>
+            <ion-item-divider>{{'product' | translate}}</ion-item-divider>
+            <ion-item (click)="onChangeMaterial()" detail="true"
+                [class.invalid]="!form.controls.idHazardousMaterial.valid">
+                {{selectedMaterialDescription}}
+            </ion-item>
+            <div *ngIf="!form.controls.idHazardousMaterial.valid" class="validation-error-text">
+                {{'productRequired' | translate}}
+            </div>
+        </ion-item-group>
 
-      <ion-item-group>
-          <ion-item-divider>{{'container' | translate}}</ion-item-divider>
-          <ion-item [class.invalid]="!form.controls.quantityMasked.valid">
-              <ion-label>{{'quantity' | translate}}</ion-label>
-              <ion-input type="tel" [pattern]="integerPattern" formControlName="quantityMasked"></ion-input>
-          </ion-item>
-          <div *ngIf="!form.controls.quantityMasked.valid" class="validation-error-text">
-              {{'quantityValidationMessage' | translate}}
-          </div>
-          <ion-item>
-              <ion-label>Type</ion-label>
-              <ion-input type="text" formControlName="container"></ion-input>
-          </ion-item>
-          <ion-item>
-              <ion-label>{{'tank' | translate}}</ion-label>
-              <ion-select formControlName="tankTypeMasked" okText="Ok" cancelText="{{'cancel' | translate}}">
-                <ion-select-option *ngFor="let key of tankTypeKeys" [value]="key">
-                  {{"enumTankType."+tankType[key] | translate}}
-                </ion-select-option>
-              </ion-select>
-          </ion-item>
-          <ion-item>
-              <ion-label>{{'supply' | translate}}</ion-label>
-              <ion-input type="text" maxlength="50" formControlName="supplyLine"></ion-input>
-          </ion-item>
+        <ion-item-group>
+            <ion-item-divider>{{'container' | translate}}</ion-item-divider>
+            <ion-item [class.invalid]="!form.controls.quantityMasked.valid">
+                <ion-label>{{'quantity' | translate}}</ion-label>
+                <ion-input type="tel" [pattern]="integerPattern" formControlName="quantityMasked"></ion-input>
+            </ion-item>
+            <div *ngIf="!form.controls.quantityMasked.valid" class="validation-error-text">
+                {{'quantityValidationMessage' | translate}}
+            </div>
+            <ion-item>
+                <ion-label>Type</ion-label>
+                <ion-input type="text" formControlName="container"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>{{'tank' | translate}}</ion-label>
+                <ion-select formControlName="tankTypeMasked" okText="Ok" cancelText="{{'cancel' | translate}}">
+                    <ion-select-option *ngFor="let key of tankTypeKeys" [value]="key">
+                        {{"enumTankType."+tankType[key] | translate}}
+                    </ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label>{{'supply' | translate}}</ion-label>
+                <ion-input type="text" maxlength="50" formControlName="supplyLine"></ion-input>
+            </ion-item>
 
-      </ion-item-group>
+        </ion-item-group>
 
-      <ion-item-group>
-          <ion-item-divider>{{'containerCapacity' | translate}}</ion-item-divider>
-          <ion-grid>
-              <ion-row>
-                  <ion-col width-50>
-                      <ion-item>
-                          <ion-input item-end type="number" [pattern]="decimalPattern"
-                                     placeholder="{{'capacity' | translate}}"
-                                     formControlName="capacityContainerMasked" (ionChange)="onCapacityChanged()"></ion-input>
-                      </ion-item>
-                  </ion-col>
-                  <ion-col width-50>
-                      <ion-item [class.invalid]="!form.controls.idUnitOfMeasure.valid">
-                          <ion-label [hidden]="true">{{'unit' | translate}}</ion-label>
-                          <ion-select class="unit-select" formControlName="idUnitOfMeasure" placeholder="{{'unit' | translate}}" okText="Ok" cancelText="{{'cancel' | translate}}">
-                              <ion-select-option *ngFor="let unit of unitOfMeasures" [value]="unit.id">{{unit.name}}
-                              </ion-select-option>
-                          </ion-select>
-                      </ion-item>
-                  </ion-col>
-              </ion-row>
-          </ion-grid>
+        <ion-item-group>
+            <ion-item-divider>{{'containerCapacity' | translate}}</ion-item-divider>
+            <ion-grid>
+                <ion-row>
+                    <ion-col width-50>
+                        <ion-item>
+                            <ion-input item-end type="number" [pattern]="decimalPattern"
+                                placeholder="{{'capacity' | translate}}" formControlName="capacityContainerMasked"
+                                (ionChange)="onCapacityChanged()"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col width-50>
+                        <ion-item [class.invalid]="!form.controls.idUnitOfMeasure.valid">
+                            <ion-label [hidden]="true">{{'unit' | translate}}</ion-label>
+                            <ion-select class="unit-select" formControlName="idUnitOfMeasure"
+                                placeholder="{{'unit' | translate}}" okText="Ok" cancelText="{{'cancel' | translate}}">
+                                <ion-select-option *ngFor="let unit of unitOfMeasures" [value]="unit.id">{{unit.name}}
+                                </ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
 
-      </ion-item-group>
+        </ion-item-group>
 
-      <div *ngIf="!form.controls.idUnitOfMeasure.valid" class="validation-error-text">
-          {{'containerUnitRequired' | translate}}
-      </div>
-      <div *ngIf="!form.controls.capacityContainerMasked.valid" class="validation-error-text">
-          {{'containerCapacityValidationMessage' | translate}}
-      </div>
+        <div *ngIf="!form.controls.idUnitOfMeasure.valid" class="validation-error-text">
+            {{'containerUnitRequired' | translate}}
+        </div>
+        <div *ngIf="!form.controls.capacityContainerMasked.valid" class="validation-error-text">
+            {{'containerCapacityValidationMessage' | translate}}
+        </div>
 
 
-      <ion-item-group>
-          <ion-item-divider>{{'localization' | translate}}</ion-item-divider>
-          <ion-item>
-              <ion-label>{{'position' | translate}}</ion-label>
-              <ion-input type="text" maxlength="100" formControlName="place"></ion-input>
-          </ion-item>
-          <ion-item>
-              <ion-label>{{'floor' | translate}}</ion-label>
-              <ion-input type="text" maxlength="4" formControlName="floor"></ion-input>
-          </ion-item>
-          <ion-item>
-              <ion-label>{{'wall' | translate}}</ion-label>
-              <ion-select formControlName="wall" okText="Ok" cancelText="{{'cancel' | translate}}">
-                  <ion-select-option *ngFor="let wall of walls">{{wall}}</ion-select-option>
-              </ion-select>
-          </ion-item>
-          <ion-item>
-              <ion-label>{{'division' | translate}}</ion-label>
-              <ion-select formControlName="sector" okText="Ok" cancelText="{{'cancel' | translate}}">
-                  <ion-select-option *ngFor="let sector of sectors">{{sector}}</ion-select-option>
-              </ion-select>
-          </ion-item>
-          <ion-item>
-              <ion-label>{{'gasInlet' | translate}}</ion-label>
-              <ion-input type="text" maxlength="100" formControlName="gasInlet"></ion-input>
-          </ion-item>
-      </ion-item-group>
-      <ion-item-group>
-          <ion-item-divider>{{'securityPerimeter' | translate}}</ion-item-divider>
-          <ion-item>
-              <ion-textarea formControlName="securityPerimeter"></ion-textarea>
-          </ion-item>
-      </ion-item-group>
+        <ion-item-group>
+            <ion-item-divider>{{'localization' | translate}}</ion-item-divider>
+            <ion-item>
+                <ion-label>{{'position' | translate}}</ion-label>
+                <ion-input type="text" maxlength="100" formControlName="place"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>{{'floor' | translate}}</ion-label>
+                <ion-input type="text" maxlength="4" formControlName="floor"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>{{'wall' | translate}}</ion-label>
+                <ion-select formControlName="wall" okText="Ok" cancelText="{{'cancel' | translate}}">
+                    <ion-select-option *ngFor="let wall of walls">{{wall}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label>{{'division' | translate}}</ion-label>
+                <ion-select formControlName="sector" okText="Ok" cancelText="{{'cancel' | translate}}">
+                    <ion-select-option *ngFor="let sector of sectors">{{sector}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label>{{'gasInlet' | translate}}</ion-label>
+                <ion-input type="text" maxlength="100" formControlName="gasInlet"></ion-input>
+            </ion-item>
+        </ion-item-group>
+        <ion-item-group>
+            <ion-item-divider>{{'securityPerimeter' | translate}}</ion-item-divider>
+            <ion-item>
+                <ion-textarea formControlName="securityPerimeter"></ion-textarea>
+            </ion-item>
+        </ion-item-group>
 
-      <ion-item-group>
-          <ion-item-divider>{{'otherInformation' | translate}}</ion-item-divider>
-          <ion-item>
-              <ion-textarea formControlName="otherInformation"></ion-textarea>
-          </ion-item>
-      </ion-item-group>
+        <ion-item-group>
+            <ion-item-divider>{{'otherInformation' | translate}}</ion-item-divider>
+            <ion-item>
+                <ion-textarea formControlName="otherInformation"></ion-textarea>
+            </ion-item>
+        </ion-item-group>
 
-  </ion-list>
+    </ion-list>
 
 </ion-content>
 
 <ion-footer class="page-footer">
-  <ion-toolbar color="primary">
-      <ion-buttons left>
-          <ion-button *ngIf="!isNew" (click)="onDeleteHazardousMaterial()">
-              <ion-icon name="trash" slot="start"></ion-icon>
-              {{'hazardousMaterialDelete' | translate}}
-          </ion-button>
-      </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-buttons left>
+            <ion-button *ngIf="!isNew" (click)="onDeleteHazardousMaterial()">
+                <ion-icon name="trash" slot="start"></ion-icon>
+                {{'hazardousMaterialDelete' | translate}}
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-footer>

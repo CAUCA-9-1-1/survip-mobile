@@ -7,9 +7,9 @@
 
     <ion-content no-padding  class="toolbar-gradient">
       <ion-list class="menu-items">
-        <ion-item menuClose class="text-menu" routerLink="/inspections-list" *ngFor="let menuItem of menuItems" [routerLink]="['/' + getFullUrl(menuItem.page)]" routerLinkActive="active-item">
-          <ion-icon slot="left" [name]="menuItem.icon"></ion-icon>
-          <span ion-text>{{menuItem.title}}</span>
+        <ion-item menuClose class="text-menu" *ngFor="let menuItem of menuItems" [routerLink]="['/' + getFullUrl(menuItem.page)]" routerLinkActive="active-item">
+          <ion-icon slot="start" [name]="menuItem.icon" class="menu-icon"></ion-icon>
+          <ion-label>{{menuItem.title}}</ion-label>
         </ion-item>
       </ion-list>
     </ion-content>
@@ -17,7 +17,7 @@
     <ion-footer>
       <ion-toolbar color="primary" class="user-profile">
         <ion-button size="small" expand="full" color="light" menuClose routerLink="/inspections-list">
-          <ion-icon name="close-circle" slot="left"></ion-icon>
+          <ion-icon name="close-circle" slot="start"></ion-icon>
           {{'inspectionQuit' | translate}}
         </ion-button>
       </ion-toolbar>
