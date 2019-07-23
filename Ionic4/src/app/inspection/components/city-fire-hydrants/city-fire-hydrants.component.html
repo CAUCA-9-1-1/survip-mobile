@@ -12,7 +12,7 @@
     </ion-list-header>
 
     <ion-item detail-none *ngFor="let hydrant of filteredCityFireHydrantList | orderBy:'number'" (click)="addBuildingFireHydrant(hydrant)" detail="true">
-      <ion-icon name="icon-fire-hydrant" slot="start" [style.color]="hydrant.color" [style.background-color]="hydrant.color == '#FFFFFF' ? 'lightgray': null" large></ion-icon>      
+      <ion-icon src="assets/icon/hydrant.svg" slot="start" [style.color]="hydrant.color" [style.background-color]="hydrant.color == '#FFFFFF' ? 'lightgray': null" large></ion-icon>      
         <div class="fire-hydrant-info">
           <ion-label>
             <h2>{{hydrant.number}}</h2>

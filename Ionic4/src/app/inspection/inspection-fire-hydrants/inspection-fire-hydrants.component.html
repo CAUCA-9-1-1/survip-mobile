@@ -13,7 +13,7 @@
             {{currentInspection?.civicNumber}}{{currentInspection?.civicLetter}}, {{currentInspection?.laneName}}
           </ion-list-header>
           <ion-item *ngFor="let hydrant of fireHydrants | orderBy:'number'">
-            <ion-icon name="icon-fire-hydrant" item-start [style.color]="hydrant.color" [style.background-color]="hydrant.color == '#FFFFFF' ? 'lightgray': null" large>
+            <ion-icon src="assets/icon/hydrant.svg" slot="start" [style.color]="hydrant.color" [style.background-color]="hydrant.color == '#FFFFFF' ? 'lightgray': null" large>
               </ion-icon>
               <ion-button (click)="onDeleteFireHydrant(hydrant.idFireHydrant)" slot="end" fill="clear" color="dark">
                   <ion-icon name="trash" slot="icon-only"></ion-icon>
