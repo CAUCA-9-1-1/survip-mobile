@@ -29,7 +29,6 @@ export class InspectionBuildingHomeComponent implements OnInit {
     const idBuilding = this.activatedRoute.snapshot.paramMap.get('idBuilding');
     const id = this.activatedRoute.snapshot.paramMap.get('id');
 
-    console.log('idBuilding', id, idBuilding);
     this.controller.setIdInspection(id, false)
       .then(() => {
         this.controller.setIdBuilding(idBuilding);

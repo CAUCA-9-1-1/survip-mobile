@@ -51,7 +51,6 @@ export class PicturesComponent implements OnInit {
 
   set value(value: string) {
     if (value !== this.idParent && value !== '') {
-      console.log('what up');
       this.idParent = value;
       this.loadPictures();
     } else if (value === '') {
@@ -104,7 +103,6 @@ export class PicturesComponent implements OnInit {
   public writeValue(value: string) {
     if (value !== this.idParent && value) {
       this.idParent = value;
-      console.log('dans le tapis');
       this.loadPictures();
     } else if (!value) {
       this.repo.pictures = [];

@@ -13,10 +13,10 @@
 <ion-content>
   <ion-list class="list-items ion-no-padding">
     <ion-item-group>
-      <button ion-item (click)="onCreateTheme()" color="caucaGold">{{'addThemeButton' | translate}}</button>
-      <button ion-item *ngFor="let theme of filteredThemes" (click)="onSelectExistingTheme(theme)">
+      <ion-item (click)="onCreateTheme()" color="secondary">{{'addThemeButton' | translate}}</ion-item>
+      <ion-item *ngFor="let theme of filteredThemes" (click)="onSelectExistingTheme(theme)">
         {{theme}}
-      </button>
+      </ion-item>
     </ion-item-group>
   </ion-list>
 </ion-content>

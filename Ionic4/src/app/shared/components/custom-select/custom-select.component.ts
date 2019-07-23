@@ -1,10 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-custom-select',
   templateUrl: './custom-select.component.html',
   styleUrls: ['./custom-select.component.scss'],
+  providers: [
+    {provide: NG_VALUE_ACCESSOR, useExisting: CustomSelectComponent, multi: true}
+]
 })
 export class CustomSelectComponent implements ControlValueAccessor {
   private changed = new Array<(value: string) => void>();
@@ -28,6 +31,7 @@ export class CustomSelectComponent implements ControlValueAccessor {
   }
 
   public clearSelectedValue() {
+    event.stopPropagation();
     this.value = '';
   }
 
@@ -39,13 +43,12 @@ export class CustomSelectComponent implements ControlValueAccessor {
   }
 
   writeValue(value: any): void {
-
     this.selectedValue = value ? value : '';
   }
 
   public selectedItemChanged(e) {
-    if ((e ? e : '') !== this.selectedValue) {
-      this.value = e;
+    if ((e.detail.value ? e.detail.value : '') !== this.selectedValue) {
+      this.value = e.detail.value;
     }
   }
 }

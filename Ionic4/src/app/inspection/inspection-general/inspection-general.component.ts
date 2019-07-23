@@ -36,8 +36,9 @@ export class InspectionGeneralComponent implements OnInit, OnDestroy {
   }
 
   public get canBeEdited(): boolean {
-    return this.controller.currentInspection != null && this.controller.currentInspection.status ===
-      this.inspectionRepo.inspectionStatusEnum.Started && !this.canTransmitInspectionToServer;
+    return this.controller.currentInspection != null
+    && this.controller.currentInspection.status === this.inspectionRepo.inspectionStatusEnum.Started 
+    && !this.canTransmitInspectionToServer;
   }
 
   public get inspectionIsLoaded(): boolean {
@@ -62,16 +63,12 @@ export class InspectionGeneralComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    console.log('initializing general');
-
     this.translateService.get([
-      'surveyRequired', 'otherUserInspection', 'cantStartBecauseCantDownloadAndApiUnavailable', 'cantUploadAndCompleteInspection', 'loading'
-    ]).subscribe(labels => {
-      this.labels = labels;
-    },
-      error => {
-        console.log(error);
-      });
+      'surveyRequired', 'otherUserInspection', 'cantStartBecauseCantDownloadAndApiUnavailable',
+      'cantUploadAndCompleteInspection', 'loading'])
+      .subscribe(
+        labels => this.labels = labels,
+        error => console.log(error));
   }
 
   ngOnDestroy(): void {

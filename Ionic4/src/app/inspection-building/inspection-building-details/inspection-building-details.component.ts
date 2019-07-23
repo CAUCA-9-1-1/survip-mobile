@@ -88,7 +88,6 @@ export class InspectionBuildingDetailsComponent implements OnInit {
     try {
       await load.present();
       this.detail = await this.detailRepo.get(this.controller.currentIdBuilding);
-      console.log('loadedddd', this.detail);
       this.setValuesAndStartListening();
     } catch (error) {
       console.log('erreur', error);
