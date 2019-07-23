@@ -1,14 +1,14 @@
 // http://ionicframework.com/docs/theming/
-@import '~@ionic/angular/css/core.css';
-@import '~@ionic/angular/css/normalize.css';
-@import '~@ionic/angular/css/structure.css';
-@import '~@ionic/angular/css/typography.css';
-@import '~@ionic/angular/css/display.css';
-@import '~@ionic/angular/css/padding.css';
-@import '~@ionic/angular/css/float-elements.css';
-@import '~@ionic/angular/css/text-alignment.css';
-@import '~@ionic/angular/css/text-transformation.css';
-@import '~@ionic/angular/css/flex-utils.css';
+@import "~@ionic/angular/css/core.css";
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import "~@ionic/angular/css/display.css";
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
 
 /*.user {
     @extend %fa-icon;
@@ -18,208 +18,216 @@
       content: fa-content($fa-var-user);
     }
   }*/
-  ion-list-header {
-    --background: var(--ion-color-tertiary);
-    --color: white;
-  }
+ion-list-header {
+  --background: var(--ion-color-tertiary);
+  --color: white;
+}
 
-  .toolbar-gradient {    
-    --background: linear-gradient(135deg, var(--ion-color-dark), var(--ion-color-primary));
-  }
-  
-  .validation-error-control {
-    border-left: red 4px solid;
-    border-bottom: red dotted thin;
-  }
-  
-  .validation-error-text {
-    font-size: smaller;
-    color: red;
-  }
-  
-  .action-list-button{
-    background-color: transparent;
-    float:right;
-    font-size: 2.5rem;
-    line-height: 3.8rem;
-  }
-  
-  .invalid {
-    border-bottom: 1px solid #ea6153;
-  }
-  
-  .text-white {
-    color: #fff;
-  }
-  
-  .text-1x {
-    font-size: 1em;
-  }
-  
-  .text-menu {
-    font-size: 1em;
-    color: var(--ion-color-dark);
-  }
-  
-  
-  .menu-items {
-    .item {
-      &:last-child {
-        border-bottom: 0;
-      }
-      .item-inner {
-        border-color: rgba(86, 61, 124, .1);
-      }
-      .item-icon {
-      }
-    }
-  
-  }
-  
-  .page-header {
-    .toolbar-background {
-      background-color: var(--ion-color-primary);
-    }
-    .searchbar {
-      background-color: gray;
-    }
-    .toolbar-title {
-      color: whitesmoke;
-    }
-    .back-button {
-      color: whitesmoke;
-    }
-    .bar-button {
-      color: whitesmoke;
-    }
-  }
-  
-  .page-footer {
-    .toolbar-background {
-      background-color: var(--ion-color-primary);
-    }
-    .bar-button {
-      color: whitesmoke;
-    }
-  }
-  
-  .list-items {
-    .item:last-child {
-      border: none;
-    }
-    ion-item-divider {
-      background-color: #cbb677;
-      color: black;
+.menu-icon-white {
+  --color: white;
+}
+
+.toolbar-gradient {
+  --background: linear-gradient(
+    135deg,
+    var(--ion-color-dark),
+    var(--ion-color-primary)
+  );
+}
+
+.validation-error-control {
+  border-left: red 4px solid;
+  border-bottom: red dotted thin;
+}
+
+.validation-error-text {
+  font-size: smaller;
+  color: red;
+}
+
+.action-list-button {
+  background-color: transparent;
+  float: right;
+  font-size: 2.5rem;
+  line-height: 3.8rem;
+}
+
+.invalid {
+  border-bottom: 1px solid #ea6153;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.text-1x {
+  font-size: 1em;
+}
+
+.text-menu {
+  font-size: 1em;
+  color: var(--ion-color-dark);
+}
+
+.menu-items {
+  .item {
+    &:last-child {
+      border-bottom: 0;
     }
     .item-inner {
-      border-color: rgba(86, 61, 124, .1);
+      border-color: rgba(86, 61, 124, 0.1);
     }
-    .list-header {
-      background-color: #737373;
-      color: whitesmoke;
-      border-color: rgba(86, 61, 124, .1);
+    .item-icon {
     }
   }
-  
-  .segment-themed {
-  
-    .segment-button {
-      border-color: #cbb677;
-      color: whitesmoke;
-    }
-  
-    .segment-button.segment-activated{
-      background-color: var(--ion-color-secondary);
-      color: black;
-      border-color: var(--ion-color-secondary);
-    }
+}
+
+.page-header {
+  .toolbar-background {
+    background-color: var(--ion-color-primary);
   }
-  
-  ion-textarea {
-    ::-webkit-scrollbar {
-      -webkit-appearance: none;
-    }
-  
-    ::-webkit-scrollbar:vertical {
-      width: 11px;
-    }
-  
-    ::-webkit-scrollbar:horizontal {
-      height: 11px;
-    }
-  
-    ::-webkit-scrollbar-thumb {
-      border-radius: 8px;
-      border: 2px solid white;
-      background-color: rgba(0, 0, 0, .5);
-    }
-  
-    ::-webkit-scrollbar-track {
-      background-color: #fff;
-      border-radius: 8px;
-    }
-  
-    .overflow-scroll {
-      overflow-y: auto !important;
-    }
+  .searchbar {
+    background-color: gray;
   }
-  
-  ion-navbar ion-icon{
-    padding-left: 10px;
-    font-size: 2em;
+  .toolbar-title {
+    color: whitesmoke;
   }
-  
-  [col-3]
-  {padding:0px;}
-  
-  .list-header-md{
-    margin-bottom:0px;
-    border-top:none;
+  .back-button {
+    color: whitesmoke;
   }
-  .list-md{
-    margin: 0px 0 16px;
+  .bar-button {
+    color: whitesmoke;
   }
-  
-  .toolbar-ios ion-title{
-    padding: 0 70px 1px;
+}
+
+.page-footer {
+  .toolbar-background {
+    background-color: var(--ion-color-primary);
   }
-  
-  //SELECT BOX WITH COLOR COLLECTION
-  .colorselect {
-    .select-text {
-      width: 75px;
-      border-radius: 5px;
-    }
-  
-    .alert-radio-inner,
-    .alert-radio-icon,
-    .alert-radio-label {
-      display: none;
-    }
-  
-    &.colorselected:before {
-      content: '\2713';
-      color: gray;
-      z-index: 999999;
-      width: 100%;
-      height: 100%;
-      font-size: 33px;
-      left: 50%;
-      top: 50%;
-      position: relative;
-      transform: translate(-50%);
-    }
-  
-    $colorsToSelect: "#000000" "#FFFFFF" "#6495ED" "#9ACD32" "#FFA500" "#FF0000" "#FFFF00" "#CB42F4";
-  
-    @each $colorOption in $colorsToSelect {
-      $colorWithoutHash: str-slice($colorOption, 2, 7);
-  
-      &.color_#{$colorWithoutHash} {
-        &, & .select-text {
-          color: #{$colorOption};
-          background-color: #{$colorOption};
-        }
+  .bar-button {
+    color: whitesmoke;
+  }
+}
+
+.list-items {
+  .item:last-child {
+    border: none;
+  }
+  ion-item-divider {
+    background-color: #cbb677;
+    color: black;
+  }
+  .item-inner {
+    border-color: rgba(86, 61, 124, 0.1);
+  }
+  .list-header {
+    background-color: #737373;
+    color: whitesmoke;
+    border-color: rgba(86, 61, 124, 0.1);
+  }
+}
+
+.segment-themed {
+  .segment-button {
+    border-color: #cbb677;
+    color: whitesmoke;
+  }
+
+  .segment-button.segment-activated {
+    background-color: var(--ion-color-secondary);
+    color: black;
+    border-color: var(--ion-color-secondary);
+  }
+}
+
+ion-textarea {
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+  }
+
+  ::-webkit-scrollbar:vertical {
+    width: 11px;
+  }
+
+  ::-webkit-scrollbar:horizontal {
+    height: 11px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 2px solid white;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #fff;
+    border-radius: 8px;
+  }
+
+  .overflow-scroll {
+    overflow-y: auto !important;
+  }
+}
+
+ion-navbar ion-icon {
+  padding-left: 10px;
+  font-size: 2em;
+}
+
+[col-3] {
+  padding: 0px;
+}
+
+.list-header-md {
+  margin-bottom: 0px;
+  border-top: none;
+}
+.list-md {
+  margin: 0px 0 16px;
+}
+
+.toolbar-ios ion-title {
+  padding: 0 70px 1px;
+}
+
+//SELECT BOX WITH COLOR COLLECTION
+.colorselect {
+  .select-text {
+    width: 75px;
+    border-radius: 5px;
+  }
+
+  .alert-radio-inner,
+  .alert-radio-icon,
+  .alert-radio-label {
+    display: none;
+  }
+
+  &.colorselected:before {
+    content: "\2713";
+    color: gray;
+    z-index: 999999;
+    width: 100%;
+    height: 100%;
+    font-size: 33px;
+    left: 50%;
+    top: 50%;
+    position: relative;
+    transform: translate(-50%);
+  }
+
+  $colorsToSelect: "#000000" "#FFFFFF" "#6495ED" "#9ACD32" "#FFA500" "#FF0000"
+    "#FFFF00" "#CB42F4";
+
+  @each $colorOption in $colorsToSelect {
+    $colorWithoutHash: str-slice($colorOption, 2, 7);
+
+    &.color_#{$colorWithoutHash} {
+      &,
+      & .select-text {
+        color: #{$colorOption};
+        background-color: #{$colorOption};
       }
     }
   }
+}
