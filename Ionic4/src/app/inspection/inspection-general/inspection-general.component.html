@@ -1,107 +1,106 @@
 <ion-header class="page-header" no-padding no-margin>
   <ion-toolbar color="primary">
-      <ion-menu-button menu="inspection-menu" class="menu-icon-white" slot="start"></ion-menu-button>
-      <ion-title>{{'generalInformation' | translate}}
-      </ion-title>
+    <ion-menu-button menu="inspection-menu" class="menu-icon-white" slot="start"></ion-menu-button>
+    <ion-title>{{'generalInformation' | translate}}
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div novalidate [formGroup]="planForm" *ngIf="inspectionIsLoaded">
 
-      <ion-list class="list-items ion-no-padding">
+    <ion-list class="list-items ion-no-padding">
 
-          <ion-list-header>
-              {{currentInspection?.civicNumber}}{{currentInspection?.civicLetter}}, {{currentInspection?.laneName}}
-          </ion-list-header>
+      <ion-list-header>
+        {{currentInspection?.civicNumber}}{{currentInspection?.civicLetter}}, {{currentInspection?.laneName}}
+      </ion-list-header>
 
-          <ion-item *ngIf="currentInspection?.ownerName">
-            <ion-label position="fixed">{{'owner' | translate}}</ion-label>
-            <ion-input type="text" disabled value="{{currentInspection?.ownerName}}"></ion-input>
-          </ion-item>
+      <ion-item *ngIf="currentInspection?.ownerName">
+        <ion-label position="fixed">{{'owner' | translate}}</ion-label>
+        <ion-input type="text" disabled value="{{currentInspection?.ownerName}}"></ion-input>
+      </ion-item>
 
-          <ion-item>
-              <ion-label position="fixed">{{'risk' | translate}}</ion-label>
-              <ion-input type="text" disabled value="{{riskLevel?.name}}"></ion-input>
-          </ion-item>
+      <ion-item>
+        <ion-label position="fixed">{{'risk' | translate}}</ion-label>
+        <ion-input type="text" disabled value="{{riskLevel?.name}}"></ion-input>
+      </ion-item>
 
-          <ion-item>
-              <ion-label position="fixed">{{'affectation' | translate}}</ion-label>
-              <ion-input type="text" disabled value="{{currentInspection?.utilisationCodeDescription}}"></ion-input>
-          </ion-item>
+      <ion-item>
+        <ion-label position="fixed">{{'affectation' | translate}}</ion-label>
+        <ion-input type="text" disabled value="{{currentInspection?.utilisationCodeDescription}}"></ion-input>
+      </ion-item>
 
-          <ion-item>
-              <ion-label position="fixed">{{'matricule' | translate}}</ion-label>
-              <ion-input type="text" disabled value="{{currentInspection?.matricule}}"></ion-input>
-          </ion-item>
+      <ion-item>
+        <ion-label position="fixed">{{'matricule' | translate}}</ion-label>
+        <ion-input type="text" disabled value="{{currentInspection?.matricule}}"></ion-input>
+      </ion-item>
 
-          <ion-item *ngIf="currentInspection?.aliasName">
-              <ion-label position="fixed">Alias</ion-label>
-              <ion-input type="text" disabled value="{{currentInspection?.aliasName}}"></ion-input>
-          </ion-item>
+      <ion-item *ngIf="currentInspection?.aliasName">
+        <ion-label position="fixed">Alias</ion-label>
+        <ion-input type="text" disabled value="{{currentInspection?.aliasName}}"></ion-input>
+      </ion-item>
 
-        <ion-item *ngIf="currentInspection?.corporateName">
-          <ion-label position="fixed">{{'corporateName' | translate}}</ion-label>
-          <ion-input type="text" disabled value="{{currentInspection?.corporateName}}"></ion-input>
-        </ion-item>
+      <ion-item *ngIf="currentInspection?.corporateName">
+        <ion-label position="fixed">{{'corporateName' | translate}}</ion-label>
+        <ion-input type="text" disabled value="{{currentInspection?.corporateName}}"></ion-input>
+      </ion-item>
 
-          <ion-item>
-              <ion-label position="fixed">{{'lane' | translate}}</ion-label>
-              <ion-input type="text" disabled value="{{currentInspection?.laneName}}"></ion-input>
-          </ion-item>
+      <ion-item>
+        <ion-label position="fixed">{{'lane' | translate}}</ion-label>
+        <ion-input type="text" disabled value="{{currentInspection?.laneName}}"></ion-input>
+      </ion-item>
 
-        <ion-item *ngIf="!canBeEdited">
-          <ion-label position="fixed">{{'transversal' | translate}}</ion-label>
-          <ion-input type="text" disabled value="{{currentInspection?.transversalLaneName}}"></ion-input>
-        </ion-item>
+      <ion-item *ngIf="!canBeEdited">
+        <ion-label position="fixed">{{'transversal' | translate}}</ion-label>
+        <ion-input type="text" disabled value="{{currentInspection?.transversalLaneName}}"></ion-input>
+      </ion-item>
 
-        <app-search-box *ngIf="canBeEdited"
-                  description="{{'transversal' | translate}}"
-                  formControlName="idLaneTransversal"
-                  [displayFieldName]="'name'"
-                  [disabledValue]="controller?.getMainBuilding()?.idLaneTransversal"
-                  [keyFieldName]="'id'"
-                  [dataService]="laneService"></app-search-box>
-      </ion-list>
+      <app-search-box *ngIf="canBeEdited" description="{{'transversal' | translate}}"
+        formControlName="idLaneTransversal" [displayFieldName]="'name'"
+        [disabledValue]="controller?.getMainBuilding()?.idLaneTransversal" [keyFieldName]="'id'"
+        [dataService]="laneService"></app-search-box>
+    </ion-list>
   </div>
   <ion-card>
-      <ion-card-header color="secondary">{{statusText}}</ion-card-header>
-      <div *ngIf="userAllowed">
-          <div class="refuse_reason" *ngIf="currentInspection?.approbationRefusalReason">
-              <ion-label>{{'reason' | translate}} :</ion-label>
-              <ion-label>{{currentInspection?.approbationRefusalReason}}</ion-label>
-          </div>
-
-          <ion-button *ngIf="canStartInspection" expand="block" color="primary"
-                  (click)="startInspection()">{{'start' | translate}}
-          </ion-button>
-
-          <ion-button *ngIf="canTransmitInspectionToServer" expand="block" color="primary"
-                 (click)="uploadInspectionToServer()">{{'sendToServer' | translate}}
-          </ion-button>
-
-          <ion-grid>
-            <ion-row *ngIf="canRefuseInspection">
-              <ion-col>
-                  <ion-button color="primary" (click)="refuseVisit()" expand="block">{{'visitRefused' | translate}}</ion-button>  
-              </ion-col>
-              <ion-col>
-                  <ion-button color="primary" (click)="absentVisit()" expand="block">{{'absence' | translate}}</ion-button>
-              </ion-col>
-            </ion-row>            
-            <ion-row *ngIf="!canTransmitInspectionToServer && !canStartInspection">
-              <ion-col>
-                <ion-button expand="block" color="primary" class="large-button" (click)="completeInspection()">{{'complete' | translate}}
-                </ion-button>    
-              </ion-col>
-            </ion-row>
-          </ion-grid>
+    <ion-card-header color="secondary">{{statusText}}</ion-card-header>
+    <div *ngIf="userAllowed">
+      <div class="refuse_reason" *ngIf="currentInspection?.approbationRefusalReason">
+        <ion-label>{{'reason' | translate}} :</ion-label>
+        <ion-label>{{currentInspection?.approbationRefusalReason}}</ion-label>
       </div>
-      <div *ngIf="!userAllowed">
-        <div class="refuse_reason">
-            <ion-label>{{'otherUserInspection' | translate}}</ion-label>
-        </div>
+
+      <ion-button *ngIf="canStartInspection" expand="block" color="primary" (click)="startInspection()">
+        {{'start' | translate}}
+      </ion-button>
+
+      <ion-button *ngIf="canTransmitInspectionToServer" expand="block" color="primary"
+        (click)="uploadInspectionToServer()">{{'sendToServer' | translate}}
+      </ion-button>
+
+      <ion-grid>
+        <ion-row *ngIf="canRefuseInspection">
+          <ion-col>
+            <ion-button color="primary" (click)="refuseVisit()" expand="block">{{'visitRefused' | translate}}
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button color="primary" (click)="absentVisit()" expand="block">{{'absence' | translate}}</ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="!canTransmitInspectionToServer && !canStartInspection">
+          <ion-col>
+            <ion-button expand="block" color="primary" class="large-button" (click)="completeInspection()">
+              {{'complete' | translate}}
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <div *ngIf="!userAllowed">
+      <div class="refuse_reason">
+        <ion-label>{{'otherUserInspection' | translate}}</ion-label>
       </div>
+    </div>
   </ion-card>
 </ion-content>
 

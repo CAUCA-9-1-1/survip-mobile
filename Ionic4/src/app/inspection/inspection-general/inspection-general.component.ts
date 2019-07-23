@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Inspection } from 'src/app/shared/interfaces/inspection.interface';
 import { RiskLevel } from 'src/app/shared/models/risk-level';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { InspectionControllerProvider } from 'src/app/core/services/controllers/inspection-controller/inspection-controller';
 import { RiskLevelRepositoryProvider } from 'src/app/core/services/repositories/risk-level-repository';
 import { LaneRepositoryProvider } from 'src/app/core/services/repositories/lane-repository';
@@ -12,6 +12,8 @@ import { MessageToolsProvider } from 'src/app/core/services/utilities/message-to
 import { TranslateService } from '@ngx-translate/core';
 import { InspectionConfigurationProvider } from 'src/app/core/services/controllers/inspection-configuration/inspection-configuration';
 import { debounceTime } from 'rxjs/operators';
+import { InspectionVisitComponent } from '../components/inspection-visit/inspection-visit.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inspection-general',
@@ -49,11 +51,13 @@ export class InspectionGeneralComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
     public controller: InspectionControllerProvider,
     private riskLevelService: RiskLevelRepositoryProvider,
     public laneService: LaneRepositoryProvider,
     private inspectionRepo: InspectionRepositoryProvider,
     private loadingController: LoadingController,
+    private modalController: ModalController,
     private messageTools: MessageToolsProvider,
     private translateService: TranslateService,
     private configService: InspectionConfigurationProvider
@@ -214,16 +218,14 @@ export class InspectionGeneralComponent implements OnInit, OnDestroy {
   public async absentVisit() {
     const canCancel = await this.canUserAccessInspection();
     if (canCancel) {
-      // await this.navCtrl.push('InspectionVisitPage', {ownerAbsent: true});
-      console.log('visit');
+      await this.showVisitPage(true);
     }
   }
 
   public async refuseVisit() {
     const canRefuse = await this.canUserAccessInspection();
     if (canRefuse) {
-      // await this.navCtrl.push('InspectionVisitPage', {ownerAbsent: false});
-      console.log('visit');
+      await this.showVisitPage(false);
     }
   }
 
@@ -249,15 +251,25 @@ export class InspectionGeneralComponent implements OnInit, OnDestroy {
           if (!wasFullyCompleted) {
             await this.messageTools.showToast(this.labels['cantUploadAndCompleteInspection']);
           }
-          /*await this.navCtrl.setRoot('InspectionListPage');
-          await this.navCtrl.popToRoot();*/
-          console.log('must navigate');
+
+          await this.router.navigate(['/inspection-list']);          
         },
         async () => {
           await loading.dismiss();
           await this.messageTools.showToast(this.labels['cantUploadAndCompleteInspection']);
         }
       );
+  }
+
+  private async showVisitPage(ownerAbsent: boolean): Promise<void> {
+    const modal = await this.modalController.create({
+      component: InspectionVisitComponent,
+      componentProps: {
+        ownerAbsent
+      }
+    });
+
+    await modal.present();
   }
 
   private async userAccessValidation() {

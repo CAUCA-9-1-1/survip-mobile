@@ -1,0 +1,29 @@
+.refusal-reason-textarea {
+  border: 1px solid black;
+  font-size: 15px;
+  width: 95%;
+  padding: 5px;
+}
+
+.large-button {
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  width: 95%;
+}
+
+ion-item .label {
+  white-space: normal !important;
+  color: black !important;
+  height: fit-content;
+  width: fit-content;
+}
+
+.align-row {
+  flex-flow: column;
+}
+.align-row ion-label:first-child {
+  margin-bottom: 0px;
+}
+.align-row ion-textarea:last-child {
+  margin-bottom: 0px;
+}
