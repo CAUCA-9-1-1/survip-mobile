@@ -14,6 +14,7 @@ import { InspectionBuildingsComponent } from './inspection-buildings/inspection-
 import { CityFireHydrantsComponent } from './components/city-fire-hydrants/city-fire-hydrants.component';
 import { CourseDetailComponent } from './components/course-detail/course-detail.component';
 import { CourseDetailLaneComponent } from './components/course-detail-lane/course-detail-lane.component';
+import { InspectionVisitComponent } from './components/inspection-visit/inspection-visit.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { CourseDetailLaneComponent } from './components/course-detail-lane/cours
     CityFireHydrantsComponent,
     CourseDetailComponent,
     CourseDetailLaneComponent,
+    InspectionVisitComponent
   ],
   imports: [
     CoreModule,
@@ -38,6 +40,7 @@ import { CourseDetailLaneComponent } from './components/course-detail-lane/cours
     CityFireHydrantsComponent,
     CourseDetailComponent,
     CourseDetailLaneComponent,
+    InspectionVisitComponent
   ]
 })
 export class InspectionModule { }
