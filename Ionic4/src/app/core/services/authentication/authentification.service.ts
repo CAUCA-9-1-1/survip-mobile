@@ -27,8 +27,6 @@ export class AuthenticationService {
     public userRefreshToken: string;
     public userAccessToken: string;
 
-    public myDate: string = '';
-
     constructor(
         private storage: OfflineStorage,
         private http: HttpService,
@@ -38,10 +36,7 @@ export class AuthenticationService {
         private platform: Platform,
         private translateService: TranslateService
     ) {
-        console.log('constructed', this.myDate);
-        if (!this.myDate) {
-            this.myDate = new Date().toString();
-        }
+        console.log('constructed auth service', new Date());
     }
 
     public async initialize() {

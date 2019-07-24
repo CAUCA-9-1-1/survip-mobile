@@ -30,6 +30,7 @@ export class InspectionControllerProvider {
     private loadingCtrl: LoadingController,
     private laneRepo: LaneRepositoryProvider,
     private dataRepoInspection: InspectionDataSynchronizerProvider) {
+      console.log('controller created', new Date());
   }
 
   public setIdBuilding(idBuilding: string): void {

@@ -35,11 +35,7 @@ export class InspectionBuildingHazardousMaterialsComponent implements OnInit {
         labels => this.labels = labels,
         error => console.log(error));
 
-    if (this.controller.inspectionIsLoaded) {
-      await this.loadMaterialList();
-    } else {
-      this.controller.inspectionLoaded.subscribe(() => this.loadMaterialList());
-    }
+    await this.loadMaterialList();
   }
 
   private async loadMaterialList() {

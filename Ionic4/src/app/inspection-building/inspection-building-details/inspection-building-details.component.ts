@@ -50,14 +50,8 @@ export class InspectionBuildingDetailsComponent implements OnInit {
     private loadingCtrl: LoadingController,
     private controller: InspectionControllerProvider,
     private translateService: TranslateService) {
-
       this.createForm();
-
-      if (this.controller.inspectionIsLoaded) {
-        this.loadBuildingDetail();
-      } else {
-        this.controller.inspectionLoaded.subscribe(() => this.loadBuildingDetail());
-      }
+      this.loadBuildingDetail();
   }
 
   public async ngOnInit() {

@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { InspectionConfigurationProvider } from 'src/app/core/services/controllers/inspection-configuration/inspection-configuration';
 import { InspectionControllerProvider } from 'src/app/core/services/controllers/inspection-controller/inspection-controller';
 import { MenuItem } from 'src/app/shared/interfaces/menu-item.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inspection-home',
@@ -24,21 +24,17 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private menuController: MenuController,
-    private activatedRoute: ActivatedRoute,
     private controller: InspectionControllerProvider,
     private translateService: TranslateService,
     private configurationService: InspectionConfigurationProvider
   ) { }
 
   async ngOnInit() {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    await this.controller.setIdInspection(id, false);
-    this.translateService.get([
-      'generalInformation', 'buildings', 'waterSupplies', 'implantationPlan', 'course', 'survey'
-    ]).subscribe(labels => {
-      this.labels = labels;
-      this.loadMenu();
-    },
+    this.translateService.get(['generalInformation', 'buildings', 'waterSupplies', 'implantationPlan', 'course', 'survey'])
+      .subscribe(labels => {
+        this.labels = labels;
+        this.loadMenu();
+      },
       error => {
         console.log(error);
       });
@@ -55,7 +51,6 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
 
   private loadMenu() {
     const configuration = this.configurationService.configuration;
-    console.log('this.controller.inspection.idSurvey', this.controller.inspection.idSurvey);
     this.menuItems = [
       {
         title: this.labels['generalInformation'],
@@ -66,25 +61,25 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
         title: this.labels['buildings'],
         page: 'buildings',
         icon: 'home',
-        enabled: true }, // this.mustShowBuildingSection()},
+        enabled: this.mustShowBuildingSection()},
       {
         title: this.labels['waterSupplies'],
         page: 'fire-hydrants',
         icon: 'water',
-        enabled: true }, // configuration.hasWaterSupply},
+        enabled: configuration.hasWaterSupply},
       {
         title: this.labels['implantationPlan'],
         page: 'implantation-plan',
         icon: 'image',
-        enabled: true }, // configuration.hasImplantationPlan},
+        enabled: configuration.hasImplantationPlan},
       {
         title: this.labels['course'],
         page: 'courses',
         icon: 'map',
-        enabled: true }, // configuration.hasCourse},
+        enabled: configuration.hasCourse},
       {
         title: this.labels['survey'],
-        page: this.controller.inspection.isSurveyCompleted ? '' : 'survey',
+        page: this.controller.inspection.isSurveyCompleted ? 'survey-summary' : 'survey',
         icon: 'list-box',
         enabled: this.controller.inspection.idSurvey != null && this.controller.inspection.idSurvey !== ''
       }

@@ -46,7 +46,6 @@ export class BuildingHazardousMaterialDetailComponent implements OnInit {
     private modalCtrl: ModalController,
     private navParams: NavParams,
     private translateService: TranslateService) {
-      
     this.idBuilding = this.navParams.get('idBuilding');
     const material = this.navParams.get('material');
     if (material != null) {

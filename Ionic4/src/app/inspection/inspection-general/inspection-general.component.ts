@@ -63,7 +63,7 @@ export class InspectionGeneralComponent implements OnInit, OnDestroy {
     private configService: InspectionConfigurationProvider
   ) {
     this.createForm();
-    this.controller.inspectionLoaded.subscribe(async () => await this.setValuesAndStartListening());
+    this.setValuesAndStartListening();
   }
 
   async ngOnInit() {

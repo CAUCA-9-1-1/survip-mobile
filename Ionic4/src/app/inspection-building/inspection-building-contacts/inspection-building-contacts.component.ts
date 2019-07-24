@@ -25,11 +25,7 @@ export class InspectionBuildingContactsComponent implements OnInit {
     private contactRepo: BuildingContactRepositoryProvider) { }
 
   ngOnInit() {
-    if (this.controller.inspectionIsLoaded) {
-      this.loadContactList();
-    } else {
-      this.controller.inspectionLoaded.subscribe(() => this.loadContactList());
-    }
+    this.loadContactList();
   }
 
   private async loadContactList() {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { InspectionConfigurationProvider } from 'src/app/core/services/controllers/inspection-configuration/inspection-configuration';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { InspectionControllerProvider } from 'src/app/core/services/controllers/inspection-controller/inspection-controller';
 import { TranslateService } from '@ngx-translate/core';
 import { MenuItem } from 'src/app/shared/interfaces/menu-item.interface';
@@ -21,19 +21,10 @@ export class InspectionBuildingHomeComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private activatedRoute: ActivatedRoute,
     private controller: InspectionControllerProvider,
     private translateService: TranslateService,
     private configurationService: InspectionConfigurationProvider
   ) {
-    const idBuilding = this.activatedRoute.snapshot.paramMap.get('idBuilding');
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-
-    this.controller.setIdInspection(id, false)
-      .then(() => {
-        this.controller.setIdBuilding(idBuilding);
-        this.loadMenuConfiguration();
-      });
   }
 
   async ngOnInit() {
@@ -83,7 +74,10 @@ export class InspectionBuildingHomeComponent implements OnInit {
   public loadTranslation() {
     this.translateService.get(['buildingDetail', 'contacts', 'hazardousMaterial', 'pnaps', 'fireSafety', 'particularRisk', 'anomalies'])
     .subscribe(
-      labels => this.labels = labels,
+      labels => {
+        this.labels = labels;
+        this.loadMenuConfiguration();
+      },
       error => console.log(error));
   }
 

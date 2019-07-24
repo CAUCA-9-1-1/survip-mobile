@@ -7,7 +7,6 @@ import { MessageToolsProvider } from 'src/app/core/services/utilities/message-to
 import { TranslateService } from '@ngx-translate/core';
 import { ModalController } from '@ionic/angular';
 import { CityFireHydrantsComponent } from '../components/city-fire-hydrants/city-fire-hydrants.component';
-import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group';
 
 @Component({
   selector: 'app-inspection-fire-hydrants',
@@ -30,11 +29,7 @@ export class InspectionFireHydrantsComponent implements OnInit {
     private messageTools: MessageToolsProvider,
     private translateService: TranslateService
   ) {
-    if (controller.inspectionIsLoaded) {
-      this.loadBuildingFireHydrant();
-    } else {
-      controller.inspectionLoaded.subscribe(() => this.loadBuildingFireHydrant());
-    }
+    this.loadBuildingFireHydrant();
   }
 
   ngOnInit() {

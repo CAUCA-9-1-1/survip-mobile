@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core';
-import { IonicStorageModule } from '@ionic/storage';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
 import { KeychainTouchId } from '@ionic-native/keychain-touch-id/ngx';
@@ -57,6 +56,8 @@ import { AnomalyThemeDataSynchronizerProvider } from './services/http/anomaly-th
 import { InspectionUploaderProvider } from './services/controllers/inspection-uploader/inspection-uploader';
 import { LoginActivate } from './guards/login.activate';
 import { WindowRefService } from './services/utilities/window-ref.service';
+import { InspectionPagesGuard } from './guards/inspection-pages.guard';
+import { InspectionBuildingPagesGuard } from './guards/inspection-building-pages.guard';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,6 @@ import { WindowRefService } from './services/utilities/window-ref.service';
     WindowRefService,
     PictureRepositoryProvider,
     RiskLevelRepositoryProvider,
-    InspectionControllerProvider,
     LaneRepositoryProvider,
     InspectionRepositoryProvider,
     InspectionBuildingCourseRepositoryProvider,
@@ -100,7 +100,6 @@ import { WindowRefService } from './services/utilities/window-ref.service';
     InspectionSurveyAnswerRepositoryProvider,
     FireHydrantRepositoryProvider,
     CityRepositoryProvider,
-    InspectionConfigurationProvider,
     KeychainTouchId,
     FireHydrantValidatorProvider,
     AppVersion,
@@ -121,8 +120,7 @@ import { WindowRefService } from './services/utilities/window-ref.service';
     FirestationDataSynchronizerProvider,
     AnomalyThemeDataSynchronizerProvider,
     AnomalyThemeDataSynchronizerProvider,
-    InspectionUploaderProvider,
-    LoginActivate
+    InspectionUploaderProvider
   ],
   imports: [
   ],
@@ -132,4 +130,16 @@ import { WindowRefService } from './services/utilities/window-ref.service';
   ]
 })
 export class CoreModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: CoreModule,
+      providers: [
+        InspectionPagesGuard,
+        InspectionBuildingPagesGuard,
+        LoginActivate,
+        InspectionConfigurationProvider,
+        InspectionControllerProvider,
+      ]
+    };
+  }
 }
