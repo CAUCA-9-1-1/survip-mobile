@@ -19,6 +19,8 @@ export class BuildingContactDetailComponent implements OnInit {
   private idBuildingContact: string;
   private readonly idBuilding: string;
 
+  public readonly integerPattern: string = '^(0|([1-9]([0-9]*)))$';
+  
   public isNew: boolean = false;
   public contact: InspectionBuildingContact;
   public form: FormGroup;

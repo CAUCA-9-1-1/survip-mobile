@@ -171,7 +171,7 @@ export class InspectionListPage implements OnInit {
     return toast.present();
   }
 
-  public async downloadBatch(event, batch: Batch) {
+  public async downloadBatch(batch: Batch) {
     event.stopPropagation();
     if (batch.notDownloadedInspectionIds != null && batch.notDownloadedInspectionIds.length > 0) {
       await this.synchronizer.downloadInspections(batch.notDownloadedInspectionIds)
@@ -192,7 +192,7 @@ export class InspectionListPage implements OnInit {
     }
   }
 
-  public async downloadInspection(event, inspection: Inspection, batch: Batch) {
+  public async downloadInspection(inspection: Inspection, batch: Batch) {
     event.stopPropagation();
     this.synchronizer.downloadInspections([inspection.id])
       .then(async (wasSuccessful) => {

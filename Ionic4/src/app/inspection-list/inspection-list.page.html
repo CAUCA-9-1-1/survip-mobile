@@ -42,7 +42,7 @@
     <ion-item-group *ngFor="let batch of filteredBatches">
       <ion-item-divider>
         {{'inspectionBatch' | translate}} : {{batch.description}}
-        <ion-button slot="end" fill="clear" color="dark" (click)="downloadBatch($event, batch)">
+        <ion-button slot="end" fill="clear" color="dark" (click)="downloadBatch(batch)">
           <ion-icon slot="icon-only" [name]="batch.hasBeenFullyDownloaded ? 'cloud' : 'cloud-download'"></ion-icon>
         </ion-button>
       </ion-item-divider>
@@ -61,7 +61,7 @@
         <ion-icon [name]="inspection.status == -1 ? 'cloud-done' : 'cloud'" color="dark" slot="end"
           *ngIf="inspection.hasBeenDownloaded"></ion-icon>
         <ion-icon name="cloud-download" *ngIf="!inspection.hasBeenDownloaded" color="dark" slot="end"
-          (click)="downloadInspection($event, inspection, batch)"></ion-icon>
+          (click)="downloadInspection(inspection, batch)"></ion-icon>
 
       </ion-item>
 

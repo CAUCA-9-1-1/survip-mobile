@@ -35,8 +35,8 @@ import { createTranslateLoader, SharedModule } from './shared/shared.module';
     CoreModule,
     SharedModule.forRoot(),
     IonicStorageModule.forRoot({
-      name: '__mydb',
-      driverOrder: ['sqlite', 'indexeddb', 'websql']
+      name: '__sp^re',
+      driverOrder: ['sqlite', 'indexeddb']
     })
   ],
   providers: [

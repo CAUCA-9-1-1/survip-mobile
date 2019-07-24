@@ -8,11 +8,13 @@
     <ion-content no-padding class="toolbar-gradient">
       <ion-list class="menu-items">
         <ion-menu-toggle auto-hide="true">
-          <ion-item class="text-menu" *ngFor="let menuItem of menuItems"
+          <span *ngFor="let menuItem of menuItems">
+          <ion-item class="text-menu" *ngIf="menuItem.enabled" 
             [routerLink]="['/' + getFullUrl(menuItem.page)]" routerLinkActive="active-item">
             <ion-icon slot="start" [name]="menuItem.icon" class="menu-icon"></ion-icon>
             <ion-label>{{menuItem.title}}</ion-label>
           </ion-item>
+          </span>
         </ion-menu-toggle>
       </ion-list>
     </ion-content>
