@@ -9,6 +9,7 @@ import { InspectionConfigurationProvider } from '../core/services/controllers/in
 import { InspectionControllerProvider } from '../core/services/controllers/inspection-controller/inspection-controller';
 import { TranslateService } from '@ngx-translate/core';
 import { Inspection } from '../shared/interfaces/inspection.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inspection-list',
@@ -43,6 +44,7 @@ export class InspectionListPage implements OnInit {
     private menu: MenuController,
     private toast: ToastController,
     private configuration: InspectionConfigurationProvider,
+    private router: Router,
     private controller: InspectionControllerProvider,
     private translateService: TranslateService) {
     }
@@ -171,8 +173,8 @@ export class InspectionListPage implements OnInit {
     return toast.present();
   }
 
-  public async downloadBatch(batch: Batch) {
-    event.stopPropagation();
+  public async downloadBatch(batch: Batch, e: any) {
+    e.stopPropagation();
     if (batch.notDownloadedInspectionIds != null && batch.notDownloadedInspectionIds.length > 0) {
       await this.synchronizer.downloadInspections(batch.notDownloadedInspectionIds)
         .then(async (hasBeenDownloaded) => {
@@ -192,8 +194,9 @@ export class InspectionListPage implements OnInit {
     }
   }
 
-  public async downloadInspection(inspection: Inspection, batch: Batch) {
-    event.stopPropagation();
+  public async downloadInspection(inspection: Inspection, batch: Batch, e: any) {
+    console.log('what the fuck, yo');
+    e.stopPropagation();
     this.synchronizer.downloadInspections([inspection.id])
       .then(async (wasSuccessful) => {
         if (wasSuccessful) {
@@ -212,6 +215,10 @@ export class InspectionListPage implements OnInit {
     } else {
       this.filteredBatches = this.batches;
     }
+  }
+
+  public async goToPage(idInspection: string) {
+    await this.router.navigate(['/inspection/' + idInspection]);
   }
 
   private applyFilter() {
