@@ -33,15 +33,11 @@ export class InspectionBuildingPnapsComponent implements OnInit {
         labels => this.labels = labels,
         error => console.log(error));
 
-    if (this.controller.inspectionIsLoaded) {
-      this.loadPnaps();
-    } else {
-      this.controller.inspectionLoaded.subscribe(() => this.loadPnaps());
-    }
+    this.loadPnaps();
   }
 
   private async loadPnaps() {
-    const loader = await this.load.create({message: this.labels['waitFormMessage']});
+    const loader = await this.load.create({ message: this.labels['waitFormMessage'] });
     await loader.present();
     try {
       const result = await this.pnapRepo.getList(this.controller.currentIdBuilding);
@@ -49,15 +45,17 @@ export class InspectionBuildingPnapsComponent implements OnInit {
     } finally {
       await loader.dismiss();
     }
-}
+  }
 
-public async onItemClick(idBuildingPnap: string): Promise<void> {
+  public async onItemClick(idBuildingPnap: string): Promise<void> {
     const modal = await this.modalCtrl.create({
       component: BuildingPnapDetailComponent,
       componentProps: {
         idBuildingPnap,
-        idBuilding: this.controller.currentIdBuilding}});
+        idBuilding: this.controller.currentIdBuilding
+      }
+    });
     modal.onDidDismiss().then(() => this.loadPnaps());
     await modal.present();
-}
+  }
 }

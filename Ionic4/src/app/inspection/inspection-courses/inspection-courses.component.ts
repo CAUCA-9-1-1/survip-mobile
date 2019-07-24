@@ -28,11 +28,7 @@ export class InspectionCoursesComponent implements OnInit {
     private courseRepo: InspectionBuildingCourseRepositoryProvider,
     private translateService: TranslateService
   ) {
-    if (this.controller.inspectionIsLoaded) {
-      this.loadCourseList();
-    } else {
-      this.controller.inspectionLoaded.subscribe(() => this.loadCourseList());
-    }
+    this.loadCourseList();
   }
 
   ngOnInit() {
@@ -42,7 +38,7 @@ export class InspectionCoursesComponent implements OnInit {
       this.labels = labels;
     },
       error => {
-        console.log(error)
+        console.log(error);
       });
   }
 

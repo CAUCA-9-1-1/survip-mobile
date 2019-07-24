@@ -25,11 +25,7 @@ export class InspectionSurveySummaryComponent implements OnInit {
     private translateService: TranslateService,
     private inspectionController: InspectionControllerProvider
   ) {
-    if (this.inspectionController.inspectionIsLoaded) {
-      this.loadInspectionQuestionSummary();
-    } else {
-      this.inspectionController.inspectionLoaded.subscribe(()=> this.loadInspectionQuestionSummary());
-    }
+    this.loadInspectionQuestionSummary();
   }
 
   ngOnInit() {

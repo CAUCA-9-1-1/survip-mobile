@@ -32,7 +32,7 @@ import { createTranslateLoader, SharedModule } from './shared/shared.module';
     BrowserModule,
     AppRoutingModule,
     IonicModule.forRoot(),
-    CoreModule,
+    CoreModule.forRoot(),
     SharedModule.forRoot(),
     IonicStorageModule.forRoot({
       name: '__sp^re',

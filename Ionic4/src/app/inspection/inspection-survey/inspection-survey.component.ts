@@ -35,11 +35,7 @@ export class InspectionSurveyComponent implements OnInit {
     private messageTools: MessageToolsProvider,
     private translateService: TranslateService
   ) {
-    if (this.controller.inspectionIsLoaded) {
-      this.loadInspection();
-    } else {
-      this.controller.inspectionLoaded.subscribe(() => this.loadInspection());
-    }
+    this.loadInspection();
   }
 
   ngOnInit() {

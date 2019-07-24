@@ -35,30 +35,23 @@ export class InspectionBuildingFireProtectionComponent implements OnInit {
     private load: LoadingController,
     private modalCtrl: ModalController,
     private translateService: TranslateService
-    ) {}
+  ) { }
 
   ngOnInit() {
     this.translateService.get([
       'confirmation', 'waitFormMessage', 'addFirePanelAlarmButton', 'addFireSprinklerButton'
-      ]).subscribe(labels => {
-          this.labels = labels;
-      },
+    ]).subscribe(labels => {
+      this.labels = labels;
+    },
       error => {
-          console.log(error);
+        console.log(error);
       });
-    if (this.controller.inspectionIsLoaded) {
-      this.loadSprinklers();
-      this.loadPanels();
-    } else {
-      this.controller.inspectionLoaded.subscribe(() => {
-        this.loadSprinklers();
-        this.loadPanels();
-      });
-    }
+    this.loadSprinklers();
+    this.loadPanels();
   }
 
   private async loadSprinklers() {
-    const loader = await this.load.create({message: this.labels['waitFormMessage']});
+    const loader = await this.load.create({ message: this.labels['waitFormMessage'] });
     await loader.present();
     try {
       const result = await this.sprinklerRepo.getList(this.controller.currentIdBuilding);
@@ -69,7 +62,7 @@ export class InspectionBuildingFireProtectionComponent implements OnInit {
   }
 
   private async loadPanels() {
-    const loader = await this.load.create({message: this.labels['waitFormMessage']});
+    const loader = await this.load.create({ message: this.labels['waitFormMessage'] });
     await loader.present();
     try {
       const result = await this.panelRepo.getList(this.controller.currentIdBuilding);
@@ -107,9 +100,9 @@ export class InspectionBuildingFireProtectionComponent implements OnInit {
 
   public onCreateNewRecord() {
     if (this.currentSegment === 'panel') {
-        this.onPanelClick(null);
+      this.onPanelClick(null);
     } else {
-        this.onSprinklerClick(null);
+      this.onSprinklerClick(null);
     }
   }
 }

@@ -6,18 +6,17 @@
       <menu-profile></menu-profile>
     </ion-header>
 
-    <ion-content class="toolbar-gradient">
+    <ion-content no-padding class="toolbar-gradient">
       <ion-list class="menu-items ion-no-padding">
 
-        <div *ngFor="let menuItem of menuItems">
-          <ion-menu-toggle auto-hide="true">
-            <ion-item class="text-menu" *ngIf="menuItem.enabled" [routerLink]="[getFullUrl(menuItem.page)]"
-              routerLinkActive="active-item">
-              <ion-icon [name]="menuItem.icon" slot="start" size="big"></ion-icon>
-              <ion-label>{{menuItem.title}}</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-        </div>
+        <ion-menu-toggle auto-hide="false" *ngFor="let menuItem of menuItems">
+          <ion-item class="text-menu" *ngIf="menuItem.enabled" [routerLink]="[getFullUrl(menuItem.page)]"
+            routerLinkActive="active-item">
+            <ion-icon [name]="menuItem.icon" slot="start" size="big"></ion-icon>
+            <ion-label>{{menuItem.title}}</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
       </ion-list>
     </ion-content>
 

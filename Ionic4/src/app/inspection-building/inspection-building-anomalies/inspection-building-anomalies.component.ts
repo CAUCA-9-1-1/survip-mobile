@@ -31,11 +31,7 @@ export class InspectionBuildingAnomaliesComponent implements OnInit {
   async ngOnInit() {
     this.translateService.get(['waitFormMessage'])
       .subscribe(labels => this.labels = labels, error => console.log(error));
-    if (this.controller.inspectionIsLoaded) {
-      await this.loadAnomalies();
-    } else {
-      this.controller.inspectionLoaded.subscribe(() => this.loadAnomalies());
-    }
+    await this.loadAnomalies();
   }
 
   private async loadAnomalies() {
