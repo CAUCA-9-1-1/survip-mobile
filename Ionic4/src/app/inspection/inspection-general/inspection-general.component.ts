@@ -252,7 +252,7 @@ export class InspectionGeneralComponent implements OnInit, OnDestroy {
             await this.messageTools.showToast(this.labels['cantUploadAndCompleteInspection']);
           }
 
-          await this.router.navigate(['/inspection-list']);          
+          await this.router.navigate(['/inspection-list']);
         },
         async () => {
           await loading.dismiss();

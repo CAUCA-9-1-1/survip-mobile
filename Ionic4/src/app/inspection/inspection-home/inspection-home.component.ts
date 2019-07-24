@@ -55,6 +55,7 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
 
   private loadMenu() {
     const configuration = this.configurationService.configuration;
+    console.log('this.controller.inspection.idSurvey', this.controller.inspection.idSurvey);
     this.menuItems = [
       {
         title: this.labels['generalInformation'],
@@ -81,7 +82,12 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
         page: 'courses',
         icon: 'map',
         enabled: true }, // configuration.hasCourse},
-      //{title: this.labels['survey'], page: '', icon: 'list-box', enabled: configuration.hasSurvey}
+      {
+        title: this.labels['survey'],
+        page: this.controller.inspection.isSurveyCompleted ? '' : 'survey',
+        icon: 'list-box',
+        enabled: this.controller.inspection.idSurvey != null && this.controller.inspection.idSurvey !== ''
+      }
     ];
   }
 

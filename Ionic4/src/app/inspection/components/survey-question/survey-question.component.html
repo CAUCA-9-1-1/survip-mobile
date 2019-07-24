@@ -1,0 +1,32 @@
+<div>
+  <div class="question-title">
+    <h2 *ngIf="showTitle">{{question.title}}</h2>
+    <p>{{question.description}}</p>
+  </div>
+
+  <div *ngIf="question.questionType == questionTypeEnum.choiceAnswer">
+    <ion-radio-group [(ngModel)]="answer" *ngIf="question.choicesList.length <= 2" (ionChange)="validateAnswer()">
+
+      <ion-item *ngFor="let choice of question.choicesList">
+        <ion-label>{{choice.description}}</ion-label>
+        <ion-radio [value]="choice.id"></ion-radio>
+      </ion-item>
+
+    </ion-radio-group>
+
+    <ion-item *ngIf="question.choicesList.length > 2">
+      <ion-select class="full-width-select" [(ngModel)]="answer">
+        <ion-select-option *ngFor="let choice of question.choicesList" value="{{choice.id}}">
+          {{choice.description}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+
+  <ion-item *ngIf="question.questionType == questionTypeEnum.textAnswer">
+    <ion-textarea [(ngModel)]="textAnswer" debounce="500"></ion-textarea>
+  </ion-item>
+  <ion-item *ngIf="question.questionType == questionTypeEnum.dateAnswer">
+    <ion-datetime displayFormat="YYYY/MM/DD" [(ngModel)]="answer" (ionChange)="validateAnswer()"></ion-datetime>
+  </ion-item>
+</div>

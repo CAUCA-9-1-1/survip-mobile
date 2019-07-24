@@ -1,0 +1,48 @@
+<ion-header class="page-header" no-padding no-margin>
+  <ion-toolbar color="primary">
+    <ion-menu-button menu="inspection-menu" class="menu-icon-white" slot="start"></ion-menu-button>
+    <ion-title>{{'survey' | translate}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <app-survey-question [question]="currentAnswer" (questionAnswered)="getNextQuestionFromAnswer($event)"
+    (remainingQuestionResetNeeded)="deleteRemainingAnswers($event)"
+    *ngIf="currentQuestion.questionType != questionTypeEnum.groupedQuestion"></app-survey-question>
+  <div *ngIf="currentQuestion.questionType == questionTypeEnum.groupedQuestion">
+
+    <div class="parent-question-title">
+      <h4>{{currentQuestion.title}}</h4>
+      <div>
+        <ion-icon name="add-circle" (click)="addNewQuestionGroup()"></ion-icon>
+      </div>
+    </div>
+    <div *ngIf="currentQuestionAnswerList.length > 0">
+      <app-survey-parent-child-question *ngFor="let answer of currentQuestionAnswerList; let i = index" [groupIndex]="i"
+        [answer]="answer" (questionAnswered)="updateGroupQuestionAnswer($event)"
+        (groupAnswersCompleted)="getNextQuestionFromAnswer($event)" (answerGroupDeleted)="deleteChildQuestion($event)">
+      </app-survey-parent-child-question>
+    </div>
+    <div *ngIf="currentQuestionAnswerList.length == 0">{{currentQuestion.description}}</div>
+  </div>
+
+</ion-content>
+
+<ion-footer class="page-footer">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="previousQuestion()" *ngIf="previousQuestionAvailable" slot="start">
+        <ion-icon slot="start" name="skip-backward"></ion-icon>
+        {{'surveyPreviousQuestion' | translate}}
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="nextQuestion()" [disabled]="nextQuestionDisabled" slot="end">
+        <ion-icon slot="end" name="skip-forward"></ion-icon>
+        {{nextButtonTitle}}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
