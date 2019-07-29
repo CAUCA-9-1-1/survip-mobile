@@ -28,6 +28,8 @@ export class PicturesComponent implements OnInit {
   @Input() multiPictures = true;
   @Input() height = 'auto';
 
+  public showSlides: boolean = false;
+
   private changed = new Array<(value: string) => void>();
   private touched = new Array<() => void>();
   private options: CameraOptions = {
@@ -44,6 +46,11 @@ export class PicturesComponent implements OnInit {
   public idParent: string;
   public isUsingCordova: boolean = false;
   public labels = {};
+
+  slideOpts = {
+    initialSlide: 1,
+    speed: 400
+  };
 
   get value(): string {
     return this.idParent;
@@ -84,6 +91,10 @@ export class PicturesComponent implements OnInit {
   }
 
   public ngOnInit() {
+    setTimeout(() => {
+      this.showSlides = true;
+      }, 0);
+
     if (this.slides != null) {
       this.slides.lockSwipes(!this.multiPictures);
     }

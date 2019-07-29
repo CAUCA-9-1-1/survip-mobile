@@ -14,7 +14,9 @@ import { SearchBoxComponent } from './components/search-box/search-box.component
 import { PicturesComponent } from './components/pictures/pictures.component';
 import {Camera} from '@ionic-native/camera/ngx';
 import { PictureEditionComponent } from './components/picture-edition/picture-edition.component';
-//import { SketchToolModule } from 'lib-sketch-tool';
+import { CanvasClickDirective } from './directives/canvas-click.directive';
+import { SketchToolComponent } from './components/sketch-tool/sketch-tool.component';
+import { CanvasManagerService } from './services/canvas-manager.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -29,10 +31,12 @@ export function createTranslateLoader(http: HttpClient) {
     SearchListComponent,
     SearchBoxComponent,
     PicturesComponent,
-    PictureEditionComponent
+    PictureEditionComponent,
+    CanvasClickDirective,
+    SketchToolComponent
   ],
   imports: [
-    // SketchToolModule,
+    //SketchToolModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -49,12 +53,15 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   entryComponents: [
     SearchListComponent,
-    PictureEditionComponent
+    PictureEditionComponent,
+    SketchToolComponent
   ],
   providers: [
     Camera,
     SearchBoxComponent,
     SearchListComponent,
+    SketchToolComponent,
+    CanvasManagerService
   ],
   exports: [
     CommonModule,
@@ -70,7 +77,8 @@ export function createTranslateLoader(http: HttpClient) {
     SearchBoxComponent,
     SearchListComponent,
     PicturesComponent,
-    PictureEditionComponent
+    PictureEditionComponent,
+    SketchToolComponent
   ]
 })
 export class SharedModule {

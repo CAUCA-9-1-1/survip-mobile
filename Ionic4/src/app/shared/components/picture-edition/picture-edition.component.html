@@ -6,12 +6,11 @@
 
 </ion-header>
 
-<ion-content padding>
+<ion-content paddings>
 
-  <div ion-fixed class="div-sketch-tool">
-<!--    <lib-mobile-sketch-tool [imageData]="pictureUri" [loadedJson]="sketchJson" [pictogramsPath]="pictogramsPath" [pictograms]="pictograms" (canvas)="onCanvasChange($event)">
-    </lib-mobile-sketch-tool>
--->    
+  <div ion-fixed class="div-sketch-tool">        
+    <app-sketch-tool [imageData]="pictureUri" [loadedJson]="sketchJson" [pictogramsPath]="pictogramsPath" [pictograms]="pictograms" (canvas)="onCanvasChange($event)">
+    </app-sketch-tool>
   </div>
 
 </ion-content>
@@ -20,9 +19,11 @@
   <ion-toolbar color="primary">
       <ion-buttons>
           <ion-button class="loginnavbtn" (click)="onOkay()">
+              <ion-icon name="save" slot="start"></ion-icon>
               {{'done' | translate}}
           </ion-button>
           <ion-button class="loginnavbtn" (click)="onCancel()">
+              <ion-icon name="undo" slot="start"></ion-icon>
               {{'cancel' | translate}}
           </ion-button>
       </ion-buttons>
