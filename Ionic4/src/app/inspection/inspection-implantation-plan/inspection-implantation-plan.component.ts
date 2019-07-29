@@ -25,7 +25,6 @@ export class InspectionImplantationPlanComponent implements OnInit, OnDestroy {
     private detailRepo: BuildingDetailRepositoryProvider,
     public picRepo: PictureRepositoryProvider,
   ) {
-    console.log('pic repo', picRepo);
     this.pictureSubscriber = this.picRepo.picturesChanged.subscribe(() => this.picturesUpdated());
     this.pictureDeletedSUbscriber = this.picRepo.picturesDeleted.subscribe(() => this.pictureDeleted());
   }

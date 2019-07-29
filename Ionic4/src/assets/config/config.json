@@ -1,5 +1,5 @@
 {
-  "apiUrl":"http://localhost:5555/api/",
+  "apiUrl":"http://10.10.33.176:5555/api/",
   "hockeyapp": {
     "androidAppId": "YOUR_ANDROID_HOCKEYAPP_ID",
     "iosAppId": "YOUR_IOS_HOCKEYAPP_ID",

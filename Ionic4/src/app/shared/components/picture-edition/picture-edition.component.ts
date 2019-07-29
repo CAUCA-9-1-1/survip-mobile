@@ -16,7 +16,7 @@ export class PictureEditionComponent {
 
   public pictogramsPath = './assets/pictograms/';
   public pictograms = ['AccesPrincipal.png', 'Annonciateur.png', 'BoiteClees.png', 'BorneIncendie.png',
-                      'CamionPompier.png', 'GazNaturel.png', 'GazPropane.png', 'Generatrice.png'];
+    'CamionPompier.png', 'GazNaturel.png', 'GazPropane.png', 'Generatrice.png'];
 
   private canvas;
 
@@ -34,6 +34,9 @@ export class PictureEditionComponent {
   }
 
   public onCanvasChange($event) {
+
+    console.log('onCanvasChanged, $event');
+
     this.canvas = $event;
   }
 
@@ -57,7 +60,8 @@ export class PictureEditionComponent {
     this.modalController.dismiss(this.picture);
   }
 
-  private getFullSizeImage(json: JSON) : Promise<string> {
+  private getFullSizeImage(json: JSON): Promise<string> {
+    console.log('getFullSizeImage', json);
     let fullSizeCanvas = new fabric.Canvas('1');
     return new Promise(
         (resolve): void => {
@@ -112,3 +116,19 @@ private setFullsizeObjects(objects: Array<fabric.Object>, scaleFactor: number) {
     }
   }
 }
+
+export enum KEY_CODE {
+  DELETE = 46,
+  BACKSPACE = 8
+}
+
+export const SHAPE_DATA = {
+  width: 200,
+  height: 200,
+  left: 50,
+  top: 50,
+  radius: 100,
+  stroke: 10,
+  freeDrawingBrushWidth: 10,
+  cornerSize: 20
+};
