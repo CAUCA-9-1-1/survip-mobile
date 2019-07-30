@@ -454,6 +454,7 @@ export class SketchToolComponent implements OnInit, OnChanges, AfterViewInit, On
 
     const actionSheet = await this.actionSheetCtrl.create({
       header: titleText,
+      mode: 'ios',
       buttons
     });
     actionSheet.onDidDismiss().then(() => {
