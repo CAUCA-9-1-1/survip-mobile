@@ -4,22 +4,10 @@
 
 // style for auth pages
 .auth-page {
-    background-color: #fff;
-
-    &::after {
-        content: "";
-        /*background: url("../../assets/img/bg2.jpg") no-repeat;*/
-        background-size: cover;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        position: absolute;
-        z-index: 0;
-    }
+    --background: url("/assets/img/bg2.jpg") no-repeat center center / cover;
+    --background-size: cover;
 
     .login-page-box {
-        /*background-color: rgba(255,255,255, 0.2);*/
         display: flex;
         flex-direction: column;
         height: 100%;
@@ -47,6 +35,7 @@
     }
 
     .logo-parent {
+        background-color: rgba(255, 255, 255, 0.2);
         flex: 1 1 auto;
         justify-content: center;
         align-items: center;
@@ -165,5 +154,5 @@
 
 #version {
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.5)
+    background-color: rgba(255, 255, 255, 0.6)
 }
