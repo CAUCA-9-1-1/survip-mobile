@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild, EventEmitter, Input, Output, OnChanges } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter, Input, Output, OnChanges, AfterViewInit, OnDestroy, ElementRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ActionSheetController } from '@ionic/angular';
 import { CanvasManagerService } from '../../services/canvas-manager.service';
 import { AvailableGeometricShape } from '../picture-edition/available-geometric-shape';
 import { fabric } from 'fabric';
+import 'hammerjs';
 
 const Black = '#000000';
 const Transparent = 'transparent';
@@ -13,8 +14,8 @@ const Transparent = 'transparent';
   templateUrl: './sketch-tool.component.html',
   styleUrls: ['./sketch-tool.component.scss'],
 })
-export class SketchToolComponent implements OnInit, OnChanges {
-  @ViewChild('pinchElement') element;
+export class SketchToolComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
+  @ViewChild('pinchElement') element: ElementRef;
 
   public fillColor: string;
   public strokeColor: string;
@@ -35,8 +36,7 @@ export class SketchToolComponent implements OnInit, OnChanges {
   private previousImageData: string;
   private currentJson: JSON;
   private previousJson: JSON;
-
-  private currentImageData: string;
+  private hammer: any;
 
   constructor(
     public actionSheetCtrl: ActionSheetController,
@@ -53,6 +53,9 @@ export class SketchToolComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+
+    console.log('pinch element', this.element);
+
     if (this.imageData) {
       this.canvasManagerService.emptyCanvas();
       if (this.loadedJson == null || this.loadedJson.length < 10) {
@@ -67,6 +70,16 @@ export class SketchToolComponent implements OnInit, OnChanges {
       this.previousImageData = this.imageData;
     }
     this.emitCanvas();
+  }
+
+  ngAfterViewInit() {
+    this.hammer = new Hammer(this.element.nativeElement);
+    this.hammer.get('pinch').set({enable: true});
+    this.hammer.on('pinch', (e) => this.pinch(e));
+  }
+
+  ngOnDestroy() {
+    this.hammer.destroy();
   }
 
   ngOnChanges() {
