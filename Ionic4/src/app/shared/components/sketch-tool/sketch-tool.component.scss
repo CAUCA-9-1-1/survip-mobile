@@ -22,16 +22,18 @@
     margin: 0% !important;
   }*/
   
-  .action-sheet-button {
+  /*.action-sheet-button {
     font-family: FontAwesome, Arial;
-  }
+  }*/
   
   .color-picker {
     position: absolute;
     width: 100%;
     height: auto;
-    bottom: 0px;
+    top: 55px;
     left: 0px;
+    border: 2px solid gray;
+    background-color: gray;
   }
   
   /*#icon {

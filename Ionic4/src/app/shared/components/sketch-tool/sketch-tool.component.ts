@@ -90,16 +90,10 @@ export class SketchToolComponent implements OnInit, OnChanges {
     return !(!this.pictograms);
   }
 
-  public damnit() {
-    console.log('baby don\'t hurt me, no more', this.isLoaded, this.previousImageData, this.currentJson, this.previousJson);
-  }
-
   public addText() {
-    console.log('baby don\'t hurt me, no more', this.isLoaded, this.previousImageData, this.currentJson, this.previousJson);
-    return;
-    /*this.disableAllStates();
+    this.disableAllStates();
     this.canvasManagerService.addText(this.strokeColor, 'text ');
-    this.emitCanvas();*/
+    this.emitCanvas();
   }
 
   public addShape(shape: string) {
@@ -284,9 +278,11 @@ export class SketchToolComponent implements OnInit, OnChanges {
 
     const actionSheet = await this.actionSheetCtrl.create({
       header: titleText,
+      mode: 'ios',
       buttons: [
         {
-          text: '\uf0c8   ' + buttonsText[i++],
+          text: buttonsText[i++],
+          icon: 'square',
           handler: () => {
             this.canvasManagerService.addGeometricShape(
               this.strokeColor,
@@ -296,7 +292,8 @@ export class SketchToolComponent implements OnInit, OnChanges {
           }
         },
         {
-          text: '\uf0d8   ' + buttonsText[i++],
+          text: buttonsText[i++],
+          icon: 'arrow-dropup',
           handler: () => {
             this.canvasManagerService.addGeometricShape(
               this.strokeColor,
@@ -306,7 +303,8 @@ export class SketchToolComponent implements OnInit, OnChanges {
           }
         },
         {
-          text: '\uf111   ' + buttonsText[i++],
+          text: buttonsText[i++],
+          icon: 'radio-button-off',
           handler: () => {
             this.canvasManagerService.addGeometricShape(
               this.strokeColor,
@@ -316,7 +314,8 @@ export class SketchToolComponent implements OnInit, OnChanges {
           }
         },
         {
-          text: '\uf068   ' + buttonsText[i++],
+          text: buttonsText[i++],
+          icon: 'remove',
           handler: () => {
             this.canvasManagerService.addGeometricShape(
               this.strokeColor,
@@ -326,7 +325,8 @@ export class SketchToolComponent implements OnInit, OnChanges {
           }
         },
         {
-          text: '\uf067   ' + buttonsText[i++],
+          text: buttonsText[i++],
+          icon: 'add',
           handler: () => {
             this.canvasManagerService.addGeometricShape(
               this.strokeColor,
@@ -336,7 +336,8 @@ export class SketchToolComponent implements OnInit, OnChanges {
           }
         },
         {
-          text: '\uf031   ' + buttonsText[i++],
+          text: buttonsText[i++],
+          icon: 'text',
           handler: () => {
             this.canvasManagerService.addText(this.strokeColor, '');
           }
@@ -366,33 +367,37 @@ export class SketchToolComponent implements OnInit, OnChanges {
 
     const actionSheet = await this.actionSheetCtrl.create({
       header: titleText,
+      mode: 'ios',
       buttons: [
         {
-          text: '\uf125 ' + buttonsText[i++],
+          icon: 'crop',
+          text: buttonsText[i++],
           handler: () => {
             this.crop();
           }
         },
         {
-          text: '\uf247   ' + buttonsText[i++],
+          icon: 'albums',
+          text: buttonsText[i++],
           handler: () => {
             this.group();
           }
         },
         {
-          text: '\uf0de   ' + buttonsText[i++],
+          text: buttonsText[i++],
           handler: () => {
             this.bringFoward();
           }
         },
         {
-          text: '\uf0dd   ' + buttonsText[i++],
+          text: buttonsText[i++],
           handler: () => {
             this.sendToBack();
           }
         },
         {
-          text: '\uf1f8   ' + buttonsText[i++],
+          icon: 'trash',
+          text: buttonsText[i++],
           handler: () => {
             this.deleteSelection();
           }
