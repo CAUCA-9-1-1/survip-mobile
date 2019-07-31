@@ -196,7 +196,7 @@ export class CourseDetailLaneComponent implements OnInit {
     return result;
   }
 
-  private async goBack() {
+  public async goBack() {
     if (await this.canLeave()) {
       this.modalController.dismiss();
     }

@@ -39,7 +39,7 @@ export class InspectionGeneralComponent implements OnInit, OnDestroy {
 
   public get canBeEdited(): boolean {
     return this.controller.currentInspection != null
-    && this.controller.currentInspection.status === this.inspectionRepo.inspectionStatusEnum.Started 
+    && this.controller.currentInspection.status === this.inspectionRepo.inspectionStatusEnum.Started
     && !this.canTransmitInspectionToServer;
   }
 

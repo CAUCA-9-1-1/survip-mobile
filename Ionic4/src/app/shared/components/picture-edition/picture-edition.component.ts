@@ -81,10 +81,10 @@ export class PictureEditionComponent {
                 this.setFullsizeObjects(objects, scaleFactor);
 
                 fullSizeCanvas.renderAll();
-                resolve(fullSizeCanvas.toDataURL({format:'jpeg', quality:0.9}));
+                resolve(fullSizeCanvas.toDataURL({format: 'jpeg', quality: 0.9}));
         }
       );
-    })
+    });
 }
 
 private setFullSizeCanvasSize(fullSizeCanvas: fabric.Canvas, json: JSON, scaleFactor: number) {

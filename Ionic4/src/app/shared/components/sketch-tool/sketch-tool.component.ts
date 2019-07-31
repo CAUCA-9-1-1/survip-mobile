@@ -458,11 +458,11 @@ export class SketchToolComponent implements OnInit, OnChanges, AfterViewInit, On
       buttons
     });
     actionSheet.onDidDismiss().then(() => {
-      for (let i = 0; i < actionSheetStyles.length; i++) {
-        if (actionSheetStyles[i].parentNode != null) {
-          actionSheetStyles[i].parentNode.removeChild(actionSheetStyles[i]);
-        }
-      }
+      actionSheetStyles.forEach(style => {
+          if (style.parentNode != null) {
+            style.parentNode.removeChild(style);
+          }
+      });
     });
 
     await actionSheet.present();

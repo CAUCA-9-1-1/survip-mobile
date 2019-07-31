@@ -36,7 +36,6 @@ export function createTranslateLoader(http: HttpClient) {
     SketchToolComponent
   ],
   imports: [
-    //SketchToolModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
