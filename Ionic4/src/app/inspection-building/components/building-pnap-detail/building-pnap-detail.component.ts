@@ -17,12 +17,12 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class BuildingPnapDetailComponent implements OnInit {
 
-  private isNew: boolean = true;
   private idBuildingPnap: string;
   private readonly idBuilding: string;
 
   public readonly integerPattern: string = '^(0|([1-9]([0-9]*)))$';
 
+  public isNew: boolean = true;
   public pnap: InspectionBuildingPersonRequiringAssistance;
   public form: FormGroup;
   public pnapTypes: GenericType[] = [];

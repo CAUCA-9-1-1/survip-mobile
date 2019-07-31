@@ -55,7 +55,7 @@ export class InspectionBuildingHomeComponent implements OnInit {
         icon: 'nuclear',
         enabled: configuration.hasBuildingHazardousMaterials },
       {
-        title: this.labels['fireSafety'],page: 'fire-protection',
+        title: this.labels['fireSafety'], page: 'fire-protection',
         icon: 'flame',
         enabled: configuration.hasBuildingFireProtection },
       {

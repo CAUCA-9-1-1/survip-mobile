@@ -415,12 +415,12 @@ export class CanvasManagerService {
 
     const objects = json['objects'];
 
-    for (let i = 0; i < objects.length; i++) {
-      objects[i]['left'] *= scaleFactor;
-      objects[i]['top'] *= scaleFactor;
-      objects[i]['scaleX'] *= scaleFactor;
-      objects[i]['scaleY'] *= scaleFactor;
-    }
+    objects.forEach(element => {
+      element['left'] *= scaleFactor;
+      element['top'] *= scaleFactor;
+      element['scaleX'] *= scaleFactor;
+      element['scaleY'] *= scaleFactor;
+    });
   }
 
   public exportImageAsDataURL(): string {

@@ -34,7 +34,7 @@ export class CourseDetailComponent implements OnInit {
 
   public get lanes(): InspectionBuildingCourseLane[] {
     if (this.courseRepo.currentCourse != null) {
-      return this.courseRepo.currentCourse.lanes.filter(lane => lane.isActive != false)
+      return this.courseRepo.currentCourse.lanes.filter(lane => lane.isActive !== false);
     } else {
       return [];
     }
@@ -257,7 +257,7 @@ export class CourseDetailComponent implements OnInit {
     }
   }
 
-  private async goBack() {
+  public async goBack() {
     if (await this.canLeave()) {
       this.modalController.dismiss();
     }

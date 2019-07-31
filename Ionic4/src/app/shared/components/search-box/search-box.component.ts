@@ -36,7 +36,7 @@ export class SearchBoxComponent implements ControlValueAccessor, OnDestroy {
   public ngOnDestroy(): void {
     this.isDisposed = true;
     this.changed = new Array<(value: string) => void>();
-    this.touched = new Array<() => void>()
+    this.touched = new Array<() => void>();
   }
 
   get value(): string {
@@ -57,7 +57,7 @@ export class SearchBoxComponent implements ControlValueAccessor, OnDestroy {
 
   public writeValue(value: string) {
     if (!this.isDisposed) {
-      // this is a patch to fix an issue where some ghost instance of this component would exist 
+      // this is a patch to fix an issue where some ghost instance of this component would exist
       // in memory and would be linked to the same formGroup somehow.
       this.innerValue = value;
       this.showSelectionDescription();
