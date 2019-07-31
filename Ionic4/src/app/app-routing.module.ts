@@ -6,17 +6,19 @@ import { InspectionBuildingPagesGuard } from './core/guards/inspection-building-
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'home', loadChildren: './home/home.module#HomePageModule' },
-  { path: 'login', loadChildren: './login/login.module#LoginPageModule'/*, canActivate: [LoginActivate]*/ },
-  { path: 'inspections-list', loadChildren: './inspection-list/inspection-list.module#InspectionListPageModule' },
+  { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomePageModule) },
+  { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)/*, canActivate: [LoginActivate]*/ },
+  {
+    path: 'inspections-list',
+    loadChildren: () => import('./inspection-list/inspection-list.module').then(m => m.InspectionListPageModule) },
   {
     path: 'inspection/:id/buildings/:idBuilding',
     canActivate: [InspectionBuildingPagesGuard],
-    loadChildren: './inspection-building/inspection-building.module#InspectionBuildingModule' },
+    loadChildren: () => import('./inspection-building/inspection-building.module').then(m => m.InspectionBuildingModule) },
   {
     path: 'inspection/:id',
     canActivate: [InspectionPagesGuard],
-    loadChildren: './inspection/inspection.module#InspectionModule'},
+    loadChildren: () => import('./inspection/inspection.module').then(m => m.InspectionModule)},
   { path: '**', redirectTo: 'login'}
 ];
 

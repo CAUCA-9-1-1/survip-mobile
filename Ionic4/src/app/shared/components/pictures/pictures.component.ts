@@ -21,8 +21,8 @@ import { PictureEditionComponent } from '../picture-edition/picture-edition.comp
   ],
 })
 export class PicturesComponent implements OnInit {
-  @ViewChild('filePicker') inputRef: ElementRef;
-  @ViewChild(IonSlides) slides: IonSlides;
+  @ViewChild('filePicker', { static: true }) inputRef: ElementRef;
+  @ViewChild(IonSlides, { static: false }) slides: IonSlides;
   @Input() repo: PicturesRepositoryProvider;
   @Input() saveAuto = true;
   @Input() multiPictures = true;
