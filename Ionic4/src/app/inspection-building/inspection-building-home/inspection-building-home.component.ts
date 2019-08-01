@@ -86,6 +86,10 @@ export class InspectionBuildingHomeComponent implements OnInit {
     this.router.navigate([route]);
   }
 
+  public getBackUrl(): string[] {
+    return ['/inspection', this.controller.idInspection, 'buildings'];
+  }
+
   public getFullUrl(pageName: string): string {
     return '/inspection/' + this.controller.idInspection + '/buildings/' + this.controller.currentIdBuilding + '/' + pageName;
   }

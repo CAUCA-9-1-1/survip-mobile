@@ -1,18 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { Component, OnDestroy, OnInit, OnChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { InspectionConfigurationProvider } from 'src/app/core/services/controllers/inspection-configuration/inspection-configuration';
 import { InspectionControllerProvider } from 'src/app/core/services/controllers/inspection-controller/inspection-controller';
 import { MenuItem } from 'src/app/shared/interfaces/menu-item.interface';
 import { Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-inspection-home',
   templateUrl: './inspection-home.component.html',
   styleUrls: ['./inspection-home.component.scss'],
 })
-export class InspectionHomeComponent implements OnInit, OnDestroy {
+export class InspectionHomeComponent implements OnInit, OnDestroy, OnChanges {  
 
   private readonly planSubscription: Subscription;
   private readonly menuSubscription: Subscription;
@@ -38,6 +38,11 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
       error => {
         console.log(error);
       });
+  }
+
+  ngOnChanges() {
+    console.log('on changessss');
+    this.menuController.enable(true, 'inspection-menu');
   }
 
   ngOnDestroy(): void {

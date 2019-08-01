@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'src/app/shared/interfaces/menu-item.interface';
 import { TranslateService } from '@ngx-translate/core';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-inspections',
@@ -12,7 +13,10 @@ export class InspectionsComponent implements OnInit {
   public menuItems: MenuItem[];
   public labels = {};
 
-  constructor(private translateService: TranslateService) { }
+  constructor(
+    private translateService: TranslateService) {
+      console.log('constructicon');
+    }
 
   ngOnInit() {
     this.translateService.get([

@@ -43,6 +43,7 @@ export class InspectionCoursesComponent implements OnInit {
   }
 
   public async loadCourseList() {
+    console.log('yo', this.controller.idInspection);
     const loader = await this.load.create({ message: this.labels['waitFromMessage'] });
     await loader.present();
     this.courseRepo.getList(this.controller.getMainBuilding().idBuilding, this.controller.currentInspection.idCity)
