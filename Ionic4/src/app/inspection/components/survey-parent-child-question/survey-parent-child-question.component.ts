@@ -9,7 +9,7 @@ import { InspectionSurveyAnswer, SurveyQuestionTypeEnum } from 'src/app/shared/m
   styleUrls: ['./survey-parent-child-question.component.scss'],
 })
 export class SurveyParentChildQuestionComponent implements OnInit {
-  @ViewChild('questionGroup') questionGroup: ElementRef;
+  @ViewChild('questionGroup', { static: true }) questionGroup: ElementRef;
   @Input() answer: InspectionSurveyAnswer;
   @Output() questionAnswered = new EventEmitter<any>();
   @Output() groupAnswersCompleted = new EventEmitter<any>();

@@ -15,7 +15,7 @@ const Transparent = 'transparent';
   styleUrls: ['./sketch-tool.component.scss'],
 })
 export class SketchToolComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
-  @ViewChild('pinchElement') element: ElementRef;
+  @ViewChild('pinchElement', { static: true }) element: ElementRef;
 
   public fillColor: string;
   public strokeColor: string;
