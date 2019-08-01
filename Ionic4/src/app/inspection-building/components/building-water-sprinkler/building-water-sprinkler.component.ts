@@ -3,7 +3,6 @@ import { InspectionBuildingSprinkler } from 'src/app/shared/models/inspection-bu
 import { GenericType } from 'src/app/shared/models/generic-type';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { UUID } from 'angular2-UUID';
-import { pipe } from '@angular/core/src/render3';
 import { debounceTime } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalController, LoadingController, NavParams } from '@ionic/angular';
