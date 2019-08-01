@@ -5,7 +5,6 @@ import { OfflineDataSynchronizerProvider } from '../core/services/controllers/of
 import { RiskLevelRepositoryProvider } from '../core/services/repositories/risk-level-repository';
 import { LoadingController, MenuController, ToastController } from '@ionic/angular';
 import { InspectionRepositoryProvider } from '../core/services/repositories/inspection-repository-provider.service';
-import { InspectionConfigurationProvider } from '../core/services/controllers/inspection-configuration/inspection-configuration';
 import { InspectionControllerProvider } from '../core/services/controllers/inspection-controller/inspection-controller';
 import { TranslateService } from '@ngx-translate/core';
 import { Inspection } from '../shared/interfaces/inspection.interface';
@@ -17,6 +16,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./inspection-list.page.scss'],
 })
 export class InspectionListPage implements OnInit {
+
   private loading: HTMLIonLoadingElement;
 
   public batches: Batch[];
@@ -43,7 +43,6 @@ export class InspectionListPage implements OnInit {
     private inspectionService: InspectionRepositoryProvider,
     private menu: MenuController,
     private toast: ToastController,
-    private configuration: InspectionConfigurationProvider,
     private router: Router,
     private controller: InspectionControllerProvider,
     private translateService: TranslateService) {

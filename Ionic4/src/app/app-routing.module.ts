@@ -3,12 +3,23 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { LoginActivate } from './core/guards/login.activate';
 import { InspectionPagesGuard } from './core/guards/inspection-pages.guard';
 import { InspectionBuildingPagesGuard } from './core/guards/inspection-building-pages.guard';
+import { InspectionListGuard } from './core/guards/inspection-list.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomePageModule) },
-  { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)/*, canActivate: [LoginActivate]*/ },
-  { path: 'inspections-list', loadChildren: () => import('./inspection-list/inspection-list.module').then(m => m.InspectionListPageModule) },
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full' },
+  {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule) },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)/*, canActivate: [LoginActivate]*/ },
+  {
+    path: 'inspections-list',
+    canActivate: [InspectionListGuard],
+    loadChildren: () => import('./inspection-list/inspection-list.module').then(m => m.InspectionListPageModule) },
   {
     path: 'inspection/:id/buildings/:idBuilding',
     canActivate: [InspectionBuildingPagesGuard],
@@ -22,7 +33,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, /*{ preloadingStrategy: PreloadAllModules/*, enableTracing: true }*/)
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules/*, enableTracing: true*/ })
   ],
   exports: [RouterModule]
 })

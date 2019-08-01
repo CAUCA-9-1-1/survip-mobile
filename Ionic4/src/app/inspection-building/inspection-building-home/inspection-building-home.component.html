@@ -1,6 +1,6 @@
 <ion-split-pane when="md" contentId="inspection-building-content">
 
-  <ion-menu contentId="inspection-building-content" menuId="inspection-building-menu" type="push">
+  <ion-menu contentId="inspection-building-content" menuId="inspection-building-menu">
 
     <ion-header color="primary">
       <menu-profile></menu-profile>
@@ -22,7 +22,7 @@
 
     <ion-footer>
       <ion-toolbar class="user-profile" color="primary">
-        <ion-button size="small" expand="full" color="light" menuClose (click)="goBack()">
+        <ion-button size="small" expand="full" color="light" [routerLink]="getBackUrl()">
           <ion-icon name="undo" slot="start"></ion-icon>
           <p>{{'backToBuildingList' | translate}}</p>
         </ion-button>
