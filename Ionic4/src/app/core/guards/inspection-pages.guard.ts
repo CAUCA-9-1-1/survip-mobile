@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { InspectionControllerProvider } from 'src/app/core/services/controllers/inspection-controller/inspection-controller';
 import { MenuController } from '@ionic/angular';
+import { InspectionConfigurationProvider } from '../services/controllers/inspection-configuration/inspection-configuration';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import { MenuController } from '@ionic/angular';
 export class InspectionPagesGuard implements CanActivate {
   constructor(
     private menuController: MenuController,
+    private configurationService: InspectionConfigurationProvider,
     private inspectionController: InspectionControllerProvider) {
   }
 
@@ -20,7 +22,13 @@ export class InspectionPagesGuard implements CanActivate {
       if (idInspection) {
         const loaded = await this.inspectionController.setIdInspection(idInspection, false);
         if (loaded) {
-          this.menuController.enable(true, 'inspection-building-menu');
+          setTimeout(async () => {
+            await this.menuController.enable(true, 'inspection-menu');
+            const menu = await this.menuController.get('inspection-menu');
+            if (!menu.className.includes('menu-pane-visible')) {
+              menu.className = menu.className + ' menu-pane-visible';
+            }
+          }, 200);
         }
         return loaded;
       } else {

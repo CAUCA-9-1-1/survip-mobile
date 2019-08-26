@@ -11,7 +11,7 @@ export class InspectionListGuard implements CanActivate {
   }
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
-    await this.menuController.enable(true, 'inspection-list-menu');
+    setTimeout(() => this.menuController.enable(true, 'inspection-list-menu'), 500);
     return true;
   }
 }
