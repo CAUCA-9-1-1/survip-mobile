@@ -3,14 +3,16 @@
     <div class="pictures-header">
             <ion-item-divider color="secondary">
                 Photo(s)
-                <ion-button slot="end" (click)="selectPicture()" color="primary">
-                    <ion-icon class="footer-button-camera" name="albums" slot="start"></ion-icon>
-                    {{'choose' | translate}}
-                </ion-button>
-                <ion-button slot="end" (click)="takeNewPicture()" *ngIf="isUsingCordova" color="primary">
-                    <ion-icon class="footer-button-camera" name="camera" slot="start"></ion-icon>
-                    {{'new' | translate}}
-                </ion-button>
+                <div slot="end">
+                    <ion-button (click)="selectPicture()" color="primary">
+                        <ion-icon class="footer-button-camera" name="albums" slot="start"></ion-icon>
+                        {{'choose' | translate}}
+                    </ion-button>
+                    <ion-button (click)="takeNewPicture()" *ngIf="isUsingCordova" color="primary">
+                        <ion-icon class="footer-button-camera" name="camera" slot="start"></ion-icon>
+                        {{'new' | translate}}
+                    </ion-button>
+                </div>                
             </ion-item-divider>
     </div>
 
