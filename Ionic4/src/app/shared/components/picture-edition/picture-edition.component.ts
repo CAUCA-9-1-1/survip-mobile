@@ -61,7 +61,6 @@ export class PictureEditionComponent {
   }
 
   private getFullSizeImage(json: JSON): Promise<string> {
-    console.log('getFullSizeImage', json);
     let fullSizeCanvas = new fabric.Canvas('1');
     return new Promise(
         (resolve): void => {
