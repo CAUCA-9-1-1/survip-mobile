@@ -22,7 +22,13 @@ export class InspectionBuildingPagesGuard implements CanActivate {
         const loaded = await this.inspectionController.setIdInspection(idInspection, false);
         if (loaded) {
           this.inspectionController.setIdBuilding(idBuilding);
-          await this.menuController.enable(true, 'inspection-building-menu');
+          setTimeout(async () => {
+            await this.menuController.enable(true, 'inspection-building-menu');
+            const menu = await this.menuController.get('inspection-building-menu');
+            if (!menu.className.includes('menu-pane-visible')) {
+              menu.className = menu.className + ' menu-pane-visible';
+            }
+          }, 200);
         }
         return loaded;
       } else {
