@@ -17,7 +17,6 @@ export class InspectionPagesGuard implements CanActivate {
   async canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Promise<boolean> {
-      console.log('activating route', next, state);
       const idInspection = next.paramMap.get('id');
       if (idInspection) {
         const loaded = await this.inspectionController.setIdInspection(idInspection, false);

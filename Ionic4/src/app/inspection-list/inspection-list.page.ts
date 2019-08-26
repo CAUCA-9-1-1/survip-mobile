@@ -194,7 +194,6 @@ export class InspectionListPage implements OnInit {
   }
 
   public async downloadInspection(inspection: Inspection, batch: Batch, e: any) {
-    console.log('what the fuck, yo');
     e.stopPropagation();
     this.synchronizer.downloadInspections([inspection.id])
       .then(async (wasSuccessful) => {

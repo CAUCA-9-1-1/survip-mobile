@@ -36,7 +36,6 @@ export class AuthenticationService {
         private platform: Platform,
         private translateService: TranslateService
     ) {
-        console.log('constructed auth service', new Date());
     }
 
     public async initialize() {

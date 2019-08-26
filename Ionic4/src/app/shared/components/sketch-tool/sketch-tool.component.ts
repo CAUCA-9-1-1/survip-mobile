@@ -54,8 +54,6 @@ export class SketchToolComponent implements OnInit, OnChanges, AfterViewInit, On
 
   ngOnInit() {
 
-    console.log('pinch element', this.element);
-
     if (this.imageData) {
       this.canvasManagerService.emptyCanvas();
       if (this.loadedJson == null || this.loadedJson.length < 10) {

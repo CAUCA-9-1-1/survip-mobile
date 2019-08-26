@@ -15,7 +15,6 @@ export class InspectionsComponent implements OnInit {
 
   constructor(
     private translateService: TranslateService) {
-      console.log('constructicon');
     }
 
   ngOnInit() {
@@ -30,9 +29,5 @@ export class InspectionsComponent implements OnInit {
       icon: 'clipboard',
       enabled: true
     }];
-  }
-
-  public openPage(page) {
-    console.log('navigating to', page);
   }
 }

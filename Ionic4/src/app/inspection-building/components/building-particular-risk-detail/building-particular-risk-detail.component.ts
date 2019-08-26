@@ -95,7 +95,6 @@ export class BuildingParticularRiskDetailComponent implements OnInit, OnChanges 
   private async saveForm() {
     const formModel = this.form.value;
     Object.assign(this.risk, formModel);
-    console.log('riskk', this.risk);
     await this.repo.save(this.currentRiskType, this.risk)
       .then(() => {
         this.form.markAsPristine();
@@ -120,7 +119,6 @@ export class BuildingParticularRiskDetailComponent implements OnInit, OnChanges 
   }
 
   public ValidWallChanged(e) {
-    console.log('euhh', e);
     this.form.controls['wall'].setValue(e);
   }
 }

@@ -12,7 +12,7 @@ import { MenuController } from '@ionic/angular';
   templateUrl: './inspection-home.component.html',
   styleUrls: ['./inspection-home.component.scss'],
 })
-export class InspectionHomeComponent implements OnInit, OnDestroy, OnChanges {  
+export class InspectionHomeComponent implements OnInit, OnDestroy {  
 
   private readonly planSubscription: Subscription;
   private readonly menuSubscription: Subscription;
@@ -38,11 +38,6 @@ export class InspectionHomeComponent implements OnInit, OnDestroy, OnChanges {
       error => {
         console.log(error);
       });
-  }
-
-  ngOnChanges() {
-    console.log('on changessss');
-    this.menuController.enable(true, 'inspection-menu');
   }
 
   ngOnDestroy(): void {
