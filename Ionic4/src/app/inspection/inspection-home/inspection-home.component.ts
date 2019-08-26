@@ -12,7 +12,7 @@ import { MenuController } from '@ionic/angular';
   templateUrl: './inspection-home.component.html',
   styleUrls: ['./inspection-home.component.scss'],
 })
-export class InspectionHomeComponent implements OnInit, OnDestroy {  
+export class InspectionHomeComponent implements OnInit, OnDestroy {
 
   private readonly planSubscription: Subscription;
   private readonly menuSubscription: Subscription;
@@ -27,7 +27,10 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
     private controller: InspectionControllerProvider,
     private translateService: TranslateService,
     private configurationService: InspectionConfigurationProvider
-  ) { }
+  ) {
+    this.menuSubscription = this.configurationService.menuRefreshed
+        .subscribe(() => this.loadMenu());
+  }
 
   async ngOnInit() {
     this.translateService.get(['generalInformation', 'buildings', 'waterSupplies', 'implantationPlan', 'course', 'survey'])
@@ -81,7 +84,7 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
         title: this.labels['survey'],
         page: this.controller.inspection.isSurveyCompleted ? 'survey-summary' : 'survey',
         icon: 'list-box',
-        enabled: this.controller.inspection.idSurvey != null && this.controller.inspection.idSurvey !== ''
+        enabled: configuration.hasSurvey && this.controller.inspection.idSurvey != null && this.controller.inspection.idSurvey !== ''
       }
     ];
   }
