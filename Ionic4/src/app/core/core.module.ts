@@ -73,7 +73,6 @@ import { IonicModule } from '@ionic/angular';
     WindowRefService,
     PictureRepositoryProvider,
     RiskLevelRepositoryProvider,
-    LaneRepositoryProvider,
     InspectionRepositoryProvider,
     InspectionBuildingCourseRepositoryProvider,
     InspectionBuildingCourseLaneRepositoryProvider,
@@ -142,7 +141,8 @@ export class CoreModule {
         LoginActivate,
         InspectionConfigurationProvider,
         InspectionControllerProvider,
-        InspectionListGuard
+        InspectionListGuard,
+        LaneRepositoryProvider
       ]
     };
   }
