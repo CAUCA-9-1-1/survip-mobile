@@ -82,10 +82,14 @@ export class SearchBoxComponent implements ControlValueAccessor, OnDestroy {
           disabledValue: this.disabledValue
         }
     });
-    profileModal.present();
 
-    const returnedValue = await profileModal.onDidDismiss();
-    this.value = returnedValue.data;
+    profileModal.onDidDismiss().then(retValue => {
+      if (retValue.data.newValueSelected) {
+        this.value = retValue.data.newValue;
+      }
+    });
+
+    await profileModal.present();
   }
 
   private showSelectionDescription() {

@@ -1,16 +1,18 @@
 <ion-header class="page-header">
+
   <ion-toolbar color="primary">
-    <ion-button size="small" (click)="onCancelSelection()" color="secondary">
-      <ion-icon slot="start" name="arrow-back"></ion-icon>{{'cancel' | translate}}
+    <ion-button fill="clear" (click)="onCancelSelection()" slot="start">
+      <ion-icon name="arrow-back" slot="start" size="large" color="light"></ion-icon>
     </ion-button>
     <ion-title>{{'search' | translate}}</ion-title>
   </ion-toolbar>
-  <ion-searchbar placeholder="{{'searchHolder' | translate}}" [(ngModel)]="searchTerm" [formControl]="searchControl"
-    (ionInput)="onSearchInput()"></ion-searchbar>
+
 </ion-header>
 
-<ion-content>
 
+<ion-content>
+  <ion-searchbar placeholder="{{'searchHolder' | translate}}" [(ngModel)]="searchTerm" [formControl]="searchControl"
+  (ionInput)="onSearchInput()"></ion-searchbar>
 
   <div *ngIf="searching" class="spinner-container">
     <ion-spinner></ion-spinner>

@@ -47,10 +47,15 @@ export class SearchListComponent implements OnInit {
   }
 
   public onSelectItem(id: string) {
-    this.modalCtrl.dismiss(id);
+    this.modalCtrl.dismiss({
+      newValue: id,
+      newValueSelected: true
+    });
   }
 
   public onCancelSelection() {
-    this.modalCtrl.dismiss();
+    this.modalCtrl.dismiss({
+      newValueSelected: false
+    });
   }
 }
