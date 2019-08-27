@@ -39,7 +39,7 @@
   <ion-toolbar color="primary">
     <ion-buttons>
       <ion-button slot="start" type="button" (click)="onClickLane(null)">
-        <ion-icon name="add-circle"></ion-icon>
+        <ion-icon slot="start" name="add-circle"></ion-icon>
         {{'addLaneButton' | translate}}
       </ion-button>
       <ion-button type="button" (click)="onDeleteCourse()" *ngIf="form.valid">
