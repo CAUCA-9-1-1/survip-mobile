@@ -18,16 +18,13 @@ export class InspectionVisitComponent implements OnInit {
   public refusalReason: string = '';
   public requestedDateOfVisit: Date;
   public doorHangerHasBeenLeft: boolean = false;
-  public customOptions = {
-      buttons: [{
-          text: 'Clear', handler: () => this.requestedDateOfVisit = null
-      }]
-  };
   private completRefusal: boolean = false;
 
   public labels = {};
   public minimalNextVisitDate: string = null;
   public maximalNextVisitDate: string = null;
+  public doneText: string = 'Ok';
+  public cancelText: string = 'Cancel';
 
   constructor(
     private modalController: ModalController,
@@ -43,9 +40,12 @@ export class InspectionVisitComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.translateService.get(['visitRefusedValidationMessage', 'cantUploadAndCompleteInspection'])
+    this.translateService.get(['visitRefusedValidationMessage', 'cantUploadAndCompleteInspection', 'cancel'])
     .subscribe(
-      labels => this.labels = labels,
+      labels => {
+        this.labels = labels;
+        this.cancelText = labels['cancel'];
+      },
       error => console.log(error));
   }
 
@@ -89,7 +89,7 @@ export class InspectionVisitComponent implements OnInit {
       }
 
       if (this.completRefusal) {
-        await this.router.navigate(['/inspection-list']);
+        await this.router.navigate(['inspections-list']);
         await this.modalController.dismiss();
       } else {
         await this.modalController.dismiss();

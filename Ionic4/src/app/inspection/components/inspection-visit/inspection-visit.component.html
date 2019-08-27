@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-list class="list-items">
+  <ion-list class="list-items ion-no-padding">
     <ion-list-header>{{'visitCanceled' | translate}}</ion-list-header>
     <ion-item-group>
       <ion-item-divider color="secondary">{{'visitCanceledMotive' | translate}}</ion-item-divider>
@@ -49,8 +49,8 @@
       <ion-item-divider color="secondary">{{'visitNewSchedule' | translate}}</ion-item-divider>
       <ion-item>
         <ion-label>{{'date' | translate}}</ion-label>
-        <ion-datetime displayFormat="YYYY/MM/DD" placeholder="{{'date' | translate}}" [(ngModel)]="requestedDateOfVisit"
-          [pickerOptions]="customOptions" [min]="minimalNextVisitDate" [max]="maximalNextVisitDate"></ion-datetime>
+        <ion-datetime displayFormat="YYYY/MM/DD" placeholder="{{'date' | translate}}" [(ngModel)]="requestedDateOfVisit" [cancelText]="cancelText" [doneText]='doneText'
+          [min]="minimalNextVisitDate" [max]="maximalNextVisitDate"></ion-datetime>
       </ion-item>
     </ion-item-group>
   </ion-list>
