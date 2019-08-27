@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-list class="list-items">
+  <ion-list class="list-items ion-no-padding">
     <ion-list-header>{{'buildingHazardousMaterial' | translate}}</ion-list-header>
     <ion-item *ngFor="let mat of hazardousMaterials | orderBy:'hazardousMaterialName'" (click)="onItemClick(mat)">
       <ion-icon slot="start" name="nuclear"></ion-icon>
