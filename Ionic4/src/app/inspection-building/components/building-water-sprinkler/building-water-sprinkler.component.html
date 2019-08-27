@@ -11,7 +11,7 @@
   <ion-list [formGroup]="form" class="list-items ion-no-padding">
 
     <ion-item  [class.invalid]="!form.controls.idSprinklerType.valid">
-      <ion-label>{{'type' | translate}}</ion-label>
+      <ion-label position="floating" color="tertiary">{{'type' | translate}}</ion-label>
       <ion-select formControlName="idSprinklerType" okText="Ok" cancelText="{{'cancel' | translate}}">
         <ion-select-option *ngFor="let t of types" [value]="t.id">{{t.name}}</ion-select-option>
       </ion-select>
@@ -21,17 +21,17 @@
     <ion-item-group>
       <ion-item-divider>{{'localization' | translate}}</ion-item-divider>
       <ion-item>
-        <ion-label>{{'floor' | translate}}</ion-label>
+        <ion-label position="floating" color="tertiary">{{'floor' | translate}}</ion-label>
         <ion-input type="text" maxlength="3" placeholder="{{'floor' | translate}}" formControlName="floor"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label>{{'wall' | translate}}</ion-label>
+        <ion-label position="floating" color="tertiary">{{'wall' | translate}}</ion-label>
         <ion-select formControlName="wall" placeholder="{{'wall' | translate}}" okText="Ok" cancelText="{{'cancel' | translate}}">
           <ion-select-option *ngFor="let wall of walls">{{wall}}</ion-select-option>
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label>{{'division' | translate}}</ion-label>
+        <ion-label position="floating" color="tertiary">{{'division' | translate}}</ion-label>
         <ion-select formControlName="sector" placeholder="{{'division' | translate}}" okText="Ok" cancelText="{{'cancel' | translate}}">
           <ion-select-option *ngFor="let sector of sectors">{{sector}}</ion-select-option>
         </ion-select>

@@ -14,22 +14,22 @@
       <ion-item-group>
         <ion-item-divider>{{'generalInformation' | translate}}</ion-item-divider>
         <ion-item [class.invalid]="!form.controls.idPersonRequiringAssistanceType.valid">
-          <ion-label>{{'type' | translate}}</ion-label>
+          <ion-label position="floating" color="tertiary">{{'type' | translate}}</ion-label>
           <ion-select formControlName="idPersonRequiringAssistanceType" okText="Ok" cancelText="{{'cancel' | translate}}">
             <ion-select-option *ngFor="let t of pnapTypes | orderBy:'name'" [value]="t.id">{{t.name}}</ion-select-option>
           </ion-select>
         </ion-item>
         <div *ngIf="!form.controls.idPersonRequiringAssistanceType.valid" class="validation-error-text">{{'typeRequired' | translate}}</div>
         <ion-item>
-          <ion-label>{{'name' | translate}}</ion-label>
+          <ion-label position="floating" color="tertiary">{{'name' | translate}}</ion-label>
           <ion-input item-end formControlName="personName" maxlength="60" type="text" placeholder="{{'name' | translate}}"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label>{{'floor' | translate}}</ion-label>
+          <ion-label position="floating" color="tertiary">{{'floor' | translate}}</ion-label>
           <ion-input formControlName="floor" maxlength="3" placeholder="{{'floor' | translate}}" type="text"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label>{{'room' | translate}}</ion-label>
+          <ion-label position="floating" color="tertiary">{{'room' | translate}}</ion-label>
           <ion-input formControlName="local" maxlength="10" placeholder="{{'room' | translate}}" type="text"></ion-input>
         </ion-item>
       </ion-item-group>
@@ -37,11 +37,11 @@
       <ion-item-group>
         <ion-item-divider>{{'contact' | translate}}</ion-item-divider>
         <ion-item>
-          <ion-label>{{'name' | translate}}</ion-label>
+          <ion-label position="floating" color="tertiary">{{'name' | translate}}</ion-label>
           <ion-input formControlName="contactName" maxlength="60" type="text" placeholder="{{'name' | translate}}"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label>{{'phone' | translate}}</ion-label>
+          <ion-label position="floating" color="tertiary">{{'phone' | translate}}</ion-label>
           <ion-input placeholder="(xxx) xxx-xxxx" [brmasker]="{mask:'(000) 000-0000', len:14, type:'num'}" type="tel" formControlName="contactPhoneNumberMasked"></ion-input>
         </ion-item>
         <div *ngIf="!form.controls.contactPhoneNumberMasked.valid" class="validation-error-text">
@@ -52,7 +52,7 @@
       <ion-item-group>
         <ion-item-divider>{{'pnapDayResident' | translate}}</ion-item-divider>
         <ion-item [class.invalid]="!form.controls.dayResidentCount.valid">
-          <ion-label>{{'pnapNumber' | translate}}</ion-label>
+          <ion-label position="floating" color="tertiary">{{'pnapNumber' | translate}}</ion-label>
           <ion-input type="tel" [pattern]="integerPattern" formControlName="dayResidentCount" placeholder="{{'pnapNumber' | translate}}"></ion-input>
         </ion-item>
         <div *ngIf="!form.controls.dayResidentCount.valid" class="validation-error-text">{{'pnapNumberValidationMessage' | translate}}</div>
@@ -65,7 +65,7 @@
       <ion-item-group>
         <ion-item-divider>{{'pnapEveningResident' | translate}}</ion-item-divider>
         <ion-item [class.invalid]="!form.controls.eveningResidentCount.valid">
-          <ion-label>{{'pnapNumber' | translate}}</ion-label>
+          <ion-label position="floating" color="tertiary">{{'pnapNumber' | translate}}</ion-label>
           <ion-input type="tel" [pattern]="integerPattern" formControlName="eveningResidentCount" placeholder="{{'pnapNumber' | translate}}"></ion-input>
         </ion-item>
         <div *ngIf="!form.controls.eveningResidentCount.valid" class="validation-error-text">{{'pnapNumberValidationMessage' | translate}}</div>
@@ -78,7 +78,7 @@
       <ion-item-group>
         <ion-item-divider>{{'pnapNightResident' | translate}}</ion-item-divider>
         <ion-item [class.invalid]="!form.controls.nightResidentCount.valid">
-          <ion-label>{{'pnapNumber' | translate}}</ion-label>
+          <ion-label position="floating" color="tertiary">{{'pnapNumber' | translate}}</ion-label>
           <ion-input type="tel" [pattern]="integerPattern" formControlName="nightResidentCount" placeholder="{{'pnapNumber' | translate}}"></ion-input>
         </ion-item>
         <div *ngIf="!form.controls.nightResidentCount.valid" class="validation-error-text">{{'pnapNumberValidationMessage' | translate}}</div>
@@ -97,7 +97,7 @@
 
 <ion-footer class="page-footer">
   <ion-toolbar color="primary">
-    <ion-buttons left>
+    <ion-buttons slot="start">
       <ion-button *ngIf="!isNew" (click)="onDeletePnap()">
         <ion-icon name="trash" slot="start"></ion-icon>
         {{'pnapDeleteButton' | translate}}

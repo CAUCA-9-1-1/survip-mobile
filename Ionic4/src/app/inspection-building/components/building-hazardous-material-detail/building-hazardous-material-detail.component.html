@@ -24,18 +24,18 @@
         <ion-item-group>
             <ion-item-divider>{{'container' | translate}}</ion-item-divider>
             <ion-item [class.invalid]="!form.controls.quantityMasked.valid">
-                <ion-label>{{'quantity' | translate}}</ion-label>
+                <ion-label position="floating" color="tertiary">{{'quantity' | translate}}</ion-label>
                 <ion-input type="tel" [pattern]="integerPattern" formControlName="quantityMasked"></ion-input>
             </ion-item>
             <div *ngIf="!form.controls.quantityMasked.valid" class="validation-error-text">
                 {{'quantityValidationMessage' | translate}}
             </div>
             <ion-item>
-                <ion-label>Type</ion-label>
+                <ion-label position="floating" color="tertiary">Type</ion-label>
                 <ion-input type="text" formControlName="container"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-label>{{'tank' | translate}}</ion-label>
+                <ion-label position="floating" color="tertiary">{{'tank' | translate}}</ion-label>
                 <ion-select formControlName="tankTypeMasked" okText="Ok" cancelText="{{'cancel' | translate}}">
                     <ion-select-option *ngFor="let key of tankTypeKeys" [value]="key">
                         {{"enumTankType."+tankType[key] | translate}}
@@ -43,7 +43,7 @@
                 </ion-select>
             </ion-item>
             <ion-item>
-                <ion-label>{{'supply' | translate}}</ion-label>
+                <ion-label position="floating" color="tertiary">{{'supply' | translate}}</ion-label>
                 <ion-input type="text" maxlength="50" formControlName="supplyLine"></ion-input>
             </ion-item>
 
@@ -83,27 +83,27 @@
         <ion-item-group>
             <ion-item-divider>{{'localization' | translate}}</ion-item-divider>
             <ion-item>
-                <ion-label>{{'position' | translate}}</ion-label>
+                <ion-label position="floating" color="tertiary">{{'position' | translate}}</ion-label>
                 <ion-input type="text" maxlength="100" formControlName="place"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-label>{{'floor' | translate}}</ion-label>
+                <ion-label position="floating" color="tertiary">{{'floor' | translate}}</ion-label>
                 <ion-input type="text" maxlength="4" formControlName="floor"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-label>{{'wall' | translate}}</ion-label>
+                <ion-label position="floating" color="tertiary">{{'wall' | translate}}</ion-label>
                 <ion-select formControlName="wall" okText="Ok" cancelText="{{'cancel' | translate}}">
                     <ion-select-option *ngFor="let wall of walls">{{wall}}</ion-select-option>
                 </ion-select>
             </ion-item>
             <ion-item>
-                <ion-label>{{'division' | translate}}</ion-label>
+                <ion-label position="floating" color="tertiary">{{'division' | translate}}</ion-label>
                 <ion-select formControlName="sector" okText="Ok" cancelText="{{'cancel' | translate}}">
                     <ion-select-option *ngFor="let sector of sectors">{{sector}}</ion-select-option>
                 </ion-select>
             </ion-item>
             <ion-item>
-                <ion-label>{{'gasInlet' | translate}}</ion-label>
+                <ion-label position="floating" color="tertiary">{{'gasInlet' | translate}}</ion-label>
                 <ion-input type="text" maxlength="100" formControlName="gasInlet"></ion-input>
             </ion-item>
         </ion-item-group>
