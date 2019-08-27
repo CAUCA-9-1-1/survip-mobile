@@ -111,10 +111,6 @@ export class SurveyParentChildQuestionComponent implements OnInit {
           ids.push(answer.id);
         }
       });
-      /*if(ids.length > 0) {
-          this.surveyRepo.deleteSurveyAnswers(ids)
-              .subscribe();
-      }*/
       this.answerGroupDeleted.emit(this.answer.id);
     }
   }
@@ -150,20 +146,9 @@ export class SurveyParentChildQuestionComponent implements OnInit {
       this.resetAnswerCollection(index);
     }
 
-    // this.deleteSavedAnswers(ids);
     this.answeredQuestions = this.answer.childSurveyAnswerList.filter((answer) => answer.answer != null && answer.answer !== '');
     this.questionIndex = this.answeredQuestions.length - 1;
   }
-
-  /*private deleteSavedAnswers(ids: string[]){
-      if(ids.length > 0) {
-          this.surveyRepo.deleteSurveyAnswers(ids)
-              .subscribe(() => {
-              }, error => {
-                  console.log("Error on delete remaining survey question", error);
-              });
-      }
-  }*/
 
   private resetAnswerCollection(index: number) {
     this.answer.childSurveyAnswerList[index].id = null;
