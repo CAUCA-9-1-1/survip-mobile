@@ -54,21 +54,18 @@
             <ion-grid>
                 <ion-row>
                     <ion-col width-50>
-                        <ion-item>
-                            <ion-input item-end type="number" [pattern]="decimalPattern"
-                                placeholder="{{'capacity' | translate}}" formControlName="capacityContainerMasked"
-                                (ionChange)="onCapacityChanged()"></ion-input>
-                        </ion-item>
+                    <ion-item>
+                        <ion-label position="floating" color="tertiary">{{'capacity' | translate}}</ion-label>
+                        <ion-input type="number" [pattern]="decimalPattern" item-start formControlName="capacityContainerMasked"></ion-input>
+                    </ion-item>
                     </ion-col>
                     <ion-col width-50>
-                        <ion-item [class.invalid]="!form.controls.idUnitOfMeasure.valid">
-                            <ion-label [hidden]="true">{{'unit' | translate}}</ion-label>
-                            <ion-select class="unit-select" formControlName="idUnitOfMeasure"
-                                placeholder="{{'unit' | translate}}" okText="Ok" cancelText="{{'cancel' | translate}}">
-                                <ion-select-option *ngFor="let unit of unitOfMeasures" [value]="unit.id">{{unit.name}}
-                                </ion-select-option>
-                            </ion-select>
-                        </ion-item>
+                    <ion-item>
+                        <ion-label position="floating" color="tertiary">{{'unit' | translate}}</ion-label>
+                        <ion-select class="unit-select" formControlName="idUnitOfMeasure"okText="Ok" cancelText="{{'cancel' | translate}}">
+                        <ion-select-option *ngFor="let t of unitOfMeasures | orderBy:'name'" [value]="t.id">{{t.name}}</ion-select-option>
+                        </ion-select>
+                    </ion-item>
                     </ion-col>
                 </ion-row>
             </ion-grid>
