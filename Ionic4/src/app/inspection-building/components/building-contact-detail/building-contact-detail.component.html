@@ -16,7 +16,7 @@
       <ion-item-group>
           <ion-item-divider>{{'generalInformation' | translate}}</ion-item-divider>
           <ion-item [class.invalid]="!form.controls.firstName.valid">
-              <ion-label fixed>{{'firstName' | translate}}</ion-label>
+              <ion-label position="floating" color="tertiary">{{'firstName' | translate}}</ion-label>
               <ion-input type="text" formControlName="firstName" placeholder="{{'firstName' | translate}}"
                          maxlength="30"></ion-input>
           </ion-item>
@@ -24,18 +24,18 @@
               translate}}
           </div>
           <ion-item [class.invalid]="!form.controls.lastName.valid">
-              <ion-label fixed>{{'name' | translate}}</ion-label>
+              <ion-label position="floating" color="tertiary">{{'name' | translate}}</ion-label>
               <ion-input type="text" formControlName="lastName" placeholder="{{'name' | translate}}"
                          maxlength="30"></ion-input>
           </ion-item>
           <div *ngIf="!form.controls.lastName.valid" class="validation-error-text">{{'lastNameRequired' | translate}}
           </div>
           <ion-item>
-              <ion-label fixed>{{'owner' | translate}}</ion-label>
+              <ion-label>{{'owner' | translate}}</ion-label>
               <ion-toggle formControlName="isOwner"></ion-toggle>
           </ion-item>
           <ion-item>
-              <ion-label fixed>{{'priority' | translate}}</ion-label>
+              <ion-label position="floating" color="tertiary">{{'priority' | translate}}</ion-label>
               <ion-input formControlName="callPriority" type="number" maxlength="10"
                          [pattern]="integerPattern"></ion-input>
           </ion-item>
@@ -47,7 +47,7 @@
       <ion-item-group>
           <ion-item-divider color="light">{{'homePhone' | translate}}</ion-item-divider>
           <ion-item>
-              <ion-label fixed>{{'number' | translate}}</ion-label>
+              <ion-label position="floating" color="tertiary">{{'number' | translate}}</ion-label>
               <ion-input formControlName="phoneNumberMasked" [brmasker]="{mask:'(000) 000-0000', len:14, type:'num'}"
                          type="tel" placeholder="(xxx) xxx-xxxx"></ion-input>
           </ion-item>
@@ -55,7 +55,7 @@
               {{'ContactPhoneFormatWarning' | translate}}
           </div>
           <ion-item>
-              <ion-label fixed>{{'extension' | translate}}</ion-label>
+              <ion-label position="floating" color="tertiary">{{'extension' | translate}}</ion-label>
               <ion-input formControlName="phoneNumberExtension"
                          [brmasker]="{mask:'0000000000', len:10, type:'num'}"
                          type="tel"></ion-input>
@@ -65,7 +65,7 @@
       <ion-item-group>
           <ion-item-divider color="light">{{'cellular' | translate}}</ion-item-divider>
           <ion-item>
-              <ion-label fixed>{{'number' | translate}}</ion-label>
+              <ion-label position="floating" color="tertiary">{{'number' | translate}}</ion-label>
               <ion-input formControlName="cellphoneNumberMasked"
                          [brmasker]="{mask:'(000) 000-0000', len:14, type:'num'}"
                          type="tel" placeholder="(xxx) xxx-xxxx"></ion-input>
@@ -78,7 +78,7 @@
       <ion-item-group>
           <ion-item-divider color="light">{{'pager' | translate}}</ion-item-divider>
           <ion-item>
-              <ion-label fixed>{{'number' | translate}}</ion-label>
+              <ion-label position="floating" color="tertiary">{{'number' | translate}}</ion-label>
               <ion-input formControlName="pagerNumberMasked" [brmasker]="{mask:'(000) 000-0000', len:14, type:'num'}"
                          type="tel" placeholder="(xxx) xxx-xxxx"></ion-input>
           </ion-item>
@@ -86,7 +86,7 @@
               {{'ContactPhoneFormatWarning' | translate}}
           </div>
           <ion-item>
-              <ion-label fixed>{{'code' | translate}}</ion-label>
+              <ion-label position="floating" color="tertiary">{{'code' | translate}}</ion-label>
               <ion-input formControlName="pagerCode" [brmasker]="{mask:'0000000000', len:10, type:'num'}"
                          type="tel"></ion-input>
           </ion-item>
@@ -95,7 +95,7 @@
       <ion-item-group>
           <ion-item-divider color="light">{{'otherPhone' | translate}}</ion-item-divider>
           <ion-item>
-              <ion-label fixed>{{'number' | translate}}</ion-label>
+              <ion-label position="floating" color="tertiary">{{'number' | translate}}</ion-label>
               <ion-input formControlName="otherNumberMasked" [brmasker]="{ mask:'(000) 000-0000', len:14, type:'num'}"
                          type="tel" placeholder="(xxx) xxx-xxxx"></ion-input>
           </ion-item>
@@ -103,7 +103,7 @@
               {{'ContactPhoneFormatWarning' | translate}}
           </div>
           <ion-item>
-              <ion-label fixed>{{'extension' | translate}}</ion-label>
+              <ion-label position="floating" color="tertiary">{{'extension' | translate}}</ion-label>
               <ion-input formControlName="otherNumberExtension" [brmasker]="{mask:'0000000000', len:10, type:'num'}"
                          type="tel"></ion-input>
           </ion-item>

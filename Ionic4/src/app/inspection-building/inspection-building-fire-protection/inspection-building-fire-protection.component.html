@@ -12,11 +12,11 @@
     <ion-list-header>{{'fireSafety' | translate}}</ion-list-header>
 
     <ion-segment [(ngModel)]="currentSegment" class="segment-themed segment-fire-protection">
-      <ion-segment-button value="panel" class="segment-fire">
+      <ion-segment-button value="panel" class="segment-fire" mode="ios">
         <ion-label>{{'fireAlarmPanel' | translate}}</ion-label>
       </ion-segment-button>
 
-      <ion-segment-button value="sprinkler" class="segment-fire">
+      <ion-segment-button value="sprinkler" class="segment-fire" mode="ios">
         <ion-label>{{'fireSprinkler' | translate}}</ion-label>
       </ion-segment-button>
     </ion-segment>

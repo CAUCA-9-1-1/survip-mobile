@@ -108,6 +108,7 @@ export class InspectionGeneralComponent implements OnInit, OnDestroy {
   }
 
   public async loadRiskLevel() { // why am i loading this exactly?
+    console.log('loading?');
     if (this.currentInspection != null) {
       this.riskLevel = await this.riskLevelService.getById(this.currentInspection.idRiskLevel);
     }

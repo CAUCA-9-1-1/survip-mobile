@@ -16,42 +16,42 @@
       </ion-list-header>
 
       <ion-item *ngIf="currentInspection?.ownerName">
-        <ion-label position="fixed">{{'owner' | translate}}</ion-label>
+        <ion-label position="stacked">{{'owner' | translate}}</ion-label>
         <ion-input type="text" disabled value="{{currentInspection?.ownerName}}"></ion-input>
       </ion-item>
 
-      <ion-item>
-        <ion-label position="fixed">{{'risk' | translate}}</ion-label>
+      <ion-item *ngIf="riskLevel">
+        <ion-label position="stacked">{{'risk' | translate}}</ion-label>
         <ion-input type="text" disabled value="{{riskLevel?.name}}"></ion-input>
       </ion-item>
 
-      <ion-item>
-        <ion-label position="fixed">{{'affectation' | translate}}</ion-label>
+      <ion-item *ngIf="currentInspection?.utilisationCodeDescription">
+        <ion-label position="stacked">{{'affectation' | translate}}</ion-label>
         <ion-input type="text" disabled value="{{currentInspection?.utilisationCodeDescription}}"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="fixed">{{'matricule' | translate}}</ion-label>
+        <ion-label position="stacked">{{'matricule' | translate}}</ion-label>
         <ion-input type="text" disabled value="{{currentInspection?.matricule}}"></ion-input>
       </ion-item>
 
       <ion-item *ngIf="currentInspection?.aliasName">
-        <ion-label position="fixed">Alias</ion-label>
+        <ion-label position="stacked">Alias</ion-label>
         <ion-input type="text" disabled value="{{currentInspection?.aliasName}}"></ion-input>
       </ion-item>
 
       <ion-item *ngIf="currentInspection?.corporateName">
-        <ion-label position="fixed">{{'corporateName' | translate}}</ion-label>
+        <ion-label position="stacked">{{'corporateName' | translate}}</ion-label>
         <ion-input type="text" disabled value="{{currentInspection?.corporateName}}"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="fixed">{{'lane' | translate}}</ion-label>
+        <ion-label position="stacked">{{'lane' | translate}}</ion-label>
         <ion-input type="text" disabled value="{{currentInspection?.laneName}}"></ion-input>
       </ion-item>
 
       <ion-item *ngIf="!canBeEdited">
-        <ion-label position="fixed">{{'transversal' | translate}}</ion-label>
+        <ion-label position="stacked">{{'transversal' | translate}}</ion-label>
         <ion-input type="text" disabled value="{{currentInspection?.transversalLaneName}}"></ion-input>
       </ion-item>
 
