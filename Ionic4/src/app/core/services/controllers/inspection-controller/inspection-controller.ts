@@ -8,6 +8,7 @@ import { BuildingContactRepositoryProvider } from '../../repositories/building-c
 import { InspectionRepositoryProvider } from '../../repositories/inspection-repository-provider.service';
 import { LoadingController } from '@ionic/angular';
 import { LaneRepositoryProvider } from '../../repositories/lane-repository';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({providedIn: 'root'})
 export class InspectionControllerProvider {
@@ -23,6 +24,7 @@ export class InspectionControllerProvider {
   public currentBuildingName: string;
 
   constructor(
+    private translateService: TranslateService,
     private repoSynchro: InspectionDataSynchronizerProvider,
     private configController: InspectionConfigurationProvider,
     private contactRepository: BuildingContactRepositoryProvider,
@@ -30,6 +32,9 @@ export class InspectionControllerProvider {
     private loadingCtrl: LoadingController,
     private laneRepo: LaneRepositoryProvider,
     private dataRepoInspection: InspectionDataSynchronizerProvider) {
+      this.translateService.get(['childBuilding', 'parentBuilding']).subscribe(
+        labels => this.labels = labels,
+        error => console.log(error));
   }
 
   public setIdBuilding(idBuilding: string): void {
@@ -127,9 +132,9 @@ export class InspectionControllerProvider {
     } else if (building.corporateName) {
       return building.corporateName;
     } else if (building.isMainBuilding) {
-      return 'Bâtiment principal';
+      return this.labels['parentBuilding'];
     } else {
-      return 'Bâtiment enfant';
+      return this.labels['childBuilding'];
     }
   }
 

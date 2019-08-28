@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Inspection } from 'src/app/shared/interfaces/inspection.interface';
 import { InspectionBuildingForList } from 'src/app/shared/models/inspection-building-for-list';
 import { InspectionControllerProvider } from 'src/app/core/services/controllers/inspection-controller/inspection-controller';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-inspection-buildings',
@@ -9,6 +10,8 @@ import { InspectionControllerProvider } from 'src/app/core/services/controllers/
   styleUrls: ['./inspection-buildings.component.scss'],
 })
 export class InspectionBuildingsComponent implements OnInit {
+
+  private labels: string[];
 
   public get currentInspection(): Inspection {
     return this.controller.currentInspection;
@@ -22,7 +25,13 @@ export class InspectionBuildingsComponent implements OnInit {
     }
   }
 
-  constructor(private controller: InspectionControllerProvider) {
+  constructor(
+    private controller: InspectionControllerProvider,
+    private translateService: TranslateService) {
+
+    this.translateService.get(['childBuilding', 'parentBuilding']).subscribe(
+      labels => this.labels = labels,
+      error => console.log(error));
   }
 
   ngOnInit() { }
@@ -33,22 +42,22 @@ export class InspectionBuildingsComponent implements OnInit {
     } else if (building.corporateName != null && building.corporateName !== '') {
       return building.corporateName;
     } else if (building.isMainBuilding) {
-      return 'Bâtiment principal';
+      return this.labels['parentBuilding'];
     } else {
-      return 'Bâtiment enfant #' + index;
+      return this.labels['childBuilding'] + ' #' + index;
     }
   }
 
   public getBuildingDescription(building: InspectionBuildingForList, index) {
     if (building.isMainBuilding) {
       if (this.buildingHasNameOrAlias(building)) {
-        return 'Bâtiment principal';
+        return this.labels['parentBuilding'];
       } else {
         return '';
       }
     } else {
       if (this.buildingHasNameOrAlias(building)) {
-        return 'Bâtiment enfant #' + (index);
+        return this.labels['childBuilding'] + ' #' + index;
       } else {
         return '';
       }
