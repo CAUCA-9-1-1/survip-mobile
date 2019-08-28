@@ -45,6 +45,7 @@ export class SurveyParentChildQuestionComponent implements OnInit {
 
   private validateLastQuestionAnswer() {
     const nextId = this.getNextQuestionId();
+    console.log('nextId', nextId);
     if (!nextId || nextId === '00000000-0000-0000-0000-000000000000') {
       this.groupAnswersCompleted.emit(this.answer);
     } else {
@@ -53,6 +54,7 @@ export class SurveyParentChildQuestionComponent implements OnInit {
   }
 
   private getNextQuestion(nextQuestionId?: string) {
+
     let nextId = nextQuestionId;
     if (!nextId) {
       nextId = this.getNextQuestionId();
@@ -79,6 +81,7 @@ export class SurveyParentChildQuestionComponent implements OnInit {
         retVal = this.getNextSequencedQuestionId();
       }
     }
+    console.log('retVal', retVal);
     return retVal;
   }
 
@@ -98,6 +101,7 @@ export class SurveyParentChildQuestionComponent implements OnInit {
   }
 
   public validateAnswer() {
+    console.log('validate answer');
     this.questionAnswered.emit(this.answer);
     this.validateLastQuestionAnswer();
   }
