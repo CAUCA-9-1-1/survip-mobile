@@ -152,7 +152,6 @@ export class InspectionSurveyComponent implements OnInit {
   }
 
   private async updateAnswerResult(answerGroup) {
-    console.log('updateAnswerGHroup', answerGroup);
     if (answerGroup) {
       const Index = this.findAnswerById(answerGroup.id);
       this.inspectionQuestionAnswer[Index] = answerGroup;
@@ -179,15 +178,11 @@ export class InspectionSurveyComponent implements OnInit {
 
         if (this.currentQuestion.idSurveyQuestionNext) {
           this.nextQuestionId = this.currentAnswer.idSurveyQuestionNext;
-          console.log('nextQuestion groupe lit next', this.nextQuestionId);
         }
         if (!this.nextQuestionId) {
           this.nextQuestionId = this.getNextSequencedQuestion();
-          console.log('nextQuestion groupe sequence', this.nextQuestionId);
         }
         this.nextQuestionDisabled = false;
-        console.log('nextQuestion groupe', this.nextQuestionId);
-
     } else if (answer.answer) {
       if (answer.questionType === this.questionTypeEnum.choiceAnswer) {
         this.nextQuestionId = this.getChoiceNextQuestionId(answer.idSurveyQuestionChoice);
@@ -234,8 +229,6 @@ export class InspectionSurveyComponent implements OnInit {
 
   private getNextSequencedQuestion() {
     let nextId = null;
-    console.log('parents', this.inspectionSurveyQuestion
-    .filter(question => question.idParent == null));
     const nextSequencedQuestions = this.inspectionSurveyQuestion
       .filter(question => question.idParent == null && question.sequence > this.currentQuestion.sequence);
     if (nextSequencedQuestions.length > 0) {
@@ -261,14 +254,12 @@ export class InspectionSurveyComponent implements OnInit {
   private async initQuestionGroupAnswers() {
     this.currentQuestionAnswerList = [];
     const answers = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion === this.currentQuestion.idSurveyQuestion);
-    console.log('min occurrence', this.currentQuestionAnswerList, this.inspectionSurveyQuestion[this.selectedIndex]);
     if (answers.length > 0) {
       answers.forEach(answer => {
         this.currentQuestionAnswerList.push(this.updateChildWithAnswered(answer));
       });
     } else {
       for (let index = 0; index < this.inspectionSurveyQuestion[this.selectedIndex].minOccurrence; index++) {
-        console.log('create');
         this.inspectionQuestionAnswer.push(this.createGroupAnswerParent());
         await this.surveyRepo.saveAnswers(this.controller.idInspection, this.inspectionQuestionAnswer);
       }
@@ -334,14 +325,10 @@ export class InspectionSurveyComponent implements OnInit {
   public async deleteChildQuestion(answerId: string) {
     const index = this.findAnswerById(answerId);
     const answers = await this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion === this.currentQuestion.idSurveyQuestion);
-    console.log('delete question', this.currentQuestion, answers);
     if (answers.length > 0) {
-      console.log('if', this.inspectionQuestionAnswer);
       this.inspectionQuestionAnswer.splice(index, 1);
       await this.surveyRepo.saveAnswers(this.controller.idInspection, this.inspectionQuestionAnswer);
-      console.log('if', this.inspectionQuestionAnswer);
     } else {
-      console.log('else');
       this.inspectionQuestionAnswer[index].childSurveyAnswerList = Object.assign([], this.currentQuestion.childSurveyAnswerList);
     }
     this.currentQuestionAnswerList = this.inspectionQuestionAnswer
