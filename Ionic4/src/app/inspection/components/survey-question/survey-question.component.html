@@ -15,7 +15,7 @@
     </ion-radio-group>
 
     <ion-item *ngIf="question.choicesList.length > 2">
-      <ion-select class="full-width-select" [(ngModel)]="answer">
+      <ion-select class="full-width-select" [(ngModel)]="answer" (ionChange)="validateAnswer()">
         <ion-select-option *ngFor="let choice of question.choicesList" value="{{choice.id}}">
           {{choice.description}}
         </ion-select-option>
@@ -24,7 +24,7 @@
   </div>
 
   <ion-item *ngIf="question.questionType == questionTypeEnum.textAnswer">
-    <ion-textarea [(ngModel)]="textAnswer" debounce="500"></ion-textarea>
+    <ion-textarea [(ngModel)]="textAnswer" debounce="500" (ionChange)="validateAnswer()"></ion-textarea>
   </ion-item>
   <ion-item *ngIf="question.questionType == questionTypeEnum.dateAnswer">
     <ion-datetime displayFormat="YYYY/MM/DD" [(ngModel)]="answer" (ionChange)="validateAnswer()"></ion-datetime>
