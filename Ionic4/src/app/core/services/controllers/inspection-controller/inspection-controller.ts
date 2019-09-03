@@ -73,6 +73,7 @@ export class InspectionControllerProvider {
       this.currentInspection = await this.repoInspection.getResumedInspection(idInspection);
       this.inspection = await this.repoInspection.getInspection(idInspection);
       this.currentInspection.hasBeenDownloaded = this.inspection != null;
+
       await this.refreshBuildingInformations();
 
       if (this.inspection == null) {

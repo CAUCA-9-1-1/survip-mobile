@@ -2,16 +2,14 @@
   --background: var(--ion-color-secondary-tint);
 }
 
-.menu-items {
-  height: 100%;
-  margin: 0;
-}
-
 .menu-icon {
   color: black;
 }
 
 .menu-items {
+  height: 100%;
+  margin: 0;
+
   .item {
     &:last-child {
       --border-style: hidden;

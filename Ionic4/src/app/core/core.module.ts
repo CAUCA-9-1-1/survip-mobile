@@ -60,6 +60,7 @@ import { PictureUtilitiesProvider } from './services/utilities/picture-utilities
 import { WindowRefService } from './services/utilities/window-ref.service';
 import { InspectionListGuard } from './guards/inspection-list.guard';
 import { IonicModule } from '@ionic/angular';
+import { InspectionListControllerProvider } from './services/controllers/inspection-list-controller/inspection-list-controller';
 
 @NgModule({
   declarations: [
@@ -141,6 +142,7 @@ export class CoreModule {
         LoginActivate,
         InspectionConfigurationProvider,
         InspectionControllerProvider,
+        InspectionListControllerProvider,
         InspectionListGuard,
         LaneRepositoryProvider
       ]

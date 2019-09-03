@@ -34,9 +34,6 @@ export class PictureEditionComponent {
   }
 
   public onCanvasChange($event) {
-
-    console.log('onCanvasChanged, $event');
-
     this.canvas = $event;
   }
 

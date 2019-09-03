@@ -146,7 +146,7 @@ export class InspectionRepositoryProvider {
   }
 
   public async uploadInspection(idInspection: string): Promise<boolean> {
-    if (this.uploader.uploadInspection(idInspection)) {
+    if (await this.uploader.uploadInspection(idInspection)) {
       await this.synchronizer.deleteInspectionFromCache(idInspection);
       return true;
     } else {
