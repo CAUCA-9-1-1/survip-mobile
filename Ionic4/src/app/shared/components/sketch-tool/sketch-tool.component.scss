@@ -4,12 +4,12 @@
     width: 100%;
     object-fit: contain;
     text-align: center; 
-    margin: 0px auto;
-    padding: 0px auto;
+    margin: 0 auto;
+    padding: 0 auto;
   }
   
   .scroll-content {
-    padding: 0px !important;
+    padding: 0 !important;
     overflow-y: hidden;
   }
   
@@ -31,7 +31,7 @@
     width: 100%;
     height: auto;
     top: 55px;
-    left: 0px;
+    left: 0;
     border: 2px solid gray;
     background-color: gray;
   }
