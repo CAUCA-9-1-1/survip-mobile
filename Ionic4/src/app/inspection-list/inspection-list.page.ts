@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { RiskLevel } from '../shared/models/risk-level';
 import { Batch } from '../shared/models/batch';
 import { OfflineDataSynchronizerProvider } from '../core/services/controllers/offline-data-synchronizer/offline-data-synchronizer';
-import { RiskLevelRepositoryProvider } from '../core/services/repositories/risk-level-repository';
 import { LoadingController, MenuController, ToastController } from '@ionic/angular';
 import { InspectionRepositoryProvider } from '../core/services/repositories/inspection-repository-provider.service';
 import { InspectionControllerProvider } from '../core/services/controllers/inspection-controller/inspection-controller';
 import { TranslateService } from '@ngx-translate/core';
 import { Inspection } from '../shared/interfaces/inspection.interface';
 import { Router } from '@angular/router';
+import { InspectionListControllerProvider } from '../core/services/controllers/inspection-list-controller/inspection-list-controller';
 
 @Component({
   selector: 'app-inspection-list',
@@ -19,17 +18,28 @@ export class InspectionListPage implements OnInit {
 
   private loading: HTMLIonLoadingElement;
 
-  public batches: Batch[];
-  public filteredBatches: Batch[];
-  public riskLevels: RiskLevel[];
-  public searchTerm: string = '';
   public rootPage: string = 'InterventionHomePage';
   public noDataMessage = '';
   public labels = {};
-  public dataIsCorrectlyLoaded: boolean = false;
+
+  public get dataIsCorrectlyLoaded(): boolean {
+    return this.inspectionListController.dataIsCorrectlyLoaded;
+  }
+
+  public get searchTerm(): string {
+    return this.inspectionListController.searchTerm;
+  }
+
+  public set searchTerm(value: string) {
+    this.inspectionListController.searchTerm = value;
+  }
 
   get isSynching(): boolean {
     return this.synchronizer.isSynching;
+  }
+
+  public get filteredBatches(): Batch[] {
+    return this.inspectionListController.filteredBatches;
   }
 
   get synchingPercentCompleted(): number {
@@ -37,16 +47,15 @@ export class InspectionListPage implements OnInit {
   }
 
   constructor(
-    private synchronizer: OfflineDataSynchronizerProvider,
-    private riskLevelService: RiskLevelRepositoryProvider,
-    private loadingCtrl: LoadingController,
+    public inspectionListController: InspectionListControllerProvider,
     private inspectionService: InspectionRepositoryProvider,
-    private menu: MenuController,
+    private synchronizer: OfflineDataSynchronizerProvider,
+    private loadingCtrl: LoadingController,
     private toast: ToastController,
     private router: Router,
     private controller: InspectionControllerProvider,
     private translateService: TranslateService) {
-    }
+  }
 
   async ngOnInit() {
     await this.loadData();
@@ -55,6 +64,10 @@ export class InspectionListPage implements OnInit {
 
   public getStatusDescription(status: number): string {
     return this.inspectionService.getInspectionStatusText(status);
+  }
+
+  public getRiskDescription(idRiskLevel: string): string {
+    return this.inspectionListController.getRiskDescription(idRiskLevel);
   }
 
   private loadLocalization() {
@@ -68,58 +81,17 @@ export class InspectionListPage implements OnInit {
 
   private async loadData() {
     await this.showLoadingControl();
-    this.synchronizer.synchronizeBaseEntities()
-      .then((wasSuccessful: boolean) => {
-        this.dataIsCorrectlyLoaded = wasSuccessful;
-        if (this.dataIsCorrectlyLoaded) {
-          this.riskLevelService.getAll()
-            .then(risks => this.riskLevels = risks);
-          this.loadInspectionList();
-        } else {
-          this.hideLoadingControl();
-        }
-      });
+    await this.loadInspectionList()
+      .then(() => this.hideLoadingControl());
   }
 
-  private loadInspectionList() {
-    this.inspectionService.getAll()
-      .then(batches => {
-          this.batches = batches;
-          this.synchronizer.synchronizingCities(this.getAllCityIds())
-            .then(() => {
-              this.filterList();
-              this.hideLoadingControl();
-            });
-        },
-        () => {
-          this.dataIsCorrectlyLoaded = false;
-          this.hideLoadingControl();
-        }
-      );
-  }
-
-  private getAllCityIds(): string[] {
-    const cityIds = [];
-    this.batches.forEach(batch => {
-      batch.inspections.forEach(inspection => {
-        if (cityIds.every(id => id !== inspection.idCity)) {
-          cityIds.push(inspection.idCity);
-        }
-      });
-    });
-
-    return cityIds;
+  private loadInspectionList(): Promise<void> {
+    return this.inspectionListController.refreshInspectionList();
   }
 
   public async refreshList(refresher) {
     await this.loadData();
     refresher.target.complete();
-  }
-
-  public async ionViewCanEnter() {
-    this.menu.enable(false, 'inspectionMenu');
-    this.menu.enable(false, 'buildingMenu');
-    this.menu.enable(true, 'inspectionListMenu');
   }
 
   private async showLoadingControl() {
@@ -132,22 +104,8 @@ export class InspectionListPage implements OnInit {
     this.loading = null;
   }
 
-  public getRiskDescription(idRiskLevel: string): string {
-    const result = this.riskLevels.find(risk => risk.id === idRiskLevel);
-    if (result != null) {
-      return result.name;
-    } else {
-      return '';
-    }
-  }
-
   public getRiskColor(idRiskLevel: string): string {
-    const result = this.riskLevels.find(risk => risk.id === idRiskLevel);
-    if (result != null) {
-      return result.color;
-    } else {
-      return 'black';
-    }
+    return this.inspectionListController.getRiskColor(idRiskLevel);
   }
 
   public async openInspection(idInspection: string) {
@@ -207,33 +165,7 @@ export class InspectionListPage implements OnInit {
       });
   }
 
-  public filterList() {
-    if (this.searchTerm && this.searchTerm !== '') {
-      this.applyFilter();
-    } else {
-      this.filteredBatches = this.batches;
-    }
-  }
-
   public async goToPage(idInspection: string) {
     await this.router.navigate(['/inspection/' + idInspection]);
-  }
-
-  private applyFilter() {
-    this.filteredBatches = JSON.parse(JSON.stringify(this.batches));
-    this.filteredBatches.forEach((batch: Batch) => {
-      batch.inspections = batch.inspections.filter(inspection => this.mustBeShown(inspection));
-    });
-    this.filteredBatches = this.filteredBatches.filter(batch => batch.inspections.length > 0);
-  }
-
-  private mustBeShown(inspection: Inspection): boolean {
-    const riskLevelName = this.getRiskDescription(inspection.idRiskLevel);
-    const riskContainsSearchTerm = riskLevelName.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
-    const address = inspection.civicNumber + inspection.civicLetter + ', ' + inspection.laneName;
-    const addressContainsSearchTerm = address.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
-    const batchDescriptionContainsSearchTerm = inspection.batchDescription.toLowerCase()
-      .indexOf(this.searchTerm.toLowerCase()) > -1;
-    return riskContainsSearchTerm || addressContainsSearchTerm || batchDescriptionContainsSearchTerm;
   }
 }

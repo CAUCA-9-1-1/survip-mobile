@@ -68,8 +68,6 @@ export class SurveyQuestionComponent implements OnInit {
         }
         this.saveAnswer();
       }
-    } else {
-      console.log('not validate&?');
     }
   }
 

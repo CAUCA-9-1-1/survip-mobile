@@ -107,8 +107,7 @@ export class InspectionGeneralComponent implements OnInit, OnDestroy {
     });
   }
 
-  public async loadRiskLevel() { // why am i loading this exactly?
-    console.log('loading?');
+  public async loadRiskLevel() {
     if (this.currentInspection != null) {
       this.riskLevel = await this.riskLevelService.getById(this.currentInspection.idRiskLevel);
     }
@@ -161,21 +160,6 @@ export class InspectionGeneralComponent implements OnInit, OnDestroy {
       || (!this.canTransmitInspectionToServer && this.currentInspection.status === this.inspectionRepo.inspectionStatusEnum.Todo);
   }
 
-  private async validateSurveyNavigation() {
-    if (this.controller.inspection.idSurvey) {
-      if (this.controller.inspection.isSurveyCompleted) {
-        // await this.navCtrl.push('InspectionSurveySummaryPage', {idInspection: this.controller.idInspection});
-        console.log('sommaire');
-      } else {
-        /*await this.navCtrl.push('InspectionSurveyAnswerPage', {
-          idInspection: this.controller.idInspection,
-          inspectionSurveyCompleted: this.controller.inspection.isSurveyCompleted
-        });*/
-        console.log('sommaire');
-      }
-    }
-  }
-
   private async showLoadingControl(): Promise<HTMLIonLoadingElement> {
     const loading = await this.loadingController.create({ message: this.labels['loading'] });
     await loading.present();
@@ -209,7 +193,6 @@ export class InspectionGeneralComponent implements OnInit, OnDestroy {
     await this.controller.updateCurrentInspection(inspection);
     this.refreshInspection();
     this.manageMenuDisplay(true);
-    await this.validateSurveyNavigation();
   }
 
   public async uploadInspectionToServer() {
