@@ -11,7 +11,7 @@ export class InspectionListControllerProvider {
 
     public searchTerm: string = '';
 
-    public riskLevels: RiskLevel[];
+    public riskLevels: RiskLevel[] =  null;
     public batches: Batch[];
     public filteredBatches: Batch[];
     public dataIsCorrectlyLoaded: boolean = true;
@@ -20,13 +20,14 @@ export class InspectionListControllerProvider {
         private synchronizer: OfflineDataSynchronizerProvider,
         private inspectionService: InspectionRepositoryProvider,
         private riskLevelService: RiskLevelRepositoryProvider) {
-        this.riskLevelService.getAll()
-            .then(risks => this.riskLevels = risks);
     }
 
     public async refreshInspectionList() {
         try {
             if (await this.synchronizer.synchronizeBaseEntities()) {
+                if (this.riskLevels == null) {
+                    await this.refreshRiskLevels();
+                }
                 this.batches = await this.inspectionService.getAll();
                 this.synchronizer.synchronizingCities(this.getAllCityIds());
                 this.filterList();
@@ -37,6 +38,10 @@ export class InspectionListControllerProvider {
         } catch (err) {
             this.dataIsCorrectlyLoaded = false;
         }
+    }
+
+    private async refreshRiskLevels(): Promise<void> {
+        this.riskLevels = await this.riskLevelService.getAll();
     }
 
     private getAllCityIds(): string[] {
