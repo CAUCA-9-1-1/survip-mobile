@@ -18,7 +18,7 @@ export class PictureRepositoryProvider implements PicturesRepositoryProvider {
     if (list == null) {
       return [];
     } else {
-      return list;
+      return list.filter(m => m.isActive !== false);
     }
   }
 
