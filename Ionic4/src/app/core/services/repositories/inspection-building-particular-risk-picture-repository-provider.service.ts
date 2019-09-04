@@ -17,7 +17,7 @@ export class InspectionBuildingParticularRiskPictureRepositoryProvider implement
     if (list == null) {
       return [];
     } else {
-      return list;
+      return list.filter(item => item.isActive !== false);
     }
   }
 
