@@ -70,6 +70,10 @@ export class InspectionListPage implements OnInit {
     return this.inspectionListController.getRiskDescription(idRiskLevel);
   }
 
+  public filterList() {
+    this.inspectionListController.filterList();
+  }
+
   private loadLocalization() {
     this.translateService.get([
       'loading', 'surveyUnassignedMessage', 'cantDownloadBatch', 'cantOpenInspection', 'cantDownloadInspection'
