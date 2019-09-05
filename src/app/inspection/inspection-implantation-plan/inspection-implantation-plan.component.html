@@ -1,0 +1,20 @@
+<ion-header class="page-header" no-padding no-margin>
+    <ion-toolbar color="primary">
+      <ion-menu-button menu="inspection-menu" class="menu-icon-white" slot="start"></ion-menu-button>
+      <ion-title>{{'implantationPlan' | translate}}
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+
+      <app-pictures [repo]="picRepo" [multiPictures]="false" height="100%" style="background-color: lawngreen;" [saveAuto]="false" [ngModel]="IdBuilding">
+        {{'loading' | translate}}
+      </app-pictures>
+
+  </ion-content>
+  
+  <ion-footer>
+    <ion-toolbar color="primary">
+    </ion-toolbar>
+  </ion-footer>

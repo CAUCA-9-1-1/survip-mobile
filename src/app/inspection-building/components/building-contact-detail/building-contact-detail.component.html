@@ -1,0 +1,126 @@
+<ion-header class="page-header">
+
+  <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+          <ion-button slot="icon-only" (click)="onCancelEdition()">
+              <ion-icon name="arrow-back"></ion-icon>
+          </ion-button>
+      </ion-buttons>
+      <ion-title>{{'contactDetail' | translate}}</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-list [formGroup]="form" class="list-items ion-no-padding">
+      <ion-item-group>
+          <ion-item-divider>{{'generalInformation' | translate}}</ion-item-divider>
+          <ion-item [class.invalid]="!form.controls.firstName.valid">
+              <ion-label position="floating" color="tertiary">{{'firstName' | translate}}</ion-label>
+              <ion-input type="text" formControlName="firstName" placeholder="{{'firstName' | translate}}"
+                         maxlength="30"></ion-input>
+          </ion-item>
+          <div *ngIf="!form.controls.firstName.valid" class="validation-error-text">{{'firstNameRequired' |
+              translate}}
+          </div>
+          <ion-item [class.invalid]="!form.controls.lastName.valid">
+              <ion-label position="floating" color="tertiary">{{'name' | translate}}</ion-label>
+              <ion-input type="text" formControlName="lastName" placeholder="{{'name' | translate}}"
+                         maxlength="30"></ion-input>
+          </ion-item>
+          <div *ngIf="!form.controls.lastName.valid" class="validation-error-text">{{'lastNameRequired' | translate}}
+          </div>
+          <ion-item>
+              <ion-label>{{'owner' | translate}}</ion-label>
+              <ion-toggle formControlName="isOwner"></ion-toggle>
+          </ion-item>
+          <ion-item>
+              <ion-label position="floating" color="tertiary">{{'priority' | translate}}</ion-label>
+              <ion-input formControlName="callPriority" type="number" maxlength="10"
+                         [pattern]="integerPattern"></ion-input>
+          </ion-item>
+          <div *ngIf="!form.controls.callPriority.valid" class="validation-error-text">{{'priorityValidationMessage' |
+              translate}}
+          </div>
+      </ion-item-group>
+
+      <ion-item-group>
+          <ion-item-divider color="light">{{'homePhone' | translate}}</ion-item-divider>
+          <ion-item>
+              <ion-label position="floating" color="tertiary">{{'number' | translate}}</ion-label>
+              <ion-input formControlName="phoneNumberMasked" [brmasker]="{mask:'(000) 000-0000', len:14, type:'num'}"
+                         type="tel" placeholder="(xxx) xxx-xxxx"></ion-input>
+          </ion-item>
+          <div *ngIf="!form.controls.phoneNumberMasked.valid" class="validation-error-text">
+              {{'ContactPhoneFormatWarning' | translate}}
+          </div>
+          <ion-item>
+              <ion-label position="floating" color="tertiary">{{'extension' | translate}}</ion-label>
+              <ion-input formControlName="phoneNumberExtension"
+                         [brmasker]="{mask:'0000000000', len:10, type:'num'}"
+                         type="tel"></ion-input>
+          </ion-item>
+      </ion-item-group>
+
+      <ion-item-group>
+          <ion-item-divider color="light">{{'cellular' | translate}}</ion-item-divider>
+          <ion-item>
+              <ion-label position="floating" color="tertiary">{{'number' | translate}}</ion-label>
+              <ion-input formControlName="cellphoneNumberMasked"
+                         [brmasker]="{mask:'(000) 000-0000', len:14, type:'num'}"
+                         type="tel" placeholder="(xxx) xxx-xxxx"></ion-input>
+          </ion-item>
+          <div *ngIf="!form.controls.cellphoneNumberMasked.valid" class="validation-error-text">
+              {{'ContactPhoneFormatWarning' | translate}}
+          </div>
+      </ion-item-group>
+
+      <ion-item-group>
+          <ion-item-divider color="light">{{'pager' | translate}}</ion-item-divider>
+          <ion-item>
+              <ion-label position="floating" color="tertiary">{{'number' | translate}}</ion-label>
+              <ion-input formControlName="pagerNumberMasked" [brmasker]="{mask:'(000) 000-0000', len:14, type:'num'}"
+                         type="tel" placeholder="(xxx) xxx-xxxx"></ion-input>
+          </ion-item>
+          <div *ngIf="!form.controls.pagerNumberMasked.valid" class="validation-error-text">
+              {{'ContactPhoneFormatWarning' | translate}}
+          </div>
+          <ion-item>
+              <ion-label position="floating" color="tertiary">{{'code' | translate}}</ion-label>
+              <ion-input formControlName="pagerCode" [brmasker]="{mask:'0000000000', len:10, type:'num'}"
+                         type="tel"></ion-input>
+          </ion-item>
+      </ion-item-group>
+
+      <ion-item-group>
+          <ion-item-divider color="light">{{'otherPhone' | translate}}</ion-item-divider>
+          <ion-item>
+              <ion-label position="floating" color="tertiary">{{'number' | translate}}</ion-label>
+              <ion-input formControlName="otherNumberMasked" [brmasker]="{ mask:'(000) 000-0000', len:14, type:'num'}"
+                         type="tel" placeholder="(xxx) xxx-xxxx"></ion-input>
+          </ion-item>
+          <div *ngIf="!form.controls.otherNumberMasked.valid" class="validation-error-text">
+              {{'ContactPhoneFormatWarning' | translate}}
+          </div>
+          <ion-item>
+              <ion-label position="floating" color="tertiary">{{'extension' | translate}}</ion-label>
+              <ion-input formControlName="otherNumberExtension" [brmasker]="{mask:'0000000000', len:10, type:'num'}"
+                         type="tel"></ion-input>
+          </ion-item>
+      </ion-item-group>
+
+  </ion-list>
+
+</ion-content>
+
+<ion-footer class="page-footer">
+  <ion-toolbar color="primary">
+      <ion-buttons left>
+          <ion-button *ngIf="!isNew" (click)="onDeleteContact()">
+              <ion-icon name="trash" slot="start"></ion-icon>
+              {{'contactDeleteButton' | translate}}
+          </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+

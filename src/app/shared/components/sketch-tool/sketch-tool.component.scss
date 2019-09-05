@@ -1,0 +1,45 @@
+.div-canvas-container {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    text-align: center;
+    margin: 0 auto;
+    padding: 0 auto;
+  }
+  
+  .scroll-content {
+    padding: 0 !important;
+    overflow-y: hidden;
+  }
+  
+  .div-edit-toolbar {
+    text-align: center;
+  }
+  
+  /*.button-edit-toolbar {
+    padding: 4% !important;
+    margin: 0% !important;
+  }*/
+  
+  /*.action-sheet-button {
+    font-family: FontAwesome, Arial;
+  }*/
+  
+  .color-picker {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    top: 55px;
+    left: 0;
+    border: 2px solid gray;
+    background-color: gray;
+  }
+  
+  /*#icon {
+    color: #B32017;
+  }*/
+  
+  .col {
+    padding: 10px;
+  }
+  

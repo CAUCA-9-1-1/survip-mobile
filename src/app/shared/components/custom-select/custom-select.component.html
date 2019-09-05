@@ -1,0 +1,11 @@
+
+<ion-item>
+  <ion-label slot="start">{{title}}</ion-label>
+  <ion-select [value]="value" placeholder="{{title}}" okText="Ok" cancelText="{{'cancel' | translate}}" (ionChange)="selectedItemChanged($event)">
+    <ion-select-option *ngFor="let item of dataSource">{{item}}</ion-select-option>
+  </ion-select>
+</ion-item>
+<ion-button slot="end" (click)="clearSelectedValue()" color="clear">
+    <ion-icon slot="icon-only" name="close" color="dark"></ion-icon>
+  </ion-button>
+  

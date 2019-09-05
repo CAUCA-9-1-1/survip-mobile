@@ -1,0 +1,20 @@
+<ion-split-pane when="md" contentId="inspection-list-content">
+
+  <ion-menu contentId="inspection-list-content" menuId="inspection-list-menu" id="inspectionListMenu">
+    <ion-header color="primary">
+      <menu-profile></menu-profile>
+    </ion-header>
+
+    <ion-content no-padding  class="toolbar-gradient">
+      <ion-list class="menu-items">
+        <ion-item menuClose class="text-menu" routerLink="/inspections-list" *ngFor="let menuItem of menuItems" (click)="openPage(menuItem.page)" routerLinkActive="active-item">
+          <ion-icon slot="left" [name]="menuItem.icon"></ion-icon>
+          <span ion-text>{{menuItem.title}}</span>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet id="inspection-list-content"></ion-router-outlet>
+
+</ion-split-pane>

@@ -1,0 +1,47 @@
+<ion-content padding class="animated fadeIn login auth-page">
+
+        <div class="login-page-box">
+
+                <div class="animated fadeInDown logo-parent">
+        
+                    <div class="logo-centerer">
+                        <img class="app-logo-img" src="../assets/img/logo-transparent.png">
+                    </div>
+                </div>
+        
+                <div class="login-editors">
+        
+                    <div class="login-form">
+                        <form>
+                            <ion-item>
+                                <ion-label position="floating">
+                                    <ion-icon name="contact" slot="start"></ion-icon>
+                                    {{'userName' | translate}}
+                                </ion-label>
+                                <ion-input type="email" [(ngModel)]="userName" [ngModelOptions]="{standalone: true}"></ion-input>
+                            </ion-item>
+        
+                            <ion-item>
+                                <ion-label position="floating">
+                                    <ion-icon name="lock"slot="start"></ion-icon>
+                                    {{'password' | translate}}
+                                </ion-label>
+                                <ion-input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"
+                                           (keypress)="onKeyPress($event.keyCode)"></ion-input>
+                            </ion-item>
+                        </form>
+        
+                        <div>
+                            <ion-button expand="block" color="primary" (click)="onLogin()">
+                                <ion-icon slot="start"></ion-icon>
+                                {{'login' | translate}}
+                            </ion-button>
+                        </div>
+                        <p id="version">{{'version' | translate}} {{version}}</p>
+        
+                    </div>
+        
+                </div>
+            </div>
+
+</ion-content>

@@ -1,0 +1,11 @@
+{
+  "apiUrl":"https://survipreventiondev.cauca.ca/api/",
+  "hockeyapp": {
+    "androidAppId": "YOUR_ANDROID_HOCKEYAPP_ID",
+    "iosAppId": "YOUR_IOS_HOCKEYAPP_ID",
+    "autoSendCrashReports": true,
+    "ignoreCrashDialog": true
+  },
+  "packageName":"ca.cause911.surviprevention",
+  "iosAppId":"1458514120"
+}

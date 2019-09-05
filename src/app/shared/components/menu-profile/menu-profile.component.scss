@@ -1,0 +1,30 @@
+.log-out-button{
+    font-size:0.9rem;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+.user-profile {
+    padding-top: calc(20px + 4px);
+    padding-top: calc(constant(safe-area-inset-top) + 4px);
+    padding-top: calc(env(safe-area-inset-top) + 4px);
+  
+    .user-avatar {
+      background-color: white;
+      width: 55px;
+      height: 55px;
+      display: inline-block;
+      border-radius: 20%;
+      img {
+        border-radius: 20%;
+      }
+    }
+  
+    .other-data {
+      .column {
+        &:first-child {
+          border-right: 1px solid rgba(36, 50, 157, .25);
+        }
+      }
+    }
+  }

@@ -1,0 +1,42 @@
+<ion-header class="page-header" no-padding no-margin>
+  <ion-menu-toggle menu="inspection-building-menu"></ion-menu-toggle>
+  <ion-toolbar color="primary">
+    <ion-menu-button menu="inspection-building-menu" class="menu-icon-white" slot="start"></ion-menu-button>
+    <ion-title>{{name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <div class="risk-header">
+        <ion-list-header>{{'particularRisk' | translate}}</ion-list-header>
+    
+        <ion-segment [(ngModel)]="currentSegment" class="segmentRisk">
+          <ion-segment-button value="foundation" class="segment-risk" mode="ios">{{'foundation' | translate}}</ion-segment-button>
+          <ion-segment-button value="floor" class="segment-risk" mode="ios">{{'particularRiskFloor' | translate}}</ion-segment-button>
+          <ion-segment-button value="wall" class="segment-risk" mode="ios">{{'wall' | translate}}</ion-segment-button>
+          <ion-segment-button value="roof" class="segment-risk" mode="ios">{{'roof' | translate}}</ion-segment-button>
+        </ion-segment>
+      </div>
+    
+      <app-building-particular-risk-detail *ngIf="currentSegment=='foundation'" [idBuilding]="idBuilding" riskType="foundation">
+      </app-building-particular-risk-detail>
+    
+      <app-building-particular-risk-detail *ngIf="currentSegment=='floor'" [idBuilding]="idBuilding" riskType="floor">
+      </app-building-particular-risk-detail>
+    
+      <app-building-particular-risk-detail *ngIf="currentSegment=='wall'" [idBuilding]="idBuilding" riskType="wall">
+      </app-building-particular-risk-detail>
+    
+      <app-building-particular-risk-detail *ngIf="currentSegment=='roof'" [idBuilding]="idBuilding" riskType="roof">
+      </app-building-particular-risk-detail>
+    
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="primary">
+
+
+  </ion-toolbar>
+</ion-footer>

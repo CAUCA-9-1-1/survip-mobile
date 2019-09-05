@@ -1,0 +1,46 @@
+ion-label {
+  white-space: normal;
+}
+ion-list-header {
+  margin-bottom: 0 !important;
+  background-color: var(--ion-color-tertiary);
+  color: white;
+}
+
+.label {
+  margin: 0;
+}
+
+ion-item-divider {
+  margin-bottom: 5px;
+}
+
+.list {
+  margin: -1px 0 10px;
+}
+
+.text-question {
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+.text-answer {
+  color: gray;
+}
+
+.item-inner {
+  border-bottom: 0 !important;
+}
+
+.recursive-item {
+  margin-left: 16px !important;
+}
+
+.recursive-item-title {
+  margin-left: 16px !important;
+  background-color: var(--ion-color-secondary);
+}
+
+.non-recursive-item {
+  padding-left: 16px !important;
+}

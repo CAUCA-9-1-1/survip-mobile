@@ -1,0 +1,52 @@
+<ion-header class="page-header" no-padding no-margin>
+  <ion-toolbar color="primary">
+    <ion-menu-button menu="inspection-menu" class="menu-icon-white" slot="start"></ion-menu-button>
+    <ion-title>{{'surveySummary' | translate}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="outer-content">
+  <div class="list-items">
+    <div *ngFor="let category of inspectionQuestionSummaryCategory">
+      <ion-list-header *ngIf="category.title != ''">
+        {{category.title | uppercase}}
+      </ion-list-header>
+      <div *ngFor="let answer of category.answerSummary; let index = index">
+        <div
+          *ngIf="answer.questionType === questionTypeEnum.groupedQuestion && answer.recursiveAnswer != null &&  answer.recursiveAnswer.length > 0">
+          <ion-item-divider>{{answer.questionTitle}} #{{index + 1}}</ion-item-divider>
+          <ion-list>
+            <ion-item class="recursive-item" *ngFor="let answerChild of answer.recursiveAnswer">
+              <ion-text>
+                <span class="text-question">{{answerChild.questionDescription}}</span>
+                <p class="text-answer">{{answerChild.answer}}</p>
+              </ion-text>
+            </ion-item>
+          </ion-list>
+        </div>
+        <div *ngIf="answer.questionType !== questionTypeEnum.groupedQuestion">
+          <ion-item>
+            <div class="non-recursive-item">
+              <ion-text>
+                <span class="text-question">{{answer.questionDescription}}</span>
+                <p class="text-answer">{{answer.answer}}</p>
+              </ion-text>
+            </div>
+          </ion-item>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="page-footer">
+  <ion-toolbar color="primary">
+    <ion-buttons>
+      <ion-button (click)="editSurvey()">
+        <ion-icon slot="start" name="create"></ion-icon>
+        {{'surveyEditButton' | translate}}...
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

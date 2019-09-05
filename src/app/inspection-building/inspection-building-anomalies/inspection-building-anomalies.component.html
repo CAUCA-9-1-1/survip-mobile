@@ -1,0 +1,36 @@
+<ion-header class="page-header" no-padding no-margin>
+  <ion-menu-toggle menu="inspection-building-menu"></ion-menu-toggle>
+  <ion-toolbar color="primary">
+    <ion-menu-button menu="inspection-building-menu" class="menu-icon-white" slot="start"></ion-menu-button>
+    <ion-title>{{name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list class="list-items ion-no-padding">
+      <ion-list-header>{{'buildingAnomalies' | translate}}</ion-list-header>
+      <ion-item-group *ngFor="let theme of themes | orderBy:'theme'">
+  
+        <ion-item-divider>
+          {{theme.theme}}
+          <ion-button slot="end" (click)="onAddAnomalyForTheme(theme.theme)" color="primary">{{'add' | translate}}</ion-button>
+        </ion-item-divider>
+  
+        <ion-item *ngFor="let anomaly of theme.anomalies | orderBy:'notes'" (click)="onItemClick(anomaly.id)">
+          {{anomaly.notes}}
+        </ion-item>
+  
+      </ion-item-group>
+    </ion-list>
+  </ion-content>
+
+<ion-footer>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+        <ion-button (click)="onAddNewAnomaly()">
+            <ion-icon slot="start" name="add-circle"></ion-icon>
+            {{'addAnomalyButton' | translate}}
+        </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

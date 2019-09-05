@@ -1,0 +1,29 @@
+<ion-header class="page-header">
+
+  <ion-toolbar color="primary">
+    <ion-button fill="clear" (click)="onCancelSelection()" slot="start">
+      <ion-icon name="arrow-back" slot="start" size="large" color="light"></ion-icon>
+    </ion-button>
+    <ion-title>{{'search' | translate}}</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-searchbar placeholder="{{'searchHolder' | translate}}" [(ngModel)]="searchTerm" [formControl]="searchControl"
+  (ionInput)="onSearchInput()"></ion-searchbar>
+
+  <div *ngIf="searching" class="spinner-container">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <ion-list class="list-items">
+    <div *ngFor="let item of items">
+      <ion-item *ngIf="item[keyFieldName] !== disabledValue" (click)="onSelectItem(item[keyFieldName])">
+        {{item[displayFieldName]}}
+      </ion-item>
+    </div>
+  </ion-list>
+
+</ion-content>
