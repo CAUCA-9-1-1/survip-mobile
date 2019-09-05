@@ -1,7 +1,8 @@
 {
-  "name": "Ionic4",
+  "name": "survip-mobile",
   "integrations": {
     "cordova": {}
   },
-  "type": "angular"
+  "type": "angular",
+  "pro_id": "f6b2f4b5"
 }
