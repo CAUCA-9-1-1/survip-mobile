@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class MenuProfileComponent implements OnInit {
 
   public get fullName(): string {
-    return this.authService.userFirstName + ' ' + this.authService.userLastName;
+    return this.authService.userFullName;
   }
 
   public get version(): any {

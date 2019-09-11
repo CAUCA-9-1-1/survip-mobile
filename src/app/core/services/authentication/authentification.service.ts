@@ -22,8 +22,7 @@ export class AuthenticationService {
     public survipVersion = '';
     public survipName = '';
 
-    public userFirstName: string = '';
-    public userLastName: string = '';
+    public userFullName: string = '';
     public userRefreshToken: string;
     public userAccessToken: string;
 
@@ -41,8 +40,7 @@ export class AuthenticationService {
     public async initialize() {
         const user = await this.storage.get('auth');
         if (user != null) {
-            this.userFirstName = user.firstName;
-            this.userLastName = user.lastName;
+            this.userFullName = user.name;
             this.userAccessToken = user.accessToken;
             this.userRefreshToken = user.refreshToken;
         }
@@ -124,8 +122,7 @@ export class AuthenticationService {
     }
 
     public async logout() {
-        this.userFirstName = '';
-        this.userLastName = '';
+        this.userFullName = '';
         this.userAccessToken = null;
         this.userRefreshToken = null;
         await this.storage.remove('auth');
@@ -134,18 +131,16 @@ export class AuthenticationService {
     private async saveResponse(result, userInfo) {
         await this.loading.dismiss();
 
-        if (result.data) {
-            if (result.data && result.data.accessToken) {
+        if (result) {
+            if (result && result.accessToken) {
                 await this.storage.set('auth', {
-                    accessToken: result.data.accessToken,
-                    refreshToken: result.data.refreshToken,
-                    firstName: result.data.firstName,
-                    lastName: result.data.lastName
+                    accessToken: result.accessToken,
+                    refreshToken: result.refreshToken,
+                    name: result.name
                 });
-                this.userFirstName = result.data.firstName;
-                this.userLastName = result.data.lastName;
-                this.userAccessToken = result.data.accessToken;
-                this.userRefreshToken = result.data.refreshToken;
+                this.userFullName = result.name;
+                this.userAccessToken = result.accessToken;
+                this.userRefreshToken = result.refreshToken;
                 this.saveKeychainTouchId(userInfo);
             }
         }
