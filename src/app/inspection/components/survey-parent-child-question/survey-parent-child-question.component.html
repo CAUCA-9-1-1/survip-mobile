@@ -1,4 +1,4 @@
-<div class="question-container">
+<div class="question-container" [ngStyle]="{'display':displayGroup}">
   <div class="parent-question-title">
     <h4 (click)="manageQuestionGroupDisplay()">{{answer.title}} #{{groupIndex+1}} <ion-icon name="{{groupIcon}}">
       </ion-icon>

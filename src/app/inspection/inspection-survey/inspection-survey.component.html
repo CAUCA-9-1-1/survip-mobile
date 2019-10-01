@@ -7,7 +7,6 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-
   <app-survey-question [question]="currentAnswer" (questionAnswered)="getNextQuestionFromAnswer($event)"
     (remainingQuestionResetNeeded)="deleteRemainingAnswers($event)"
     *ngIf="currentQuestion.questionType != questionTypeEnum.groupedQuestion"></app-survey-question>
