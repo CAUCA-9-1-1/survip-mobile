@@ -20,6 +20,7 @@ export class SurveyParentChildQuestionComponent implements OnInit {
   public questionIndex = 0;
   public labels = {};
   public groupIcon = 'md-arrow-dropdown';
+  public displayGroup = 'block';
 
   constructor(
     private msgTools: MessageToolsProvider,
@@ -33,8 +34,12 @@ export class SurveyParentChildQuestionComponent implements OnInit {
   }
 
   private loadAnsweredQuestion() {
+    if (this.answer.childSurveyAnswerList.length === 0) {
+      this.displayGroup = 'none';
+    } else {
+      this.displayGroup = 'block';
+    }
     this.answeredQuestions = this.answer.childSurveyAnswerList.filter((answer) => answer.answer != null);
-
     if (this.answeredQuestions.length === 0) {
       this.answeredQuestions.push(this.answer.childSurveyAnswerList[0]);
     } else {
@@ -112,6 +117,7 @@ export class SurveyParentChildQuestionComponent implements OnInit {
           ids.push(answer.id);
         }
       });
+      this.loadAnsweredQuestion();
       this.answerGroupDeleted.emit(this.answer.id);
     }
   }
