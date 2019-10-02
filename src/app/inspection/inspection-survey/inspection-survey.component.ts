@@ -303,7 +303,8 @@ export class InspectionSurveyComponent implements OnInit {
         if (this.currentQuestion.questionType === SurveyQuestionTypeEnum.groupedQuestion) {
             await this.initQuestionGroupAnswers();
         } else {
-            const answers = this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion === this.currentQuestion.idSurveyQuestion);
+            const answers = this.inspectionQuestionAnswer.filter(answer =>
+                answer.idSurveyQuestion === this.currentQuestion.idSurveyQuestion);
             if (answers.length > 0) {
                 this.currentAnswer = answers[0];
             } else {
@@ -338,7 +339,8 @@ export class InspectionSurveyComponent implements OnInit {
 
     public async deleteChildQuestion(answerId: string) {
         const index = this.findAnswerById(answerId);
-        const answers = await this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion === this.currentQuestion.idSurveyQuestion);
+        const answers = await this.inspectionQuestionAnswer.filter(answer =>
+            answer.idSurveyQuestion === this.currentQuestion.idSurveyQuestion);
         if (answers.length > 0) {
             if (answers.length === 1) {
               this.inspectionQuestionAnswer.splice(index, 1);
@@ -348,7 +350,8 @@ export class InspectionSurveyComponent implements OnInit {
             }
             await this.surveyRepo.saveAnswers(this.controller.idInspection, this.inspectionQuestionAnswer);
         } else {
-            this.inspectionQuestionAnswer[index].childSurveyAnswerList = Object.assign([], this.currentQuestion.childSurveyAnswerList);
+            this.inspectionQuestionAnswer[index].childSurveyAnswerList =
+                Object.assign([], this.currentQuestion.childSurveyAnswerList);
         }
         this.currentQuestionAnswerList = this.inspectionQuestionAnswer
             .filter(answer => answer.idSurveyQuestion === this.currentQuestion.idSurveyQuestion);

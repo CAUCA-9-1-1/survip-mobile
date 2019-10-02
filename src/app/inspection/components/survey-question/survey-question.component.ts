@@ -35,7 +35,7 @@ export class SurveyQuestionComponent implements OnInit {
 
   @Input()
   set question(value: InspectionSurveyAnswer) {
-    if(value) {
+    if (value) {
       this.dataSource = value;
       if (this.dataSource.answer) {
         this.answer = this.dataSource.answer;
