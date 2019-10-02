@@ -38,13 +38,13 @@ export class SurveyParentChildQuestionComponent implements OnInit {
       this.displayGroup = 'none';
     } else {
       this.displayGroup = 'block';
-    }
-    this.answeredQuestions = this.answer.childSurveyAnswerList.filter((answer) => answer.answer != null);
-    if (this.answeredQuestions.length === 0) {
-      this.answeredQuestions.push(this.answer.childSurveyAnswerList[0]);
-    } else {
-      this.questionIndex = this.answer.childSurveyAnswerList.filter((answer) => answer.answer != null).length - 1;
-      this.getNextQuestion();
+      this.answeredQuestions = this.answer.childSurveyAnswerList.filter((answer) => answer.answer != null);
+      if (this.answeredQuestions.length === 0) {
+        this.answeredQuestions.push(this.answer.childSurveyAnswerList[0]);
+      } else {
+        this.questionIndex = this.answer.childSurveyAnswerList.filter((answer) => answer.answer != null).length - 1;
+        this.getNextQuestion();
+      }
     }
   }
 
@@ -162,4 +162,5 @@ export class SurveyParentChildQuestionComponent implements OnInit {
     this.answer.childSurveyAnswerList[index].idSurveyQuestionChoice = null;
     this.answer.childSurveyAnswerList[index].answer = '';
   }
+
 }

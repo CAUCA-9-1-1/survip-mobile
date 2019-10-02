@@ -18,13 +18,13 @@
         <ion-icon name="add-circle" (click)="addNewQuestionGroup()"></ion-icon>
       </div>
     </div>
+    <div>{{currentQuestion.description}}</div>
     <div *ngIf="currentQuestionAnswerList.length > 0">
       <app-survey-parent-child-question *ngFor="let answer of currentQuestionAnswerList; let i = index" [groupIndex]="i"
         [answer]="answer" (questionAnswered)="updateGroupQuestionAnswer($event)"
         (groupAnswersCompleted)="getNextQuestionFromAnswer($event)" (answerGroupDeleted)="deleteChildQuestion($event)">
       </app-survey-parent-child-question>
     </div>
-    <div *ngIf="currentQuestionAnswerList.length == 0">{{currentQuestion.description}}</div>
   </div>
 
 </ion-content>

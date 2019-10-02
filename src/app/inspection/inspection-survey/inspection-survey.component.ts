@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {InspectionSurveyAnswer, SurveyQuestionTypeEnum} from 'src/app/shared/models/inspection-survey-answer';
 import {Router} from '@angular/router';
 import {InspectionSurveyAnswerRepositoryProvider} from 'src/app/core/services/repositories/inspection-survey-answer-repository-provider';
@@ -13,7 +13,6 @@ import {UUID} from 'angular2-UUID';
     styleUrls: ['./inspection-survey.component.scss'],
 })
 export class InspectionSurveyComponent implements OnInit {
-
     public inspectionQuestionAnswer: InspectionSurveyAnswer[] = [];
     public inspectionSurveyQuestion: InspectionSurveyAnswer[] = [];
     public questionTypeEnum = SurveyQuestionTypeEnum;
@@ -323,12 +322,13 @@ export class InspectionSurveyComponent implements OnInit {
     public async addNewQuestionGroup() {
         if ((this.currentQuestionAnswerList.length < this.inspectionSurveyQuestion[this.selectedIndex].maxOccurrence)
             || this.inspectionSurveyQuestion[this.selectedIndex].maxOccurrence === 0) {
-            const index = this.findLastAnswerForQuestion(this.currentQuestion.idSurveyQuestion);
+            let index = this.findLastAnswerForQuestion(this.currentQuestion.idSurveyQuestion);
             if (this.inspectionQuestionAnswer[index].childSurveyAnswerList.length === 0) {
-                this.AddChildrenQuestion(index);
+              this.inspectionQuestionAnswer.splice(index, 1);
             } else {
-                this.inspectionQuestionAnswer.splice(index + 1, 0, this.createGroupAnswerParent(true));
+                index++;
             }
+            this.inspectionQuestionAnswer.splice(index, 0, this.createGroupAnswerParent(true));
             await this.surveyRepo.saveAnswers(this.controller.idInspection, this.inspectionQuestionAnswer);
             this.currentQuestionAnswerList = this.inspectionQuestionAnswer
                 .filter(answer => answer.idSurveyQuestion === this.currentQuestion.idSurveyQuestion);
@@ -336,20 +336,13 @@ export class InspectionSurveyComponent implements OnInit {
         this.getNextQuestionFromAnswer();
     }
 
-    private AddChildrenQuestion(index) {
-        const newAnswerParent = JSON.parse(JSON.stringify(this.inspectionSurveyQuestion[this.selectedIndex]));
-        if (newAnswerParent.childSurveyAnswerList != null) {
-            newAnswerParent.childSurveyAnswerList.forEach(answer => answer.id = UUID.UUID());
-        }
-        this.inspectionQuestionAnswer[index].childSurveyAnswerList = newAnswerParent.childSurveyAnswerList;
-    }
-
     public async deleteChildQuestion(answerId: string) {
         const index = this.findAnswerById(answerId);
         const answers = await this.inspectionQuestionAnswer.filter(answer => answer.idSurveyQuestion === this.currentQuestion.idSurveyQuestion);
         if (answers.length > 0) {
             if (answers.length === 1) {
-                this.inspectionQuestionAnswer[index].childSurveyAnswerList = [];
+              this.inspectionQuestionAnswer.splice(index, 1);
+              this.inspectionQuestionAnswer.splice(index, 0, this.createGroupAnswerParent());
             } else {
                 this.inspectionQuestionAnswer.splice(index, 1);
             }
@@ -393,9 +386,9 @@ export class InspectionSurveyComponent implements OnInit {
         const answerCount = this.inspectionQuestionAnswer.length;
         for (let index = 0; index < answerCount; index++) {
             if (this.inspectionQuestionAnswer[index].questionType === SurveyQuestionTypeEnum.groupedQuestion) {
-                if (this.inspectionQuestionAnswer[index].childSurveyAnswerList
-                    && this.inspectionQuestionAnswer[index].childSurveyAnswerList.length > 0) {
-                    if (this.inspectionQuestionAnswer[index].childSurveyAnswerList
+                if (this.inspectionQuestionAnswer[index].childSurveyAnswerList) {
+                    if (this.inspectionQuestionAnswer[index].childSurveyAnswerList.length > 0
+                        && this.inspectionQuestionAnswer[index].childSurveyAnswerList
                         .filter(ca => ca.answer != null
                             && ca.idSurveyQuestionNext === '00000000-0000-0000-0000-000000000000').length === 0) {
                         return this.inspectionQuestionAnswer[index].idSurveyQuestion;

@@ -35,14 +35,16 @@ export class SurveyQuestionComponent implements OnInit {
 
   @Input()
   set question(value: InspectionSurveyAnswer) {
-    this.dataSource = value;
-    if (this.dataSource.answer) {
-      this.answer = this.dataSource.answer;
-    } else {
-      this.answer = this.dataSource.answer = '';
-    }
-    if (this.dataSource.questionType === SurveyQuestionTypeEnum.textAnswer) {
-      this.saveAnswer();
+    if(value) {
+      this.dataSource = value;
+      if (this.dataSource.answer) {
+        this.answer = this.dataSource.answer;
+      } else {
+        this.answer = this.dataSource.answer = '';
+      }
+      if (this.dataSource.questionType === SurveyQuestionTypeEnum.textAnswer) {
+        this.saveAnswer();
+      }
     }
   }
 
