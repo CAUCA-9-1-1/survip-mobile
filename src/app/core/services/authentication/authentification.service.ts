@@ -131,45 +131,27 @@ export class AuthenticationService {
 
     private async saveResponse(result, userInfo) {
         await this.loading.dismiss();
-
-        /*if (result) {
-            if (result && result.accessToken) {
-                await this.storage.set('auth', {
-                    accessToken: result.accessToken,
-                    refreshToken: result.refreshToken,
-                    name: result.name
-                });
-                this.userFullName = result.name;
-                this.userAccessToken = result.accessToken;
-                this.userRefreshToken = result.refreshToken;
-                this.saveKeychainTouchId(userInfo);
-            }
-        }*/
         if (result.data) {
             if (result.data && result.data.accessToken) {
-                console.log('gros con');
                 this.userFullName = result.data.firstName + ' ' + result.data.lastName;
+                this.userAccessToken = result.data.accessToken;
+                this.userRefreshToken = result.data.refreshToken;
                 await this.storage.set('auth', {
                     accessToken: result.data.accessToken,
                     refreshToken: result.data.refreshToken,
-                    userFullName: this.userFullName
+                    name: this.userFullName
                 });
                 this.saveKeychainTouchId(userInfo);
             }
         } else if (result && result.accessToken) {
-            console.log('petit con', result);
             this.userFullName = result.name;
-            this.storage.set('auth', {
+            this.userAccessToken = result.accessToken;
+            this.userRefreshToken = result.refreshToken;
+            await this.storage.set('auth', {
                 accessToken: result.accessToken,
                 refreshToken: result.refreshToken,
-                userFullName: result.name
-            }).then(f => {
-console.log('euhh', f);
-            },
-            n => {
-                console.log('ahhh', n);
+                name: result.name
             });
-            console.log('getting there?');
             this.saveKeychainTouchId(userInfo);
         }
     }
