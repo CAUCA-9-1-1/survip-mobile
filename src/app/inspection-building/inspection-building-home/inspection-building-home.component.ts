@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { InspectionControllerProvider } from 'src/app/core/services/controllers/inspection-controller/inspection-controller';
 import { TranslateService } from '@ngx-translate/core';
 import { MenuItem } from 'src/app/shared/interfaces/menu-item.interface';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-inspection-building-home',
@@ -21,6 +22,7 @@ export class InspectionBuildingHomeComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private menuController: MenuController,
     private controller: InspectionControllerProvider,
     private translateService: TranslateService,
     private configurationService: InspectionConfigurationProvider
@@ -29,6 +31,11 @@ export class InspectionBuildingHomeComponent implements OnInit {
 
   async ngOnInit() {
     this.loadTranslation();
+  }
+
+  ionViewWillEnter() {
+    const menuid = 'inspection-building-menu';
+    this.menuController.enable(true, menuid);
   }
 
   private loadMenuConfiguration() {

@@ -40,7 +40,9 @@ export class AuthenticationService {
     public async initialize() {
         const user = await this.storage.get('auth');
         if (user != null) {
-            this.userFullName = user.name;
+            if (user.name) {
+                this.userFullName = user.name;
+            }
             this.userAccessToken = user.accessToken;
             this.userRefreshToken = user.refreshToken;
         }
@@ -226,7 +228,7 @@ export class AuthenticationService {
                 this.survipName = await this.appVersion.getPackageName();
             }
         } else {
-            this.survipVersion = '1.8.0';
+            this.survipVersion = '1.9.3';
             this.survipName = 'survi-prevention';
         }
     }

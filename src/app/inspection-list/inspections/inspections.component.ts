@@ -14,6 +14,7 @@ export class InspectionsComponent implements OnInit {
   public labels = {};
 
   constructor(
+    private menuController: MenuController,
     private translateService: TranslateService) {
     }
 
@@ -29,5 +30,10 @@ export class InspectionsComponent implements OnInit {
       icon: 'clipboard',
       enabled: true
     }];
+  }
+
+  ionViewWillEnter() {
+    const menuid = 'inspection-list-menu';
+    this.menuController.enable(true, menuid);
   }
 }

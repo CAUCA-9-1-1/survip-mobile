@@ -52,6 +52,11 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
     }
   }
 
+  ionViewWillEnter() {
+    const menuid = 'inspection-menu';
+    this.menuController.enable(true, menuid);
+  }
+
   private loadMenu() {
     const configuration = this.configurationService.configuration;
     this.menuItems = [

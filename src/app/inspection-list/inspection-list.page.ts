@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Batch } from '../shared/models/batch';
 import { OfflineDataSynchronizerProvider } from '../core/services/controllers/offline-data-synchronizer/offline-data-synchronizer';
-import { LoadingController, MenuController, ToastController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { InspectionRepositoryProvider } from '../core/services/repositories/inspection-repository-provider.service';
 import { InspectionControllerProvider } from '../core/services/controllers/inspection-controller/inspection-controller';
 import { TranslateService } from '@ngx-translate/core';
