@@ -11,7 +11,7 @@
 
         <ion-menu-toggle auto-hide="false" *ngFor="let menuItem of menuItems">
           <ion-item class="text-menu" *ngIf="menuItem.enabled" [routerLink]="[getFullUrl(menuItem.page)]"
-            routerLinkActive="active-item">
+            routerLinkActive="active-item" routerDirection="root" >
             <ion-icon [name]="menuItem.icon" slot="start" size="big"></ion-icon>
             <ion-label>{{menuItem.title}}</ion-label>
           </ion-item>

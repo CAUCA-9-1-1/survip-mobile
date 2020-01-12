@@ -7,7 +7,7 @@
 
     <ion-content no-padding  class="toolbar-gradient">
       <ion-list class="menu-items">
-        <ion-item menuClose class="text-menu" routerLink="/inspections-list" *ngFor="let menuItem of menuItems" (click)="openPage(menuItem.page)" routerLinkActive="active-item">
+        <ion-item menuClose class="text-menu" routerLink="/inspections-list" *ngFor="let menuItem of menuItems" (click)="openPage(menuItem.page)" routerLinkActive="active-item" routerDirection="root" >
           <ion-icon slot="left" [name]="menuItem.icon"></ion-icon>
           <span ion-text>{{menuItem.title}}</span>
         </ion-item>
